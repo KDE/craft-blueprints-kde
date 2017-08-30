@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
             self.buildDependencies["dev-util/ccache"] = "default"
 
         self.runtimeDependencies["libs/runtime"] = "default"
-        self.buildDependencies["libs/craft"] = "default"
+        self.buildDependencies["craft/craft-blueprints-kde"] = "default"
 
 
 class Package(VirtualPackageBase):
