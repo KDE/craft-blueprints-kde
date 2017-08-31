@@ -38,6 +38,8 @@ class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
         self.mpirBuildDir = os.path.join(self.sourceDir(), "build.vc14")
+        if craftCompiler.isX86():
+            self.subinfo.options.configure.args = " /p:Platform=win32"
         self.subinfo.options.configure.projectFile = os.path.join(self.mpirBuildDir, "mpir.sln")
         self.msbuildTargets = ["dll_mpir_gc", "lib_mpir_cxx"]
 
