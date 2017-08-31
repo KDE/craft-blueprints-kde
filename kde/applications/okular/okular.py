@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["win32libs/libspectre"] = "default"
         self.runtimeDependencies["win32libs/ghostscript"] = "default"
         self.runtimeDependencies["kde/applications/libkexiv2"] = "default"
+        self.runtimeDependencies["kde/kdegraphics/kdegraphics-mobipocket"] = "default"
         self.runtimeDependencies["frameworks/tier1/karchive"] = "default"
         self.runtimeDependencies["frameworks/tier3/kbookmarks"] = "default"
         self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
