@@ -30,9 +30,12 @@ class subinfo(info.infoclass):
                 # ("mingw-build.patch", 1),# origin: https://github.com/Alexpux/MINGW-packages/tree/master/mingw-w64-ghostscript
                 # ("ghostscript-sys-zlib.patch", 1),# origin: https://github.com/Alexpux/MINGW-packages/tree/master/mingw-w64-ghostscript
                 ("ghostscript-9.18-20151217.diff", 1),
+                ("ghostscript-exports-fix.diff", 1),
                 ("libspectre.patch", 1)
                 # origin: https://github.com/Alexpux/MINGW-packages/tree/master/mingw-w64-ghostscript
             ]
+        else:
+            self.patchToApply['9.19'] = [("ghostscript-exports-fix.diff", 1)]
         self.defaultTarget = '9.19'
 
 
