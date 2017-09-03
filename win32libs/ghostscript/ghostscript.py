@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets['master'] = 'git://git.ghostscript.com/ghostpdl.git'
-        for ver in ['9.19']:
+        for ver in ['9.19', '9.21']:
             self.targets[
                 ver] = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs%s/ghostscript-%s.tar.gz" % (
             ver.replace(".", ""), ver)
