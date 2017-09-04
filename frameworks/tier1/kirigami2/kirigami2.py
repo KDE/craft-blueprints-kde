@@ -11,7 +11,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtgraphicaleffects"] = "default"
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = "default"
-        self.runtimeDependencies["libs/qt5/qttools"] = "default"
 
 
 from Package.CMakePackageBase import *

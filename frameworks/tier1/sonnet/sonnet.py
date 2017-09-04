@@ -12,7 +12,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["win32libs/aspell"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/qt5/qttools"] = "default"
 
 
 from Package.CMakePackageBase import *
