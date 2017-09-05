@@ -1,21 +1,4 @@
-# blacklist
-
-# general
-manifest\\.*
-.*\.exp
-.*\.pdb
-.*\.la
-.*\.nsis
-.*\.prl
-
-# multiple docs
-doc\\.*
-share\\man\\.*
-share\\xml\\.*
-share\\locale\\.*
-
-# cmake stuff
-share\\apps\\cmake\\.*
+# blacklist. It extends the default blacklist at craft/bin/Packager/applications_blacklist.txt
 
 # common app stuff
 share\\apps\\ark\\.*
@@ -29,37 +12,10 @@ qml\\QtWebKit
 qml\\QtWinExtras
 qml\\QtTest
 
-# unrelated
-dev-utils\\.*
-share\\pkgconfig\\.*
-
 # kemoticons is somehow a dependency
 share\\emoticons\\.*
 
-# cleanup breeze stuff
-share\\wallpapers\\.*
-share\\icons\\Breeze_Snow\\.*
-share\\icons\\breeze-dark\\.*
-
-# cut the big oxygen icons: this can lead to errors though if used!!!!
-share\\icons\\oxygen\\64x64\\.*
-share\\icons\\oxygen\\128x128\\.*
-share\\icons\\oxygen\\256x256\\.*
-
-# doubled qt dlls
-lib\\[^\\]*\.dll
-#lib\\[^\\]*\.a
-# more qt leftovers
-translations\\.*
-phrasebooks\\.*
-mkspecs\\.*
-
-# unneeded stuff from bin\
-# bin\\qt\.conf
-bin\\*\.pl
-
 #cmake stuff
-share\\ECM
 share\\phonon4qt5\\buildsystem
 
 #stuff in lib that we don't need
