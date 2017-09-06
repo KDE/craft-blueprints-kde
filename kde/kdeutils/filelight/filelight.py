@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
         self.runtimeDependencies["frameworks/tier3/kio"] = "default"
         self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
+        self.runtimeDependencies["kdesupport/kdewin"] = "default"
 
 
 from Package.CMakePackageBase import *
