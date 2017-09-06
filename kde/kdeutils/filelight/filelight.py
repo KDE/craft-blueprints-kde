@@ -33,5 +33,6 @@ class Package(CMakePackageBase):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/qt5/qtdeclarative") # pulled in by solid
+        self.ignoredPackages.append("frameworks/tier3/kwallet") # pulled in by kio
 
         return TypePackager.createPackage(self)
