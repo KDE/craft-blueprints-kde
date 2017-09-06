@@ -32,5 +32,6 @@ class Package(CMakePackageBase):
         self.defines["executable"] = "bin\\filelight.exe"
 
         self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("libs/qt5/qtdeclarative") # pulled in by solid
 
         return TypePackager.createPackage(self)
