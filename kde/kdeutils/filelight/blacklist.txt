@@ -1,0 +1,4 @@
+# blacklist. It extends the default blacklist at craft/bin/Packager/applications_blacklist.txt
+
+# strip most executables
+bin\\(?!(filelight)).*\.exe

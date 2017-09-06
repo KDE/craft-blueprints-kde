@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
         self.runtimeDependencies["frameworks/tier3/kio"] = "default"
         self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
+        self.runtimeDependencies["kdesupport/kdewin"] = "default"
 
 
 from Package.CMakePackageBase import *
@@ -23,3 +24,13 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.blacklist_file.append(os.path.join(os.path.dirname(__file__), 'blacklist.txt'))
+
+    def createPackage(self):
+        self.defines["productname"] = "Filelight"
+        self.defines["website"] = "https://utils.kde.org/projects/filelight/"
+        self.defines["executable"] = "bin\\filelight.exe"
+
+        self.ignoredPackages.append("binary/mysql")
+
+        return TypePackager.createPackage(self)
