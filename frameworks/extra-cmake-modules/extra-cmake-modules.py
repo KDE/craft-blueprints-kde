@@ -11,6 +11,9 @@ class subinfo(info.infoclass):
         # needed for many kf5's
         self.buildDependencies["dev-util/winflexbison"] = "default"
         self.buildDependencies["libs/qt5/qttools"] = "default"
+        
+        if craftSettings.getboolean("CMake", "KDE_L10N_AUTO_TRANSLATIONS", False):
+            self.buildDependencies["dev-util/ruby"] = "default"
 
 
 from Package.CMakePackageBase import *
