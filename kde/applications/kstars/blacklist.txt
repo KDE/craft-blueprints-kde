@@ -1,7 +1,13 @@
 # blacklist
 
-# QSL data
-data\\.*
+# Useless stuff
+bin\\data\\kf5\\kmoretools
+bin\\data\\kservices5
+bin\\data\\kservicetypes5
+lib\\aspell-0.60
+lib\\mecab
+lib\\plugin
+share\\(?!(dbus).*)
 
 # Unused Qt modules
 qml\\QtMultimedia
