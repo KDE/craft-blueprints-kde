@@ -24,3 +24,13 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.blacklist_file.append(os.path.join(os.path.dirname(__file__), 'blacklist.txt'))
+
+    def createPackage(self):
+        self.defines["productname"] = "Filelight"
+        self.defines["website"] = "https://utils.kde.org/projects/filelight/"
+        self.defines["executable"] = "bin\\filelight.exe"
+
+        self.ignoredPackages.append("binary/mysql")
+
+        return TypePackager.createPackage(self)
