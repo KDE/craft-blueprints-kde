@@ -22,7 +22,6 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args = "-DLLVM_TARGETS_TO_BUILD='X86'"
 
         # BEGIN: sub-package handling
-        # FIXME: This shouldn't be needed. Fix base class?
         self.subPackages = []
         def maybeAddSubPackage(pkg, cmakeDefine):
             if not pkg.isIgnored():
