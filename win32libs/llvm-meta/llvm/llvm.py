@@ -22,7 +22,7 @@ class Package(CMakePackageBase):
         self.clangToolsExtra = CraftPackageObject.get('win32libs/llvm-meta/clang-tools-extra').instance
         self.lld = CraftPackageObject.get('win32libs/llvm-meta/lld').instance
         self.lldb = CraftPackageObject.get('win32libs/llvm-meta/lldb').instance
-        self.subPackages = [self.clang, self.lld, self.lldb]
+        self.subPackages = [self.clang, self.clangToolsExtra, self.lld, self.lldb]
         self.subinfo.options.configure.args = "-DLLVM_TARGETS_TO_BUILD='X86'"
         self.subinfo.options.configure.args += " -DLLVM_EXTERNAL_LLD_SOURCE_DIR=\"%s\"" % self.lld.sourceDir().replace("\\", "/")
         self.subinfo.options.configure.args += " -DLLVM_EXTERNAL_CLANG_SOURCE_DIR=\"%s\"" % self.clang.sourceDir().replace("\\", "/")
