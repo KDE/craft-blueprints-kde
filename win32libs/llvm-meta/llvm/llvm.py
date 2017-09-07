@@ -17,17 +17,28 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+
         self.supportsClang = False
-        self.clang = CraftPackageObject.get('win32libs/llvm-meta/clang').instance
-        self.clangToolsExtra = CraftPackageObject.get('win32libs/llvm-meta/clang-tools-extra').instance
-        self.lld = CraftPackageObject.get('win32libs/llvm-meta/lld').instance
-        self.lldb = CraftPackageObject.get('win32libs/llvm-meta/lldb').instance
-        self.subPackages = [self.clang, self.clangToolsExtra, self.lld, self.lldb]
         self.subinfo.options.configure.args = "-DLLVM_TARGETS_TO_BUILD='X86'"
-        self.subinfo.options.configure.args += " -DLLVM_EXTERNAL_LLD_SOURCE_DIR=\"%s\"" % self.lld.sourceDir().replace("\\", "/")
-        self.subinfo.options.configure.args += " -DLLVM_EXTERNAL_CLANG_SOURCE_DIR=\"%s\"" % self.clang.sourceDir().replace("\\", "/")
-        self.subinfo.options.configure.args += " -DLLVM_EXTERNAL_CLANG_TOOLS_EXTRA_SOURCE_DIR=\"%s\"" % self.clangToolsExtra.sourceDir().replace("\\", "/")
-        self.subinfo.options.configure.args += " -DLLVM_EXTERNAL_LLDB_SOURCE_DIR=\"%s\"" % self.lldb.sourceDir().replace("\\", "/")
+
+        # BEGIN: sub-package handling
+        # FIXME: This shouldn't be needed. Fix base class?
+        self.subPackages = []
+        def maybeAddSubPackage(pkg, cmakeDefine):
+            if not pkg.isIgnored():
+                self.subinfo.options.configure.args += " -D%s=\"%s\"" % (cmakeDefine, pkg.instance.sourceDir().replace("\\", "/"))
+                self.subPackages.append(pkg.instance)
+
+        maybeAddSubPackage(CraftPackageObject.get('win32libs/llvm-meta/clang'),
+                           "LLVM_EXTERNAL_CLANG_SOURCE_DIR")
+        maybeAddSubPackage(CraftPackageObject.get('win32libs/llvm-meta/clang-tools-extra'),
+                           "LLVM_EXTERNAL_CLANG_TOOLS_EXTRA_SOURCE_DIR")
+        maybeAddSubPackage(CraftPackageObject.get('win32libs/llvm-meta/lld'),
+                           "LLVM_EXTERNAL_LLD_SOURCE_DIR")
+        maybeAddSubPackage(CraftPackageObject.get('win32libs/llvm-meta/lldb'),
+                           "LLVM_EXTERNAL_LLDB_SOURCE_DIR")
+        # END: sub-package handling
+
         if craftCompiler.isMSVC():
             self.subinfo.options.configure.args += " -DLLVM_EXPORT_SYMBOLS_FOR_PLUGINS=ON"
         else:
