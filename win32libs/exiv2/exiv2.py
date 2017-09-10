@@ -9,8 +9,8 @@ class subinfo(info.infoclass):
 
         for ver in ['0.26']:
             self.targets[ver] = 'https://github.com/Exiv2/exiv2/archive/v%s.tar.gz' % ver
-            self.archiveNames[ver] = "exiv2-{ver}.tar.gz"
-            self.targetInstSrc[ver] = "exiv2-{ver}"
+            self.archiveNames[ver] = f"exiv2-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"exiv2-{ver}"
 
         self.targetDigests['0.24'] = '2f19538e54f8c21c180fa96d17677b7cff7dc1bb'
         self.patchToApply['0.24'] = ('exiv2-0.22-20120117.diff', 1)
