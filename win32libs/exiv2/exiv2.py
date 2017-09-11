@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
         self.svnTargets['svnHEAD'] = 'svn://dev.exiv2.org/svn/trunk'
 
         self.description = "an image metadata library"
-        self.defaultTarget = '0.26'
+        self.defaultTarget = '0.25'
 
     def setDependencies(self):
         self.runtimeDependencies["win32libs/win_iconv"] = "default"
