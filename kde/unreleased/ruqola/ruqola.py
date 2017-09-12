@@ -17,6 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
         self.runtimeDependencies["frameworks/tier2/kcrash"] = "default"
+        self.runtimeDependencies["frameworks/tier3/kio"] = "default"
 
 
 from Package.CMakePackageBase import *
