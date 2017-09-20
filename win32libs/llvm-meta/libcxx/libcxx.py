@@ -22,10 +22,3 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args = '-DCMAKE_CXX_FLAGS="-D_LIBCPP_HAS_NO_CONSTEXPR" -DLIBCXX_ENABLE_SHARED=OFF '
-
-    def configureOptions(self, defines=""):
-        options = CMakePackageBase.configureOptions(self, defines)
-        if self.buildType().startswith("Rel"):
-            # forcing build in Release mode, RelWithDebInfo would take lots of disk space and memory during link
-            options += ' -DCMAKE_BUILD_TYPE=Release '
-        return options

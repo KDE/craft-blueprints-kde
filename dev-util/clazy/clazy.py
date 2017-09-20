@@ -22,9 +22,3 @@ class Package(CMakePackageBase):
             clangLib = os.path.join(CraftPackageObject.get('win32libs/llvm-meta/llvm').instance.buildDir(), "lib",
                                     "clang.lib")
             self.subinfo.options.configure.args = f"-DCLANG_LIBRARY_IMPORT='{clangLib}'"
-
-    def configureOptions(self, defines=""):
-        options = CMakePackageBase.configureOptions(self, defines)
-        # just expect that we don't want to debug our compiler
-        options += ' -DCMAKE_BUILD_TYPE=Release'
-        return options

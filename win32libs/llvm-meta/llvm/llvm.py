@@ -59,12 +59,6 @@ class Package(CMakePackageBase):
                 return False
         return True
 
-    def configureOptions(self, defines=""):
-        options = CMakePackageBase.configureOptions(self, defines)
-        # just expect that we don't want to debug our compiler
-        options += ' -DCMAKE_BUILD_TYPE=Release'
-        return options
-
     def install(self):
         if not CMakePackageBase.install(self):
             return False

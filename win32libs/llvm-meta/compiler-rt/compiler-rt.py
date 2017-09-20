@@ -25,10 +25,3 @@ class Package(CMakePackageBase):
                                                                                                        "PYTHON",
                                                                                                        "").replace("\\",
                                                                                                                    "/")
-
-    def configureOptions(self, defines=""):
-        options = CMakePackageBase.configureOptions(self, defines)
-        if self.buildType().startswith("Rel"):
-            # forcing build in Release mode, RelWithDebInfo would take lots of disk space and memory during link
-            options += ' -DCMAKE_BUILD_TYPE=Release'
-        return options
