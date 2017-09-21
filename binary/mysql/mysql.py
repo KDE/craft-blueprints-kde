@@ -17,6 +17,8 @@ class subinfo(info.infoclass):
         self.targets[ver] = f"{baseURL}mysql-{ver}-win{arch}.zip"
         self.targetInstSrc[ver] = f"mysql-{ver}-win{arch}"
 
+        self.targetDigestsX64["5.7.18"] = (['6a3b2d070200ae4e29f8a08aceb1c76cca9beccb037de4f5ab120d657e781353'], CraftHash.HashAlgorithm.SHA256)
+
         self.description = "MySql database server and embedded library"
         self.defaultTarget = ver
 
