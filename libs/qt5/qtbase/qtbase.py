@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
             elif qtVer >= CraftVersion("5.10"):
                 self.patchToApply[ver] = [
                     ("qdbus-manager-quit-5.7.patch", 1), # https://phabricator.kde.org/D2545#69186
+                    ("hack-fix-syncqt.patch", 1),
                 ]
             elif qtVer >= CraftVersion("5.9"):
                 self.patchToApply[ver] = [
