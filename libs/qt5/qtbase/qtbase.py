@@ -11,9 +11,10 @@ class subinfo(info.infoclass):
         for ver in self.versionInfo.tarballs() + self.versionInfo.branches() + self.versionInfo.tags():
             qtVer = CraftVersion(ver)
             if ver == "dev":
+                self.patchToApply[ver] = []
+            elif qtVer >= CraftVersion("5.10"):
                 self.patchToApply[ver] = [
-                    ("fix-angle-mingw.patch", 1),
-                    ("qtbase-5.8.patch", 1),  # https://codereview.qt-project.org/#/c/149550/
+                    ("qdbus-manager-quit-5.7.patch", 1), # https://phabricator.kde.org/D2545#69186
                 ]
             elif qtVer >= CraftVersion("5.9"):
                 self.patchToApply[ver] = [
@@ -21,11 +22,8 @@ class subinfo(info.infoclass):
                     ("qtbase-5.8.patch", 1),  # https://codereview.qt-project.org/#/c/149550/
                     ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
                     ("hack-fix-syncqt.patch", 1),
-                    ("0001-Fix-private-headers.patch", 1)  # https://bugreports.qt.io/browse/QTBUG-37417
-                ]
-                if qtVer < CraftVersion("5.10"):
-                    self.patchToApply[ver] += [("0001-Add-APPDIR-data-APPNAME-to-the-non-Generic-paths-on-.patch",
-                                                1)]  # https://codereview.qt-project.org/#/c/197855/
+                    ("0001-Fix-private-headers.patch", 1),  # https://bugreports.qt.io/browse/QTBUG-37417
+                    ("0001-Add-APPDIR-data-APPNAME-to-the-non-Generic-paths-on-.patch", 1)]  # https://codereview.qt-project.org/#/c/197855/
             elif qtVer >= CraftVersion("5.8"):
                 self.patchToApply[ver] = [
                     ("fix-angle-mingw.patch", 1),
