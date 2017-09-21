@@ -65,13 +65,13 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file.append(os.path.join(os.path.dirname(__file__), 'blacklist.txt'))
 
     def createPackage(self):
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         self.defines["productname"] = "KDevelop"
         self.defines["website"] = "https://kdevelop.org"
         self.defines["executable"] = "bin\\kdevelop.exe"
-        self.defines["icon"] = os.path.join(os.path.dirname(__file__), "kdevelop.ico")
+        self.defines["icon"] = os.path.join(self.packageDir(), "kdevelop.ico")
         self.defines["extrashortcuts"] = 'CreateShortCut "${startmenu}\\KDevelop - Microsoft Visual C++ compiler.lnk" "$INSTDIR\\bin\\kdevelop-msvc.bat"'
 
         self.ignoredPackages.append("binary/mysql")
