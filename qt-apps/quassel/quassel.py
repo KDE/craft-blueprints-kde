@@ -60,13 +60,8 @@ class Package(CMakePackageBase):
         return True
 
     def createPackage(self):
-        self.blacklist_file = [
-            PackagerLists.runtimeBlacklist,
-            os.path.join(self.packageDir(), 'blacklist.txt')
-        ]
-        self.whitelist_file = [
-            os.path.join(self.packageDir(), 'whitelist.txt')
-        ]
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.whitelist_file.append(os.path.join(self.packageDir(), 'whitelist.txt'))
         self.defines["gitDir"] = self.sourceDir()
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["productname"] = None
