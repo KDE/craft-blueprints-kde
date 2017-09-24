@@ -4,7 +4,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = '[git]kde:libktorrent'
+        self.svnTargets['master'] = 'git://anongit.kde.org/libktorrent'
         for ver in ['1.3.1']:
             self.targets[ver] = "http://ktorrent.org/downloads/4." + ver[2:] + "/libktorrent-" + ver + ".tar.bz2"
             self.targetInstSrc[ver] = "libktorrent-" + ver

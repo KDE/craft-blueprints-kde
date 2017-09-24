@@ -5,7 +5,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = '[git]kde:skanlite.git'
+        self.svnTargets['master'] = 'git://anongit.kde.org/skanlite.git'
         for ver in ['0.9', '1.0']:
             self.targets[
                 ver] = f"http://download.kde.org/stable/{self.package}/{ver}/src/{self.package}-{ver}.tar.bz2"

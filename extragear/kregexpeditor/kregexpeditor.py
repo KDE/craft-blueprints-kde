@@ -5,7 +5,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = '[git]kde:kregexpeditor'
+        self.svnTargets['master'] = 'git://anongit.kde.org/kregexpeditor'
         self.description = "a regular expression editor for KDE"
         self.defaultTarget = 'master'
 

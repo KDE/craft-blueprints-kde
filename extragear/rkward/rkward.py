@@ -4,7 +4,7 @@ from CraftOS.osutils import OsUtils
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = '[git]kde:rkward|frameworks'
+        self.svnTargets['master'] = 'git://anongit.kde.org/rkward|frameworks'
         for ver in ['0.6.4']:
             self.targets[ver] = 'http://download.kde.org/stable/rkward/' + ver + '/rkward-' + ver + '.tar.gz'
             self.targetInstSrc[ver] = 'rkward-' + ver
@@ -34,7 +34,7 @@ class RKTranslations(GitSource):
         self.rkwardPackage = rkwardPackage
 
     def repositoryUrl(self):
-        return "[git]kde:scratch/tfry/rkward-po-export"
+        return "git://anongit.kde.org/scratch/tfry/rkward-po-export"
 
     def checkoutDir(self):
         """ clone _into_ the RKWard source tree """

@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/phonon"] = "default"
 
     def setTargets(self):
-        self.svnTargets['master'] = '[git]kde:phonon-directshow'
+        self.svnTargets['master'] = 'git://anongit.kde.org/phonon-directshow'
         self.description = "the DirectShow based phonon multimedia backend"
         self.defaultTarget = 'master'
 

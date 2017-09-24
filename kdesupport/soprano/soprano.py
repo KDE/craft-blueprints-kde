@@ -9,10 +9,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["binary/virtuoso"] = "default"
 
     def setTargets(self):
-        self.svnTargets['master'] = '[git]kde:soprano.git'
+        self.svnTargets['master'] = 'git://anongit.kde.org/soprano.git'
 
         for ver in ['2.8.0', '2.9.0', '2.9.2', '2.9.3', '2.9.4']:
-            self.svnTargets[ver] = '[git]kde:soprano.git||v' + ver
+            self.svnTargets[ver] = 'git://anongit.kde.org/soprano.git||v' + ver
             self.targets['v' + ver] = 'http://downloads.sourceforge.net/soprano/soprano-' + ver + '.tar.bz2'
             self.targetInstSrc['v' + ver] = 'soprano-' + ver
         self.patchToApply['v2.9.0'] = [("soprano-redland-callback.diff", 1),

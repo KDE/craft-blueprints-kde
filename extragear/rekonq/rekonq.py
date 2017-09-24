@@ -5,7 +5,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = '[git]kde:rekonq'
+        self.svnTargets['master'] = 'git://anongit.kde.org/rekonq'
         self.defaultTarget = 'master'
 
     def setDependencies(self):

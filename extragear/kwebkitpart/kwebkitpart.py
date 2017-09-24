@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = '[git]kde:kwebkitpart'
+        self.svnTargets['master'] = 'git://anongit.kde.org/kwebkitpart'
         self.description = 'A WebKit browser component for KDE (KPart)'
         self.defaultTarget = 'master'
 

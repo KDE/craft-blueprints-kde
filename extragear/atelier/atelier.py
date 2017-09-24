@@ -5,7 +5,7 @@ from CraftOS.osutils import OsUtils
 
 class subinfo( info.infoclass ):
     def setTargets( self ):
-        self.svnTargets[ 'master' ] = '[git]kde:atelier|master'
+        self.svnTargets[ 'master' ] = 'git://anongit.kde.org/atelier|master'
         self.defaultTarget = 'master'
         self.shortDescription = 'Atelier Printer Host'
 

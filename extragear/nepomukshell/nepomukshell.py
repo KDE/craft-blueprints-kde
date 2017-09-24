@@ -4,7 +4,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = '[git]kde:nepomukshell'
+        self.svnTargets['master'] = 'git://anongit.kde.org/nepomukshell'
         self.defaultTarget = 'master'
         self.description = (
             "NepomukShell is a maintenance and debugging "

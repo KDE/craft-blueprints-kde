@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = '[git]kde:skrooge'
+        self.svnTargets['master'] = 'git://anongit.kde.org/skrooge'
         self.targets['0.9.1'] = "http://www.winkde.org/pub/kde/ports/win32/repository/other/skrooge-4c9e641.tar.bz2"
         self.targetInstSrc['0.9.1'] = "skrooge-4c9e641"
         self.patchToApply['0.9.1'] = ("skrooge-4c9e641-20110830.diff", 1)

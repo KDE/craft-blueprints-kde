@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = '[git]kde:atcore|master'
+        self.svnTargets['master'] = 'git://anongit.kde.org/atcore|master'
         self.defaultTarget = 'master'
         self.description = "the KDE core of Atelier Printer Host"
 

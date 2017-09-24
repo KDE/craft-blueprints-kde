@@ -4,7 +4,7 @@ import info
 # deprecated class
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = '[git]kde:libkgeomap'
+        self.svnTargets['master'] = 'git://anongit.kde.org/libkgeomap'
         self.defaultTarget = 'master'
 
     def setDependencies(self):

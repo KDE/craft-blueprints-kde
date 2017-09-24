@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "[git]kde:kdiagram"
+        self.svnTargets["master"] = "git://anongit.kde.org/kdiagram"
         self.defaultTarget = "master"
 
         self.description = "Powerful libraries (KChart, KGantt) for creating business diagrams"

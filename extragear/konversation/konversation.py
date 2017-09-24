@@ -5,8 +5,8 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['1.7'] = '[git]kde:konversation|1.7'
-        self.svnTargets['master'] = '[git]kde:konversation|master'
+        self.svnTargets['1.7'] = 'git://anongit.kde.org/konversation|1.7'
+        self.svnTargets['master'] = 'git://anongit.kde.org/konversation|master'
         self.defaultTarget = '1.7'
 
     def setDependencies(self):

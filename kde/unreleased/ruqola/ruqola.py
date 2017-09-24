@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "[git]kde:ruqola"
+        self.svnTargets["master"] = "git://anongit.kde.org/ruqola"
         self.defaultTarget = "master"
 
     def setDependencies(self):

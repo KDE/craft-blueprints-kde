@@ -9,8 +9,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["win32libs/llvm-meta/clang"] = "default"
 
     def setTargets(self):
-        self.svnTargets['master'] = '[git]kde:clazy'
-        self.svnTargets['1.2'] = '[git]kde:clazy|1.2'
+        self.svnTargets['master'] = 'git://anongit.kde.org/clazy'
+        self.svnTargets['1.2'] = 'git://anongit.kde.org/clazy|1.2'
         self.defaultTarget = '1.2'
 
 
