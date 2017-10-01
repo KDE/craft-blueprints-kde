@@ -24,4 +24,4 @@ tools\\msbuild\\.*
 bin\\dbus-env\.bat
 
 # strip most executables
-bin\\(?!(kdevelop|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
+bin\\(?!(kdevelop|kbuildsycoca5|update-mime-database|kioslave|QtWebEngineProcess)).*\.exe
