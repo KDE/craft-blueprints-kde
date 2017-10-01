@@ -42,6 +42,16 @@ class QtPackage(Qt5CorePackageBase):
             utils.prependPath(craftSettings.get("Paths", "PYTHON27"))
         return Qt5CorePackageBase.compile(self)
 
+    def install(self):
+        if not Qt5CorePackageBase.install(self):
+            return False
+
+        # apply solution for wrong install location of some important files
+        # see: https://stackoverflow.com/a/35448081
+        utils.mergeTree(os.path.join(self.imageDir(), "resources"),
+                        os.path.join(self.imageDir(), "bin"))
+        return True
+
 
 class Package(Qt5CoreSdkPackageBase):
     def __init__(self):
