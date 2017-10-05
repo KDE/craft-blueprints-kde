@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         vlcBaseUrl = "http://nightlies.videolan.org/build/win" + vlcArch + "/last/"
         vlcTagName = "3.0.0"
 
-        for ver in utils.utilsCache.getNightlyVersionsFromUrl(vlcBaseUrl, r"\d\d\d\d\d\d\d\d-\d\d\d\d"):
+        for ver in CraftCore.cache.getNightlyVersionsFromUrl(vlcBaseUrl, r"\d\d\d\d\d\d\d\d-\d\d\d\d"):
             self.targets[vlcTagName + "-git"] = "%svlc-%s-%s-git-win%s.7z" % (vlcBaseUrl, vlcTagName, ver, vlcArch)
             self.targetInstSrc[vlcTagName + "-git"] = "vlc-%s-git" % (vlcTagName)
             self.patchToApply[vlcTagName + "-git"] = [("vlc-2.1.5.diff", 1)]

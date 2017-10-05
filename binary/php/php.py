@@ -6,7 +6,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        versions = utils.utilsCache.getNightlyVersionsFromUrl("http://windows.php.net/downloads/releases",
+        versions = CraftCore.cache.getNightlyVersionsFromUrl("http://windows.php.net/downloads/releases",
                                                               re.compile(r"7\.\d\.\d\d"))
         versions.sort(key=lambda v: StrictVersion(v))
         for ver in versions:
