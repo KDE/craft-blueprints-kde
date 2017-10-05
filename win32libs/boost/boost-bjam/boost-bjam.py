@@ -50,6 +50,6 @@ class Package(BoostPackageBase):
                 platform = str(craftCompiler.getMsvcPlatformToolset())
                 cmd += f"vc{platform[:2]}"
         utils.system(cmd, cwd=os.path.join(CraftPackageObject.get('win32libs/boost/boost-headers').instance.sourceDir(),
-                                           "tools", "build")) or craftDebug.log.critical(
+                                           "tools", "build")) or CraftCore.log.critical(
             "command: %s failed" % (cmd))
         return True

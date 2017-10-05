@@ -22,13 +22,13 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args = "-DCHARM_SIGN_INSTALLER=OFF"
 
     def createPackage(self):
-        if craftSettings.getboolean("QtSDK", "Enabled", False):
+        if CraftCore.settings.getboolean("QtSDK", "Enabled", False):
             # windeployqt tries to deploy every lib starting with qt5....
             # therefore we need to make sure it can find qt5keychain
             keychain = CraftPackageObject.get("qt-libs/qtkeychain").instance
             utils.copyDir(keychain.imageDir(),
-                          os.path.join(craftSettings.get("QtSDK", "Path"), craftSettings.get("QtSDK", "Version"),
-                                       craftSettings.get("QtSDK", "Compiler")))
+                          os.path.join(CraftCore.settings.get("QtSDK", "Path"), CraftCore.settings.get("QtSDK", "Version"),
+                                       CraftCore.settings.get("QtSDK", "Compiler")))
 
         old = self.subinfo.options.make.makeOptions
         self.subinfo.options.make.makeOptions = "package"

@@ -20,7 +20,7 @@ class Package(PipPackageBase):
         self.allowExternal = True
 
     def install(self):
-        pythonPath = craftSettings.get("Paths", "PYTHON27")
+        pythonPath = CraftCore.settings.get("Paths", "PYTHON27")
         return PipBuildSystem.install(self) and utils.createShim(
             os.path.join(self.imageDir(), "bin", "rbt.exe"),
             os.path.join(pythonPath, "scripts", "rbt.exe"))

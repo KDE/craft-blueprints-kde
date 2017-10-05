@@ -21,5 +21,5 @@ class Package(PipPackageBase):
     def install(self):
         utils.createShim(os.path.join(self.imageDir(), "bin", "doxyqml.exe"),
                          os.path.join(self.imageDir(), "dev-utils", "bin", "python2.exe"),
-                         args=os.path.join(craftSettings.get("Paths", "PYTHON27"), "Scripts", "doxyqml"))
+                         args=os.path.join(CraftCore.settings.get("Paths", "PYTHON27"), "Scripts", "doxyqml"))
         return PipBuildSystem.install(self)

@@ -39,7 +39,7 @@ class QtPackage(Qt5CorePackageBase):
 
     def compile(self):
         if self.qtVer < CraftVersion("5.9"):
-            utils.prependPath(craftSettings.get("Paths", "PYTHON27"))
+            utils.prependPath(CraftCore.settings.get("Paths", "PYTHON27"))
         return Qt5CorePackageBase.compile(self)
 
     def install(self):

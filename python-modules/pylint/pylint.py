@@ -17,7 +17,7 @@ class Package(PipPackageBase):
         self.python2 = False
 
     def install(self):
-        pythonPath = craftSettings.get("Paths", "PYTHON")
+        pythonPath = CraftCore.settings.get("Paths", "PYTHON")
         utils.createShim(os.path.join(self.imageDir(), "bin", "pylint.exe"),
                          os.path.join(pythonPath, "scripts", "pylint"),
                          useAbsolutePath=True)

@@ -83,7 +83,7 @@ class Package(CMakePackageBase):
         elif craftCompiler.isMSVC():
             dest = os.path.join(self.imageDir(), "bin", "clang-cl" + exeSuffix)
         else:
-            craftDebug.log.error("Unknown compiler")
+            CraftCore.log.error("Unknown compiler")
         if not os.path.exists(dest):
             utils.copyFile(src, dest)
         return True

@@ -53,7 +53,7 @@ class subinfo(info.infoclass):
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):
-        if craftSettings.getboolean("Packager", "UseCache") and not craftSettings.getboolean("QtSDK", "Enabled", False):
+        if CraftCore.settings.getboolean("Packager", "UseCache") and not CraftCore.settings.getboolean("QtSDK", "Enabled", False):
             self.buildDependencies["dev-util/qtbinpatcher"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.buildDependencies["dev-util/perl"] = "default"
@@ -76,8 +76,8 @@ class QtPackage(Qt5CorePackageBase):
 
     def configure(self, unused1=None, unused2=""):
         if craftCompiler.isMinGW() and "DXSDK_DIR" not in os.environ:
-            craftDebug.log.critical("Failed to detec a DirectX SDK")
-            craftDebug.log.critical(
+            CraftCore.log.critical("Failed to detec a DirectX SDK")
+            CraftCore.log.critical(
                 "Please visite https://community.kde.org/Guidelines_and_HOWTOs/Build_from_source/Windows#Direct_X_SDK for instructions")
             return False
         self.enterBuildDir()
@@ -167,7 +167,7 @@ class QtPackage(Qt5CorePackageBase):
     def qmerge(self):
         if not Qt5CorePackageBase.qmerge(self):
             return False
-        if craftSettings.getboolean("Packager", "UseCache"):
+        if CraftCore.settings.getboolean("Packager", "UseCache"):
             patcher = utils.utilsCache.findApplication("qtbinpatcher")
             binRoot = os.path.join(CraftStandardDirs.craftRoot(), "bin")
             return self.system(f"\"{patcher}\" --nobackup --qt-dir=\"{binRoot}\"")
