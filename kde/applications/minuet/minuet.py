@@ -16,14 +16,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["win32libs/glib"] = "default"
         self.runtimeDependencies["win32libs/fluidsynth"] = "default"
         self.runtimeDependencies["frameworks/tier2/kdoctools"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
         self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kcompletion"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kwidgetsaddons"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kio"] = "default"
         self.runtimeDependencies["frameworks/tier2/kcrash"] = "default"
-        self.runtimeDependencies["frameworks/tier3/plasma-framework"] = "default"
 
 
 from Package.CMakePackageBase import *
