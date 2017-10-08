@@ -18,8 +18,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier3/knotifications"] = "default"
         self.runtimeDependencies["frameworks/tier1/kwindowsystem"] = "default"
         self.runtimeDependencies["win32libs/gcrypt"] = "default"
-        if OsUtils.isUnix():
-            self.runtimeDependencies["kde/applications/gpgmepp"] = "default"
 
 
 from Package.CMakePackageBase import *
