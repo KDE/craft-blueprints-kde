@@ -33,7 +33,7 @@ class PackageCMake(MSBuildPackageBase):
             self.subinfo.options.configure.args = " /p:Platform=Win32"
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "build", "win32", self.toolset,
                                                                   "glib.sln")
-        self.subinfo.options.configure.args += "/p:useenv=true"
+        self.subinfo.options.configure.args += " /p:useenv=true"
 
     def configure(self):
         if not os.path.exists(os.path.join(CraftStandardDirs.craftRoot(), "lib", "libintl_a.lib")):
