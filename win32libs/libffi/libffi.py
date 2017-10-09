@@ -23,10 +23,11 @@ class PackageCMake(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
 
-        self.arch = "Win32"
-        if craftCompiler.isX64():
-            self.arch = "x64"
-        self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "win32", f"vc14_{self.arch}",
+        folderSuffix = "x64"
+        if craftCompiler.isX86():
+            folderSuffix = "x86"
+            self.subinfo.options.configure.args = " /p:Platform=Win32"
+        self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "win32", f"vc14_{folderSuffix}",
                                                                   "libffi-msvc.sln")
 
     def install(self):
