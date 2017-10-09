@@ -23,7 +23,7 @@ class PackageCMake(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
 
-        self.arch = "x86"
+        self.arch = "Win32"
         if craftCompiler.isX64():
             self.arch = "x64"
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "win32", f"vc14_{self.arch}",
