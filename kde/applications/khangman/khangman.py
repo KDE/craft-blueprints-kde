@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier3/kio"] = "default"
         self.runtimeDependencies["frameworks/tier3/knewstuff"] = "default"
         self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
-        self.runtimeDependencies["kde/kdeedu/libkeduvocdocument"] = "default"
+        self.runtimeDependencies["kde/applications/libkeduvocdocument"] = "default"
 
 
 from Package.CMakePackageBase import *

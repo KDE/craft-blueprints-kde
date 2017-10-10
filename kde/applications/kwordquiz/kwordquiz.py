@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier3/knotifications"] = "default"
         self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
         self.runtimeDependencies["frameworks/tier4/kdelibs4support"] = "default"
-        self.runtimeDependencies["kde/kdeedu/libkeduvocdocument"] = "default"
+        self.runtimeDependencies["kde/applications/libkeduvocdocument"] = "default"
 
 
 from Package.CMakePackageBase import *
