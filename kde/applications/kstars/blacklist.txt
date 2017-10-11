@@ -4,10 +4,21 @@
 bin\\data\\kf5\\kmoretools
 bin\\data\\kservices5
 bin\\data\\kservicetypes5
+bin\\designer
+bin\\kauth
 lib\\aspell-0.60
 lib\\mecab
 lib\\plugin
 share\\(?!(dbus).*)
+
+# Only keep bare minimum from VLC plugins
+bin\\plugins\\\b(?!(access|access_output|audio_output|codec).*).*
+bin\\plugins\\access\\\b(?!(libfilesystem).*).*
+bin\\plugins\\access_output\\\b(?!(libaccess_output_file).*).*
+bin\\plugins\\codec\\\b(?!(libavcodec).*).*
+bin\\lua
+bin\\skins
+
 
 # Unused Qt modules
 qml\\QtMultimedia
