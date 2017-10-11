@@ -32,6 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["win32libs/indiclient"] = "default"
         self.runtimeDependencies["win32libs/libraw"] = "default"
         self.runtimeDependencies["win32libs/gsl"] = "default"
+        self.runtimeDependencies["qt-libs/phonon-vlc"] = "default"
 
         # Install proper theme
         self.runtimeDependencies["frameworks/tier1/breeze-icons"] = "default"
@@ -49,7 +50,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["productname"] = "KStars Desktop Planetarium"
         self.defines["executable"] = "bin\\kstars.exe"
-        self.defines["setupname"] = "kstars-latest-win64.exe"
+        #self.defines["setupname"] = "kstars-latest-win64.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kstars.ico")
 
         return TypePackager.createPackage(self)
