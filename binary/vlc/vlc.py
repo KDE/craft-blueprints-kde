@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[vlcTagName + "-debug-git"] = "vlc-%s-git" % (vlcTagName)
             self.patchToApply[vlcTagName + "-debug-git"] = [("vlc-2.1.5.diff", 1)]
 
-        for releaseTag in ["2.2.0", "2.2.1", "2.2.4", "2.2.6"]:
+        for releaseTag in ["2.2.6"]:
             self.targets[releaseTag] = "http://download.videolan.org/pub/videolan/vlc/%s/win%s/vlc-%s-win%s.7z" % (
             releaseTag, vlcArch, releaseTag, vlcArch)
             self.targetInstSrc[releaseTag] = "vlc-" + releaseTag
@@ -50,17 +50,15 @@ class Package(BinaryPackageBase):
         utils.copyDir(self.sourceDir(), os.path.join(self.installDir(), "bin"))
         if craftCompiler.isMinGW():
             utils.deleteFile(os.path.join(self.installDir(), "bin", "libgcc_s_seh-1.dll"))
-        shutil.move(os.path.join(self.installDir(), "bin", "sdk", "include"),
+        utils.mergeTree(os.path.join(self.installDir(), "bin", "sdk", "include"),
                     os.path.join(self.installDir(), "include"))
-        shutil.move(os.path.join(self.installDir(), "bin", "sdk", "lib"), os.path.join(self.installDir(), "lib"))
-        ver2 = self.subinfo.buildTarget.split(".")
-        if not (int(ver2[0]) >= 2 and int(ver2[0]) >= 1):
-            utils.copyFile(os.path.join(self.installDir(), "lib", "libvlc.dll.a"),
-                           os.path.join(self.installDir(), "lib", "libvlc.lib"))
-            utils.copyFile(os.path.join(self.installDir(), "lib", "libvlccore.dll.a"),
-                           os.path.join(self.installDir(), "lib", "libvlccore.lib"))
-        shutil.rmtree(os.path.join(self.installDir(), "bin", "sdk"))
+        utils.mergeTree(os.path.join(self.installDir(), "bin", "sdk", "lib"), os.path.join(self.installDir(), "lib"))
+        utils.rmtree(os.path.join(self.installDir(), "bin", "sdk"))
         os.makedirs(os.path.join(self.installDir(), "share", "applications"))
         utils.copyFile(os.path.join(self.packageDir(), "vlc.desktop"),
                        os.path.join(self.installDir(), "share", "applications", "vlc.desktop"))
+        if craftCompiler.isMSVC():
+            utils.deleteFile(os.path.join(self.installDir(), "lib", "vlccore.lib"))
+            utils.deleteFile(os.path.join(self.installDir(), "lib", "vlc.lib"))
+
         return True
