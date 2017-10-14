@@ -11,10 +11,11 @@ lib\\mecab
 lib\\plugin
 share\\(?!(dbus).*)
 
-# Only keep bare minimum from VLC plugins
-bin\\plugins\\\b(?!(access|access_output|audio_output|codec).*).*
+# Only keep bare minimum from VLC plugins to play Ogg and WAV files
+bin\\plugins\\\b(?!(access|access_output|audio_output|audio_filter|codec).*).*
 bin\\plugins\\access\\\b(?!(libfilesystem).*).*
 bin\\plugins\\access_output\\\b(?!(libaccess_output_file).*).*
+bin\\plugins\\audio_filter\\\b(?!(libaudio_format).*).*
 bin\\plugins\\codec\\\b(?!(libavcodec).*).*
 bin\\lua
 bin\\skins
