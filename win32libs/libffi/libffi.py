@@ -37,6 +37,12 @@ class PackageCMake(MSBuildPackageBase):
                        os.path.join(self.imageDir(), "include", "ffi.h"), False)
         utils.copyFile(os.path.join(self.sourceDir(), "include", "ffi_common.h"),
                        os.path.join(self.imageDir(), "include", "ffi_common.h"), False)
+        if craftCompiler.isX86():
+            utils.copyFile(os.path.join(self.sourceDir(), "src", "x86", "ffitarget.h"),
+                           os.path.join(self.imageDir(), "include", "ffitarget.h"), False)
+        else:
+            utils.copyFile(os.path.join(self.sourceDir(), "src", "ia64", "ffitarget.h"),
+                           os.path.join(self.imageDir(), "include", "ffitarget.h"), False)
         return True
 
 
