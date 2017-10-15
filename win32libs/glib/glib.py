@@ -54,7 +54,7 @@ class PackageCMake(MSBuildPackageBase):
 
     def install(self):
         self.cleanImage()
-        arch = "x86"
+        arch = "win32"
         if craftCompiler.isX64():
             arch = "x64"
         utils.mergeTree(
