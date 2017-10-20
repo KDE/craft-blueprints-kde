@@ -39,7 +39,7 @@ class PackageBin(BinaryPackageBase):
 
 from Package.VirtualPackageBase import *
 
-if craftCompiler.isMSVC():
+if CraftCore.compiler.isMSVC():
     class Package(PackageBin):
         def __init__(self):
             PackageBin.__init__(self)

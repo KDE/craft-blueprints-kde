@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        if craftCompiler.isMinGW():
+        if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-util/msys"] = "default"
         else:
             self.buildDependencies["dev-util/yasm"] = "default"
@@ -28,7 +28,7 @@ class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         abi = "ABI=64"
-        if craftCompiler.isX86():
+        if CraftCore.compiler.isX86():
             abi = "ABI=32"
             self.platform = ""
         self.subinfo.options.configure.args = "--enable-shared --disable-static --enable-gmpcompat --enable-cxx " + abi
@@ -38,7 +38,7 @@ class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
         self.mpirBuildDir = os.path.join(self.sourceDir(), "build.vc14")
-        if craftCompiler.isX86():
+        if CraftCore.compiler.isX86():
             self.subinfo.options.configure.args = " /p:Platform=win32"
         self.subinfo.options.configure.projectFile = os.path.join(self.mpirBuildDir, "mpir.sln")
         self.msbuildTargets = ["dll_mpir_gc", "lib_mpir_cxx"]
@@ -57,7 +57,7 @@ class PackageMSVC(MSBuildPackageBase):
         return True
 
 
-if craftCompiler.isMinGW():
+if CraftCore.compiler.isMinGW():
     class Package(PackageMinGW):
         def __init__(self):
             PackageMinGW.__init__(self)

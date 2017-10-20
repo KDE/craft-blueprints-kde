@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         ver = "20161025"
         arch = "i686"
-        if craftCompiler.isX64():
+        if CraftCore.compiler.isX64():
             arch = "x86_64"
         # don't set an actual version  instead of base. Msys must be manually updated so doing a craft update of msys wil break things.
         self.targets["base"] = f"http://repo.msys2.org/distrib/{arch}/msys2-base-{arch}-{ver}.tar.xz"
@@ -34,7 +34,7 @@ class MsysPackage(BinaryPackageBase):
         self.shell = shells.BashShell()
 
     def install(self):
-        if craftCompiler.isX64():
+        if CraftCore.compiler.isX64():
             utils.copyDir(os.path.join(self.sourceDir(), "msys64"), os.path.join(self.installDir(), "msys"))
         else:
             utils.copyDir(os.path.join(self.sourceDir(), "msys32"), os.path.join(self.installDir(), "msys"))

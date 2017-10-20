@@ -22,5 +22,5 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        if craftCompiler.isMSVC():
+        if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args = "-DBUILD_TESTS=OFF"

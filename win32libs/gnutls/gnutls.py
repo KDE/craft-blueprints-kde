@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["win32libs/gcrypt"] = "default"
         self.runtimeDependencies["win32libs/nettle"] = "default"
-        if craftCompiler.isMinGW():
+        if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-util/msys"] = "default"
 
 
@@ -32,7 +32,7 @@ class PackageMinGW(AutoToolsPackageBase):
             CraftStandardDirs.msysDir())  # could cause problems but we need the autotools libopt
 
 
-if craftCompiler.isMinGW():
+if CraftCore.compiler.isMinGW():
     class Package(PackageMinGW):
         def __init__(self):
             PackageMinGW.__init__(self)

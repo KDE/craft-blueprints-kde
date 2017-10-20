@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.7.1"
 
     def setDependencies(self):
-        if craftCompiler.isMinGW():
+        if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-util/msys"] = "default"
             self.runtimeDependencies["win32libs/libgmp"] = "default"
             self.runtimeDependencies["win32libs/openssl"] = "default"
@@ -29,7 +29,7 @@ class PackageMinGW(AutoToolsPackageBase):
         self.subinfo.options.configure.args = " --enable-shared  --enable-public-key --disable-documentation"
 
 
-if craftCompiler.isMinGW():
+if CraftCore.compiler.isMinGW():
     class Package(PackageMinGW):
         def __init__(self):
             PackageMinGW.__init__(self)

@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         baseURL = "http://dev.mysql.com/get/Downloads/MySQL-5.7/"
         ver = '5.7.18'
         arch = "32"
-        if craftCompiler.isX64():
+        if CraftCore.compiler.isX64():
             arch = "x64"
         self.targets[ver] = f"{baseURL}mysql-{ver}-win{arch}.zip"
         self.targetInstSrc[ver] = f"mysql-{ver}-win{arch}"
@@ -42,7 +42,7 @@ class Package(BinaryPackageBase):
         shutil.copytree(os.path.join(self.sourceDir(), "lib"), os.path.join(self.installDir(), "lib"),
                         ignore=shutil.ignore_patterns('*.pdb', '*.map', 'debug*', 'libmysqld.dll', 'libmysql.dll',
                                                       'mysql*'))
-        if craftCompiler.isMinGW():
+        if CraftCore.compiler.isMinGW():
             utils.createImportLibs("libmysqld", self.installDir())
             utils.createImportLibs("libmysql", self.installDir())
         shutil.copytree(os.path.join(self.sourceDir(), "include"), os.path.join(self.installDir(), "include"),

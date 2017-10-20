@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        if craftCompiler.isMSVC():
+        if CraftCore.compiler.isMSVC():
             self.buildDependencies["binary/xerces-c-bin"] = "default"
 
 
@@ -26,7 +26,7 @@ class PackageMSys(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
 
 
-if craftCompiler.isMinGW():
+if CraftCore.compiler.isMinGW():
     class Package(PackageMSys):
         pass
 else:

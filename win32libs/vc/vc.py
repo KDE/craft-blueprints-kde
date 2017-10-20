@@ -24,5 +24,5 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
         self.subinfo.options.configure.args = " -DBUILD_TESTING=OFF "
-        if craftCompiler.isMSVC():
+        if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += " -DCMAKE_CXX_FLAGS=/FS "

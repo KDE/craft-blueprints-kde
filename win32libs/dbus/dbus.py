@@ -65,12 +65,12 @@ class Package(CMakePackageBase):
         # TODO: fix
         if self.buildType() == "Debug":
             imagedir = os.path.join(self.installDir(), "lib")
-            if craftCompiler.isMSVC():
+            if CraftCore.compiler.isMSVC():
                 if os.path.exists(os.path.join(imagedir, "dbus-1d.lib")):
                     utils.copyFile(os.path.join(imagedir, "dbus-1d.lib"), os.path.join(imagedir, "dbus-1.lib"))
                 if not os.path.exists(os.path.join(imagedir, "dbus-1d.lib")):
                     utils.copyFile(os.path.join(imagedir, "dbus-1.lib"), os.path.join(imagedir, "dbus-1d.lib"))
-            if craftCompiler.isMinGW():
+            if CraftCore.compiler.isMinGW():
                 if os.path.exists(os.path.join(imagedir, "libdbus-1.dll.a")):
                     utils.copyFile(os.path.join(imagedir, "libdbus-1.dll.a"),
                                    os.path.join(imagedir, "libdbus-1d.dll.a"))

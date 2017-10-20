@@ -55,13 +55,13 @@ class Package(CMakePackageBase):
         ]
 
         if OsUtils.isWin():
-            if craftCompiler.isX64():
+            if CraftCore.compiler.isX64():
                 self.r_dir = os.path.join(self.mergeDestinationDir(), "lib", "R", "bin", "x64")
             else:
                 self.r_dir = os.path.join(self.mergeDestinationDir(), "lib", "R", "bin", "i386")
             self.subinfo.options.configure.args = " -DR_EXECUTABLE=" + os.path.join(self.r_dir, "R.exe").replace("\\\\",
                                                                                                                  "/")
-            if craftCompiler.isMSVC():
+            if CraftCore.compiler.isMSVC():
                 self.realconfigure = self.configure
                 self.configure = self.msvcconfigure
                 # NOTE: On Mac, we'll let RKWard try to auto-detect R (installed with officlal installer, or MacPorts, or something else)
@@ -77,7 +77,7 @@ class Package(CMakePackageBase):
         if OsUtils.isWin():
             # Make installation movable, by providing rkward.ini with relative path to R
             rkward_ini = open(os.path.join(self.imageDir(), "bin", "rkward.ini"), "w")
-            if craftCompiler.isX64():
+            if CraftCore.compiler.isX64():
                 rkward_ini.write("R executable=../lib/R/bin/x64/R.exe\n")
             else:
                 rkward_ini.write("R executable=../lib/R/bin/i386/R.exe\n")

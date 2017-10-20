@@ -13,9 +13,9 @@ class subinfo(info.infoclass):
             self.targetDigestUrls[ver] = (
                 [f"https://ssl.icu-project.org/files/icu4c/{ver}/icu4c-src-{ver2}.md5"], CraftHash.HashAlgorithm.MD5)
             self.targetInstSrc[ver] = os.path.join("icu", "source")
-        if craftCompiler.isMSVC2015() or craftCompiler.isMinGW():
+        if CraftCore.compiler.isMSVC2015() or CraftCore.compiler.isMinGW():
             self.patchToApply["55.1"] = ("icu-20150414.diff", 2)
-        if craftCompiler.isMinGW():
+        if CraftCore.compiler.isMinGW():
             self.patchToApply["55.1"] = [("icu-20150414.diff", 2), ("icu-msys.diff", 2)]
             self.patchToApply["58.2"] = ("0020-workaround-missing-locale.patch",
                                          2)  # https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-icu/0020-workaround-missing-locale.patch
@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
-        if craftCompiler.isMinGW():
+        if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-util/msys"] = "default"
 
 
@@ -35,7 +35,7 @@ class PackageCMake(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
 
-        if craftCompiler.isX86():
+        if CraftCore.compiler.isX86():
             self.subinfo.options.configure.args = " /p:Platform=Win32"
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "allinone", "allinone.sln")
 
@@ -47,7 +47,7 @@ class PackageCMake(MSBuildPackageBase):
             return False
         utils.copyDir(os.path.join(self.sourceDir(), "..", "include"), os.path.join(self.imageDir(), "include"))
 
-        if craftCompiler.isMSVC() and self.buildType() == "Debug":
+        if CraftCore.compiler.isMSVC() and self.buildType() == "Debug":
             imagedir = os.path.join(self.installDir(), "lib")
             filelist = os.listdir(imagedir)
             for f in filelist:
@@ -84,7 +84,7 @@ class PackageMSys(AutoToolsPackageBase):
         return True
 
 
-if craftCompiler.isMinGW():
+if CraftCore.compiler.isMinGW():
     class Package(PackageMSys):
         pass
 else:

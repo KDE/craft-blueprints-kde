@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["qt-libs/phonon"] = "default"
         self.runtimeDependencies["binary/vlc"] = "default"
-        if craftCompiler.isMSVC() or craftCompiler.isIntel():
+        if CraftCore.compiler.isMSVC() or CraftCore.compiler.isIntel():
             self.runtimeDependencies["kdesupport/kdewin"] = "default"
 
     def setTargets(self):

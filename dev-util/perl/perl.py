@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         ver = "5.24.1.2402"
         build = "401627"
         arch = "x86-64int"
-        if craftCompiler.isX64():
+        if CraftCore.compiler.isX64():
             arch = "x64"
         self.targets[
             ver] = "http://downloads.activestate.com/ActivePerl/releases/{ver}/ActivePerl-{ver}-MSWin32-{arch}-{build}.exe".format(

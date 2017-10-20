@@ -108,7 +108,7 @@ class Package(CMakePackageBase):
     def install(self):
         if not CMakePackageBase.install(self):
             return False
-        if craftCompiler.isMinGW():
+        if CraftCore.compiler.isMinGW():
             manifest = os.path.join(self.packageDir(), "update-mime-database.exe.manifest")
             executable = os.path.join(self.installDir(), "bin", "update-mime-database.exe")
             utils.embedManifest(executable, manifest)

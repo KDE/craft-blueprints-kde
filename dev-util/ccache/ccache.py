@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        if craftCompiler.isMinGW():
+        if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-util/msys"] = "default"
 
 
@@ -25,7 +25,7 @@ class PackageMinGW(AutoToolsPackageBase):
         self.supportsCCACHE = False
 
 
-if craftCompiler.isMinGW():
+if CraftCore.compiler.isMinGW():
     class Package(PackageMinGW):
         def __init__(self):
             PackageMinGW.__init__(self)

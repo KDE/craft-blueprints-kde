@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
-        if craftCompiler.isMinGW():
+        if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-util/msys"] = "default"
 
 
@@ -24,7 +24,7 @@ class PackageCMake(MSBuildPackageBase):
         MSBuildPackageBase.__init__(self)
 
         folderSuffix = "x64"
-        if craftCompiler.isX86():
+        if CraftCore.compiler.isX86():
             folderSuffix = "x86"
             self.subinfo.options.configure.args = " /p:Platform=Win32"
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "win32", f"vc14_{folderSuffix}",
@@ -37,7 +37,7 @@ class PackageCMake(MSBuildPackageBase):
                        os.path.join(self.imageDir(), "include", "ffi.h"), False)
         utils.copyFile(os.path.join(self.sourceDir(), "include", "ffi_common.h"),
                        os.path.join(self.imageDir(), "include", "ffi_common.h"), False)
-        if craftCompiler.isX86():
+        if CraftCore.compiler.isX86():
             utils.copyFile(os.path.join(self.sourceDir(), "src", "x86", "ffitarget.h"),
                            os.path.join(self.imageDir(), "include", "ffitarget.h"), False)
         else:
@@ -55,7 +55,7 @@ class PackageMSys(AutoToolsPackageBase):
         self.subinfo.options.configure.args = "--enable-shared --disable-static "
 
 
-if craftCompiler.isMinGW():
+if CraftCore.compiler.isMinGW():
     class Package(PackageMSys):
         pass
 else:

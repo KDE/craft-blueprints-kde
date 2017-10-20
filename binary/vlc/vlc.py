@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         vlcArch = "32"
-        if craftCompiler.isX64():
+        if CraftCore.compiler.isX64():
             vlcArch = "64"
         vlcBaseUrl = "http://nightlies.videolan.org/build/win" + vlcArch + "/last/"
         vlcTagName = "3.0.0"
@@ -48,7 +48,7 @@ class Package(BinaryPackageBase):
 
     def install(self):
         utils.copyDir(self.sourceDir(), os.path.join(self.installDir(), "bin"))
-        if craftCompiler.isMinGW():
+        if CraftCore.compiler.isMinGW():
             utils.deleteFile(os.path.join(self.installDir(), "bin", "libgcc_s_seh-1.dll"))
         utils.mergeTree(os.path.join(self.installDir(), "bin", "sdk", "include"),
                     os.path.join(self.installDir(), "include"))
@@ -57,7 +57,7 @@ class Package(BinaryPackageBase):
         os.makedirs(os.path.join(self.installDir(), "share", "applications"))
         utils.copyFile(os.path.join(self.packageDir(), "vlc.desktop"),
                        os.path.join(self.installDir(), "share", "applications", "vlc.desktop"))
-        if craftCompiler.isMSVC():
+        if CraftCore.compiler.isMSVC():
             utils.deleteFile(os.path.join(self.installDir(), "lib", "vlccore.lib"))
             utils.deleteFile(os.path.join(self.installDir(), "lib", "vlc.lib"))
 

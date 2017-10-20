@@ -36,18 +36,18 @@ class Package(BoostPackageBase):
     def make(self):
         if OsUtils.isUnix():
             cmd = "./bootstrap.sh  --with-toolset="
-            if craftCompiler.isClang():
+            if CraftCore.compiler.isClang():
                 cmd += "clang"
-            elif craftCompiler.isGCC():
+            elif CraftCore.compiler.isGCC():
                 cmd += "gcc"
         else:
             cmd = "bootstrap.bat "
-            if craftCompiler.isClang():
+            if CraftCore.compiler.isClang():
                 cmd += "clang"
-            elif craftCompiler.isMinGW():
+            elif CraftCore.compiler.isMinGW():
                 cmd += "mingw"
-            elif craftCompiler.isMSVC():
-                platform = str(craftCompiler.getMsvcPlatformToolset())
+            elif CraftCore.compiler.isMSVC():
+                platform = str(CraftCore.compiler.getMsvcPlatformToolset())
                 cmd += f"vc{platform[:2]}"
         utils.system(cmd, cwd=os.path.join(CraftPackageObject.get('win32libs/boost/boost-headers').instance.sourceDir(),
                                            "tools", "build")) or CraftCore.log.critical(

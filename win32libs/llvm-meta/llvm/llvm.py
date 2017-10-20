@@ -38,7 +38,7 @@ class Package(CMakePackageBase):
                            "LLVM_EXTERNAL_LLDB_SOURCE_DIR")
         # END: sub-package handling
 
-        if craftCompiler.isMSVC():
+        if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += " -DLLVM_EXPORT_SYMBOLS_FOR_PLUGINS=ON"
         else:
             self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=ON"
@@ -62,7 +62,7 @@ class Package(CMakePackageBase):
     def install(self):
         if not CMakePackageBase.install(self):
             return False
-        if craftCompiler.isMinGW():
+        if CraftCore.compiler.isMinGW():
             files = os.listdir(os.path.join(self.buildDir(), "lib"))
             for f in files:
                 if f.endswith("dll.a"):
@@ -78,9 +78,9 @@ class Package(CMakePackageBase):
 
         # the build system is broken so....
         src = os.path.join(self.imageDir(), "bin", "clang" + exeSuffix)
-        if craftCompiler.isGCCLike():
+        if CraftCore.compiler.isGCCLike():
             dest = os.path.join(self.imageDir(), "bin", "clang++" + exeSuffix)
-        elif craftCompiler.isMSVC():
+        elif CraftCore.compiler.isMSVC():
             dest = os.path.join(self.imageDir(), "bin", "clang-cl" + exeSuffix)
         else:
             CraftCore.log.error("Unknown compiler")

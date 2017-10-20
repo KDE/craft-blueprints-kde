@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["win32libs/pcre"] = "default"
         self.runtimeDependencies["win32libs/zlib"] = "default"
         self.runtimeDependencies["win32libs/gettext"] = "default"
-        if craftCompiler.isMinGW():
+        if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-util/msys"] = "default"
 
 
@@ -30,7 +30,7 @@ class PackageCMake(MSBuildPackageBase):
         MSBuildPackageBase.__init__(self)
         self.toolset = "vs14"
         self.subinfo.options.configure.args = "/p:useenv=true"
-        if craftCompiler.isX86():
+        if CraftCore.compiler.isX86():
             self.subinfo.options.configure.args += " /p:Platform=Win32"
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "build", "win32", self.toolset,
                                                                   "glib.sln")
@@ -55,7 +55,7 @@ class PackageCMake(MSBuildPackageBase):
     def install(self):
         self.cleanImage()
         arch = "win32"
-        if craftCompiler.isX64():
+        if CraftCore.compiler.isX64():
             arch = "x64"
         utils.mergeTree(
             os.path.join(self.sourceDir(), "..", self.toolset, arch, "lib", "glib-2.0", "include"),
@@ -80,7 +80,7 @@ class PackageMSys(AutoToolsPackageBase):
         return True
 
 
-if craftCompiler.isMinGW():
+if CraftCore.compiler.isMinGW():
     class Package(PackageMSys):
         pass
 else:

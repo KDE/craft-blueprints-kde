@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["0.70"]:
-            self.targets[ver] = f"https://the.earth.li/~sgtatham/putty/{ver}/w{craftCompiler.bits}/putty.zip"
+            self.targets[ver] = f"https://the.earth.li/~sgtatham/putty/{ver}/w{CraftCore.compiler.bits}/putty.zip"
             self.archiveNames[ver] = f"putty-{ver}.zip"
             self.targetInstallPath[ver] = os.path.join("dev-utils", "bin")
 

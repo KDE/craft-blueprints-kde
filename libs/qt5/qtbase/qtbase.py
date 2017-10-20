@@ -75,7 +75,7 @@ class QtPackage(Qt5CorePackageBase):
             return Qt5CorePackageBase.compile(self)
 
     def configure(self, unused1=None, unused2=""):
-        if craftCompiler.isMinGW() and "DXSDK_DIR" not in os.environ:
+        if CraftCore.compiler.isMinGW() and "DXSDK_DIR" not in os.environ:
             CraftCore.log.critical("Failed to detec a DirectX SDK")
             CraftCore.log.critical(
                 "Please visite https://community.kde.org/Guidelines_and_HOWTOs/Build_from_source/Windows#Direct_X_SDK for instructions")
@@ -131,7 +131,7 @@ class QtPackage(Qt5CorePackageBase):
                 command += " -icu "
             if self.subinfo.options.isActive("win32libs/zlib"):
                 command += " -system-zlib "
-                if craftCompiler.isMSVC():
+                if CraftCore.compiler.isMSVC():
                     command += " ZLIB_LIBS=zlib.lib "
         else:
             command += " -static -static-runtime "
@@ -139,7 +139,7 @@ class QtPackage(Qt5CorePackageBase):
         command += "-nomake examples "
         command += "-nomake tests "
 
-        if (craftCompiler.isMSVC() and craftCompiler.isClang()) or OsUtils.isUnix() or self.supportsCCACHE:
+        if (CraftCore.compiler.isMSVC() and CraftCore.compiler.isClang()) or OsUtils.isUnix() or self.supportsCCACHE:
             command += "-no-pch "
 
         return self.system(command)
@@ -152,7 +152,7 @@ class QtPackage(Qt5CorePackageBase):
                            os.path.join(self.imageDir(), "bin", "qt.conf"))
 
             # install msvc debug files if available
-            if craftCompiler.isMSVC():
+            if CraftCore.compiler.isMSVC():
                 srcdir = os.path.join(self.buildDir(), "lib")
                 destdir = os.path.join(self.installDir(), "lib")
 

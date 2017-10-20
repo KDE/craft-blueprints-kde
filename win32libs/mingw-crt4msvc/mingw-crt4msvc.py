@@ -4,7 +4,7 @@ import info
 class subinfo( info.infoclass ):
     def setTargets( self ):
         for ver in ["7.1.0"]:
-            self.targets[ ver ] = f"https://files.kde.org/craft/3rdparty/gpgme/mingw_{craftCompiler.bits}/gcc/Release/runtime-{ver}-windows-mingw_{craftCompiler.bits}-gcc.7z"
+            self.targets[ ver ] = f"https://files.kde.org/craft/3rdparty/gpgme/mingw_{CraftCore.compiler.bits}/gcc/Release/runtime-{ver}-windows-mingw_{CraftCore.compiler.bits}-gcc.7z"
             self.targetDigestUrls[ver] = f"{self.targets[ver]}.sha256"
 
 
@@ -23,4 +23,4 @@ class BinPackage(BinaryPackageBase):
 
 class Package(MaybeVirtualPackageBase):
     def __init__(self):
-        MaybeVirtualPackageBase.__init__(self, not craftCompiler.isGCCLike(), classA=BinPackage)
+        MaybeVirtualPackageBase.__init__(self, not CraftCore.compiler.isGCCLike(), classA=BinPackage)

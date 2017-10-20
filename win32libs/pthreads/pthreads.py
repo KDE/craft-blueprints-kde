@@ -30,7 +30,7 @@ class PthreadsPackage(CMakePackageBase):
         self.subinfo.options.configure.args = " -DBUILD_TESTS=OFF"
 
 
-if craftCompiler.isMSVC() or craftCompiler.isIntel():
+if CraftCore.compiler.isMSVC() or CraftCore.compiler.isIntel():
     class Package(PthreadsPackage):
         def __init__(self):
             PthreadsPackage.__init__(self)

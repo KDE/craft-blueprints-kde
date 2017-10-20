@@ -6,7 +6,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        if craftCompiler.isX64():
+        if CraftCore.compiler.isX64():
             self.targets[
                 '20100330'] = 'http://downloads.sourceforge.net/project/virtuoso/virtuoso/6.1.1/vos6-win64-20100330.zip'
             self.targets['6.1.6'] = \

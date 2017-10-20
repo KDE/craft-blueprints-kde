@@ -26,10 +26,10 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.buildDependencies["dev-util/perl"] = "default"
-        if craftCompiler.isMinGW():
+        if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-util/msys"] = "default"
             self.runtimeDependencies["win32libs/zlib"] = "default"
-        elif craftCompiler.isMSVC():
+        elif CraftCore.compiler.isMSVC():
             self.buildDependencies["dev-util/nasm"] = "default"
 
 
@@ -44,7 +44,7 @@ class PackageCMake(CMakePackageBase):
     def compile(self):
         os.chdir(self.sourceDir())
         cmd = ""
-        if craftCompiler.isX64():
+        if CraftCore.compiler.isX64():
             config = "VC-WIN64A"
         else:
             config = "VC-WIN32"
@@ -52,7 +52,7 @@ class PackageCMake(CMakePackageBase):
         if not self.system("perl Configure %s" % config, "configure"):
             return False
 
-        if craftCompiler.isX64():
+        if CraftCore.compiler.isX64():
             if not self.system("ms\do_win64a.bat", "configure"):
                 return False
         else:
@@ -103,7 +103,7 @@ class PackageMSys(AutoToolsPackageBase):
         self.subinfo.options.make.supportsMultijob = False
         self.subinfo.options.package.packageName = 'openssl'
         self.subinfo.options.package.packSources = False
-        if craftCompiler.isX64():
+        if CraftCore.compiler.isX64():
             self.platform = "mingw64"
         else:
             self.platform = "mingw"
@@ -132,7 +132,7 @@ class PackageMSys(AutoToolsPackageBase):
         return True
 
 
-if craftCompiler.isMinGW():
+if CraftCore.compiler.isMinGW():
     class Package(PackageMSys):
         pass
 else:
