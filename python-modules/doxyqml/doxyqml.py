@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
 from Package.PipPackageBase import *
+from CraftOS import OsDetection
 
 
 class subinfo(info.infoclass):
@@ -19,7 +20,8 @@ class Package(PipPackageBase):
         self.python3 = False
 
     def install(self):
-        utils.createShim(os.path.join(self.imageDir(), "bin", "doxyqml.exe"),
-                         os.path.join(self.imageDir(), "dev-utils", "bin", "python2.exe"),
-                         args=os.path.join(CraftCore.settings.get("Paths", "PYTHON27"), "Scripts", "doxyqml"))
+        if OsDetection.isWin():
+            utils.createShim(os.path.join(self.imageDir(), "bin", "doxyqml.exe"),
+                            os.path.join(self.imageDir(), "dev-utils", "bin", "python2.exe"),
+                            args=os.path.join(CraftCore.settings.get("Paths", "PYTHON27"), "Scripts", "doxyqml"))
         return PipBuildSystem.install(self)
