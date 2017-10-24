@@ -39,6 +39,8 @@ class Package(CMakePackageBase):
         if self.subinfo.options.dynamic.gammarayProbeOnly:
             self.subinfo.options.configure.args += " -DGAMMARAY_PROBE_ONLY_BUILD=ON"
             self.changePackager(SevenZipPackager)
+        if self.subinfo.options.dynamic.disableGammarayBuildCliInjector:
+            self.subinfo.options.configure.args += " -DGAMMARAY_BUILD_CLI_INJECTOR=OFF"
         self.blacklist_file = [
             PackagerLists.runtimeBlacklist,
             lambda: (re.compile(r"^.*\.pdb$|^.*\.pri$|^share.*$|^etc.*$"),)
