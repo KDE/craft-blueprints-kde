@@ -33,6 +33,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.needsShortPath = True
         self.subinfo.options.configure.args = "-DGAMMARAY_INSTALL_QT_LAYOUT=ON -DGAMMARAY_BUILD_DOCS=OFF"
         if not CraftCore.settings.getboolean("QtSDK", "Enabled", False):
             self.subinfo.options.configure.args += " -DGAMMARAY_MULTI_BUILD=OFF"
