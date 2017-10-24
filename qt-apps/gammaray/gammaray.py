@@ -23,6 +23,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/syntax-highlighting"] = "default"
         self.runtimeDependencies["qt-apps/kdstatemachineeditor"] = "default"
         self.runtimeDependencies["win32libs/openssl"] = "default"
+        if CraftCore.settings.getboolean("ContinuousIntegration", "Enabled", False):
+            self.runtimeDependencies["binary/gammaray-probes"] = "default"
 
 
 from Package.CMakePackageBase import *
