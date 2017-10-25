@@ -4,25 +4,26 @@ import info
 from Package.BinaryPackageBase import *
 
 from CraftCore import CraftCore
+from Utils.CraftManifest import *
 
 class subinfo(info.infoclass):
     vlc_ver = None
 
     def setTargets(self):
-        cache = CraftCore.cache.cacheJsonFromUrl("http://downloads.kdab.com/ci/gammaray/binaries/manifest.json")
-        build = cache["APPVEYOR_BUILD_VERSION"]
+        manifest = CraftManifest.fromJson(CraftCore.cache.cacheJsonFromUrl("http://downloads.kdab.com/ci/gammaray/binaries/manifest.json"))
 
-        self.targets[build] = []
-        self.targetDigests[build] = ([], CraftHash.HashAlgorithm.SHA256)
-        for abi in ["windows-msvc2015_32-cl", "windows-mingw_32-gcc"]:
-            if abi == "-".join(CraftCore.compiler.signature):
+        self.targets["master"] = []
+        self.targetDigests["master"] = ([], CraftHash.HashAlgorithm.SHA256)
+        for abi in manifest.packages.keys():
+            if abi == str(CraftCore.compiler):
                 continue
-            self.targets[build].append(f"http://downloads.kdab.com/ci/gammaray/binaries/gammaray-{build}-{abi}.7z")
-            self.targetDigests[build][0].append(cache["qt-apps/gammaray"][f"gammaray-{build}-{abi}.7z"]["checksum"])
+            latest = manifest.packages[abi]["qt-apps/gammaray"].latest
+            self.targets["master"].append(f"http://downloads.kdab.com/ci/gammaray/binaries/{latest.fileName}")
+            self.targetDigests["master"][0].append(latest.checksum)
 
         self.description = "Multiple probes for GammaRay"
 
-        self.defaultTarget = build
+        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.buildDependencies["virtual/bin-base"] = "default"
