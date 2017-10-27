@@ -32,6 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["extragear/libalkimia"] = "default"
         self.runtimeDependencies["extragear/kdiagram"] = "default"
         self.buildDependencies["dev-util/gettext-tools"] = "default"
+        self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
         self.description = "a personal finance manager for KDE"
 
 
