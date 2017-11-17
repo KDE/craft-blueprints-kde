@@ -22,23 +22,27 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args = "-DCHARM_SIGN_INSTALLER=OFF"
 
     def createPackage(self):
-        if CraftCore.settings.getboolean("QtSDK", "Enabled", False):
-            # windeployqt tries to deploy every lib starting with qt5....
-            # therefore we need to make sure it can find qt5keychain
-            keychain = CraftPackageObject.get("qt-libs/qtkeychain").instance
-            utils.copyDir(keychain.imageDir(),
-                          os.path.join(CraftCore.settings.get("QtSDK", "Path"), CraftCore.settings.get("QtSDK", "Version"),
-                                       CraftCore.settings.get("QtSDK", "Compiler")))
+        if not isinstance(self, NullsoftInstallerPackager):
+            return TypePackager.createPackage(self)
+        else:
+            if CraftCore.settings.getboolean("QtSDK", "Enabled", False):
+                # windeployqt tries to deploy every lib starting with qt5....
+                # therefore we need to make sure it can find qt5keychain
+                keychain = CraftPackageObject.get("qt-libs/qtkeychain").instance
+                utils.copyDir(keychain.imageDir(),
+                            os.path.join(CraftCore.settings.get("QtSDK", "Path"), CraftCore.settings.get("QtSDK", "Version"),
+                                        CraftCore.settings.get("QtSDK", "Compiler")))
 
-        old = self.subinfo.options.make.makeOptions
-        self.subinfo.options.make.makeOptions = "package"
-        out = CMakePackageBase.make(self)
-        self.subinfo.options.make.makeOptions = old
-        if not out:
-            return False
+            old = self.subinfo.options.make.makeOptions
+            self.subinfo.options.make.makeOptions = "package"
+            out = CMakePackageBase.make(self)
+            self.subinfo.options.make.makeOptions = old
+            if not out:
+                return False
 
-        reName = re.compile(r"^Charm-\d+.\d+.*\.exe$")
-        for f in os.listdir(self.buildDir()):
-            match = reName.match(f)
-            if match:
-                return utils.copyFile(os.path.join(self.buildDir(), f), os.path.join(self.packageDestinationDir(), f))
+            reName = re.compile(r"^Charm-\d+.\d+.*\.exe$")
+            for f in os.listdir(self.buildDir()):
+                match = reName.match(f)
+                if match:
+                    return utils.copyFile(os.path.join(self.buildDir(), f), os.path.join(self.packageDestinationDir(), f))
+
