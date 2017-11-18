@@ -4,8 +4,9 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'git://anongit.kde.org/atcore|master'
-        self.defaultTarget = 'master'
-        self.description = "the KDE core of Atelier Printer Host"
+        self.svnTargets['1.0'] = 'git://anongit.kde.org/atcore|1.0'
+        self.defaultTarget = '1.0'
+        self.description = "The KDE core of Atelier Printer Host"
 
     def setDependencies(self):
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
@@ -27,9 +28,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["productname"] = "AtCoreTest"
-        self.defines["executable"] = "bin\\AtCoreTest.exe"
-        self.defines["setupname"] = "AtCore-x64-0.1.exe"
-        self.defines["version"] = "0.1"
+        self.defines["executable"] = "bin\\atcore.exe"
         self.defines["website"] = "https://atelier.kde.org"
         self.defines["icon"] = os.path.join(self.packageDir(), "atcore.ico")
 
