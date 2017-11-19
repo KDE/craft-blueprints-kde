@@ -7,7 +7,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['1.7'] = 'git://anongit.kde.org/konversation|1.7'
         self.svnTargets['master'] = 'git://anongit.kde.org/konversation|master'
-        self.defaultTarget = '1.7'
+        for ver in ['1.7.4']:
+            self.targets[ver] = 'http://download.kde.org/stable/konversation/%s/src/konversation-%s.tar.xz' % (ver, ver)
+            self.targetInstSrc[ver] = 'konversation-%s' % ver
+        self.defaultTarget = '1.7.4'
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
