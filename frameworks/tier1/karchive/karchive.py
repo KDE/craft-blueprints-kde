@@ -16,9 +16,6 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isMSVC2010() and not CraftCore.compiler.isMSVC2012():
             self.runtimeDependencies["win32libs/liblzma"] = "default"
 
-        for ver in ('5.0.0', '5.1.0', '5.2.0'):
-            self.patchToApply[ver] = [('get-rid-of-VLAs.diff', 1)]
-
 
 from Package.CMakePackageBase import *
 
