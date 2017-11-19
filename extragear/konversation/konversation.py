@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/sonnet"] = "default"
         self.runtimeDependencies["frameworks/tier3/kwallet"] = "default"
         self.runtimeDependencies["frameworks/tier1/kwidgetsaddons"] = "default"
+        self.runtimeDependencies["kdesupport/qca"] = "default"
         self.runtimeDependencies["qt-libs/phonon"] = "default"
         self.description = "a KDE based irc client"
 
