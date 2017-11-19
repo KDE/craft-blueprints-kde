@@ -1,0 +1,177 @@
+From b53a72743601111a2ddb13f67702b1cc038c3f9a Mon Sep 17 00:00:00 2001
+From: Matthieu Gallien <matthieu_gallien@yahoo.fr>
+Date: Sat, 9 Sep 2017 22:13:19 +0200
+Subject: [PATCH] fix crash when more than one instances of ExtractorCollection
+ are destructed
+
+Summary: fix crash when more than one instances of ExtractorCollection are destructed
+
+Test Plan:
+without the modification to Extractor class, the new test fails. With the fix, valgrind does not report any new memory leak.
+
+Due to the way QPluginLoader::instance works, the plugins are implicitly shared. If the first ExtractorCollection delete them, the second one will fail due to double delete.
+
+Reviewers: #frameworks, dfaure
+
+Reviewed By: dfaure
+
+Subscribers: dfaure, anthonyfieroni
+
+Tags: #frameworks
+
+Differential Revision: https://phabricator.kde.org/D7750
+---
+ autotests/extractorcollectiontest.cpp | 13 +++++++++++++
+ src/extractor.cpp                     | 15 ++++++++++++++-
+ src/extractor.h                       | 15 +++++++++++++--
+ src/extractor_p.h                     |  8 ++++++--
+ src/extractorcollection.cpp           |  7 ++++---
+ 5 files changed, 50 insertions(+), 8 deletions(-)
+
+diff --git a/autotests/extractorcollectiontest.cpp b/autotests/extractorcollectiontest.cpp
+index b321f82..f177468 100644
+--- a/autotests/extractorcollectiontest.cpp
++++ b/autotests/extractorcollectiontest.cpp
+@@ -39,6 +39,19 @@ private Q_SLOTS:
+         QVERIFY(collection.fetchExtractors("unknown/mimetype").isEmpty());
+         QVERIFY(!collection.fetchExtractors("text/plain").isEmpty());
+     }
++
++    void testMultipleExtractorCollections()
++    {
++        QCoreApplication::setLibraryPaths({QCoreApplication::applicationDirPath()});
++        ExtractorCollection collection;
++        QVERIFY(collection.fetchExtractors("unknown/mimetype").isEmpty());
++        QVERIFY(!collection.fetchExtractors("text/plain").isEmpty());
++        ExtractorCollection collection2;
++        QVERIFY(collection.fetchExtractors("unknown/mimetype").isEmpty());
++        QVERIFY(!collection.fetchExtractors("text/plain").isEmpty());
++        QVERIFY(collection2.fetchExtractors("unknown/mimetype").isEmpty());
++        QVERIFY(!collection2.fetchExtractors("text/plain").isEmpty());
++    }
+ };
+ 
+ QTEST_GUILESS_MAIN(ExtractorCollectionTest)
+diff --git a/src/extractor.cpp b/src/extractor.cpp
+index 7becc41..54af18a 100644
+--- a/src/extractor.cpp
++++ b/src/extractor.cpp
+@@ -31,7 +31,10 @@ Extractor::Extractor()
+ 
+ Extractor::~Extractor()
+ {
+-    delete d->m_plugin;
++    if (d->m_autoDeletePlugin == AutoDeletePlugin) {
++        delete d->m_plugin;
++    }
++
+     delete d;
+ }
+ 
+@@ -44,3 +47,13 @@ QStringList Extractor::mimetypes() const
+ {
+     return d->m_plugin->mimetypes();
+ }
++
++void Extractor::setExtractorPlugin(ExtractorPlugin *extractorPlugin)
++{
++    d->m_plugin = extractorPlugin;
++}
++
++void Extractor::setAutoDeletePlugin(ExtractorPluginOwnership autoDelete)
++{
++    d->m_autoDeletePlugin = autoDelete;
++}
+diff --git a/src/extractor.h b/src/extractor.h
+index 5cc2b7b..0cec637 100644
+--- a/src/extractor.h
++++ b/src/extractor.h
+@@ -28,12 +28,19 @@ namespace KFileMetaData {
+ 
+ class ExtractionResult;
+ class ExtractorCollection;
+-class ExtractorPrivate;
++class ExtractorPlugin;
+ 
+ class KFILEMETADATA_EXPORT Extractor
+ {
++    class ExtractorPrivate;
++
++    enum ExtractorPluginOwnership {
++        AutoDeletePlugin,
++        DoNotDeletePlugin,
++    };
++
+ public:
+-    virtual ~Extractor();
++    virtual ~Extractor() noexcept;
+ 
+     void extract(ExtractionResult* result);
+     QStringList mimetypes() const;
+@@ -44,6 +51,10 @@ private:
+ 
+     void operator =(const Extractor&);
+ 
++    void setExtractorPlugin(ExtractorPlugin *extractorPlugin);
++
++    void setAutoDeletePlugin(ExtractorPluginOwnership autoDelete);
++
+     ExtractorPrivate *d;
+     friend class ExtractorCollection;
+ };
+diff --git a/src/extractor_p.h b/src/extractor_p.h
+index 62b7096..c46f22b 100644
+--- a/src/extractor_p.h
++++ b/src/extractor_p.h
+@@ -25,10 +25,14 @@ namespace KFileMetaData {
+ 
+ class ExtractorPlugin;
+ 
+-class ExtractorPrivate
++class Extractor::ExtractorPrivate
+ {
+ public:
+-    ExtractorPlugin *m_plugin;
++
++    ExtractorPlugin *m_plugin = nullptr;
++
++    ExtractorPluginOwnership m_autoDeletePlugin = AutoDeletePlugin;
++
+ };
+ 
+ }
+diff --git a/src/extractorcollection.cpp b/src/extractorcollection.cpp
+index e61d47b..91876bc 100644
+--- a/src/extractorcollection.cpp
++++ b/src/extractorcollection.cpp
+@@ -22,7 +22,6 @@
+ #include "extractor.h"
+ #include "extractorplugin.h"
+ #include "extractorcollection.h"
+-#include "extractor_p.h"
+ #include "externalextractor.h"
+ 
+ #include <QDebug>
+@@ -120,7 +119,8 @@ QList<Extractor*> ExtractorCollection::Private::allExtractors() const
+             ExtractorPlugin* plugin = qobject_cast<ExtractorPlugin*>(obj);
+             if (plugin) {
+                 Extractor* ex= new Extractor;
+-                ex->d->m_plugin = plugin;
++                ex->setExtractorPlugin(plugin);
++                ex->setAutoDeletePlugin(Extractor::DoNotDeletePlugin);
+ 
+                 extractors << ex;
+             } else {
+@@ -136,7 +136,8 @@ QList<Extractor*> ExtractorCollection::Private::allExtractors() const
+     Q_FOREACH (const QString& externalPluginPath, externalPluginPaths) {
+         ExternalExtractor *plugin = new ExternalExtractor(externalPluginPath);
+         Extractor* extractor = new Extractor;
+-        extractor->d->m_plugin = plugin;
++        extractor->setExtractorPlugin(plugin);
++        extractor->setAutoDeletePlugin(Extractor::AutoDeletePlugin);
+ 
+         extractors << extractor;
+     }
+-- 
+2.14.1
+
