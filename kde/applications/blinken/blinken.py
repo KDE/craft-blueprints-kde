@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/kdbusaddons"] = "default"
         self.runtimeDependencies["frameworks/tier2/kcrash"] = "default"
         self.runtimeDependencies["frameworks/tier2/kdoctools"] = "default"
+        self.runtimeDependencies["qt-libs/phonon"] = "default"
 
 
 from Package.CMakePackageBase import *
