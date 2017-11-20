@@ -7,6 +7,7 @@ class subinfo(info.infoclass):
         self.shortDescription = 'a desktop planetarium'
         for ver in ['2.8.8']:
             self.targets[ver] = 'http://download.kde.org/stable/kstars/kstars-%s.tar.xz' % ver
+            self.targetInstSrc[ver] = 'kstars-%s' % ver
         self.defaultTarget = '2.8.8'
 
     def setDependencies(self):
