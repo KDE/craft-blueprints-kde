@@ -23,9 +23,9 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
         self.runtimeDependencies["frameworks/tier3/kdeclarative"] = "default"
         self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kdoctools"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kcrash"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kxmlgui"] = "default"
+        self.runtimeDependencies["frameworks/tier2/kdoctools"] = "default"
+        self.runtimeDependencies["frameworks/tier2/kcrash"] = "default"
+        self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
 
 from Package.CMakePackageBase import *
 
