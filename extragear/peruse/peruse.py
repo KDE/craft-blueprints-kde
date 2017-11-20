@@ -17,7 +17,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
         self.runtimeDependencies["frameworks/tier3/kiconthemes"] = "default"
         self.runtimeDependencies["frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["frameworks/tier3/plasma-framework"] = "default"
         self.runtimeDependencies["frameworks/tier1/kirigami2"] = "default"
         self.runtimeDependencies["kde/applications/okular"] = "default"
         self.runtimeDependencies["kde/kdenetwork/kio-extras"] = "default"
