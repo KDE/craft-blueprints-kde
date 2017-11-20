@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["win32libs/sqlite"] = "default"
         self.runtimeDependencies["win32libs/icu"] = "default"
         self.runtimeDependencies["win32libs/libxslt"] = "default"
-        self.runtimeDependencies["win32libs/libsml2"] = "default"
+        self.runtimeDependencies["win32libs/libxml2"] = "default"
         self.runtimeDependencies["win32libs/zlib"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtscript"] = "default"
