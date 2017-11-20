@@ -7,6 +7,9 @@ class subinfo(info.infoclass):
 
         self.description = "Analitza Library"
 
+        for ver in ['17.08.3']:
+            self.patchToApply[ver] = [("0001-Remove-unneeded-type-conversion.patch", 1)]
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
