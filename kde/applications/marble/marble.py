@@ -14,7 +14,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtgui"] = "default"
         self.runtimeDependencies["libs/qt5/qtnetwork"] = "default"
         self.runtimeDependencies["libs/qt5/qtprintsupport"] = "default"
-        self.runtimeDependencies["libs/qt5/qtsql"] = "default"
         self.runtimeDependencies["libs/qt5/qtsvg"] = "default"
         self.runtimeDependencies["libs/qt5/qtwidgets"] = "default"
         self.runtimeDependencies["libs/qt5/qtxml"] = "default"
