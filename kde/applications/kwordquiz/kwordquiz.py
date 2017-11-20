@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/kguiaddons"] = "default"
         self.runtimeDependencies["frameworks/tier3/kiconthemes"] = "default"
         self.runtimeDependencies["frameworks/tier1/kitemviews"] = "default"
+        self.runtimeDependencies["frameworks/tier3/knewstuff"] = "default"
         self.runtimeDependencies["frameworks/tier3/knotifyconfig"] = "default"
         self.runtimeDependencies["frameworks/tier3/knotifications"] = "default"
         self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
