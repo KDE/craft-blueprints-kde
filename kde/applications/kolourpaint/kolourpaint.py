@@ -23,10 +23,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file = [
-            PackagerLists.runtimeBlacklist,
-            os.path.join(os.path.dirname(__file__), "blacklist.txt")
-        ]
+        self.blacklist_file.append(os.path.join(os.path.dirname(__file__), "blacklist.txt"))
 
     def createPackage(self):
         self.defines["productname"] = "Kolourpaint"
@@ -44,4 +41,3 @@ class Package(CMakePackageBase):
 
         # TODO: Just blacklisting this doesn't work. WTF?
         utils.rmtree(os.path.join(archiveDir, "dev-utils"))
-        return TypePackager.preArchive(self)
