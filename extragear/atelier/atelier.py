@@ -17,24 +17,21 @@ class subinfo( info.infoclass ):
         self.buildDependencies["frameworks/ktexteditor"] = "default"
         self.buildDependencies["frameworks/ki18n"] = "default"
         self.buildDependencies["extragear/atcore"] = "default"
-        self.runtimeDependencies["libs/qtbase"] = "default"
-        self.runtimeDependencies["libs/qtserialport"] = "default"
-        self.runtimeDependencies["libs/qtcharts"] = "default"
+        self.runtimeDependencies["libs/qt5/qt3d"] = "default"
+        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.runtimeDependencies["libs/qt5/qtserialport"] = "default"
+        self.runtimeDependencies["libs/qt5/qtcharts"] = "default"
 
 from Package.CMakePackageBase import *
 
 class Package( CMakePackageBase ):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file = [
-            PackagerLists.runtimeBlacklist,
-            os.path.join(self.packageDir(), 'blacklist.txt')
-        ]
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
 
     def createPackage(self):
         self.defines[ "productname" ] = "Atelier"
         self.defines[ "executable" ] = "bin\\atelier.exe"
-        self.defines[ "setupname" ] = "Atelier-x64.exe"
         self.defines[ "version" ] = "1.0"
         self.defines[ "website" ] = "https://atelier.kde.org"
         self.defines[ "icon" ] = os.path.join(self.packageDir(), "atelier.ico")
