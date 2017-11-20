@@ -12,6 +12,7 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.runtimeDependencies["libs/qt5/qtgraphicaleffects"] = "default"
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = "default"
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = "default"
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = "default"
