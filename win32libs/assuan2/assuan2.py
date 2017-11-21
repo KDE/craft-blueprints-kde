@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         if CraftCore.compiler.isGCCLike():
-            self.runtimeDependencies["autotools/assuan-src"] = "default"
+            self.runtimeDependencies["autotools/assuan2-src"] = "default"
         else:
             self.runtimeDependencies["win32libs/mingw-crt4msvc"] = "default"
             self.runtimeDependencies["win32libs/gpg-error"] = "default"
