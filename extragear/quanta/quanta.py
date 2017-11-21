@@ -7,7 +7,6 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
-        self.runtimeDependencies['kde/kde-runtime'] = 'default'
         self.runtimeDependencies["extragear/kdevelop/kdevplatform"] = "default"
         self.runtimeDependencies["extragear/kdevelop/kdev-php"] = "default"
 

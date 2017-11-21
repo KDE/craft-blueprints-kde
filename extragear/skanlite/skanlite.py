@@ -14,7 +14,6 @@ class subinfo(info.infoclass):
         self.description = 'a small application for image scanning'
 
     def setDependencies(self):
-        self.runtimeDependencies['kde/kde-runtime'] = 'default'
         self.runtimeDependencies['kde/libksane'] = 'default'
 
 

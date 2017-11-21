@@ -7,7 +7,6 @@ class subinfo(info.infoclass):
         self.description = "All kind of addons to improve your Plasma experience"
 
     def setDependencies(self):
-        self.runtimeDependencies['kde/kde-runtime'] = 'default'
         self.runtimeDependencies['kde/kde-workspace'] = 'default'
         self.runtimeDependencies['kde/kdepimlibs'] = 'default'
         self.runtimeDependencies['kde/marble'] = 'default'

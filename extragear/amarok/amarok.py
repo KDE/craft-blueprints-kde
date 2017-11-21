@@ -30,7 +30,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["win32libs/taglib-extras"] = "default"
         self.runtimeDependencies["qt-libs/phonon"] = "default"
         self.runtimeDependencies["kdesupport/qca"] = "default"
-        self.runtimeDependencies['kde/kde-runtime'] = 'default'
         self.runtimeDependencies["binary/mysql"] = "default"
         self.runtimeDependencies["qt-libs/liblastfm"] = "default"
         self.runtimeDependencies["win32libs/gettext"] = "default"

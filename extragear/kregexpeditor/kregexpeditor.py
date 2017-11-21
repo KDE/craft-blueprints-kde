@@ -10,7 +10,6 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
-        self.runtimeDependencies['kde/kde-runtime'] = 'default'
 
 
 class Package(CMakePackageBase):

@@ -10,7 +10,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies['kde/kdelibs'] = 'default'
-        self.runtimeDependencies['kde/kde-runtime'] = 'default'
 
 
 class Package(CMakePackageBase):

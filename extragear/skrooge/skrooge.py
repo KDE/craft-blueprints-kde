@@ -30,7 +30,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['kde/kdelibs'] = 'default'
         self.runtimeDependencies["win32libs/libopensp"] = "default"
         self.runtimeDependencies["win32libs/libofx"] = "default"
-        self.runtimeDependencies['kde/kde-runtime'] = 'default'
 
 
 from Package.CMakePackageBase import *
