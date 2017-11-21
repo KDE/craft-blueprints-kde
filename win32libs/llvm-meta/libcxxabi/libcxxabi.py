@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["win32libs/llvm-meta/clang"] = "default"
-        self.runtimeDependencies['dev-util/libcxx'] = 'default'
+        self.runtimeDependencies['win32libs/llvm-meta/libcxx'] = 'default'
 
 
 from Package.CMakePackageBase import *

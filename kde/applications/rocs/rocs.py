@@ -9,9 +9,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/qt5/qtconcurrent"] = "default"
-        self.runtimeDependencies["libs/qt5/qtdeclarative 'widgets'"] = "default"
-        self.runtimeDependencies["libs/qt5/qtscript 'scripttools'"] = "default"
+        self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
+        self.runtimeDependencies["libs/qt5/qtscript"] = "default"
         self.runtimeDependencies["libs/qt5/qtsvg"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = "default"

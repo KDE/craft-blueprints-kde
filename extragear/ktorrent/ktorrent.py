@@ -18,7 +18,6 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
-        self.runtimeDependencies['kde/kdepimlibs'] = 'default'
         self.runtimeDependencies["kdesupport/qca"] = "default"
         self.runtimeDependencies["win32libs/mpir"] = "default"
         self.runtimeDependencies["extragear/libktorrent"] = "default"
