@@ -15,9 +15,9 @@ class subinfo(info.infoclass):
         self.targets["master"] = []
         self.targetDigests["master"] = ([], CraftHash.HashAlgorithm.SHA256)
         for abi in manifest.packages.keys():
-            if abi in [str(CraftCore.compiler), "windows-msvc2015_64-cl"]:
-                continue
             latest = manifest.packages[abi]["qt-apps/gammaray"].latest
+            if latest.fileName.endswith(".exe"):
+                continue
             self.targets["master"].append(f"http://downloads.kdab.com/ci/gammaray/binaries/{latest.fileName}")
             self.targetDigests["master"][0].append(latest.checksum)
 
