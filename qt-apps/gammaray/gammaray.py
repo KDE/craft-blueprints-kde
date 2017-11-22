@@ -42,10 +42,6 @@ class Package(CMakePackageBase):
             self.changePackager(SevenZipPackager)
         if self.subinfo.options.dynamic.disableGammarayBuildCliInjector:
             self.subinfo.options.configure.args += " -DGAMMARAY_BUILD_CLI_INJECTOR=OFF"
-        self.blacklist_file = [
-            PackagerLists.runtimeBlacklist,
-            lambda: (re.compile(r"^.*\.pdb$|^.*\.pri$|^share.*$|^etc.*$"),)
-        ]
 
     def preArchive(self):
         if self.buildType() == "Debug":
