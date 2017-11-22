@@ -1,2 +1,2 @@
 # strip most executables
-bin\\(?!(okular|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
+bin/(?!(okular|kbuildsycoca5|update-mime-database|kioslave)).*\.exe

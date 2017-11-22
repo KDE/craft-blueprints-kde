@@ -1,7 +1,7 @@
 # blacklist
 
 # general
-manifest\\.*
+manifest/.*
 .*\.exp
 .*\.pdb
 .*\.la
@@ -9,43 +9,43 @@ manifest\\.*
 .*\.prl
 
 # multiple docs
-doc\\.*
-share\\man\\.*
-man\\.*
-share\\xml\\.*
-share\\locale\\.*
+doc/.*
+share/man/.*
+man/.*
+share/xml/.*
+share/locale/.*
 
 # cmake stuff
-share\\apps\\cmake\\.*
+share/apps/cmake/.*
 
 # common app stuff
-share\\apps\\ark\\.*
-share\\apps\\kgpg\\.*
-share\\kf5\\kdoctools\\.*
-lib\\.*
-bin\\data\\(?!(icontheme.rcc|okteta|kxmlgui5)).*
+share/apps/ark/.*
+share/apps/kgpg/.*
+share/kf5/kdoctools/.*
+lib/.*
+bin/data/(?!(icontheme.rcc|okteta|kxmlgui5)).*
 
 # unrelated
-dev-utils\\.*
-share\\dbus-1\\services\\.*
-share\\pkgconfig\\.*
-share\\.*
-etc\\.*
-certs\\.*
+dev-utils/.*
+share/dbus-1/services/.*
+share/pkgconfig/.*
+share/.*
+etc/.*
+certs/.*
 
 
 # doubled qt dlls
-lib\\[^\\]*\.dll
-#lib\\[^\\]*\.a
+lib/[^/]*\.dll
+#lib/[^/]*\.a
 # more qt leftovers
-translations\\.*
-phrasebooks\\.*
-mkspecs\\.*
+translations/.*
+phrasebooks/.*
+mkspecs/.*
 
 # unneeded stuff from bin\
-# bin\\qt\.conf
-bin\\syncqt\.pl
+# bin/qt\.conf
+bin/syncqt\.pl
 
 
 # strip most executables
-bin\\(?!(okteta|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
+bin/(?!(okteta|kbuildsycoca5|update-mime-database|kioslave)).*\.exe

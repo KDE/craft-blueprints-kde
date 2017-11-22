@@ -1,32 +1,32 @@
 # blacklist
 
 # Useless stuff
-bin\\data\\kf5\\kmoretools
-bin\\data\\kservices5
-bin\\data\\kservicetypes5
-bin\\designer
-bin\\kauth
-lib\\aspell-0.60
-lib\\mecab
-lib\\plugin
-share\\(?!(dbus).*)
+bin/data/kf5/kmoretools
+bin/data/kservices5
+bin/data/kservicetypes5
+bin/designer
+bin/kauth
+lib/aspell-0.60
+lib/mecab
+lib/plugin
+share/(?!(dbus).*)
 
 # Only keep bare minimum from VLC plugins to play Ogg and WAV files
-bin\\plugins\\\b(?!(access|access_output|audio_output|audio_filter|codec).*).*
-bin\\plugins\\access\\\b(?!(libfilesystem).*).*
-bin\\plugins\\access_output\\\b(?!(libaccess_output_file).*).*
-bin\\plugins\\audio_filter\\\b(?!(libaudio_format).*).*
-bin\\plugins\\codec\\\b(?!(libavcodec).*).*
-bin\\lua
-bin\\skins
+bin/plugins/\b(?!(access|access_output|audio_output|audio_filter|codec).*).*
+bin/plugins/access/\b(?!(libfilesystem).*).*
+bin/plugins/access_output/\b(?!(libaccess_output_file).*).*
+bin/plugins/audio_filter/\b(?!(libaudio_format).*).*
+bin/plugins/codec/\b(?!(libavcodec).*).*
+bin/lua
+bin/skins
 
 
 # Unused Qt modules
-qml\\QtMultimedia
-qml\\QtWebChannel
-qml\\QtWebKit
-qml\\QtWinExtras
-qml\\QtTest
+qml/QtMultimedia
+qml/QtWebChannel
+qml/QtWebKit
+qml/QtWinExtras
+qml/QtTest
 
 # strip most executables
-bin\\(?!(kstars|kbuildsycoca5|update-mime-database|kio|dbus|klauncher|kinit)).*\.exe
+bin/(?!(kstars|kbuildsycoca5|update-mime-database|kio|dbus|klauncher|kinit)).*\.exe

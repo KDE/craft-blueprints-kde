@@ -1,33 +1,33 @@
 # blacklist. It extends the default blacklist at craft/bin/Packager/applications_blacklist.txt
 
 # common app stuff
-share\\apps\\ark\\.*
-share\\apps\\kgpg\\.*
-share\\kf5\\kdoctools\\.*
+share/apps/ark/.*
+share/apps/kgpg/.*
+share/kf5/kdoctools/.*
 
 # Unused Qt modules
-qml\\QtMultimedia
-qml\\QtWebChannel
-qml\\QtWebKit
-qml\\QtWinExtras
-qml\\QtTest
+qml/QtMultimedia
+qml/QtWebChannel
+qml/QtWebKit
+qml/QtWinExtras
+qml/QtTest
 
 # kemoticons is somehow a dependency
-share\\emoticons\\.*
+share/emoticons/.*
 
 #cmake stuff
-share\\phonon4qt5\\buildsystem
+share/phonon4qt5/buildsystem
 
 #stuff in lib that we don't need
-lib\\fonts
-lib\\aspell-0\.60
-lib\\gpg-error\.def
+lib/fonts
+lib/aspell-0\.60
+lib/gpg-error\.def
 
 #big dlls we don't use
-bin\\aspell\.dll
-bin\\libGLESv2\.dll
-bin\\Qt5Designer\.dll
-bin\\Qt5DesignerComponents\.dll
+bin/aspell\.dll
+bin/libGLESv2\.dll
+bin/Qt5Designer\.dll
+bin/Qt5DesignerComponents\.dll
 
 # strip most executables
-bin\\(?!(kdeconnect-indicator|kdeconnect-cli|kdeconnectd|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
+bin/(?!(kdeconnect-indicator|kdeconnect-cli|kdeconnectd|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioslave)).*\.exe

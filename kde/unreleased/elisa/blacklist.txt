@@ -1,7 +1,7 @@
 # blacklist
 
 # general
-manifest\\.*
+manifest/.*
 .*\.exp
 .*\.pdb
 .*\.la
@@ -9,62 +9,62 @@ manifest\\.*
 .*\.prl
 
 # multiple docs
-doc\\.*
-share\\man\\.*
-man\\.*
-share\\xml\\.*
-share\\locale\\.*
+doc/.*
+share/man/.*
+man/.*
+share/xml/.*
+share/locale/.*
 
 # cmake stuff
-share\\apps\\cmake\\.*
+share/apps/cmake/.*
 
 # common app stuff
-share\\apps\\ark\\.*
-share\\apps\\kgpg\\.*
-share\\kf5\\kdoctools\\.*
-lib\\.*
-bin\\data\\(?!icontheme.rcc).*
+share/apps/ark/.*
+share/apps/kgpg/.*
+share/kf5/kdoctools/.*
+lib/.*
+bin/data/(?!icontheme.rcc).*
 
 # Unused Qt modules
-qml\\QtWebChannel
-qml\\QtWebKit
-qml\\QtTest
-qml\\Qt3D
-qml\\QtWebEngine
-qml\\QtWebView
-qml\\QtBluetooth
-qml\\QtCharts
-qml\\QtGamepad
-qml\\QtCanvas3D
-qml\\QtDataVisualization
-qml\\QtLocation
-qml\\QtNfc
+qml/QtWebChannel
+qml/QtWebKit
+qml/QtTest
+qml/Qt3D
+qml/QtWebEngine
+qml/QtWebView
+qml/QtBluetooth
+qml/QtCharts
+qml/QtGamepad
+qml/QtCanvas3D
+qml/QtDataVisualization
+qml/QtLocation
+qml/QtNfc
 
 # unrelated
-dev-utils\\.*
-share\\dbus-1\\services\\.*
-share\\pkgconfig\\.*
+dev-utils/.*
+share/dbus-1/services/.*
+share/pkgconfig/.*
 
 # cleanup breeze stuff
-share\\wallpapers\\.*
-share\\icons\\Breeze_Snow\\.*
-share\\icons\\breeze-dark\\.*
+share/wallpapers/.*
+share/icons/Breeze_Snow/.*
+share/icons/breeze-dark/.*
 
 # cut the big oxygen icons: this can lead to errors though if used!!!!
-share\\icons\\oxygen\\64x64\\.*
-share\\icons\\oxygen\\128x128\\.*
-share\\icons\\oxygen\\256x256\\.*
+share/icons/oxygen/64x64/.*
+share/icons/oxygen/128x128/.*
+share/icons/oxygen/256x256/.*
 
 # doubled qt dlls
-lib\\[^\\]*\.dll
+lib/[^/]*\.dll
 # more qt leftovers
-translations\\.*
-phrasebooks\\.*
-mkspecs\\.*
+translations/.*
+phrasebooks/.*
+mkspecs/.*
 
 # unneeded stuff from bin\
-bin\\qt\.conf
-bin\\syncqt\.pl
+bin/qt\.conf
+bin/syncqt\.pl
 
 # strip most executables
-bin\\(?!(elisa|dbus-daemon|dbus-launch|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
+bin/(?!(elisa|dbus-daemon|dbus-launch|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
