@@ -18,9 +18,7 @@ class subinfo(info.infoclass):
                 ]
             elif qtVer >= CraftVersion("5.9.3"):
                 self.patchToApply[ver] = [
-                    ("fix-angle-mingw.patch", 1),
                     ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
-                    ("hack-fix-syncqt.patch", 1),
                     ("0001-Fix-private-headers.patch", 1),  # https://bugreports.qt.io/browse/QTBUG-37417
                     ("0001-Add-APPDIR-data-APPNAME-to-the-non-Generic-paths-on-.patch", 1)]  # https://codereview.qt-project.org/#/c/197855/
             elif qtVer >= CraftVersion("5.9"):
