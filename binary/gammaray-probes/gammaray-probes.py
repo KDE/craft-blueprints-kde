@@ -15,6 +15,8 @@ class subinfo(info.infoclass):
         self.targets["master"] = []
         self.targetDigests["master"] = ([], CraftHash.HashAlgorithm.SHA256)
         for abi in manifest.packages.keys():
+            if not "qt-apps/gammaray" in manifest.packages[abi]:
+                continue
             latest = manifest.packages[abi]["qt-apps/gammaray"].latest
             if latest.fileName.endswith(".exe"):
                 continue
