@@ -27,6 +27,5 @@ class Package(BinaryPackageBase):
         if not BinaryPackageBase.install(self):
             return False
         utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "arc.exe"),
-                         os.path.join(
-                             os.path.join(self.imageDir(), "dev-utils", "arcanist", "arcanist", "bin", "arc.bat")))
+                         os.path.join(self.imageDir(), "dev-utils", "arcanist", "arcanist", "bin", "arc.bat"))
         return True
