@@ -5,7 +5,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "git://code.qt.io/qt-creator/qt-creator.git"
-        for branch in ["4.3", "4.4"]:
+        for branch in ["4.3", "4.4", "4.5"]:
             self.svnTargets[branch] = f"git://code.qt.io/qt-creator/qt-creator.git|{branch}"
         self.targets[
             "4.0.2"] = "http://download.qt-project.org/official_releases/qtcreator/4.0/4.0.2/qt-creator-opensource-src-4.0.2.tar.gz"

@@ -51,6 +51,8 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += (
                 "-DDBUS_ENABLE_VERBOSE_MODE=OFF "
                 "-DDBUS_DISABLE_ASSERTS=ON ")
+        elif (self.buildType() == "Debug"):
+            self.subinfo.options.configure.args += "-DDBUS_ENABLE_VERBOSE_MODE=ON "
 
         self.subinfo.options.configure.args += (
             "-DDBUS_SESSION_BUS_LISTEN_ADDRESS:STRING=autolaunch:scope=*install-path "
@@ -61,6 +63,16 @@ class Package(CMakePackageBase):
 
     def install(self):
         if not CMakePackageBase.install(self): return False
+
+        #patch our config...
+        conf = os.path.join(self.imageDir(), "share", "dbus-1", "session.conf")
+        lines = []
+        with open(conf, "rt+") as f:
+            lines = f.readlines()
+        with open(conf, "wt+") as f:
+            for line in lines:
+                f.write(line.replace("<standard_session_servicedirs />", "<standard_session_servicedirs />\n"
+                                                                         "  <servicedir>../../bin/data/dbus-1/services</servicedir>"))
 
         # TODO: fix
         if self.buildType() == "Debug":
