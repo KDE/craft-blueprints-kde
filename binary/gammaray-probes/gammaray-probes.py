@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         for abi in manifest.packages.keys():
             if not "qt-apps/gammaray" in manifest.packages[abi]:
                 continue
-            latest = manifest.packages[abi]["qt-apps/gammaray"].latest
+            latest = manifest.packages[abi]["qt-apps/gammaray"].latest.fileName
             if latest.fileName.endswith(".exe"):
                 continue
             self.targets["master"].append(f"http://downloads.kdab.com/ci/gammaray/binaries/{latest.fileName}")
