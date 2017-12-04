@@ -31,6 +31,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = ""
-        if not self.subinfo.options.isActive("binary/mysql"):
-            self.subinfo.options.configure.args += " -DDATABASE_BACKEND=SQLITE "
+        self.subinfo.options.configure.args = " -DDATABASE_BACKEND=SQLITE "
