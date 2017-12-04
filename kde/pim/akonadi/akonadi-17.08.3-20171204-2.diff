@@ -1,0 +1,63 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9cf797744..5b5f8a32e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -72,7 +72,7 @@ find_package(KF5DesignerPlugin ${KF5_VERSION} CONFIG)
+ set_package_properties(KF5DesignerPlugin PROPERTIES DESCRIPTION "KF5 designer plugin" TYPE OPTIONAL)
+ 
+ set(Boost_MINIMUM_VERSION "1.34.0")
+-find_package(Boost ${Boost_MINIMUM_VERSION})
++find_package(Boost ${Boost_MINIMUM_VERSION} REQUIRED COMPONENTS graph)
+ set_package_properties(Boost PROPERTIES
+     DESCRIPTION "Boost C++ Libraries"
+     URL "http://www.boost.org"
+diff --git a/src/agentbase/CMakeLists.txt b/src/agentbase/CMakeLists.txt
+index d770532e4..b371b4d35 100644
+--- a/src/agentbase/CMakeLists.txt
++++ b/src/agentbase/CMakeLists.txt
+@@ -47,7 +47,7 @@ generate_export_header(KF5AkonadiAgentBase BASE_NAME akonadiagentbase)
+ 
+ add_library(KF5::AkonadiAgentBase ALIAS KF5AkonadiAgentBase)
+ 
+-target_include_directories(KF5AkonadiAgentBase INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/AkonadiAgentBase;${Boost_INCLUDE_DIR}>")
++target_include_directories(KF5AkonadiAgentBase INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/AkonadiAgentBase>")
+ 
+ target_link_libraries(KF5AkonadiAgentBase
+ PUBLIC
+diff --git a/src/core/CMakeLists.txt b/src/core/CMakeLists.txt
+index fa996b96b..8950c55b5 100644
+--- a/src/core/CMakeLists.txt
++++ b/src/core/CMakeLists.txt
+@@ -282,10 +282,9 @@ add_library(KF5AkonadiCore ${akonadicore_SRCS})
+ generate_export_header(KF5AkonadiCore BASE_NAME akonadicore)
+ 
+ add_library(KF5::AkonadiCore ALIAS KF5AkonadiCore)
+-target_include_directories(KF5AkonadiCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/AkonadiCore;${Boost_INCLUDE_DIR}>")
++target_include_directories(KF5AkonadiCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/AkonadiCore>")
+ target_include_directories(KF5AkonadiCore PUBLIC "$<BUILD_INTERFACE:${Akonadi_SOURCE_DIR}/src/core;${Akonadi_BINARY_DIR}/src/core;${Akonadi_BINARY_DIR}/src/private>")
+ target_include_directories(KF5AkonadiCore PUBLIC "$<BUILD_INTERFACE:${Akonadi_BINARY_DIR};${Akonadi_SOURCE_DIR}/src/core/jobs;${Akonadi_SOURCE_DIR}/src/core/models>")
+-target_include_directories(KF5AkonadiCore PUBLIC "$<BUILD_INTERFACE:${Boost_INCLUDE_DIR}>")
+ 
+ kde_target_enable_exceptions(KF5AkonadiCore PUBLIC)
+ 
+@@ -294,6 +293,7 @@ PUBLIC
+     KF5::CoreAddons # for KJob
+     KF5::ItemModels
+     Qt5::Gui # for QColor
++    Boost::boost
+ PRIVATE
+     Qt5::Network
+     Qt5::Widgets
+diff --git a/src/widgets/CMakeLists.txt b/src/widgets/CMakeLists.txt
+index 16ae5b7e0..50f09ff95 100644
+--- a/src/widgets/CMakeLists.txt
++++ b/src/widgets/CMakeLists.txt
+@@ -87,7 +87,7 @@ generate_export_header(KF5AkonadiWidgets BASE_NAME akonadiwidgets)
+ 
+ add_library(KF5::AkonadiWidgets ALIAS KF5AkonadiWidgets)
+ 
+-target_include_directories(KF5AkonadiWidgets INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/AkonadiWidgets;${Boost_INCLUDE_DIR}>")
++target_include_directories(KF5AkonadiWidgets INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/AkonadiWidgets>")
+ 
+ target_link_libraries(KF5AkonadiWidgets
+ PUBLIC
