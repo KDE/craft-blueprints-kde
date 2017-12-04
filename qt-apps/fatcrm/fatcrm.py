@@ -6,7 +6,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "https://github.com/KDAB/FatCRM.git|frameworks"
+        self.svnTargets["master"] = "https://github.com/KDAB/FatCRM.git"
         self.defaultTarget = "master"
 
         self.description = "Desktop Application for SugarCRM"
@@ -27,3 +27,13 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+
+    def createPackage(self):
+        self.defines["productname"] = "FatCRM "
+        self.defines["company"] = "Klarälvdalens Datakonsult AB"
+        self.defines["executable"] = "bin\\fatcrm.exe"
+        self.defines["license"] = os.path.join(self.sourceDir(), "LICENSE.GPL.txt")
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("win32libs/icu")
+        return TypePackager.createPackage(self)
