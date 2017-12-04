@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
             ['74251d9de4bfa31994431c7a493e5de17d0b90853557a245bf3f7f4e0227fd14'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "GammaRay is a tool to poke around in a Qt-application and also to manipulate the application to some extent"
+        self.webpage = "http://www.kdab.com/gammaray"
 
         self.defaultTarget = "2.7.0"
 
@@ -60,7 +61,6 @@ class Package(CMakePackageBase):
         self.deployQt = False
         self.subinfo.options.package.movePluginsToBin = not CraftCore.settings.getboolean("QtSDK", "Enabled", False)
         self.defines["productname"] = "GammaRay"
-        self.defines["website"] = "http://www.kdab.com/gammaray"
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\gammaray-launcher.exe"
         self.defines["license"] = os.path.join(self.sourceDir(), "LICENSE.GPL.txt")
