@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' akonadi-17.08.3.orig/src/shared/akdebug.cpp akonadi-17.08.3/src/shared/akdebug.cpp
+--- akonadi-17.08.3.orig/src/shared/akdebug.cpp	2017-10-29 08:18:48.000000000 +0100
++++ akonadi-17.08.3/src/shared/akdebug.cpp	2017-12-04 11:58:50.108043200 +0100
+@@ -200,7 +200,7 @@
+         QFile file(info.absoluteFilePath());
+         const bool success = file.rename(sInstance()->errorLogFileName() + QLatin1String(".old"));
+         if (!success) {
+-            qFatal("Cannot rename log file - running on a readonly filesystem maybe?");
++            qWarning("Cannot rename log file - running on a readonly filesystem maybe?");
+         }
+     }
+ 
