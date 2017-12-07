@@ -1,0 +1,55 @@
+From c308f948f7b23439536181a5f8d6d9aa0ee27cde Mon Sep 17 00:00:00 2001
+From: Dan Leinir Turthra Jensen <admin@leinir.dk>
+Date: Wed, 6 Dec 2017 13:53:53 +0000
+Subject: [PATCH] Ensure other libraries are told the correct linkage for MSVC
+
+---
+ src/CMakeLists.txt | 13 +++++++++++--
+ src/libssh2.pc.in  |  2 +-
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 6401acf..51043d0 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -68,13 +68,22 @@ if(CRYPTO_BACKEND STREQUAL "OpenSSL" OR NOT CRYPTO_BACKEND)
+     list(APPEND PRIVATE_COMPILE_DEFINITIONS LIBSSH2_OPENSSL)
+     list(APPEND PRIVATE_INCLUDE_DIRECTORIES ${OPENSSL_INCLUDE_DIR})
+     list(APPEND LIBRARIES ${OPENSSL_LIBRARIES})
+-    list(APPEND PC_REQUIRES_PRIVATE libssl libcrypto)
++    if(NOT MSVC)
++      list(APPEND PC_REQUIRES_PRIVATE libssl libcrypto)
++    endif()
+ 
+     if (WIN32)
+       # Statically linking to OpenSSL requires crypt32 for some Windows APIs.
+       # This should really be handled by FindOpenSSL.cmake.
+       list(APPEND LIBRARIES crypt32)
+-      list(APPEND PC_LIBS -lcrypt32)
++      list(APPEND PC_LIBS -llibeay32 -lssleay32 -lcrypt32)
++      if(MSVC)
++        if(CMAKE_BUILD_TYPE MATCHES Deb)
++          list(APPEND PC_LIBS  -lmsvcrtd)
++        elseif(CMAKE_BUILD_TYPE MATCHES Release)
++          list(APPEND PC_LIBS  -lmsvcrt)
++        endif()
++      endif()
+ 
+       find_file(DLL_LIBEAY32
+ 	NAMES libeay32.dll crypto.dll
+diff --git a/src/libssh2.pc.in b/src/libssh2.pc.in
+index c070988..5b77777 100644
+--- a/src/libssh2.pc.in
++++ b/src/libssh2.pc.in
+@@ -12,6 +12,6 @@ URL: @PROJECT_URL@
+ Description: @PROJECT_DESCRIPTION@
+ Version: @LIBSSH2_VERSION@
+ Requires.private: @PC_REQUIRES_PRIVATE@
+-Libs: -L${libdir} -lssh2 @PC_LIBS@
++Libs: -L${libdir} -llibssh2 @PC_LIBS@
+ Libs.private: @PC_LIBS@
+ Cflags: -I${includedir}
+\ No newline at end of file
+-- 
+2.11.0.windows.3
+
