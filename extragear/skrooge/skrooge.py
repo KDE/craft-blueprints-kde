@@ -7,6 +7,7 @@ class subinfo(info.infoclass):
         for ver in ['2.10.5']:
             self.targets[ver] = 'https://download.kde.org/stable/skrooge/skrooge-' + ver + '.tar.xz'
             self.targetInstSrc[ver] = 'skrooge-%s' % ver
+        self.targetDigests['2.10.5'] = (['56a0124dec34e6e96a5e71ff0e825a7ec79f32a69ef0ccdc5f0f9b753d8c3eb0'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = '2.10.5'
         self.description = "personal finance manager for KDE"
 
@@ -16,7 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
         self.runtimeDependencies["libs/qt5/qtsvg"] = "default"
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = "default"
-        self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
+        self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
 
 
 from Package.CMakePackageBase import *
@@ -25,16 +26,16 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        #self.subinfo.options.configure.args = "-DSKG_WEBENGINE=ON"
         self.blacklist_file = [
             PackagerLists.runtimeBlacklist,
-            os.path.join(self.packageDir(), 'blacklist.txt')
+            #os.path.join(self.packageDir(), 'blacklist.txt')
         ]
 
     def createPackage(self):
-        self.defines["productname"] = "AtCoreTest"
-        self.defines["executable"] = "bin\\atcore.exe"
-        self.defines["website"] = "https://atelier.kde.org"
-        self.defines["icon"] = os.path.join(self.packageDir(), "atcore.ico")
+        self.defines["productname"] = "Skrooge"
+        self.defines["website"] = "https://skrooge.org/"
+        #self.defines["icon"] = os.path.join(self.packageDir(), "skrooge.ico")
 
         return TypePackager.createPackage(self)
 
