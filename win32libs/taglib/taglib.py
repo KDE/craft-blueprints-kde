@@ -8,12 +8,14 @@ class subinfo(info.infoclass):
         self.descriptions = "audio meta-data library"
 
     def setTargets(self):
-        self.targets["1.9.1"] = 'https://taglib.github.io/releases/taglib-1.9.1.tar.gz'
-        self.targetInstSrc["1.9.1"] = 'taglib-1.9.1'
-        self.targetDigests['1.9.1'] = '4fa426c453297e62c1d1eff64a46e76ed8bebb45'
-        self.svnTargets['svnHEAD'] = 'trunk/kdesupport/taglib'
+        for ver in ["1.9.1", "1.11.1"]:
+            self.targets[ver] = f"https://taglib.github.io/releases/taglib-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"taglib-{ver}"
+        self.targetDigests["1.9.1"] = "4fa426c453297e62c1d1eff64a46e76ed8bebb45"
+        self.targetDigests["1.11.1"] = (['b6d1a5a610aae6ff39d93de5efd0fdc787aa9e9dc1e7026fa4c961b26563526b'], CraftHash.HashAlgorithm.SHA256)
         self.description = "audio metadata library"
-        self.defaultTarget = '1.9.1'
+        self.webpage = "http://taglib.org/"
+        self.defaultTarget = "1.11.1"
 
 
 from Package.CMakePackageBase import *
@@ -22,7 +24,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = ""
+        self.subinfo.options.configure.args = "-DBUILD_SHARED_LIBS=ON"
         #        self.subinfo.options.configure.args += " -DBUILD_TESTS=ON"
         #        self.subinfo.options.configure.args += " -DBUILD_EXAMPLES=ON"
         #        self.subinfo.options.configure.args += " -DNO_ITUNES_HACKS=ON"

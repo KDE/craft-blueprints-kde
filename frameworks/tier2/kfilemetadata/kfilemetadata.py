@@ -4,9 +4,8 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-
-        for ver in ['5.37.0', '5.38.0']:
-            self.patchToApply[ver] = [("0001-fix-crash-when-more-than-one-instances-of-ExtractorC.patch", 1)]
+        self.patchToApply["5.41.0"] = [("0001-Check-for-Linux-instead-of-TagLib-and-avoid-building.patch", 1),
+                                       ("0003-Fix-build-against-TagLib-1.11.patch", 1)]
 
         self.description = "A file metadata and text extraction library"
 
