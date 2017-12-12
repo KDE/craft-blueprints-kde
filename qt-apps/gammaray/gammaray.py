@@ -34,6 +34,9 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.dynamic.registerOption("gammarayProbeOnly", False)
+        self.subinfo.options.dynamic.registerOption("disableGammarayBuildCliInjector", False)
+
         self.subinfo.options.needsShortPath = True
         self.subinfo.options.configure.args = "-DGAMMARAY_INSTALL_QT_LAYOUT=ON "
         if not CraftCore.settings.getboolean("QtSDK", "Enabled", False):
