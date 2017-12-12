@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["win32libs/freetype"] = "default"
         self.runtimeDependencies["win32libs/libjpeg-turbo"] = "default"
         self.runtimeDependencies["win32libs/lcms"] = "default"
+        self.runtimeDependencies["win32libs/lcms2"] = "default"
         self.runtimeDependencies["win32libs/zlib"] = "default"
         self.runtimeDependencies["win32libs/openjpeg"] = "default"
         self.runtimeDependencies["win32libs/libjpeg-turbo"] = "default"
