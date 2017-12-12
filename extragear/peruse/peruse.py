@@ -31,17 +31,14 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.fetch.checkoutSubmodules = True
-        whitelists = []
-        self.blacklist_file = [
-            PackagerLists.runtimeBlacklist,
-            os.path.join(os.path.dirname(__file__), 'blacklist.txt')
-        ]
 
     def createPackage(self):
         self.defines["productname"] = "Peruse Comic Book Viewer"
         self.defines["executable"] = "bin\\peruse.exe"
         self.defines["website"] = "http://peruse.kde.org"
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "peruse.ico")
+        self.defines["extrashortcuts"] = 'CreateShortCut "${startmenu}\\Peruse Creator.lnk" "$INSTDIR\\bin\\perusecreator.exe" "" "$INSTDIR\\bin\\perusecreator.exe"\n'
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
 
         return TypePackager.createPackage(self)
 
@@ -56,8 +53,6 @@ class Package(CMakePackageBase):
 
         utils.moveFile(os.path.join(archiveDir, "etc", "xdg", "peruse.knsrc"),
                        os.path.join(binPath, "data", "peruse.knsrc"))
-
-        utils.mergeTree(os.path.join(archiveDir, "lib", "qca-qt5"), binPath)
 
         utils.rmtree(os.path.join(self.archiveDir(), "lib"))
 
