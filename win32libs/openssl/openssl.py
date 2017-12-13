@@ -103,13 +103,13 @@ class PackageMSys(AutoToolsPackageBase):
         self.subinfo.options.make.supportsMultijob = False
         self.subinfo.options.package.packageName = 'openssl'
         self.subinfo.options.package.packSources = False
-        self.subinfo.options.configure.projectFile = "config"
         if CraftCore.compiler.isMinGW():
             if CraftCore.compiler.isX64():
                 self.platform = "mingw64"
             else:
                 self.platform = "mingw"
         else:
+            self.subinfo.options.configure.projectFile = "config"
             self.platform = ""
         self.supportsCCACHE = False
 
