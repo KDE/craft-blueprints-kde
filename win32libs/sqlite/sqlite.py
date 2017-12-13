@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = '3.15.0'
 
     def setDependencies(self):
+        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
 
 
