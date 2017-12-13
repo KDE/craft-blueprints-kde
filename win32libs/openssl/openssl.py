@@ -132,7 +132,7 @@ class PackageMSys(AutoToolsPackageBase):
         return True
 
 
-if CraftCore.compiler.isMinGW():
+if CraftCore.compiler.isGCCLike():
     class Package(PackageMSys):
         pass
 else:
