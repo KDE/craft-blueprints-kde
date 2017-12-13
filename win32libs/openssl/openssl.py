@@ -103,10 +103,14 @@ class PackageMSys(AutoToolsPackageBase):
         self.subinfo.options.make.supportsMultijob = False
         self.subinfo.options.package.packageName = 'openssl'
         self.subinfo.options.package.packSources = False
-        if CraftCore.compiler.isX64():
-            self.platform = "mingw64"
+        self.subinfo.options.configure.projectFile = "config"
+        if CraftCore.compiler.isMinGW():
+            if CraftCore.compiler.isX64():
+                self.platform = "mingw64"
+            else:
+                self.platform = "mingw"
         else:
-            self.platform = "mingw"
+            self.platform = ""
         self.supportsCCACHE = False
 
         self.subinfo.options.useShadowBuild = False
@@ -122,13 +126,14 @@ class PackageMSys(AutoToolsPackageBase):
         self.enterSourceDir()
         self.shell.execute(self.sourceDir(), self.makeProgram,
                            "INSTALLTOP=%s install_sw" % (self.shell.toNativePath(self.imageDir())))
-        self.shell.execute(os.path.join(self.imageDir(), "lib"), "chmod", "-R 664 .")
-        self.shell.execute(os.path.join(self.imageDir(), "lib", "engines"), "chmod", " -R 755 .")
-        self.shell.execute(os.path.join(self.imageDir(), "bin"), "chmod", " -R 755 .")
-        shutil.move(os.path.join(self.imageDir(), "lib", "libcrypto.dll.a"),
-                    os.path.join(self.imageDir(), "lib", "libeay32.dll.a"))
-        shutil.move(os.path.join(self.imageDir(), "lib", "libssl.dll.a"),
-                    os.path.join(self.imageDir(), "lib", "ssleay32.dll.a"))
+        if OsUtils.isWin():
+            self.shell.execute(os.path.join(self.imageDir(), "lib"), "chmod", "-R 664 .")
+            self.shell.execute(os.path.join(self.imageDir(), "lib", "engines"), "chmod", " -R 755 .")
+            self.shell.execute(os.path.join(self.imageDir(), "bin"), "chmod", " -R 755 .")
+            shutil.move(os.path.join(self.imageDir(), "lib", "libcrypto.dll.a"),
+                        os.path.join(self.imageDir(), "lib", "libeay32.dll.a"))
+            shutil.move(os.path.join(self.imageDir(), "lib", "libssl.dll.a"),
+                        os.path.join(self.imageDir(), "lib", "ssleay32.dll.a"))
         return True
 
 
