@@ -1,0 +1,38 @@
+From 619e12690b8036fc517a2003bd73cde1e01e0349 Mon Sep 17 00:00:00 2001
+From: Hannah von Reth <vonreth@kde.org>
+Date: Fri, 15 Dec 2017 10:12:33 +0100
+Subject: [PATCH 3/4] Remove strings.h include
+
+approved by dvratil
+---
+ src/versit/vcc.y     | 1 -
+ src/versit/vobject.c | 1 -
+ 2 files changed, 2 deletions(-)
+
+diff --git a/src/versit/vcc.y b/src/versit/vcc.y
+index 3e6879581..b9fbb0f89 100644
+--- a/src/versit/vcc.y
++++ b/src/versit/vcc.y
+@@ -99,7 +99,6 @@ DFARS 252.227-7013 or 48 CFR 52.227-19, as applicable.
+ #endif
+
+ #include <string.h>
+-#include <strings.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <ctype.h>
+diff --git a/src/versit/vobject.c b/src/versit/vobject.c
+index a57c41773..db13f9e27 100644
+--- a/src/versit/vobject.c
++++ b/src/versit/vobject.c
+@@ -46,7 +46,6 @@ DFARS 252.227-7013 or 48 CFR 52.227-19, as applicable.
+
+ #include "vobject.h"
+ #include <string.h>
+-#include <strings.h>
+ #include <stdio.h>
+
+ #define NAME_OF(o)          o->id
+--
+2.11.0
+

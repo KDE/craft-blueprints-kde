@@ -1,0 +1,45 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' kcalcore-17.12.0.orig/autotests/CMakeLists.txt kcalcore-17.12.0/autotests/CMakeLists.txt
+--- kcalcore-17.12.0.orig/autotests/CMakeLists.txt	2017-12-02 08:21:00.000000000 +0100
++++ kcalcore-17.12.0/autotests/CMakeLists.txt	2017-12-15 14:21:30.915321200 +0100
+@@ -10,7 +10,7 @@
+     add_executable(${_testname} ${_testname}.cpp)
+     add_test(NAME ${_testname} COMMAND ${_testname})
+     ecm_mark_as_test(${_testname})
+-    target_link_libraries(${_testname} KF5CalendarCore Qt5::Test)
++    target_link_libraries(${_testname} KF5CalendarCore Qt5::Test LibIcal)
+   endforeach()
+ endmacro()
+
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' kcalcore-17.12.0.orig/cmake/FindLibIcal.cmake kcalcore-17.12.0/cmake/FindLibIcal.cmake
+--- kcalcore-17.12.0.orig/cmake/FindLibIcal.cmake	2017-12-02 08:21:00.000000000 +0100
++++ kcalcore-17.12.0/cmake/FindLibIcal.cmake	2017-12-15 14:21:30.916822000 +0100
+@@ -107,5 +107,11 @@
+     REQUIRED_VARS LibIcal_LIBRARIES LibIcal_INCLUDE_DIRS
+     VERSION_VAR LibIcal_VERSION
+ )
+-
++if(LibIcal_FOUND AND NOT TARGET LibIcal)
++    add_library(LibIcal INTERFACE IMPORTED)
++    set_target_properties(LibIcal PROPERTIES
++        INTERFACE_LINK_LIBRARIES "${LibIcal_LIBRARIES}"
++        INTERFACE_INCLUDE_DIRECTORIES "${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical"
++    )
++endif()
+ mark_as_advanced(LibIcal_INCLUDE_DIRS LibIcal_LIBRARIES)
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' kcalcore-17.12.0.orig/src/CMakeLists.txt kcalcore-17.12.0/src/CMakeLists.txt
+--- kcalcore-17.12.0.orig/src/CMakeLists.txt	2017-12-02 08:21:00.000000000 +0100
++++ kcalcore-17.12.0/src/CMakeLists.txt	2017-12-15 14:24:16.473169600 +0100
+@@ -58,14 +58,13 @@
+
+ target_include_directories(KF5CalendarCore INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KCalCore>")
+ target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${KCalCore_SOURCE_DIR}/src;${KCalCore_BINARY_DIR}/src;${KCalCore_SOURCE_DIR}/src/versit>")
+-target_include_directories(KF5CalendarCore PUBLIC "$<BUILD_INTERFACE:${LibIcal_INCLUDE_DIRS};${LibIcal_INCLUDE_DIRS}/libical>")
+
+ target_link_libraries(KF5CalendarCore
+ PUBLIC
+     Qt5::Core
+ PRIVATE
+     Qt5::Gui
+-    ${LibIcal_LIBRARIES}
++    LibIcal
+ )
