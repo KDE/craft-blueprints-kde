@@ -5,10 +5,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.shortDescription = 'a desktop planetarium'
-        for ver in ['2.8.8']:
+        for ver in ['2.8.9']:
             self.targets[ver] = 'http://download.kde.org/stable/kstars/kstars-%s.tar.xz' % ver
             self.targetInstSrc[ver] = 'kstars-%s' % ver
-        self.defaultTarget = '2.8.8'
+        self.defaultTarget = '2.8.9'
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
