@@ -5,23 +5,25 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'git://anongit.kde.org/peruse|master'
         self.defaultTarget = 'master'
+        self.description = "Peruse Comic Book Viewer and Creator"
+        self.webpage = "http://peruse.kde.org"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.runtimeDependencies["frameworks/tier1/breeze-icons"] = "default"
         self.runtimeDependencies["frameworks/tier1/karchive"] = "default"
         self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kdeclarative"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kfilemetadata"] = "default"
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kiconthemes"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kio"] = "default"
         self.runtimeDependencies["frameworks/tier1/kirigami2"] = "default"
-        self.runtimeDependencies["kde/applications/okular"] = "default"
-        self.runtimeDependencies["kde/kdenetwork/kio-extras"] = "default"
+        self.runtimeDependencies["frameworks/tier2/kfilemetadata"] = "default"
+        self.runtimeDependencies["frameworks/tier3/kdeclarative"] = "default"
+        self.runtimeDependencies["frameworks/tier3/kiconthemes"] = "default"
         self.runtimeDependencies["frameworks/tier3/knewstuff"] = "default"
-        self.runtimeDependencies["frameworks/tier1/breeze-icons"] = "default"
+        self.runtimeDependencies["frameworks/tier3/kio"] = "default"
+        self.runtimeDependencies["kde/kdenetwork/kio-extras"] = "default"
+        self.runtimeDependencies["kde/applications/okular"] = "default"
 
 
 from Package.CMakePackageBase import *
@@ -35,7 +37,6 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["productname"] = "Peruse Comic Book Viewer"
         self.defines["executable"] = "bin\\peruse.exe"
-        self.defines["website"] = "http://peruse.kde.org"
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "peruse.ico")
         self.defines["extrashortcuts"] = 'CreateShortCut "${startmenu}\\Peruse Creator.lnk" "$INSTDIR\\bin\\perusecreator.exe" "" "$INSTDIR\\bin\\perusecreator.exe"\n'
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
