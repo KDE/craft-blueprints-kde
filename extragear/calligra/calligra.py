@@ -6,7 +6,7 @@ from Blueprints.CraftVersion import CraftVersion
 
 class subinfo(info.infoclass):
     def setTargets( self ):
-        self.svnTargets[ 'master' ] = '[git]kde:calligra'
+        self.svnTargets[ 'master' ] = 'git://anongit.kde.org/calligra.git'
         self.defaultTarget = 'master'
         self.description = 'The Integrated Work Applications Suite by KDE'
         self.webpage = "https://calligra.org/"
