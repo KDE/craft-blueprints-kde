@@ -58,9 +58,10 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += (
             "-DDBUS_SESSION_BUS_LISTEN_ADDRESS:STRING=autolaunch:scope=*install-path "
             "-DDBUS_SESSION_BUS_CONNECT_ADDRESS:STRING=autolaunch:scope=*install-path ")
-        # kde uses debugger output, so dbus should do too
-        self.subinfo.options.configure.args += (
-            "-DDBUS_USE_OUTPUT_DEBUG_STRING=ON ")
+
+        if OsUtils.isWin():
+            # kde uses debugger output, so dbus should do too
+            self.subinfo.options.configure.args += "-DDBUS_USE_OUTPUT_DEBUG_STRING=ON "
 
     def install(self):
         if not CMakePackageBase.install(self): return False
