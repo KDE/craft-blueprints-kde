@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         self.svnTargets[ 'master' ] = '[git]kde:calligra'
         self.defaultTarget = 'master'
         self.description = 'The Integrated Work Applications Suite by KDE'
+        self.webpage = "https://calligra.org/"
 
     def setDependencies( self ):
         self.buildDependencies['dev-util/pkg-config'] = 'default'
@@ -18,7 +19,7 @@ class subinfo(info.infoclass):
         # No DropBox support for you, until we can get that made prettier
         if not CraftCore.compiler.isMinGW():
             self.runtimeDependencies['libs/qt5/qtwebengine'] = 'default'
-        self.runtimeDependencies['win32libs/boost'] = 'default'
+        self.runtimeDependencies['win32libs/boost/boost-system'] = 'default'
         self.runtimeDependencies['win32libs/lcms2'] = 'default'
         self.runtimeDependencies['win32libs/libgit2'] = 'default'
         self.runtimeDependencies['win32libs/eigen3'] = 'default'
@@ -67,7 +68,6 @@ class Package( CMakePackageBase ):
 
     def createPackage(self):
         self.defines["productname"] = "Calligra Gemini"
-        self.defines["website"] = "https://calligra.org/"
         self.defines["executable"] = "bin\\calligragemini.exe"
         self.defines["icon"] = os.path.join(self.sourceDir(), "gemini", "calligragemini.ico")
         self.defines["extrashortcuts"] = 'CreateShortCut "${startmenu}\\Calligra Sheets.lnk" "$INSTDIR\\bin\\calligrasheets.exe" "" "$INSTDIR\\bin\\calligrasheets.exe"\n'
