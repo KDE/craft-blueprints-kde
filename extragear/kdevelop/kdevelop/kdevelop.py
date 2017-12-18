@@ -10,6 +10,10 @@ class subinfo(info.infoclass):
         self.description = "KDE Integrated Development Environment for C/C++/QML/JS/Python/PHP/..."
         self.webpage = "https://kdevelop.org"
 
+    def registerOptions(self):
+        self.options.dynamic.registerOption("fullKDevelop", False)
+        self.options.dynamic.registerOption("fullPlasma", False)
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
@@ -66,8 +70,6 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.dynamic.registerOption("fullKDevelop", False)
-        self.subinfo.options.dynamic.registerOption("fullPlasma", False)
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))

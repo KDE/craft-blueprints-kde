@@ -6,6 +6,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "Breeze icon theme."
 
+    def registerOptions(self):
+        self.options.dynamic.registerOption("useBreezeDark", False)
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
@@ -19,7 +22,6 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args = " -DBINARY_ICONS_RESOURCE=ON"
-        self.subinfo.options.dynamic.registerOption("useBreezeDark", False)
 
     def install(self):
         if OsUtils.isWin() or OsUtils.isMac():
