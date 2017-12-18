@@ -1,7 +1,7 @@
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' sqlite-amalgamation-3150000.orig/CMakeLists.txt sqlite-amalgamation-3150000/CMakeLists.txt
+diff -Nrub -x '*~' -x '*.rej' -x sqlite-amalgamation-3150000.orig -x'*.o' sqlite-amalgamation-3150000.orig/CMakeLists.txt sqlite-amalgamation-3150000/CMakeLists.txt
 --- sqlite-amalgamation-3150000.orig/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ sqlite-amalgamation-3150000/CMakeLists.txt	2017-12-13 10:36:47.650126800 +0100
-@@ -0,0 +1,47 @@
++++ sqlite-amalgamation-3150000/CMakeLists.txt	2017-12-18 14:37:48.000000000 +0100
+@@ -0,0 +1,53 @@
 +project( Sqlite )
 +cmake_minimum_required( VERSION 3.0)
 +
@@ -10,6 +10,11 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' sqlite-amalgamation-3150000
 +set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 +
 +include(KDEInstallDirs)
++
++set(SQLITE_VERSION_MAJOR 3)
++set(SQLITE_VERSION_MINOR 15)
++set(SQLITE_VERSION_PATCH 0)
++set(SQLITE_VERSION_STRING ${SQLITE_VERSION_MAJOR}.${SQLITE_VERSION_MINOR}.${SQLITE_VERSION_PATCH})
 +
 +if(STATIC_LIBRARY)
 +    set(SQLITE3_STATIC 1)
@@ -40,6 +45,7 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' sqlite-amalgamation-3150000
 +add_library( libsqlite3 ${LIBRARY_TYPE}  ${libsqlite_SRC} )
 +
 +set_target_properties( libsqlite3 PROPERTIES RUNTIME_OUTPUT_NAME libsqlite ARCHIVE_OUTPUT_NAME sqlite3 PREFIX "")
++set_target_properties( libsqlite3 PROPERTIES VERSION ${SQLITE_VERSION_STRING} SOVERSION ${SQLITE_VERSION_MAJOR})
 +install( TARGETS libsqlite3 ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 +
 +add_executable( sqlite3_bin ${sqlite_SRC} )
@@ -49,9 +55,9 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' sqlite-amalgamation-3150000
 +install( TARGETS sqlite3_bin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 +
 +install( FILES ${sqlite_HEADER} DESTINATION ${KDE_INSTALL_INCLUDEDIR} )
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' sqlite-amalgamation-3150000.orig/sqlite3.c sqlite-amalgamation-3150000/sqlite3.c
---- sqlite-amalgamation-3150000.orig/sqlite3.c	2016-10-14 13:48:16.000000000 +0200
-+++ sqlite-amalgamation-3150000/sqlite3.c	2017-12-13 10:21:22.913386400 +0100
+diff -Nrub -x '*~' -x '*.rej' -x sqlite-amalgamation-3150000.orig -x'*.o' sqlite-amalgamation-3150000.orig/sqlite3.c sqlite-amalgamation-3150000/sqlite3.c
+--- sqlite-amalgamation-3150000.orig/sqlite3.c	2017-12-18 14:37:52.000000000 +0100
++++ sqlite-amalgamation-3150000/sqlite3.c	2017-12-18 14:36:58.000000000 +0100
 @@ -309,7 +309,19 @@
  # define SQLITE_EXTERN extern
  #endif
@@ -72,9 +78,9 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' sqlite-amalgamation-3150000
  #endif
  #ifndef SQLITE_CDECL
  # define SQLITE_CDECL
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' sqlite-amalgamation-3150000.orig/sqlite3.h sqlite-amalgamation-3150000/sqlite3.h
---- sqlite-amalgamation-3150000.orig/sqlite3.h	2016-10-14 13:48:16.000000000 +0200
-+++ sqlite-amalgamation-3150000/sqlite3.h	2017-12-13 10:21:22.919416800 +0100
+diff -Nrub -x '*~' -x '*.rej' -x sqlite-amalgamation-3150000.orig -x'*.o' sqlite-amalgamation-3150000.orig/sqlite3.h sqlite-amalgamation-3150000/sqlite3.h
+--- sqlite-amalgamation-3150000.orig/sqlite3.h	2017-12-18 14:37:52.000000000 +0100
++++ sqlite-amalgamation-3150000/sqlite3.h	2017-12-18 14:36:58.000000000 +0100
 @@ -49,7 +49,18 @@
  # define SQLITE_EXTERN extern
  #endif
