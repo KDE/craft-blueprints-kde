@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "KDE Integrated Development Environment for C/C++/QML/JS/Python/PHP/..."
+        self.webpage = "https://kdevelop.org"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
@@ -47,10 +48,10 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
             self.runtimeDependencies["kdesupport/grantlee"] = "default"
 
-        if self.options.features.fullplasma:
+        if self.options.features.fullPlasma:
             self.runtimeDependencies["frameworks/tier3/krunner"] = "default"
             self.runtimeDependencies["frameworks/tier3/plasma-framework"] = "default"
-        if self.options.features.fullkdevelop:
+        if self.options.features.fullKDevelop:
             self.runtimeDependencies["extragear/kdevelop/kdev-python"] = "default"
             self.runtimeDependencies["extragear/kdevelop/kdev-php"] = "default"
         self.runtimeDependencies["extragear/kdevelop-pg-qt"] = "default"
@@ -65,11 +66,12 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.dynamic.registerOption("fullKDevelop", False)
+        self.subinfo.options.dynamic.registerOption("fullPlasma", False)
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         self.defines["productname"] = "KDevelop"
-        self.defines["website"] = "https://kdevelop.org"
         self.defines["executable"] = "bin\\kdevelop.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kdevelop.ico")
         self.defines["extrashortcuts"] = 'CreateShortCut "${startmenu}\\KDevelop - Microsoft Visual C++ compiler.lnk" "$INSTDIR\\bin\\kdevelop-msvc.bat"'
