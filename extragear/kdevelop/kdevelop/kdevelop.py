@@ -48,10 +48,10 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
             self.runtimeDependencies["kdesupport/grantlee"] = "default"
 
-        if self.options.features.fullPlasma:
+        if self.options.dynamic.fullPlasma:
             self.runtimeDependencies["frameworks/tier3/krunner"] = "default"
             self.runtimeDependencies["frameworks/tier3/plasma-framework"] = "default"
-        if self.options.features.fullKDevelop:
+        if self.options.dynamic.fullKDevelop:
             self.runtimeDependencies["extragear/kdevelop/kdev-python"] = "default"
             self.runtimeDependencies["extragear/kdevelop/kdev-php"] = "default"
         self.runtimeDependencies["extragear/kdevelop-pg-qt"] = "default"
