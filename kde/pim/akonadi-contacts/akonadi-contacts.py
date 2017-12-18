@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
         self.runtimeDependencies["kde/pim/akonadi"] = "default"
+        self.runtimeDependencies["frameworks/tier1/prison"] = "default"
         self.runtimeDependencies["frameworks/tier3/kio"] = "default"
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
         self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
