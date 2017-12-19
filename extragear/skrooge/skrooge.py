@@ -18,6 +18,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtsvg"] = "default"
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
+        self.runtimeDependencies["frameworks/tier3/kconfigwidgets"] = "default"
+        self.runtimeDependencies["frameworks/tier3/kiconthemes"] = "default"
+        self.runtimeDependencies["frameworks/tier3/kio"] = "default"
+        self.runtimeDependencies["frameworks/tier3/knewstuff"] = "default"
+        self.runtimeDependencies["frameworks/tier3/kparts"] = "default"
+        self.runtimeDependencies["frameworks/tier3/kwallet"] = "default"
+        self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
+        self.runtimeDependencies["kdesupport/grantlee"] = "default"
 
 
 from Package.CMakePackageBase import *
