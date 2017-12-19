@@ -58,7 +58,5 @@ mkspecs/.*
 bin/qt\.conf
 bin/syncqt\.pl
 
-bin/dbus-.*
-
 # strip most executables
 bin/(?!(kate|kwrite|update-mime-database|kioslave)).*\.exe
