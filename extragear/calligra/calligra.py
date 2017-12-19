@@ -46,6 +46,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['frameworks/tier3/kiconthemes'] = 'default'
         self.runtimeDependencies['frameworks/tier3/kcmutils'] = 'default'
         self.runtimeDependencies['frameworks/tier3/kio'] = 'default'
+        self.runtimeDependencies['frameworks/tier3/khtml'] = 'default'
         self.runtimeDependencies['frameworks/tier3/kross'] = 'default'
         self.runtimeDependencies['frameworks/tier3/knotifications'] = 'default'
         self.runtimeDependencies['frameworks/tier3/knotifyconfig'] = 'default'
