@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = "default"
         self.buildDependencies["dev-util/perl"] = "default"
         self.runtimeDependencies["win32libs/win_iconv"] = "default"
+        self.runtimeDependencies["data/aspell-data"] = "default"
 
 
 from Package.CMakePackageBase import *
