@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/karchive"] = "default"
         self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kirigami2"] = "default"
+        self.runtimeDependencies["frameworks/tier1/kirigami"] = "default"
         self.runtimeDependencies["frameworks/tier2/kfilemetadata"] = "default"
         self.runtimeDependencies["frameworks/tier3/kdeclarative"] = "default"
         self.runtimeDependencies["frameworks/tier3/kiconthemes"] = "default"

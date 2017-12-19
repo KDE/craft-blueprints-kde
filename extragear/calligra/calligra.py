@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['frameworks/tier1/kitemviews'] = 'default'
         self.runtimeDependencies['frameworks/tier1/sonnet'] = 'default'
         self.runtimeDependencies['frameworks/tier1/threadweaver'] = 'default'
-        self.runtimeDependencies['frameworks/tier1/kirigami2'] = 'default'
+        self.runtimeDependencies['frameworks/tier1/kirigami'] = 'default'
         self.runtimeDependencies['frameworks/tier1/breeze-icons'] = 'default'
         self.runtimeDependencies['frameworks/tier1/kguiaddons'] = 'default'
         self.runtimeDependencies['frameworks/tier1/kwidgetsaddons'] = 'default'
