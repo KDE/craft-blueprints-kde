@@ -16,6 +16,8 @@ class subinfo(info.infoclass):
         self.targetDigests["1.7.1"] = (
             ["d75f4bf3399bea51837b7a931be8640823168ba19d6dfd346db3e2270a26ca23"], CraftHash.HashAlgorithm.SHA256)
 
+        self.patchToApply['1.7.1'] = [("KDReports-kdreports-1.7.1-20171220.diff", 1)]
+
         self.defaultTarget = "1.7.1"
 
         self.description = "Qt library for generating printable and exportable reports from code and from XML descriptions."

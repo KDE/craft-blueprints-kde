@@ -1,0 +1,16 @@
+diff -Nrub -x '*~' -x '*.rej' -x KDReports-kdreports-1.7.1.orig -x'*.o' KDReports-kdreports-1.7.1.orig/CMakeLists.txt KDReports-kdreports-1.7.1/CMakeLists.txt
+--- KDReports-kdreports-1.7.1.orig/CMakeLists.txt	2016-08-15 15:23:31.000000000 +0200
++++ KDReports-kdreports-1.7.1/CMakeLists.txt	2017-12-20 14:48:36.000000000 +0100
+@@ -6,7 +6,11 @@
+   OFF
+ )
+ 
+-cmake_minimum_required(VERSION 2.8.11)
++cmake_minimum_required(VERSION 2.8.12)
++
++# macOS MACOSX_RPATH - @rpath as install name
++cmake_policy(SET CMP0042 NEW)
++set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+ 
+ option(${PROJECT_NAME}_STATIC "Build statically" OFF)
+ option(${PROJECT_NAME}_TESTS "Build the tests" ON)
