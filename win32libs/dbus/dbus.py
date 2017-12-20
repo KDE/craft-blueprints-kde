@@ -63,6 +63,9 @@ class Package(CMakePackageBase):
             # kde uses debugger output, so dbus should do too
             self.subinfo.options.configure.args += "-DDBUS_USE_OUTPUT_DEBUG_STRING=ON "
 
+        if OsUtils.isMac():
+            self.subinfo.options.configure.args += "-DDBUS_BUILD_X11:BOOL=OFF "
+
     def install(self):
         if not CMakePackageBase.install(self): return False
 
