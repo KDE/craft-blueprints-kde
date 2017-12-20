@@ -6,7 +6,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["4.0.0"]:
             self.targets[ver] = f"https://fukuchi.org/works/qrencode/qrencode-{ver}.tar.gz"
-            self.targetDigestUrls[ver] = ([f"https://fukuchi.org/works/qrencode/qrencode-{ver}.tar.bz2.sha"], CraftHash.HashAlgorithm.SHA512)
+            self.targetDigestUrls[ver] = ([f"https://fukuchi.org/works/qrencode/qrencode-{ver}.tar.gz.sha"], CraftHash.HashAlgorithm.SHA512)
             self.targetInstSrc[ver] = f"qrencode-{ver}"
         self.patchToApply["4.0.0"] = ("qrencode-4.0.0-20171220.diff", 1)
 
