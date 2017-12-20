@@ -3,12 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.9.0"]:
-            self.targets[ver] = f"https://files.kde.org/craft/3rdparty/gpgme/mingw_{CraftCore.compiler.bits}/gcc/Release/gpgme-src-{ver}-windows-mingw_{CraftCore.compiler.bits}-gcc.7z"
-            self.targetDigestUrls[ ver ] = f"{self.targets[ver]}.sha256"
-
-        self.shortDescription = "GnuPG cryptography support library (runtime)"
-        self.defaultTarget = '1.9.0'
+        self.addCachedAutotoolsBuild(f"https://files.kde.org/craft/autotools/mingw_{CraftCore.compiler.bits}/gcc/Release/", "autotools/gpgme-src")
 
     def setDependencies(self):
         self.runtimeDependencies['virtual/base'] = 'default'

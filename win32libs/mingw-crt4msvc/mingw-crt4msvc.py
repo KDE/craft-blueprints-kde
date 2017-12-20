@@ -3,13 +3,7 @@ import info
 
 class subinfo( info.infoclass ):
     def setTargets( self ):
-        for ver in ["7.1.0"]:
-            self.targets[ ver ] = f"https://files.kde.org/craft/3rdparty/gpgme/mingw_{CraftCore.compiler.bits}/gcc/Release/runtime-{ver}-windows-mingw_{CraftCore.compiler.bits}-gcc.7z"
-            self.targetDigestUrls[ver] = f"{self.targets[ver]}.sha256"
-
-
-        self.shortDescription = "The crt for mingw compiled binaries"
-        self.defaultTarget = "7.1.0"
+        self.addCachedAutotoolsBuild(f"https://files.kde.org/craft/autotools/mingw_{CraftCore.compiler.bits}/gcc/Release/", "libs/runtime")
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"

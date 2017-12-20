@@ -3,12 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.4.3"]:
-            self.targets[ver] = f"https://files.kde.org/craft/3rdparty/gpgme/mingw_{CraftCore.compiler.bits}/gcc/Release/assuan2-src-{ver}-windows-mingw_{CraftCore.compiler.bits}-gcc.7z"
-            self.targetDigestUrls[ver] = f"{self.targets[ver]}.sha256"
-
-        self.shortDescription = "An IPC library used by some of the other GnuPG related packages"
-        self.defaultTarget = "2.4.3"
+        self.addCachedAutotoolsBuild(f"https://files.kde.org/craft/autotools/mingw_{CraftCore.compiler.bits}/gcc/Release/", "autotools/assuan2-src")
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"

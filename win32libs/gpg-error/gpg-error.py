@@ -3,12 +3,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.27"]:
-            self.targets[ver] = f"https://files.kde.org/craft/3rdparty/gpgme/mingw_{CraftCore.compiler.bits}/gcc/Release/gpg-error-src-{ver}-windows-mingw_{CraftCore.compiler.bits}-gcc.7z"
-            self.targetDigestUrls[ver] = f"{self.targets[ver]}.sha256"
-
+        self.addCachedAutotoolsBuild(f"https://files.kde.org/craft/autotools/mingw_{CraftCore.compiler.bits}/gcc/Release/", "autotools/gpg-error-src")
         self.shortDescription = "Small library with error codes and descriptions shared by most GnuPG related software"
-        self.defaultTarget = '1.27'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
