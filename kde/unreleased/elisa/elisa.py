@@ -18,7 +18,6 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = "default"
         self.runtimeDependencies["libs/qt5/qtsvg"] = "default"
         self.runtimeDependencies["libs/qt5/qtwinextras"] = "default"
-        self.runtimeDependencies["libs/qt5/qtgraphicaleffects"] = "default"
         self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
         self.runtimeDependencies["frameworks/tier3/kcmutils"] = "default"
         self.runtimeDependencies["frameworks/tier2/kfilemetadata"] = "default"
