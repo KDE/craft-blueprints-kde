@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import info
-from Package.Qt5CorePackageBase import *
+from Package.CMakePackageBase import *
 
 
 class subinfo(info.infoclass):
@@ -18,33 +18,9 @@ class subinfo(info.infoclass):
         self.webpage = "http://www.kdab.com/products/kd-soap"
 
     def setDependencies(self):
-        self.buildDependencies["dev-util/python2"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
 
 
-class Package(Qt5CorePackageBase):
+class Package(CMakePackageBase):
     def __init__(self, **args):
-        Qt5CorePackageBase.__init__(self)
-
-    def configure(self):
-        self.enterBuildDir()
-        buildType = "release"
-        if self.buildType() == "Debug":
-            buildType = "debug"
-        ext = ".bat" if OsUtils.isWin() else ".sh"
-        prefix = CraftStandardDirs.craftRoot().replace("\\", "/")
-        if not os.path.isfile(os.path.join(self.sourceDir(), f"configure{ext}")):
-            return self.system(f"python2 {self.sourceDir()}/autogen.py -prefix {prefix} -shared -{buildType}")
-        else:
-            with open(os.path.join(self.buildDir(), ".license.accepted"), "wt+") as touch:  # build lgpl
-                touch.write("can't touch this")
-            return self.system(f"{self.sourceDir()}/configure{ext} -prefix {prefix} -shared -{buildType}")
-
-    def install(self):
-        if not Qt5CorePackageBase.install(self):
-            return False
-        for f in os.listdir(os.path.join(self.installDir(), "lib")):
-            if f.endswith(".dll"):
-                utils.copyFile(os.path.join(self.installDir(), "lib", f),
-                               os.path.join(self.installDir(), "bin", f))
-        return True
+        CMakePackageBase.__init__(self)
