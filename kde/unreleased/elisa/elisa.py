@@ -6,7 +6,7 @@ class subinfo( info.infoclass ):
     def setTargets( self ):
         self.svnTargets['master'] = '[git]kde:elisa'
         self.defaultTarget = 'master'
-        self.shortDescription = "the Elisa music player"
+        self.description = "the Elisa music player"
 
     def setDependencies( self ):
         self.runtimeDependencies["virtual/base"] = "default"

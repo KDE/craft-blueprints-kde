@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.9.0"] = (["1b29fedb8bfad775e70eafac5b0590621683b2d9869db994568e6401f4034ceb"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["1.9.0"] = [("gpgme-1.9.0-20170801.diff", 1)]
 
-        self.shortDescription = "GnuPG cryptography support library (runtime)"
+        self.description = "GnuPG cryptography support library (runtime)"
         self.defaultTarget = "1.9.0"
 
     def setDependencies( self ):

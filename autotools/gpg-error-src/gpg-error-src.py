@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"libgpg-error-{ver}"
         self.targetDigests['1.27'] = (['4f93aac6fecb7da2b92871bb9ee33032be6a87b174f54abf8ddf0911a22d29d2'], CraftHash.HashAlgorithm.SHA256)
-        self.shortDescription = "Small library with error codes and descriptions shared by most GnuPG related software"
+        self.description = "Small library with error codes and descriptions shared by most GnuPG related software"
         self.defaultTarget = "1.27"
 
     def setDependencies( self ):

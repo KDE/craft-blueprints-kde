@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
 
         #self.patchToApply["1.9.0"] = [("gpgme-1.9.0-20170801.diff", 1)]
 
-        self.shortDescription = "libdmtx is open source software for reading and writing Data Matrix barcodes on Linux, Unix, OS X, Windows, and mobile devices. At its core libdmtx is a native shared library, allowing C/C++ programs to use its capabilities without extra restrictions or overhead."
+        self.description = "libdmtx is open source software for reading and writing Data Matrix barcodes on Linux, Unix, OS X, Windows, and mobile devices. At its core libdmtx is a native shared library, allowing C/C++ programs to use its capabilities without extra restrictions or overhead."
         self.defaultTarget = "0.7.4"
 
     def setDependencies( self ):

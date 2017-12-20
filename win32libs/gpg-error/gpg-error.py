@@ -4,7 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.addCachedAutotoolsBuild(f"https://files.kde.org/craft/autotools/mingw_{CraftCore.compiler.bits}/gcc/Release/", "autotools/gpg-error-src")
-        self.shortDescription = "Small library with error codes and descriptions shared by most GnuPG related software"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"

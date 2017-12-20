@@ -7,7 +7,7 @@ class subinfo( info.infoclass ):
     def setTargets( self ):
         self.svnTargets[ 'master' ] = 'git://anongit.kde.org/atelier|master'
         self.defaultTarget = 'master'
-        self.shortDescription = 'Atelier Printer Host'
+        self.description = 'Atelier Printer Host'
 
     def setDependencies( self ):
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"

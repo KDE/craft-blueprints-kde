@@ -8,7 +8,7 @@ class subinfo( info.infoclass ):
             self.targetInstSrc[ ver ] = f"libgcrypt-{ver}"
 
         self.targetDigests['1.7.8'] = (['948276ea47e6ba0244f36a17b51dcdd52cfd1e664b0a1ac3bc82134fb6cec199'], CraftHash.HashAlgorithm.SHA256)
-        self.shortDescription = " General purpose crypto library based on the code used in GnuPG."
+        self.description = " General purpose crypto library based on the code used in GnuPG."
         self.defaultTarget = "1.7.8"
 
     def setDependencies( self ):
