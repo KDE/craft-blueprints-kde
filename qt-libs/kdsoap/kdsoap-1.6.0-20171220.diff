@@ -1,0 +1,19 @@
+Binary files kdsoap-1.6.0.orig/.DS_Store and kdsoap-1.6.0/.DS_Store differ
+diff -Nrub -x '*~' -x '*.rej' -x kdsoap-1.6.0.orig -x'*.o' kdsoap-1.6.0.orig/CMakeLists.txt kdsoap-1.6.0/CMakeLists.txt
+--- kdsoap-1.6.0.orig/CMakeLists.txt	2017-05-02 00:57:13.000000000 +0200
++++ kdsoap-1.6.0/CMakeLists.txt	2017-12-20 14:48:36.000000000 +0100
+@@ -11,8 +11,12 @@
+ #  Build the test harness.
+ #  Default=false
+ #
+-cmake_minimum_required(VERSION 2.8.7)
++cmake_minimum_required(VERSION 2.8.12)
++# Windows Automatically link Qt executables to qtmain target
+ cmake_policy(SET CMP0020 NEW)
++# macOS MACOSX_RPATH - @rpath as install name
++cmake_policy(SET CMP0042 NEW)
++set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+ 
+ if("${CMAKE_INSTALL_PREFIX}" STREQUAL "")
+   set(USE_DEFAULT_INSTALL_LOCATION True)
+Binary files kdsoap-1.6.0.orig/unittests/.DS_Store and kdsoap-1.6.0/unittests/.DS_Store differ

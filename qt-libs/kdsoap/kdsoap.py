@@ -13,6 +13,8 @@ class subinfo(info.infoclass):
         self.targetDigests['1.6.0'] = (
             ['d6b6b01348d2e1453f7e12724d1848ee41c86a1b19168ca67ac98fedb0408668'], CraftHash.HashAlgorithm.SHA256)
 
+        self.patchToApply['1.6.0'] = [("kdsoap-1.6.0-20171220.diff", 1)]
+
         self.defaultTarget = "1.6.0"
         self.description = "A Qt-based client-side and server-side SOAP component"
         self.webpage = "http://www.kdab.com/products/kd-soap"
