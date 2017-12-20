@@ -4,7 +4,7 @@ from CraftOS.osutils import OsUtils
 
 class subinfo( info.infoclass ):
     def setTargets( self ):
-        self.svnTargets['master'] = '[git]kde:elisa'
+        self.svnTargets['master'] = "git://anongit.kde.org/elisa"
         self.defaultTarget = 'master'
         self.description = "the Elisa music player"
 
@@ -18,6 +18,7 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = "default"
         self.runtimeDependencies["libs/qt5/qtsvg"] = "default"
         self.runtimeDependencies["libs/qt5/qtwinextras"] = "default"
+        self.runtimeDependencies["libs/qt5/qtgraphicaleffects"] = "default"
         self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
         self.runtimeDependencies["frameworks/tier3/kcmutils"] = "default"
         self.runtimeDependencies["frameworks/tier2/kfilemetadata"] = "default"
