@@ -17,6 +17,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/kcodecs"] = "default"
         self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
         self.runtimeDependencies["qt-libs/phonon"] = "default"
+        if OsUtils.isMac():
+            self.runtimeDependencies["libs/qt5/qtmacextras"] = "default"
 
 
 from Package.CMakePackageBase import *
