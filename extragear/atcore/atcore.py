@@ -28,7 +28,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["productname"] = "AtCoreTest"
-        self.defines["executable"] = "bin\\atcore.exe"
+        self.defines["executable"] = "bin\\AtCoreTest.exe"
         self.defines["website"] = "https://atelier.kde.org"
         self.defines["icon"] = os.path.join(self.packageDir(), "atcore.ico")
 
