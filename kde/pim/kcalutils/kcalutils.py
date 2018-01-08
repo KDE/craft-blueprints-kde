@@ -14,7 +14,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
         self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["frameworks/tier4/kdelibs4support"] = "default"
         self.runtimeDependencies["frameworks/tier1/kcodecs"] = "default"
         self.runtimeDependencies["kde/pim/kcalcore"] = "default"
         self.runtimeDependencies["kdesupport/grantlee"] = "default"

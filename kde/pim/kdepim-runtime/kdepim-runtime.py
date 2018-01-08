@@ -11,7 +11,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["frameworks/tier4/kdelibs4support"] = "default"
         self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
         self.runtimeDependencies["frameworks/tier3/knotifyconfig"] = "default"
         self.runtimeDependencies["frameworks/tier3/kio"] = "default"
