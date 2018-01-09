@@ -12,7 +12,8 @@ class subinfo(info.infoclass):
         self.patchToApply["17.08.3"] = [("akonadi-17.08.3-20171204.diff", 1), #workaround for locked log crash https://phabricator.kde.org/T7538#119826
                                         ("akonadi-17.08.3-20171204-1.diff", 1),
                                         ("akonadi-17.08.3-20171204-2.diff", 1)]
-        self.patchToApply["17.12.0"] = [("akonadi-17.12.0-20171220.diff", 1)]
+        self.patchToApply["17.12.0"] = [("akonadi-17.12.0-20171220.diff", 1),
+                                        ("0001-Win-Create-local-socket-named-pipes-based-on-the-ins.patch", 1)]
 
         self.description = "A storage service for PIM data and meta data"
 
