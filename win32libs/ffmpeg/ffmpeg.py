@@ -14,8 +14,7 @@ class subinfo(info.infoclass):
 
     def setDependencies( self ):
         self.buildDependencies["dev-util/msys"] = "default"
-        if CraftCore.compiler.isMSVC():
-            self.buildDependencies["dev-util/nasm"] = "default"
+        self.buildDependencies["dev-util/nasm"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
 
 from Package.AutoToolsPackageBase import *
@@ -23,6 +22,9 @@ from Package.AutoToolsPackageBase import *
 class Package(AutoToolsPackageBase):
     def __init__( self, **args ):
         AutoToolsPackageBase.__init__( self )
+        self.platform = ""
+        self.subinfo.options.configure.args = "--enable-shared "
         if CraftCore.compiler.isMSVC():
-            self.platform = ""
-            self.subinfo.options.configure.args = f"--toolchain=msvc --enable-shared"
+            self.subinfo.options.configure.args += "--toolchain=msvc "
+
+
