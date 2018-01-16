@@ -44,7 +44,6 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += " -DGAMMARAY_MULTI_BUILD=OFF"
         if self.subinfo.options.dynamic.gammarayProbeOnly:
             self.subinfo.options.configure.args += " -DGAMMARAY_PROBE_ONLY_BUILD=ON -DGAMMARAY_BUILD_DOCS=OFF"
-            self.changePackager(SevenZipPackager)
         if self.subinfo.options.dynamic.disableGammarayBuildCliInjector:
             self.subinfo.options.configure.args += " -DGAMMARAY_BUILD_CLI_INJECTOR=OFF"
 
