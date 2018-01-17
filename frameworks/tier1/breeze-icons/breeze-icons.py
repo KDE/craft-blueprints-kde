@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
 
     def registerOptions(self):
         self.options.dynamic.registerOption("useBreezeDark", False)
+        self.options.dynamic.registerOption("useIconResource", OsUtils.isWin() or OsUtils.isMac())
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
@@ -21,10 +22,11 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = " -DBINARY_ICONS_RESOURCE=ON"
+        if self.subinfo.options.dynamic.useIconResource:
+            self.subinfo.options.configure.args = " -DBINARY_ICONS_RESOURCE=ON"
 
     def install(self):
-        if OsUtils.isWin() or OsUtils.isMac():
+        if self.subinfo.options.dynamic.useIconResource:
             dest = os.path.join(self.installDir(), "bin", "data")
             if not os.path.exists(dest):
                 os.makedirs(dest)
