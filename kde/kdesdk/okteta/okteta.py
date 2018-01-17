@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier3/kservice"] = "default"
         self.runtimeDependencies["frameworks/tier1/kwidgetsaddons"] = "default"
         self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
-        # self.runtimeDependencies["kdesupport/qca"] = "default"
+        self.runtimeDependencies["kdesupport/qca"] = "default"
 
 
 from Package.CMakePackageBase import *
