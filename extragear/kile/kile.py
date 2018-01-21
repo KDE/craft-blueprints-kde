@@ -32,6 +32,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["productname"] = "Kile"
         self.defines["executable"] = "bin\\kile.exe"
+        self.defines["icon"] = os.path.join(self.packageDir(), "kile.ico")
 
         self.ignoredPackages.append("binary/mysql")
 
