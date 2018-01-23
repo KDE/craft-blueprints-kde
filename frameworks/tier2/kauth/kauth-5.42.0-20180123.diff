@@ -1,0 +1,15 @@
+Binary files kauth-5.42.0.orig/src/.DS_Store and kauth-5.42.0/src/.DS_Store differ
+Binary files kauth-5.42.0.orig/src/backends/.DS_Store and kauth-5.42.0/src/backends/.DS_Store differ
+diff -Nrub -x '*~' -x '*.rej' -x kauth-5.42.0.orig -x'*.o' kauth-5.42.0.orig/src/backends/mac/kauth-policy-gen-mac.cpp kauth-5.42.0/src/backends/mac/kauth-policy-gen-mac.cpp
+--- kauth-5.42.0.orig/src/backends/mac/kauth-policy-gen-mac.cpp	2018-01-07 17:06:08.000000000 +0100
++++ kauth-5.42.0/src/backends/mac/kauth-policy-gen-mac.cpp	2018-01-23 08:53:28.000000000 +0100
+@@ -26,7 +26,8 @@
+ 
+ using namespace std;
+ 
+-void output(QList<Action> actions, QMap<QString, QString> domain)
++void output(QList<Action> actions, const QMap<QString, QString> &domain)
++
+ {
+     AuthorizationRef auth;
+     AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);

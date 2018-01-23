@@ -5,6 +5,8 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        self.patchToApply['5.42.0'] = [("kauth-5.42.0-20180123.diff", 1)]
+
         self.description = "KAuth"
 
     def setDependencies(self):
