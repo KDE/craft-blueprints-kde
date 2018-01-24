@@ -4,6 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'git://anongit.kde.org/kmymoney|master'
+        self.svnTargets['5.0'] = 'git://anongit.kde.org/kmymoney|5.0'
         self.defaultTarget = 'master'
 
     def setDependencies(self):
@@ -11,7 +12,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
         self.runtimeDependencies["frameworks/tier3/kconfigwidgets"] = "default"
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["frameworks/tier3/khtml"] = "default"
+        self.runtimeDependencies["frameworks/tier3/kdewebkit"] = "default"
         self.runtimeDependencies["frameworks/tier2/kcompletion"] = "default"
         self.runtimeDependencies["frameworks/tier3/kcmutils"] = "default"
         self.runtimeDependencies["frameworks/tier3/kiconthemes"] = "default"
