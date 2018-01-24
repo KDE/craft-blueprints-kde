@@ -10,8 +10,10 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets['master'] = 'git://anongit.kde.org/clazy'
-        self.svnTargets['1.2'] = 'git://anongit.kde.org/clazy|1.2'
-        self.defaultTarget = '1.2'
+        for ver in ["1.3"]:
+            self.targets[ver] = f"https://download.kde.org/stable/clazy/{ver}/src/clazy-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"clazy-{ver}"
+        self.defaultTarget = '1.3'
 
 
 class Package(CMakePackageBase):
