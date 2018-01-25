@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = "default"
         self.runtimeDependencies["libs/qt5/qtsvg"] = "default"
+        self.runtimeDependencies["libs/d3dcompiler"] = "default"
 
 
 from Package.Qt5CorePackageBase import *
