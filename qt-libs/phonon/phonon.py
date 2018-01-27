@@ -28,6 +28,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.package.disableBinaryCache = True
         self.subinfo.options.configure.args = " -DPHONON_BUILD_EXAMPLES=OFF -DPHONON_BUILD_TESTS=OFF -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=ON -DPHONON_BUILD_PHONON4QT5=ON"
         if not self.subinfo.options.isActive("win32libs/dbus"):
             self.subinfo.options.configure.args += " -DPHONON_NO_DBUS=ON "
