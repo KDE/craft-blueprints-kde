@@ -3,16 +3,17 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.9.10'] = "http://downloads.sourceforge.net/project/libofx/libofx/0.9.10/libofx-0.9.10.tar.gz"
-        self.targetDigests['0.9.10'] = '33f394c963c087217cb6c508af842d4844bc0823'
-        self.targetInstSrc['0.9.10'] = "libofx-0.9.10"
-        self.patchToApply['0.9.10'] = [("libofx-0.9.5-20120131.diff", 1)]
+        self.targets['0.9.12'] = "http://downloads.sourceforge.net/project/libofx/libofx/libofx-0.9.12.tar.gz"
+        self.targetDigests['0.9.12'] = (['c15fa062fa11e759eb6d8c7842191db2185ee1b221a3f75e9650e2849d7b7373'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc['0.9.12'] = "libofx-0.9.12"
+        self.patchToApply['0.9.12'] = [("libofx-0.9.5-20120131.diff", 1)]
+        self.patchToApply['0.9.12'] += [("libofx-0.9.12-20180127.diff", 1)]
 
         if CraftCore.compiler.isMSVC():
-            self.patchToApply['0.9.10'] += [("patch_daylight.diff", 1)]
+           self.patchToApply['0.9.12'] += [("patch_daylight.diff", 1)]
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
-        self.defaultTarget = '0.9.10'
+        self.defaultTarget = '0.9.12'
 
     def setDependencies(self):
         self.runtimeDependencies["win32libs/libopensp"] = "default"

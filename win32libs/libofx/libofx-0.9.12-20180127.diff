@@ -1,0 +1,20 @@
+diff -Nru libofx-0.9.12/lib/ofx_preproc.cpp libofx-0.9.12-mod2/lib/ofx_preproc.cpp
+--- libofx-0.9.12/lib/ofx_preproc.cpp	2017-09-17 20:59:12.000000000 +0200
++++ libofx-0.9.12-mod2/lib/ofx_preproc.cpp	2018-01-27 10:16:48.057392800 +0100
+@@ -43,6 +43,7 @@
+ #ifdef OS_WIN32
+ # include "win32.hh"
+ # include <windows.h> // for GetModuleFileName()
++# include <algorithm>
+ # undef ERROR
+ # undef DELETE
+ #endif
+@@ -447,7 +448,7 @@
+   // However, this code is a huge mess anyway and is in no way
+   // anything like up-to-date C++ code. Please, anyone, replace it
+   // with something more modern. Thanks. - cstim, 2017-09-17.
+-  for (i = 0; i < std::min(input_string_size, size_t(READ_BUFFER_SIZE)); i++)
++  for (i = 0; i < (std::min)(input_string_size, size_t(READ_BUFFER_SIZE)); i++)
+   {
+     if (input_string.c_str()[i] == '<')
+     {
