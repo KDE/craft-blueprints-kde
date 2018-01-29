@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.needsShortPath = False
         # adjust some vars for proper compile
         GLIB_VER = "2.24.0"
         self.glibDir = os.path.join(self.sourceDir(), "..", "glib-" + GLIB_VER);
