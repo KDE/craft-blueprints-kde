@@ -10,6 +10,10 @@ class subinfo(info.infoclass):
             self.patchToApply[ver] = [("build-with-mysql.diff", 1),
                                       ("disable-icu-test.diff", 1)]
 
+        # there is not 5.10 branch, jet
+        self.svnTargets["5.10"] = self.svnTargets["5.9"]
+
+        # replace tarbals by git branches
         branchRegEx = re.compile("\d\.\d+\.\d+")
         for ver in self.versionInfo.tarballs():
             branch = branchRegEx.findall(ver)[0][:-2]
@@ -23,6 +27,7 @@ class subinfo(info.infoclass):
             branch = branchRegEx.findall(ver)[0][:-2]
             self.svnTargets[ver] = self.svnTargets[branch]
             self.patchToApply[ver] = self.patchToApply[branch]
+
 
     def setDependencies(self):
         self.runtimeDependencies["win32libs/sqlite"] = "default"
