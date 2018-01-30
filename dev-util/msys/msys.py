@@ -47,26 +47,26 @@ class MsysPackage(BinaryPackageBase):
             return False
         msysDir = os.path.join(CraftStandardDirs.craftRoot(), "msys")
         # start and restart msys before first use
-        if not self.shell.execute(".", "echo Firstrun") and utils.system("autorebase.bat", cwd=msysDir):
+        if not self.shell.execute(".", "echo", "Firstrun") and utils.system("autorebase.bat", cwd=msysDir):
             return False
 
         def queryForUpdate():
             out = io.BytesIO()
-            if not self.shell.execute(".", "pacman -Sy --noconfirm --force"):
+            if not self.shell.execute(".", "pacman", "-Sy --noconfirm --force"):
                 raise Exception()
-            self.shell.execute(".", "pacman -Qu --noconfirm", out=out, err=subprocess.PIPE)
+            self.shell.execute(".", "pacman", "-Qu --noconfirm", out=out, err=subprocess.PIPE)
             out = out.getvalue()
             return out != b""
 
         try:
             while queryForUpdate():
-                if not self.shell.execute(".", "pacman -Su --noconfirm --force") and \
+                if not self.shell.execute(".", "pacman", "-Su --noconfirm --force") and \
                         utils.system("autorebase.bat", cwd=msysDir):
                     return False
         except Exception as e:
             print(e)
             return False
-        return (self.shell.execute(".", "pacman -S base-devel --noconfirm --force --needed") and
+        return (self.shell.execute(".", "pacman", "-S base-devel --noconfirm --force --needed") and
                 utils.system("autorebase.bat", cwd=msysDir))
 
 
