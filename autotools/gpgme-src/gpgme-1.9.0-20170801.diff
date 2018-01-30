@@ -1,6 +1,6 @@
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' gpgme-1.9.0.orig/Makefile.in gpgme-1.9.0/Makefile.in
+diff -Nrub -x '*~' -x '*.rej' -x gpgme-1.9.0.orig -x'*.o' gpgme-1.9.0.orig/Makefile.in gpgme-1.9.0/Makefile.in
 --- gpgme-1.9.0.orig/Makefile.in	2017-03-28 16:25:45.000000000 +0200
-+++ gpgme-1.9.0/Makefile.in	2017-08-01 22:20:04.885861700 +0200
++++ gpgme-1.9.0/Makefile.in	2018-01-30 14:56:16.000000000 +0100
 @@ -189,7 +189,7 @@
  ETAGS = etags
  CTAGS = ctags
@@ -19,3 +19,15 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' gpgme-1.9.0.orig/Makefile.i
  gen_start_date = 2011-12-01T00:00:00
  all: config.h
  	$(MAKE) $(AM_MAKEFLAGS) all-recursive
+diff -Nrub -x '*~' -x '*.rej' -x gpgme-1.9.0.orig -x'*.o' gpgme-1.9.0.orig/lang/cpp/src/GpgmeppConfig.cmake.in.in gpgme-1.9.0/lang/cpp/src/GpgmeppConfig.cmake.in.in
+--- gpgme-1.9.0.orig/lang/cpp/src/GpgmeppConfig.cmake.in.in	2017-03-09 09:01:10.000000000 +0100
++++ gpgme-1.9.0/lang/cpp/src/GpgmeppConfig.cmake.in.in	2018-01-30 15:16:24.000000000 +0100
+@@ -63,7 +63,7 @@
+ 
+ set_target_properties(Gpgmepp PROPERTIES
+   INTERFACE_INCLUDE_DIRECTORIES "@resolved_includedir@/gpgme++;@resolved_includedir@"
+-  INTERFACE_LINK_LIBRARIES "pthread;@resolved_libdir@/libgpgme.so;@LIBASSUAN_LIBS@"
++  INTERFACE_LINK_LIBRARIES "pthread;@resolved_libdir@/libgpgme@libsuffix@;@LIBASSUAN_LIBS@"
+   IMPORTED_LOCATION "@resolved_libdir@/libgpgmepp@libsuffix@"
+ )
+ 
