@@ -147,6 +147,9 @@ class QtPackage(Qt5CorePackageBase):
         if (CraftCore.compiler.isMSVC() and CraftCore.compiler.isClang()) or OsUtils.isUnix() or self.supportsCCACHE:
             command += "-no-pch "
 
+        if CraftCore.compiler.isMinGW():
+            command += """ "QMAKE_CXXFLAGS += -Wa,-mbig-obj" """
+
         return self.system(command)
 
     def install(self):
