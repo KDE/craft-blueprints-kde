@@ -30,17 +30,11 @@ class Package(AutoToolsPackageBase):
         elif OsUtils.isMac():
             # The configure script does not honnor the env var is PKG_CONFIG is not installed / env var not set
             # This is problematic especially on macOS, let manually fill the env var to make configure happy finding Qt
-            PKG_CONFIG = "echo"
+            PKG_CONFIG = ":"
             # Gpgme rely on pkg-config to discover Qt, but pkg config files are not shipped / generated...
             # So we need to help it to discover Qt
-            _, QT_BINS = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_BINS")
-            _, QT_LIBS = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_LIBS")
-            if QT_BINS:
-                QT_BINS = QT_BINS.strip();
-            if QT_LIBS:
-                QT_LIBS = QT_LIBS.strip();
-            print(f"QT_BINS: {QT_BINS}")
-            print(f"QT_LIBS: {QT_LIBS}")
+            QT_BINS = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_BINS")[1].strip()
+            QT_LIBS = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_LIBS")[1].strip()
             MOC = f"{QT_BINS}/moc"
             GPGME_QT_CFLAGS = f"-F{QT_LIBS} -I{QT_LIBS}/QtCore.framework/Headers -DQT_NO_DEBUG -DQT_CORE_LIB"
             GPGME_QT_LIBS = f"-F{QT_LIBS} -framework QtCore"
