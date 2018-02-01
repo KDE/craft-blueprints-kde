@@ -6,7 +6,7 @@ from Package.Qt5CorePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
+        self.versionInfo.setDefaultValues(patchLevel=1)
 
         for ver in self.versionInfo.tarballs() + self.versionInfo.branches() + self.versionInfo.tags():
             qtVer = CraftVersion(ver)
@@ -16,6 +16,11 @@ class subinfo(info.infoclass):
                 self.patchToApply[ver] = [
                     ("qdbus-manager-quit-5.7.patch", 1), # https://phabricator.kde.org/D2545#69186
                 ]
+            elif qtVer >= CraftVersion("5.9.4"):
+                self.patchToApply[ver] = [
+                    ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
+                    ("0001-Fix-private-headers.patch", 1),  # https://bugreports.qt.io/browse/QTBUG-37417
+                    ("0001-Add-APPDIR-data-APPNAME-5.9.4.patch", 1)]  # https://codereview.qt-project.org/#/c/197855/
             elif qtVer >= CraftVersion("5.9.3"):
                 self.patchToApply[ver] = [
                     ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
