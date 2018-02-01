@@ -1,26 +1,68 @@
 import info
-from Package.CMakePackageBase import *
-
+from Package.AutoToolsPackageBase import *
+from Package.MakeFilePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ['1.1.26', '1.1.28']:
+        for ver in ['1.1.32']:
             self.targets[ver] = 'ftp://xmlsoft.org/libxslt/libxslt-' + ver + '.tar.gz'
             self.targetInstSrc[ver] = 'libxslt-' + ver
-        self.patchToApply['1.1.26'] = ("libxslt-1.1.26-20101102.diff", 1)
-        self.patchToApply['1.1.28'] = ("libxslt-1.1.26-20101102.diff", 1)
-        self.targetDigests['1.1.26'] = '69f74df8228b504a87e2b257c2d5238281c65154'
-        self.targetDigests['1.1.28'] = '4df177de629b2653db322bfb891afa3c0d1fa221'
+            if not CraftCore.compiler.isGCCLike():
+                self.targetInstSrc[ver] = os.path.join(self.targetInstSrc[ver], 'win32')
+        self.targetDigests['1.1.32'] = (['526ecd0abaf4a7789041622c3950c0e7f2c4c8835471515fd77eec684a355460'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "The GNOME XSLT C library and tools"
-        self.defaultTarget = '1.1.28'
+        self.defaultTarget = '1.1.32'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["win32libs/libxml2"] = "default"
 
 
-class Package(CMakePackageBase):
-    def __init__(self):
-        CMakePackageBase.__init__(self)
-        self.subinfo.options.package.packageName = 'libxslt'
+class PackageMSVC(MakeFilePackageBase):
+    def __init__(self, **args):
+        MakeFilePackageBase.__init__(self)
+        self.supportsNinja = False
+        self.subinfo.options.useShadowBuild = False
+        self.subinfo.options.make.supportsMultijob = False
+
+    def configure(self):
+        self.enterSourceDir()
+        includedir = os.path.join(CraftCore.standardDirs.craftRoot(), 'include')
+        libdir = os.path.join(CraftCore.standardDirs.craftRoot(), 'lib')
+        prefixdir = self.imageDir()
+        builddebug = "yes" if self.buildType() == "Debug" else "no"
+
+        return utils.system([f"cscript.exe",
+                            f".\configure.js",
+                            f"compiler=msvc",
+                            f"include={includedir}",
+                            f"lib={libdir}",
+                            f"prefix={prefixdir}",
+                            f"debug={builddebug}",
+                            f"zlib=yes",
+                            f"iconv=yes"]
+                            )
+
+    # def make(self):
+    #     self.enterSourceDir()
+    #     return utils.system(f"nmake") # returns false if compiled with jom
+
+   ##   def install(self):
+    #     self.enterSourceDir()
+    #     return utils.system(f"nmake install")
+        
+
+class PackageMinGW(AutoToolsPackageBase):
+    def __init__(self, **args):
+        AutoToolsPackageBase.__init__(self)
+        self.subinfo.options.configure.args += " --disable-static --enable-shared "
+        
+if CraftCore.compiler.isGCCLike():
+    class Package(PackageMinGW):
+        def __init__(self):
+            PackageMinGW.__init__(self)
+else:
+    class Package(PackageMSVC):
+        def __init__(self):
+            PackageMSVC.__init__(self)
