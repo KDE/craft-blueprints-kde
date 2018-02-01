@@ -5,10 +5,10 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["6.0.0"] = "ftp://ftp.gmplib.org/pub/gmp-6.0.0/gmp-6.0.0.tar.bz2"
-        self.targetDigests['6.0.0'] = 'c4976716a277b1d3b595171143f52f8c1a788284'
-        self.targetInstSrc["6.0.0"] = "gmp-6.0.0"
-        self.defaultTarget = "6.0.0"
+        self.targets["6.1.2"] = "https://gmplib.org/download/gmp/gmp-6.1.2.tar.bz2"
+        self.targetDigests['6.1.2'] = (['5275bb04f4863a13516b2f39392ac5e272f5e1bb8057b18aec1c9b79d73d8fb2'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["6.1.2"] = "gmp-6.1.2"
+        self.defaultTarget = "6.1.2"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
