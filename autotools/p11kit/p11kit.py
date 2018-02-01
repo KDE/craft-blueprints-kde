@@ -13,24 +13,13 @@ class subinfo(info.infoclass):
         self.defaultTarget = "0.23.9"
 
     def setDependencies(self):
+        self.buildDependencies["dev-util/msys"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["win32libs/libtasn1"] = "default"
-        self.buildDependencies["win32libs/libffi"] = "default"
-        if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-util/msys"] = "default"
+        self.runtimeDependencies["win32libs/libtasn1"] = "default"
+        self.runtimeDependencies["win32libs/libffi"] = "default"
 
 
-class PackageMinGW(AutoToolsPackageBase):
+class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args += " --disable-static --enable-shared --without-trust-paths "
-
-
-if CraftCore.compiler.isMinGW():
-    class Package(PackageMinGW):
-        def __init__(self):
-            PackageMinGW.__init__(self)
-else:
-    class Package(VirtualPackageBase):
-        def __init__(self):
-            VirtualPackageBase.__init__(self)

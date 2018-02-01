@@ -14,21 +14,11 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-util/msys"] = "default"
+        self.buildDependencies["dev-util/msys"] = "default"
 
 
-class PackageMinGW(AutoToolsPackageBase):
+class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args += " --disable-static --enable-shared "
 
-
-if CraftCore.compiler.isMinGW() or CraftCore.compiler.isGCCLike:
-    class Package(PackageMinGW):
-        def __init__(self):
-            PackageMinGW.__init__(self)
-else:
-    class Package(VirtualPackageBase):
-        def __init__(self):
-            VirtualPackageBase.__init__(self)
