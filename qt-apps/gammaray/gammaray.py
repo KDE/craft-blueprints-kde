@@ -62,7 +62,6 @@ class Package(CMakePackageBase):
         return True
 
     def createPackage(self):
-        self.deployQt = False
         self.subinfo.options.package.movePluginsToBin = not CraftCore.settings.getboolean("QtSDK", "Enabled", False)
         self.defines["productname"] = "GammaRay"
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
