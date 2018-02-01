@@ -45,7 +45,7 @@ class Package(BoostPackageBase):
             if CraftCore.compiler.isClang():
                 cmd += "clang"
             elif CraftCore.compiler.isMinGW():
-                cmd += "mingw"
+                cmd += "gcc"
             elif CraftCore.compiler.isMSVC():
                 platform = str(CraftCore.compiler.getMsvcPlatformToolset())
                 cmd += f"vc{platform[:2]}"
