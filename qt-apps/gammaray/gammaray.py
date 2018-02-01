@@ -28,8 +28,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/syntax-highlighting"] = "default"
         self.runtimeDependencies["qt-apps/kdstatemachineeditor"] = "default"
         self.runtimeDependencies["win32libs/openssl"] = "default"
-        if CraftPackageObject.get('binary/gammaray-probes').isInstalled:
-            self.runtimeDependencies["binary/gammaray-probes"] = "default"
+        probes = CraftPackageObject.get("kdab/gammaray-binary-probes")
+        if probes and probes.isInstalled:
+            self.runtimeDependencies["kdab/gammaray-binary-probes"] = "default"
 
 
 from Package.CMakePackageBase import *
