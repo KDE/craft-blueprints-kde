@@ -49,14 +49,14 @@ class PackageCMake(CMakePackageBase):
         else:
             config = "VC-WIN32"
 
-        if not self.system("perl Configure %s" % config, "configure"):
+        if not utils.system("perl Configure %s" % config):
             return False
 
         if CraftCore.compiler.isX64():
-            if not self.system("ms\do_win64a.bat", "configure"):
+            if not utils.system("ms\do_win64a.bat"):
                 return False
         else:
-            if not self.system("ms\do_nasm.bat", "configure"):
+            if not utils.system("ms\do_nasm.bat"):
                 return False
 
         if self.staticBuild:
@@ -64,7 +64,7 @@ class PackageCMake(CMakePackageBase):
         else:
             cmd = r"nmake -f ms\ntdll.mak"
 
-        return self.system(cmd)
+        return utils.system(cmd)
 
     def install(self):
         src = self.sourceDir()

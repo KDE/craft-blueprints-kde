@@ -54,4 +54,4 @@ class Package(BinaryPackageBase):
     def qmerge(self):
         if not BinaryPackageBase.qmerge(self):
             return False
-        return self.system("mysqld --console --initialize-insecure")
+        return utils.system(["mysqld", "--console", "--initialize-insecure"])

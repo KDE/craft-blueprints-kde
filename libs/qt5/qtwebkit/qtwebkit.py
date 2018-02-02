@@ -62,7 +62,7 @@ class QtPackage(Qt5CorePackageBase):
     def fetch(self):
         print(self.sourceDir())
         if os.path.exists(self.sourceDir()):
-            self.system(["git", "reset", "--hard"], cwd=self.sourceDir())
+            utils.system(["git", "reset", "--hard"], cwd=self.sourceDir())
         return Qt5CorePackageBase.fetch(self)
 
     def configure(self, configureDefines=""):

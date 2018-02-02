@@ -156,7 +156,7 @@ class QtPackage(Qt5CorePackageBase):
         if CraftCore.compiler.isMinGW():
             command += """ "QMAKE_CXXFLAGS += -Wa,-mbig-obj" """
 
-        return self.system(command)
+        return utils.system(command)
 
     def install(self):
         with self.getQtBaseEnv():
@@ -185,7 +185,7 @@ class QtPackage(Qt5CorePackageBase):
             if CraftCore.settings.getboolean("Packager", "UseCache"):
                 patcher = CraftCore.cache.findApplication("qtbinpatcher")
                 binRoot = os.path.join(CraftStandardDirs.craftRoot(), "bin")
-                return self.system(f"\"{patcher}\" --nobackup --qt-dir=\"{binRoot}\"")
+                return utils.system(f"\"{patcher}\" --nobackup --qt-dir=\"{binRoot}\"")
         return True
 
     def getQtBaseEnv(self):

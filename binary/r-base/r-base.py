@@ -44,7 +44,7 @@ class Package(BinaryPackageBase):
 
         # hopefully only one...
         for filename in self.localFileNames():
-            self.system(os.path.join(CraftStandardDirs.downloadDir(), filename) + " /DIR=\"" + workdir + "\" /SILENT")
+            utils.system(os.path.join(CraftStandardDirs.downloadDir(), filename) + " /DIR=\"" + workdir + "\" /SILENT")
         return True
 
     def install(self):

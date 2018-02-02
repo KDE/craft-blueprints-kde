@@ -63,7 +63,7 @@ class PackageMSVC(CMakePackageBase):
             # work-around: https://bugs.ghostscript.com/show_bug.cgi?id=698426
             vcInstallDir = os.environ['VCINSTALLDIR'].rstrip('\\')
             extraArgs+= ["MSVC_VERSION=15", f"DEVSTUDIO=\"{vcInstallDir}\""]
-        self.system(["nmake", "-f",  "psi\\msvc.mak"] + extraArgs)
+        utils.system(["nmake", "-f",  "psi\\msvc.mak"] + extraArgs)
         return True
 
     def install(self):

@@ -34,7 +34,7 @@ class QtPackage(Qt5CorePackageBase):
 
     def fetch(self):
         if isinstance(self.source, GitSource):
-            self.system(["git", "clean", "-xdf"], cwd=self.sourceDir())
+            utils.system(["git", "clean", "-xdf"], cwd=self.sourceDir())
         return Qt5CorePackageBase.fetch(self)
 
     def compile(self):
