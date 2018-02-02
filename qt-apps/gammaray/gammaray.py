@@ -49,7 +49,6 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += " -DGAMMARAY_BUILD_CLI_INJECTOR=OFF"
 
     def createPackage(self):
-        self.subinfo.options.package.movePluginsToBin = not CraftCore.settings.getboolean("QtSDK", "Enabled", False)
         self.defines["productname"] = "GammaRay"
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\gammaray-launcher.exe"
@@ -58,6 +57,4 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("win32libs/icu")
         self.ignoredPackages.append("win32libs/dbus")
-        # we are using windeploy
-        self.ignoredPackages.extend(CraftPackageObject.get("libs/qt5").children.values())
         return TypePackager.createPackage(self)

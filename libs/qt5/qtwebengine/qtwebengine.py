@@ -55,4 +55,4 @@ class QtPackage(Qt5CorePackageBase):
 
 class Package(Qt5CoreSdkPackageBase):
     def __init__(self):
-        Qt5CoreSdkPackageBase.__init__(self, classA=QtPackage)
+        Qt5CoreSdkPackageBase.__init__(self, classA=QtPackage, condition=CraftCore.compiler.isMinGW())
