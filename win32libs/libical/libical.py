@@ -25,4 +25,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = " -DUSE_BUILTIN_TZDATA=ON -DICAL_UNIX_NEWLINE=OFF -DICAL_GLIB=OFF"
+        self.subinfo.options.configure.args = " -DUSE_BUILTIN_TZDATA=ON -DICAL_UNIX_NEWLINE=OFF -DICAL_GLIB=OFF -DSHARED_ONLY=ON"
