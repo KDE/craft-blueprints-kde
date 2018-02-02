@@ -26,4 +26,6 @@ class Package(BinaryPackageBase):
             return False
         utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "dependencies.exe"),
                          os.path.join(self.imageDir(), "dev-utils", "dependencies", "Dependencies.exe"))
+        utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "clrphtester.exe"),
+                         os.path.join(self.imageDir(), "dev-utils", "dependencies", "clrphtester.exe"))
         return True
