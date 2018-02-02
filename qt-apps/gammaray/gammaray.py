@@ -48,19 +48,6 @@ class Package(CMakePackageBase):
         if self.subinfo.options.dynamic.disableGammarayBuildCliInjector:
             self.subinfo.options.configure.args += " -DGAMMARAY_BUILD_CLI_INJECTOR=OFF"
 
-    def preArchive(self):
-        if self.buildType() == "Debug":
-            buildType = "--debug"
-        else:
-            buildType = "--release"
-        files = []
-        for pattern in ["**/*.dll", "**/*.exe"]:
-            files.extend(glob.glob(os.path.join(self.imageDir(), pattern), recursive=True))
-        for f in files:
-            self.system(["windeployqt" , buildType, "--dir", os.path.join(self.archiveDir(), "bin"),
-                         "--qmldir", self.sourceDir(), f])
-        return True
-
     def createPackage(self):
         self.subinfo.options.package.movePluginsToBin = not CraftCore.settings.getboolean("QtSDK", "Enabled", False)
         self.defines["productname"] = "GammaRay"
