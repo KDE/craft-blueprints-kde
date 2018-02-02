@@ -44,14 +44,6 @@ class PackageMSVC(MakeFilePackageBase):
                             f"iconv=yes"]
                             )
 
-    # def make(self):
-    #     self.enterSourceDir()
-    #     return utils.system(f"nmake") # returns false if compiled with jom
-
-   ##   def install(self):
-    #     self.enterSourceDir()
-    #     return utils.system(f"nmake install")
-        
 
 class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **args):
