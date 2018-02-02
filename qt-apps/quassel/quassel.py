@@ -28,14 +28,15 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
         self.runtimeDependencies["libs/qt5/qtscript"] = "default"
         self.runtimeDependencies["libs/qt5/qttools"] = "default"
-        self.description = "a distributed IRC client"
 
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.supportsNinja = OsUtils.isWin()
+        self.supportsNinja = False
         self.subinfo.options.configure.args = " -DUSE_QT5=ON -DCMAKE_DISABLE_FIND_PACKAGE_Qt5DBus=ON"
+        if CraftCore.compiler.isMSVC2017():
+            self.subinfo.options.configure.args += " -DCMAKE_CXX_FLAGS=\"-std:c++17\""
 
     def install(self):
         if not CMakePackageBase.install(self):
