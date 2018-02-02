@@ -30,11 +30,15 @@ class Package(AutoToolsPackageBase):
     def make(self):
         if not AutoToolsPackageBase.make(self):
             return False
-        return self.shell.execute(os.path.join(self.buildDir(), ".libs"), CraftCore.cache.findApplication("gcc"), "-shared -o dmtx.dll libdmtx_la-dmtx.o -Wl,--out-implib,libdmtx.dll.a")
+        if OsUtils.isWin():
+            return self.shell.execute(os.path.join(self.buildDir(), ".libs"), CraftCore.cache.findApplication("gcc"), "-shared -o dmtx.dll libdmtx_la-dmtx.o -Wl,--out-implib,libdmtx.dll.a")
+        return True
 
     def install(self):
         if not AutoToolsPackageBase.install(self):
             return False
-        utils.copyFile(os.path.join(self.buildDir(), ".libs", "dmtx.dll"), os.path.join(self.installDir(), "bin", "dmtx.dll"), linkOnly=False)
-        utils.copyFile(os.path.join(self.buildDir(), ".libs", "libdmtx.dll.a"), os.path.join(self.installDir(), "lib", "libdmtx.dll.a"), linkOnly=False)
-        return self.copyToMsvcImportLib()
+        if OsUtils.isWin():
+            utils.copyFile(os.path.join(self.buildDir(), ".libs", "dmtx.dll"), os.path.join(self.installDir(), "bin", "dmtx.dll"), linkOnly=False)
+            utils.copyFile(os.path.join(self.buildDir(), ".libs", "libdmtx.dll.a"), os.path.join(self.installDir(), "lib", "libdmtx.dll.a"), linkOnly=False)
+            return self.copyToMsvcImportLib()
+        return True
