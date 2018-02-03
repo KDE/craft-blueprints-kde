@@ -10,7 +10,9 @@ class subinfo(info.infoclass):
         self.patchToApply['0.9.12'] += [("libofx-0.9.12-20180127.diff", 1)]
 
         if CraftCore.compiler.isMSVC():
-           self.patchToApply['0.9.12'] += [("patch_daylight.diff", 1)]
+            self.patchToApply['0.9.12'] += [("patch_daylight.diff", 1)]
+        if CraftCore.compiler.isMinGW():
+            self.patchToApply['0.9.12'] += [("libofx-0.9.12-20180127-mingw.diff", 1)]
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
         self.defaultTarget = '0.9.12'

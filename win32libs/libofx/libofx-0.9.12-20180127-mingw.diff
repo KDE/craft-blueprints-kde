@@ -1,0 +1,34 @@
+diff -Nru libofx-0.9.12-unpatched/lib/win32.cpp libofx-0.9.12/lib/win32.cpp
+--- libofx-0.9.12-unpatched/lib/win32.cpp	2018-02-03 10:00:27.673312800 +0100
++++ libofx-0.9.12/lib/win32.cpp	2018-02-03 10:02:24.152522300 +0100
+@@ -37,6 +37,7 @@
+ #define open _open
+ #endif
+ 
++#if !defined(__MINGW32__)
+ int mkstemp(char *tmpl)
+ {
+   int fd = -1;
+@@ -80,7 +81,7 @@
+   errno = EEXIST;
+   return -1;
+ }
+-
++#endif
+ 
+ #endif
+ 
+diff -Nru libofx-0.9.12-unpatched/lib/win32.hh libofx-0.9.12/lib/win32.hh
+--- libofx-0.9.12-unpatched/lib/win32.hh	2016-09-10 10:01:22.000000000 +0200
++++ libofx-0.9.12/lib/win32.hh	2018-02-03 10:02:07.366892800 +0100
+@@ -23,8 +23,9 @@
+ 
+ #ifdef OS_WIN32
+ 
++#if !defined(__MINGW32__)
+ int mkstemp(char *tmpl);
+-
++#endif
+ 
+ #endif
+ 
