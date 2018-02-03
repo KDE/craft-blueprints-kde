@@ -1,0 +1,62 @@
+From 38455cbd1fb05c1838e9f3ab4eeed141e0790ded Mon Sep 17 00:00:00 2001
+From: Chun-wei Fan <fanchunwei@src.gnome.org>
+Date: Tue, 21 Mar 2017 16:51:56 +0800
+Subject: [PATCH] gettext-tools/src/x-lua.c: Fix on pre-C99
+
+Ensure variables are declared at the top of the block.
+---
+ gettext-tools/src/x-lua.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/gettext-tools/src/x-lua.c b/gettext-tools/src/x-lua.c
+index 78ac24f..aaa7848 100644
+--- a/gettext-tools/src/x-lua.c
++++ b/gettext-tools/src/x-lua.c
+@@ -281,9 +281,9 @@ phase2_getc ()
+ 
+           if (c == '[')
+             {
++              int esigns = 0;
+               c = phase1_getc ();
+ 
+-              int esigns = 0;
+               while (c == '=')
+                 {
+                   esigns++;
+@@ -710,10 +710,11 @@ phase3_get (token_ty *tp)
+           break;
+ 
+         case '[':
++          {
++          int esigns = 0;
+           c = phase1_getc ();
+ 
+           /* Count the number of equal signs.  */
+-          int esigns = 0;
+           while (c == '=')
+             {
+               esigns++;
+@@ -745,10 +746,10 @@ phase3_get (token_ty *tp)
+ 
+               if (c == ']')
+                 {
+-                  c = phase1_getc ();
+-
+                   /* Count the number of equal signs.  */
+                   int esigns2 = 0;
++                  c = phase1_getc ();
++
+                   while (c == '=')
+                     {
+                       esigns2++;
+@@ -798,6 +799,7 @@ phase3_get (token_ty *tp)
+                 }
+             }
+           break;
++          }
+ 
+         case ']':
+           tp->type = token_type_rbracket;
+-- 
+2.10.2.windows.1
+
