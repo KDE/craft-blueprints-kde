@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
                 self.targets['1.2.0'] = "http://www.tortall.net/projects/yasm/releases/yasm-1.2.0-win32.exe"
             if CraftCore.compiler.isMSVC():
                 self.targets['1.2.0'] = "http://www.tortall.net/projects/yasm/releases/vsyasm-1.2.0-win32.zip"
+
         self.targetInstallPath["1.2.0"] = os.path.join("dev-utils", "bin")
         self.description = "The Yasm Modular Assembler Project"
         self.defaultTarget = '1.2.0'
@@ -33,9 +34,10 @@ class Package(BinaryPackageBase):
         if not BinaryPackageBase.install(self):
             return False
         if CraftCore.compiler.isMinGW_W32():
-            shutil.move(os.path.join(self.imageDir(), "yasm-1.2.0-win32.exe"),
-                        os.path.join(self.imageDir(), "yasm.exe"))
+            shutil.move(os.path.join(self.installDir(), "yasm-1.2.0-win32.exe"),
+                        os.path.join(self.installDir(), "yasm.exe"))
         if CraftCore.compiler.isMinGW_W64():
-            shutil.move(os.path.join(self.imageDir(), "yasm-1.2.0-win64.exe"),
-                        os.path.join(self.imageDir(), "yasm.exe"))
+            shutil.move(os.path.join(self.installDir(), "yasm-1.2.0-win64.exe"),
+                        os.path.join(self.installDir(), "yasm.exe"))
+
         return True

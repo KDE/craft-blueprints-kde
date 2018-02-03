@@ -18,10 +18,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
+        self.buildDependencies["dev-util/yasm"] = "default"
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-util/msys"] = "default"
-        else:
-            self.buildDependencies["dev-util/yasm"] = "default"
 
 
 from Package.AutoToolsPackageBase import *
@@ -31,6 +30,7 @@ from Package.MSBuildPackageBase import *
 class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
+        self.subinfo.options.useShadowBuild = False # ./configure doesn't support absolute paths
         abi = "ABI=64"
         if CraftCore.compiler.isX86():
             abi = "ABI=32"
