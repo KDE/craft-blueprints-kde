@@ -3,13 +3,13 @@ import info
 
 class subinfo( info.infoclass ):
     def setTargets( self ):
-        for ver in ["1.7.8"]:
+        for ver in ["1.8.2"]:
             self.targets[ ver ] = f"ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-{ver}.tar.bz2"
             self.targetInstSrc[ ver ] = f"libgcrypt-{ver}"
 
-        self.targetDigests['1.7.8'] = (['948276ea47e6ba0244f36a17b51dcdd52cfd1e664b0a1ac3bc82134fb6cec199'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['1.8.2'] = (['c8064cae7558144b13ef0eb87093412380efa16c4ee30ad12ecb54886a524c07'], CraftHash.HashAlgorithm.SHA256)
         self.description = " General purpose crypto library based on the code used in GnuPG."
-        self.defaultTarget = "1.7.8"
+        self.defaultTarget = "1.8.2"
 
     def setDependencies( self ):
         self.buildDependencies["dev-util/msys"] = "default"
