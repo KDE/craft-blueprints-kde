@@ -17,6 +17,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["win32libs/zlib"] = "default"
         self.runtimeDependencies["win32libs/win_iconv"] = "default"
+        if CraftCore.compiler.isMinGW():
+            self.buildDependencies["dev-util/msys"] = "default"
 
 
 class PackageMSVC(MakeFilePackageBase):
