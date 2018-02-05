@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/qt"] = "default"
+        self.runtimeDependencies["libs/qt5"] = "default"
 
 
 class Package(QMakePackageBase):

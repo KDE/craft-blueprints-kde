@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/qt"] = "default"
+        self.runtimeDependencies["libs/qt5"] = "default"
         self.runtimeDependencies["win32libs/librdf"] = "default"
         self.runtimeDependencies["binary/virtuoso"] = "default"
 
