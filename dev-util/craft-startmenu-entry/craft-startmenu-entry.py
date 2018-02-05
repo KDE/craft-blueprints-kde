@@ -25,15 +25,12 @@ class WinPackage(BinaryPackageBase):
     def qmerge(self):
         import win32com.client
         root = OsUtils.toNativePath(os.path.join(CraftCore.standardDirs.craftBin(), ".."))
-        powershell = CraftCore.cache.findApplication("powershell")
-        icon = os.path.join(CraftCore.standardDirs.craftBin(), "data", "icons", "craft.ico")
-        arguments = "-NoExit .\craftenv.ps1"
         os.makedirs(os.path.dirname(self.shortCutPath), exist_ok=True)
         ws = win32com.client.Dispatch("wscript.shell")
         shortcut = ws.CreateShortcut(self.shortCutPath)
-        shortcut.TargetPath = powershell
-        shortcut.Arguments = arguments
-        shortcut.IconLocation = icon
+        shortcut.TargetPath = CraftCore.cache.findApplication("powershell")
+        shortcut.Arguments = "-NoExit .\craftenv.ps1"
+        shortcut.IconLocation = os.path.join(CraftCore.standardDirs.craftBin(), "data", "icons", "craft.ico")
         shortcut.WorkingDirectory = root
         shortcut.Description = f"Craft installerd to: {os.path.dirname(root)}"
         shortcut.Save()
