@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
             elif qtVer >= CraftVersion("5.10"):
                 self.patchToApply[ver] = [
                     ("qdbus-manager-quit-5.7.patch", 1), # https://phabricator.kde.org/D2545#69186
+                    ("0001-Fix-private-headers.patch", 1),  # https://bugreports.qt.io/browse/QTBUG-37417
                 ]
             elif qtVer >= CraftVersion("5.9.4"):
                 self.patchLevel[ver] = 1
