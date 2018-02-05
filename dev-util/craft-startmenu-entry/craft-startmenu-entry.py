@@ -19,8 +19,7 @@ class WinPackage(BinaryPackageBase):
         name = f"Craft {os.path.basename(CraftCore.standardDirs.craftRoot())}"
         startmenu = os.path.join(os.environ['APPDATA'], "Microsoft", "Windows", "Start Menu", "Programs", "Craft")
         self.shortCutPath = f"{os.path.join(startmenu, name)}.lnk"
-        print(self.shortCutPath)
-        
+
         
     def qmerge(self):
         import win32com.client
