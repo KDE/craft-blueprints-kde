@@ -16,9 +16,11 @@ class WinPackage(BinaryPackageBase):
         BinaryPackageBase.__init__(self)
         self.subinfo.options.package.disableBinaryCache = True
 
+    @property
+    def shortCutPath(self):
         name = f"Craft {os.path.basename(CraftCore.standardDirs.craftRoot())}"
         startmenu = os.path.join(os.environ['APPDATA'], "Microsoft", "Windows", "Start Menu", "Programs", "Craft")
-        self.shortCutPath = f"{os.path.join(startmenu, name)}.lnk"
+        return f"{os.path.join(startmenu, name)}.lnk"
 
         
     def qmerge(self):
