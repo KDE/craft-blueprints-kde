@@ -3,8 +3,10 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "git://anongit.kde.org/kdb"
-        self.defaultTarget = "master"
+        versions = ['3.1', 'master']
+        for ver in versions:
+            self.svnTargets[ver] = f"git://anongit.kde.org/kdb|{ver}"
+        self.defaultTarget = versions[0]
         self.description = "A database connectivity and creation framework"
 
     def setDependencies(self):
