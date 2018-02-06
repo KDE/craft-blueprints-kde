@@ -27,7 +27,7 @@ from Package.AutoToolsPackageBase import *
 from Package.MSBuildPackageBase import *
 
 
-class PackageMinGW(AutoToolsPackageBase):
+class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.useShadowBuild = False # ./configure doesn't support absolute paths
@@ -94,10 +94,10 @@ class PackageMSVC(MSBuildPackageBase):
         return True
 
 
-if CraftCore.compiler.isMinGW():
-    class Package(PackageMinGW):
+if CraftCore.compiler.isGCCLike():
+    class Package(PackageAutotools):
         def __init__(self):
-            PackageMinGW.__init__(self)
+            PackageAutotools.__init__(self)
 else:
     class Package(PackageMSVC):
         def __init__(self):
