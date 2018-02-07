@@ -10,12 +10,12 @@ class subinfo(info.infoclass):
         self.description = "A database connectivity and creation framework"
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-util/python2"] = "default"
-        self.buildDependencies["win32libs/sqlite"] = "default"
-        self.buildDependencies["binary/mysql"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["frameworks/tier1/kcoreaddons"] = "default"
+        self.buildDependencies["dev-util/python2"] = "default"
+        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["win32libs/sqlite"] = "default"
+        self.runtimeDependencies["binary/mysql"] = "default"
+        self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
 
 from Package.CMakePackageBase import *
 
