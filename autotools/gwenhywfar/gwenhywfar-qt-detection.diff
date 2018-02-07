@@ -1,0 +1,22 @@
+diff -Nru gwenhywfar-4.18.0-unpatched/configure gwenhywfar-4.18.0/configure
+--- gwenhywfar-4.18.0-unpatched/configure	2017-07-30 16:20:32.000000000 +0200
++++ gwenhywfar-4.18.0/configure	2018-02-07 18:58:10.345398600 +0100
+@@ -22450,9 +22450,15 @@
+ QMAKE_EXTRA_TARGETS += percent
+ EOF
+     $QT_QMAKE $am_have_qt_pro -o $am_have_qt_makefile
+-    QT_CXXFLAGS=`make -s -f $am_have_qt_makefile CXXFLAGS INCPATH`
+-    QT_LIBS=`make -s -f $am_have_qt_makefile LIBS`
+-    rm $am_have_qt_pro $am_have_qt_makefile
++    # Check whether --enable-debug was given.
++    if test "${enable_debug+set}" = set; then :
++      QT_CXXFLAGS=`make -s -f $am_have_qt_makefile.Debug CXXFLAGS INCPATH`
++      QT_LIBS=`make -s -f $am_have_qt_makefile.Debug LIBS`
++    else
++      QT_CXXFLAGS=`make -s -f $am_have_qt_makefile.Release CXXFLAGS INCPATH`
++      QT_LIBS=`make -s -f $am_have_qt_makefile.Release LIBS`
++    fi
++    rm $am_have_qt_pro $am_have_qt_makefile.Release $am_have_qt_makefile.Debug
+ 
+     # Look for specific tools in $PATH
+ 

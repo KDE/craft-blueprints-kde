@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         for ver in ["3.4"]:
             self.targets[ver] = "http://www.lysator.liu.se/~nisse/archive/nettle-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "nettle-%s" % ver
-            self.patchToApply[ver] = ("nettle-3.4-20180203.diff", 1)
+
         self.targetDigests['3.4'] = (['ae7a42df026550b85daca8389b6a60ba6313b0567f374392e54918588a411e94'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "A low-level cryptographic library"
