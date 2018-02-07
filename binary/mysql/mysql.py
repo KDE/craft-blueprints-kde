@@ -75,8 +75,10 @@ class Package(BinaryPackageBase):
     def qmerge(self):
         if not BinaryPackageBase.qmerge(self):
             return False
+        datadir = os.path.join(os.path.join(CraftStandardDirs.craftRoot(), "data"))
         if self.subinfo.options.dynamic.useMariaDB:
-            datadir = os.path.join(os.path.join(CraftStandardDirs.craftRoot(), "data"))
             return utils.system(["mysql_install_db", f"--datadir={datadir}"])
         else:
+            if os.path.isdir(datadir) and len(os.listdir(datadir)) != 0:
+                return True
             return utils.system(["mysqld", "--console", "--initialize-insecure"])
