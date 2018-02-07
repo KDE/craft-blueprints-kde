@@ -23,9 +23,11 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         if self.subinfo.options.dynamic.useIconResource:
-            self.subinfo.options.configure.args = " -DBINARY_ICONS_RESOURCE=ON"
+            self.subinfo.options.configure.args = " -DBINARY_ICONS_RESOURCE=ON -DSKIP_INSTALL_ICONS=ON"
 
     def install(self):
+        if not CMakePackageBase.install(self):
+            return False
         if self.subinfo.options.dynamic.useIconResource:
             dest = os.path.join(self.installDir(), "bin", "data")
             if not os.path.exists(dest):
@@ -34,7 +36,7 @@ class Package(CMakePackageBase):
                 theme = os.path.join(self.buildDir(), "icons", "breeze-icons.rcc")
             else:
                 theme = os.path.join(self.buildDir(), "icons-dark", "breeze-icons-dark.rcc")
-            utils.copyFile(theme, os.path.join(dest, "icontheme.rcc"))
-            return True
+
+            return utils.copyFile(theme, os.path.join(dest, "icontheme.rcc"))
         else:
-            return CMakePackageBase.install(self)
+            return True
