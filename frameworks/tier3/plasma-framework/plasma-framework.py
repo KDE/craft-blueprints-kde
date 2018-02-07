@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
         self.runtimeDependencies["frameworks/tier3/kiconthemes"] = "default"
         self.runtimeDependencies["frameworks/tier3/kio"] = "default"
+        self.runtimeDependencies["frameworks/tier1/kirigami"] = "default"
         self.runtimeDependencies["frameworks/tier3/kservice"] = "default"
         self.runtimeDependencies["frameworks/tier1/kwindowsystem"] = "default"
         self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
