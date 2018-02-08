@@ -34,6 +34,7 @@ from Package.MSBuildPackageBase import *
 class PackageCMake(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
+        self.subinfo.options.needsShortPath = False
 
         if CraftCore.compiler.isX86():
             self.subinfo.options.configure.args = " /p:Platform=Win32"
