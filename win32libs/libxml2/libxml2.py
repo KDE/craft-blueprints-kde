@@ -27,7 +27,6 @@ class PackageMSVC(MakeFilePackageBase):
         self.supportsNinja = False
         self.subinfo.options.useShadowBuild = False
         self.subinfo.options.make.supportsMultijob = False
-        self.subinfo.options.needsShortPath = False
 
     def configure(self):
         self.enterSourceDir()
