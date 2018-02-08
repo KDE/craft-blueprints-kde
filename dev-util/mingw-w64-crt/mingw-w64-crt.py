@@ -29,4 +29,4 @@ class Package(AutoToolsPackageBase):
         else:
             disable = "--disable-lib64 --enable-lib32"
         self.subinfo.options.configure.args = " --with-sysroot=%s --enable-wildcard --without-headers  %s  " % (
-        self.shell.toNativePath(self.mergeDestinationDir()), disable)
+        self.shell.toNativePath(CraftCore.standardDirs.craftRoot()), disable)

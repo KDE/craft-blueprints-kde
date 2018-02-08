@@ -56,9 +56,9 @@ class Package(CMakePackageBase):
 
         if OsUtils.isWin():
             if CraftCore.compiler.isX64():
-                self.r_dir = os.path.join(self.mergeDestinationDir(), "lib", "R", "bin", "x64")
+                self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "x64")
             else:
-                self.r_dir = os.path.join(self.mergeDestinationDir(), "lib", "R", "bin", "i386")
+                self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot()(), "lib", "R", "bin", "i386")
             self.subinfo.options.configure.args = " -DR_EXECUTABLE=" + os.path.join(self.r_dir, "R.exe").replace("\\\\",
                                                                                                                  "/")
             if CraftCore.compiler.isMSVC():
