@@ -8,33 +8,15 @@ class subinfo(info.infoclass):
     vlc_ver = None
 
     def setTargets(self):
-        vlcArch = "32"
-        if CraftCore.compiler.isX64():
-            vlcArch = "64"
-        vlcBaseUrl = "http://nightlies.videolan.org/build/win" + vlcArch + "/last/"
-        vlcTagName = "3.0.0"
-
-        for ver in CraftCore.cache.getNightlyVersionsFromUrl(vlcBaseUrl, r"\d\d\d\d\d\d\d\d-\d\d\d\d"):
-            self.targets[vlcTagName + "-git"] = "%svlc-%s-%s-git-win%s.7z" % (vlcBaseUrl, vlcTagName, ver, vlcArch)
-            self.targetInstSrc[vlcTagName + "-git"] = "vlc-%s-git" % (vlcTagName)
-            self.patchToApply[vlcTagName + "-git"] = [("vlc-2.1.5.diff", 1)]
-
-            self.targets[vlcTagName + "-debug-git"] = "%s/vlc-%s-%s-git-win%s-debug.7z" % (
-            vlcBaseUrl, vlcTagName, ver, vlcArch)
-            self.targetInstSrc[vlcTagName + "-debug-git"] = "vlc-%s-git" % (vlcTagName)
-            self.patchToApply[vlcTagName + "-debug-git"] = [("vlc-2.1.5.diff", 1)]
-
-        for releaseTag in ["2.2.6"]:
-            self.targets[releaseTag] = "http://download.videolan.org/pub/videolan/vlc/%s/win%s/vlc-%s-win%s.7z" % (
-            releaseTag, vlcArch, releaseTag, vlcArch)
-            self.targetInstSrc[releaseTag] = "vlc-" + releaseTag
-            self.targetDigestUrls[
-                releaseTag] = "http://download.videolan.org/pub/videolan/vlc/%s/win%s/vlc-%s-win%s.7z.sha1" % (
-            releaseTag, vlcArch, releaseTag, vlcArch)
-            self.patchToApply[releaseTag] = [("vlc-2.1.5.diff", 1)]
+        for ver in ["2.2.6", "2.2.8"]:
+            self.targets[ver] = f"http://download.videolan.org/pub/videolan/vlc/{ver}/win{CraftCore.compiler.bits}/vlc-{ver}-win{CraftCore.compiler.bits}.7z"
+            self.targetInstSrc[ver] = f"vlc-{ver}"
+            self.targetDigestUrls[ver] = f"http://download.videolan.org/pub/videolan/vlc/{ver}/win{CraftCore.compiler.bits}/vlc-{ver}-win{CraftCore.compiler.bits}.7z.sha256"
+            self.patchToApply[ver] = [("vlc-2.1.5.diff", 1)]
+        self.webpage = "https://www.videolan.org/"
         self.description = "an open-source multimedia framework"
 
-        self.defaultTarget = "2.2.6"
+        self.defaultTarget = "2.2.8"
 
     def setDependencies(self):
         self.buildDependencies["virtual/bin-base"] = "default"
