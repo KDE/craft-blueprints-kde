@@ -1,3 +1,5 @@
+# Copyright (C) 2018 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
+
 import info
 
 from Package.AutoToolsPackageBase import *
@@ -10,7 +12,6 @@ class subinfo(info.infoclass):
         for ver in ["3.5.17"]:
             self.targets[ver] = "ftp://ftp.gnutls.org/gcrypt/gnutls/v3.5/gnutls-%s.tar.xz" % ver
             self.targetInstSrc[ver] = "gnutls-%s" % ver
-        # self.patchToApply["3.5.17"] = ("0005-fix-strtok-conflict.mingw.patch", 1)
         self.targetDigests['3.5.17'] = (['86b142afef587c118d63f72ccf307f3321dbc40357aae528202b65d913d20919'], CraftHash.HashAlgorithm.SHA256)
         self.description = "A library which provides a secure layer over a reliable transport layer"
         self.defaultTarget = "3.5.17"
@@ -18,6 +19,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["win32libs/gcrypt"] = "default"
         self.runtimeDependencies["win32libs/nettle"] = "default"
+        self.runtimeDependencies["win32libs/libidn"] = "default"
+        self.runtimeDependencies["autotools/libunistring"] = "default"
         self.runtimeDependencies["autotools/libtasn1"] = "default"
         self.runtimeDependencies["autotools/p11kit"] = "default"
         if CraftCore.compiler.isMinGW():
@@ -27,12 +30,9 @@ class subinfo(info.infoclass):
 class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args = "--with-zlib --enable-shared --disable-static --enable-cxx --enable-nls --disable-rpath --disable-gtk-doc --disable-guile --disable-libdane --with-included-unistring "
-        self.subinfo.options.configure.cflags = "-I%s/usr/include " % utils.toMSysPath(
-            CraftStandardDirs.msysDir())  # could cause problems but we need the autotools headers
-        self.subinfo.options.configure.ldflags = "-L%s/usr/lib " % utils.toMSysPath(
-            CraftStandardDirs.msysDir())  # could cause problems but we need the autotools libopt
-
+        # 2018-02-11: without --enable-openssl-compatibility xmlmerge.exe from gwenhywfar doesn't display any console output and in effect doesn't allow compilation of aqbanking
+        # 2018-02-11: --enable-nls is probably needed on the same ground as above
+        self.subinfo.options.configure.args = "--enable-shared --disable-static --with-zlib --enable-cxx --enable-nls --disable-gtk-doc --enable-local-libopts --enable-libopts-install --disable-tests --enable-openssl-compatibility "
 
 if CraftCore.compiler.isMinGW():
     class Package(PackageMinGW):
