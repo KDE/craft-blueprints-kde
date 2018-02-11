@@ -3,12 +3,11 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.4.2", "2.5.5"]:
-            self.targets[ver] = f"http://downloads.sourceforge.net/sourceforge/winflexbison/win_flex_bison-{ver}.zip"
-            self.targetInstallPath[ver] = os.path.join("dev-utils", "bin")
-        self.targetDigests['2.4.2'] = '9e6a3a0c2ca89c1afa068aa0a055c04f5e19b722'
-        self.targetDigests['2.5.5'] = 'b86d22393f2e601523b60e529cecbd963628d4e8'
-        self.defaultTarget = "2.5.5"
+        ver = "2.5.14"
+        self.targets[ver] = f"https://downloads.sourceforge.net/sourceforge/winflexbison/win_flex_bison-{ver}.zip"
+        self.targetInstallPath[ver] = os.path.join("dev-utils", "bin")
+        self.targetDigests[ver] = 'e15a1b8780a36ffda9ef70c4f09283867b32a12b'
+        self.defaultTarget = ver
 
     def setDependencies(self):
         self.buildDependencies["gnuwin32/wget"] = "default"
