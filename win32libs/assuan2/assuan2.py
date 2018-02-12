@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.addCachedAutotoolsBuild(f"https://files.kde.org/craft/autotools/mingw_{CraftCore.compiler.bits}/gcc/Release/", "autotools/assuan2-src")
+        self.addCachedAutotoolsBuild(f"https://files.kde.org/craft/autotools/2018.02/windows/mingw_{CraftCore.compiler.bits}/gcc/Release/", "autotools/assuan2-src")
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
