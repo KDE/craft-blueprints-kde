@@ -29,6 +29,7 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args = " --disable-static --enable-shared --disable-binreloc --with-guis=cpp qt5 "
 
+    def configure(self):
         _, includedir = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_HEADERS")
         includedir = self.shell.toNativePath(includedir.strip())
         widgetsdir = self.shell.toNativePath(os.path.join(includedir , "QtWidgets"))
@@ -37,3 +38,6 @@ class Package(AutoToolsPackageBase):
 
         self.subinfo.options.configure.ldflags += '-lQt5Widgets -lQt5Gui -lQt5Core '
         self.subinfo.options.configure.cxxflags += f"-I{widgetsdir} -I{guidir} -I{coredir} -I{includedir} "
+        return super().configure()
+
+
