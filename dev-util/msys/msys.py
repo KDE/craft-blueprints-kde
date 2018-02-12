@@ -13,6 +13,9 @@ class subinfo(info.infoclass):
             arch = "x86_64"
         # don't set an actual version  instead of base. Msys must be manually updated so doing a craft update of msys wil break things.
         self.targets["base"] = f"http://repo.msys2.org/distrib/{arch}/msys2-base-{arch}-{ver}.tar.xz"
+        self.targetDigests["base"] = (['8bafd3d52f5a51528a8671c1cae5591b36086d6ea5b1e76e17e390965cf6768f'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigestsX64["base"] = (['bb1f1a0b35b3d96bf9c15092da8ce969a84a134f7b08811292fbc9d84d48c65d'], CraftHash.HashAlgorithm.SHA256)
+
         self.defaultTarget = "base"
 
     def setDependencies(self):
@@ -60,7 +63,7 @@ class MsysPackage(BinaryPackageBase):
 
         try:
             while queryForUpdate():
-                if not self.shell.execute(".", "pacman", "-Su --noconfirm --force") and \
+                if not self.shell.execute(".", "pacman", "-Su --noconfirm --force --ask 20") and \
                         utils.system("autorebase.bat", cwd=msysDir):
                     return False
         except Exception as e:
