@@ -9,9 +9,9 @@ class subinfo(info.infoclass):
             self.targets[ver] = "https://github.com/winlibs/glib/archive/glib-%s.tar.gz" % ver
             self.archiveNames[ver] = "glib-glib%s.tar.gz" % ver
             self.targetInstSrc[ver] = "glib-glib-%s" % ver
-            self.patchToApply[ver] = ("glib-glib-2.49.4-20161114.diff", 1)
-        self.targetDigests['2.49.4'] = (
-            ['936e124d1d147226acd95def54cb1bea5d19dfc534532b85de6727fa68bc310f'], CraftHash.HashAlgorithm.SHA256)
+            self.patchToApply[ver] = [("glib-glib-2.49.4-20161114.diff", 1),
+                                      ("fix-libname.diff", 1)]
+        self.targetDigests['2.49.4'] = (['936e124d1d147226acd95def54cb1bea5d19dfc534532b85de6727fa68bc310f'], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "2.49.4"
 
@@ -32,25 +32,15 @@ class PackageCMake(MSBuildPackageBase):
         self.subinfo.options.configure.args = "/p:useenv=true"
         if CraftCore.compiler.isX86():
             self.subinfo.options.configure.args += " /p:Platform=Win32"
-        self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "build", "win32", self.toolset,
-                                                                  "glib.sln")
+        self.subinfo.options.configure.projectFile = \
+            os.path.join(self.sourceDir(), "build", "win32", self.toolset, "glib.sln")
 
-    def configure(self):
-        if not os.path.exists(os.path.join(CraftStandardDirs.craftRoot(), "lib", "libintl_a.lib")):
-            utils.copyFile(os.path.join(CraftStandardDirs.craftRoot(), "lib", "libintl.lib"),
-                           os.path.join(CraftStandardDirs.craftRoot(), "lib", "libintl_a.lib"))
-
-        if not os.path.exists(os.path.join(CraftStandardDirs.craftRoot(), "lib", "zlib_a.lib")):
-            utils.copyFile(os.path.join(CraftStandardDirs.craftRoot(), "lib", "zlib.lib"),
-                           os.path.join(CraftStandardDirs.craftRoot(), "lib", "zlib_a.lib"))
-        return True
 
     def make(self):
-        self.enterSourceDir()
-        utils.putenv("INCLUDE",
-                     "%s;%s" % (os.path.join(CraftStandardDirs.craftRoot(), "include"), os.environ["INCLUDE"]))
-        utils.putenv("LIB", "%s;%s" % (os.path.join(CraftStandardDirs.craftRoot(), "lib"), os.environ["LIB"]))
-        return MSBuildPackageBase.make(self)
+        with utils.ScopedEnv({
+            "LIB" : f"{os.environ['LIB']};{os.path.join(CraftStandardDirs.craftRoot() , 'lib')}",
+            "INCLUDE" : f"{os.environ['INCLUDE']};{os.path.join(CraftStandardDirs.craftRoot() , 'include')}"}):
+            return MSBuildPackageBase.make(self)
 
     def install(self):
         self.cleanImage()
