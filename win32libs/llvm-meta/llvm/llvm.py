@@ -5,7 +5,7 @@ from Package import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
+        self.versionInfo.setDefaultValues(patchLevel=1)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
@@ -25,7 +25,7 @@ class Package(CMakePackageBase):
         self.subPackages = []
         def maybeAddSubPackage(pkg, cmakeDefine):
             if not pkg.isIgnored():
-                self.subinfo.options.configure.args += " -D%s=\"%s\"" % (cmakeDefine, pkg.instance.sourceDir().replace("\\", "/"))
+                self.subinfo.options.configure.args += f" -D{cmakeDefine}=\"{OsUtils.toUnixPath(pkg.instance.sourceDir())}\""
                 self.subPackages.append(pkg.instance)
 
         maybeAddSubPackage(CraftPackageObject.get('win32libs/llvm-meta/clang'),
@@ -70,6 +70,9 @@ class Package(CMakePackageBase):
                     dest = os.path.join(self.imageDir(), "lib", f)
                     if not os.path.exists(dest):
                         utils.copyFile(src, dest, False)
+        elif CraftCore.compiler.isMSVC():
+            utils.copyFile(os.path.join(self.buildDir(), "lib", "clang.lib"),
+                           os.path.join(self.installDir(), "lib", "clang.lib"))
 
         if OsUtils.isWin():
             exeSuffix = ".exe"
