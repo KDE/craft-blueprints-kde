@@ -21,5 +21,5 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         self.supportsClang = False
         if CraftCore.compiler.isMSVC():
-            clangLib = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "clang.lib")
+            clangLib = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "craft_clang_plugins.lib")
             self.subinfo.options.configure.args = f"-DCLANG_LIBRARY_IMPORT='{clangLib}'"

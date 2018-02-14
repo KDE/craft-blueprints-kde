@@ -5,7 +5,7 @@ from Package import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(patchLevel=1)
+        self.versionInfo.setDefaultValues(patchLevel=2)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
@@ -72,7 +72,7 @@ class Package(CMakePackageBase):
                         utils.copyFile(src, dest, False)
         elif CraftCore.compiler.isMSVC():
             utils.copyFile(os.path.join(self.buildDir(), "lib", "clang.lib"),
-                           os.path.join(self.installDir(), "lib", "clang.lib"))
+                           os.path.join(self.installDir(), "lib", "craft_clang_plugins.lib"))
 
         if OsUtils.isWin():
             exeSuffix = ".exe"
