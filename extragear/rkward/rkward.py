@@ -58,7 +58,7 @@ class Package(CMakePackageBase):
             if CraftCore.compiler.isX64():
                 self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "x64")
             else:
-                self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot()(), "lib", "R", "bin", "i386")
+                self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "i386")
             self.subinfo.options.configure.args = " -DR_EXECUTABLE=" + os.path.join(self.r_dir, "R.exe").replace("\\\\",
                                                                                                                  "/")
             if CraftCore.compiler.isMSVC():
