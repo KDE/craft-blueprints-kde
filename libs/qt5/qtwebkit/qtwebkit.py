@@ -56,7 +56,9 @@ class QtPackage(Qt5CorePackageBase):
         if OsUtils.isWin():
             self.subinfo.options.configure.args += """ "QT_CONFIG+=no-pkg-config" """
         if CraftCore.compiler.isMinGW():
-            self.subinfo.options.configure.args += """ "QMAKE_CXXFLAGS += -g0 -O3" """
+            # things get too big
+            # disable warnings as the project is unmaintained an the log files where getting too big
+            self.subinfo.options.configure.args += """ "QMAKE_CXXFLAGS += -g0 -O3 -w" """
         self.subinfo.options.configure.args += """ "WEBKIT_CONFIG-=geolocation" """
 
     def fetch(self):
