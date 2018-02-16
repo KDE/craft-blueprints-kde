@@ -1,25 +1,7 @@
-From b8a3387eee86d609b18ac880e7897252de62a0c5 Mon Sep 17 00:00:00 2001
-From: Mateusz Mikula <mati865@gmail.com>
-Date: Fri, 15 Sep 2017 15:03:12 +0200
-Subject: [PATCH] fixes to get lldb building
-
----
- cmake/LLDBDependencies.cmake                               |  6 ++++++
- include/lldb/Host/windows/PosixApi.h                       | 14 ++++++++++----
- include/lldb/Host/windows/windows.h                        |  4 ++++
- source/Host/common/MainLoop.cpp                            |  1 +
- source/Host/windows/Windows.cpp                            |  3 +++
- .../gdb-remote/GDBRemoteCommunicationServerPlatform.cpp    |  1 +
- source/Plugins/Process/gdb-remote/ProcessGDBRemote.h       |  1 +
- tools/lldb-mi/MIDataTypes.h                                |  2 ++
- tools/lldb-mi/Platform.h                                   |  4 ++++
- 9 files changed, 32 insertions(+), 4 deletions(-)
-
-diff --git a/cmake/LLDBDependencies.cmake b/cmake/LLDBDependencies.cmake
-index 55ce379..ae65ebe 100644
---- a/cmake/LLDBDependencies.cmake
-+++ b/cmake/LLDBDependencies.cmake
-@@ -6,6 +6,12 @@ if ( CMAKE_SYSTEM_NAME MATCHES "Windows" )
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' lldb-5.0.1.src.orig/cmake/LLDBDependencies.cmake lldb-5.0.1.src/cmake/LLDBDependencies.cmake
+--- lldb-5.0.1.src.orig/cmake/LLDBDependencies.cmake	2017-02-08 22:00:46.000000000 +0100
++++ lldb-5.0.1.src/cmake/LLDBDependencies.cmake	2018-02-16 08:36:28.383938300 +0100
+@@ -6,6 +6,12 @@
      ws2_32
      rpcrt4
      )
@@ -32,11 +14,10 @@ index 55ce379..ae65ebe 100644
  endif ()
  
  if (NOT LLDB_DISABLE_LIBEDIT)
-diff --git a/include/lldb/Host/windows/PosixApi.h b/include/lldb/Host/windows/PosixApi.h
-index de70266..51fba95 100644
---- a/include/lldb/Host/windows/PosixApi.h
-+++ b/include/lldb/Host/windows/PosixApi.h
-@@ -73,13 +73,9 @@ typedef uint32_t pid_t;
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' lldb-5.0.1.src.orig/include/lldb/Host/windows/PosixApi.h lldb-5.0.1.src/include/lldb/Host/windows/PosixApi.h
+--- lldb-5.0.1.src.orig/include/lldb/Host/windows/PosixApi.h	2017-01-25 12:10:52.000000000 +0100
++++ lldb-5.0.1.src/include/lldb/Host/windows/PosixApi.h	2018-02-16 08:39:34.083487900 +0100
+@@ -73,13 +73,9 @@
  #define S_ISDIR(mode) (((mode)&S_IFMT) == S_IFDIR)
  #endif
  
@@ -50,7 +31,7 @@ index de70266..51fba95 100644
  
  int usleep(uint32_t useconds);
  char *basename(char *path);
-@@ -88,6 +84,16 @@ char *dirname(char *path);
+@@ -88,6 +84,20 @@
  int strcasecmp(const char *s1, const char *s2);
  int strncasecmp(const char *s1, const char *s2, size_t n);
  
@@ -58,6 +39,10 @@ index de70266..51fba95 100644
 +
 +// pid_t definition
 +#include <sys/types.h>
++
++// Various useful posix functions that are not present in Windows.  We provide
++// custom implementations.
++int vasprintf(char **ret, const char *fmt, va_list ap);
 +
 +#endif
 +
@@ -67,10 +52,9 @@ index de70266..51fba95 100644
  // empty functions
  inline int posix_openpt(int flag) { LLVM_BUILTIN_UNREACHABLE; }
  
-diff --git a/include/lldb/Host/windows/windows.h b/include/lldb/Host/windows/windows.h
-index 3dc9f77..ca138c1 100644
---- a/include/lldb/Host/windows/windows.h
-+++ b/include/lldb/Host/windows/windows.h
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' lldb-5.0.1.src.orig/include/lldb/Host/windows/windows.h lldb-5.0.1.src/include/lldb/Host/windows/windows.h
+--- lldb-5.0.1.src.orig/include/lldb/Host/windows/windows.h	2016-12-15 16:00:41.000000000 +0100
++++ lldb-5.0.1.src/include/lldb/Host/windows/windows.h	2018-02-16 08:36:28.407305200 +0100
 @@ -28,4 +28,8 @@
  #define FAR
  #define NEAR
@@ -80,10 +64,9 @@ index 3dc9f77..ca138c1 100644
 +#endif
 +
  #endif // LLDB_lldb_windows_h_
-diff --git a/source/Host/common/MainLoop.cpp b/source/Host/common/MainLoop.cpp
-index d0e0d00..cd1d4a8 100644
---- a/source/Host/common/MainLoop.cpp
-+++ b/source/Host/common/MainLoop.cpp
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' lldb-5.0.1.src.orig/source/Host/common/MainLoop.cpp lldb-5.0.1.src/source/Host/common/MainLoop.cpp
+--- lldb-5.0.1.src.orig/source/Host/common/MainLoop.cpp	2017-07-18 16:03:47.000000000 +0200
++++ lldb-5.0.1.src/source/Host/common/MainLoop.cpp	2018-02-16 08:36:28.420263800 +0100
 @@ -27,6 +27,7 @@
  #if HAVE_SYS_EVENT_H
  #include <sys/event.h>
@@ -92,31 +75,9 @@ index d0e0d00..cd1d4a8 100644
  #include <winsock2.h>
  #else
  #include <poll.h>
-diff --git a/source/Host/windows/Windows.cpp b/source/Host/windows/Windows.cpp
-index 9d0e70e..aaf06b0 100644
---- a/source/Host/windows/Windows.cpp
-+++ b/source/Host/windows/Windows.cpp
-@@ -43,6 +43,8 @@ bool wideToUtf8(const wchar_t *wide, char *buf, size_t bufSize) {
- }
- }
- 
-+#ifdef _MSC_VER
-+
- int vasprintf(char **ret, const char *fmt, va_list ap) {
-   char *buf;
-   int len;
-@@ -69,6 +71,7 @@ int vasprintf(char **ret, const char *fmt, va_list ap) {
-   va_end(ap2);
-   return len;
- }
-+#endif
- 
- char *strcasestr(const char *s, const char *find) {
-   char c, sc;
-diff --git a/source/Plugins/Process/gdb-remote/GDBRemoteCommunicationServerPlatform.cpp b/source/Plugins/Process/gdb-remote/GDBRemoteCommunicationServerPlatform.cpp
-index 977c34c..9bec1d8 100644
---- a/source/Plugins/Process/gdb-remote/GDBRemoteCommunicationServerPlatform.cpp
-+++ b/source/Plugins/Process/gdb-remote/GDBRemoteCommunicationServerPlatform.cpp
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' lldb-5.0.1.src.orig/source/Plugins/Process/gdb-remote/GDBRemoteCommunicationServerPlatform.cpp lldb-5.0.1.src/source/Plugins/Process/gdb-remote/GDBRemoteCommunicationServerPlatform.cpp
+--- lldb-5.0.1.src.orig/source/Plugins/Process/gdb-remote/GDBRemoteCommunicationServerPlatform.cpp	2017-06-27 12:45:31.000000000 +0200
++++ lldb-5.0.1.src/source/Plugins/Process/gdb-remote/GDBRemoteCommunicationServerPlatform.cpp	2018-02-16 08:36:28.431262500 +0100
 @@ -12,6 +12,7 @@
  #include <errno.h>
  
@@ -125,10 +86,9 @@ index 977c34c..9bec1d8 100644
  // C++ Includes
  #include <chrono>
  #include <cstring>
-diff --git a/source/Plugins/Process/gdb-remote/ProcessGDBRemote.h b/source/Plugins/Process/gdb-remote/ProcessGDBRemote.h
-index 54a472d..196e012 100644
---- a/source/Plugins/Process/gdb-remote/ProcessGDBRemote.h
-+++ b/source/Plugins/Process/gdb-remote/ProcessGDBRemote.h
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' lldb-5.0.1.src.orig/source/Plugins/Process/gdb-remote/ProcessGDBRemote.h lldb-5.0.1.src/source/Plugins/Process/gdb-remote/ProcessGDBRemote.h
+--- lldb-5.0.1.src.orig/source/Plugins/Process/gdb-remote/ProcessGDBRemote.h	2017-06-27 12:45:31.000000000 +0200
++++ lldb-5.0.1.src/source/Plugins/Process/gdb-remote/ProcessGDBRemote.h	2018-02-16 08:36:28.441294600 +0100
 @@ -11,6 +11,7 @@
  #define liblldb_ProcessGDBRemote_h_
  
@@ -137,10 +97,11 @@ index 54a472d..196e012 100644
  // C++ Includes
  #include <atomic>
  #include <map>
-diff --git a/tools/lldb-mi/MIDataTypes.h b/tools/lldb-mi/MIDataTypes.h
-index 34fe457..8372e8c 100644
---- a/tools/lldb-mi/MIDataTypes.h
-+++ b/tools/lldb-mi/MIDataTypes.h
+R:\dev-utils\bin\diff.exe: lldb-5.0.1.src.orig/test/testcases: Not a directory
+R:\dev-utils\bin\diff.exe: lldb-5.0.1.src/test/testcases: Not a directory
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' lldb-5.0.1.src.orig/tools/lldb-mi/MIDataTypes.h lldb-5.0.1.src/tools/lldb-mi/MIDataTypes.h
+--- lldb-5.0.1.src.orig/tools/lldb-mi/MIDataTypes.h	2016-09-06 22:57:50.000000000 +0200
++++ lldb-5.0.1.src/tools/lldb-mi/MIDataTypes.h	2018-02-16 08:36:28.450261800 +0100
 @@ -19,6 +19,8 @@
  // Windows headers:
  #ifdef _WIN32
@@ -150,11 +111,10 @@ index 34fe457..8372e8c 100644
  // Debugging:
  #ifdef _DEBUG
  #include <crtdbg.h> // C-runtime debugging library (defines _ASSERT).
-diff --git a/tools/lldb-mi/Platform.h b/tools/lldb-mi/Platform.h
-index ce2de1b..d334d75 100644
---- a/tools/lldb-mi/Platform.h
-+++ b/tools/lldb-mi/Platform.h
-@@ -78,8 +78,12 @@ typedef void (*sighandler_t)(int);
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' lldb-5.0.1.src.orig/tools/lldb-mi/Platform.h lldb-5.0.1.src/tools/lldb-mi/Platform.h
+--- lldb-5.0.1.src.orig/tools/lldb-mi/Platform.h	2017-03-03 21:21:59.000000000 +0100
++++ lldb-5.0.1.src/tools/lldb-mi/Platform.h	2018-02-16 08:36:28.459291200 +0100
+@@ -78,8 +78,12 @@
  
  #include <getopt.h>
  #include <libgen.h>
@@ -167,6 +127,3 @@ index ce2de1b..d334d75 100644
  #include <unistd.h>
  
  #include <pthread.h>
--- 
-2.14.1.windows.1
-
