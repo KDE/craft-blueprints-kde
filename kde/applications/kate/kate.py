@@ -8,6 +8,9 @@ class subinfo(info.infoclass):
 
         self.description = "the KDE text editor"
 
+    def registerOptions(self):
+        self.options.dynamic.registerOption("fullPlasma", False)
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
@@ -26,7 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/kdbusaddons"] = "default"
         self.runtimeDependencies["frameworks/tier1/kitemmodels"] = "default"
         self.runtimeDependencies["frameworks/tier3/kactivities"] = "default"
-        if self.options.features.fullplasma:
+        if self.options.dynamic.fullPlasma:
             self.runtimeDependencies["frameworks/tier3/plasma-framework"] = "default"
         self.runtimeDependencies["frameworks/tier1/threadweaver"] = "default"
         self.runtimeDependencies["frameworks/tier3/knewstuff"] = "default"
