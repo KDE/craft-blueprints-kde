@@ -25,5 +25,3 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.package.packageName = 'libnova-src'
-        self.subinfo.options.make.slnBaseName = 'libnova-src'

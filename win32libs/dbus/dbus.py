@@ -42,8 +42,6 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.package.packageName = "dbus"
-        self.subinfo.options.make.slnBaseName = "dbus"
         self.subinfo.options.configure.args = (
             "-DDBUS_BUILD_TESTS=OFF "
             "-DDBUS_ENABLE_XML_DOCS=OFF ")
