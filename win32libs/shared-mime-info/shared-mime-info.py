@@ -38,5 +38,9 @@ class Package(AutoToolsPackageBase):
             self.shell.useMSVCCompatEnv = True
             self.platform = ""
             self.subinfo.options.configure.args += f" PKG_CONFIG=':' "
-            self.subinfo.options.configure.ldflags ="-lglib-2.0 -lgobject-2.0 -lgio-2.0 -lgthread-2.0 -llibxml2 -lintl -lzlib -lkdewin"
+            self.subinfo.options.configure.ldflags ="-lglib-2.0 -lgobject-2.0 -lgio-2.0 -lgthread-2.0 -llibxml2 -lintl -lzlib"
+            if self.buildType() == "Debug":
+                self.subinfo.options.configure.ldflags += " -lkdewind"
+            else:
+                self.subinfo.options.configure.ldflags += " -lkdewin"
 
