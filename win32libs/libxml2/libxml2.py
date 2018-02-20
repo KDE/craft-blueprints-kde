@@ -48,10 +48,7 @@ class PackageMSVC(MakeFilePackageBase):
     def install(self):
         if not MakeFilePackageBase.install(self):
             return False
-        includedir = os.path.join(self.imageDir(), "include")
-        libxmldir = os.path.join(includedir, "libxml2")
-        utils.moveDir(os.path.join(libxmldir, "libxml"), includedir) #otherwise it isn't picked up by libxslt
-        return True
+        return utils.mergeTree(os.path.join(self.installDir(), "include", "libxml2", os.path.join(self.installDir(), "include")), includedir) #otherwise it isn't picked up by libxslt
 
 
 class PackageMinGW(AutoToolsPackageBase):

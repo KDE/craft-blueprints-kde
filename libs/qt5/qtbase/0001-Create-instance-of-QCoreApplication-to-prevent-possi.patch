@@ -1,0 +1,79 @@
+From b0f93a8e2b7685707a8ea15d4b0d72dd6ed197bc Mon Sep 17 00:00:00 2001
+From: Hannah von Reth <hannah.vonreth@kdab.com>
+Date: Tue, 20 Feb 2018 14:24:56 +0100
+Subject: [PATCH] Create instance of QCoreApplication to prevent possible
+ deadlock
+
+>	[Inline Frame] Qt5Core.dll!?A0xc54cca96::Q_QGS_qtDefaultCategory::innerFunction() Line 47	C++	Symbols loaded.
+ 	[Inline Frame] Qt5Core.dll!QGlobalStatic<QLoggingCategory,&`anonymous
+namespace'::Q_QGS_qtDefaultCategory::innerFunction,&A0xc54cca96::Q_QGS_qtDefaultCategory::guard>::operator()() Line 135	C++	Symbols loaded.
+ 	Qt5Core.dll!QLoggingCategory::defaultCategory() Line 390	C++	Symbols loaded.
+ 	Qt5Core.dll!qt_message_print(QtMsgType msgType, const QMessageLogContext & context, const QString & message) Line 1643	C++	Symbols
+loaded.
+ 	Qt5Core.dll!qt_message(QtMsgType msgType, const QMessageLogContext & context, const char * msg, char * ap) Line 282	C++	Symbols
+loaded.
+ 	Qt5Core.dll!QMessageLogger::warning(const char * msg, ...) Line 562	C++	Symbols loaded.
+ 	Qt5Core.dll!QCoreApplication::applicationDirPath() Line 2118	C++	Symbols loaded.
+ 	Qt5Core.dll!QStandardPaths::standardLocations(QStandardPaths::StandardLocation type) Line 230	C++	Symbols loaded.
+ 	Qt5Core.dll!QStandardPaths::locate(QStandardPaths::StandardLocation type, const QString & fileName, QFlags<enum QStandardPaths::LocateOption>
+options) Line 398	C++	Symbols loaded.
+ 	Qt5Core.dll!QLoggingRegistry::initializeRules() Line 314	C++	Symbols loaded.
+ 	[Inline Frame] Qt5Core.dll!QLoggingRegistry::{ctor}() Line 258	C++	Symbols loaded.
+ 	[Inline Frame] Qt5Core.dll!`anonymous-namespace'::Q_QGS_qtLoggingRegistry::innerFunction::__l2::Holder::{ctor}() Line 56	C++
+Symbols loaded.
+ 	[Inline Frame] Qt5Core.dll!?A0x520ef2f2::Q_QGS_qtLoggingRegistry::innerFunction() Line 56	C++	Symbols loaded.
+ 	[Inline Frame] Qt5Core.dll!QGlobalStatic<QLoggingRegistry,&`anonymous
+namespace'::Q_QGS_qtLoggingRegistry::innerFunction,&A0x520ef2f2::Q_QGS_qtLoggingRegistry::guard>::operator()() Line 135	C++	Symbols loaded.
+ 	Qt5Core.dll!QLoggingRegistry::instance() Line 409	C++	Symbols loaded.
+ 	[Inline Frame] Qt5Core.dll!QLoggingCategory::init(const char *) Line 251	C++	Symbols loaded.
+ 	[Inline Frame] Qt5Core.dll!QLoggingCategory::{ctor}(const char *) Line 224	C++	Symbols loaded.
+ 	[Inline Frame] Qt5Core.dll!`anonymous-namespace'::Q_QGS_qtDefaultCategory::innerFunction::__l2::Holder::{ctor}() Line 47	C++
+Symbols loaded.
+ 	[Inline Frame] Qt5Core.dll!?A0xc54cca96::Q_QGS_qtDefaultCategory::innerFunction() Line 47	C++	Symbols loaded.
+ 	[Inline Frame] Qt5Core.dll!QGlobalStatic<QLoggingCategory,&`anonymous
+namespace'::Q_QGS_qtDefaultCategory::innerFunction,&A0xc54cca96::Q_QGS_qtDefaultCategory::guard>::operator()() Line 135	C++	Symbols loaded.
+ 	Qt5Core.dll!QLoggingCategory::defaultCategory() Line 390	C++	Symbols loaded.
+ 	Qt5Core.dll!qt_message_print(QtMsgType msgType, const QMessageLogContext & context, const QString & message) Line 1643	C++	Symbols
+loaded.
+ 	Qt5Core.dll!qt_message_output(QtMsgType msgType, const QMessageLogContext & context, const QString & message) Line 1700	C++	Symbols
+loaded.
+ 	Qt5Core.dll!QDebug::~QDebug() Line 154	C++	Symbols loaded.
+ 	qdbuscpp2xml.exe!addFunction(const FunctionDef & mm, bool isSignal) Line 134	C++	Symbols loaded.
+ 	qdbuscpp2xml.exe!generateInterfaceXml(const ClassDef * mo) Line 253	C++	Symbols loaded.
+ 	[Inline Frame] qdbuscpp2xml.exe!qDBusGenerateClassDefXml(const ClassDef *) Line 300	C++	Symbols loaded.
+ 	qdbuscpp2xml.exe!main(int argc, char * * argv) Line 449	C++	Symbols loaded.
+
+Change-Id: I6b03adfebfc037abf2840ce7db3251c675c0949b
+---
+ src/tools/qdbuscpp2xml/qdbuscpp2xml.cpp | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/tools/qdbuscpp2xml/qdbuscpp2xml.cpp b/src/tools/qdbuscpp2xml/qdbuscpp2xml.cpp
+index c76983200e..bbd9c2db34 100644
+--- a/src/tools/qdbuscpp2xml/qdbuscpp2xml.cpp
++++ b/src/tools/qdbuscpp2xml/qdbuscpp2xml.cpp
+@@ -26,6 +26,7 @@
+ **
+ ****************************************************************************/
+ 
++#include <qcoreapplication.h>
+ #include <qbytearray.h>
+ #include <qstring.h>
+ #include <qvarlengtharray.h>
+@@ -390,10 +391,9 @@ static void parseCmdLine(QStringList &arguments)
+ 
+ int main(int argc, char **argv)
+ {
+-    QStringList args;
+-    args.reserve(argc - 1);
+-    for (int n = 1; n < argc; ++n)
+-        args.append(QString::fromLocal8Bit(argv[n]));
++    QCoreApplication app(argc, argv);
++    QStringList args = app.arguments();
++    args.takeAt(0);
+     parseCmdLine(args);
+ 
+     QVector<ClassDef> classes;
+-- 
+2.16.1.windows.4
+
