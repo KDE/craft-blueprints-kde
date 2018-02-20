@@ -1,0 +1,34 @@
+From 1c1a966c04e7f75627ef54a913431f746b34f3e4 Mon Sep 17 00:00:00 2001
+From: Allen Winter <allen.winter@kdab.com>
+Date: Sat, 17 Feb 2018 12:39:16 -0500
+Subject: [PATCH] unittests/CMakeLists.txt - don't call qt_wrap_cpp since we
+ set CMAKE_AUTOMOC starting with CMake 3.10, this causes the moc generated
+ files to be called moc_foo.cpp instead of foo.moc in the unittests.
+
+---
+ unittests/CMakeLists.txt | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/unittests/CMakeLists.txt b/unittests/CMakeLists.txt
+index bb5600b..02bdfc1 100644
+--- a/unittests/CMakeLists.txt
++++ b/unittests/CMakeLists.txt
+@@ -26,9 +26,6 @@ macro(add_unittest _source)
+     list(REMOVE_AT ARGN_COPY 0)
+   endforeach()
+ 
+-  qt4_wrap_cpp(_mocs ${_srcs})
+-  set_property(SOURCE ${_srcs} PROPERTY OBJECT_DEPENDS ${_mocs})
+-
+   if(_resource)
+     qt4_add_resources(_srcs ${_resource})
+   endif()
+@@ -48,5 +45,3 @@ add_subdirectory(TableBreakingLogic)
+ #TODO: fix the moc problem
+ #add_subdirectory(SpreadsheetMode)
+ add_subdirectory(InThread)
+-
+- 
+-- 
+2.16.1.windows.4
+
