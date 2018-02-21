@@ -184,14 +184,13 @@ class QtPackage(Qt5CorePackageBase):
             return True
 
     def qmerge(self):
-        if not Qt5CorePackageBase.qmerge(self):
-            return False
-        if OsUtils.isWin():
-            if CraftCore.settings.getboolean("Packager", "UseCache"):
-                patcher = CraftCore.cache.findApplication("qtbinpatcher")
-                binRoot = os.path.join(CraftStandardDirs.craftRoot(), "bin")
-                return utils.system(f"\"{patcher}\" --nobackup --qt-dir=\"{binRoot}\"")
-        return True
+        if OsUtils.isWin() and CraftCore.settings.getboolean("Packager", "UseCache"):
+            binRoot = os.path.join(CraftStandardDirs.craftRoot(), "bin")
+            if not utils.system(["qtbinpatcher", "--nobackup",
+                                 f"--qt-dir={self.installDir()}",
+                                 f"--new-dir={binRoot}"]):
+                return False
+        return super().qmerge()
 
     def getQtBaseEnv(self):
         envs = {}
