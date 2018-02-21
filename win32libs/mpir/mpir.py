@@ -41,15 +41,7 @@ class PackageAutotools(AutoToolsPackageBase):
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
-        if CraftCore.compiler.getInternalVersion() == 14:
-            self.mpirBuildDir = os.path.join(self.sourceDir(), "build.vc14")
-        else:
-            self.mpirBuildDir = os.path.join(self.sourceDir(), "build.vc15")
-
-        if CraftCore.compiler.isX86():
-            self.subinfo.options.configure.args = " /p:Platform=win32"
-
-        self.subinfo.options.configure.args = self.subinfo.options.configure.args + " /p:WindowsTargetPlatformVersion=" + os.getenv('WINDOWSSDKVERSION')[:-1]
+        self.mpirBuildDir = os.path.join(self.sourceDir(), "build.vc15")
         self.subinfo.options.configure.projectFile = os.path.join(self.mpirBuildDir, "mpir.sln")
         self.msbuildTargets = ["dll_mpir_gc", "lib_mpir_cxx"]
 

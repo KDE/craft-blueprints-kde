@@ -34,9 +34,6 @@ from Package.MSBuildPackageBase import *
 class PackageCMake(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
-
-        if CraftCore.compiler.isX86():
-            self.subinfo.options.configure.args = " /p:Platform=Win32"
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "allinone", "allinone.sln")
 
     def install(self):

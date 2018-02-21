@@ -30,8 +30,6 @@ class PackageCMake(MSBuildPackageBase):
         MSBuildPackageBase.__init__(self)
         self.toolset = "vs14"
         self.subinfo.options.configure.args = "/p:useenv=true"
-        if CraftCore.compiler.isX86():
-            self.subinfo.options.configure.args += " /p:Platform=Win32"
         self.subinfo.options.configure.projectFile = \
             os.path.join(self.sourceDir(), "build", "win32", self.toolset, "glib.sln")
 

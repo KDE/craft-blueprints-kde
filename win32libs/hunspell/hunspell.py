@@ -15,7 +15,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.6.2"
 
     def setDependencies( self ):
-        self.buildDependencies["dev-util/msys"] = "default"
+        if CraftCore.compiler.isMinGW():
+            self.buildDependencies["dev-util/msys"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["win32libs/gettext"] = "default"
         self.runtimeDependencies["win32libs/win_iconv"] = "default"
@@ -25,9 +26,6 @@ from Package.MSBuildPackageBase import *
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
-
-        if CraftCore.compiler.isX86():
-            self.subinfo.options.configure.args = " /p:Platform=Win32"
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "msvc", "Hunspell.sln")
         self.buildTypes = {"Release" : "Release_dll", "RelWithDebInfo" : "Release_dll", "Debug" : "Debug_dll" }
 

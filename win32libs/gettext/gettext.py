@@ -44,17 +44,8 @@ class PackageMinGW(AutoToolsPackageBase):
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
-        if CraftCore.compiler.getInternalVersion() == 14:
-            self.gettextBuildDir = os.path.join(self.sourceDir(), "win32", "vs14")
-        else:
-            self.gettextBuildDir = os.path.join(self.sourceDir(), "win32", "vs15")
-
-
-        self.subinfo.options.configure.args = self.subinfo.options.configure.args + " /p:WindowsTargetPlatformVersion=" + os.getenv('WINDOWSSDKVERSION')[:-1]
-        self.subinfo.options.configure.args += " /p:UseEnv=true"
-        if CraftCore.compiler.isX86():
-            self.subinfo.options.configure.args += " /p:Platform=win32"
-
+        self.gettextBuildDir = os.path.join(self.sourceDir(), "win32", "vs15")
+        self.subinfo.options.configure.args = "/p:UseEnv=true"
         self.subinfo.options.configure.projectFile = os.path.join(self.gettextBuildDir, "gettext.sln")
 
         self.msbuildTargets = ["intl", "gettext", "ngettext", "envsubst"]

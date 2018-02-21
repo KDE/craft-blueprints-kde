@@ -26,7 +26,6 @@ class PackageCMake(MSBuildPackageBase):
         folderSuffix = "x64"
         if CraftCore.compiler.isX86():
             folderSuffix = "x86"
-            self.subinfo.options.configure.args = " /p:Platform=Win32"
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "win32", f"vc14_{folderSuffix}",
                                                                   "libffi-msvc.sln")
 
