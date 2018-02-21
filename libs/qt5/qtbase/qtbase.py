@@ -16,15 +16,14 @@ class subinfo(info.infoclass):
                 self.patchToApply[ver] = [
                     ("qdbus-manager-quit-5.7.patch", 1), # https://phabricator.kde.org/D2545#69186
                     ("0001-Fix-private-headers.patch", 1),  # https://bugreports.qt.io/browse/QTBUG-37417
-                    ("workaround-mingw-egl.diff", 1),
-                    ("0001-Create-instance-of-QCoreApplication-to-prevent-possi.patch", 1) # https://codereview.qt-project.org/#/c/220870/
+                    ("workaround-mingw-egl.diff", 1)
                 ]
             elif qtVer >= CraftVersion("5.9.4") or qtVer == CraftVersion("5.9"):
                 self.patchToApply[ver] = [
                     ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
                     ("0001-Fix-private-headers.patch", 1),  # https://bugreports.qt.io/browse/QTBUG-37417
+                    ("workaround-mingw-egl-qt5.9.4.diff", 1),
                     ("0001-Add-APPDIR-data-APPNAME-5.9.4.patch", 1),  # https://codereview.qt-project.org/#/c/197855/
-                    ("workaround-mingw-egl-qt5.9.4.diff", 1)
                 ]
             elif qtVer >= CraftVersion("5.9.3"):
                 self.patchToApply[ver] = [
@@ -66,7 +65,7 @@ class subinfo(info.infoclass):
                     ("qdbus-manager-quit-5.7.patch", 1)  # https://phabricator.kde.org/D2545#69186
                 ]
 
-        self.patchLevel["5.9.4"] = 2
+        self.patchLevel["5.9.4"] = 3
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):
