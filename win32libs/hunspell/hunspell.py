@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["win32libs/gettext"] = "default"
         self.runtimeDependencies["win32libs/win_iconv"] = "default"
+        self.runtimeDependencies["data/hunspell-dictionaries"] = "default"
 
 from Package.MSBuildPackageBase import *
 
