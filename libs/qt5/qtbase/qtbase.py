@@ -185,10 +185,9 @@ class QtPackage(Qt5CorePackageBase):
 
     def qmerge(self):
         if OsUtils.isWin() and CraftCore.settings.getboolean("Packager", "UseCache"):
-            binRoot = os.path.join(CraftStandardDirs.craftRoot(), "bin")
             if not utils.system(["qtbinpatcher", "--nobackup",
                                  f"--qt-dir={self.installDir()}",
-                                 f"--new-dir={binRoot}"]):
+                                 f"--new-dir={CraftStandardDirs.craftRoot()}"]):
                 return False
         return super().qmerge()
 
