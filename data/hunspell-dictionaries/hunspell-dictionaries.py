@@ -28,6 +28,6 @@ class Package(BinaryPackageBase):
         for pattern in ["**/*.dic", "**/*.aff", "**/*.txt"]:
             files.extend(glob.glob(os.path.join(srcDir, pattern), recursive=True))
         for f in files:
-            if not utils.copyFile(f, f.replace(srcDir, destDir), linkOnly=False):
+            if not utils.copyFile(f, os.path.join(destDir, os.path.basename(f)), linkOnly=False):
                 return False
         return True
