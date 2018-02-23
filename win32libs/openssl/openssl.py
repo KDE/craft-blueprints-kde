@@ -23,15 +23,16 @@ class subinfo(info.infoclass):
         self.description = "The OpenSSL runtime environment"
 
         #set the default config for openssl 1.1
-        self.options.configure.args = "zlib-dynamic threads"
+        self.options.configure.args = "no-zlib threads no-rc5 no-idea no-ssl3-method no-weak-ssl-ciphers no-heartbeats"
 
         self.defaultTarget = '1.0.2m'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.buildDependencies["dev-util/perl"] = "default"
-        self.runtimeDependencies["win32libs/zlib"] = "default"
         if CraftCore.compiler.isMinGW():
+            # TODO: remove when we drop < 1.1
+            self.runtimeDependencies["win32libs/zlib"] = "default"
             self.buildDependencies["dev-util/msys"] = "default"
         elif CraftCore.compiler.isMSVC():
             self.buildDependencies["dev-util/nasm"] = "default"
