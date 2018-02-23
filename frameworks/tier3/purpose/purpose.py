@@ -3,8 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "git://anongit.kde.org/purpose"
-        self.defaultTarget = "master"
+        self.versionInfo.setDefaultValues()
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
