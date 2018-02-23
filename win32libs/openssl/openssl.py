@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftVersion import CraftVersion
 
 
 class subinfo(info.infoclass):
@@ -21,16 +22,24 @@ class subinfo(info.infoclass):
 
         self.description = "The OpenSSL runtime environment"
 
+        #set the default config for openssl 1.1
+        self.options.configure.args = "zlib-dynamic threads"
+
         self.defaultTarget = '1.0.2m'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.buildDependencies["dev-util/perl"] = "default"
+        self.runtimeDependencies["win32libs/zlib"] = "default"
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-util/msys"] = "default"
-            self.runtimeDependencies["win32libs/zlib"] = "default"
         elif CraftCore.compiler.isMSVC():
             self.buildDependencies["dev-util/nasm"] = "default"
+
+    @property
+    def opensslUseLegacyBuildSystem(self):
+        return CraftVersion(self.buildTarget) < CraftVersion("1.1")
+
 
 
 from Package.CMakePackageBase import *
@@ -40,9 +49,24 @@ class PackageCMake(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.staticBuild = False
+        self.supportsNinja = False
+
+    def configure( self, defines=""):
+        if self.subinfo.opensslUseLegacyBuildSystem:
+            return True
+        self.enterBuildDir()
+        prefix = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
+        return utils.system(["perl", os.path.join(self.sourceDir(), "Configure"), f"--prefix={prefix}", f"--openssldir={prefix}/ssl"]
+                            + self.subinfo.options.configure.args.split(" ")
+                            + ["-FS",
+                                f"-I{OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), 'include'))}",
+                                "VC-WIN64A" if CraftCore.compiler.isX64() else "VC-WIN32"])
+
 
     def compile(self):
-        os.chdir(self.sourceDir())
+        if not self.subinfo.opensslUseLegacyBuildSystem:
+            return super().compile()
+        self.enterSourceDir()
         cmd = ""
         if CraftCore.compiler.isX64():
             config = "VC-WIN64A"
@@ -67,6 +91,8 @@ class PackageCMake(CMakePackageBase):
         return utils.system(cmd)
 
     def install(self):
+        if not self.subinfo.opensslUseLegacyBuildSystem:
+            return super().install()
         src = self.sourceDir()
         dst = self.imageDir()
 
@@ -100,9 +126,6 @@ from Package.AutoToolsPackageBase import *
 class PackageMSys(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.make.supportsMultijob = False
-        self.subinfo.options.package.packageName = 'openssl'
-        self.subinfo.options.package.packSources = False
         if CraftCore.compiler.isMinGW():
             if CraftCore.compiler.isX64():
                 self.platform = "mingw64"
@@ -112,17 +135,22 @@ class PackageMSys(AutoToolsPackageBase):
             self.subinfo.options.configure.projectFile = "config"
             self.platform = ""
         self.supportsCCACHE = False
+        if self.subinfo.opensslUseLegacyBuildSystem:
+            self.subinfo.options.make.supportsMultijob = False
+            self.subinfo.options.useShadowBuild = False
 
-        self.subinfo.options.useShadowBuild = False
-
-        # target install needs perl with native path on configure time
-        self.subinfo.options.configure.args = " shared zlib-dynamic enable-camellia enable-idea enable-mdc2 enable-tlsext enable-rfc3779"
+            # target install needs perl with native path on configure time
+            self.subinfo.options.configure.args = " shared zlib-dynamic enable-camellia enable-idea enable-mdc2 enable-tlsext enable-rfc3779"
 
     def make(self, dummyBuildType=None):
+        if not self.subinfo.opensslUseLegacyBuildSystem:
+            return super().make()
         return self.shell.execute(self.sourceDir(), self.makeProgram, "depend") and \
                AutoToolsPackageBase.make(self, dummyBuildType)
 
     def install(self):
+        if not self.subinfo.opensslUseLegacyBuildSystem:
+            return super().install()
         self.enterSourceDir()
         self.shell.execute(self.sourceDir(), self.makeProgram,
                            "INSTALLTOP=%s install_sw" % (self.shell.toNativePath(self.imageDir())))
@@ -135,7 +163,6 @@ class PackageMSys(AutoToolsPackageBase):
             shutil.move(os.path.join(self.imageDir(), "lib", "libssl.dll.a"),
                         os.path.join(self.imageDir(), "lib", "ssleay32.dll.a"))
         return True
-
 
 if CraftCore.compiler.isGCCLike():
     class Package(PackageMSys):
