@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
     vlc_ver = None
 
     def setTargets(self):
-        for ver in ["2.2.6", "2.2.8"]:
+        for ver in ["2.2.6", "2.2.8", "3.0.0"]:
             self.targets[ver] = f"http://download.videolan.org/pub/videolan/vlc/{ver}/win{CraftCore.compiler.bits}/vlc-{ver}-win{CraftCore.compiler.bits}.7z"
             self.targetInstSrc[ver] = f"vlc-{ver}"
             self.targetDigestUrls[ver] = f"http://download.videolan.org/pub/videolan/vlc/{ver}/win{CraftCore.compiler.bits}/vlc-{ver}-win{CraftCore.compiler.bits}.7z.sha256"
@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.webpage = "https://www.videolan.org/"
         self.description = "an open-source multimedia framework"
 
-        self.defaultTarget = "2.2.8"
+        self.defaultTarget = "3.0.0"
 
     def setDependencies(self):
         self.buildDependencies["virtual/bin-base"] = "default"
@@ -25,8 +25,6 @@ class subinfo(info.infoclass):
 class Package(BinaryPackageBase):
     def __init__(self):
         BinaryPackageBase.__init__(self)
-        self.subinfo.options.package.packageName = "vlc"
-        self.subinfo.options.package.packSources = False
 
     def install(self):
         utils.copyDir(self.sourceDir(), os.path.join(self.installDir(), "bin"))
