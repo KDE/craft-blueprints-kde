@@ -10,11 +10,16 @@ class subinfo(info.infoclass):
 
         self.description = "Spelling framework for Qt, plugin-based."
 
+    def registerOptions(self):
+        self.options.dynamic.registerOption("useHunspell", True)
+        self.options.dynamic.registerOption("useAspell", False)
+
+
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["win32libs/aspell"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["win32libs/hunspell"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
 
 
 from Package.CMakePackageBase import *
@@ -23,3 +28,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        if not self.subinfo.options.dynamic.useHunspell:
+            self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_HUNSPELL=ON"
+        if not self.subinfo.options.dynamic.useAspell:
+            self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_ASPELL=ON"
