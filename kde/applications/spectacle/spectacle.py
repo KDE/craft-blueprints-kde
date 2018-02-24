@@ -10,7 +10,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
-        self.runtimeDependencies["frameworks/tier1/purpose"] = "default"
         self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
         self.runtimeDependencies["frameworks/tier1/kwidgetsaddons"] = "default"
         self.runtimeDependencies["frameworks/tier1/kdbusaddons"] = "default"
@@ -23,6 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier2/kdoctools"] = "default"
         self.runtimeDependencies["frameworks/tier3/kdeclarative"] = "default"
         self.runtimeDependencies["frameworks/tier3/knewstuff"] = "default"
+        self.runtimeDependencies["frameworks/tier3/purpose"] = "default"
         self.runtimeDependencies["kde/kdegraphics/libkipi"] = "default"
 
 from Package.CMakePackageBase import *
