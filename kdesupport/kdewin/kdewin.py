@@ -3,12 +3,13 @@ import info
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
         # will be moved to kdewin-qt
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtsvg"] = None
         # will be moved to kdewin-tools
-        self.runtimeDependencies["win32libs/zlib"] = "default"
-        self.runtimeDependencies["win32libs/libpng"] = "default"
+        self.runtimeDependencies["win32libs/zlib"] = None
+        self.runtimeDependencies["win32libs/libpng"] = None
 
     def setTargets(self):
         self.svnTargets[
