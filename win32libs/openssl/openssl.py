@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
         #set the default config for openssl 1.1
         self.options.configure.args = "shared no-zlib threads no-rc5 no-idea no-ssl3-method no-weak-ssl-ciphers no-heartbeats"
 
-        self.defaultTarget = '1.0.2m'
+        self.defaultTarget = '1.1.0g'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
