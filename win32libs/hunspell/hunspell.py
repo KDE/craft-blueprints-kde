@@ -50,6 +50,7 @@ from Package.AutoToolsPackageBase import *
 class PackageGNU(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
+        self.subinfo.options.configure.bootstrap = True
         self.subinfo.options.configure.args += " --disable-static --enable-shared"
 
 if CraftCore.compiler.isGCCLike():
