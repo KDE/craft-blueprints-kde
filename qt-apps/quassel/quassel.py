@@ -57,6 +57,7 @@ class Package(CMakePackageBase):
         return True
 
     def createPackage(self):
+        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
         self.defines["gitDir"] = self.sourceDir()
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["productname"] = None
@@ -64,5 +65,7 @@ class Package(CMakePackageBase):
 
         self.scriptname = os.path.join(self.sourceDir(), "scripts", "build", "NullsoftInstaller.nsi")
         self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("win32libs/dbus")
+
 
         return TypePackager.createPackage(self)

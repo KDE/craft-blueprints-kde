@@ -1,5 +1,5 @@
-include
-.*\.h
 lib/plugins/libsnore.*/libsnore_backend_freedesktop\.dll
-.*\.pdb
-.*plugind\.dll
+
+html/.*
+# strip most executables
+bin/(?!(quassel.*)).*\.exe
