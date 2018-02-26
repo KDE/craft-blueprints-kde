@@ -28,6 +28,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
         self.runtimeDependencies["libs/qt5/qtscript"] = "default"
         self.runtimeDependencies["libs/qt5/qttools"] = "default"
+        self.runtimeDependencies["frameworks/tier1/sonnet"] = "default"
 
 
 class Package(CMakePackageBase):
@@ -56,8 +57,6 @@ class Package(CMakePackageBase):
         return True
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
-        self.whitelist_file.append(os.path.join(self.packageDir(), "whitelist.txt"))
         self.defines["gitDir"] = self.sourceDir()
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["productname"] = None
