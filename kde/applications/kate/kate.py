@@ -53,5 +53,6 @@ class Package(CMakePackageBase):
         self.scriptname = os.path.join(self.packageDir(), "NullsoftInstaller.nsi")
 
         self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("win32libs/dbus")
 
         return TypePackager.createPackage(self)
