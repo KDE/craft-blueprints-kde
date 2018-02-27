@@ -6,6 +6,7 @@ class subinfo(info.infoclass):
         for v in ['2.7.0', '2.8.4', '3.3.1']:
             self.targets[v] = 'https://github.com/libarchive/libarchive/archive/v' + v + '.tar.gz'
             self.targetInstSrc[v] = 'libarchive-' + v
+            self.patchLevel[v] = 2
         self.targetDigests['2.8.4'] = 'b9cc3bbd20bd71f996be9ec738f19fda8653f7af'
         self.patchToApply['2.8.4'] = ("libarchive-2.8.4-20101205.diff", 1)
         self.patchToApply['3.3.1'] = ("libarchive-no-fatal-warnings-in-debug-mode.diff", 1)
