@@ -13,14 +13,13 @@ class subinfo(info.infoclass):
         self.defaultTarget = '3.3.1'
 
     def setDependencies(self):
+        self.buildDependencies["win32libs/liblzma"] = "default"
+        self.buildDependencies["win32libs/libbzip2"] = "default"
+        self.buildDependencies["win32libs/zlib"] = "default"
+        self.buildDependencies["win32libs/openssl"] = "default"
+        self.buildDependencies["win32libs/libxml2"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["win32libs/libbzip2"] = "default"
-        #        self.runtimeDependencies["win32libs/liblzma"] = "default"
-        self.runtimeDependencies["win32libs/openssl"] = "default"
-        self.runtimeDependencies["win32libs/zlib"] = "default"
         #        self.runtimeDependencies["win32libs/expat"] = "default"
-        self.runtimeDependencies["win32libs/libxml2"] = "default"
-
 
 from Package.CMakePackageBase import *
 
