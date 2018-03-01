@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/KDAB/KDStateMachineEditor.git"
         self.svnTargets["1.2"] = "https://github.com/KDAB/KDStateMachineEditor.git|1.2"
-        for ver in ["1.2.0", "1.2.1", "1.2.2"]:
+        for ver in ["1.2.0", "1.2.1", "1.2.2", "1.2.3"]:
             self.targets[ver] = f"https://github.com/KDAB/KDStateMachineEditor/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"kdstatemachineeditor-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"KDStateMachineEditor-{ver}"
@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
 
         self.description = "The KDAB State Machine Editor Library is a framework that can be used to help develop full-featured State Machine Editing graphical user interfaces and tools."
         self.webpage = "https://www.kdab.com/"
-        self.defaultTarget = "1.2.2"
+        self.defaultTarget = "1.2.3"
 
     def setDependencies(self):
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
