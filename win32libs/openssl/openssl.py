@@ -51,6 +51,8 @@ class PackageCMake(CMakePackageBase):
         CMakePackageBase.__init__(self)
         self.staticBuild = False
         self.supportsNinja = False
+        if not self.subinfo.opensslUseLegacyBuildSystem:
+            self.subinfo.options.install.args += "install_sw install_ssldirs"
 
     def configure( self, defines=""):
         if self.subinfo.opensslUseLegacyBuildSystem:
@@ -139,7 +141,9 @@ class PackageMSys(AutoToolsPackageBase):
             self.subinfo.options.configure.projectFile = "config"
             self.platform = ""
         self.supportsCCACHE = False
-        if self.subinfo.opensslUseLegacyBuildSystem:
+        if not self.subinfo.opensslUseLegacyBuildSystem:
+            self.subinfo.options.install.args += "install_sw install_ssldirs"
+        else:
             self.subinfo.options.make.supportsMultijob = False
             self.subinfo.options.useShadowBuild = False
 
