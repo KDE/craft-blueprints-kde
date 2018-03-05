@@ -180,7 +180,7 @@ class PackageMSys(AutoToolsPackageBase):
                             os.path.join(self.imageDir(), "lib", "ssleay32.dll.a"))
             return True
 
-if CraftCore.compiler.isGCCLike():
+if CraftCore.compiler.isGCCLike() and not CraftCore.compiler.isMSVC():
     class Package(PackageMSys):
         pass
 else:
