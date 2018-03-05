@@ -32,6 +32,7 @@ class subinfo(info.infoclass):
         for ver in ["1.9"]:
             self.targets[ver] = f"http://freedesktop.org/~hadess/shared-mime-info-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
+        self.patchLevel["1.9"] = 1
         self.targetDigests["1.9"] = (['5c0133ec4e228e41bdf52f726d271a2d821499c2ab97afd3aa3d6cf43efcdc83'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "The shared-mime-info package contains the core database of common types and the update-mime-database command used to extend it"
