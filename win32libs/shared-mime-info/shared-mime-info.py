@@ -24,7 +24,7 @@
 
 import info
 from Package.AutoToolsPackageBase import *
-
+from Utils.PostInstallRoutines import *
 
 
 class subinfo(info.infoclass):
@@ -74,4 +74,6 @@ class Package(AutoToolsPackageBase):
             return utils.copyFile(os.path.join(self.buildDir(), "update-mime-database.pdb"), os.path.join(self.installDir(), "bin", "update-mime-database.pdb"))
         return True
 
+    def postInstall(self):
+        return PostInstallRoutines.updateSharedMimeInfo(self)
 
