@@ -39,3 +39,11 @@ class Package(BinaryPackageBase):
         return utils.moveDir(os.path.join(self.imageDir(), "share"), os.path.join(self.imageDir(), "bin", "data")) \
                and utils.copyFile(os.path.join(self.packageDir(), "docbook-xsl-stylesheets-1.78.1.xml"),
                                   os.path.join(self.imageDir(), "etc", "xml", "docbook-xsl-stylesheets.xml"))
+
+
+    def postInstall(self):
+        catalog = os.path.join(CraftCore.standardDirs.craftRoot(), "etc", "xml", "catalog")
+        if not os.path.isfile(catalog):
+            if not utils.system(["xmlcatalog", "--create", "--noout", catalog]):
+                return False
+        return utils.system(["xmlcatalog", "--noout", "--add", "delegateSystem", "http://docbook.sourceforge.net/release/xsl/", "docbook-xsl-stylesheets.xml", catalog ])
