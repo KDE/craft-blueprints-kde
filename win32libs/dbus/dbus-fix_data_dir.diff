@@ -1,0 +1,40 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' dbus-1.11.14.orig/cmake/bus/CMakeLists.txt dbus-1.11.14/cmake/bus/CMakeLists.txt
+--- dbus-1.11.14.orig/cmake/bus/CMakeLists.txt	2017-04-16 11:20:33.000000000 +0200
++++ dbus-1.11.14/cmake/bus/CMakeLists.txt	2018-03-08 15:05:47.346922700 +0100
+@@ -94,16 +94,16 @@
+ set_target_properties(dbus-daemon PROPERTIES COMPILE_FLAGS ${DBUS_INTERNAL_CLIENT_DEFINITIONS})
+ 
+ install(TARGETS dbus-daemon ${INSTALL_TARGETS_DEFAULT_ARGS})
+-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/session.conf DESTINATION share/dbus-1)
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/session.conf DESTINATION ${CMAKE_INSTALL_DATADIR}/dbus-1)
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/legacy-config/session.conf DESTINATION etc/dbus-1)
+-install(DIRECTORY DESTINATION share/dbus-1/session.d)
+-install(DIRECTORY DESTINATION share/dbus-1/services)
++install(DIRECTORY DESTINATION ${CMAKE_INSTALL_DATADIR}/dbus-1/session.d)
++install(DIRECTORY DESTINATION ${CMAKE_INSTALL_DATADIR}/dbus-1/services)
+ 
+ if(NOT WIN32)
+-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/system.conf DESTINATION share/dbus-1)
++    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/system.conf DESTINATION ${CMAKE_INSTALL_DATADIR}/dbus-1)
+     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/legacy-config/system.conf DESTINATION etc/dbus-1)
+-    install(DIRECTORY DESTINATION share/dbus-1/system.d)
+-    install(DIRECTORY DESTINATION share/dbus-1/system-services)
++    install(DIRECTORY DESTINATION ${CMAKE_INSTALL_DATADIR}/dbus-1/system.d)
++    install(DIRECTORY DESTINATION ${CMAKE_INSTALL_DATADIR}/dbus-1/system-services)
+     install(DIRECTORY DESTINATION var/run/dbus)
+ endif()
+ 
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' dbus-1.11.14.orig/cmake/CMakeLists.txt dbus-1.11.14/cmake/CMakeLists.txt
+--- dbus-1.11.14.orig/cmake/CMakeLists.txt	2017-04-18 13:27:42.000000000 +0200
++++ dbus-1.11.14/cmake/CMakeLists.txt	2018-03-08 15:06:15.684831900 +0100
+@@ -454,8 +454,8 @@
+   set (DBUS_SESSION_BUS_LISTEN_ADDRESS "autolaunch:" CACHE STRING "session bus default listening address")
+   set (DBUS_SESSION_BUS_CONNECT_ADDRESS "autolaunch:" CACHE STRING "session bus fallback address for clients")
+ 
+-  set (DBUS_SYSTEM_CONFIG_FILE "share/dbus-1/system.conf")
+-  set (DBUS_SESSION_CONFIG_FILE "share/dbus-1/session.conf")
++  set (DBUS_SYSTEM_CONFIG_FILE "${CMAKE_INSTALL_DATADIR}/dbus-1/system.conf")
++  set (DBUS_SESSION_CONFIG_FILE "${CMAKE_INSTALL_DATADIR}/dbus-1/session.conf")
+   # bus-test expects a non empty string
+   set (DBUS_USER "Administrator")
+   set (DBUS_TEST_USER "guest")
