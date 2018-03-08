@@ -44,6 +44,8 @@ class subinfo(info.infoclass):
             baseUrl = 'ftp://ftp.openssl.org/source/'
             addTarget(baseUrl, ver)
 
+        self.patchLevel["1.1.0g"] = 1
+
         self.description = "The OpenSSL runtime environment"
 
         #set the default config for openssl 1.1
