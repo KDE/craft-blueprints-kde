@@ -56,6 +56,5 @@ class Package(CMakePackageBase):
         self.defines["license"] = os.path.join(self.sourceDir(), "LICENSE.GPL.txt")
         self.defines["icon"] = os.path.join(self.sourceDir(), "ui", "resources", "gammaray", "GammaRay.ico")
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("win32libs/icu")
         self.ignoredPackages.append("win32libs/dbus")
         return TypePackager.createPackage(self)

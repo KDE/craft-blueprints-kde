@@ -35,5 +35,4 @@ class Package(CMakePackageBase):
         self.defines["license"] = os.path.join(self.sourceDir(), "LICENSE.GPL.txt")
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("win32libs/icu")
         return TypePackager.createPackage(self)
