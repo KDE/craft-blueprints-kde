@@ -30,12 +30,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/kplotting"] = "default"
         self.runtimeDependencies["frameworks/tier3/knotifications"] = "default"
         self.runtimeDependencies["frameworks/tier3/knotifyconfig"] = "default"
-        self.runtimeDependencies["win32libs/eigen3"] = "default"
-        self.runtimeDependencies["win32libs/cfitsio"] = "default"
-        self.runtimeDependencies["win32libs/wcslib"] = "default"
-        self.runtimeDependencies["win32libs/indiclient"] = "default"
-        self.runtimeDependencies["win32libs/libraw"] = "default"
-        self.runtimeDependencies["win32libs/gsl"] = "default"
+        self.runtimeDependencies["libs/eigen3"] = "default"
+        self.runtimeDependencies["libs/cfitsio"] = "default"
+        self.runtimeDependencies["libs/wcslib"] = "default"
+        self.runtimeDependencies["libs/indiclient"] = "default"
+        self.runtimeDependencies["libs/libraw"] = "default"
+        self.runtimeDependencies["libs/gsl"] = "default"
         self.runtimeDependencies["qt-libs/phonon-vlc"] = "default"
 
         # Install proper theme

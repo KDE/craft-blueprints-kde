@@ -18,8 +18,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
 
         # self.runtimeDependencies["qt-libs/poppler"] = "default"
-        self.runtimeDependencies["win32libs/taglib"] = "default"
-        self.runtimeDependencies["win32libs/exiv2"] = "default"
+        self.runtimeDependencies["libs/taglib"] = "default"
+        self.runtimeDependencies["libs/exiv2"] = "default"
 
 
 from Package.CMakePackageBase import *

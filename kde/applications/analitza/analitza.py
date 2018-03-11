@@ -15,8 +15,8 @@ class subinfo(info.infoclass):
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
 
-        self.buildDependencies["win32libs/eigen3"] = "default"
-        self.runtimeDependencies["win32libs/glew"] = "default"
+        self.buildDependencies["libs/eigen3"] = "default"
+        self.runtimeDependencies["libs/glew"] = "default"
 
 
 from Package.CMakePackageBase import *

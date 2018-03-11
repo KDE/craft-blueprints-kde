@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-util/msys"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["autotools/libtasn1"] = "default"
-        self.runtimeDependencies["win32libs/libffi"] = "default"
+        self.runtimeDependencies["libs/libffi"] = "default"
 
 
 class Package(AutoToolsPackageBase):

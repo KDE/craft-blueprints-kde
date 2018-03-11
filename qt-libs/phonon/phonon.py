@@ -27,5 +27,5 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         self.subinfo.options.package.disableBinaryCache = True
         self.subinfo.options.configure.args = " -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=ON -DPHONON_BUILD_PHONON4QT5=ON"
-        if not self.subinfo.options.isActive("win32libs/dbus"):
+        if not self.subinfo.options.isActive("libs/dbus"):
             self.subinfo.options.configure.args += " -DPHONON_NO_DBUS=ON "

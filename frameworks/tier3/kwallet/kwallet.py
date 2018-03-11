@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier3/kiconthemes"] = "default"
         self.runtimeDependencies["frameworks/tier3/knotifications"] = "default"
         self.runtimeDependencies["frameworks/tier1/kwindowsystem"] = "default"
-        self.runtimeDependencies["win32libs/gcrypt"] = "default"
+        self.runtimeDependencies["libs/gcrypt"] = "default"
 
 
 from Package.CMakePackageBase import *

@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["frameworks/tier1/syntax-highlighting"] = "default"
         self.runtimeDependencies["qt-apps/kdstatemachineeditor"] = "default"
-        self.runtimeDependencies["win32libs/openssl"] = "default"
+        self.runtimeDependencies["libs/openssl"] = "default"
         probes = CraftPackageObject.get("kdab/gammaray-binary-probes")
         if probes and probes.isInstalled:
             self.runtimeDependencies["kdab/gammaray-binary-probes"] = "default"
@@ -56,5 +56,5 @@ class Package(CMakePackageBase):
         self.defines["license"] = os.path.join(self.sourceDir(), "LICENSE.GPL.txt")
         self.defines["icon"] = os.path.join(self.sourceDir(), "ui", "resources", "gammaray", "GammaRay.ico")
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("win32libs/dbus")
+        self.ignoredPackages.append("libs/dbus")
         return TypePackager.createPackage(self)

@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/grantleetheme"] = "default"
         self.runtimeDependencies["kde/pim/kdepim-apps-libs"] = "default"
         self.runtimeDependencies["kde/pim/akonadi-search"] = "default"
-        self.runtimeDependencies["win32libs/gpgme"] = "default"
+        self.runtimeDependencies["libs/gpgme"] = "default"
 
 
 from Package.CMakePackageBase import *

@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["dev-util/perl"] = "default"
         self.runtimeDependencies["dev-util/msys"] = "default"
-        self.runtimeDependencies["win32libs/win_iconv"] = "default"
+        self.runtimeDependencies["libs/win_iconv"] = "default"
 
 
 from Package.AutoToolsPackageBase import *
