@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = "default"
         self.runtimeDependencies["libs/gettext"] = "default"
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-util/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = "default"
 
 
 class PackageCMake(MSBuildPackageBase):

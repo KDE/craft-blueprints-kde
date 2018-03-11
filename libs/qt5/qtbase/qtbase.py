@@ -71,10 +71,10 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         if CraftCore.settings.getboolean("Packager", "UseCache") and not CraftCore.settings.getboolean("QtSDK", "Enabled", False):
-            self.buildDependencies["dev-util/qtbinpatcher"] = None
+            self.buildDependencies["dev-utils/qtbinpatcher"] = None
         self.runtimeDependencies["virtual/base"] = None
-        self.buildDependencies["dev-util/perl"] = None
-        self.buildDependencies["dev-util/winflexbison"] = None
+        self.buildDependencies["dev-utils/perl"] = None
+        self.buildDependencies["dev-utils/winflexbison"] = None
         if not self.options.buildStatic:
             self.runtimeDependencies["libs/openssl"] = None if CraftVersion(self.buildTarget) < CraftVersion("5.10") else "1.1"
             self.runtimeDependencies["libs/dbus"] = None

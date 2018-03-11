@@ -19,8 +19,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-util/msys"] = "default"
-        self.buildDependencies["dev-util/qlalr"] = "default"
+        self.buildDependencies["dev-utils/msys"] = "default"
+        self.buildDependencies["dev-utils/qlalr"] = "default"
 
 
 class Package(CMakePackageBase):

@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/bin-base"] = "default"
-        self.runtimeDependencies["dev-util/python3"] = "default"
+        self.runtimeDependencies["dev-utils/python3"] = "default"
 
     def msysInstallShim(self, installDir):
         return utils.createShim(os.path.join(installDir, "dev-utils", "bin", "msys.exe"),

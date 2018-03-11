@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = "default"
         self.runtimeDependencies["libs/openssl"] = "default"
         # self.runtimeDependencies["kdesupport/qca"] = "default"
-        self.runtimeDependencies["dev-util/pkg-config"] = "default"
+        self.runtimeDependencies["dev-utils/pkg-config"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
         self.runtimeDependencies["libs/qt5/qtscript"] = "default"

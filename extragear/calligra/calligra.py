@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.webpage = "https://calligra.org/"
 
     def setDependencies( self ):
-        self.buildDependencies['dev-util/pkg-config'] = 'default'
+        self.buildDependencies['dev-utils/pkg-config'] = 'default'
         self.runtimeDependencies['libs/qt5/qtbase'] = 'default'
         self.runtimeDependencies['libs/qt5/qtquickcontrols'] = 'default'
         # Qt WebEngine doesn't work with MinGW, because reasons, i guess, derp
