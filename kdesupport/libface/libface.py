@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["win32libs/opencv"] = "default"
+        self.runtimeDependencies["libs/opencv"] = "default"
 
 
 from Package.CMakePackageBase import *

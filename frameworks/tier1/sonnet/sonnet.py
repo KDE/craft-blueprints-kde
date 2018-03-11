@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["win32libs/hunspell"] = None
+        self.runtimeDependencies["libs/hunspell"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
 
 

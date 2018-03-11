@@ -20,8 +20,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["qt-libs/snorenotify"] = "default"
-        self.runtimeDependencies["win32libs/zlib"] = "default"
-        self.runtimeDependencies["win32libs/openssl"] = "default"
+        self.runtimeDependencies["libs/zlib"] = "default"
+        self.runtimeDependencies["libs/openssl"] = "default"
         # self.runtimeDependencies["kdesupport/qca"] = "default"
         self.runtimeDependencies["dev-util/pkg-config"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
@@ -65,7 +65,7 @@ class Package(CMakePackageBase):
 
         self.scriptname = os.path.join(self.sourceDir(), "scripts", "build", "NullsoftInstaller.nsi")
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("win32libs/dbus")
+        self.ignoredPackages.append("libs/dbus")
 
 
         return TypePackager.createPackage(self)

@@ -1,0 +1,33 @@
+diff -Nru gettext-0.19.8.1-unpatched/configure gettext-0.19.8.1/configure
+--- gettext-0.19.8.1-unpatched/configure	2016-06-11 15:01:20.000000000 +0200
++++ gettext-0.19.8.1/configure	2018-02-10 10:06:18.877946400 +0100
+@@ -747,7 +747,7 @@
+ EMACS
+ EMACSLOADPATH
+ CXXCPP'
+-ac_subdirs_all='gettext-runtime gettext-tools'
++ac_subdirs_all='gettext-runtime'
+ 
+ # Initialize some variables set by options.
+ ac_init_help=
+@@ -2535,7 +2535,7 @@
+ 
+ 
+ 
+-subdirs="$subdirs gettext-runtime gettext-tools"
++subdirs="$subdirs gettext-runtime"
+ 
+ 
+ 
+diff -Nru gettext-0.19.8.1-unpatched/Makefile.in gettext-0.19.8.1/Makefile.in
+--- gettext-0.19.8.1-unpatched/Makefile.in	2016-06-11 15:01:21.000000000 +0200
++++ gettext-0.19.8.1/Makefile.in	2018-02-10 10:06:16.633447400 +0100
+@@ -312,7 +312,7 @@
+ top_srcdir = @top_srcdir@
+ AUTOMAKE_OPTIONS = 1.5 gnu no-dependencies
+ ACLOCAL_AMFLAGS = -I m4
+-SUBDIRS = gnulib-local gettext-runtime gettext-tools
++SUBDIRS = gnulib-local gettext-runtime
+ changelog_etc = \
+   gettext-runtime/ChangeLog.0 \
+   gettext-runtime/doc/ChangeLog.0 \

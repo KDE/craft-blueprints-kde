@@ -22,8 +22,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier3/kservice"] = "default"
         self.runtimeDependencies["frameworks/tier3/kparts"] = "default"
         self.runtimeDependencies["frameworks/tier2/kpty"] = "default"
-        self.runtimeDependencies["win32libs/libarchive"] = "default"
-        self.runtimeDependencies["win32libs/libzip"] = "default"
+        self.runtimeDependencies["libs/libarchive"] = "default"
+        self.runtimeDependencies["libs/libzip"] = "default"
 
 
 from Package.CMakePackageBase import *

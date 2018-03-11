@@ -16,11 +16,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/libechonest"] = "default"
         self.runtimeDependencies["frameworks/tier1/attica"] = "default"
         self.runtimeDependencies["qt-libs/liblastfm"] = "default"
-        self.runtimeDependencies["win32libs/luceneplusplus"] = "default"
-        self.runtimeDependencies["win32libs/taglib"] = "default"
-        self.runtimeDependencies["win32libs/gnutls"] = "default"
-        self.buildDependencies["win32libs/websocketpp"] = "default"
-        self.runtimeDependencies["win32libs/libsparsehash"] = "default"
+        self.runtimeDependencies["libs/luceneplusplus"] = "default"
+        self.runtimeDependencies["libs/taglib"] = "default"
+        self.runtimeDependencies["libs/gnutls"] = "default"
+        self.buildDependencies["libs/websocketpp"] = "default"
+        self.runtimeDependencies["libs/libsparsehash"] = "default"
 
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/tomahawk-player/tomahawk.git'

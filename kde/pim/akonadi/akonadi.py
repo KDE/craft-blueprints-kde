@@ -19,10 +19,10 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["win32libs/boost/boost-graph"] = "default"
-        self.runtimeDependencies["win32libs/libxslt"] = "default"
-        self.runtimeDependencies["win32libs/sqlite"] = "default"
-        self.runtimeDependencies["win32libs/shared-mime-info"] = "default"
+        self.buildDependencies["libs/boost/boost-graph"] = "default"
+        self.runtimeDependencies["libs/libxslt"] = "default"
+        self.runtimeDependencies["libs/sqlite"] = "default"
+        self.runtimeDependencies["libs/shared-mime-info"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["frameworks/tier3/kdesignerplugin"] = "default"
         self.runtimeDependencies["frameworks/tier2/kcompletion"] = "default"

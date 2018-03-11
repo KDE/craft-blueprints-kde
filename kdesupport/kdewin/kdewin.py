@@ -8,8 +8,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtsvg"] = None
         # will be moved to kdewin-tools
-        self.runtimeDependencies["win32libs/zlib"] = None
-        self.runtimeDependencies["win32libs/libpng"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/libpng"] = None
 
     def setTargets(self):
         self.svnTargets[

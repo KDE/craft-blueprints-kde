@@ -6,8 +6,8 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5"] = "default"
-        self.runtimeDependencies["win32libs/libgsasl"] = "default"
-        self.runtimeDependencies["win32libs/gettext"] = "default"
+        self.runtimeDependencies["libs/libgsasl"] = "default"
+        self.runtimeDependencies["libs/gettext"] = "default"
 
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/euroelessar/jreen.git'

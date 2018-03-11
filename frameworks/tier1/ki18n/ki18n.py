@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/qt5/qtdeclarative"] = "default" # only needed for unit tests
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtscript"] = "default"
-        self.runtimeDependencies["win32libs/gettext"] = "default"
+        self.runtimeDependencies["libs/gettext"] = "default"
 
 
 from Package.CMakePackageBase import *

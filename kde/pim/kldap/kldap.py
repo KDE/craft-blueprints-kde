@@ -16,8 +16,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier2/kdoctools"] = "default"
         self.runtimeDependencies["frameworks/tier2/kcompletion"] = "default"
         self.runtimeDependencies["frameworks/tier1/kwidgetsaddons"] = "default"
-        self.runtimeDependencies["win32libs/cyrus-sasl"] = "default"
-        self.runtimeDependencies["win32libs/openldap"] = "default"
+        self.runtimeDependencies["libs/cyrus-sasl"] = "default"
+        self.runtimeDependencies["libs/openldap"] = "default"
 
 
 from Package.CMakePackageBase import *

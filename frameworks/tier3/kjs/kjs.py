@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["frameworks/tier2/kdoctools"] = "default"
-        self.runtimeDependencies["win32libs/pcre"] = "default"
+        self.runtimeDependencies["libs/pcre"] = "default"
 
 
 from Package.CMakePackageBase import *

@@ -8,9 +8,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
     def setDependencies(self):
-        self.buildDependencies["win32libs/gettext"] = "default"
-        self.runtimeDependencies["win32libs/expat"] = "default"
-        self.runtimeDependencies["win32libs/tiff"] = "default"
+        self.buildDependencies["libs/gettext"] = "default"
+        self.runtimeDependencies["libs/expat"] = "default"
+        self.runtimeDependencies["libs/tiff"] = "default"
         self.runtimeDependencies["frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
         self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"

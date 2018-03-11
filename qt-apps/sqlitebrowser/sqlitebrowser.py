@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["win32libs/sqlite"] = "default"
+        self.runtimeDependencies["libs/sqlite"] = "default"
 
 
 class Package(CMakePackageBase):
