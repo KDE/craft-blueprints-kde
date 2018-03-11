@@ -65,6 +65,10 @@ class PackageMSVC(MSBuildPackageBase):
                                             "{"+ ID + "}.Release|Win32.Build.0 = Release|Win32\n")  #3.0.0 version needs those lines, otherwise it won't compile anything
                     projectFileContents.insert(i + 1,
                                             "{"+ ID + "}.Release|x64.Build.0 = Release|x64\n")
+                    projectFileContents.insert(i + 1,
+                                            "{"+ ID + "}.Debug|Win32.Build.0 = Debug|Win32\n")
+                    projectFileContents.insert(i + 1,
+                                            "{"+ ID + "}.Debug|x64.Build.0 = Debug|x64\n")
                 break
 
         f.seek(0)
