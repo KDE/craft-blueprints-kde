@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'svnHEAD'
 
     def setDependencies(self):
-        self.buildDependencies["dev-util/msys"] = "default"
+        self.buildDependencies["dev-utils/msys"] = "default"
 
 
 from Package.AutoToolsPackageBase import *

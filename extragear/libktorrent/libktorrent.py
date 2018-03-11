@@ -21,7 +21,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gcrypt"] = "default"
         self.buildDependencies["libs/gettext"] = "default"
 
-
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)

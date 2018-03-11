@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
-        self.buildDependencies['dev-util/pkg-config'] = 'default'
+        self.buildDependencies['dev-utils/pkg-config'] = 'default'
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies['libs/win_iconv'] = 'default'
         self.runtimeDependencies['libs/libssh2'] = 'default'

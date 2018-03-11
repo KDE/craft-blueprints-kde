@@ -18,8 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/kguiaddons"] = "default"
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
         self.runtimeDependencies["frameworks/tier1/kwidgetsaddons"] = "default"
-        self.buildDependencies["win32libs/gettext"] = "default"
-
+        self.buildDependencies["libs/gettext"] = "default"
 
 from Package.CMakePackageBase import *
 

@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
-        self.buildDependencies["dev-util/msys"] = "default"
+        self.buildDependencies["dev-utils/msys"] = "default"
 
 
 from Package.AutoToolsPackageBase import *

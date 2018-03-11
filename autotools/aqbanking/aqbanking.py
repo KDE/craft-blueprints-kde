@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["autotools/ktoblzcheck"] = "default"
         self.runtimeDependencies["autotools/gwenhywfar"] = "default"
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-util/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = "default"
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):

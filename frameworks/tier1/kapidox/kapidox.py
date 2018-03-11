@@ -9,9 +9,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-util/cmake"] = "default"
-        self.buildDependencies["dev-util/python3"] = "default"
-        self.buildDependencies["dev-util/doxygen"] = "default"
+        self.buildDependencies["dev-utils/cmake"] = "default"
+        self.buildDependencies["dev-utils/python3"] = "default"
+        self.buildDependencies["dev-utils/doxygen"] = "default"
         self.buildDependencies["python-modules/pyyaml"] = "default"
         self.buildDependencies["python-modules/jinja2"] = "default"
         self.buildDependencies["python-modules/doxyqml"] = "default"
