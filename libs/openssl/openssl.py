@@ -55,13 +55,13 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-util/perl"] = "default"
+        self.buildDependencies["dev-utils-win/perl"] = "default"
         if CraftCore.compiler.isMinGW():
             # TODO: remove when we drop < 1.1
             self.runtimeDependencies["libs/zlib"] = "default"
-            self.buildDependencies["dev-util/msys"] = "default"
+            self.buildDependencies["dev-utils-win/msys"] = "default"
         elif CraftCore.compiler.isMSVC():
-            self.buildDependencies["dev-util/nasm"] = "default"
+            self.buildDependencies["dev-utils-win/nasm"] = "default"
 
     @property
     def opensslUseLegacyBuildSystem(self):

@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-util/msys"] = "default"
+            self.buildDependencies["dev-utils-win/msys"] = "default"
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):

@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "0.57.0"
 
     def setDependencies(self):
-        self.buildDependencies["dev-util/pkg-config"] = "default"
+        self.buildDependencies["dev-utils-win/pkg-config"] = "default"
         self.runtimeDependencies["data/poppler-data"] = "default"
         self.runtimeDependencies["libs/freetype"] = "default"
         self.runtimeDependencies["libs/libjpeg-turbo"] = "default"

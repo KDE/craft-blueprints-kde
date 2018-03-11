@@ -34,7 +34,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/liblastfm"] = "default"
         self.runtimeDependencies["libs/gettext"] = "default"
         self.runtimeDependencies["kdesupport/qtscriptgenerator"] = "default"
-        self.buildDependencies["dev-util/gettext-tools"] = "default"
+        self.buildDependencies["dev-utils-win/gettext-tools"] = "default"
         self.description = "a powerful music player"
 
 

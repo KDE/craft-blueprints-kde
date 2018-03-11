@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/win_iconv"] = "default"
         if CraftCore.compiler.isGCCLike():
-            self.buildDependencies["dev-util/msys"] = "default"
+            self.buildDependencies["dev-utils-win/msys"] = "default"
 
 
 class PackageMinGW(AutoToolsPackageBase):

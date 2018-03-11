@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["gnuwin32/gperf"] = "default"
-        self.buildDependencies["dev-util/python2"] = "default"
+        self.buildDependencies["dev-utils-win/python2"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtlocation"] = "default"
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"

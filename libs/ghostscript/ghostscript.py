@@ -6,7 +6,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/zlib"] = "default"
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-util/msys"] = "default"
+            self.buildDependencies["dev-utils-win/msys"] = "default"
             self.runtimeDependencies["libs/lcms"] = "default"
             self.runtimeDependencies["libs/lcms2"] = "default"
             self.runtimeDependencies["libs/freetype"] = "default"

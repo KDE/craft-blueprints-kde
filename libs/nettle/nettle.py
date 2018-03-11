@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-util/msys"] = "default"
+            self.buildDependencies["dev-utils-win/msys"] = "default"
             self.runtimeDependencies["libs/libgmp"] = "default"
             self.runtimeDependencies["libs/openssl"] = "default"
 

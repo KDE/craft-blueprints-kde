@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-util/nasm"] = "default"
+        self.buildDependencies["dev-utils-win/nasm"] = "default"
 
 
 from Package.CMakePackageBase import *

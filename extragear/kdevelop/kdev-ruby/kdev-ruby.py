@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.description = "ruby support for kdevelop"
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-util/winflexbison"] = "default"
+        self.buildDependencies["dev-utils-win/winflexbison"] = "default"
         self.runtimeDependencies["extragear/kdevelop/kdevelop"] = "default"
 
 

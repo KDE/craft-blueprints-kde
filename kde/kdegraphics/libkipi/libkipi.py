@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
     def setDependencies(self):
-        self.buildDependencies["dev-util/gettext-tools"] = "default"
+        self.buildDependencies["dev-utils-win/gettext-tools"] = "default"
         self.runtimeDependencies["libs/expat"] = "default"
         self.runtimeDependencies["libs/tiff"] = "default"
         self.runtimeDependencies["frameworks/extra-cmake-modules"] = "default"
