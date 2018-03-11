@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier3/kinit"] = "default"
         self.runtimeDependencies["frameworks/tier3/knotifications"] = "default"
         self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
-        self.runtimeDependencies["win32libs/libgmp"] = "default"
+        self.runtimeDependencies["libs/libgmp"] = "default"
         self.runtimeDependencies["dev-util/msys"] = "default"
 
 

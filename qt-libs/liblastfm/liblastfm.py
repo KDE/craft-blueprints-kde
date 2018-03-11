@@ -18,8 +18,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5"] = "default"
-        self.runtimeDependencies["win32libs/libfftw"] = "default"
-        self.runtimeDependencies["win32libs/libsamplerate"] = "default"
+        self.runtimeDependencies["libs/libfftw"] = "default"
+        self.runtimeDependencies["libs/libsamplerate"] = "default"
 
 
 from Package.CMakePackageBase import *

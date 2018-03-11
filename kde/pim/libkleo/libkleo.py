@@ -19,8 +19,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/kcodecs"] = "default"
         self.runtimeDependencies["frameworks/tier1/kitemmodels"] = "default"
         self.runtimeDependencies["kde/pim/kpimtextedit"] = "default"
-        self.runtimeDependencies["win32libs/gpgme"] = "default"
-        self.runtimeDependencies["win32libs/boost/boost-atomic"] = "default"
+        self.runtimeDependencies["libs/gpgme"] = "default"
+        self.runtimeDependencies["libs/boost/boost-atomic"] = "default"
 
 
 from Package.CMakePackageBase import *

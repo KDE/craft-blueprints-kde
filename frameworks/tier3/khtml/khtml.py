@@ -12,9 +12,9 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["win32libs/giflib"] = "default"
-        self.runtimeDependencies["win32libs/libjpeg-turbo"] = "default"
-        self.runtimeDependencies["win32libs/libpng"] = "default"
+        self.runtimeDependencies["libs/giflib"] = "default"
+        self.runtimeDependencies["libs/libjpeg-turbo"] = "default"
+        self.runtimeDependencies["libs/libpng"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["frameworks/tier1/karchive"] = "default"
         self.runtimeDependencies["frameworks/tier1/kcodecs"] = "default"

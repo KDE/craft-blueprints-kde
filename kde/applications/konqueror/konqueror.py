@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier3/kcmutils"] = "default"
         self.runtimeDependencies["frameworks/tier2/kdoctools"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
-        self.runtimeDependencies["win32libs/zlib"] = "default"
+        self.runtimeDependencies["libs/zlib"] = "default"
         self.runtimeDependencies["frameworks/tier3/khtml"] = "default"
 
 

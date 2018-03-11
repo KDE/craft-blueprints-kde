@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["kdesupport/qca"] = "default"
-        self.runtimeDependencies["win32libs/mpir"] = "default"
+        self.runtimeDependencies["libs/mpir"] = "default"
         self.runtimeDependencies["extragear/libktorrent"] = "default"
         self.buildDependencies["win32libs/gettext"] = "default"
 

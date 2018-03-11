@@ -19,9 +19,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["win32libs/xmlsec1"] = "default"
-        self.runtimeDependencies["win32libs/gnutls"] = "default"
-        self.runtimeDependencies["win32libs/gcrypt"] = "default"
+        self.runtimeDependencies["libs/xmlsec1"] = "default"
+        self.runtimeDependencies["libs/gnutls"] = "default"
+        self.runtimeDependencies["libs/gcrypt"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-util/msys"] = "default"

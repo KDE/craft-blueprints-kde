@@ -30,11 +30,11 @@ class subinfo(info.infoclass):
 
 
     def setDependencies(self):
-        self.runtimeDependencies["win32libs/sqlite"] = "default"
-        self.runtimeDependencies["win32libs/icu"] = "default"
-        self.runtimeDependencies["win32libs/libxslt"] = "default"
-        self.runtimeDependencies["win32libs/libxml2"] = "default"
-        self.runtimeDependencies["win32libs/zlib"] = "default"
+        self.runtimeDependencies["libs/sqlite"] = "default"
+        self.runtimeDependencies["libs/icu"] = "default"
+        self.runtimeDependencies["libs/libxslt"] = "default"
+        self.runtimeDependencies["libs/libxml2"] = "default"
+        self.runtimeDependencies["libs/zlib"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtscript"] = "default"
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
@@ -68,7 +68,7 @@ class QtPackage(Qt5CorePackageBase):
         return Qt5CorePackageBase.fetch(self)
 
     def configure(self, configureDefines=""):
-        with utils.ScopedEnv({"SQLITE3SRCDIR" : CraftPackageObject.get("win32libs/sqlite").instance.sourceDir()}):
+        with utils.ScopedEnv({"SQLITE3SRCDIR" : CraftPackageObject.get("libs/sqlite").instance.sourceDir()}):
             if not len(self.subinfo.buildTarget) == 3:  # 5.9
                 with open(os.path.join(self.sourceDir(), ".qmake.conf"), "rt+") as conf:
                     text = conf.read()

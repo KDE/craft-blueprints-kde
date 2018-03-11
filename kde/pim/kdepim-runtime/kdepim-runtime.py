@@ -37,10 +37,10 @@ class subinfo(info.infoclass):
         # self.runtimeDependencies["kde/pim/libkgapi"] = "default"
         self.runtimeDependencies["kde/pim/kpimtextedit"] = "default"
         self.runtimeDependencies["kdesupport/grantlee"] = "default"
-        self.runtimeDependencies["win32libs/cyrus-sasl"] = "default"
+        self.runtimeDependencies["libs/cyrus-sasl"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
-        self.runtimeDependencies["win32libs/libkolabxml"] = "default"
-        self.runtimeDependencies["win32libs/libkolabxml"] = "default"
+        self.runtimeDependencies["libs/libkolabxml"] = "default"
+        self.runtimeDependencies["libs/libkolabxml"] = "default"
 
 
 from Package.CMakePackageBase import *

@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["frameworks/tier1/karchive"] = "default"
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["win32libs/libxslt"] = "default"
+        self.runtimeDependencies["libs/libxslt"] = "default"
         self.runtimeDependencies["data/docbook-dtd"] = "default"
         self.runtimeDependencies["data/docbook-xsl"] = "default"
 

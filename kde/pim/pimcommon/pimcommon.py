@@ -37,7 +37,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kimap"] = "default"
         self.runtimeDependencies["kde/pim/libkdepim"] = "default"
         self.runtimeDependencies["kdesupport/grantlee"] = "default"
-        self.runtimeDependencies["win32libs/libxslt"] = "default"
+        self.runtimeDependencies["libs/libxslt"] = "default"
 
 
 from Package.CMakePackageBase import *

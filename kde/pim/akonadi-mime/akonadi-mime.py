@@ -18,8 +18,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
         self.runtimeDependencies["kde/pim/kmime"] = "default"
         self.runtimeDependencies["frameworks/tier1/kitemmodels"] = "default"
-        self.runtimeDependencies["win32libs/libxslt"] = "default"
-        self.runtimeDependencies["win32libs/shared-mime-info"] = "default"
+        self.runtimeDependencies["libs/libxslt"] = "default"
+        self.runtimeDependencies["libs/shared-mime-info"] = "default"
 
 
 from Package.CMakePackageBase import *
