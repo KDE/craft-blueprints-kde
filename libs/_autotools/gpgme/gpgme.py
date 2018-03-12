@@ -17,8 +17,8 @@ class subinfo(info.infoclass):
     def setDependencies( self ):
         self.buildDependencies["dev-utils/msys"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["autotools/gpg-error-src"] = "default"
-        self.runtimeDependencies["autotools/assuan2-src"] = "default"
+        self.runtimeDependencies["libs/gpg-error"] = "default"
+        self.runtimeDependencies["libs/assuan2"] = "default"
 
 from Package.AutoToolsPackageBase import *
 
