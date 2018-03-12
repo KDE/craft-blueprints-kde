@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["autotools/libtasn1"] = "default"
+        self.runtimeDependencies["libs/libtasn1"] = "default"
         self.runtimeDependencies["libs/libffi"] = "default"
 
 
