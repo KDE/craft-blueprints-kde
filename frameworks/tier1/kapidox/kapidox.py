@@ -9,9 +9,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils-win/cmake"] = "default"
-        self.runtimeDependencies["dev-utils-win/python3"] = "default"
-        self.runtimeDependencies["dev-utils-win/doxygen"] = "default"
+        self.buildDependencies["dev-utils/cmake"] = "default"
+        self.runtimeDependencies["dev-utils/python3"] = "default"
+        self.runtimeDependencies["dev-utils/doxygen"] = "default"
         self.runtimeDependencies["python-modules/pyyaml"] = "default"
         self.runtimeDependencies["python-modules/jinja2"] = "default"
         self.runtimeDependencies["python-modules/doxyqml"] = "default"
@@ -32,7 +32,7 @@ class Package(CMakePackageBase):
         binPath = os.path.join(self.imageDir(), "bin")
         for script in ["depdiagram-generate", "depdiagram-generate-all", "depdiagram-prepare", "kapidox_generate"]:
             if not utils.createShim(os.path.join(binPath, f"{script}.exe"),
-                                    os.path.join(self.imageDir(), "dev-utils-wins", "bin", "python2.exe"),
+                                    os.path.join(self.imageDir(), "dev-utilss", "bin", "python2.exe"),
                                     args=os.path.join(CraftStandardDirs.craftRoot(), "Scripts", script)):
                 return False
         return True

@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils-win/msys"] = "default"
+        self.buildDependencies["dev-utils/msys"] = "default"
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):

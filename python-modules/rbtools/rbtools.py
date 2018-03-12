@@ -5,7 +5,7 @@ from Package.PipPackageBase import *
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["dev-utils-win/python2"] = "default"
+        self.runtimeDependencies["dev-utils/python2"] = "default"
 
     def setTargets(self):
         self.svnTargets['master'] = ''

@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["dev-utils-win/python2"] = "default"
+        self.buildDependencies["dev-utils/python2"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"

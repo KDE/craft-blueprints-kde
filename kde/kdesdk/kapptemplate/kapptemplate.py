@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier3/kio"] = "default"
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
         self.runtimeDependencies["frameworks/tier2/kdoctools"] = "default"
-        self.runtimeDependencies["dev-utils-win/7zip"] = "default"
+        self.runtimeDependencies["dev-utils/7zip"] = "default"
 
 
 from Package.CMakePackageBase import *

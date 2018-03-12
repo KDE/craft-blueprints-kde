@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier3/knotifications"] = "default"
         self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
         self.runtimeDependencies["libs/libgmp"] = "default"
-        self.runtimeDependencies["dev-utils-win/msys"] = "default"
+        self.runtimeDependencies["dev-utils/msys"] = "default"
 
 
 from Package.CMakePackageBase import *

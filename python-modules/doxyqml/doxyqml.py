@@ -6,7 +6,7 @@ from CraftOS.osutils import OsUtils
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["dev-utils-win/python2"] = "default"
+        self.runtimeDependencies["dev-utils/python2"] = "default"
 
     def setTargets(self):
         self.svnTargets['master'] = ''
@@ -22,6 +22,6 @@ class Package(PipPackageBase):
     def install(self):
         if OsUtils.isWin():
             utils.createShim(os.path.join(self.imageDir(), "bin", "doxyqml.exe"),
-                            os.path.join(self.imageDir(), "dev-utils-wins", "bin", "python2.exe"),
+                            os.path.join(self.imageDir(), "dev-utilss", "bin", "python2.exe"),
                             args=os.path.join(CraftCore.settings.get("Paths", "PYTHON27"), "Scripts", "doxyqml"))
         return PipBuildSystem.install(self)

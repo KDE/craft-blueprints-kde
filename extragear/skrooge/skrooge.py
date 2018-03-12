@@ -51,4 +51,4 @@ class Package(CMakePackageBase):
         archiveDir = self.archiveDir()
 
         # TODO: Just blacklisting this doesn't work. WTF?
-        utils.rmtree(os.path.join(archiveDir, "dev-utils-wins"))
+        utils.rmtree(os.path.join(archiveDir, "dev-utilss"))

@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["dev-utils-win/7zip"] = "default"
+        self.buildDependencies["dev-utils/7zip"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
         self.runtimeDependencies["frameworks/tier1/breeze-icons"] = "default"
@@ -88,4 +88,4 @@ class Package(CMakePackageBase):
         mkpath(os.path.join(archiveDir, "etc", "dbus-1", "session.d"))
 
         # TODO: Just blacklisting this doesn't work. WTF?
-        utils.rmtree(os.path.join(archiveDir, "dev-utils-wins"))
+        utils.rmtree(os.path.join(archiveDir, "dev-utilss"))

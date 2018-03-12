@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["dev-utils-win/gettext-tools"] = "default"
+        self.buildDependencies["dev-utils/gettext-tools"] = "default"
         self.buildDependencies["libs/qt5/qtdeclarative"] = "default" # only needed for unit tests
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtscript"] = "default"

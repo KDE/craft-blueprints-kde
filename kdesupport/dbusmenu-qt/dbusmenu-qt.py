@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils-win/doxygen"] = "default"
+        self.buildDependencies["dev-utils/doxygen"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         # self.runtimeDependencies["kdesupport/qjson"] = "default"
 

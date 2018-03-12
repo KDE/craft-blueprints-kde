@@ -56,4 +56,4 @@ class Package(CMakePackageBase):
         os.mkdir(os.path.join(archiveDir, "etc", "dbus-1", "session.d"))
 
         # TODO: Just blacklisting this doesn't work. WTF?
-        utils.rmtree(os.path.join(archiveDir, "dev-utils-wins"))
+        utils.rmtree(os.path.join(archiveDir, "dev-utilss"))

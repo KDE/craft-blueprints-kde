@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["autotools/libtasn1"] = "default"
         self.runtimeDependencies["autotools/p11kit"] = "default"
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils-win/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = "default"
 
 
 class PackageMinGW(AutoToolsPackageBase):

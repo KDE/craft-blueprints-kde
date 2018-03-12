@@ -18,9 +18,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils-win/yasm"] = "default"
+        self.buildDependencies["dev-utils/yasm"] = "default"
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils-win/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = "default"
 
 
 from Package.AutoToolsPackageBase import *
@@ -76,7 +76,7 @@ class PackageMSVC(MSBuildPackageBase):
         f.close()
 
     def make(self):
-        utils.putenv('YASMPATH', os.path.join(self.rootdir, 'dev-utils-wins', 'bin'))
+        utils.putenv('YASMPATH', os.path.join(self.rootdir, 'dev-utilss', 'bin'))
         self.adjustProjectFile()
         return MSBuildPackageBase.make(self)
 

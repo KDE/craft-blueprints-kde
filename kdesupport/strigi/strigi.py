@@ -56,5 +56,5 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args = (
                 " -DSTRIGI_SYNC_SUBMODULES=ON "
                 " -DGIT_EXECUTABLE=%s "
-                % os.path.join(self.rootdir, "dev-utils-wins", "git", "bin",
+                % os.path.join(self.rootdir, "dev-utilss", "git", "bin",
                                "git.exe"))

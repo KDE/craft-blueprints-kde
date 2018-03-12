@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libidn"] = "default"
         self.runtimeDependencies["libs/gnutls"] = "default"
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils-win/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = "default"
 
 
 from Package.AutoToolsPackageBase import *

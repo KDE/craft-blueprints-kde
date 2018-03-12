@@ -12,7 +12,7 @@ class subinfo( info.infoclass ):
         self.defaultTarget = "1.8.2"
 
     def setDependencies( self ):
-        self.buildDependencies["dev-utils-win/msys"] = "default"
+        self.buildDependencies["dev-utils/msys"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["autotools/gpg-error-src"] = "default"
 

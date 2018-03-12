@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.webpage = "https://calligra.org/"
 
     def setDependencies( self ):
-        self.buildDependencies['dev-utils-win/pkg-config'] = 'default'
+        self.buildDependencies['dev-utils/pkg-config'] = 'default'
         self.runtimeDependencies['libs/qt5/qtbase'] = 'default'
         self.runtimeDependencies['libs/qt5/qtquickcontrols'] = 'default'
         # Qt WebEngine doesn't work with MinGW, because reasons, i guess, derp
@@ -87,4 +87,4 @@ class Package( CMakePackageBase ):
         archiveDir = self.archiveDir()
 
         # TODO: Just blacklisting this doesn't work. WTF?
-        utils.rmtree(os.path.join(archiveDir, "dev-utils-wins"))
+        utils.rmtree(os.path.join(archiveDir, "dev-utilss"))

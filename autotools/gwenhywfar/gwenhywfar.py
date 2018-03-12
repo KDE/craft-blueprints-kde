@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gcrypt"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils-win/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = "default"
 
 # 2018-02-11: compilation is successful if xmlmerge.exe gives any output in the console. For it to happen gnutls must be compiled with --enable-nls --enable-openssl-compatibility
 class Package(AutoToolsPackageBase):

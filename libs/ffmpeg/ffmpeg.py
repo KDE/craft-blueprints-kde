@@ -13,8 +13,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = "3.4.1"
 
     def setDependencies( self ):
-        self.buildDependencies["dev-utils-win/msys"] = "default"
-        self.buildDependencies["dev-utils-win/nasm"] = "default"
+        self.buildDependencies["dev-utils/msys"] = "default"
+        self.buildDependencies["dev-utils/nasm"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
 
 from Package.AutoToolsPackageBase import *
