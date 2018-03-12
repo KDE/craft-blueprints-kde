@@ -17,10 +17,10 @@ class subinfo(info.infoclass):
 
 from Package.CMakePackageBase import *
 
-
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DBUILD_GUI=ON "
         self.blacklist_file = [
             PackagerLists.runtimeBlacklist,
             os.path.join(self.packageDir(), 'blacklist.txt')
