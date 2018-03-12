@@ -76,7 +76,7 @@ class PackageMSVC(MSBuildPackageBase):
         f.close()
 
     def make(self):
-        utils.putenv('YASMPATH', os.path.join(self.rootdir, 'dev-utilss', 'bin'))
+        utils.putenv('YASMPATH', os.path.join(self.rootdir, 'dev-utils', 'bin'))
         self.adjustProjectFile()
         return MSBuildPackageBase.make(self)
 

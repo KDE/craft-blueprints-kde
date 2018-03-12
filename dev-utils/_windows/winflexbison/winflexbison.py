@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         ver = "2.5.14"
         self.targets[ver] = f"https://downloads.sourceforge.net/sourceforge/winflexbison/win_flex_bison-{ver}.zip"
-        self.targetInstallPath[ver] = os.path.join("dev-utilss", "bin")
+        self.targetInstallPath[ver] = os.path.join("dev-utils", "bin")
         self.targetDigests[ver] = 'e15a1b8780a36ffda9ef70c4f09283867b32a12b'
         self.defaultTarget = ver
 

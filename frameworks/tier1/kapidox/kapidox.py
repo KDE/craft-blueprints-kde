@@ -32,7 +32,7 @@ class Package(CMakePackageBase):
         binPath = os.path.join(self.imageDir(), "bin")
         for script in ["depdiagram-generate", "depdiagram-generate-all", "depdiagram-prepare", "kapidox_generate"]:
             if not utils.createShim(os.path.join(binPath, f"{script}.exe"),
-                                    os.path.join(self.imageDir(), "dev-utilss", "bin", "python2.exe"),
+                                    os.path.join(self.imageDir(), "dev-utils", "bin", "python2.exe"),
                                     args=os.path.join(CraftStandardDirs.craftRoot(), "Scripts", script)):
                 return False
         return True

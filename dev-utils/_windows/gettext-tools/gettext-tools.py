@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
             '0.18.1.1_1'] = 'http://downloads.sourceforge.net/sourceforge/kde-windows/gettext-tools-0.18.1.1_1-bin.tar.bz2'
         self.targetDigestUrls[
             '0.18.1.1_1'] = 'http://downloads.sourceforge.net/sourceforge/kde-windows/gettext-tools-0.18.1.1_1-bin.tar.bz2.sha1'
-        self.targetInstallPath['0.18.1.1_1'] = "dev-utilss"
+        self.targetInstallPath['0.18.1.1_1'] = "dev-utils"
         self.defaultTarget = '0.18.1.1_1'
 
     def setDependencies(self):

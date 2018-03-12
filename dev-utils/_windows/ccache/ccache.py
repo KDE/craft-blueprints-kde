@@ -5,7 +5,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = "https://github.com/jrosdahl/ccache.git"
-        self.targetInstallPath["master"] = "dev-utilss"
+        self.targetInstallPath["master"] = "dev-utils"
         self.defaultTarget = 'master'
 
     def setDependencies(self):

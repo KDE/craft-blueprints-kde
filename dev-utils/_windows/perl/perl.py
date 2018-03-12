@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.targets[
             ver] = "http://downloads.activestate.com/ActivePerl/releases/{ver}/ActivePerl-{ver}-MSWin32-{arch}-{build}.exe".format(
             ver=ver, arch=arch, build=build)
-        self.targetInstallPath[ver] = "dev-utilss"
+        self.targetInstallPath[ver] = "dev-utils"
         self.targetDigestUrls[ver] = (
             ["http://downloads.activestate.com/ActivePerl/releases/{0}/SHA256SUM".format(ver)],
             CraftHash.HashAlgorithm.SHA256)

@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
             if CraftCore.compiler.isMSVC():
                 self.targets['1.2.0'] = "http://www.tortall.net/projects/yasm/releases/vsyasm-1.2.0-win32.zip"
 
-        self.targetInstallPath["1.2.0"] = os.path.join("dev-utilss", "bin")
+        self.targetInstallPath["1.2.0"] = os.path.join("dev-utils", "bin")
         self.description = "The Yasm Modular Assembler Project"
         self.defaultTarget = '1.2.0'
 

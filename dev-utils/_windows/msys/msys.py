@@ -23,8 +23,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["dev-utils/python3"] = "default"
 
     def msysInstallShim(self, installDir):
-        return utils.createShim(os.path.join(installDir, "dev-utilss", "bin", "msys.exe"),
-                                os.path.join(installDir, "dev-utilss", "bin", "python3.exe"),
+        return utils.createShim(os.path.join(installDir, "dev-utils", "bin", "msys.exe"),
+                                os.path.join(installDir, "dev-utils", "bin", "python3.exe"),
                                 args=os.path.join(CraftStandardDirs.craftBin(), "shells.py"))
 
 

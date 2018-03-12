@@ -6,7 +6,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         for branch in ["master", "release"]:
             self.svnTargets[branch] = "[git]git://cmake.org/cmake.git|%s" % branch
-            self.targetInstallPath[branch] = os.path.join("dev-utilss", "cmake-src")
+            self.targetInstallPath[branch] = os.path.join("dev-utils", "cmake-src")
 
         self.defaultTarget = "release"
 
@@ -26,7 +26,7 @@ class Package(CMakePackageBase):
         if not CMakePackageBase.install(self):
             return False
         for name in ["cmake", "cmake-gui", "cmcldeps", "cpack", "ctest"]:
-            if not utils.createShim(os.path.join(self.imageDir(), "dev-utilss", "bin", f"{name}.exe"),
-                                    os.path.join(self.imageDir(), "dev-utilss", "cmake", "bin", f"{name}.exe")):
+            if not utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", f"{name}.exe"),
+                                    os.path.join(self.imageDir(), "dev-utils", "cmake", "bin", f"{name}.exe")):
                 return False
         return True

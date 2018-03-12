@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/phacility/libphutil.git"
-        self.targetInstallPath["master"] = "dev-utilss/arcanist/libphutil"
+        self.targetInstallPath["master"] = "dev-utils/arcanist/libphutil"
         self.defaultTarget = "master"
 
     def setDependencies(self):

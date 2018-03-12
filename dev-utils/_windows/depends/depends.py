@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isX64():
             arch = "x64"
         self.targets['2.2'] = 'http://www.dependencywalker.com/depends22_' + arch + '.zip'
-        self.targetInstallPath['2.2'] = "dev-utilss/bin"
+        self.targetInstallPath['2.2'] = "dev-utils/bin"
         self.defaultTarget = '2.2'
 
 

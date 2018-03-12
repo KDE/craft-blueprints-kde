@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.targets['4.1.36'] = "http://www.siegward-jaekel.de/mc.zip"
         self.defaultTarget = '4.1.36'
-        self.targetInstallPath["4.1.36"] = os.path.join("dev-utilss", "bin")
+        self.targetInstallPath["4.1.36"] = os.path.join("dev-utils", "bin")
         self.targetDigests['4.1.36'] = 'cce65f21d52da1d21c6b60ca8defe7888a235b2f'
 
     def setDependencies(self):

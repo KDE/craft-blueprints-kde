@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/phacility/arcanist.git"
-        self.targetInstallPath["master"] = "dev-utilss/arcanist/arcanist"
+        self.targetInstallPath["master"] = "dev-utils/arcanist/arcanist"
         self.defaultTarget = "master"
 
     def setDependencies(self):
@@ -26,6 +26,6 @@ class Package(BinaryPackageBase):
     def install(self):
         if not BinaryPackageBase.install(self):
             return False
-        utils.createShim(os.path.join(self.imageDir(), "dev-utilss", "bin", "arc.exe"),
-                         os.path.join(self.imageDir(), "dev-utilss", "arcanist", "arcanist", "bin", "arc.bat"))
+        utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "arc.exe"),
+                         os.path.join(self.imageDir(), "dev-utils", "arcanist", "arcanist", "bin", "arc.bat"))
         return True

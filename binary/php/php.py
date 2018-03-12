@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
             ver, CraftCore.compiler.architecture)
             self.targetDigestUrls[ver] = (
             "http://windows.php.net/downloads/releases/sha1sum.txt", CraftHash.HashAlgorithm.SHA1)
-            self.targetInstallPath[ver] = os.path.join("dev-utilss", "php")
+            self.targetInstallPath[ver] = os.path.join("dev-utils", "php")
             self.defaultTarget = ver
 
 
@@ -29,8 +29,8 @@ class Package(BinaryPackageBase):
         if not BinaryPackageBase.install(self):
             return False
         # TODO: ouch
-        with open(os.path.join(self.imageDir(), "dev-utilss", "php", "php.ini-development"), "rt+") as ini:
-            with open(os.path.join(self.imageDir(), "dev-utilss", "php", "php.ini"), "wt+") as out:
+        with open(os.path.join(self.imageDir(), "dev-utils", "php", "php.ini-development"), "rt+") as ini:
+            with open(os.path.join(self.imageDir(), "dev-utils", "php", "php.ini"), "wt+") as out:
                 ext_dir = re.compile("^; extension_dir = \"ext\".*$")
                 curl = re.compile("^;extension=php_curl.dll.*$")
                 for line in ini:
@@ -39,5 +39,5 @@ class Package(BinaryPackageBase):
                     elif curl.match(line):
                         line = "extension=php_curl.dll\n"
                     out.write(line)
-        return utils.createShim(os.path.join(self.imageDir(), "dev-utilss", "bin", "php.exe"),
-                                os.path.join(self.imageDir(), "dev-utilss", "php", "php.exe"))
+        return utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "php.exe"),
+                                os.path.join(self.imageDir(), "dev-utils", "php", "php.exe"))
