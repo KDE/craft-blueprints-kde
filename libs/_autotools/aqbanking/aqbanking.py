@@ -17,8 +17,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["autotools/ktoblzcheck"] = "default"
-        self.runtimeDependencies["autotools/gwenhywfar"] = "default"
+        self.runtimeDependencies["libs/ktoblzcheck"] = "default"
+        self.runtimeDependencies["libs/gwenhywfar"] = "default"
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = "default"
 

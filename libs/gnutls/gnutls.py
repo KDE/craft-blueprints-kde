@@ -20,9 +20,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gcrypt"] = "default"
         self.runtimeDependencies["libs/nettle"] = "default"
         self.runtimeDependencies["libs/libidn"] = "default"
-        self.runtimeDependencies["autotools/libunistring"] = "default"
-        self.runtimeDependencies["autotools/libtasn1"] = "default"
-        self.runtimeDependencies["autotools/p11kit"] = "default"
+        self.runtimeDependencies["libs/libunistring"] = "default"
+        self.runtimeDependencies["libs/libtasn1"] = "default"
+        self.runtimeDependencies["libs/p11kit"] = "default"
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = "default"
 
