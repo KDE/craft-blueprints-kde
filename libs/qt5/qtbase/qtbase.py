@@ -70,16 +70,16 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         if CraftCore.settings.getboolean("Packager", "UseCache") and not CraftCore.settings.getboolean("QtSDK", "Enabled", False):
-            self.buildDependencies["dev-util/qtbinpatcher"] = None
+            self.buildDependencies["dev-utils/qtbinpatcher"] = None
         self.runtimeDependencies["virtual/base"] = None
-        self.buildDependencies["dev-util/perl"] = None
-        self.buildDependencies["dev-util/winflexbison"] = None
+        self.buildDependencies["dev-utils/perl"] = None
+        self.buildDependencies["dev-utils/winflexbison"] = None
         if not self.options.buildStatic:
-            self.runtimeDependencies["win32libs/openssl"] = None if CraftVersion(self.buildTarget) < CraftVersion("5.10") else "1.1"
-            self.runtimeDependencies["win32libs/dbus"] = None
+            self.runtimeDependencies["libs/openssl"] = None if CraftVersion(self.buildTarget) < CraftVersion("5.10") else "1.1"
+            self.runtimeDependencies["libs/dbus"] = None
             self.runtimeDependencies["binary/mysql"] = None
-            self.runtimeDependencies["win32libs/icu"] = None
-            self.runtimeDependencies["win32libs/zlib"] = None
+            self.runtimeDependencies["libs/icu"] = None
+            self.runtimeDependencies["libs/zlib"] = None
 
 
 class QtPackage(Qt5CorePackageBase):
@@ -137,20 +137,20 @@ class QtPackage(Qt5CorePackageBase):
         if not self.subinfo.options.buildStatic:
             command += "-I \"%s\" -L \"%s\" " % (
             os.path.join(CraftStandardDirs.craftRoot(), "include"), os.path.join(CraftStandardDirs.craftRoot(), "lib"))
-            if self.subinfo.options.isActive("win32libs/openssl"):
+            if self.subinfo.options.isActive("libs/openssl"):
                 command += " -openssl-linked "
                 if self.qtVer >= CraftVersion("5.10"):
                     opensslIncDir = os.path.join(CraftCore.standardDirs.craftRoot(), "include", "openssl")
                     command += f" OPENSSL_LIBS=\"-llibssl -llibcrypto\" OPENSSL_INCDIR=\"{opensslIncDir}\" "
             if self.subinfo.options.isActive("binary/mysql"):
                 command += " -plugin-sql-mysql "
-            if self.subinfo.options.isActive("win32libs/dbus"):
+            if self.subinfo.options.isActive("libs/dbus"):
                 command += " -qdbus -dbus-runtime -I \"%s\" -I \"%s\" " % (
                 os.path.join(CraftStandardDirs.craftRoot(), "include", "dbus-1.0"),
                 os.path.join(CraftStandardDirs.craftRoot(), "lib", "dbus-1.0", "include"))
-            if self.subinfo.options.isActive("win32libs/icu"):
+            if self.subinfo.options.isActive("libs/icu"):
                 command += " -icu "
-            if self.subinfo.options.isActive("win32libs/zlib"):
+            if self.subinfo.options.isActive("libs/zlib"):
                 command += " -system-zlib "
                 if CraftCore.compiler.isMSVC():
                     command += " ZLIB_LIBS=zlib.lib "

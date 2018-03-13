@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/qt5"] = "default"
-        self.runtimeDependencies["win32libs/libbzip2"] = "default"
+        self.runtimeDependencies["libs/libbzip2"] = "default"
 
     def setTargets(self):
         self.svnTargets['master'] = 'git://anongit.kde.org/kdewin-installer'

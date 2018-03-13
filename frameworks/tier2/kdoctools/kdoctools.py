@@ -8,12 +8,12 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-util/perl"] = "default"
+        self.buildDependencies["dev-utils/perl"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["frameworks/tier1/karchive"] = "default"
         self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["win32libs/libxslt"] = "default"
+        self.runtimeDependencies["libs/libxslt"] = "default"
         self.runtimeDependencies["data/docbook-dtd"] = "default"
         self.runtimeDependencies["data/docbook-xsl"] = "default"
 

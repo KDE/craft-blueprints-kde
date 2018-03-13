@@ -32,13 +32,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = "default"
         # self.runtimeDependencies["kde/pim/akonadi"] = "default"
         self.runtimeDependencies["binary/mysql"] = "default"
-        self.runtimeDependencies["win32libs/sqlite"] = "default"
-        self.runtimeDependencies["win32libs/libofx"] = "default"
-        self.runtimeDependencies["win32libs/libical"] = "default"
-        self.runtimeDependencies["win32libs/gettext"] = "default"
+        self.runtimeDependencies["libs/sqlite"] = "default"
+        self.runtimeDependencies["libs/libofx"] = "default"
+        self.runtimeDependencies["libs/libical"] = "default"
+        self.runtimeDependencies["libs/gettext"] = "default"
         self.runtimeDependencies["extragear/libalkimia"] = "default"
         self.runtimeDependencies["extragear/kdiagram"] = "default"
-        self.buildDependencies["dev-util/gettext-tools"] = "default"
+        self.buildDependencies["dev-utils/gettext-tools"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
 
 

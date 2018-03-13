@@ -9,8 +9,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["dev-util/7zip"] = "default"
-        self.buildDependencies["win32libs/boost/boost-headers"] = "default"
+        self.buildDependencies["dev-utils/7zip"] = "default"
+        self.buildDependencies["libs/boost/boost-headers"] = "default"
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"

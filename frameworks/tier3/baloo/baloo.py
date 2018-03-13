@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier1/kidletime"] = None
         self.runtimeDependencies["frameworks/tier2/kfilemetadata"] = None
         self.runtimeDependencies["frameworks/tier3/kio"] = None
-        self.runtimeDependencies["win32libs/lmdb"] = None
+        self.runtimeDependencies["libs/lmdb"] = None
 
 
 from Package.CMakePackageBase import *

@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["dev-util/7zip"] = "default"
+        self.buildDependencies["dev-utils/7zip"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
         self.runtimeDependencies["frameworks/tier1/breeze-icons"] = "default"
@@ -42,7 +42,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
         self.runtimeDependencies["kde/kdesdk/libkomparediff2"] = "default"
         self.runtimeDependencies["data/hicolor-icon-theme"] = "default"
-        self.runtimeDependencies["win32libs/llvm-meta/clang"] = "default"
+        self.runtimeDependencies["libs/llvm-meta/clang"] = "default"
 
         # handle kdevplatform merge into kdevelop.git
         if self.buildTarget != "master" and CraftVersion(self.buildTarget) < CraftVersion("5.2"):

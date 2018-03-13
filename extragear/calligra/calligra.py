@@ -12,18 +12,18 @@ class subinfo(info.infoclass):
         self.webpage = "https://calligra.org/"
 
     def setDependencies( self ):
-        self.buildDependencies['dev-util/pkg-config'] = 'default'
+        self.buildDependencies['dev-utils/pkg-config'] = 'default'
         self.runtimeDependencies['libs/qt5/qtbase'] = 'default'
         self.runtimeDependencies['libs/qt5/qtquickcontrols'] = 'default'
         # Qt WebEngine doesn't work with MinGW, because reasons, i guess, derp
         # No DropBox support for you, until we can get that made prettier
         if not CraftCore.compiler.isMinGW():
             self.runtimeDependencies['libs/qt5/qtwebengine'] = 'default'
-        self.runtimeDependencies['win32libs/boost/boost-system'] = 'default'
-        self.runtimeDependencies['win32libs/lcms2'] = 'default'
-        self.runtimeDependencies['win32libs/libgit2'] = 'default'
-        self.runtimeDependencies['win32libs/eigen3'] = 'default'
-#        self.runtimeDependencies['win32libs/vc'] = 'default'
+        self.runtimeDependencies['libs/boost/boost-system'] = 'default'
+        self.runtimeDependencies['libs/lcms2'] = 'default'
+        self.runtimeDependencies['libs/libgit2'] = 'default'
+        self.runtimeDependencies['libs/eigen3'] = 'default'
+#        self.runtimeDependencies['libs/vc'] = 'default'
         self.runtimeDependencies['kdesupport/qca'] = 'default'
         self.runtimeDependencies['frameworks/tier1/kcodecs'] = 'default'
         self.runtimeDependencies['frameworks/tier1/kconfig'] = 'default'

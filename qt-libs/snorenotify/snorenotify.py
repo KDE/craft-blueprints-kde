@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = "default"
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
         self.runtimeDependencies["libs/qt5/qtspeech"] = "default"
-        self.runtimeDependencies["win32libs/snoregrowl"] = "default"
+        self.runtimeDependencies["libs/snoregrowl"] = "default"
 
     def setTargets(self):
         self.svnTargets['master'] = 'git://anongit.kde.org/snorenotify'

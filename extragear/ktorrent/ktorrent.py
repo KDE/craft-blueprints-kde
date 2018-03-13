@@ -19,9 +19,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["kdesupport/qca"] = "default"
-        self.runtimeDependencies["win32libs/mpir"] = "default"
+        self.runtimeDependencies["libs/mpir"] = "default"
         self.runtimeDependencies["extragear/libktorrent"] = "default"
-        self.buildDependencies["dev-util/gettext-tools"] = "default"
+        self.buildDependencies["dev-utils/gettext-tools"] = "default"
 
 
 class Package(CMakePackageBase):

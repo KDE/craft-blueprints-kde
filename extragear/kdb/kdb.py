@@ -11,10 +11,10 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["dev-util/python2"] = "default"
+        self.buildDependencies["dev-utils/python2"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["win32libs/icu"] = "default"
-        self.runtimeDependencies["win32libs/sqlite"] = "default"
+        self.runtimeDependencies["libs/icu"] = "default"
+        self.runtimeDependencies["libs/sqlite"] = "default"
         self.runtimeDependencies["binary/mysql"] = "default"
         self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
 

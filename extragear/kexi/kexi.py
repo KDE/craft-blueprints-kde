@@ -14,8 +14,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["win32libs/glib"] = "default" # mdb
-        self.runtimeDependencies["win32libs/sqlite"] = "default" # migration
+        self.runtimeDependencies["libs/glib"] = "default" # mdb
+        self.runtimeDependencies["libs/sqlite"] = "default" # migration
         self.runtimeDependencies["binary/mysql"] = "default" # migration
         #TODO self.runtimeDependencies["binary/postgresql"] = "default" # migration
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"

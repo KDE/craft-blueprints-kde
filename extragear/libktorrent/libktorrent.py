@@ -16,10 +16,10 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["kdesupport/qca"] = "default"
-        self.runtimeDependencies["win32libs/mpir"] = "default"
-        self.runtimeDependencies["win32libs/gpgme"] = "default"
-        self.runtimeDependencies["win32libs/gcrypt"] = "default"
-        self.buildDependencies["dev-util/gettext-tools"] = "default"
+        self.runtimeDependencies["libs/mpir"] = "default"
+        self.runtimeDependencies["libs/gpgme"] = "default"
+        self.runtimeDependencies["libs/gcrypt"] = "default"
+        self.buildDependencies["dev-utils/gettext-tools"] = "default"
 
 
 class Package(CMakePackageBase):

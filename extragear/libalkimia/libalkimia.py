@@ -8,8 +8,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["win32libs/mpir"] = "default"
-        self.buildDependencies["win32libs/libgmp"] = "default"
+        self.runtimeDependencies["libs/mpir"] = "default"
+        self.buildDependencies["libs/libgmp"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
         self.description = "A library with common classes and functionality used by finance applications for the KDE SC."
 
