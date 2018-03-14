@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["win32libs/mpir"] = "default"
         self.runtimeDependencies["win32libs/gpgme"] = "default"
         self.runtimeDependencies["win32libs/gcrypt"] = "default"
-        self.buildDependencies["dev-util/gettext-tools"] = "default"
+        self.buildDependencies["win32libs/gettext"] = "default"
 
 
 class Package(CMakePackageBase):

@@ -38,7 +38,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["win32libs/gettext"] = "default"
         self.runtimeDependencies["extragear/libalkimia"] = "default"
         self.runtimeDependencies["extragear/kdiagram"] = "default"
-        self.buildDependencies["dev-util/gettext-tools"] = "default"
+        self.buildDependencies["win32libs/gettext"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
 
 
