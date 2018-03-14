@@ -12,9 +12,6 @@ class subinfo(info.infoclass):
 
         self.targetDigests['0.19.8.1'] = (['ff942af0e438ced4a8b0ea4b0b6e0d6d657157c5e2364de57baa279c1c125c43'], CraftHash.HashAlgorithm.SHA256)
 
-        if CraftCore.compiler.isGCCLike():
-            self.patchToApply['0.19.8.1'] = [("disable-tools.diff", 1)] #only to shorten compilation time and make targets equal to msvc targets
-
         #patch based on https://github.com/fanc999/gtk-msvc-projects/tree/master/gettext/0.19.8.1
         self.patchToApply['0.19.8.1'] = [("gettext-0.19.8.1-gtk-msvc-projects.diff", 1)]
         self.patchToApply['0.19.8.1'] += [("0001-gettext-tools-gnulib-lib-xalloc.h-Fix-function-signa.patch", 1)]
