@@ -6,11 +6,23 @@ from Package.MSBuildPackageBase import MSBuildPackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["3.2.1"]:
-            self.targets[ver] = "https://github.com/winlibs/libffi/archive/libffi-%s.tar.gz" % ver
-            self.archiveNames[ver] = "libffi-libffi-%s.tar.gz" % ver
-            self.targetInstSrc[ver] = "libffi-libffi-%s" % ver
-        self.targetDigests['3.2.1'] = (
-            ['9f8e1133c6b9f72b73943103414707a1970e2e9b1d332c3df0d35dac1d9917e5'], CraftHash.HashAlgorithm.SHA256)
+            if OsUtils.isWin():
+                self.targets[ver] = f"https://github.com/winlibs/libffi/archive/libffi-{ver}.tar.gz"
+                self.archiveNames[ver] = f"libffi-libffi-{ver}.tar.gz"
+                self.targetInstSrc[ver] = f"libffi-libffi-{ver}"
+            else:
+                self.targets[ver] = f"ftp://sourceware.org/pub/libffi/libffi-{ver}.tar.gz"
+                self.targetInstSrc[ver] = f"libffi-{ver}"
+
+        if OsUtils.isWin():
+            self.targetDigests['3.2.1'] = (
+                ['9f8e1133c6b9f72b73943103414707a1970e2e9b1d332c3df0d35dac1d9917e5'], CraftHash.HashAlgorithm.SHA256)
+        else:
+            self.targetDigests['3.2.1'] = (
+                ['d06ebb8e1d9a22d19e38d63fdb83954253f39bedc5d46232a05645685722ca37'], CraftHash.HashAlgorithm.SHA256)
+
+        self.patchToApply['3.2.1'] = [("fix-headers-install.diff", 1)]
+
         self.defaultTarget = "3.2.1"
 
     def setDependencies(self):
@@ -48,15 +60,15 @@ class PackageCMake(MSBuildPackageBase):
 from Package.AutoToolsPackageBase import *
 
 
-class PackageMSys(AutoToolsPackageBase):
+class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args = "--enable-shared --disable-static "
+        self.subinfo.options.configure.args = "--enable-shared --disable-static"
 
 
-if CraftCore.compiler.isMinGW():
-    class Package(PackageMSys):
+if OsUtils.isWin() and CraftCore.compiler.isMinGW():
+    class Package(PackageCMake):
         pass
 else:
-    class Package(PackageCMake):
+    class Package(PackageAutoTools):
         pass
