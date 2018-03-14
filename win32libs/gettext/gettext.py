@@ -20,6 +20,8 @@ class subinfo(info.infoclass):
         self.patchToApply['0.19.8.1'] += [("0001-ostream.h-styled-ostream.h-Fix-linking.patch", 1)]
         self.patchToApply['0.19.8.1'] += [("0001-printf-parse.c-Fix-build-on-Visual-Studio-2008.patch", 1)]
         self.patchToApply['0.19.8.1'] += [("0001-tools-Fix-gnulib-lib-uniname-uniname.c-on-pre-C99.patch", 1)]
+        if OsUtils.isMac():
+            self.patchToApply['0.19.8.1'] += [("0001-moopp-sed-extended-regexp.patch", 1)]
 
         self.description = "GNU internationalization (i18n)"
         self.defaultTarget = '0.19.8.1'
