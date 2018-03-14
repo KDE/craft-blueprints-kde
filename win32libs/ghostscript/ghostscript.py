@@ -112,7 +112,7 @@ class PackageMSys(AutoToolsPackageBase):
         self.subinfo.options.package.packageName = 'ghostscript'
         self.subinfo.options.package.packSources = False
         self.subinfo.options.configure.defiens = " --with-drivers=ALL --disable-cups --with-system-libtiff --with-jbig2dec --enable-openjpeg --enable-fontconfig --enable-freetype --disable-contrib --without-x"
-        self.subinfo.options.make.makeOptions = "so"
+        self.subinfo.options.make.arg = "so"
         self.subinfo.options.useShadowBuild = False
 
     def unpack(self):

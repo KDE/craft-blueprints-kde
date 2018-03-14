@@ -33,10 +33,10 @@ class Package(CMakePackageBase):
                             os.path.join(CraftCore.settings.get("QtSDK", "Path"), CraftCore.settings.get("QtSDK", "Version"),
                                         CraftCore.settings.get("QtSDK", "Compiler")))
 
-            old = self.subinfo.options.make.makeOptions
-            self.subinfo.options.make.makeOptions = "package"
+            old = self.subinfo.options.make.args
+            self.subinfo.options.make.args = "package"
             out = CMakePackageBase.make(self)
-            self.subinfo.options.make.makeOptions = old
+            self.subinfo.options.make.args = old
             if not out:
                 return False
 
