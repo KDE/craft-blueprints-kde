@@ -1,6 +1,6 @@
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' poppler-0.57.0.orig/cmake/modules/FindLIBOPENJPEG2.cmake poppler-0.57.0/cmake/modules/FindLIBOPENJPEG2.cmake
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' poppler-0.57.0.orig/cmake/modules/FindLIBOPENJPEG2.cmake poppler-0.57.0/cmake/modules/FindLIBOPENJPEG2.cmake
 --- poppler-0.57.0.orig/cmake/modules/FindLIBOPENJPEG2.cmake	2016-12-06 23:48:26.000000000 +0100
-+++ poppler-0.57.0/cmake/modules/FindLIBOPENJPEG2.cmake	2017-08-10 14:52:29.424891100 +0200
++++ poppler-0.57.0/cmake/modules/FindLIBOPENJPEG2.cmake	2018-03-14 08:55:17.845275800 +0100
 @@ -18,12 +18,11 @@
  
  else ()
@@ -18,9 +18,9 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' poppler-0.57.0.orig/cmake/m
    if (LIBOPENJPEG2_FOUND)
      add_definitions(-DUSE_OPENJPEG2)
    endif ()
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' poppler-0.57.0.orig/CMakeLists.txt poppler-0.57.0/CMakeLists.txt
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' poppler-0.57.0.orig/CMakeLists.txt poppler-0.57.0/CMakeLists.txt
 --- poppler-0.57.0.orig/CMakeLists.txt	2017-07-31 23:39:14.000000000 +0200
-+++ poppler-0.57.0/CMakeLists.txt	2017-08-10 15:28:09.858093000 +0200
++++ poppler-0.57.0/CMakeLists.txt	2018-03-14 09:03:47.115747200 +0100
 @@ -186,7 +186,7 @@
  set(USE_OPENJPEG2 FALSE)
  set(WITH_OPENJPEG FALSE)
@@ -38,9 +38,17 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' poppler-0.57.0.orig/CMakeLi
    set(poppler_LIBS ${poppler_LIBS} gdi32)
  endif(WIN32)
  if(PNG_FOUND)
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' poppler-0.57.0.orig/cpp/CMakeLists.txt poppler-0.57.0/cpp/CMakeLists.txt
+@@ -534,7 +535,6 @@
+ 
+ if(MSVC)
+ add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+-set(CMAKE_CXX_FLAGS "/Zc:wchar_t- ${CMAKE_CXX_FLAGS}")
+ add_library(poppler STATIC ${poppler_SRCS})
+ else(MSVC)
+ add_library(poppler SHARED ${poppler_SRCS})
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' poppler-0.57.0.orig/cpp/CMakeLists.txt poppler-0.57.0/cpp/CMakeLists.txt
 --- poppler-0.57.0.orig/cpp/CMakeLists.txt	2017-01-16 22:36:57.000000000 +0100
-+++ poppler-0.57.0/cpp/CMakeLists.txt	2017-08-10 15:18:46.056958400 +0200
++++ poppler-0.57.0/cpp/CMakeLists.txt	2018-03-14 08:55:17.849298600 +0100
 @@ -25,9 +25,7 @@
  add_library(poppler-cpp SHARED ${poppler_cpp_SRCS})
  set_target_properties(poppler-cpp PROPERTIES VERSION 0.3.0 SOVERSION 0)
