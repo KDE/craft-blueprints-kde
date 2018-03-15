@@ -6,7 +6,7 @@ from CraftOS.osutils import OsUtils
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["dev-util/python2"] = "default"
+        self.buildDependencies["dev-util/python2"] = "default"
 
     def setTargets(self):
         self.svnTargets['master'] = ''
