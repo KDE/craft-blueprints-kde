@@ -42,7 +42,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["dev-util/msys"] = "default"
-        self.runtimeDependencies["dev-util/intltool"] = "default"
+        self.buildDependencies["dev-util/intltool"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["win32libs/gettext"] = "default"
         self.runtimeDependencies["win32libs/libxml2"] = "default"
@@ -80,6 +80,7 @@ class Package(AutoToolsPackageBase):
             utils.embedManifest(executable, manifest)
         return True
 
-    def postInstall(self):
+    def postQmerge(self):
+        if not super().postQmerge():
+            return False
         return PostInstallRoutines.updateSharedMimeInfo(self)
-
