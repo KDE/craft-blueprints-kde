@@ -68,16 +68,12 @@ from Package.AutoToolsPackageBase import *
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
-
-    def configure(self):
         root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
+        self.subinfo.options.configure.args += f"--enable-shared --disable-static --with-pcre=internal"
+        self.subinfo.options.configure.cflags = "-Wno-format-nonliteral"
 
-        with utils.ScopedEnv({
-            "LIBFFI_LIBS" : f"-L{os.path.join(root, 'lib')} -lffi",
-            "LIBFFI_CFLAGS" : f"-I{os.path.join(root, 'include', 'libffi')}"}):
-            self.subinfo.options.configure.cflags = "-Wno-format-nonliteral"
-            self.subinfo.options.configure.args = "--enable-shared --disable-static --with-pcre=internal"
-            return AutoToolsPackageBase.configure(self)
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += f" LIBFFI_LIBS=-lffi LIBFFI_CFLAGS='-I{os.path.join(root, 'include', 'libffi')}'"
 
     def install(self):
         if not AutoToolsBuildSystem.install(self):
@@ -87,9 +83,9 @@ class PackageAutoTools(AutoToolsPackageBase):
         return True
 
 
-if OsUtils.isWin() and CraftCore.compiler.isMinGW():
-    class Package(PackageCMake):
+if CraftCore.compiler.isGCCLike():
+    class Package(PackageAutoTools):
         pass
 else:
-    class Package(PackageAutoTools):
+    class Package(PackageCMake):
         pass
