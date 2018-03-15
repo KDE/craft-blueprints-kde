@@ -55,19 +55,28 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
+
+
+    def configure(self):
         root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
-        self.subinfo.options.configure.args += f" --disable-default-make-check --disable-update-mimedb"
-        self.subinfo.options.configure.cflags = f"-I{root}/include/glib-2.0 -I{root}/include/libxml2"
+        kdewin = ''
+
         if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.cflags += f" -I{root}/include/msvc"
             self.shell.useMSVCCompatEnv = True
             self.platform = ""
             self.subinfo.options.configure.args += f" PKG_CONFIG=':' "
-            self.subinfo.options.configure.ldflags ="-lglib-2.0 -lgobject-2.0 -lgio-2.0 -lgthread-2.0 -llibxml2 -lintl -lzlib"
+            self.subinfo.options.configure.ldflags =" -lgio-2.0 -lgthread-2.0 -lintl -lzlib"
             if self.buildType() == "Debug":
-                self.subinfo.options.configure.ldflags += " -lkdewind"
+                kdewin = "-lkdewind"
             else:
-                self.subinfo.options.configure.ldflags += " -lkdewin"
+                kdewin = "-lkdewin"
+
+        with utils.ScopedEnv({
+            "ALL_LIBS" : f"-L{os.path.join(root, 'lib')} -lglib-2.0 -lxml2 {kdewin}",
+            "ALL_CFLAGS" : f"-I{os.path.join(root, 'include', 'msvc')} -I{os.path.join(root, 'include', 'glib-2.0')} -I{os.path.join(root, 'include', 'libxml2')}"}):
+            self.subinfo.options.configure.args += f" --disable-default-make-check --disable-update-mimedb"
+            return AutoToolsPackageBase.configure(self)
+
 
     def install(self):
         if not super().install():
