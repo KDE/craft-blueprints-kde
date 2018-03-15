@@ -38,7 +38,7 @@ class Package(BinaryPackageBase):
                and utils.copyFile(os.path.join(self.packageDir(), "docbook-dtd-4.2.xml"),
                                   os.path.join(self.imageDir(), "etc", "xml", "docbook-dtd-4.5.xml"))
 
-    def postInstall(self):
+    def postQmerge(self):
         catalog = os.path.join(CraftCore.standardDirs.craftRoot(), "etc", "xml", "catalog")
         if not os.path.isfile(catalog):
             if not utils.system(["xmlcatalog", "--create", "--noout", catalog]):

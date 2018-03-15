@@ -41,7 +41,7 @@ class Package(BinaryPackageBase):
                                   os.path.join(self.imageDir(), "etc", "xml", "docbook-xsl-stylesheets.xml"))
 
 
-    def postInstall(self):
+    def postQmerge(self):
         catalog = os.path.join(CraftCore.standardDirs.craftRoot(), "etc", "xml", "catalog")
         if not os.path.isfile(catalog):
             if not utils.system(["xmlcatalog", "--create", "--noout", catalog]):
