@@ -6,17 +6,19 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "[git]https://github.com/KDAB/GammaRay.git"
-        for ver in ["2.7.0"]:
+        for ver in ["2.7.0", "2.9.0"]:
             self.targets[ver] = f"https://github.com/KDAB/GammaRay/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"GammaRay-{ver}"
             self.archiveNames[ver] = f"gammaray-{ver}.tar.gz"
         self.targetDigests['2.7.0'] = (
             ['74251d9de4bfa31994431c7a493e5de17d0b90853557a245bf3f7f4e0227fd14'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['2.9.0'] = (
+            ['f86159c77cff4aaf22feed6fb2ee012028df179f54e0e441642115f93ffc41b5'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "GammaRay is a tool to poke around in a Qt-application and also to manipulate the application to some extent"
         self.webpage = "http://www.kdab.com/gammaray"
 
-        self.defaultTarget = "2.7.0"
+        self.defaultTarget = "2.9.0"
 
     def registerOptions(self):
         self.options.dynamic.registerOption("gammarayProbeOnly", False)
