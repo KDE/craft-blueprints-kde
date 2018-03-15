@@ -6,12 +6,22 @@ from Package.MSBuildPackageBase import MSBuildPackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["2.49.4"]:
-            self.targets[ver] = "https://github.com/winlibs/glib/archive/glib-%s.tar.gz" % ver
-            self.archiveNames[ver] = "glib-glib%s.tar.gz" % ver
-            self.targetInstSrc[ver] = "glib-glib-%s" % ver
-            self.patchToApply[ver] = [("glib-glib-2.49.4-20161114.diff", 1),
+            if OsUtils.isWin():
+                self.targets[ver] = f"https://github.com/winlibs/glib/archive/glib-{ver}.tar.gz"
+                self.archiveNames[ver] = f"glib-glib{ver}.tar.gz"
+                self.targetInstSrc[ver] = f"glib-glib-{ver}"
+            else:
+                majorMinorStr = '.'.join(ver.split('.')[0:2])
+                self.targets[ver] = f"https://ftp.gnome.org/pub/gnome/sources/glib/{majorMinorStr}/glib-{ver}.tar.xz"
+                self.targetInstSrc[ver] = f"glib-{ver}"
+
+        if OsUtils.isWin():
+            self.patchToApply['2.49.4'] = [("glib-glib-2.49.4-20161114.diff", 1),
                                       ("fix-libname.diff", 1)]
-        self.targetDigests['2.49.4'] = (['936e124d1d147226acd95def54cb1bea5d19dfc534532b85de6727fa68bc310f'], CraftHash.HashAlgorithm.SHA256)
+            self.targetDigests['2.49.4'] = (['936e124d1d147226acd95def54cb1bea5d19dfc534532b85de6727fa68bc310f'], CraftHash.HashAlgorithm.SHA256)
+        else:
+            self.patchToApply['2.49.4'] = [("disable-docs-tests.diff", 1)]
+            self.targetDigests['2.49.4'] = (['9e914f9d7ebb88f99f234a7633368a7c1133ea21b5cac9db2a33bc25f7a0e0d1'], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "2.49.4"
 
@@ -55,10 +65,19 @@ class PackageCMake(MSBuildPackageBase):
 from Package.AutoToolsPackageBase import *
 
 
-class PackageMSys(AutoToolsPackageBase):
+class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args = "--enable-shared --disable-static --with-pcre=internal"
+
+    def configure(self):
+        root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
+
+        with utils.ScopedEnv({
+            "LIBFFI_LIBS" : f"-L{os.path.join(root, 'lib')} -lffi",
+            "LIBFFI_CFLAGS" : f"-I{os.path.join(root, 'include', 'libffi')}"}):
+            self.subinfo.options.configure.cflags = "-Wno-format-nonliteral"
+            self.subinfo.options.configure.args = "--enable-shared --disable-static --with-pcre=internal"
+            return AutoToolsPackageBase.configure(self)
 
     def install(self):
         if not AutoToolsBuildSystem.install(self):
@@ -68,9 +87,9 @@ class PackageMSys(AutoToolsPackageBase):
         return True
 
 
-if CraftCore.compiler.isMinGW():
-    class Package(PackageMSys):
+if OsUtils.isWin() and CraftCore.compiler.isMinGW():
+    class Package(PackageCMake):
         pass
 else:
-    class Package(PackageCMake):
+    class Package(PackageAutoTools):
         pass
