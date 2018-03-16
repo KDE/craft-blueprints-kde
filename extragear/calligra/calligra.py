@@ -69,12 +69,12 @@ class Package( CMakePackageBase ):
 
     def createPackage(self):
         self.defines["productname"] = "Calligra Gemini"
-        self.defines["executable"] = "bin\\calligragemini.exe"
         self.defines["icon"] = os.path.join(self.sourceDir(), "gemini", "calligragemini.ico")
-        self.defines["extrashortcuts"] = 'CreateShortCut "${startmenu}\\Calligra Sheets.lnk" "$INSTDIR\\bin\\calligrasheets.exe" "" "$INSTDIR\\bin\\calligrasheets.exe"\n'
-        self.defines["extrashortcuts"] += 'CreateShortCut "${startmenu}\\Calligra Words.lnk" "$INSTDIR\\bin\\calligrawords.exe" "" "$INSTDIR\\bin\\calligrawords.exe"\n'
-        self.defines["extrashortcuts"] += 'CreateShortCut "${startmenu}\\Calligra Karbon.lnk" "$INSTDIR\\bin\\karbon.exe" "" "$INSTDIR\\bin\\karbon.exe"\n'
-        self.defines["extrashortcuts"] += 'CreateShortCut "${startmenu}\\Calligra Plan.lnk" "$INSTDIR\\bin\\calligraplan.exe" "" "$INSTDIR\\bin\\calligraplan.exe"\n'
+        self.defines["shortcuts"] = [{"name" : self.defines["productname"], "target":"bin/calligragemini.exe"},
+                                     {"name" : "Calligra Sheets", "target" : "bin/calligrasheets.exe"},
+                                     {"name" : "Calligra Words", "target" : "bin/calligrawords.exe"},
+                                     {"name" : "Calligra Karbon", "target" : "bin/karbon.exe"},
+                                     {"name" : "Calligra Plan",  "target" : "bin/calligraplan.exe"}]
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
 
         self.ignoredPackages.append("binary/mysql")

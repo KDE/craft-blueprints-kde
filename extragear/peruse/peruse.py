@@ -36,9 +36,9 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["productname"] = "Peruse Comic Book Viewer"
-        self.defines["executable"] = "bin\\peruse.exe"
+        self.defines["shortcuts"] = [{"name" : self.defines["productname"], "target":"bin//peruse.exe"},
+                                     {"name": "Peruse Creator", "target" : "bin//perusecreator.exe"}]
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "peruse.ico")
-        self.defines["extrashortcuts"] = 'CreateShortCut "${startmenu}\\Peruse Creator.lnk" "$INSTDIR\\bin\\perusecreator.exe" "" "$INSTDIR\\bin\\perusecreator.exe"\n'
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
 
         return TypePackager.createPackage(self)
