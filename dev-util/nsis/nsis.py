@@ -6,14 +6,15 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/bin-base"] = "default"
 
     def setTargets(self):
-        for ver in ["3.0", "3.02.1"]:
+        for ver in ["3.03"]:
             self.targets[ver] = f"http://downloads.sourceforge.net/sourceforge/nsis/nsis-{ver}.zip"
             self.targetInstSrc[ver] = f"nsis-{ver}"
             self.targetInstallPath[ver] = os.path.join("dev-utils", "nsis")
 
-        self.targetDigests['3.0'] = '58817baa6509ad239f6cdff90ac013689aff1902'
-        self.targetDigests['3.02.1'] =  (['deef3e3d90ab1a9e0ef294fff85eead25edbcb429344ad42fc9bc42b5c3b1fb5'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '3.02.1'
+        self.targetDigests["3.03"] = (['b53a79078f2c6abf21f11d9fe68807f35b228393eb17a0cd3873614190116ba7'], CraftHash.HashAlgorithm.SHA256)
+
+        self.webpage = "http://nsis.sourceforge.net"
+        self.defaultTarget = '3.03'
 
 
 from Package.BinaryPackageBase import *
