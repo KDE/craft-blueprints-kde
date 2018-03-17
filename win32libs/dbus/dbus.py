@@ -71,12 +71,12 @@ class Package(CMakePackageBase):
             "-DDBUS_BUILD_TESTS=OFF "
             "-DDBUS_ENABLE_XML_DOCS=OFF ")
 
-        if (self.buildType() == "Release"):
+        if (self.buildType() == "Debug"):
+            self.subinfo.options.configure.args += "-DDBUS_ENABLE_VERBOSE_MODE=ON "
+        else:
             self.subinfo.options.configure.args += (
                 "-DDBUS_ENABLE_VERBOSE_MODE=OFF "
                 "-DDBUS_DISABLE_ASSERTS=ON ")
-        elif (self.buildType() == "Debug"):
-            self.subinfo.options.configure.args += "-DDBUS_ENABLE_VERBOSE_MODE=ON "
 
         self.subinfo.options.configure.args += (
             "-DDBUS_SESSION_BUS_LISTEN_ADDRESS:STRING=autolaunch:scope=*install-path "
