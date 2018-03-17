@@ -76,7 +76,7 @@ class Package(CMakePackageBase):
         else:
             self.subinfo.options.configure.args += (
                 "-DDBUS_ENABLE_VERBOSE_MODE=OFF "
-                "-DDBUS_DISABLE_ASSERTS=ON ")
+                "-DDBUS_DISABLE_ASSERT=ON ")
 
         self.subinfo.options.configure.args += (
             "-DDBUS_SESSION_BUS_LISTEN_ADDRESS:STRING=autolaunch:scope=*install-path "
