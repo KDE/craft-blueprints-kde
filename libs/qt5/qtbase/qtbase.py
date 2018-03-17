@@ -141,7 +141,11 @@ class QtPackage(Qt5CorePackageBase):
                 command += " -openssl-linked "
                 if self.qtVer >= CraftVersion("5.10"):
                     opensslIncDir = os.path.join(CraftCore.standardDirs.craftRoot(), "include", "openssl")
-                    command += f" OPENSSL_LIBS=\"-llibssl -llibcrypto\" OPENSSL_INCDIR=\"{opensslIncDir}\" "
+                    command += f" OPENSSL_INCDIR=\"{opensslIncDir}\""
+                    if CraftCore.compiler.isWin:
+                        command += f" OPENSSL_LIBS=\"-llibssl -llibcrypto\" "
+                    else:
+                        command += f" OPENSSL_LIBS=\"-lssl -lcrypto\" "
             if self.subinfo.options.isActive("binary/mysql"):
                 command += " -plugin-sql-mysql "
             if self.subinfo.options.isActive("win32libs/dbus"):
