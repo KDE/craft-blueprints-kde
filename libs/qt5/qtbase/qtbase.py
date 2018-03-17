@@ -142,7 +142,7 @@ class QtPackage(Qt5CorePackageBase):
                 if self.qtVer >= CraftVersion("5.10"):
                     opensslIncDir = os.path.join(CraftCore.standardDirs.craftRoot(), "include", "openssl")
                     command += f" OPENSSL_INCDIR=\"{opensslIncDir}\""
-                    if CraftCore.compiler.isWin:
+                    if CraftCore.compiler.isWindows:
                         command += f" OPENSSL_LIBS=\"-llibssl -llibcrypto\" "
                     else:
                         command += f" OPENSSL_LIBS=\"-lssl -lcrypto\" "
