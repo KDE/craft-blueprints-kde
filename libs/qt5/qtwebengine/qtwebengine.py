@@ -38,9 +38,11 @@ class QtPackage(Qt5CorePackageBase):
         return Qt5CorePackageBase.fetch(self)
 
     def compile(self):
-        if self.qtVer < CraftVersion("5.9"):
-            utils.prependPath(CraftCore.settings.get("Paths", "PYTHON27"))
-        return Qt5CorePackageBase.compile(self)
+        env = {}
+        if self.qtVer < CraftVersion("5.9") and CraftCore.compiler.isWindows:
+            env["PATH"] = CraftCore.settings.get("Paths", "PYTHON27") + ";" + os.environ["PATH"]
+        with utils.ScopedEnv(env):
+            return Qt5CorePackageBase.compile(self)
 
     def install(self):
         if not Qt5CorePackageBase.install(self):
