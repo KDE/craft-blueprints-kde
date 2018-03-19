@@ -22,6 +22,7 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
-        self.subinfo.options.configure.args += f" --disable-static --enable-shared"
-        self.subinfo.options.configure.ldflags += f" -L{os.path.join(root, 'lib')} -lglib-2.0"
-        self.subinfo.options.configure.cflags += f"  -I{os.path.join(root, 'include', 'glib-2.0')}"
+        self.subinfo.options.configure.args += (f" --disable-static --enable-shared"
+                                                f" PKG_CONFIG=':'"
+                                                f" GLIB_LIBS='-L{root}/lib -lglib-2.0'"
+                                                f" GLIB_CFLAGS='-I{root}/include/glib-2.0'")
