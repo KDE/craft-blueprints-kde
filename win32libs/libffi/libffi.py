@@ -18,7 +18,6 @@ class subinfo(info.infoclass):
             self.targetDigests['3.2.1'] = (
                 ['9f8e1133c6b9f72b73943103414707a1970e2e9b1d332c3df0d35dac1d9917e5'], CraftHash.HashAlgorithm.SHA256)
         else:
-            self.patchToApply['3.2.1'] = [("fix-headers-install.diff", 1)]
             self.targetDigests['3.2.1'] = (
                 ['d06ebb8e1d9a22d19e38d63fdb83954253f39bedc5d46232a05645685722ca37'], CraftHash.HashAlgorithm.SHA256)
 
