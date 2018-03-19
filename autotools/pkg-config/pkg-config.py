@@ -21,16 +21,7 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-
-    def configure(self):
         root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
-        with utils.ScopedEnv({
-            "GLIB_LIBS" : f"-L{os.path.join(root, 'lib')} -lglib-2.0",
-            "GLIB_CFLAGS" : f"-I{os.path.join(root, 'include', 'glib-2.0')}"}):
-            self.subinfo.options.configure.args += " --disable-static --enable-shared"
-            return AutoToolsPackageBase.configure(self)
-
-    def install(self):
-        if not AutoToolsPackageBase.install(self):
-            return False
-        return self.copyToMsvcImportLib()
+        self.subinfo.options.configure.args += f" --disable-static --enable-shared"
+        self.subinfo.options.configure.ldflags += f" -L{os.path.join(root, 'lib')} -lglib-2.0"
+        self.subinfo.options.configure.cflags += f"  -I{os.path.join(root, 'include', 'glib-2.0')}"
