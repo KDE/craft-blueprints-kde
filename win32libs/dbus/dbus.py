@@ -78,15 +78,14 @@ class Package(CMakePackageBase):
                 "-DDBUS_ENABLE_VERBOSE_MODE=OFF "
                 "-DDBUS_DISABLE_ASSERT=ON ")
 
-        self.subinfo.options.configure.args += (
-            "-DDBUS_SESSION_BUS_LISTEN_ADDRESS:STRING=autolaunch:scope=*install-path "
-            "-DDBUS_SESSION_BUS_CONNECT_ADDRESS:STRING=autolaunch:scope=*install-path "
-            "-DDBUS_SYSTEM_BUS_DEFAULT_ADDRESS:STRING=autolaunch:scope=*install-path ")
-
         if OsUtils.isWin():
             # kde uses debugger output, so dbus should do too
             self.subinfo.options.configure.args += "-DDBUS_USE_OUTPUT_DEBUG_STRING=ON "
             self.subinfo.options.configure.args += "-DCMAKE_INSTALL_DATADIR:STRING=bin/data "
+            self.subinfo.options.configure.args += (
+                "-DDBUS_SESSION_BUS_LISTEN_ADDRESS:STRING=autolaunch:scope=*install-path "
+                "-DDBUS_SESSION_BUS_CONNECT_ADDRESS:STRING=autolaunch:scope=*install-path "
+                "-DDBUS_SYSTEM_BUS_DEFAULT_ADDRESS:STRING=autolaunch:scope=*install-path ")
 
         if OsUtils.isMac():
             self.subinfo.options.configure.args += "-DDBUS_BUILD_X11:BOOL=OFF "
