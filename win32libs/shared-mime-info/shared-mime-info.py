@@ -81,6 +81,4 @@ class Package(AutoToolsPackageBase):
         return True
 
     def postQmerge(self):
-        if not super().postQmerge():
-            return False
         return PostInstallRoutines.updateSharedMimeInfo(self)
