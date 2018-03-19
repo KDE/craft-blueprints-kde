@@ -41,6 +41,7 @@ class Package(BinaryPackageBase):
     def postQmerge(self):
         catalog = os.path.join(CraftCore.standardDirs.craftRoot(), "etc", "xml", "catalog")
         if not os.path.isfile(catalog):
+            os.makedirs(catalog, exist_ok=True)
             if not utils.system(["xmlcatalog", "--create", "--noout", catalog]):
                 return False
         return utils.system(["xmlcatalog", "--noout", "--add", "nextCatalog", "", "docbook-dtd-4.5.xml", catalog])
