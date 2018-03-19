@@ -72,8 +72,9 @@ class PackageAutoTools(AutoToolsPackageBase):
         self.subinfo.options.configure.args += f"--enable-shared --disable-static --with-pcre=internal"
         self.subinfo.options.configure.cflags = "-Wno-format-nonliteral"
 
-        if CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += f" LIBFFI_LIBS=-lffi LIBFFI_CFLAGS='-I{os.path.join(root, 'include', 'libffi')}'"
+        if not CraftCore.cache.findApplication("pkg-config"):
+            version = CraftPackageObject.get("win32libs/libffi").version
+            self.subinfo.options.configure.args += f" LIBFFI_LIBS=-lffi LIBFFI_CFLAGS='-I{root}/lib/libffi-{version}/include'"
 
     def install(self):
         if not AutoToolsBuildSystem.install(self):
