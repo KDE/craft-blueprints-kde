@@ -29,7 +29,10 @@ class Package(CMakePackageBase):
         if not CMakePackageBase.install(self):
             return False
         if self.subinfo.options.dynamic.useIconResource:
-            dest = os.path.join(self.installDir(), "bin", "data")
+            if CraftCore.compiler.isWindows:
+                dest = os.path.join(self.installDir(), "bin", "data")
+            else:
+                dest = os.path.join(self.installDir(), "share")
             if not os.path.exists(dest):
                 os.makedirs(dest)
             if not self.subinfo.options.dynamic.useBreezeDark:
