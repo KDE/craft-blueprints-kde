@@ -61,4 +61,4 @@ bin/syncqt\.pl
 bin/dbus-.*
 
 # strip most executables
-bin/(?!(AtCoreTest)).*\.exe
+bin/(?!(atcore-gui)).*\.exe
