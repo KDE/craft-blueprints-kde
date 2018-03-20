@@ -26,7 +26,7 @@ index 6401acf..51043d0 100644
        # This should really be handled by FindOpenSSL.cmake.
        list(APPEND LIBRARIES crypt32)
 -      list(APPEND PC_LIBS -lcrypt32)
-+      list(APPEND PC_LIBS -llibeay32 -lssleay32 -lcrypt32)
++      list(APPEND PC_LIBS -llibssl -llibcrypto -lcrypt32)
 +      if(MSVC)
 +        if(CMAKE_BUILD_TYPE MATCHES Deb)
 +          list(APPEND PC_LIBS  -lmsvcrtd)
