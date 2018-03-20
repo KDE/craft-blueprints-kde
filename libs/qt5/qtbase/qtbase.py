@@ -192,7 +192,7 @@ class QtPackage(Qt5CorePackageBase):
 
             return True
 
-    def postInstall():
+    def postInstall(self):
         if OsUtils.isWin() and CraftCore.settings.getboolean("Packager", "UseCache"):
             if not utils.system(["qtbinpatcher", "--nobackup",
                                  f"--qt-dir={self.installDir()}",
