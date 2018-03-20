@@ -29,7 +29,10 @@ class Package(BinaryPackageBase):
 
     def install(self):
         srcDir = self.sourceDir()
-        destDir = os.path.join(self.installDir(), "bin", "data", "hunspell")
+        if CraftCore.compiler.isWindows:
+            destDir = os.path.join(self.installDir(), "bin", "data")
+        else:
+            destDir = os.path.join(self.installDir(), "share")
         files = []
         for pattern in ["**/*.dic", "**/*.aff", "**/*.txt"]:
             files.extend(glob.glob(os.path.join(srcDir, pattern), recursive=True))
