@@ -48,10 +48,11 @@ class QtPackage(Qt5CorePackageBase):
         if not Qt5CorePackageBase.install(self):
             return False
 
-        # apply solution for wrong install location of some important files
-        # see: https://stackoverflow.com/a/35448081
-        utils.mergeTree(os.path.join(self.imageDir(), "resources"),
-                        os.path.join(self.imageDir(), "bin"))
+        if CraftCore.compiler.isWindows and os.path.isdir(os.path.join(self.imageDir(), "resources")):
+            # apply solution for wrong install location of some important files
+            # see: https://stackoverflow.com/a/35448081
+            utils.mergeTree(os.path.join(self.imageDir(), "resources"),
+                            os.path.join(self.imageDir(), "bin"))
         return True
 
 
