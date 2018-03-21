@@ -56,8 +56,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["frameworks/tier3/krunner"] = "default"
             self.runtimeDependencies["frameworks/tier3/plasma-framework"] = "default"
         if self.options.dynamic.fullKDevelop:
-            self.runtimeDependencies["extragear/kdevelop/kdev-python"] = "default"
-            self.runtimeDependencies["extragear/kdevelop/kdev-php"] = "default"
+            self.packagingDependencies["extragear/kdevelop/kdev-python"] = "default"
+            self.packagingDependencies["extragear/kdevelop/kdev-php"] = "default"
         self.runtimeDependencies["extragear/kdevelop-pg-qt"] = "default"
 
         # Install extra plugins shipped by Kate
