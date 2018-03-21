@@ -18,4 +18,8 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = f" -DPYTHON_EXECUTABLE=\"{sys.executable}\""
+        if ("Paths", "Python") in CraftCore.settings:
+            python = os.apth.join(CraftCore.settings.get(), "python")
+        else:
+            python = sys.executable
+        self.subinfo.options.configure.args = f" -DPYTHON_EXECUTABLE=\"{python}\""
