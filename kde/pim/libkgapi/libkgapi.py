@@ -8,9 +8,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kwindowsystem"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
         self.runtimeDependencies["kde/pim/kcalcore"] = "default"
         self.runtimeDependencies["kde/pim/kcontacts"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"

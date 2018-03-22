@@ -9,12 +9,12 @@ class subinfo(info.infoclass):
         self.description = "KAlarm Akonadi Library"
 
     def setDependencies(self):
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["kde/pim/akonadi"] = "default"
         self.runtimeDependencies["kde/pim/kcalcore"] = "default"
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = "default"
         self.runtimeDependencies["kde/pim/kholidays"] = "default"
-        self.runtimeDependencies["frameworks/tier4/kdelibs4support"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = "default"
 
 
 from Package.CMakePackageBase import *

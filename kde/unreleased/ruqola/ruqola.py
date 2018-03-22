@@ -15,11 +15,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = "default"
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = "default"
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kirigami"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kcrash"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kio"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
 
 
 from Package.CMakePackageBase import *

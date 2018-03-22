@@ -9,15 +9,15 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["frameworks/tier3/knotifyconfig"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kitemmodels"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kcodecs"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kwindowsystem"] = "default"
-        self.runtimeDependencies["frameworks/tier3/ktextwidgets"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = "default"
 
         self.runtimeDependencies["kde/pim/kmime"] = "default"
         self.runtimeDependencies["kde/pim/kdav"] = "default"

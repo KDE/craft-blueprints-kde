@@ -10,11 +10,11 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kcodecs"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = "default"
         self.runtimeDependencies["kde/pim/kcalcore"] = "default"
         self.runtimeDependencies["kdesupport/grantlee"] = "default"
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = "default"

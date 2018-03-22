@@ -9,15 +9,15 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.buildDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/libjpeg-turbo"] = "default"
         self.runtimeDependencies["libs/libpng"] = "default"
         self.runtimeDependencies["libs/exiv2"] = "default"
         self.runtimeDependencies["libs/lcms2"] = "default"
         self.runtimeDependencies["kde/libs/libkdcraw"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kactivities"] = "default"
-        self.runtimeDependencies["frameworks/tier4/kdelibs4support"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kactivities"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = "default"
         self.runtimeDependencies["qt-libs/phonon"] = "default"
 
 

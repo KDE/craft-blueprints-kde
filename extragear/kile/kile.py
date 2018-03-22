@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         # this is only a dependency for kile > 2.1, but we keep it like that for now
         self.runtimeDependencies['kde/applications/okular'] = 'default'
         self.runtimeDependencies["kde/applications/kate"] = "default"
-        self.runtimeDependencies["frameworks/tier3/khtml"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/khtml"] = "default"
 
 
 class Package(CMakePackageBase):

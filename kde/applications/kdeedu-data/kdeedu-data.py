@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
 
 
 from Package.CMakePackageBase import *

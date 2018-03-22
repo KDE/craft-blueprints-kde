@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.2.3"
 
     def setDependencies(self):
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"

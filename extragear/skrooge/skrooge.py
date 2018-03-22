@@ -12,19 +12,19 @@ class subinfo(info.infoclass):
         self.description = "personal finance manager for KDE"
 
     def setDependencies(self):
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
         self.runtimeDependencies["libs/qt5/qtsvg"] = "default"
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kconfigwidgets"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kiconthemes"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["frameworks/tier3/knewstuff"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kparts"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kwallet"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
         self.runtimeDependencies["kdesupport/grantlee"] = "default"
 
 

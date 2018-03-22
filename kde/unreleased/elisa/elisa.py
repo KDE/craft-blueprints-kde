@@ -10,7 +10,7 @@ class subinfo( info.infoclass ):
 
     def setDependencies( self ):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtgraphicaleffects"] = "default"
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = "default"
@@ -18,15 +18,15 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = "default"
         self.runtimeDependencies["libs/qt5/qtsvg"] = "default"
         self.runtimeDependencies["libs/qt5/qtwinextras"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kcmutils"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kfilemetadata"] = "default"
-        self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kdeclarative"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kdoctools"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kcrash"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
 
 from Package.CMakePackageBase import *
 

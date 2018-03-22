@@ -9,10 +9,10 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["kde/pim/kcalcore"] = "default"
         self.runtimeDependencies["kde/pim/syndication"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kxmlrpcclient"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlrpcclient"] = "default"
 
 
 from Package.CMakePackageBase import *

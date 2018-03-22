@@ -13,9 +13,9 @@ class subinfo(info.infoclass):
         self.webpage = "http://www.kdab.com/"
 
     def setDependencies(self):
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kwallet"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = "default"
         self.runtimeDependencies["kde/pim/akonadi"] = "default"
         self.runtimeDependencies["kde/pim/kcontacts"] = "default"
         self.runtimeDependencies["kde/pim/kcalcore"] = "default"
