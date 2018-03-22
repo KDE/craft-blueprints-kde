@@ -78,7 +78,7 @@ class Package( CMakePackageBase ):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("gnuwin32/sed")
+        self.ignoredPackages.append("dev-utils/sed")
 
         return TypePackager.createPackage(self)
 

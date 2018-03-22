@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.targetInstSrc['1.6.2'] = "libindi"
 
     def setDependencies(self):
-        self.buildDependencies["gnuwin32/grep"] = "default"
+        self.buildDependencies["dev-utils/grep"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/libnova"] = "default"

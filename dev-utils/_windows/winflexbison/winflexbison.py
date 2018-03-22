@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = ver
 
     def setDependencies(self):
-        self.buildDependencies["gnuwin32/wget"] = "default"
+        self.buildDependencies["dev-utils/wget"] = "default"
 
 
 from Package.BinaryPackageBase import *
