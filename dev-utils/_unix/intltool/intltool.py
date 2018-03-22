@@ -28,7 +28,6 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.buildDependencies["dev-util/msys"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
 
     def setTargets(self):
@@ -44,7 +43,3 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
 
-    def install(self):
-        if not AutoToolsPackageBase.install(self):
-            return False
-        return self.copyToMsvcImportLib()
