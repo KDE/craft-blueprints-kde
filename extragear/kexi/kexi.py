@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/glib"] = "default" # mdb
         self.runtimeDependencies["libs/sqlite"] = "default" # migration
         self.runtimeDependencies["binary/mysql"] = "default" # migration
@@ -21,26 +21,26 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
         self.runtimeDependencies["kdesupport/kdewin"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kcodecs"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kguiaddons"] = "default"
-        self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kwidgetsaddons"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kconfigwidgets"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kiconthemes"] = "default"
-        self.runtimeDependencies["frameworks/tier3/ktextwidgets"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
         self.runtimeDependencies["extragear/kdb"] = "default"
         self.runtimeDependencies["extragear/kproperty"] = "default"
         self.runtimeDependencies["extragear/kreport"] = "default"
         # Desktop only:
-        self.runtimeDependencies["frameworks/tier2/kcompletion"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["frameworks/tier3/ktexteditor"] = "default"
-        self.runtimeDependencies["frameworks/tier3/ktextwidgets"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = "default"
         if OsUtils.isLinux():
-            self.runtimeDependencies["frameworks/tier1/kcrash"] = "default"
+            self.runtimeDependencies["kde/frameworks/tier1/kcrash"] = "default"
 
 
 from Package.CMakePackageBase import *

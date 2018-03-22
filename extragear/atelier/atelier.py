@@ -10,12 +10,12 @@ class subinfo( info.infoclass ):
         self.description = 'Atelier Printer Host'
 
     def setDependencies( self ):
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["frameworks/tier1/ki18n"] = "default"
-        self.buildDependencies["frameworks/tier1/solid"] = "default"
-        self.buildDependencies["frameworks/tier3/kconfigwidgets"] = "default"
-        self.buildDependencies["frameworks/tier3/kxmlgui"] = "default"
-        self.buildDependencies["frameworks/tier3/ktexteditor"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/tier1/ki18n"] = "default"
+        self.buildDependencies["kde/frameworks/tier1/solid"] = "default"
+        self.buildDependencies["kde/frameworks/tier3/kconfigwidgets"] = "default"
+        self.buildDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
+        self.buildDependencies["kde/frameworks/tier3/ktexteditor"] = "default"
         self.buildDependencies["extragear/atcore"] = "default"
         self.runtimeDependencies["libs/qt5/qt3d"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"

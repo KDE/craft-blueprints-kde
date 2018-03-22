@@ -9,16 +9,16 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kcrash"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kdbusaddons"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kdoctools"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kdnssd"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kdnssd"] = "default"
         self.runtimeDependencies["kde/kdegames/libkdegames"] = "default"
 
 

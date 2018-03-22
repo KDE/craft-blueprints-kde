@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["frameworks/tier1/syntax-highlighting"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = "default"
         self.runtimeDependencies["qt-apps/kdstatemachineeditor"] = "default"
         self.runtimeDependencies["libs/openssl"] = "default"
         probes = CraftPackageObject.get("kdab/gammaray-binary-probes")

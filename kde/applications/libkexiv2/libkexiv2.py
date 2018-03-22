@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/exiv2"] = "default"
-        self.runtimeDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.runtimeDependencies["kde/frameworks/extra-cmake-modules"] = "default"
 
 
 from Package.CMakePackageBase import *

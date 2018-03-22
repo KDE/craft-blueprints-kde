@@ -8,13 +8,13 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
-        self.runtimeDependencies["frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kconfigwidgets"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kcompletion"] = "default"
-        self.runtimeDependencies["frameworks/tier1/karchive"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kdoctools"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = "default"
         self.runtimeDependencies["dev-utils/7zip"] = "default"
 
 

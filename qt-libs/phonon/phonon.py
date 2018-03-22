@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.buildDependencies["frameworks/extra-cmake-modules"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         # qtquick1 is optional
         # self.runtimeDependencies["libs/qtquick1"] = "default"

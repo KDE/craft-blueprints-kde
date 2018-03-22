@@ -9,12 +9,12 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kdoctools"] = "default"
-        self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kxmlgui"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
         self.runtimeDependencies["kdesupport/kdewin"] = "default"
 
 
@@ -34,6 +34,6 @@ class Package(CMakePackageBase):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/qt5/qtdeclarative") # pulled in by solid
-        self.ignoredPackages.append("frameworks/tier3/kwallet") # pulled in by kio
+        self.ignoredPackages.append("kde/frameworks/tier3/kwallet") # pulled in by kio
 
         return TypePackager.createPackage(self)

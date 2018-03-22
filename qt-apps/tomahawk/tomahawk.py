@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["binary/vlc"] = "default"
         self.runtimeDependencies["kdesupport/qca"] = "default"
         self.runtimeDependencies["qt-libs/libechonest"] = "default"
-        self.runtimeDependencies["frameworks/tier1/attica"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/attica"] = "default"
         self.runtimeDependencies["qt-libs/liblastfm"] = "default"
         self.runtimeDependencies["libs/luceneplusplus"] = "default"
         self.runtimeDependencies["libs/taglib"] = "default"

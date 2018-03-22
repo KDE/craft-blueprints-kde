@@ -9,22 +9,22 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kcodecs"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kcompletion"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kiconthemes"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kitemviews"] = "default"
-        self.runtimeDependencies["frameworks/tier2/kjobwidgets"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kwallet"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kwidgetsaddons"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = "default"
         self.runtimeDependencies["kde/pim/akonadi"] = "default"
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = "default"
         self.runtimeDependencies["kde/pim/kldap"] = "default"
         self.runtimeDependencies["kde/pim/akonadi-search"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kdesignerplugin"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kdesignerplugin"] = "default"
 
 
 from Package.CMakePackageBase import *

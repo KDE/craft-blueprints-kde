@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
         self.runtimeDependencies["libs/qt5/qtscript"] = "default"
         self.runtimeDependencies["libs/qt5/qttools"] = "default"
-        self.runtimeDependencies["frameworks/tier1/sonnet"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/sonnet"] = "default"
 
 
 class Package(CMakePackageBase):

@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/mpir"] = "default"
         self.buildDependencies["libs/libgmp"] = "default"
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.description = "A library with common classes and functionality used by finance applications for the KDE SC."
 
 

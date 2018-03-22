@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         self.description = "The KDE core of Atelier Printer Host"
 
     def setDependencies(self):
-        self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtserialport"] = "default"
         self.runtimeDependencies["libs/qt5/qtcharts"] = "default"
