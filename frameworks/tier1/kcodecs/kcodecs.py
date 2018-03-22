@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = "default"
         self.buildDependencies["frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.buildDependencies["gnuwin32/gperf"] = "default"
+        self.buildDependencies["dev-utils/gperf"] = "default"
 
 
 from Package.CMakePackageBase import *

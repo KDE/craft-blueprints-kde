@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
                 self.patchToApply[ver] = [("0001-Fix-the-detection-of-python2.exe.patch", 1)]#https://codereview.qt-project.org/#/c/203000/
 
     def setDependencies(self):
-        self.buildDependencies["gnuwin32/gperf"] = "default"
+        self.buildDependencies["dev-utils/gperf"] = "default"
         self.buildDependencies["dev-utils/python2"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtlocation"] = "default"

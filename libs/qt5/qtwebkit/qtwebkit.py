@@ -43,7 +43,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtsensors"] = "default"
         self.buildDependencies["dev-utils/ruby"] = "default"
         self.buildDependencies["dev-utils/winflexbison"] = "default"
-        self.buildDependencies["gnuwin32/gperf"] = "default"
+        self.buildDependencies["dev-utils/gperf"] = "default"
 
 
 from Package.Qt5CorePackageBase import *
