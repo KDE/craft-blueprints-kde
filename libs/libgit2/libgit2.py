@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies['dev-utils/pkg-config'] = 'default'
         self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies['libs/win_iconv'] = 'default'
+        self.runtimeDependencies['libs/iconv'] = 'default'
         self.runtimeDependencies['libs/libssh2'] = 'default'
         self.runtimeDependencies['libs/openssl'] = 'default'
 

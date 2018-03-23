@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
             self.buildDependencies["dev-utils/msys"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/gettext"] = "default"
-        self.runtimeDependencies["libs/win_iconv"] = "default"
+        self.runtimeDependencies["libs/iconv"] = "default"
         self.runtimeDependencies["data/hunspell-dictionaries"] = "default"
 
 from Package.MSBuildPackageBase import *

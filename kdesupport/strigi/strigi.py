@@ -6,7 +6,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/exiv2"] = "default"
-        self.runtimeDependencies["libs/win_iconv"] = "default"
+        self.runtimeDependencies["libs/iconv"] = "default"
         self.runtimeDependencies["libs/libbzip2"] = "default"
         self.runtimeDependencies["libs/libxml2"] = "default"
         self.runtimeDependencies["libs/zlib"] = "default"
