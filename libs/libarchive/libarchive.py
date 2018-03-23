@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/openssl"] = "default"
         self.buildDependencies["libs/libxml2"] = "default"
         self.buildDependencies["libs/pcre"] = "default"
-        self.buildDependencies["libs/win_iconv"] = "default"
+        self.buildDependencies["libs/iconv"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         #        self.runtimeDependencies["libs/expat"] = "default"
 

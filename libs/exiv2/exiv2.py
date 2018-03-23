@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = '0.25'
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/win_iconv"] = "default"
+        self.runtimeDependencies["libs/iconv"] = "default"
         self.runtimeDependencies["libs/gettext"] = "default"
         self.runtimeDependencies["libs/expat"] = "default"
         self.runtimeDependencies["libs/zlib"] = "default"
