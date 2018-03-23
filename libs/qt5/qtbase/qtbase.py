@@ -74,7 +74,7 @@ class subinfo(info.infoclass):
             self.buildDependencies["dev-utils/qtbinpatcher"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/perl"] = None
-        self.buildDependencies["dev-utils/winflexbison"] = None
+        self.buildDependencies["dev-utils/flexbison"] = None
         if not self.options.buildStatic:
             self.runtimeDependencies["libs/openssl"] = None if CraftVersion(self.buildTarget) < CraftVersion("5.10") else "1.1"
             self.runtimeDependencies["libs/dbus"] = None
