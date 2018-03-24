@@ -37,15 +37,9 @@ class Package(BinaryPackageBase):
         self.buildSystemType = 'custom'
         # create combined package
         self.subinfo.options.package.withCompiler = None
-
-    def unpack(self):
+        self.subinfo.options.unpack.runInstaller = True
         with TemporaryUseShortpath(False):
-            workdir = self.workDir()
-
-        # hopefully only one...
-        for filename in self.localFileNames():
-            utils.system(os.path.join(CraftStandardDirs.downloadDir(), filename) + " /DIR=\"" + workdir + "\" /SILENT")
-        return True
+            self.subinfo.options.configure.args = "/DIR=\"{0}\" /SILENT".format(self.workDir())
 
     def install(self):
         srcdir = self.workDir()
