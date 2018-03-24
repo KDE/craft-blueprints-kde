@@ -43,6 +43,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = "default"
         self.buildDependencies["dev-utils/intltool"] = "default"
+        self.buildDependencies["dev-utils/pkg-config"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/gettext"] = "default"
         self.runtimeDependencies["libs/libxml2"] = "default"
