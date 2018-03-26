@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
             self.patchToApply["58.2"] = ("0020-workaround-missing-locale.patch",
                                          2)  # https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-icu/0020-workaround-missing-locale.patch
 
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
         self.defaultTarget = "58.2"
 
     def setDependencies(self):
