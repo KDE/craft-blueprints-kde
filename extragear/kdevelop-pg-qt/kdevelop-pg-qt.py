@@ -3,8 +3,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['2.0'] = 'git://anongit.kde.org/kdevelop-pg-qt|2.0'
-        self.defaultTarget = '2.0'
+        self.svnTargets['2.1'] = 'git://anongit.kde.org/kdevelop-pg-qt|2.1'
+        self.defaultTarget = '2.1'
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
