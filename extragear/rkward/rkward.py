@@ -9,13 +9,13 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["binary/r-base"] = "default"
-        self.runtimeDependencies["frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["frameworks/tier3/ktexteditor"] = "default"
-        self.runtimeDependencies["frameworks/tier1/kwindowsystem"] = "default"
-        self.runtimeDependencies["frameworks/tier3/kdewebkit"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = "default"
         # not strictly runtimeDependencies, but should be included in the package
         self.runtimeDependencies["kde/applications/kate"] = "default"
-        self.runtimeDependencies["frameworks/tier1/breeze-icons"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = "default"
 
 
 from Source.GitSource import *
