@@ -20,6 +20,6 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         if ("Paths", "Python") in CraftCore.settings:
             python = os.path.join(CraftCore.settings.get("Paths", "Python"), "python")
-        else:
+        if not os.path.exists(python):
             python = sys.executable
         self.subinfo.options.configure.args = f" -DPYTHON_EXECUTABLE=\"{python}\""
