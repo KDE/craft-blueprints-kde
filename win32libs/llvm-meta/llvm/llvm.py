@@ -43,6 +43,10 @@ class Package(CMakePackageBase):
         else:
             self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=ON"
 
+        # lldb by default needs SWIG for the Python integration
+        # disable this support until we have a swig package in Craft
+        self.subinfo.options.configure.args += " -DLLDB_DISABLE_PYTHON=ON"
+
     def fetch(self):
         if not CMakePackageBase.fetch(self):
             return False
