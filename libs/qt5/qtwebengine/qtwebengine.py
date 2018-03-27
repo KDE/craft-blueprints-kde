@@ -39,6 +39,9 @@ class QtPackage(Qt5CorePackageBase):
 
     def compile(self):
         env = {}
+        if CraftCore.compiler.isMacOS:
+            # we need mac's version of libtool here
+            env["PATH"] = f"/usr/bin/:{os.environ['PATH']}"
         if self.qtVer < CraftVersion("5.9") and CraftCore.compiler.isWindows:
             env["PATH"] = CraftCore.settings.get("Paths", "PYTHON27") + ";" + os.environ["PATH"]
         with utils.ScopedEnv(env):
