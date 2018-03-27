@@ -31,6 +31,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/pcre"] = "default"
         self.runtimeDependencies["libs/zlib"] = "default"
         self.runtimeDependencies["libs/gettext"] = "default"
+        if not OsUtils.isWin():
+            self.runtimeDependencies["libs/iconv"] = "default"
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = "default"
 
