@@ -28,3 +28,12 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+
+        if OsUtils.isMac():
+            # Build sqlite as static library under macOS
+            # Otherwise we might run into:
+            # executing command: .../macdeployqt .../kdevelop.app -always-overwrite -verbose=1
+            # dyld: Library not loaded: /usr/lib/libsqlite3.dylib
+            #  Referenced from: /System/Library/Frameworks/Security.framework/Versions/A/Security
+            #  Reason: Incompatible library version: Security requires version 9.0.0 or later, but libsqlite3.dylib provides version 3.0.0
+            self.subinfo.options.configure.args += " -DSTATIC_LIBRARY=TRUE"
