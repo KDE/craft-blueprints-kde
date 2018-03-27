@@ -34,13 +34,13 @@ class subinfo(info.infoclass):
             self.targetDigestUrls[ver] = ([f'{baseUrl}openssl-{ver}.tar.gz.sha256'], CraftHash.HashAlgorithm.SHA256)
 
         # older versions  -> inside old/major.minor.patch/
-        for ver in ['1.0.2a', '1.0.2c', '1.0.2d', '1.0.2j', '1.0.2m']:
+        for ver in ['1.0.2a', '1.0.2c', '1.0.2d', '1.0.2j', '1.0.2m', '1.0.2o']:
             dir = re.search(r"\d+\.\d+.\d+", ver).group(0)
             baseUrl = f'ftp://ftp.openssl.org/source/old/{dir}/'
             addTarget(baseUrl, ver)
 
         # latest versions -> inside source/
-        for ver in ["1.1.0g"]:
+        for ver in ["1.1.0g", "1.1.0h"]:
             baseUrl = 'ftp://ftp.openssl.org/source/'
             addTarget(baseUrl, ver)
 
@@ -51,7 +51,7 @@ class subinfo(info.infoclass):
         #set the default config for openssl 1.1
         self.options.configure.args = "shared no-zlib threads no-rc5 no-idea no-ssl3-method no-weak-ssl-ciphers no-heartbeats"
 
-        self.defaultTarget = '1.1.0g'
+        self.defaultTarget = '1.1.0h'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
