@@ -2,6 +2,9 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Windows
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         # will be moved to kdewin-qt
