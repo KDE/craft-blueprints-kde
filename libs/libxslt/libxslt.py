@@ -17,6 +17,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/libxml2"] = "default"
+        self.runtimeDependencies["libs/zlib"] = "default"
+        self.runtimeDependencies["libs/iconv"] = "default"
 
 
 class PackageMSVC(MakeFilePackageBase):
