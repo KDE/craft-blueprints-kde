@@ -43,9 +43,6 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file = [
-            PackagerLists.runtimeBlacklist  # , os.path.join(os.path.dirname(__file__), 'blacklist.txt')
-        ]
 
         if OsUtils.isWin():
             if CraftCore.compiler.isX64():
@@ -103,5 +100,6 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(self.sourceDir(), "rkward", "icons", "app-icon", "rkward.ico")
 
         self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("data/hunspell-dictionaries")
 
         return TypePackager.createPackage(self)
