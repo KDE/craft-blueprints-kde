@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://download.documentfoundation.org/libreoffice/src/{mainVersion}/libreoffice-dictionaries-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"http://download.documentfoundation.org/libreoffice/src/{mainVersion}/libreoffice-dictionaries-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"libreoffice-{ver}"
+        self.patchLevel["6.0.1.1"] = 1
 
         self.webpage = "https://cgit.freedesktop.org/libreoffice/dictionaries/"
         self.description = "Hunspell Dictionaries by LibreOffice"
@@ -37,6 +38,6 @@ class Package(BinaryPackageBase):
         for pattern in ["**/*.dic", "**/*.aff", "**/*.txt"]:
             files.extend(glob.glob(os.path.join(srcDir, pattern), recursive=True))
         for f in files:
-            if not utils.copyFile(f, os.path.join(destDir, os.path.basename(f)), linkOnly=False):
+            if not utils.copyFile(f, os.path.join(destDir, "hunspell", os.path.basename(f)), linkOnly=False):
                 return False
         return True
