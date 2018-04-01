@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = "default"
+        self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
 
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
