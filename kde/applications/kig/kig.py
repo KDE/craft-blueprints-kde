@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = "default"
 
 
 from Package.CMakePackageBase import *
