@@ -52,7 +52,8 @@ class Package(BinaryPackageBase):
         utils.cleanDirectory(dstdir)
         utils.copyDir(srcdir, dstdir)
 
-        r_wrapper = os.path.join(dstdir, 'R.framework', 'Resources', 'R')
+        r_wrapper_rel = os.path.join('R.framework', 'Resources' , 'R')
+        r_wrapper = os.path.join(dstdir, r_wrapper_rel)
         # make R run from relative path
         with open(r_wrapper, 'r') as file:
            content  = file.read()
@@ -60,5 +61,13 @@ class Package(BinaryPackageBase):
         with open(r_wrapper, 'w') as file:
            file.write(content)
 
-        return True
+        # now create a "symlink" to R's own wrapper inside PATH
+        # except a symlink would not work for our dirname magic, above, so create a dummy script, instead
+        # it will suffer from the same limitation of not being symlink-able, but we'll assume nobody will
+        # want to do that, when it's already in PATH
+        utils.cleanDirectory(os.path.join(self.installDir(), 'bin'))
+        with open(os.path.join(self.installDir(), 'bin', 'R'), 'w') as file:
+           file.write('#!/bin/sh\n$(dirname "$0")/' + os.path.join ('../', 'lib', 'R' , r_wrapper_rel) + ' $@\n')
+        os.chmod(os.path.join(self.installDir(), 'bin', 'R'), 0o744)
 
+        return True
