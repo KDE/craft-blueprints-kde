@@ -78,7 +78,7 @@ class Package(CMakePackageBase):
             for f in files:
                 if f.endswith("dll.a"):
                     src = os.path.join(self.buildDir(), "lib", f)
-                    dest = os.path.join(self.imageDir(), "lib", f)
+                    dest = os.path.join(self.installDir(), "lib", f)
                     if not os.path.exists(dest):
                         utils.copyFile(src, dest, False)
         elif CraftCore.compiler.isMSVC():
@@ -91,13 +91,14 @@ class Package(CMakePackageBase):
             exeSuffix = ""
 
         # the build system is broken so....
-        src = os.path.join(self.imageDir(), "bin", "clang" + exeSuffix)
-        if CraftCore.compiler.isGCCLike():
-            dest = os.path.join(self.imageDir(), "bin", "clang++" + exeSuffix)
-        elif CraftCore.compiler.isMSVC():
-            dest = os.path.join(self.imageDir(), "bin", "clang-cl" + exeSuffix)
-        else:
-            CraftCore.log.error("Unknown compiler")
-        if not os.path.exists(dest):
-            utils.copyFile(src, dest)
-        return True
+        src = os.path.join(self.installDir(), "bin", "clang" + exeSuffix)
+        def maybeCopy():
+            if not os.path.exists(dest + exeSuffix):
+                return utils.copyFile(src, dest + exeSuffix)
+            else:
+                return True
+
+        if CraftCore.compiler.isMSVC():
+            if not maybeCopy(os.path.join(self.installDir(), "bin", "clang-cl")):
+                return False
+        return maybeCopy(os.path.join(self.installDir(), "bin", "clang++"))
