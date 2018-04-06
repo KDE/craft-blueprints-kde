@@ -85,16 +85,12 @@ class Package(CMakePackageBase):
             utils.copyFile(os.path.join(self.buildDir(), "lib", "clang.lib"),
                            os.path.join(self.installDir(), "lib", "craft_clang_plugins.lib"))
 
-        if OsUtils.isWin():
-            exeSuffix = ".exe"
-        else:
-            exeSuffix = ""
-
         # the build system is broken so....
-        src = os.path.join(self.installDir(), "bin", "clang" + exeSuffix)
-        def maybeCopy():
-            if not os.path.exists(dest + exeSuffix):
-                return utils.copyFile(src, dest + exeSuffix)
+        src = os.path.join(self.installDir(), "bin", f"clang{CraftCore.compiler.executableSuffix}")
+        def maybeCopy(dest):
+            dest = f"{dest}{CraftCore.compiler.executableSuffix}"
+            if not os.path.exists(dest):
+                return utils.copyFile(src, dest)
             else:
                 return True
 
