@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "git://anongit.kde.org/qca.git"
-        self.patchLevel["master"] = 1
+        self.patchLevel["master"] = 2
 
         #for ver in []:
             #self.targets[ver] = f"https://download.kde.org/stable/qca-qt5/{ver}/src/qca-qt5-{ver}.tar.xz"
