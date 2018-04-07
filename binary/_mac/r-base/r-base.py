@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         for version in ['3.3.3']:
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-' + version + '.pkg'
         self.defaultTarget = '3.3.3'  # NOTE: Last official build to work with MacOS < 10.11
-        self.patchLevel['3.3.3'] = 1
+        self.patchLevel['3.3.3'] = 2
 
 
 from Package.BinaryPackageBase import *
@@ -58,7 +58,13 @@ class Package(BinaryPackageBase):
         # make R run from relative path
         with open(r_wrapper, 'r') as file:
            content  = file.read()
-        content = content.replace('/Library/Frameworks', '$(dirname $(dirname $(dirname "$0")))')
+        content = content.replace('\n', '\n# NOTE: RINSTDIR inserted by Craft blueprint, in order to make installation movable.\n'
+                                        'RINSTDIR="$0"\n'
+                                        'if [ -L "$0" ]; then\n'
+                                        '   RINSTDIR=$(dirname "$0")/$(readlink "$0")\n'
+                                        'fi\n'
+                                        'RINSTDIR=$(dirname $(dirname $(dirname $(dirname "${RINSTDIR}"))))\n', 1)
+        content = content.replace('/Library/Frameworks', '${RINSTDIR}')
         with open(r_wrapper, 'w') as file:
            file.write(content)
 
