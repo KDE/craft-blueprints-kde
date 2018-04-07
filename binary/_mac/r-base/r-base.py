@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
         for version in ['3.3.3']:
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-' + version + '.pkg'
         self.defaultTarget = '3.3.3'  # NOTE: Last official build to work with MacOS < 10.11
+        self.patchLevel['3.3.3'] = 1
 
 
 from Package.BinaryPackageBase import *
