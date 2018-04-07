@@ -55,6 +55,8 @@ class Package(CMakePackageBase):
                 self.realconfigure = self.configure
                 self.configure = self.msvcconfigure
                 # NOTE: On Mac, we'll let RKWard try to auto-detect R (installed with officlal installer, or MacPorts, or something else)
+        elif OsUtils.isMac():
+            self.subinfo.options.configure.args = " -DR_EXECUTABLE=" + os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "R.framework", "Resources", "R")
 
     def fetch(self):
         ret = CMakePackageBase.fetch(self)
