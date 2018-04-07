@@ -11,9 +11,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/bin-base"] = "default"
 
     def setTargets(self):
-        self.targets['stable_latest'] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-release.exe'
+        for version in ['3.4.4']:
+            self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-' + version + '-win.exe'
         self.targets['devel'] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-devel.exe'
-        self.defaultTarget = 'stable_latest'
+        self.defaultTarget = '3.4.4'
 
 
 from Package.BinaryPackageBase import *
@@ -26,10 +27,6 @@ from Package.BinaryPackageBase import *
 # A convenience R.bat is added to dstdir/bin to have "R" in the path.
 # Compiling R from source is possible, but terribly complex on Windows. See
 # http://cran.r-project.org/doc/manuals/R-admin.html#Installing-R-under-Windows for details.
-#
-# TODO:
-#    - adding icons would really be nice (icons do get added on the build-machine, but not in the package)
-#    - is there a way to run updatePackages() (in R) after an update? Do we even want this?
 class Package(BinaryPackageBase):
     def __init__(self):
         BinaryPackageBase.__init__(self)
@@ -62,20 +59,3 @@ class Package(BinaryPackageBase):
 
         return True
 
-    # Determine real version number by querying the installed R
-    def getVersionFromR(self):
-        rcmd = os.path.join(self.installDir(), "lib", "R", "bin", "R.exe")
-        if self.buildTarget == 'devel':
-            version = subprocess.Popen([rcmd, '--no-save', '--slave', '-e',
-                                        '"cat(paste(R.version$major,R.version$minor,sep=\'.\'),\'devel\',R.version$svn,sep=\'\')"'],
-                                       stdout=subprocess.PIPE).communicate()[0]
-        else:
-            version = \
-            subprocess.Popen([rcmd, '--no-save', '--slave', '-e', '"cat(R.version$major,R.version$minor,sep=\'.\')"'],
-                             stdout=subprocess.PIPE).communicate()[0]
-        return version
-
-    def createPackage(self):
-        # HACK: assign to the magic var that appears to control the version naming
-        self.subinfo.options.package.version = self.getVersionFromR()
-        return BinaryPackageBase.createPackage(self)
