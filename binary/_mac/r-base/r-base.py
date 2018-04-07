@@ -67,7 +67,7 @@ class Package(BinaryPackageBase):
         # want to do that, when it's already in PATH
         utils.cleanDirectory(os.path.join(self.installDir(), 'bin'))
         with open(os.path.join(self.installDir(), 'bin', 'R'), 'w') as file:
-           file.write('#!/bin/sh\n$(dirname "$0")/' + os.path.join ('../', 'lib', 'R' , r_wrapper_rel) + ' $@\n')
+           file.write('#!/bin/sh\n$(dirname "$0")/' + os.path.join ('../', 'lib', 'R' , r_wrapper_rel) + ' "$@"\n')
         os.chmod(os.path.join(self.installDir(), 'bin', 'R'), 0o744)
 
         return True
