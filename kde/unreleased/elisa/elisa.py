@@ -49,7 +49,9 @@ class Package( CMakePackageBase ):
     def preArchive(self):
         archiveDir = self.archiveDir()
         # TODO: Why is that needed?
-        os.mkdir(os.path.join(archiveDir, "etc", "dbus-1", "session.d"))
+        dbusSessionPath = os.path.join(archiveDir, "etc", "dbus-1", "session.d")
+        if not os.path.exists(dbusSessionPath):
+             os.mkdir(dbusSessionPath)
 
         # TODO: Just blacklisting this doesn't work. WTF?
         utils.rmtree(os.path.join(archiveDir, "dev-utils"))
