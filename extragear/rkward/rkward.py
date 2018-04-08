@@ -59,6 +59,9 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args = " -DR_EXECUTABLE=" + os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "R.framework", "Resources", "R")
 
     def fetch(self):
+        # Temporary workaround for failure to pull due to local modification of ver.R. Remove the line below around June, 2018.
+        utils.deleteFile(os.path.join(self.checkoutDir(), "rkward", "rbackend", "rpackages", "rkward", "R", "ver.R"))
+
         ret = CMakePackageBase.fetch(self)
         CraftCore.debug.step("Fetching translations")
         RKTranslations(self).fetch()
