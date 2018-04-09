@@ -54,22 +54,30 @@ class Package(BinaryPackageBase):
         self.subinfo.options.package.packSources = False
 
     def install(self):
-        libname = "mariadb" if self.subinfo.options.dynamic.useMariaDB else "mysql"
         shutil.copytree(os.path.join(self.sourceDir(), "bin"), os.path.join(self.installDir(), "bin"),
-                        ignore=shutil.ignore_patterns('*.pdb', '*.map', '*test*', 'mysqld-debug.exe', '*.pl', 'debug*'))
-        utils.copyFile(os.path.join(self.sourceDir(), "lib", f"lib{libname}.dll"), os.path.join(self.installDir(), "bin"))
-        if not self.subinfo.options.dynamic.useMariaDB:
-            utils.copyFile(os.path.join(self.sourceDir(), "lib", f"lib{libname}d.dll"), os.path.join(self.installDir(), "bin"))
-        shutil.copytree(os.path.join(self.sourceDir(), "lib"), os.path.join(self.installDir(), "lib"),
-                        ignore=shutil.ignore_patterns('*.pdb', '*.map', 'debug*', f'lib{libname}.dll',
-                                                      f'lib{libname}.dll', f'{libname}*'))
-        if CraftCore.compiler.isMinGW():
-            utils.createImportLibs(f"lib{libname}d", self.installDir())
-            utils.createImportLibs(f"lib{libname}", self.installDir())
+                        ignore=shutil.ignore_patterns('*.pdb', '*.map', '*test*', 'mysqld-debug.exe', 'echo.exe', '*.pl', 'debug*'))
+        shutil.copytree(os.path.join(self.sourceDir(), "lib", "plugin"), os.path.join(self.installDir(), "lib", "plugin"),
+                        ignore=shutil.ignore_patterns('*.pdb', '*.map', 'debug*'))
         shutil.copytree(os.path.join(self.sourceDir(), "include"), os.path.join(self.installDir(), "include"),
                         ignore=shutil.ignore_patterns('*.def'))
         shutil.copytree(os.path.join(self.sourceDir(), "share"), os.path.join(self.installDir(), "share"),
                         ignore=shutil.ignore_patterns('Makefile*'))
+
+        if self.subinfo.options.dynamic.useMariaDB:
+            utils.copyFile(os.path.join(self.sourceDir(), "lib", f"mariadbclient.lib"), os.path.join(self.installDir(), "lib"))
+            utils.copyFile(os.path.join(self.sourceDir(), "lib", f"libmariadb.lib"), os.path.join(self.installDir(), "lib"))
+            utils.copyFile(os.path.join(self.sourceDir(), "lib", f"libmariadb.dll"), os.path.join(self.installDir(), "bin"))
+            if CraftCore.compiler.isMinGW():
+                utils.createImportLibs(f"libmariadb", self.installDir())
+        else:
+            utils.copyFile(os.path.join(self.sourceDir(), "lib", f"mysqlclient.lib"), os.path.join(self.installDir(), "lib"))
+            utils.copyFile(os.path.join(self.sourceDir(), "lib", f"libmysql.lib"), os.path.join(self.installDir(), "lib"))
+            utils.copyFile(os.path.join(self.sourceDir(), "lib", f"libmysqld.lib"), os.path.join(self.installDir(), "lib"))
+            utils.copyFile(os.path.join(self.sourceDir(), "lib", f"libmysqld.dll"), os.path.join(self.installDir(), "bin"))
+            utils.copyFile(os.path.join(self.sourceDir(), "lib", f"libmysql.dll"), os.path.join(self.installDir(), "bin"))
+            if CraftCore.compiler.isMinGW():
+                utils.createImportLibs(f"libmysqld", self.installDir())
+                utils.createImportLibs(f"libmysql", self.installDir())
         return True
 
     def qmerge(self):

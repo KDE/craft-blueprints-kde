@@ -1,0 +1,44 @@
+# blacklist for KEXI
+
+# common app stuff
+lib/.*
+share/.*
+
+# Unused Qt modules
+qml/.*
+
+# unneeded LLVM artifacts
+tools/msbuild/.*
+
+# unrelated
+dev-utils/.*
+
+# other files
+bin/dbus-env\.bat
+bin/libGLESv2.dll
+bin/qmltooling/.*
+bin/data/(?!(applications|color-schemes|dbus-1|kexi|kf5/kcharselect|kf5/licenses|kf5/sonnet|kservices5|kservicetypes5|kstyle|locale|metainfo|mime|xdg))/.*
+bin/data/(aspell|kdevappwizard|wallpapers)/.*
+bin/data/icons/(breeze_cursors|breeze-dark|Breeze_Snow|hicolor|)/.*
+
+# strip most executables
+bin/(?!(kexi|kbuildsycoca5|update-mime-database|kioslave|QtWebProcess)).*\.exe
+bin/Qt5Designer.*\.dll
+bin/Qt5Test\.dll
+bin/Qt5QuickTest\.dll
+bin/testplug.dll
+plugins/org.kde.kdecoration2/.*
+plugins/plasma/.*
+plugins/platforms/qdirect2d\.dll
+plugins/platforms/qminimal\.dll
+plugins/platforms/qoffscreen\.dll
+plugins/playlistformats/.*
+plugins/qmltooling/.*
+plugins/scenegraph/.*
+plugins/sensors/.*
+plugins/sensorgestures/.*
+plugins/bearer/.*
+plugins/generic/.*
+plugins/sqldrivers/(?!(qsqlite))\.dll
+plugins/texttospeech/.*
+# no, needed by Qt5WebKit: bin/Qt5Sql\.dll
