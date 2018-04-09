@@ -49,7 +49,7 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.ignoredPackages.append("binary/mysql")
-        self.blacklist_file.append("blacklist.txt")
+        self.blacklist_file = "blacklist.txt"
 
     def createPackage(self):
         self.defines["productname"] = "KStars Desktop Planetarium"
