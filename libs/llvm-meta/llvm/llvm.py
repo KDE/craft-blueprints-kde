@@ -5,7 +5,9 @@ from Package import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(patchLevel=2)
+        self.versionInfo.setDefaultValues()
+        self.patchLevel["5.0.1"] = 2
+        self.patchLevel["6.0.0"] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
