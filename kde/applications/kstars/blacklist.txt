@@ -48,7 +48,7 @@ share/pkgconfig/.*
 share/wallpapers/.*
 share/icons/Breeze_Snow/.*
 # We do not need this, we need share/icons/breeze-dark-icons.rcc and share/icons/breeze-icons.rcc
-share/icontheme.rcc
+bin/data/icontheme.rcc
 
 # cut the big oxygen icons: this can lead to errors though if used!!!!
 share/icons/oxygen/64x64/.*
