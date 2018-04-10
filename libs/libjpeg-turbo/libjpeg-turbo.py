@@ -55,6 +55,8 @@ from Package.CMakePackageBase import *
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
+        # Version 2 uses cmake
+        self.subinfo.options.configure.bootstrap = True
         self.subinfo.options.configure.args = "--enable-shared --disable-static --disable-doc-build"
 
 if CraftCore.compiler.isUnix:
