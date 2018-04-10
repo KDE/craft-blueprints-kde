@@ -2,6 +2,9 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotLinux
+
     def setTargets(self):
         for ver in ["2.13.03"]:
             if CraftCore.compiler.isWindows:
