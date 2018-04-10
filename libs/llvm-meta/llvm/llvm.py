@@ -66,7 +66,7 @@ class Package(CMakePackageBase):
         if not CMakePackageBase.fetch(self):
             return False
         for p in self.subPackages:
-            if not p.fetch():
+            if not p.fetch(noop=False):
                 return False
         return True
 
@@ -74,7 +74,7 @@ class Package(CMakePackageBase):
         if not CMakePackageBase.unpack(self):
             return False
         for p in self.subPackages:
-            if not p.unpack():
+            if not p.unpack(noop=False):
                 return False
         return True
 

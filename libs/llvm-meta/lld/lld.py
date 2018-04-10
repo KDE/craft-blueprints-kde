@@ -11,9 +11,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/llvm-meta/clang"] = "default"
 
 
-from Package.SourceOnlyPackageBase import *
+from Package.VirtualPackageBase import *
 
 
-class Package(SourceOnlyPackageBase):
+class Package(SourceComponentPackageBase):
     def __init__(self, **args):
-        SourceOnlyPackageBase.__init__(self)
+        SourceComponentPackageBase.__init__(self)
