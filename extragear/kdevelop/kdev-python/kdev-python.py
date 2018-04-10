@@ -21,5 +21,7 @@ class Package(CMakePackageBase):
         if ("Paths", "Python") in CraftCore.settings:
             python = os.path.join(CraftCore.settings.get("Paths", "Python"), "python")
         if not os.path.exists(python):
+            if CraftCore.compiler.isWindows:
+                CraftCore.log.warning(f"Could not find {python} as provided by [Paths]Python, using {sys.executable} as a fallback")
             python = sys.executable
         self.subinfo.options.configure.args = f" -DPYTHON_EXECUTABLE=\"{python}\""
