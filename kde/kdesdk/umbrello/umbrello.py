@@ -9,8 +9,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/gettext"] = "default"
-        self.runtimeDependencies["libs/libintl"] = "default"
         self.runtimeDependencies["libs/libxml2"] = "default"
         self.runtimeDependencies["libs/libxslt"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
