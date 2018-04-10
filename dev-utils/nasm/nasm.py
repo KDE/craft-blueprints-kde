@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.11.08", "2.13.03"]:
+        for ver in ["2.13.03"]:
             if CraftCore.compiler.isWindows:
                 self.targets[ver] = f"https://www.nasm.us/pub/nasm/releasebuilds/{ver}/win{CraftCore.compiler.bits}/nasm-{ver}-win{CraftCore.compiler.bits}.zip"
             elif CraftCore.compiler.isMacOS:
@@ -12,8 +12,8 @@ class subinfo(info.infoclass):
             self.targetInstallPath[ver] = os.path.join("dev-utils", "bin")
 
         if CraftCore.compiler.isWindows:
-            self.targetDigests['2.11.08'] = 'db67cb1286b01e835b703402d631c88c8f494d6b'
-            self.targetDigests['2.13.03'] = (['b3a1f896b53d07854884c2e0d6be7defba7ebd09b864bbb9e6d69ada1c3e989f'], CraftHash.HashAlgorithm.SHA256)
+            self.targetDigestsX64['2.13.03'] = (['b3a1f896b53d07854884c2e0d6be7defba7ebd09b864bbb9e6d69ada1c3e989f'], CraftHash.HashAlgorithm.SHA256)
+            self.targetDigests['2.13.03'] = (['046ed0b14f8b874863dd43e0534ad47727b022194278f2f79df108c7357afcff'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "This is NASM - the famous Netwide Assembler"
         self.webpage = "https://www.nasm.us/"
