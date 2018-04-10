@@ -36,8 +36,3 @@ class Package(CMakePackageBase):
 
         return TypePackager.createPackage(self)
 
-    def preArchive(self):
-        archiveDir = self.archiveDir()
-
-        # TODO: Just blacklisting this doesn't work. WTF?
-        utils.rmtree(os.path.join(archiveDir, "dev-utils"))

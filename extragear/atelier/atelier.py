@@ -37,11 +37,3 @@ class Package( CMakePackageBase ):
         self.defines[ "icon" ] = os.path.join(self.packageDir(), "atelier.ico")
 
         return TypePackager.createPackage(self)
-
-    def preArchive(self):
-        archiveDir = self.archiveDir()
-        # TODO: Why is that needed?
-        os.mkdir(os.path.join(archiveDir, "etc", "dbus-1", "session.d"))
-
-        # TODO: Just blacklisting this doesn't work. WTF?
-        utils.rmtree(os.path.join(archiveDir, "dev-utils"))

@@ -53,8 +53,7 @@ class Package(CMakePackageBase):
         return True
 
     def preArchive(self):
-        utils.mergeTree(os.path.join(self.archiveDir(), "bin"), self.archiveDir())
-        return True
+        return utils.mergeTree(os.path.join(self.archiveDir(), "bin"), self.archiveDir())
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))

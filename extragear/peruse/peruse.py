@@ -45,9 +45,6 @@ class Package(CMakePackageBase):
 
     def preArchive(self):
         archiveDir = self.archiveDir()
-        # TODO: Why is that needed?
-        os.mkdir(os.path.join(archiveDir, "etc", "dbus-1", "session.d"))
-
         # TODO: Can we generalize this for other apps?
         # move everything to the location where Qt expects it
         binPath = os.path.join(archiveDir, "bin")
@@ -55,9 +52,7 @@ class Package(CMakePackageBase):
         utils.moveFile(os.path.join(archiveDir, "etc", "xdg", "peruse.knsrc"),
                        os.path.join(binPath, "data", "peruse.knsrc"))
 
+        # TODO: use blacklist
         utils.rmtree(os.path.join(self.archiveDir(), "lib"))
-
-        # TODO: Just blacklisting this doesn't work. WTF?
-        utils.rmtree(os.path.join(archiveDir, "dev-utils"))
 
         return True
