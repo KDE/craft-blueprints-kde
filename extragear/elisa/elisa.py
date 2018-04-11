@@ -4,15 +4,13 @@ from CraftOS.osutils import OsUtils
 
 class subinfo( info.infoclass ):
     def setTargets( self ):
-        for ver in ['0.1']:
-            self.targets[
-                ver] = 'https://download.kde.org/stable/elisa/' + ver + '/elisa-' + ver + '.tar.xz'
-            self.targetInstSrc[ver] = 'elisa-' + ver
+        self.versionInfo.setDefaultValues()
+        self.targets['0.1.0'] = 'https://download.kde.org/stable/elisa/0.1/elisa-0.1.tar.xz'
+        self.targetDigestUrls['0.1.0'] = 'https://download.kde.org/stable/elisa/0.1/elisa-0.1.tar.xz.sha256'
+        self.targetInstSrc['0.1.0'] = 'elisa-0.1'
 
-        self.targetDigests['0.1'] = '27dc0ffb10f137bf47df67aee1c6e46d39ce0996'
+        self.defaultTarget = '0.1.0'
 
-        self.svnTargets['master'] = "git://anongit.kde.org/elisa"
-        self.defaultTarget = '0.1'
         self.description = "the Elisa music player"
 
     def setDependencies( self ):
