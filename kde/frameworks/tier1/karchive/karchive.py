@@ -14,8 +14,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/libbzip2"] = "default"
         self.runtimeDependencies["libs/zlib"] = "default"
-        if not CraftCore.compiler.isMSVC2010() and not CraftCore.compiler.isMSVC2012():
-            self.runtimeDependencies["libs/liblzma"] = "default"
+        self.runtimeDependencies["libs/liblzma"] = "default"
 
 
 from Package.CMakePackageBase import *
