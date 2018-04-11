@@ -49,13 +49,9 @@ class Package(CMakePackageBase):
                 self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "x64")
             else:
                 self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "i386")
-            self.subinfo.options.configure.args = " -DR_EXECUTABLE=" + os.path.join(self.r_dir, "R.exe").replace("\\\\",
-                                                                                                                 "/")
-            if CraftCore.compiler.isMSVC():
-                self.realconfigure = self.configure
-                self.configure = self.msvcconfigure
-                # NOTE: On Mac, we'll let RKWard try to auto-detect R (installed with officlal installer, or MacPorts, or something else)
-        elif OsUtils.isMac():
+            self.subinfo.options.configure.args = " -DR_EXECUTABLE=" + OsUtils.toUnixPath(os.path.join(self.r_dir, "R.exe"))
+        # NOTE: On Mac, we'll let RKWard try to auto-detect R (installed with officlal installer, or MacPorts, or something else)
+        if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args = " -DR_EXECUTABLE=" + os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "R.framework", "Resources", "R")
 
     def fetch(self):
@@ -79,25 +75,24 @@ class Package(CMakePackageBase):
             rkward_ini.close()
         return ret
 
-    def msvcconfigure(self):
-        # Need to create a .lib-file for R.dll, first
-        dump = subprocess.check_output(["dumpbin", "/exports", os.path.join(self.r_dir, "R.dll")]).decode(
-            "latin1").splitlines()
-        exports = []
-        for line in dump:
-            fields = line.split()
-            if len(fields) != 4:
-                continue
-            exports.append(fields[3])
-        self.enterBuildDir()
-        deffile = open(os.path.join(self.buildDir(), "R.def"), 'w')
-        deffile.write("EXPORTS\r\n")
-        deffile.write("\r\n".join(exports) + "\r\n")
-        deffile.close()
-        subprocess.call(["lib", "/def:R.def", "/out:R.lib", "/machine:x86"])
-
-        # Now configure as usual.
-        return self.realconfigure()
+    def configure(self):
+        if CraftCore.compiler.isMSVC():
+            # Need to create a .lib-file for R.dll, first
+            dump = subprocess.check_output(["dumpbin", "/exports", os.path.join(self.r_dir, "R.dll")]).decode(
+                "latin1").splitlines()
+            exports = []
+            for line in dump:
+                fields = line.split()
+                if len(fields) != 4:
+                    continue
+                exports.append(fields[3])
+            self.enterBuildDir()
+            deffile = open(os.path.join(self.buildDir(), "R.def"), 'w')
+            deffile.write("EXPORTS\r\n")
+            deffile.write("\r\n".join(exports) + "\r\n")
+            deffile.close()
+            subprocess.call(["lib", "/def:R.def", "/out:R.lib", "/machine:x86"])
+        return super().configure()
 
     def createPackage(self):
         self.defines["productname"] = "RKWard"
