@@ -87,10 +87,9 @@ class Package(CMakePackageBase):
                     continue
                 exports.append(fields[3])
             self.enterBuildDir()
-            deffile = open(os.path.join(self.buildDir(), "R.def"), 'w')
-            deffile.write("EXPORTS\r\n")
-            deffile.write("\r\n".join(exports) + "\r\n")
-            deffile.close()
+            with open(os.path.join(self.buildDir(), "R.def"), "wt+") as deffile:
+                deffile.write("EXPORTS\n")
+                deffile.write("\n".join(exports))
             subprocess.call(["lib", "/def:R.def", "/out:R.lib", "/machine:x86"])
         return super().configure()
 
