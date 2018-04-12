@@ -76,7 +76,10 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/perl"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
         if not self.options.buildStatic:
-            self.runtimeDependencies["libs/openssl"] = None if CraftVersion(self.buildTarget) < CraftVersion("5.10") else "1.1"
+            if CraftVersion(self.buildTarget) < CraftVersion("5.10") or CraftCore.settings.getboolean("QtSDK", "Enabled", False):
+                self.runtimeDependencies["libs/openssl"] = None
+            else:
+                self.runtimeDependencies["libs/openssl"] = "1.1"
             self.runtimeDependencies["libs/dbus"] = None
             self.runtimeDependencies["binary/mysql"] = None
             self.runtimeDependencies["libs/icu"] = None
