@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
+        self.buildDependencies["extragear/rkward/rkward-translations"] = None
         self.runtimeDependencies["binary/r-base"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = "default"
@@ -17,32 +18,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/applications/kate"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = "default"
 
-
-from Source.GitSource import *
-
-
-class RKTranslations(GitSource):
-    def __init__(self, rkwardPackage):
-        GitSource.__init__(self)
-        self.rkwardPackage = rkwardPackage
-
-    def repositoryUrl(self):
-        return "git://anongit.kde.org/scratch/tfry/rkward-po-export"
-
-    def checkoutDir(self):
-        """ clone _into_ the RKWard source tree """
-        return os.path.join(self.rkwardPackage.checkoutDir(), "i18n", "po")
-
-    def sourceDir(self):
-        return self.checkoutDir(self)
-
-
 from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.translations = CraftPackageObject.get("extragear/rkward/rkward-translations").instance
 
         if OsUtils.isWin():
             if CraftCore.compiler.isX64():
@@ -50,18 +32,22 @@ class Package(CMakePackageBase):
             else:
                 self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "i386")
             self.subinfo.options.configure.args = " -DR_EXECUTABLE=" + OsUtils.toUnixPath(os.path.join(self.r_dir, "R.exe"))
-        # NOTE: On Mac, we'll let RKWard try to auto-detect R (installed with officlal installer, or MacPorts, or something else)
+        # NOTE: On Mac, we'll let RKWard try to auto-detect R (installed with officilal installer, or MacPorts, or something else)
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args = " -DR_EXECUTABLE=" + os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "R.framework", "Resources", "R")
+
+        if self.subinfo.hasSvnTarget:
+            self.subinfo.options.configure.args += f" -DTRANSLATION_SRC_DIR={OsUtils.toUnixPath(self.translations.sourceDir())}"
 
     def fetch(self):
         # Temporary workaround for failure to pull due to local modification of ver.R. Remove the line below around June, 2018.
         utils.deleteFile(os.path.join(self.checkoutDir(), "rkward", "rbackend", "rpackages", "rkward", "R", "ver.R"))
 
-        ret = CMakePackageBase.fetch(self)
-        CraftCore.debug.step("Fetching translations")
-        RKTranslations(self).fetch()
-        return ret
+        if not CMakePackageBase.fetch(self):
+            return False
+        if self.subinfo.hasSvnTarget:
+            return self.translations.fetch(noop=False)
+        return True
 
     def install(self):
         ret = CMakePackageBase.install(self)
@@ -90,7 +76,7 @@ class Package(CMakePackageBase):
             with open(os.path.join(self.buildDir(), "R.def"), "wt+") as deffile:
                 deffile.write("EXPORTS\n")
                 deffile.write("\n".join(exports))
-            subprocess.call(["lib", "/def:R.def", "/out:R.lib", "/machine:x86"])
+            subprocess.call(["lib", "/def:R.def", "/out:R.lib", f"/machine:{CraftCore.compiler.architecture}"])
         return super().configure()
 
     def createPackage(self):
