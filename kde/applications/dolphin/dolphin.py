@@ -46,6 +46,5 @@ class Package(CMakePackageBase):
 
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("libs/dbus")
 
         return TypePackager.createPackage(self)
