@@ -5,6 +5,9 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        self.description = "Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it."
+        self.webpage = "https://www.kde.org/applications/system/dolphin/"
+
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = "default"
@@ -33,3 +36,16 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+
+
+    def createPackage(self):
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.defines["productname"] = "Dolphin"
+        self.defines["shortcuts"] = [{"name" : "Dolphin", "target":"bin/dolphin.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\dolphin.ico" }]
+        self.defines["icon"] = os.path.join(self.packageDir(), "dolphin.ico")
+
+
+        self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("libs/dbus")
+
+        return TypePackager.createPackage(self)
