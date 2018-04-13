@@ -126,16 +126,19 @@ class Package(CMakePackageBase):
         utils.mergeTree(os.path.join(archive, "bin"), os.path.join(appPath, "Contents/MacOS/"))
 
         with utils.ScopedEnv({'DYLD_LIBRARY_PATH' : os.path.join(CraftStandardDirs.craftRoot(), "lib")}):
-#            if not utils.system(["dylibbundler",
-#                                 "--overwrite-files",
-#                                 "--bundle-deps",
-#                                 "--install-path", "@executable_path/../Frameworks",
-#                                 "--dest-dir", targetLibdir,
-#                                 "--fix-file", f"{appPath}/Contents/MacOS/{self.defines['appname']}"]):
-#                return False
+            if not utils.system(["dylibbundler",
+                                 "--overwrite-files",
+                                 "--bundle-deps",
+                                 "--install-path", "@executable_path/../Frameworks",
+                                 "--dest-dir", targetLibdir,
+                                 "--fix-file", f"{appPath}/Contents/MacOS/{self.defines['appname']}"]):
+                return False
 
             if not utils.system(["macdeployqt", appPath,  "-always-overwrite", "-verbose=1"]):
                 return False
+
+            utils.system(["ls", "-Rl", appPath], True);
+            utils.system(["du", "-s", appPath], True);
 
             name = self.binaryArchiveName(fileType="", includeRevision=True)
             dmgDest = os.path.join(self.packageDestinationDir(), f"{name}.dmg")
