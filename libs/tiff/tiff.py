@@ -4,7 +4,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ['3.9.2', '4.0.3', '4.0.4']:
+        for ver in ['3.9.2', '4.0.3', '4.0.4', '4.0.9']:
             self.targets[ver] = "http://download.osgeo.org/libtiff/tiff-" + ver + ".tar.gz"
             self.targetInstSrc[ver] = "tiff-" + ver
         self.patchToApply['3.9.2'] = [('tiff-3.9.2-20100418.diff', 1)]
@@ -12,12 +12,15 @@ class subinfo(info.infoclass):
         self.patchToApply['4.0.4'] = [('tiff-4.0.4-20130124.diff', 1)]
         self.targetDigests['3.9.2'] = '5c054d31e350e53102221b7760c3700cf70b4327'
         self.targetDigests['4.0.3'] = '652e97b78f1444237a82cbcfe014310e776eb6f0'
+        self.targetDigests['4.0.9'] = (['6e7bdeec2c310734e734d19aae3a71ebe37a4d842e0e23dbb1b8921c0026cfcd'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "a library to manipulate TIFF image files"
-        self.defaultTarget = '4.0.4'
+        self.webpage = "http://www.simplesystems.org/libtiff/"
+        self.defaultTarget = '4.0.9'
 
     def setDependencies(self):
         self.runtimeDependencies["libs/zlib"] = "default"
+        self.runtimeDependencies["libs/liblzma"] = "default"
         self.runtimeDependencies["libs/libjpeg-turbo"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
 
