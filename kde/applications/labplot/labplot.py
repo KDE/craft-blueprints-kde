@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = "default"
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.runtimeDependencies["libs/qt5/qtserialport"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
