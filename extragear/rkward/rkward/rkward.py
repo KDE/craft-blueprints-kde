@@ -125,7 +125,7 @@ class Package(CMakePackageBase):
             utils.mergeTree(os.path.join(archive, "share"), os.path.join(appPath, "Contents/Resources/"))
         utils.mergeTree(os.path.join(archive, "bin"), os.path.join(appPath, "Contents/MacOS/"))
 
-        with utils.ScopedEnv({'DYLD_LIBRARY_PATH' : os.path.join(CraftStandardDirs.craftRoot(), "lib")}):
+        with utils.ScopedEnv({'DYLD_FALLBACK_LIBRARY_PATH' : os.path.join(CraftStandardDirs.craftRoot(), "lib")}):
             if not utils.system(["dylibbundler",
                                  "--overwrite-files",
                                  "--bundle-deps",
