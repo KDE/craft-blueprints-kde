@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
         self.description = "Network transparent access to files and data"
 
         self.patchToApply['5.31.0'] = ('0001-Fix-double-export-in-already-exported-class.patch', 1)
+        self.patchToApply['5.45.0'] = ('kio-5.45.0-20180416.diff', 1)
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"

@@ -1,0 +1,16 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' kio-5.45.0.orig/src/ioslaves/file/CMakeLists.txt kio-5.45.0/src/ioslaves/file/CMakeLists.txt
+--- kio-5.45.0.orig/src/ioslaves/file/CMakeLists.txt	2018-04-07 21:36:33.000000000 +0200
++++ kio-5.45.0/src/ioslaves/file/CMakeLists.txt	2018-04-16 19:00:08.619014100 +0200
+@@ -18,7 +18,11 @@
+ set_package_properties(ACL PROPERTIES DESCRIPTION "LibACL" URL "ftp://oss.sgi.com/projects/xfs/cmd_tars"
+                        TYPE RECOMMENDED PURPOSE "Support for manipulating access control lists")
+ 
+-check_include_files(sys/xattr.h HAVE_SYS_XATTR_H)
++if (UNIX AND NOT APPLE)
++    check_include_files(sys/xattr.h HAVE_SYS_XATTR_H)
++else()
++    set(HAVE_SYS_XATTR_H FALSE)
++endif()
+ 
+ configure_file(config-kioslave-file.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kioslave-file.h )
+ 
