@@ -57,7 +57,11 @@ class PackageAutotools(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         # Version 2 uses cmake
         self.subinfo.options.configure.bootstrap = True
-        self.subinfo.options.configure.args = f"--enable-shared --disable-static --disable-doc-build NASM={CraftCore.cache.findApplication('nasm')}"
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args = "--disable-shared --enable-static "
+        else:
+            self.subinfo.options.configure.args = "--enable-shared --disable-static "
+        self.subinfo.options.configure.args += f"--disable-doc-build NASM={CraftCore.cache.findApplication('nasm')}"
 
 if CraftCore.compiler.isUnix:
     class Package(PackageAutotools):
