@@ -4,6 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["5.45.0"] = [("0001-Don-t-need-to-run-previous-iterations-commands-again.patch", 1)]
 
         self.description = "Ki18n"
 
