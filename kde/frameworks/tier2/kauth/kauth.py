@@ -23,3 +23,4 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.make.supportsMultijob = False
+        self.subinfo.options.configure.args += "-DKAUTH_BACKEND_NAME=\"Fake\""
