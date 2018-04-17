@@ -20,18 +20,18 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = "default"
-        #self.runtimeDependencies["kde/pim/kpimtextedit"] = "default"
+        self.runtimeDependencies["kde/pim/kpimtextedit"] = "default"
         self.runtimeDependencies["kde/pim/akonadi"] = "default"
         self.runtimeDependencies["kde/pim/kcontacts"] = "default"
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = "default"
         self.runtimeDependencies["kde/pim/kcalcore"] = "default"
-        #self.runtimeDependencies["kde/pim/calendarsupport"] = "default"
+        self.runtimeDependencies["kde/pim/calendarsupport"] = "default"
         self.runtimeDependencies["kde/pim/akonadi-mime"] = "default"
         self.runtimeDependencies["kde/pim/kimap"] = "default"
-        #self.runtimeDependencies["kde/pim/messagelib"] = "default"
+        self.runtimeDependencies["kde/pim/messagelib"] = "default"
         self.runtimeDependencies["kde/pim/kmime"] = "default"
-        #self.runtimeDependencies["kde/pim/libkleo"] = "default"
-        #self.runtimeDependencies["kde/pim/libkdepim"] = "default"
+        self.runtimeDependencies["kde/pim/libkleo"] = "default"
+        self.runtimeDependencies["kde/pim/libkdepim"] = "default"
 
 
 from Package.CMakePackageBase import *
