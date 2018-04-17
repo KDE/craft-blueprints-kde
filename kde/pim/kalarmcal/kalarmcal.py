@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi"] = "default"
         self.runtimeDependencies["kde/pim/kcalcore"] = "default"
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = "default"
-        self.runtimeDependencies["kde/pim/kholidays"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = "default"
         self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = "default"
 
 

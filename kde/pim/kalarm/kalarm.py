@@ -35,7 +35,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = "default"
         self.runtimeDependencies["kde/pim/akonadi-mime"] = "default"
         self.runtimeDependencies["kde/pim/kpimtextedit"] = "default"
-        self.runtimeDependencies["kde/pim/kholidays"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = "default"
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = "default"
         self.runtimeDependencies["kde/pim/kimap"] = "default"
         self.runtimeDependencies["kde/pim/mailcommon"] = "default"

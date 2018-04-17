@@ -41,7 +41,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/calendarsupport"] = "default"
         self.runtimeDependencies["kde/pim/pimcommon"] = "default"
         self.runtimeDependencies["kde/pim/kldap"] = "default"
-        self.runtimeDependencies["kde/pim/kholidays"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = "default"
         self.runtimeDependencies["kde/pim/kmailtransport"] = "default"
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = "default"
         self.runtimeDependencies["kde/pim/kontactinterface"] = "default"

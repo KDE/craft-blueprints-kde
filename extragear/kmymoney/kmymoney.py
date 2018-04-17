@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = "default"
         # self.runtimeDependencies['testing/gpgmepp'] = 'default'
-        self.runtimeDependencies["kde/pim/kholidays"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = "default"
         self.runtimeDependencies["kde/pim/kcontacts"] = "default"
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = "default"
         # self.runtimeDependencies["kde/pim/akonadi"] = "default"
