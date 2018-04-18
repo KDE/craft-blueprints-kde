@@ -5,6 +5,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "Umbrello is a UML modelling application."
+        self.displayName = "Umbrello"
         self.defaultTarget = 'master'
 
     def setDependencies(self):
@@ -48,7 +49,6 @@ class Package(CMakePackageBase):
         ]
 
     def createPackage(self):
-        self.defines["productname"] = "Umbrello"
         self.defines["executable"] = "bin\\umbrello5.exe"
         # self.defines["icon"] = os.path.join(self.packageDir(), "umbrello.ico")
 

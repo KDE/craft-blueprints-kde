@@ -7,6 +7,7 @@ class subinfo(info.infoclass):
 
         self.description = "Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it."
         self.webpage = "https://www.kde.org/applications/system/dolphin/"
+        self.displayName = "Dolphin"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
@@ -40,7 +41,6 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
-        self.defines["productname"] = "Dolphin"
         self.defines["shortcuts"] = [{"name" : "Dolphin", "target":"bin/dolphin.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\dolphin.ico" }]
         self.defines["icon"] = os.path.join(self.packageDir(), "dolphin.ico")
 

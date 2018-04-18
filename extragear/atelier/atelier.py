@@ -8,6 +8,7 @@ class subinfo( info.infoclass ):
         self.svnTargets[ 'master' ] = 'git://anongit.kde.org/atelier|master'
         self.defaultTarget = 'master'
         self.description = 'Atelier Printer Host'
+        self.displayName = "Atelier"
 
     def setDependencies( self ):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
@@ -30,7 +31,6 @@ class Package( CMakePackageBase ):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
 
     def createPackage(self):
-        self.defines[ "productname" ] = "Atelier"
         self.defines[ "executable" ] = "bin\\atelier.exe"
         self.defines[ "version" ] = "1.0"
         self.defines[ "website" ] = "https://atelier.kde.org"

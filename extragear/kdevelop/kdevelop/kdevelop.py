@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "KDE Integrated Development Environment for C/C++/QML/JS/Python/PHP/..."
         self.webpage = "https://kdevelop.org"
+        self.displayName = "KDevelop"
 
     def registerOptions(self):
         self.options.dynamic.registerOption("fullKDevelop", False)
@@ -73,7 +74,6 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
-        self.defines["productname"] = "KDevelop"
         self.defines["shortcuts"] = [{"name" : "KDevelop", "target" : "bin/kdevelop.exe"},
                                      {"name" : "KDevelop - Microsoft Visual C++ compiler", "target":"bin/kdevelop-msvc.bat"}]
         self.defines["icon"] = os.path.join(self.packageDir(), "kdevelop.ico")

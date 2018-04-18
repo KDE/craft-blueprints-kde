@@ -6,6 +6,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "KolourPaint is an easy-to-use paint program"
+        self.displayName = "Kolourpaint"
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
@@ -26,7 +27,6 @@ class Package(CMakePackageBase):
         self.blacklist_file.append(os.path.join(os.path.dirname(__file__), "blacklist.txt"))
 
     def createPackage(self):
-        self.defines["productname"] = "Kolourpaint"
         self.defines["executable"] = "bin\\kolourpaint.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kolourpaint.ico")
 

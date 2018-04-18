@@ -6,6 +6,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'git://anongit.kde.org/rkward'
         self.defaultTarget = 'master'
+        self.displayName = "RKWard"
 
     def setDependencies(self):
         self.buildDependencies["extragear/rkward/rkward-translations"] = None
@@ -80,7 +81,6 @@ class Package(CMakePackageBase):
         return super().configure()
 
     def createPackage(self):
-        self.defines["productname"] = "RKWard"
         self.defines["executable"] = "bin\\rkward.exe"
         self.defines["icon"] = os.path.join(self.sourceDir(), "rkward", "icons", "app-icon", "rkward.ico")
 

@@ -6,6 +6,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "GUI utility to show where your diskspace is being used"
+        self.displayName = "Filelight"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
@@ -27,7 +28,6 @@ class Package(CMakePackageBase):
         self.blacklist_file.append(os.path.join(os.path.dirname(__file__), 'blacklist.txt'))
 
     def createPackage(self):
-        self.defines["productname"] = "Filelight"
         self.defines["website"] = "https://utils.kde.org/projects/filelight/"
         self.defines["executable"] = "bin\\filelight.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "filelight.ico")

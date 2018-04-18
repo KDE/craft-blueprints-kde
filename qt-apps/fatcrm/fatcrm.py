@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
 
         self.description = "Desktop Application for SugarCRM"
         self.webpage = "http://www.kdab.com/"
+        self.displayName = "FatCRM"
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
@@ -29,7 +30,6 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
-        self.defines["productname"] = "FatCRM"
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\fatcrm.exe"
         self.defines["license"] = os.path.join(self.sourceDir(), "LICENSE.GPL.txt")

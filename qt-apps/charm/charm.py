@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         self.svnTargets['master'] = 'https://github.com/KDAB/Charm.git'
         self.defaultTarget = 'master'
         self.description = "The Cross-Platform Time Tracker"
+        self.displayName = "Charm"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
@@ -22,7 +23,6 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         # don't use the internal script for now as it doesn't know about openssl 1.1
-        self.defines["productname"] = "Charm"
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\Charm.exe"
         self.defines["license"] = os.path.join(self.sourceDir(), "License.txt")

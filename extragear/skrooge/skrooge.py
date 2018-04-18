@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.targetDigests['2.10.5'] = (['56a0124dec34e6e96a5e71ff0e825a7ec79f32a69ef0ccdc5f0f9b753d8c3eb0'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = '2.10.5'
         self.description = "personal finance manager for KDE"
+        self.displayName = "Skrooge"
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
@@ -41,7 +42,6 @@ class Package(CMakePackageBase):
         ]
 
     def createPackage(self):
-        self.defines["productname"] = "Skrooge"
         self.defines["website"] = "https://skrooge.org/"
         #self.defines["icon"] = os.path.join(self.packageDir(), "skrooge.ico")
 

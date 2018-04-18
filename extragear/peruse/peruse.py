@@ -7,6 +7,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
         self.description = "Peruse Comic Book Viewer and Creator"
         self.webpage = "http://peruse.kde.org"
+        self.displayName = "Peruse Comic Book Viewer"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
@@ -35,8 +36,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.fetch.checkoutSubmodules = True
 
     def createPackage(self):
-        self.defines["productname"] = "Peruse Comic Book Viewer"
-        self.defines["shortcuts"] = [{"name" : self.defines["productname"], "target":"bin//peruse.exe"},
+        self.defines["shortcuts"] = [{"name" : self.subinfo.displayName, "target":"bin//peruse.exe"},
                                      {"name": "Peruse Creator", "target" : "bin//perusecreator.exe"}]
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "peruse.ico")
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))

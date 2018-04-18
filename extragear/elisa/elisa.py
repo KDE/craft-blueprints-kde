@@ -11,6 +11,7 @@ class subinfo( info.infoclass ):
 
         self.defaultTarget = '0.1.1'
 
+        self.displayName = "Elisa"
         self.description = "the Elisa music player"
 
     def setDependencies( self ):
@@ -40,7 +41,6 @@ class Package( CMakePackageBase ):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
-        self.defines["productname"] = "Elisa"
         self.defines["executable"] = "bin\\elisa.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "elisa.ico")
 

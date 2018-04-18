@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'http://download.kde.org/stable/kstars/kstars-%s.tar.xz' % ver
             self.targetInstSrc[ver] = 'kstars-%s' % ver
         self.defaultTarget = '2.9.4'
+        self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
@@ -52,7 +53,6 @@ class Package(CMakePackageBase):
         self.blacklist_file = ["blacklist.txt"]
 
     def createPackage(self):
-        self.defines["productname"] = "KStars Desktop Planetarium"
         self.defines["executable"] = "bin\\kstars.exe"
         #self.defines["setupname"] = "kstars-latest-win64.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kstars.ico")

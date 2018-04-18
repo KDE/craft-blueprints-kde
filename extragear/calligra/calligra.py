@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
         self.description = 'The Integrated Work Applications Suite by KDE'
         self.webpage = "https://calligra.org/"
+        self.displayName = "Calligra Gemini"
 
     def setDependencies( self ):
         self.buildDependencies['dev-utils/pkg-config'] = 'default'
@@ -68,9 +69,8 @@ class Package( CMakePackageBase ):
         CMakePackageBase.buildTests = False
 
     def createPackage(self):
-        self.defines["productname"] = "Calligra Gemini"
         self.defines["icon"] = os.path.join(self.sourceDir(), "gemini", "calligragemini.ico")
-        self.defines["shortcuts"] = [{"name" : self.defines["productname"], "target":"bin/calligragemini.exe"},
+        self.defines["shortcuts"] = [{"name" : self.subinfo.displayName, "target":"bin/calligragemini.exe"},
                                      {"name" : "Calligra Sheets", "target" : "bin/calligrasheets.exe"},
                                      {"name" : "Calligra Words", "target" : "bin/calligrawords.exe"},
                                      {"name" : "Calligra Karbon", "target" : "bin/karbon.exe"},

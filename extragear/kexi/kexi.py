@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
             self.svnTargets[ver] = f"git://anongit.kde.org/kexi|{ver}"
         self.defaultTarget = versions[0]
         self.description = "A visual database applications builder"
+        self.displayName = "KEXI"
         self.options.configure.args = " -DBUILD_EXAMPLES=ON"
 
     def setDependencies(self):
@@ -53,7 +54,6 @@ class Package(CMakePackageBase):
     def createPackage(self):
         # TODO
         #self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
-        self.defines["productname"] = "KEXI"
         self.defines["executable"] = "bin\\kexi.exe"
         #self.defines["icon"] = os.path.join(self.packageDir(), "kexi.ico")
         # TODO:  find a way to extend the default script

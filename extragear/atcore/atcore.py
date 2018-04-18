@@ -6,6 +6,8 @@ class subinfo(info.infoclass):
         self.svnTargets['master'] = 'git://anongit.kde.org/atcore|master'
         self.svnTargets['1.0'] = 'git://anongit.kde.org/atcore|1.0'
         self.defaultTarget = '1.0'
+
+        self.displayName = "AtCoreTest"
         self.description = "The KDE core of Atelier Printer Host"
 
     def setDependencies(self):
@@ -27,7 +29,6 @@ class Package(CMakePackageBase):
         ]
 
     def createPackage(self):
-        self.defines["productname"] = "AtCoreTest"
         self.defines["executable"] = "bin\\atcore-gui.exe"
         self.defines["appname"] = "atcore-gui"
         self.defines["website"] = "https://atelier.kde.org"

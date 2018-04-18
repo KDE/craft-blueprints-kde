@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'http://downloads.sourceforge.net/kile/kile-' + ver + '.tar.bz2'
             self.targetInstSrc[ver] = 'kile-' + ver
         self.description = "a user friendly TeX/LaTeX editor for KDE"
+        self.displayName = "Kile"
         self.defaultTarget = 'master'
 
     def setDependencies(self):
@@ -30,7 +31,6 @@ class Package(CMakePackageBase):
         ]
 
     def createPackage(self):
-        self.defines["productname"] = "Kile"
         self.defines["executable"] = "bin\\kile.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kile.ico")
 

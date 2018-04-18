@@ -6,6 +6,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        self.displayName = "Kate"
         self.description = "the KDE text editor"
 
     def registerOptions(self):
@@ -46,7 +47,6 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
-        self.defines["productname"] = "Kate"
         self.defines["shortcuts"] = [{"name" : "Kate", "target":"bin/kate.exe", "description" : self.subinfo.description}]
         self.defines["icon"] = os.path.join(self.packageDir(), "kate.ico")
         self.defines["registy_hook"] = ("""WriteRegStr @{HKCR} "*\\shell\\EditWithKate" "" "Edit with Kate"\n"""

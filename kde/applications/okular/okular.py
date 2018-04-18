@@ -5,6 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "KDE document viewer"
+        self.displayName = "Okular"
 
     def setDependencies(self):
         self.buildDependencies["libs/chm"] = "default"
@@ -45,7 +46,6 @@ class Package(CMakePackageBase):
         ]
 
     def createPackage(self):
-        self.defines["productname"] = "Okular"
         self.defines["executable"] = "bin\\okular.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "okular.ico")
 

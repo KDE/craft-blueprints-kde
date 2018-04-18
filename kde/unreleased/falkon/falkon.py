@@ -7,6 +7,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "Cross-platform Qt web-browser"
+        self.displayName = "Falkon"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
@@ -23,7 +24,6 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
-        self.defines["productname"] = "Falkon"
         self.defines["executable"] = "bin\\falkon.exe"
 
         self.ignoredPackages.append("binary/mysql")

@@ -6,6 +6,7 @@ class subinfo(info.infoclass):
         self.svnTargets['master'] = 'git://anongit.kde.org/kmymoney|master'
         self.svnTargets['5.0'] = 'git://anongit.kde.org/kmymoney|5.0'
         self.description = "a personal finance manager for KDE"
+        self.displayName = "KMyMoney"
         self.defaultTarget = 'master'
 
     def setDependencies(self):
@@ -54,7 +55,6 @@ class Package(CMakePackageBase):
         ]
 
     def createPackage(self):
-        self.defines["productname"] = "KMyMoney"
         self.defines["executable"] = "bin\\kmymoney.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kmymoney.ico")
 

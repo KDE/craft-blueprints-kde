@@ -7,6 +7,7 @@ class subinfo(info.infoclass):
         self.svnTargets['master'] = 'git://anongit.kde.org/kdeconnect-kde'
         self.defaultTarget = 'master'
         self.description = "KDE Connect adds communication between KDE and your smartphone"
+        self.displayName = "KDE Connect"
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
@@ -30,7 +31,6 @@ class Package(CMakePackageBase):
         ]
 
     def createPackage(self):
-        self.defines["productname"] = "KDE Connect"
         self.defines["executable"] = "bin\\kdeconnect-indicator.exe"
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
 

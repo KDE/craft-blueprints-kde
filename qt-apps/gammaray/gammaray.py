@@ -17,6 +17,7 @@ class subinfo(info.infoclass):
 
         self.description = "GammaRay is a tool to poke around in a Qt-application and also to manipulate the application to some extent"
         self.webpage = "http://www.kdab.com/gammaray"
+        self.displayName = "GammaRay"
 
         self.defaultTarget = "2.9.0"
 
@@ -52,7 +53,6 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.subinfo.options.package.movePluginsToBin = not CraftCore.settings.getboolean("QtSDK", "Enabled", False)
-        self.defines["productname"] = "GammaRay"
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\gammaray-launcher.exe"
         self.defines["license"] = os.path.join(self.sourceDir(), "LICENSE.GPL.txt")

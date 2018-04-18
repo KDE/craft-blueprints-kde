@@ -12,6 +12,9 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = 'konversation-%s' % ver
         self.defaultTarget = '1.7.4'
 
+        self.displayName = "Konversation"
+        self.description = "a KDE based irc client"
+
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = "default"
@@ -30,7 +33,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = "default"
         self.runtimeDependencies["kdesupport/qca"] = "default"
         self.runtimeDependencies["qt-libs/phonon"] = "default"
-        self.description = "a KDE based irc client"
 
 
 class Package(CMakePackageBase):
@@ -42,7 +44,6 @@ class Package(CMakePackageBase):
         ]
 
     def createPackage(self):
-        self.defines["productname"] = "Konversation"
         self.defines["executable"] = "bin\\konversation.exe"
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "konversation.ico")
 

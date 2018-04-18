@@ -6,6 +6,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "KDE hex editor for viewing and editing the raw data of files."
+        self.displayName = "Okteta"
         self.defaultTarget = 'master'
 
     def setDependencies(self):
@@ -40,7 +41,6 @@ class Package(CMakePackageBase):
         ]
 
     def createPackage(self):
-        self.defines["productname"] = "Okteta"
         self.defines["executable"] = "bin\\okteta.exe"
         # self.defines["icon"] = os.path.join(self.packageDir(), "okular.ico")
 
