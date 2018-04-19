@@ -44,6 +44,10 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        if CraftCore.compiler.isMacOS:
+            self.supportsNinja = False
+            self.subinfo.options.make.supportsMultijob = False
+
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
