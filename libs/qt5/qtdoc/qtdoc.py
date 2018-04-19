@@ -17,6 +17,8 @@ from Package.Qt5CorePackageBase import *
 class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
+        self.subinfo.options.make.args = "docs"
+        self.subinfo.options.install.args = "install_docs"
 
 
 class Package(Qt5CoreSdkPackageBase):
