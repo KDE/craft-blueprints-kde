@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.7.0"
         self.description = "A Qt-based client-side and server-side SOAP component"
         self.webpage = "http://www.kdab.com/products/kd-soap"
+        self.displayName = "KDSoap"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"

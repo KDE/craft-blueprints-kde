@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
 
         self.description = "Qt library for generating printable and exportable reports from code and from XML descriptions."
         self.webpage = "http://www.kdab.com/kd-reports/"
+        self.displayName = "KDReports"
 
 
 class Package(CMakePackageBase):

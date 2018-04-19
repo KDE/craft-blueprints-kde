@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
 
         self.description = "The KDAB State Machine Editor Library is a framework that can be used to help develop full-featured State Machine Editing graphical user interfaces and tools."
         self.webpage = "https://www.kdab.com/"
+        self.displayName = "KDStateMachineEditor"
         self.defaultTarget = "1.2.3"
 
     def setDependencies(self):
