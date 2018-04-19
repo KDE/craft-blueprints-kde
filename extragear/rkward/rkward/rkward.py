@@ -104,7 +104,7 @@ class Package(CMakePackageBase):
         self._setDefaults()
 
 
-        archive = self.archiveDir()
+        archive = os.path.normpath(self.archiveDir())
         appPath = self.defines['apppath']
         if not appPath:
             apps = glob.glob(os.path.join(archive, f"**/{self.defines['appname']}.app"), recursive=True)
@@ -113,32 +113,40 @@ class Package(CMakePackageBase):
                 return False
             appPath = apps[0]
         appPath = os.path.join(archive, appPath)
+        appPath = os.path.normpath(appPath)
         CraftCore.log.info(f"Packaging {appPath}")
-        if os.path.exists(os.path.join(archive, "lib/plugins")):
-            utils.mergeTree(os.path.join(archive, "lib/plugins"), os.path.join(appPath, "Contents/PlugIns/"))
-        targetLibdir = os.path.join(appPath, "Contents/Frameworks/")
-        if not os.path.exists(targetLibdir):
-            os.makedirs(targetLibdir)
-        if os.path.exists(os.path.join(archive, "lib")):
-            utils.mergeTree(os.path.join(archive, "lib"), targetLibdir)
-        if os.path.exists(os.path.join(archive, "share")):
-            utils.mergeTree(os.path.join(archive, "share"), os.path.join(appPath, "Contents/Resources/"))
-        utils.mergeTree(os.path.join(archive, "bin"), os.path.join(appPath, "Contents/MacOS/"))
+
+        targetLibdir = os.path.join(appPath, "Contents", "Frameworks")
+        utils.createDir(targetLibdir)
+
+        moveTargets = [
+            (os.path.join(archive, "lib", "plugins"), os.path.join(appPath, "Contents", "PlugIns")),
+            (os.path.join(archive, "plugins"), os.path.join(appPath, "Contents", "PlugIns")),
+            (os.path.join(archive, "lib"), targetLibdir),
+            (os.path.join(archive, "share"), os.path.join(appPath, "Contents", "Resources"))]
+
+        if not appPath.startswith(archive):
+            moveTargets += [(os.path.join(archive, "bin"), os.path.join(appPath, "Contents", "MacOS"))]
+
+        for src, dest in moveTargets:
+            if os.path.exists(src):
+                if not utils.mergeTree(src, dest):
+                    return False
 
         with utils.ScopedEnv({'DYLD_FALLBACK_LIBRARY_PATH' : os.path.join(CraftStandardDirs.craftRoot(), "lib")}):
             if not utils.system(["dylibbundler",
-                                 "--overwrite-files",
-                                 "--bundle-deps",
-                                 "--install-path", "@executable_path/../Frameworks",
-                                 "--dest-dir", targetLibdir,
-                                 "--fix-file", f"{appPath}/Contents/MacOS/{self.defines['appname']}"]):
-                return False
-
-            if not utils.system(["macdeployqt", appPath,  "-always-overwrite", "-verbose=1"]):
+                                            "--overwrite-files",
+                                            "--bundle-deps",
+                                            "--install-path", "@executable_path/../Frameworks",
+                                            "--dest-dir", targetLibdir,
+                                            "--fix-file", os.path.join(appPath, "Contents", "MacOS", self.defines['appname'])]):
                 return False
 
             utils.system(["ls", "-Rl", appPath], True);
             utils.system(["du", "-s", appPath], True);
+
+            if not utils.system(["macdeployqt", appPath,  "-always-overwrite", "-verbose=1"]):
+                return False
 
             name = self.binaryArchiveName(fileType="", includeRevision=True)
             dmgDest = os.path.join(self.packageDestinationDir(), f"{name}.dmg")
