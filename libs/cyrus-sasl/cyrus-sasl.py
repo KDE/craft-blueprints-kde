@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
             self.patchToApply["2.1.26"] = [("cyrus-sasl-2.1.26.patch", 1)]
         else:
             #http://www.linuxfromscratch.org/blfs/view/svn/postlfs/cyrus-sasl.html
-            self.patchToApply["2.1.26"] = [("cyrus-sasl-2.1.26-fixes-3.patch", 1)
+            self.patchToApply["2.1.26"] = [("cyrus-sasl-2.1.26-fixes-3.patch", 1),
                                            ("cyrus-sasl-2.1.26-openssl-1.1.0-1.patch", 1)]
         self.targetDigests["2.1.26"] = "d6669fb91434192529bd13ee95737a8a5040241c"
         self.description = "Cyrus SASL implementation"
