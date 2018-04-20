@@ -35,6 +35,7 @@ from Package.AutoToolsPackageBase import *
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
+        self.subinfo.options.configure.bootstrap = True
 
 if CraftCore.compiler.isWindows:
     class Package(CMakePackageBase):
