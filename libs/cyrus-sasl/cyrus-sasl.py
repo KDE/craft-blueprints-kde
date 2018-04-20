@@ -9,7 +9,8 @@ class subinfo(info.infoclass):
         for ver in ['2.1.26']:
             self.targets[ver] = 'ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-' + ver + '.tar.gz'
             self.targetInstSrc[ver] = 'cyrus-sasl-' + ver
-        self.patchToApply['2.1.26'] = [('cyrus-sasl-2.1.26.patch', 1)]
+        if CraftCore.compiler.isWindows:
+            self.patchToApply['2.1.26'] = [('cyrus-sasl-2.1.26.patch', 1)]
         self.targetDigests['2.1.26'] = 'd6669fb91434192529bd13ee95737a8a5040241c'
         self.description = "Cyrus SASL implementation"
         self.defaultTarget = '2.1.26'
@@ -18,7 +19,22 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = "default"
 
 
-class Package(CMakePackageBase):
+class CMakePackage(CMakePackageBase):
     def __init__(self, **args):
         #        self.subinfo.options.configure.args = "-DSTATIC_LIBRARY=OFF"
         CMakePackageBase.__init__(self)
+
+
+
+from Package.AutoToolsPackageBase import *
+
+class PackageAutotools(AutoToolsPackageBase):
+    def __init__(self, **args):
+        AutoToolsPackageBase.__init__(self)
+
+if CraftCore.compiler.isWindows:
+    class Package(CMakePackageBase):
+        pass
+else:
+    class Package(PackageAutotools):
+        pass
