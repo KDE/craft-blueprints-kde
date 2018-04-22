@@ -13,15 +13,15 @@ class subinfo( info.infoclass ):
     def setDependencies( self ):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.buildDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.buildDependencies["kde/frameworks/tier1/solid"] = "default"
         self.buildDependencies["kde/frameworks/tier3/kconfigwidgets"] = "default"
         self.buildDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
         self.buildDependencies["kde/frameworks/tier3/ktexteditor"] = "default"
         self.buildDependencies["extragear/atcore"] = "default"
-        self.runtimeDependencies["libs/qt5/qt3d"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtserialport"] = "default"
         self.runtimeDependencies["libs/qt5/qtcharts"] = "default"
+        self.runtimeDependencies["libs/qt5/qt3d"] = "default"
+        self.runtimeDependencies["libs/qt5/qtmultimedia"] = "default"
 
 from Package.CMakePackageBase import *
 
