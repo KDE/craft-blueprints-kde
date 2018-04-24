@@ -27,6 +27,7 @@ class Package(BinaryPackageBase):
     def install(self):
         if not BinaryPackageBase.install(self):
             return False
+        CraftCore.cache.clear()
         for name in ['makensis', 'makensisw', 'nsis']:
             if not utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", f"{name}.exe"),
                                     os.path.join(self.imageDir(), "dev-utils", "nsis", f"{name}.exe")):
