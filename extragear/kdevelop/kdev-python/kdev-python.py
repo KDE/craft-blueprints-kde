@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["extragear/kdevelop/kdevelop"] = "default"
         self.runtimeDependencies["extragear/kdevelop/kdev-php"] = "default"
+        self.runtimeDependencies["binary/python-libs"] = "default"
 
 from Package.CMakePackageBase import *
 
