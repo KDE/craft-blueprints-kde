@@ -86,6 +86,7 @@ class Package(CMakePackageBase):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("data/hunspell-dictionaries")
+        self.whitelist_file.append(os.path.join(self.packageDir(), 'whitelist.txt'))
 
         if OsUtils.isMac():
             return self.debugCreatePackageMac()
