@@ -33,8 +33,7 @@ class Package(CMakePackageBase):
             else:
                 self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "i386")
             self.subinfo.options.configure.args = " -DR_EXECUTABLE=" + OsUtils.toUnixPath(os.path.join(self.r_dir, "R.exe"))
-        # NOTE: On Mac, we'll let RKWard try to auto-detect R (installed with officilal installer, or MacPorts, or something else)
-        if CraftCore.compiler.isMacOS:
+        elif OsUtils.isMac():
             self.subinfo.options.configure.args = " -DR_EXECUTABLE=" + os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "R.framework", "Resources", "R")
 
         if self.subinfo.hasSvnTarget:
@@ -92,6 +91,16 @@ class Package(CMakePackageBase):
             return self.debugCreatePackageMac()
         else:
             return TypePackager.createPackage(self)
+
+    def preArchive(self):
+        if OsUtils.isMac():
+            # during packaging, the relative path between rkward and R gets changed, so we need to create an rkward.ini to help rkward find R
+            rkward_dir = os.path.join(self.archiveDir(), "Applications", "KDE", "rkward.app", "Contents", "MacOS")
+            utils.createDir(rkward_dir)
+            rkward_ini = open(os.path.join(rkward_dir, "rkward.ini"), "w")
+            rkward_ini.write("R executable=../Frameworks/R/R.framework/Resources/R\n")
+            rkward_ini.close()
+        return super().preArchive()
 
     # HACK: Remove me. This is a copy of MacDMGPackager, for the purpose of pinning down just what exactly causes
     #       the .dmg detach to hang on the binary factory.
