@@ -5,7 +5,8 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.description = "KSyntaxHighlighting"
+        self.description = "Syntax highlighting engine for Kate syntax definitions."
+        self.displayName = "KSyntaxHighlighting"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
