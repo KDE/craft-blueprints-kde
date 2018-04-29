@@ -4,6 +4,8 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        for ver in self.versionInfo.tarballs() + self.versionInfo.branches() + self.versionInfo.tags():
+            self.patchToApply[ver] = [("use_releasme_fork.patch", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"

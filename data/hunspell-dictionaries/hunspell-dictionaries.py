@@ -28,16 +28,20 @@ class Package(BinaryPackageBase):
     def __init__(self):
         BinaryPackageBase.__init__(self)
 
+    def make(self):
+        self.cleanBuild()
+        if not utils.globCopyDir(os.path.join(self.sourceDir(), "dictionaries"), self.buildDir(), ["**/*.dic", "**/*.aff"]):
+            return False
+        cwd = os.path.join(self.buildDir())
+        return (utils.system(["rcc", "--project", "-o", os.path.join(self.buildDir(), "hunspell.qrc")], cwd=cwd) and
+                utils.system(["rcc", "--binary", "-o", os.path.join(self.buildDir(), "hunspell.rcc"), os.path.join(self.buildDir(), "hunspell.qrc")],cwd=cwd))
+
     def install(self):
-        srcDir = self.sourceDir()
         if CraftCore.compiler.isWindows:
             destDir = os.path.join(self.installDir(), "bin", "data")
         else:
             destDir = os.path.join(self.installDir(), "share")
-        files = []
-        for pattern in ["**/*.dic", "**/*.aff", "**/*.txt"]:
-            files.extend(glob.glob(os.path.join(srcDir, pattern), recursive=True))
-        for f in files:
-            if not utils.copyFile(f, os.path.join(destDir, "hunspell", os.path.basename(f)), linkOnly=False):
-                return False
-        return True
+        self.cleanImage()
+        if not utils.globCopyDir(os.path.join(self.sourceDir(), "dictionaries"), os.path.join(destDir, "hunspell"), ["**/*.txt"]):
+            return False
+        return utils.copyFile(os.path.join(self.buildDir(), "hunspell.rcc"), os.path.join(destDir, "hunspell", "hunspell.rcc"), linkOnly=False)

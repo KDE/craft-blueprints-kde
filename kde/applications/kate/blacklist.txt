@@ -1,5 +1,4 @@
 # blacklist
-
 # Unused Qt modules
 qml/QtMultimedia
 qml/QtWebChannel
