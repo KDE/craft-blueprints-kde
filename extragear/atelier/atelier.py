@@ -22,6 +22,7 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["libs/qt5/qtcharts"] = "default"
         self.runtimeDependencies["libs/qt5/qt3d"] = "default"
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = "default"
+        self.runtimeDependencies["kdesupport/qwt"] = "default"
 
 from Package.CMakePackageBase import *
 
