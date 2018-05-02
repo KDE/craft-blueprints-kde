@@ -6,7 +6,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         for ver in self.versionInfo.tarballs() + self.versionInfo.branches() + self.versionInfo.tags():
-            ecmVer = CraftVersion(ver)
             self.patchToApply[ver] = ('icotool.diff', 1)
 
     def setDependencies(self):
