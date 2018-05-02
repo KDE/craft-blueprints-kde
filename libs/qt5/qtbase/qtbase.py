@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
                     ("0001-Fix-private-headers.patch", 1),  # https://bugreports.qt.io/browse/QTBUG-37417
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_AppDataLocation_mac.patch", 1), #https://bugreports.qt.io/browse/QTBUG-61159
+                    ("fix_GenericDataLocation_mac.patch", 1),
                 ]
             elif qtVer >= CraftVersion("5.9.4") or qtVer == CraftVersion("5.9"):
                 self.patchToApply[ver] = [
