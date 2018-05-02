@@ -1,0 +1,153 @@
+diff --git a/find-modules/FindIcoTool.cmake b/find-modules/FindIcoTool.cmake
+new file mode 100644
+index 0000000..3b3511e
+--- /dev/null
++++ b/find-modules/FindIcoTool.cmake
+@@ -0,0 +1,27 @@
++# Copyright 2017 Vincent Pinon <vpinon@kde.org>
++include(${CMAKE_CURRENT_LIST_DIR}/ECMFindModuleHelpersStub.cmake)
++ecm_find_package_version_check(IcoTool)
++find_program(IcoTool_EXECUTABLE NAMES icotool)
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args(IcoTool
++    FOUND_VAR
++        IcoTool_FOUND
++    REQUIRED_VARS
++        IcoTool_EXECUTABLE
++)
++mark_as_advanced(IcoTool_EXECUTABLE)
++
++if (IcoTool_FOUND)
++    if (NOT TARGET IcoTool::IcoTool)
++        add_executable(IcoTool::IcoTool IMPORTED)
++        set_target_properties(IcoTool::IcoTool PROPERTIES
++            IMPORTED_LOCATION "${IcoTool_EXECUTABLE}"
++        )
++    endif()
++endif()
++
++include(FeatureSummary)
++set_package_properties(IcoTool PROPERTIES
++    URL "http://www.nongnu.org/icoutils/"
++    DESCRIPTION "Executable that converts a collection of PNG files into a Windows icon file"
++)
+diff --git a/modules/ECMAddAppIcon.cmake b/modules/ECMAddAppIcon.cmake
+index 3e609d3..d3717b2 100644
+--- a/modules/ECMAddAppIcon.cmake
++++ b/modules/ECMAddAppIcon.cmake
+@@ -26,8 +26,10 @@
+ #    * Icons are compiled into the executable using a resource file.
+ #    * Icons may not show up in Windows Explorer if the executable
+ #      target does not have the ``WIN32_EXECUTABLE`` property set.
+-#    * The tool png2ico is required. See :find-module:`FindPng2Ico`.
+-#    * Supported sizes: 16, 32, 48, 64, 128.
++#    * One of the tools png2ico or icotool is required. icotool is
++#      recommended because png2ico does not support vista icons with 256px.
++#      See :find-module:`FindPng2Ico` or :find-module:`FindIcotool`.
++#    * Supported sizes: 16, 32, 48, 64, 128. icotool also supports 256px.
+ #
+ # Mac OS X notes
+ #    * The executable target must have the ``MACOSX_BUNDLE`` property set.
+@@ -161,11 +163,15 @@ function(ecm_add_app_icon appsources)
+         message(AUTHOR_WARNING "No 128px icon provided; this will not work on Mac OS X")
+     endif()
+ 
++    # 16x16, 32x32, 48x48, and 256x256 (code scales between 32 and 256)
++    # For Classic Mode, the full set is 16x16, 24x24, 32x32, 48x48 and 64x64.
+     set(windows_icons ${icons_at_16px}
++                      ${icons_at_24px}
+                       ${icons_at_32px}
+                       ${icons_at_48px}
+                       ${icons_at_64px}
+-                      ${icons_at_128px})
++                      ${icons_at_128px}
++                      ${icons_at_256px})
+     if (NOT windows_icons)
+         message(AUTHOR_WARNING "No icons suitable for use on Windows provided")
+     endif()
+@@ -176,25 +182,14 @@ function(ecm_add_app_icon appsources)
+         set(saved_CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}")
+         set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_FIND_MODULE_DIR})
+         find_package(Png2Ico)
++        find_package(IcoTool)
+         set(CMAKE_MODULE_PATH "${saved_CMAKE_MODULE_PATH}")
+ 
+-        if (Png2Ico_FOUND)
+-            if (Png2Ico_HAS_RCFILE_ARGUMENT)
+-                add_custom_command(
+-                    OUTPUT "${_outfilename}.rc" "${_outfilename}.ico"
+-                    COMMAND Png2Ico::Png2Ico
+-                    ARGS
+-                        --rcfile "${_outfilename}.rc"
+-                        "${_outfilename}.ico"
+-                        ${windows_icons}
+-                    DEPENDS ${windows_icons}
+-                    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+-                )
+-            else()
++        function(create_windows_icon_and_rc command args)
+                 add_custom_command(
+                     OUTPUT "${_outfilename}.ico"
+-                    COMMAND Png2Ico::Png2Ico
+-                    ARGS "${_outfilename}.ico" ${windows_icons}
++                    COMMAND ${command}
++                    ARGS -c -o "${_outfilename}.ico" ${windows_icons}
+                     DEPENDS ${windows_icons}
+                     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+                 )
+@@ -207,10 +202,53 @@ function(ecm_add_app_icon appsources)
+                     DEPENDS "${_outfilename}.ico"
+                     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+                 )
+-            endif()
++        endfunction()
++
++        if (IcoTool_FOUND)
++            set(icotool_args "-c -o \"${_outfilename}.ico\"")
++
++            foreach(size 16 32 48)
++                foreach(icon ${icons_at_${size}px})
++                    set(icotool_args "${icotool_args} \"${icons_at_${size}px}\"")
++                endforeach()
++            endforeach()
++
++            # 256px icon needs to be included as raw png
++            set(icotool_args "${icotool_args} -r \"${icons_at_256px}\"")
++
++            create_windows_icon_and_rc(IcoTool::IcoTool "${icotool_args}")
++            set(${appsources} "${${appsources}};${_outfilename}.rc" PARENT_SCOPE)
++
++        # standard png2ico has no rcfile argument
++        elseif(Png2Ico_FOUND AND NOT Png2Ico_HAS_RCFILE_ARGUMENT)
++            set(png2ico_args "\"${_outfilename}.ico\"")
++
++            foreach(size 16 24 32 48 64)
++                foreach(icon ${icons_at_${size}px})
++                    set(png2ico_args "${png2ico_args} \"${icons_at_${size}px}\"")
++                endforeach()
++            endforeach()
++
++            create_windows_icon_and_rc(Png2Ico::Png2Ico "${png2ico_args}")
++            set(${appsources} "${${appsources}};${_outfilename}.rc" PARENT_SCOPE)
++
++        # png2ico from kdewin provides rcfile argument
++        elseif(Png2Ico_FOUND)
++            add_custom_command(
++                  OUTPUT "${_outfilename}.rc" "${_outfilename}.ico"
++                  COMMAND Png2Ico::Png2Ico
++                  ARGS
++                      --rcfile "${_outfilename}.rc"
++                      "${_outfilename}.ico"
++                      ${windows_icons}
++                  DEPENDS ${windows_icons}
++                  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
++              )
++
+             set(${appsources} "${${appsources}};${_outfilename}.rc" PARENT_SCOPE)
++        # else none of the supported tools was found
+         else()
+-            message(WARNING "Unable to find the png2ico utility - application will not have an application icon!")
++          message(WARNING "Unable to find the png2ico or icotool utilities - application will not have an application icon!")
+         endif()
+     elseif (APPLE AND mac_icons)
+         # first generate .iconset directory structure, then convert to .icns format using the Mac OS X "iconutil" utility,

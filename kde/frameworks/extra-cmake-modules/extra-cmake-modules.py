@@ -5,9 +5,13 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        for ver in self.versionInfo.tarballs() + self.versionInfo.branches() + self.versionInfo.tags():
+            ecmVer = CraftVersion(ver)
+            self.patchToApply[ver] = ('icotool.diff', 1)
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils/png2ico"] = "default"
+        self.buildDependencies["dev-utils/icotool"] = "default"
         # needed for many kf5's
         self.buildDependencies["dev-utils/flexbison"] = "default"
         self.buildDependencies["libs/qt5/qttools"] = "default"
