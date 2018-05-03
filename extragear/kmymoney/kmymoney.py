@@ -51,6 +51,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = "default"
+        self.runtimeDependencies['libs/gpgme'] = 'default'
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = "default"
         self.runtimeDependencies["kde/pim/kcontacts"] = "default"
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = "default"
@@ -59,8 +60,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/sqlite"] = "default"
         self.runtimeDependencies["libs/libofx"] = "default"
         self.runtimeDependencies["libs/libical"] = "default"
-        #if not CraftCore.compiler.isMSVC():
-            #self.runtimeDependencies["libs/aqbanking"] = "default"
+        if not CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["libs/aqbanking"] = "default"
         self.runtimeDependencies["libs/gettext"] = "default"
         self.runtimeDependencies["extragear/libalkimia"] = "default"
         self.runtimeDependencies["extragear/kdiagram"] = "default"

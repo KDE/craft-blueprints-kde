@@ -30,12 +30,13 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.make.supportsMultijob = False
 
     def install(self):
-        if OsUtils.isWin():
-            cmakes = [ os.path.join(self.buildDir(), "aqbanking-config.cmake") ]
-            for cmake in cmakes:
-                f = open(cmake, "r+")
-                cmakeFileContents = f.readlines()
-                for i in range(len(cmakeFileContents)):
+
+        cmakes = [ os.path.join(self.buildDir(), "aqbanking-config.cmake") ]
+        for cmake in cmakes:
+            f = open(cmake, "r+")
+            cmakeFileContents = f.readlines()
+            for i in range(len(cmakeFileContents)):
+                if CraftCore.compiler.isMinGW():
                     m = re.search('set_and_check\(prefix "(?P<root>[^"]*)"\)', cmakeFileContents[i])
                     if m is not None:
                         cmakeFileContents[i] = cmakeFileContents[i].replace(m.group('root'), CraftStandardDirs.craftRoot()[:-1])
@@ -43,8 +44,11 @@ class Package(AutoToolsPackageBase):
                     m2 = re.search("libaqbanking.so", cmakeFileContents[i])
                     if m2 is not None:
                         cmakeFileContents[i] = cmakeFileContents[i].replace("lib/libaqbanking.so", "bin/libaqbanking-35.dll")
-
-                f.seek(0)
-                f.write(''.join(cmakeFileContents))
-                f.close()
+                elif CraftCore.compiler.isMacOS:
+                    m2 = re.search("libaqbanking.so", cmakeFileContents[i])
+                    if m2 is not None:
+                        cmakeFileContents[i] = cmakeFileContents[i].replace("libaqbanking.so", "libaqbanking.35.dylib")
+            f.seek(0)
+            f.write(''.join(cmakeFileContents))
+            f.close()
         return AutoToolsPackageBase.install(self)
