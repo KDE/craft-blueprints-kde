@@ -4,15 +4,16 @@ import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets( self ):
-        for ver in ["1.9.0"]:
-            self.targets[ver] = f"ftp://ftp.gnupg.org/gcrypt/gpgme/gpgme-{ver}.tar.bz2"
+        for ver in ["1.9.0", "1.11.1"]:
+            self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"gpgme-{ver}"
 
         self.targetDigests["1.9.0"] = (["1b29fedb8bfad775e70eafac5b0590621683b2d9869db994568e6401f4034ceb"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.11.1"] = (["2d1b111774d2e3dd26dcd7c251819ce4ef774ec5e566251eb9308fa7542fbd6f"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["1.9.0"] = [("gpgme-1.9.0-20170801.diff", 1)]
 
         self.description = "GnuPG cryptography support library (runtime)"
-        self.defaultTarget = "1.9.0"
+        self.defaultTarget = "1.11.1"
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/msys"] = "default"
