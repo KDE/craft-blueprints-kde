@@ -30,6 +30,7 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.args = "--enable-languages=no"
         else:
             self.subinfo.options.configure.args = "--enable-languages=cpp,qt"
+        self.subinfo.options.configure.args += " --disable-gpg-test"
 
     def configure(self):
         if OsUtils.isMac():
