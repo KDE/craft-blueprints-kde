@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.9.0"] = (["1b29fedb8bfad775e70eafac5b0590621683b2d9869db994568e6401f4034ceb"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.11.1"] = (["2d1b111774d2e3dd26dcd7c251819ce4ef774ec5e566251eb9308fa7542fbd6f"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["1.9.0"] = [("gpgme-1.9.0-20170801.diff", 1)]
+        #self.patchToApply["1.11.1"] = [("gpgme-1.1.11-20170801.diff", 1)]
 
         self.description = "GnuPG cryptography support library (runtime)"
         self.defaultTarget = "1.11.1"

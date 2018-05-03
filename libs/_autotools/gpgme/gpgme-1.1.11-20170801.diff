@@ -1,0 +1,21 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' gpgme-1.11.1.orig/Makefile.in gpgme-1.11.1/Makefile.in
+--- gpgme-1.11.1.orig/Makefile.in	2018-04-20 10:34:35.000000000 +0200
++++ gpgme-1.11.1/Makefile.in	2018-05-03 14:01:08.322640300 +0200
+@@ -188,7 +188,7 @@
+ ETAGS = etags
+ CTAGS = ctags
+ CSCOPE = cscope
+-DIST_SUBDIRS = src tests doc lang
++DIST_SUBDIRS = src tests lang
+ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+ distdir = $(PACKAGE)-$(VERSION)
+ top_distdir = $(distdir)
+@@ -443,7 +443,7 @@
+
+ @RUN_GPG_TESTS_FALSE@tests =
+ @RUN_GPG_TESTS_TRUE@tests = tests
+-SUBDIRS = src ${tests} doc lang
++SUBDIRS = src ${tests} lang
+ gen_start_date = 2011-12-01T00:00:00
+
+ # Macro to help the release target.
