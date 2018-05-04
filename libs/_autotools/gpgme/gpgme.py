@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/gpg-error"] = "default"
         self.runtimeDependencies["libs/assuan2"] = "default"
+        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
 
 from Package.AutoToolsPackageBase import *
 
