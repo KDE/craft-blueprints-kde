@@ -33,7 +33,7 @@ class QtPackage(Qt5CorePackageBase):
         self.subinfo.options.needsShortPath = True
 
     def fetch(self):
-        if isinstance(self.source, GitSource):
+        if isinstance(self, GitSource):
             utils.system(["git", "clean", "-xdf"], cwd=self.sourceDir())
         return Qt5CorePackageBase.fetch(self)
 
