@@ -1,0 +1,31 @@
+From: Andre Heinecke <aheinecke@intevation.de>
+Date: Fri, 4 May 2018 08:03:42 +0000 (+0200)
+Subject: qt: Respect --disable-gpg-test for tests
+X-Git-Url: http://git.gnupg.org/cgi-bin/gitweb.cgi?p=gpgme.git;a=commitdiff_plain;h=26820ba62920acfe2775bce8fc2bc8b3f17b1c10
+
+qt: Respect --disable-gpg-test for tests
+
+* lang/qt/Makefile.am: Respect --disable-gpg-test
+
+--
+This is similar to the core switch to disable the tests.
+---
+
+diff --git a/lang/qt/Makefile.am b/lang/qt/Makefile.am
+index ab85960..a1b83e8 100644
+--- a/lang/qt/Makefile.am
++++ b/lang/qt/Makefile.am
+@@ -19,6 +19,12 @@
+ # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ # 02111-1307, USA
+
+-SUBDIRS = src tests doc
++if RUN_GPG_TESTS
++tests = tests
++else
++tests =
++endif
++
++SUBDIRS = src ${tests} doc
+
+ EXTRA_DIST = README
