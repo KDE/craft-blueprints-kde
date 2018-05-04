@@ -30,6 +30,11 @@ class subinfo(info.infoclass):
         self.targets["2"] = f""
         self.defaultTarget = "2"
 
+    def registerOptions(self):
+        self.options.dynamic.registerOption("usePowershellCore", False)
+
+
+
 
 from Package.BinaryPackageBase import *
 
@@ -41,7 +46,10 @@ class WinPackage(BinaryPackageBase):
         self._shortcutPath = os.path.join(os.environ["APPDATA"], "Microsoft", "Windows", "Start Menu", "Programs", "Craft", f"Craft {os.path.basename(CraftCore.standardDirs.craftRoot())}.lnk")
 
     def postQmerge(self):
-        powershell = CraftCore.cache.findApplication("powershell")
+        if not self.subinfo.options.dynamic.usePowershellCore:
+            powershell = CraftCore.cache.findApplication("powershell")
+        else:
+            powershell = CraftCore.cache.findApplication("pwsh")
         root = OsUtils.toNativePath(os.path.join(CraftCore.standardDirs.craftBin(), ".."))
         utils.system([powershell,
                       "-NoProfile",
