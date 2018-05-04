@@ -28,7 +28,7 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["4.20"] = "https://www.aquamaniac.de/sites/download/download.php?package=01&release=207&file=01&dummy=gwenhywfar-4.20.0.tar.gz"
+        self.targets["4.20"] = "https://www.aquamaniac.de/sites/download/download.php?package=01&release=208&file=02&dummy=gwenhywfar-4.20.0.tar.gz"
         self.targetDigests["4.20"] = (['5a88daabba1388f9528590aab5de527a12dd44a7da4572ce48469a29911b0fb0'], CraftHash.HashAlgorithm.SHA256)
         self.archiveNames["4.20"] = "gwenhywfar-4.20.0.tar.gz"
         self.targetInstSrc["4.20"] = "gwenhywfar-4.20.0"
