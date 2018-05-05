@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
+# Copyright 2018 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -27,21 +27,18 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.9.12'] = "http://downloads.sourceforge.net/project/libofx/libofx/libofx-0.9.12.tar.gz"
-        self.targetDigests['0.9.12'] = (['c15fa062fa11e759eb6d8c7842191db2185ee1b221a3f75e9650e2849d7b7373'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['0.9.12'] = "libofx-0.9.12"
-        self.patchToApply['0.9.12'] = [("libofx-0.9.5-20120131.diff", 1)]
-        self.patchToApply['0.9.12'] += [("libofx-0.9.12-20180127.diff", 1)]
-
+        self.targets['0.9.13'] = "http://downloads.sourceforge.net/project/libofx/libofx/libofx-0.9.13.tar.gz"
+        self.targetDigests['0.9.13'] = (['57eaf97cddbaf82c24f26b8f5cf8b2fbfd4969c74500a2c9acc9082b83bcc0e4'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc['0.9.13'] = "libofx-0.9.13"
+        self.patchToApply['0.9.13'] = [("libofx-0.9.13-20180505-1.diff", 1)]
+        self.patchToApply['0.9.13'] += [("libofx-0.9.12-20180412.diff", 1)]
         if CraftCore.compiler.isMSVC():
-            self.patchToApply['0.9.12'] += [("patch_daylight.diff", 1)]
-        if CraftCore.compiler.isMinGW():
-            self.patchToApply['0.9.12'] += [("libofx-0.9.12-20180127-mingw.diff", 1)]
-
-        self.patchToApply['0.9.12'] += [("libofx-0.9.12-20180412.diff", 1)]
+            self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-2.diff", 1)]
+            self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-3.diff", 1)]
+        self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-4.diff", 1)]
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
-        self.defaultTarget = '0.9.12'
+        self.defaultTarget = '0.9.13'
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libopensp"] = "default"
@@ -58,12 +55,23 @@ class PackageAutotools(AutoToolsPackageBase):
         openSPLibDir = CraftStandardDirs.craftRoot() + "/lib"
         self.subinfo.options.configure.args = "--enable-shared --disable-static --with-opensp-includes=" + openSPIncludeDir + " --with-opensp-libs=" + openSPLibDir
 
-if CraftCore.compiler.isGCCLike():
+class PackageCMake(CMakePackageBase):
+    def __init__(self, **args):
+        CMakePackageBase.__init__(self)
+
+    # def configure(self):
+    #     if CraftCore.compiler.isMinGW():
+    #         self.subinfo.options.configure.args += " -DCMAKE_CXX_FLAGS=-fpermissive "
+    #     elif CraftCore.compiler.isMSVC():
+    #         self.subinfo.options.configure.args += " -DCMAKE_CXX_FLAGS=/Ze "
+    #     return super().configure()
+
+if CraftCore.compiler.isMacOS:
     class Package(PackageAutotools):
         def __init__(self):
             PackageAutotools.__init__(self)
 else:
-    class Package(CMakePackageBase):
+    class Package(PackageCMake):
         def __init__(self):
             # we use subinfo for now too
-            CMakePackageBase.__init__(self)
+            PackageCMake.__init__(self)

@@ -1,12 +1,12 @@
-diff -Nru libofx-0.9.5.orig/CMakeLists.txt libofx-0.9.5/CMakeLists.txt
---- libofx-0.9.5.orig/CMakeLists.txt	1970-01-01 02:00:00.000000000 +0200
-+++ libofx-0.9.5/CMakeLists.txt	2012-01-31 20:04:34.813263600 +0200
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' libofx-0.9.13.orig/CMakeLists.txt libofx-0.9.13/CMakeLists.txt
+--- libofx-0.9.13.orig/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ libofx-0.9.13/CMakeLists.txt	2018-05-05 08:02:11.044149300 +0100
 @@ -0,0 +1,98 @@
 +project(ofx)
 +
 +set (VERSION_MAJOR 0)
 +set (VERSION_MINOR 9)
-+set (VERSION_PATH 5)
++set (VERSION_PATH 13)
 +
 +cmake_minimum_required(VERSION 2.6)
 +
@@ -24,7 +24,7 @@ diff -Nru libofx-0.9.5.orig/CMakeLists.txt libofx-0.9.5/CMakeLists.txt
 +)
 +
 +add_definitions(
-+    -DOS_WIN32
++    -D__WIN32__
 +    -DMAKEFILE_DTD_PATH="${CMAKE_PREFIX_PATH}/share/libofx/dtd/"
 +)
 +
@@ -90,7 +90,7 @@ diff -Nru libofx-0.9.5.orig/CMakeLists.txt libofx-0.9.5/CMakeLists.txt
 +    set(ofxdump_SRCS ${ofxdump_SRCS} lib/messages.cpp lib/getopt.c lib/getopt1.c)
 +endif(MSVC)
 +
-+add_definitions(-DCMDLINE_PARSER_PACKAGE=\"ofxdump\" -DCMDLINE_PARSER_PACKAGE_NAME=\"ofxdump\" -DCMDLINE_PARSER_VERSION=\"0.9.5\")
++add_definitions(-DCMDLINE_PARSER_PACKAGE=\"ofxdump\" -DCMDLINE_PARSER_PACKAGE_NAME=\"ofxdump\" -DCMDLINE_PARSER_VERSION=\"0.9.13\")
 +add_executable(ofxdump ${ofxdump_SRCS})
 +target_link_libraries(ofxdump ofx)
 +
@@ -100,9 +100,9 @@ diff -Nru libofx-0.9.5.orig/CMakeLists.txt libofx-0.9.5/CMakeLists.txt
 +install(FILES dtd/ofx160.dtd DESTINATION ${CMAKE_PREFIX_PATH}/share/libofx/dtd)
 +install(FILES dtd/ofx201.dtd DESTINATION ${CMAKE_PREFIX_PATH}/share/libofx/dtd)
 +install(FILES dtd/ofc.dtd DESTINATION ${CMAKE_PREFIX_PATH}/share/libofx/dtd)
-diff -Nru libofx-0.9.5.orig/config.h libofx-0.9.5/config.h
---- libofx-0.9.5.orig/config.h	1970-01-01 02:00:00.000000000 +0200
-+++ libofx-0.9.5/config.h	2012-01-31 19:57:23.409470600 +0200
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' libofx-0.9.13.orig/config.h libofx-0.9.13/config.h
+--- libofx-0.9.13.orig/config.h	1970-01-01 01:00:00.000000000 +0100
++++ libofx-0.9.13/config.h	2018-05-05 07:55:52.416409800 +0100
 @@ -0,0 +1,71 @@
 +// Have these
 +#define HAVE_EVENTGENERATOR_H 1
@@ -175,9 +175,9 @@ diff -Nru libofx-0.9.5.orig/config.h libofx-0.9.5/config.h
 +#ifdef _MSC_VER
 +typedef int ssize_t;
 +#endif
-diff -Nru libofx-0.9.5.orig/FindOpenSP.cmake libofx-0.9.5/FindOpenSP.cmake
---- libofx-0.9.5.orig/FindOpenSP.cmake	1970-01-01 02:00:00.000000000 +0200
-+++ libofx-0.9.5/FindOpenSP.cmake	2012-01-31 19:57:23.409470600 +0200
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' libofx-0.9.13.orig/FindOpenSP.cmake libofx-0.9.13/FindOpenSP.cmake
+--- libofx-0.9.13.orig/FindOpenSP.cmake	1970-01-01 01:00:00.000000000 +0100
++++ libofx-0.9.13/FindOpenSP.cmake	2018-05-05 07:55:52.416409800 +0100
 @@ -0,0 +1,36 @@
 +# - Try to find the OpenSP library
 +# 
@@ -215,9 +215,9 @@ diff -Nru libofx-0.9.5.orig/FindOpenSP.cmake libofx-0.9.5/FindOpenSP.cmake
 +    endif (OPENSP_FIND_REQUIRED)
 +  endif (OPENSP_FOUND)
 +endif (WIN32)
-diff -Nru libofx-0.9.5.orig/lib/getopt.c libofx-0.9.5/lib/getopt.c
---- libofx-0.9.5.orig/lib/getopt.c	2011-03-31 01:30:50.000000000 +0300
-+++ libofx-0.9.5/lib/getopt.c	2012-01-31 19:57:23.409470600 +0200
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' libofx-0.9.13.orig/lib/getopt.c libofx-0.9.13/lib/getopt.c
+--- libofx-0.9.13.orig/lib/getopt.c	2016-09-10 09:01:22.000000000 +0100
++++ libofx-0.9.13/lib/getopt.c	2018-05-05 07:55:52.416409800 +0100
 @@ -40,6 +40,7 @@
  #endif
  
@@ -235,9 +235,9 @@ diff -Nru libofx-0.9.5.orig/lib/getopt.c libofx-0.9.5/lib/getopt.c
  #  include <string.h>
  # else
  #  include <strings.h>
-diff -Nru libofx-0.9.5.orig/lib/getopt.h libofx-0.9.5/lib/getopt.h
---- libofx-0.9.5.orig/lib/getopt.h	1970-01-01 02:00:00.000000000 +0200
-+++ libofx-0.9.5/lib/getopt.h	2012-01-31 19:57:23.425095600 +0200
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' libofx-0.9.13.orig/lib/getopt.h libofx-0.9.13/lib/getopt.h
+--- libofx-0.9.13.orig/lib/getopt.h	1970-01-01 01:00:00.000000000 +0100
++++ libofx-0.9.13/lib/getopt.h	2018-05-05 07:55:52.416409800 +0100
 @@ -0,0 +1,20 @@
 +#ifndef _getopt_h
 +#define _getopt_h
@@ -259,9 +259,9 @@ diff -Nru libofx-0.9.5.orig/lib/getopt.h libofx-0.9.5/lib/getopt.h
 +int getopt_long(int argc, char *const *argv, const char *shortopts, const struct option *longopts, int *indexptr);
 +#endif
 +#endif
-diff -Nru libofx-0.9.5.orig/lib/win32.cpp libofx-0.9.5/lib/win32.cpp
---- libofx-0.9.5.orig/lib/win32.cpp	2011-03-31 01:30:50.000000000 +0300
-+++ libofx-0.9.5/lib/win32.cpp	2012-01-31 19:57:23.425095600 +0200
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' libofx-0.9.13.orig/lib/win32.cpp libofx-0.9.13/lib/win32.cpp
+--- libofx-0.9.13.orig/lib/win32.cpp	2018-05-02 20:39:38.000000000 +0100
++++ libofx-0.9.13/lib/win32.cpp	2018-05-05 07:59:07.848405500 +0100
 @@ -18,7 +18,9 @@
  #include <stdlib.h>
  #include <stdio.h>
@@ -274,7 +274,7 @@ diff -Nru libofx-0.9.5.orig/lib/win32.cpp libofx-0.9.5/lib/win32.cpp
  #include <assert.h>
 @@ -27,6 +29,14 @@
  
- #ifdef OS_WIN32
+ #ifdef __WIN32__
  
 +#ifdef _MSC_VER
 +#include <Windows.h>
@@ -284,12 +284,12 @@ diff -Nru libofx-0.9.5.orig/lib/win32.cpp libofx-0.9.5/lib/win32.cpp
 +#define open _open
 +#endif
 +
- int mkstemp(char *tmpl)
+ int mkstemp_win32(char *tmpl)
  {
    int fd = -1;
-diff -Nru libofx-0.9.5.orig/ofxdump/cmdline.c libofx-0.9.5/ofxdump/cmdline.c
---- libofx-0.9.5.orig/ofxdump/cmdline.c	2012-01-10 19:49:40.000000000 +0200
-+++ libofx-0.9.5/ofxdump/cmdline.c	2012-01-31 20:05:05.263527600 +0200
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' libofx-0.9.13.orig/ofxdump/cmdline.c libofx-0.9.13/ofxdump/cmdline.c
+--- libofx-0.9.13.orig/ofxdump/cmdline.c	2018-05-02 20:41:59.000000000 +0100
++++ libofx-0.9.13/ofxdump/cmdline.c	2018-05-05 07:55:52.432009800 +0100
 @@ -21,7 +21,7 @@
  #define FIX_UNUSED(X) (void) (X) /* avoid warnings for unused params */
  #endif
@@ -299,7 +299,7 @@ diff -Nru libofx-0.9.5.orig/ofxdump/cmdline.c libofx-0.9.5/ofxdump/cmdline.c
  
  #include "cmdline.h"
  
-@@ -384,7 +384,6 @@
+@@ -389,7 +389,6 @@
    const char *val = value;
    int found;
    char **string_field;
@@ -307,7 +307,7 @@ diff -Nru libofx-0.9.5.orig/ofxdump/cmdline.c libofx-0.9.5/ofxdump/cmdline.c
  
    stop_char = 0;
    found = 0;
-@@ -480,8 +479,6 @@
+@@ -485,8 +484,6 @@
  
    optarg = 0;
    optind = 0;
@@ -316,8 +316,8 @@ diff -Nru libofx-0.9.5.orig/ofxdump/cmdline.c libofx-0.9.5/ofxdump/cmdline.c
  
    while (1)
      {
-diff -Nru libofx-0.9.5.orig/ofxdump/getopt.h libofx-0.9.5/ofxdump/getopt.h
---- libofx-0.9.5.orig/ofxdump/getopt.h	1970-01-01 02:00:00.000000000 +0200
-+++ libofx-0.9.5/ofxdump/getopt.h	2012-01-31 19:57:23.425095600 +0200
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' libofx-0.9.13.orig/ofxdump/getopt.h libofx-0.9.13/ofxdump/getopt.h
+--- libofx-0.9.13.orig/ofxdump/getopt.h	1970-01-01 01:00:00.000000000 +0100
++++ libofx-0.9.13/ofxdump/getopt.h	2018-05-05 07:55:52.432009800 +0100
 @@ -0,0 +1 @@
 +#include "../lib/getopt.h"
