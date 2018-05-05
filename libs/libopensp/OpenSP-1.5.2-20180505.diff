@@ -1,0 +1,13 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' OpenSP-1.5.2.orig/lib/Makefile.am OpenSP-1.5.2/lib/Makefile.am
+--- OpenSP-1.5.2.orig/lib/Makefile.am	2005-12-15 14:13:16.000000000 +0100
++++ OpenSP-1.5.2/lib/Makefile.am	2018-05-05 05:55:32.882936200 +0100
+@@ -76,7 +76,9 @@
+ 	splibpch.h token.h app_inst.cxx arc_inst.cxx entmgr_inst.cxx \
+ 	parser_inst.cxx xentmgr_inst.cxx SubstTable.cxx \
+ 	UTF16CodingSystem.cxx Fixed4CodingSystem.cxx \
+-	memcmp.c memmove.c strerror.c
++  memcmp.c memmove.c strerror.c WinInetStorage.cxx \
++  WinInetStorageMessages.h WinInetStorageMessages.msg \
++  WinInetStorageMessages.rc WinApp.cxx Win32CodingSystem.cxx
+ 
+ INCLUDES = -I$(top_srcdir)/include -I$(top_srcdir)/generic
