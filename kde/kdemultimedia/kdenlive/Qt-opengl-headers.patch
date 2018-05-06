@@ -1,0 +1,96 @@
+From 5d87f8d5bd1749e3440f36803c568299bd66997e Mon Sep 17 00:00:00 2001
+From: Vincent PINON <vpinon@kde.org>
+Date: Fri, 14 Dec 2018 10:21:23 +0100
+Subject: [PATCH] necessary OpenGL headers are provided by Qt
+
+---
+ cmake/modules/FindOpenGLES.cmake | 52 --------------------------------
+ src/CMakeLists.txt               | 15 ---------
+ 2 files changed, 67 deletions(-)
+ delete mode 100644 cmake/modules/FindOpenGLES.cmake
+
+diff --git a/cmake/modules/FindOpenGLES.cmake b/cmake/modules/FindOpenGLES.cmake
+deleted file mode 100644
+index 60b07e293..000000000
+--- a/cmake/modules/FindOpenGLES.cmake
++++ /dev/null
+@@ -1,52 +0,0 @@
+-# - Try to find OpenGLES
+-# Once done this will define
+-#  
+-#  OPENGLES_FOUND           - system has OpenGLES and EGL
+-#  OPENGL_EGL_FOUND         - system has EGL
+-#  OPENGLES_INCLUDE_DIR     - the GLES include directory
+-#  OPENGLES_LIBRARY	    - the GLES library
+-#  OPENGLES_EGL_INCLUDE_DIR - the EGL include directory
+-#  OPENGLES_EGL_LIBRARY	    - the EGL library
+-#  OPENGLES_LIBRARIES       - all libraries needed for OpenGLES
+-#  OPENGLES_INCLUDES        - all includes needed for OpenGLES
+-
+-FIND_PATH(OPENGLES_INCLUDE_DIR GLES2/gl2.h
+-  /usr/openwin/share/include
+-  /opt/graphics/OpenGL/include /usr/X11R6/include
+-  /usr/include
+-)
+-
+-FIND_LIBRARY(OPENGLES_LIBRARY
+-  NAMES GLESv2
+-  PATHS /opt/graphics/OpenGL/lib
+-        /usr/openwin/lib
+-        /usr/shlib /usr/X11R6/lib
+-        /usr/lib
+-)
+-
+-FIND_PATH(OPENGLES_EGL_INCLUDE_DIR EGL/egl.h
+-  /usr/openwin/share/include
+-  /opt/graphics/OpenGL/include /usr/X11R6/include
+-  /usr/include
+-)
+-
+-FIND_LIBRARY(OPENGLES_EGL_LIBRARY
+-    NAMES EGL
+-    PATHS /usr/shlib /usr/X11R6/lib
+-          /usr/lib
+-)
+-
+-SET(OPENGL_EGL_FOUND "NO")
+-IF(OPENGLES_EGL_LIBRARY AND OPENGLES_EGL_INCLUDE_DIR)
+-    SET(OPENGL_EGL_FOUND "YES")
+-ENDIF()
+-
+-SET(OPENGLES_FOUND "NO")
+-IF(OPENGLES_LIBRARY AND OPENGLES_INCLUDE_DIR AND
+-   OPENGLES_EGL_LIBRARY AND OPENGLES_EGL_INCLUDE_DIR)
+-    SET(OPENGLES_LIBRARIES ${OPENGLES_LIBRARY} ${OPENGLES_LIBRARIES}
+-                           ${OPENGLES_EGL_LIBRARY})
+-    SET(OPENGLES_INCLUDES ${OPENGLES_INCLUDE_DIR} ${OPENGLES_EGL_INCLUDE_DIR})
+-    SET(OPENGLES_FOUND "YES")
+-ENDIF()
+-
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 501028be0..33a9833b0 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -1,19 +1,4 @@
+ add_definitions(${Qt5Gui_DEFINITIONS})
+-if(${Qt5Gui_OPENGL_IMPLEMENTATION} STREQUAL "GL")
+-    find_package(OpenGL REQUIRED)
+-    set_package_properties(OpenGL PROPERTIES
+-        DESCRIPTION "the OpenGL library"
+-        URL ""
+-        TYPE RUNTIME
+-        PURPOSE "")
+-else()
+-    find_package(OpenGLES REQUIRED)
+-    set_package_properties(OpenGLES PROPERTIES
+-        DESCRIPTION "the OpenGLES library"
+-        URL ""
+-        TYPE RUNTIME
+-        PURPOSE "")
+-endif()
+ 
+ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra")
+ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wcast-qual -Wcast-align -Wfloat-equal -Wpointer-arith")
+-- 
+2.19.2
+

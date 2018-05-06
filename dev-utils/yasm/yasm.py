@@ -27,7 +27,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.isUnix:
             self.targets['1.3.0'] = "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz"
             self.targetDigests['1.3.0'] = (['3dce6601b495f5b3d45b59f7d2492a340ee7e84b5beca17e48f862502bd5603f'], CraftHash.HashAlgorithm.SHA256)
             self.targetInstSrc['1.3.0'] = "yasm-1.3.0"
@@ -42,7 +42,7 @@ class subinfo(info.infoclass):
             if CraftCore.compiler.isMSVC():
                 self.targets['1.3.0'] = "http://www.tortall.net/projects/yasm/releases/vsyasm-1.3.0-win32.zip"
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.isUnix:
             self.targetInstallPath["1.3.0"] = "dev-utils"
         else:
             self.targetInstallPath["1.3.0"] = os.path.join("dev-utils", "bin")
@@ -51,7 +51,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = '1.3.0'
 
     def setDependencies(self):
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.isUnix:
             self.buildDependencies["libs/gettext"] = None
             self.buildDependencies["libs/iconv"] = None
             self.buildDependencies["dev-utils/intltool"] = None
@@ -83,7 +83,7 @@ class BinaryPackage(BinaryPackageBase):
         return True
 
 
-if CraftCore.compiler.isMacOS:
+if CraftCore.compiler.isUnix:
     class Package(PackageAutotools):
         def __init__(self):
             PackageAutotools.__init__(self)
