@@ -35,7 +35,9 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMSVC():
             self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-2.diff", 1)]
             self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-3.diff", 1)]
-        self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-4.diff", 1)]
+
+        if CraftCore.compiler.isMSVC() or CraftCore.compiler.isMinGW():
+            self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-4.diff", 1)]
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
         self.defaultTarget = '0.9.13'
@@ -55,23 +57,12 @@ class PackageAutotools(AutoToolsPackageBase):
         openSPLibDir = CraftStandardDirs.craftRoot() + "/lib"
         self.subinfo.options.configure.args = "--enable-shared --disable-static --with-opensp-includes=" + openSPIncludeDir + " --with-opensp-libs=" + openSPLibDir
 
-class PackageCMake(CMakePackageBase):
-    def __init__(self, **args):
-        CMakePackageBase.__init__(self)
-
-    # def configure(self):
-    #     if CraftCore.compiler.isMinGW():
-    #         self.subinfo.options.configure.args += " -DCMAKE_CXX_FLAGS=-fpermissive "
-    #     elif CraftCore.compiler.isMSVC():
-    #         self.subinfo.options.configure.args += " -DCMAKE_CXX_FLAGS=/Ze "
-    #     return super().configure()
-
 if CraftCore.compiler.isMacOS:
     class Package(PackageAutotools):
         def __init__(self):
             PackageAutotools.__init__(self)
 else:
-    class Package(PackageCMake):
+    class Package(CMakePackageBase):
         def __init__(self):
             # we use subinfo for now too
-            PackageCMake.__init__(self)
+            CMakePackageBase.__init__(self)
