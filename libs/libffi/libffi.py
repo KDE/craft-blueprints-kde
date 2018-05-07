@@ -10,11 +10,11 @@ class subinfo(info.infoclass):
                 self.targets[ver] = f"https://github.com/winlibs/libffi/archive/libffi-{ver}.tar.gz"
                 self.archiveNames[ver] = f"libffi-libffi-{ver}.tar.gz"
                 self.targetInstSrc[ver] = f"libffi-libffi-{ver}"
-                self.patchLevel[ver] = 2
             else:
                 self.targets[ver] = f"ftp://sourceware.org/pub/libffi/libffi-{ver}.tar.gz"
                 self.targetInstSrc[ver] = f"libffi-{ver}"
 
+        self.patchLevel["3.2.1"] = 2
         if OsUtils.isWin():
             self.targetDigests['3.2.1'] = (
                 ['9f8e1133c6b9f72b73943103414707a1970e2e9b1d332c3df0d35dac1d9917e5'], CraftHash.HashAlgorithm.SHA256)
