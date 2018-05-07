@@ -66,7 +66,7 @@ class PackageAutoTools(AutoToolsPackageBase):
         self.subinfo.options.configure.args = "--enable-shared --disable-static"
 
 
-if not OsUtils.isWin():
+if CraftCore.compiler.isGCCLike():
     class Package(PackageAutoTools):
         pass
 else:
