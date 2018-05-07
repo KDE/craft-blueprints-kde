@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
                 self.targets[ver] = f"https://github.com/winlibs/libffi/archive/libffi-{ver}.tar.gz"
                 self.archiveNames[ver] = f"libffi-libffi-{ver}.tar.gz"
                 self.targetInstSrc[ver] = f"libffi-libffi-{ver}"
+                self.patchLevel[ver] = 2
             else:
                 self.targets[ver] = f"ftp://sourceware.org/pub/libffi/libffi-{ver}.tar.gz"
                 self.targetInstSrc[ver] = f"libffi-{ver}"
