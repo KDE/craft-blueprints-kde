@@ -75,7 +75,7 @@ class PackageAutoTools(AutoToolsPackageBase):
         self.subinfo.options.configure.cflags = "-Wno-format-nonliteral"
 
         if not CraftCore.cache.findApplication("pkg-config"):
-            version = CraftPackageObject.get("libs/libffi").version
+            version = CraftPackageObject.get("libs/libffi").subinfo.buildTarget
             self.subinfo.options.configure.args += f" LIBFFI_LIBS=-lffi LIBFFI_CFLAGS='-I{root}/lib/libffi-{version}/include'"
 
     def install(self):
