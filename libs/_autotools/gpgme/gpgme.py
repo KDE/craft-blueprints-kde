@@ -14,6 +14,9 @@ class subinfo(info.infoclass):
         self.patchToApply["1.11.1"] = [("gpgme-1.1.11-20170801.diff", 1),
                                        ("qt Respect --disable-gpg-test for tests.patch", 1)]
 
+    def registerOptions(self):
+        self.options.dynamic.registerOption("enableCPP", True)
+
         self.description = "GnuPG cryptography support library (runtime)"
         self.defaultTarget = "1.11.1"
 
@@ -30,36 +33,37 @@ class Package(AutoToolsPackageBase):
     def __init__( self, **args ):
         AutoToolsPackageBase.__init__( self )
         self.subinfo.options.configure.bootstrap = True
-        if OsUtils.isWin():
+        if not self.subinfo.options.dynamic.enableCPP:
             self.subinfo.options.configure.args = "--enable-languages=no"
         else:
             self.subinfo.options.configure.args = "--enable-languages=cpp,qt"
         self.subinfo.options.configure.args += " --disable-gpg-test"
 
     def configure(self):
-        if OsUtils.isMac():
+        if self.subinfo.options.dynamic.enableCPP:
             # The configure script does not honnor the env var is PKG_CONFIG is not installed / env var not set
             # This is problematic especially on macOS, let manually fill the env var to make configure happy finding Qt
             PKG_CONFIG = ":"
             # Gpgme rely on pkg-config to discover Qt, but pkg config files are not shipped / generated...
             # So we need to help it to discover Qt
-            _, QT_BINS = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_BINS")
-            _, QT_LIBS = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_LIBS")
-            if QT_BINS:
-                QT_BINS = QT_BINS.strip();
-            else:
-                print("Invalid or missing Qt installation")
-                return False
-            if QT_LIBS:
-                QT_LIBS = QT_LIBS.strip();
-            else:
-                print("Invalid or missing Qt installation")
-                return False
+            QT_BINS = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_BINS")[1].strip()
+            QT_LIBS = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_LIBS")[1].strip()
+            QT_INCLUDES = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_HEADERS")[1].strip()
             MOC = f"{QT_BINS}/moc"
-            GPGME_QT_CFLAGS = f"-F{QT_LIBS} -I{QT_LIBS}/QtCore.framework/Headers -DQT_NO_DEBUG -DQT_CORE_LIB"
-            GPGME_QT_LIBS = f"-F{QT_LIBS} -framework QtCore"
-            GPGME_QTTEST_CFLAGS = f"-F{QT_LIBS} -I{QT_LIBS}/QtTest.framework/Headers -DQT_NO_DEBUG -DQT_TEST_LIB"
-            GPGME_QTTEST_LIBS = f"-F{QT_LIBS} -framework QtTest"
+            if CraftCore.compiler.isMacOS:
+                GPGME_QT_CFLAGS = f"-F{QT_LIBS} -I{QT_LIBS}/QtCore.framework/Headers -DQT_NO_DEBUG -DQT_CORE_LIB"
+                GPGME_QT_LIBS = f"-F{QT_LIBS} -framework QtCore"
+                GPGME_QTTEST_CFLAGS = f"-F{QT_LIBS} -I{QT_LIBS}/QtTest.framework/Headers -DQT_NO_DEBUG -DQT_TEST_LIB"
+                GPGME_QTTEST_LIBS = f"-F{QT_LIBS} -framework QtTest"
+            else:
+                if CraftCore.compiler.isWindows and self.buildType() == "Debug":
+                    debugSuffix = "d"
+                else:
+                    debugSuffix = ""
+                GPGME_QT_CFLAGS = f"-I{QT_INCLUDES} -I{QT_INCLUDES}/QtCore -DQT_NO_DEBUG -DQT_CORE_LIB"
+                GPGME_QT_LIBS = f"-L{QT_LIBS} -lQt5Core{debugSuffix}"
+                GPGME_QTTEST_CFLAGS = f"-I{QT_INCLUDES} -I{QT_INCLUDES}/QtTest -DQT_NO_DEBUG -DQT_TEST_LIB"
+                GPGME_QTTEST_LIBS = f"-L{QT_LIBS} -lQt5Test{debugSuffix}"
             self.subinfo.options.configure.args += (f" PKG_CONFIG='{PKG_CONFIG}'"
                 f" MOC='{MOC}'"
                 f" GPGME_QT_CFLAGS='{GPGME_QT_CFLAGS}'"
