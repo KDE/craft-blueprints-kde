@@ -25,4 +25,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += " -DEIGEN_TEST_NOQT=ON"
+        self.subinfo.options.configure.args += " -DEIGEN_TEST_NOQT=ON -DBUILD_TESTING=ON"
