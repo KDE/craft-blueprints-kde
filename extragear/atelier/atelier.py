@@ -16,17 +16,13 @@ class subinfo( info.infoclass ):
         self.buildDependencies["kde/frameworks/tier3/kconfigwidgets"] = "default"
         self.buildDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
         self.buildDependencies["kde/frameworks/tier3/ktexteditor"] = "default"
-        self.buildDependencies["extragear/atcore"] = "default"
+        self.buildDependencies["extragear/atcore"] = "master"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtserialport"] = "default"
         self.runtimeDependencies["libs/qt5/qtcharts"] = "default"
         self.runtimeDependencies["libs/qt5/qt3d"] = "default"
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = "default"
         self.runtimeDependencies["kdesupport/qwt"] = "default"
-
-        # If we are building the master branch, then we need AtCore master as well
-        if self.buildTarget == "master":
-            self.buildDependencies["extragear/atcore"] = "master"
 
 from Package.CMakePackageBase import *
 
