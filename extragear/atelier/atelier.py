@@ -24,6 +24,10 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = "default"
         self.runtimeDependencies["kdesupport/qwt"] = "default"
 
+        # If we are building the master branch, then we need AtCore master as well
+        if self.buildTarget == "master":
+            self.buildDependencies["extragear/atcore"] = "master"
+
 from Package.CMakePackageBase import *
 
 class Package( CMakePackageBase ):
