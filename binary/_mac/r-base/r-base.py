@@ -68,13 +68,6 @@ class Package(BinaryPackageBase):
         with open(r_wrapper, 'w') as file:
            file.write(content)
 
-        # now create a "symlink" to R's own wrapper inside PATH
-        # except a symlink would not work for our dirname magic, above, so create a dummy script, instead
-        # it will suffer from the same limitation of not being symlink-able, but we'll assume nobody will
-        # want to do that, when it's already in PATH
-        utils.cleanDirectory(os.path.join(self.installDir(), 'bin'))
-        with open(os.path.join(self.installDir(), 'bin', 'R'), 'w') as file:
-           file.write('#!/bin/sh\n$(dirname "$0")/' + os.path.join ('../', 'lib', 'R' , r_wrapper_rel) + ' "$@"\n')
-        os.chmod(os.path.join(self.installDir(), 'bin', 'R'), 0o744)
+        utils.createShim(os.path.join(self.imageDir(), 'bin', 'R'), os.path.join(self.imageDir(), 'lib', 'R', r_wrapper_rel))
 
         return True
