@@ -25,14 +25,12 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file = [
-            PackagerLists.runtimeBlacklist,
-            os.path.join(os.path.dirname(__file__), 'blacklist.txt')
-        ]
 
     def createPackage(self):
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         self.defines["executable"] = "bin\\kile.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kile.ico")
+        self.defines["website"] = "https://kile.sourceforge.io/"
 
         self.ignoredPackages.append("binary/mysql")
 
