@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = 'kile-' + ver
         self.description = "a user friendly TeX/LaTeX editor for KDE"
         self.displayName = "Kile"
-        self.defaultTarget = 'master'
+        self.defaultTarget = '2.9.92'
 
     def setDependencies(self):
         # this is only a dependency for kile > 2.1, but we keep it like that for now
