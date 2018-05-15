@@ -104,15 +104,13 @@ class Package(AutoToolsPackageBase):
                        os.path.join(self.installDir(), "lib" , "cmake", "QGpgme", "QGpgmeConfig.cmake") ]
             for cmake in cmakes:
                 with open(cmake, "rt+") as f:
-                    cmakeFileContents = f.readlines()
-                    for i in range(len(cmakeFileContents)):
-
-                            m = re.search('/(?P<root>[a-zA-Z]{1})/', cmakeFileContents[i])
-                            if m is not None:
-                                cmakeFileContents[i] = cmakeFileContents[i].replace("/" + m.group('root') + "/", CraftStandardDirs.craftRoot()[:-1] + "/")
-
+                    content = f.read()
+                    oldPath = OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot())
+                    newPath = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
+                    CraftCore.log.info(f"Patching {cmake}: replacing {oldPath} with {newPath}")
+                    content = content.replace(oldPath, newPath)
                 with open(cmake, "wt+") as f:
-                    f.write(''.join(cmakeFileContents))
+                    f.write(content)
         return True
 
         return self.copyToMsvcImportLib()
