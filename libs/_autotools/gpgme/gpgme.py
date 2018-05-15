@@ -38,7 +38,7 @@ class subinfo(info.infoclass):
         self.patchToApply["1.9.0"] = [("gpgme-1.9.0-20170801.diff", 1)]
         self.patchToApply["1.11.1"] = [("gpgme-1.1.11-20170801.diff", 1),
                                        ("qt Respect --disable-gpg-test for tests.patch", 1)]
-        self.patchLevel["1.11.1"] = 1
+        self.patchLevel["1.11.1"] = 2
 
     def registerOptions(self):
         self.options.dynamic.registerOption("enableCPP", True)
@@ -99,18 +99,17 @@ class Package(AutoToolsPackageBase):
         return AutoToolsPackageBase.configure(self)
 
     def postInstall(self):
-        if CraftCore.compiler.isMinGW():
-            cmakes = [ os.path.join(self.installDir(), "lib" , "cmake", "Gpgmepp", "GpgmeppConfig.cmake"),
-                       os.path.join(self.installDir(), "lib" , "cmake", "QGpgme", "QGpgmeConfig.cmake") ]
-            for cmake in cmakes:
-                with open(cmake, "rt+") as f:
-                    content = f.read()
-                    oldPath = OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot())
-                    newPath = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
-                    CraftCore.log.info(f"Patching {cmake}: replacing {oldPath} with {newPath}")
-                    content = content.replace(oldPath, newPath)
-                with open(cmake, "wt+") as f:
-                    f.write(content)
+        cmakes = [ os.path.join(self.installDir(), "lib" , "cmake", "Gpgmepp", "GpgmeppConfig.cmake"),
+                    os.path.join(self.installDir(), "lib" , "cmake", "QGpgme", "QGpgmeConfig.cmake") ]
+        for cmake in cmakes:
+            with open(cmake, "rt+") as f:
+                content = f.read()
+                oldPath = OsUtils.toMSysPath(self.subinfo.buildPrefix)
+                newPath = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
+                CraftCore.log.info(f"Patching {cmake}: replacing {oldPath} with {newPath}")
+                content = content.replace(oldPath, newPath)
+            with open(cmake, "wt+") as f:
+                f.write(content)
         return True
 
         return self.copyToMsvcImportLib()

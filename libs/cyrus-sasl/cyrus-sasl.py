@@ -25,9 +25,8 @@ class subinfo(info.infoclass):
 
 class CMakePackage(CMakePackageBase):
     def __init__(self, **args):
-        #        self.subinfo.options.configure.args = "-DSTATIC_LIBRARY=OFF"
         CMakePackageBase.__init__(self)
-
+        self.subinfo.options.configure.args += " -DSTATIC_LIBRARY=OFF"
 
 
 from Package.AutoToolsPackageBase import *
@@ -38,7 +37,7 @@ class PackageAutotools(AutoToolsPackageBase):
         self.subinfo.options.configure.bootstrap = True
 
 if CraftCore.compiler.isWindows:
-    class Package(CMakePackageBase):
+    class Package(CMakePackage):
         pass
 else:
     class Package(PackageAutotools):
