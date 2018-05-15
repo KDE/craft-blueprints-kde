@@ -103,17 +103,17 @@ class Package(AutoToolsPackageBase):
             cmakes = [ os.path.join(self.buildDir(), "lang" , "cpp", "src", "GpgmeppConfig.cmake"),
                        os.path.join(self.buildDir(), "lang" , "qt", "src", "QGpgmeConfig.cmake") ]
             for cmake in cmakes:
-                f = open(cmake, "r+")
-                cmakeFileContents = f.readlines()
-                for i in range(len(cmakeFileContents)):
+                with open(cmake, "rt+") as f:
+                    cmakeFileContents = f.readlines()
+                    for i in range(len(cmakeFileContents)):
 
-                        m = re.search('/(?P<root>[a-zA-Z]{1})/', cmakeFileContents[i])
-                        if m is not None:
-                            cmakeFileContents[i] = cmakeFileContents[i].replace("/" + m.group('root') + "/", CraftStandardDirs.craftRoot()[:-1] + "/")
-                f.seek(0)
-                f.write(''.join(cmakeFileContents))
-                f.close()
+                            m = re.search('/(?P<root>[a-zA-Z]{1})/', cmakeFileContents[i])
+                            if m is not None:
+                                cmakeFileContents[i] = cmakeFileContents[i].replace("/" + m.group('root') + "/", CraftStandardDirs.craftRoot()[:-1] + "/")
 
+                with open(cmake, "wt+") as f:
+                    f.write(''.join(cmakeFileContents))
         if not AutoToolsPackageBase.install(self):
             return False
+
         return self.copyToMsvcImportLib()
