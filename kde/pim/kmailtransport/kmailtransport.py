@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
         self.runtimeDependencies["kde/pim/kmime"] = "default"
         self.runtimeDependencies["kde/pim/akonadi"] = "default"
+        self.runtimeDependencies["kde/pim/libkgapi"] = "default"
         self.runtimeDependencies["kde/pim/akonadi-mime"] = "default"
         self.runtimeDependencies["kde/pim/ksmtp"] = "default"
         self.runtimeDependencies["libs/cyrus-sasl"] = "default"
