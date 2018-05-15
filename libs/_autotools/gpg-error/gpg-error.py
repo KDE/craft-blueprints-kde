@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.targetDigests['1.27'] = (['4f93aac6fecb7da2b92871bb9ee33032be6a87b174f54abf8ddf0911a22d29d2'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.31'] =  (['40d0a823c9329478063903192a1f82496083b277265904878f4bc09e0db7a4ef'], CraftHash.HashAlgorithm.SHA256)
         self.description = "Small library with error codes and descriptions shared by most GnuPG related software"
-        self.patchLevel["1.31"] = 1
+        self.patchLevel["1.31"] = 2
         self.defaultTarget = "1.31"
 
     def setDependencies( self ):
@@ -26,7 +26,9 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.bootstrap = True
         self.subinfo.options.configure.args += " --disable-static --enable-shared "
 
-    def install( self ):
-        if not AutoToolsPackageBase.install(self):
-            return False
-        return self.copyToMsvcImportLib()
+    def postInstall( self ):
+        return (self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "gpg-error-config"),
+                                         os.path.join(self.installDir(), "bin", "gpgrt-config")],
+                        OsUtils.toMSysPath(self.subinfo.buildPrefix),
+                        OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot())) and
+                self.copyToMsvcImportLib())

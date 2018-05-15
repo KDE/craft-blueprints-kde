@@ -101,15 +101,6 @@ class Package(AutoToolsPackageBase):
     def postInstall(self):
         cmakes = [ os.path.join(self.installDir(), "lib" , "cmake", "Gpgmepp", "GpgmeppConfig.cmake"),
                     os.path.join(self.installDir(), "lib" , "cmake", "QGpgme", "QGpgmeConfig.cmake") ]
-        for cmake in cmakes:
-            with open(cmake, "rt+") as f:
-                content = f.read()
-                oldPath = OsUtils.toMSysPath(self.subinfo.buildPrefix)
-                newPath = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
-                CraftCore.log.info(f"Patching {cmake}: replacing {oldPath} with {newPath}")
-                content = content.replace(oldPath, newPath)
-            with open(cmake, "wt+") as f:
-                f.write(content)
-        return True
+        return self.patchInstallPrefix(cmakes, OsUtils.toMSysPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))
 
         return self.copyToMsvcImportLib()

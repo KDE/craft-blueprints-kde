@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
         self.targetDigests["2.5.1"] = (['47f96c37b4f2aac289f0bc1bacfa8bd8b4b209a488d3d15e2229cb6cc9b26449'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "An IPC library used by some of the other GnuPG related packages"
+        self.patchLevel["2.5.1"] = 1
         self.defaultTarget = "2.5.1"
 
     def setDependencies( self ):
@@ -24,7 +25,8 @@ class Package(AutoToolsPackageBase):
     def __init__( self, **args ):
         AutoToolsPackageBase.__init__( self )
 
-    def install( self ):
-        if not AutoToolsPackageBase.install(self):
-            return False
-        return self.copyToMsvcImportLib()
+    def postInstall( self ):
+        return (self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "libassuan-config")],
+                                OsUtils.toMSysPath(self.subinfo.buildPrefix),
+                                OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot())) and
+                self.copyToMsvcImportLib())
