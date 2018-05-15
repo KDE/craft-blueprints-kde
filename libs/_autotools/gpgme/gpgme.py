@@ -99,8 +99,16 @@ class Package(AutoToolsPackageBase):
         return AutoToolsPackageBase.configure(self)
 
     def postInstall(self):
-        cmakes = [ os.path.join(self.installDir(), "lib" , "cmake", "Gpgmepp", "GpgmeppConfig.cmake"),
-                    os.path.join(self.installDir(), "lib" , "cmake", "QGpgme", "QGpgmeConfig.cmake") ]
-        return self.patchInstallPrefix(cmakes, OsUtils.toMSysPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))
+        if self.subinfo.options.dynamic.enableCPP:
+            cmakes = [ os.path.join(self.installDir(), "lib" , "cmake", "Gpgmepp", "GpgmeppConfig.cmake"),
+                        os.path.join(self.installDir(), "lib" , "cmake", "QGpgme", "QGpgmeConfig.cmake") ]
+        else:
+            cmakes = []
+        return (self.patchInstallPrefix(cmakes,
+                                        OsUtils.toMSysPath(self.subinfo.buildPrefix),
+                                        OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())) and
+                self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "gpgme-config")],
+                                        OsUtils.toMSysPath(self.subinfo.buildPrefix),
+                                        OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot())))
 
         return self.copyToMsvcImportLib()
