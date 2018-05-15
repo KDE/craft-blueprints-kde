@@ -98,10 +98,10 @@ class Package(AutoToolsPackageBase):
                 f" GPGME_QTTEST_LIBS='{GPGME_QTTEST_LIBS}'")
         return AutoToolsPackageBase.configure(self)
 
-    def install(self):
+    def postInstall(self):
         if CraftCore.compiler.isMinGW():
-            cmakes = [ os.path.join(self.buildDir(), "lang" , "cpp", "src", "GpgmeppConfig.cmake"),
-                       os.path.join(self.buildDir(), "lang" , "qt", "src", "QGpgmeConfig.cmake") ]
+            cmakes = [ os.path.join(self.installDir(), "lib" , "cmake", "Gpgmepp", "GpgmeppConfig.cmake"),
+                       os.path.join(self.installDir(), "lib" , "cmake", "QGpgme", "QGpgmeConfig.cmake") ]
             for cmake in cmakes:
                 with open(cmake, "rt+") as f:
                     cmakeFileContents = f.readlines()
@@ -113,7 +113,6 @@ class Package(AutoToolsPackageBase):
 
                 with open(cmake, "wt+") as f:
                     f.write(''.join(cmakeFileContents))
-        if not AutoToolsPackageBase.install(self):
-            return False
+        return True
 
         return self.copyToMsvcImportLib()
