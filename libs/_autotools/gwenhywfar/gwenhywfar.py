@@ -64,11 +64,11 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.cxxflags += f"-I{widgetsdir} -I{guidir} -I{coredir} -I{includedir} "
         return super().configure()
 
-    def install(self):
+    def postInstall(self):
 
-        cmakes = [ os.path.join(self.buildDir(), "gui", "cpp", "gwengui-cpp-config.cmake"),
-                os.path.join(self.buildDir(), "gui", "qt5", "gwengui-qt5-config.cmake"),
-                os.path.join(self.buildDir(), "gwenhywfar-config.cmake")
+        cmakes = [ os.path.join(self.installDir(), "lib", "cmake", f"gwengui-cpp-{self.subinfo.defaultTarget}", "gwengui-cpp-config.cmake"),
+                os.path.join(self.installDir(), "lib", "cmake", f"gwengui-qt5-{self.subinfo.defaultTarget}", "gwengui-qt5-config.cmake"),
+                os.path.join(self.installDir(), "lib", "cmake", f"gwenhywfar-{self.subinfo.defaultTarget}", "gwenhywfar-config.cmake")
                 ]
         for cmake in cmakes:
             f = open(cmake, "r+")
@@ -78,7 +78,10 @@ class Package(AutoToolsPackageBase):
                 if CraftCore.compiler.isMinGW():
                     m = re.search('set_and_check\(prefix "(?P<root>[^"]*)"\)', cmakeFileContents[i])
                     if m is not None:
-                        cmakeFileContents[i] = cmakeFileContents[i].replace(m.group('root'), CraftStandardDirs.craftRoot()[:-1])
+                        craftRoot = OsUtils.toUnixPath(CraftStandardDirs.craftRoot())
+                        if craftRoot.endswith("/"):
+                            craftRoot = craftRoot[:-1]
+                        cmakeFileContents[i] = cmakeFileContents[i].replace(m.group('root'), craftRoot)
 
                     m2 = re.search("libgwenhywfar.so.(?P<number>[\d]*)", cmakeFileContents[i])
                     if m2 is not None:
@@ -108,4 +111,4 @@ class Package(AutoToolsPackageBase):
             f.write(''.join(cmakeFileContents))
             f.close()
 
-        return AutoToolsPackageBase.install(self)
+        return AutoToolsPackageBase.postInstall(self)
