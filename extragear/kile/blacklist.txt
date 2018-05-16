@@ -23,7 +23,7 @@ share/apps/ark/.*
 share/apps/kgpg/.*
 share/kf5/kdoctools/.*
 lib/.*
-bin/data/(?!(icontheme.rcc|applications|kile|config.kcfg|dbus-1|icons|kconf_update|knotifications5|kservices5|kxmlgui5|locale|metainfo|mime|locale)).*
+bin/data/(?!(icontheme.rcc|applications|kile|config.kcfg|dbus-1|hunspell|icons|kconf_update|knotifications5|kservices5|kxmlgui5|locale|metainfo|mime|locale)).*
 
 # Unused Qt modules
 qml/QtMultimedia
