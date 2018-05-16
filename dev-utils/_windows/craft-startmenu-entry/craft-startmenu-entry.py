@@ -33,8 +33,8 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.registerOption("usePowershellCore", False)
 
-
-
+    def setDependencies(self):
+        self.buildDependencies["dev-utils/shimgen"] = None
 
 from Package.BinaryPackageBase import *
 
@@ -45,19 +45,28 @@ class WinPackage(BinaryPackageBase):
         self.subinfo.options.package.disableBinaryCache = True
         self._shortcutPath = os.path.join(os.environ["APPDATA"], "Microsoft", "Windows", "Start Menu", "Programs", "Craft", f"Craft {os.path.basename(CraftCore.standardDirs.craftRoot())}.lnk")
 
-    def postQmerge(self):
+
+    @property
+    def powershell(self):
         if not self.subinfo.options.dynamic.usePowershellCore:
-            powershell = CraftCore.cache.findApplication("powershell")
+            return CraftCore.cache.findApplication("powershell")
         else:
-            powershell = CraftCore.cache.findApplication("pwsh")
+            return CraftCore.cache.findApplication("pwsh")
+
+    def install(self):
+        return utils.createShim(os.path.join(self.installDir(), "bin", "craft.exe"),
+                                self.powershell,
+                                f"-NoExit -ExecutionPolicy ByPass -Command {CraftCore.standardDirs.craftBin()}/../craftenv.ps1",
+                                useAbsolutePath=True)
+
+    def postQmerge(self):
         root = OsUtils.toNativePath(os.path.join(CraftCore.standardDirs.craftBin(), ".."))
-        utils.system([powershell,
+        utils.system([self.powershell,
                       "-NoProfile",
                       "-ExecutionPolicy", "ByPass",
                       "-Command",
                       os.path.join(self.packageDir(), "install-lnk.ps1"),
-                      "-Path", f"'{powershell}'",
-                      "-Arguments", "'-NoExit -ExecutionPolicy ByPass -Command .\craftenv.ps1'",
+                      "-Path", "'{0}'".format(os.path.join(CraftCore.standardDirs.craftRoot(), "bin", "craft.exe")),
                       "-WorkingDirectory", f"'{root}'",
                       "-Name", f"'{self._shortcutPath}'",
                       "-Icon", "'{0}'".format(os.path.join(CraftCore.standardDirs.craftBin(), "data", "icons", "craft.ico")),
