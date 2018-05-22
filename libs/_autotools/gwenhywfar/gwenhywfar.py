@@ -76,9 +76,12 @@ class Package(AutoToolsPackageBase):
 
             for i in range(len(cmakeFileContents)):
                 if CraftCore.compiler.isMinGW():
-                    m = re.search('set_and_check\(prefix "(?P<root>[^"]*)"\)', cmakeFileContents[i])
+                    m = re.search("set_and_check\(prefix \"(?P<root>[^\"]*)\"\)", cmakeFileContents[i])
                     if m is not None:
-                        craftRoot = OsUtils.toUnixPath(CraftStandardDirs.craftRoot())
+                        # somehow this doesn't produce forward slash path in CI
+                        # craftRoot = OsUtils.toUnixPath(CraftStandardDirs.craftRoot())
+                        craftRoot = CraftStandardDirs.craftRoot()
+                        craftRoot = craftRoot.replace("\\", "/")
                         if craftRoot.endswith("/"):
                             craftRoot = craftRoot[:-1]
                         cmakeFileContents[i] = cmakeFileContents[i].replace(m.group('root'), craftRoot)
