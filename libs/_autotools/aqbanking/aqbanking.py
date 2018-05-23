@@ -32,8 +32,8 @@ class subinfo(info.infoclass):
         self.targetDigests["5.7.8"] = (['16f86e4cc49a9eaaa8dfe3206607e627873208bce45a70030c3caea9b5afc768'], CraftHash.HashAlgorithm.SHA256)
         self.archiveNames["5.7.8"] = "aqbanking-5.7.8.tar.gz"
         self.targetInstSrc["5.7.8"] = "aqbanking-5.7.8"
-
         self.defaultTarget = "5.7.8"
+        self.patchLevel["5.7.8"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"

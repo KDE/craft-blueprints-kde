@@ -37,6 +37,7 @@ class subinfo(info.infoclass):
         elif CraftCore.compiler.isMacOS:
             self.patchToApply["4.20"] = [("gwenhywfar-4.20.0-20180503.diff", 1)]
         self.defaultTarget = "4.20"
+        self.patchLevel["4.20"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
