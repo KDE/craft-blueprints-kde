@@ -32,6 +32,7 @@ class subinfo(info.infoclass):
         self.description = "a personal finance manager for KDE"
         self.displayName = "KMyMoney"
         self.defaultTarget = 'master'
+        self.patchLevel["master"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = "default"
@@ -67,6 +68,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["extragear/kdiagram"] = "default"
         self.buildDependencies["libs/gettext"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
+        if CraftCore.compiler.isMinGW():
+            self.runtimeDependencies["kdesupport/kdewin"] = "default"
 
 
 from Package.CMakePackageBase import *
