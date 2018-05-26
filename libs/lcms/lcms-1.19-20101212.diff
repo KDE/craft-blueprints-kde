@@ -43,34 +43,6 @@ diff -Nru lcms-1.19.orig/CMakeLists.txt lcms-1.19/CMakeLists.txt
 +if(BUILD_TESTS)
 +    add_subdirectory(testbed)
 +endif(BUILD_TESTS)
-diff -Nru lcms-1.19.orig/include/icc34.h lcms-1.19/include/icc34.h
---- lcms-1.19.orig/include/icc34.h	2009-10-30 16:57:45.000000000 +0100
-+++ lcms-1.19/include/icc34.h	2010-12-19 00:40:27.402238100 +0100
-@@ -144,7 +144,9 @@
-  */
- 
- 
--#ifdef PACKAGE_NAME
-+#ifndef _WIN32
-+//#ifdef PACKAGE_NAME
-+#error This header is broken! Please get it from somewhere else
- /*
-   June 9, 2003, Adapted for use with configure by Bob Friesenhahn
-   Added the stupid check for autoconf by Marti Maria. 
-diff -Nru lcms-1.19.orig/include/icc34.h.in lcms-1.19/include/icc34.h.in
---- lcms-1.19.orig/include/icc34.h.in	2007-05-25 16:04:02.000000000 +0200
-+++ lcms-1.19/include/icc34.h.in	2010-12-19 00:40:27.405238300 +0100
-@@ -144,7 +144,9 @@
-  */
- 
- 
--#ifdef PACKAGE_NAME
-+#ifndef _WIN32
-+//#ifdef PACKAGE_NAME
-+#error This header is broken! Please get it from somewhere else
- /*
-   June 9, 2003, Adapted for use with configure by Bob Friesenhahn
-   Added the stupid check for autoconf by Marti Maria. 
 diff -Nru lcms-1.19.orig/include/lcms.h lcms-1.19/include/lcms.h
 --- lcms-1.19.orig/include/lcms.h	2009-10-30 16:57:45.000000000 +0100
 +++ lcms-1.19/include/lcms.h	2010-12-19 01:51:48.993131100 +0100
