@@ -23,6 +23,7 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args = "-DBUILD_GUI=ON "
+        self.subinfo.options.configure.args += "-DDEPLOY_PLUGINS_WITH_BINARY=ON "
         self.blacklist_file = [
             PackagerLists.runtimeBlacklist,
             os.path.join(self.packageDir(), 'blacklist.txt')
