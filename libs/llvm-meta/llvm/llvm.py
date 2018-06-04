@@ -47,7 +47,7 @@ class Package(CMakePackageBase):
         #       https://github.com/Alexpux/MINGW-packages/tree/master/mingw-w64-clang
         #       supports it
         #
-        if not CraftCore.compiler.isMacOS and not CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.isMSVC2017():
             maybeAddSubPackage(CraftPackageObject.get('libs/llvm-meta/lldb'),
                                "LLVM_EXTERNAL_LLDB_SOURCE_DIR")
 
