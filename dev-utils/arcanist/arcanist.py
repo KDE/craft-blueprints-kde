@@ -26,6 +26,5 @@ class Package(BinaryPackageBase):
     def install(self):
         if not BinaryPackageBase.install(self):
             return False
-        utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "arc.exe"),
-                         os.path.join(self.imageDir(), "dev-utils", "arcanist", "arcanist", "bin", "arc.bat"))
-        return True
+        return utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", f"arc{CraftCore.compiler.executableSuffix}"),
+                         os.path.join(self.imageDir(), "dev-utils", "arcanist", "arcanist", "bin", "arc" + (".bat" if CraftCore.compiler.isWindows else "")))
