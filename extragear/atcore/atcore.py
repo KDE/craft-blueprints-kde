@@ -23,11 +23,21 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args = "-DBUILD_GUI=ON "
-        self.subinfo.options.configure.args += "-DDEPLOY_PLUGINS_WITH_BINARY=ON "
+        if self.buildTarget != "1.0":
+            self.subinfo.options.configure.args += "-DDEPLOY_PLUGINS_WITH_BINARY=ON "
+
         self.blacklist_file = [
             PackagerLists.runtimeBlacklist,
             os.path.join(self.packageDir(), 'blacklist.txt')
         ]
+    def preArchive(self):
+        if CraftCore.compiler.isMacOS:
+            if self.buildTarget != "1.0":
+                return utils.mergeTree(os.path.join(self.archiveDir(), "bin/plugins/"), os.path.join(self.archiveDir(), "AtCoreTest.app/Contents/MacOS/plugins"))
+            else:
+                return utils.mergeTree(os.path.join(self.archiveDir(), "bin/plugins/"), os.path.join(self.archiveDir(), "atcore-gui.app/Contents/MacOS/plugins"))
+        else:
+            return True
 
     def createPackage(self):
         self.defines["executable"] = "bin\\atcore-gui.exe"
@@ -36,4 +46,3 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(self.packageDir(), "atcore.ico")
 
         return TypePackager.createPackage(self)
-
