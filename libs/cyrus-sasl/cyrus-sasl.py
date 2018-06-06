@@ -1,9 +1,6 @@
 import info
 from Package.CMakePackageBase import *
 
-
-# see http://wiki.mozilla.org/LDAP_C_SDK_SASL_Windows
-
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["2.1.26"]:
@@ -35,6 +32,7 @@ class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.bootstrap = True
+        self.subinfo.options.configure.args += " --disable-macos-framework"
 
 if CraftCore.compiler.isWindows:
     class Package(CMakePackage):

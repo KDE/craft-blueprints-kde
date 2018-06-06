@@ -308,17 +308,6 @@ Description:             Various package fixes, including autotools fixes, plugi
  
  EXTRA_DIST = windlopen.c staticopen.h NTMakefile
  EXTRA_LIBRARIES = libsasl2.a
-@@ -64,8 +64,8 @@
- lib_LTLIBRARIES = libsasl2.la
- 
- libsasl2_la_SOURCES = $(common_sources) $(common_headers)
--libsasl2_la_LDFLAGS = -version-info $(sasl_version)
--libsasl2_la_DEPENDENCIES = $(LTLIBOBJS)
-+libsasl2_la_LDFLAGS = -version-info $(sasl_version) -Wl,--version-script=$(top_srcdir)/Versions
-+libsasl2_la_DEPENDENCIES = $(LTLIBOBJS) $(top_srcdir)/Versions
- libsasl2_la_LIBADD = $(LTLIBOBJS) $(SASL_DL_LIB) $(LIB_SOCKET) $(LIB_DOOR)
- 
- if MACOSX
 @@ -80,7 +80,7 @@
  
  libsasl2.a: libsasl2.la $(SASL_STATIC_OBJS)
@@ -762,13 +751,3 @@ Description:             Various package fixes, including autotools fixes, plugi
  EXTRA_DIST = saslpasswd2.8 sasldblistusers2.8 pluginviewer.8 sfsasl.h sfsasl.c smtptest.c testsuite.c pluginviewer.c NTMakefile
  
  sfsasl.lo: sfsasl.c
---- a/Versions	1970-01-01 01:00:00.000000000 +0100
-+++ b/Versions	2014-08-24 00:06:33.976346767 +0200
-@@ -0,0 +1,7 @@
-+SASL2 {
-+    global:
-+        sasl_*; prop_*; auxprop_plugin_info; _sasl_MD5*;
-+};
-+
-+HIDDEN { local: __*; _rest*; _save*; *; };
-+
