@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isWindows:
             self.patchToApply['0.19.8.1'] += [("gettext-0.19.8.1-20180607.diff", 2)]
-        elif CraftCore.compiler.isMacOs:
+        elif CraftCore.compiler.isMacOS:
             self.patchToApply['0.19.8.1'] += [("0001-moopp-sed-extended-regexp.patch", 1)]
 
         self.description = "GNU internationalization (i18n)"
