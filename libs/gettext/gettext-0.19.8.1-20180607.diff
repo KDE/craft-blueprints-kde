@@ -1,0 +1,49 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x 'RelWithDebInfo-0.19.8.1*' a/gettext-0.19.8.1/gettext-runtime/gnulib-lib/memchr.c b/gettext-0.19.8.1/gettext-runtime/gnulib-lib/memchr.c
+--- a/gettext-0.19.8.1/gettext-runtime/gnulib-lib/memchr.c	2016-06-11 14:59:31.000000000 +0200
++++ b/gettext-0.19.8.1/gettext-runtime/gnulib-lib/memchr.c	2018-06-07 09:39:31.067920300 +0200
+@@ -23,6 +23,8 @@
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+ 
++#if _MSC_VER < 1900
++
+ #ifndef _LIBC
+ # include <config.h>
+ #endif
+@@ -170,3 +172,4 @@
+ #ifdef weak_alias
+ weak_alias (__memchr, BP_SYM (memchr))
+ #endif
++#endif //_MSC_VER < 1900
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x 'RelWithDebInfo-0.19.8.1*' a/gettext-0.19.8.1/gettext-runtime/gnulib-lib/memmove.c b/gettext-0.19.8.1/gettext-runtime/gnulib-lib/memmove.c
+--- a/gettext-0.19.8.1/gettext-runtime/gnulib-lib/memmove.c	2016-06-11 14:59:31.000000000 +0200
++++ b/gettext-0.19.8.1/gettext-runtime/gnulib-lib/memmove.c	2018-06-07 09:39:31.068917600 +0200
+@@ -2,6 +2,7 @@
+    Copy LENGTH bytes from SOURCE to DEST.  Does not null-terminate.
+    In the public domain.
+    By David MacKenzie <djm@gnu.ai.mit.edu>.  */
++#if _MSC_VER < 1900
+ 
+ #include <config.h>
+ 
+@@ -24,3 +25,4 @@
+     }
+   return dest0;
+ }
++#endif //_MSC_VER < 1900
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x 'RelWithDebInfo-0.19.8.1*' a/gettext-0.19.8.1/gettext-tools/libgettextpo/memchr.c b/gettext-0.19.8.1/gettext-tools/libgettextpo/memchr.c
+--- a/gettext-0.19.8.1/gettext-tools/libgettextpo/memchr.c	2016-06-11 15:00:34.000000000 +0200
++++ b/gettext-0.19.8.1/gettext-tools/libgettextpo/memchr.c	2018-06-07 09:39:31.070912400 +0200
+@@ -23,6 +23,7 @@
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+ 
++#if _MSC_VER < 1900
+ #ifndef _LIBC
+ # include <config.h>
+ #endif
+@@ -170,3 +171,4 @@
+ #ifdef weak_alias
+ weak_alias (__memchr, BP_SYM (memchr))
+ #endif
++#endif //_MSC_VER < 1900

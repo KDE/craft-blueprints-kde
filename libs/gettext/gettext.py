@@ -13,14 +13,17 @@ class subinfo(info.infoclass):
         self.targetDigests['0.19.8.1'] = (['ff942af0e438ced4a8b0ea4b0b6e0d6d657157c5e2364de57baa279c1c125c43'], CraftHash.HashAlgorithm.SHA256)
 
         #patch based on https://github.com/fanc999/gtk-msvc-projects/tree/master/gettext/0.19.8.1
-        self.patchToApply['0.19.8.1'] = [("gettext-0.19.8.1-gtk-msvc-projects.diff", 1)]
-        self.patchToApply['0.19.8.1'] += [("0001-gettext-tools-gnulib-lib-xalloc.h-Fix-function-signa.patch", 1)]
-        self.patchToApply['0.19.8.1'] += [("0001-gettext-tools-src-Fix-linking.patch", 1)]
-        self.patchToApply['0.19.8.1'] += [("0001-gettext-tools-src-x-lua.c-Fix-on-pre-C99.patch", 1)]
-        self.patchToApply['0.19.8.1'] += [("0001-ostream.h-styled-ostream.h-Fix-linking.patch", 1)]
-        self.patchToApply['0.19.8.1'] += [("0001-printf-parse.c-Fix-build-on-Visual-Studio-2008.patch", 1)]
-        self.patchToApply['0.19.8.1'] += [("0001-tools-Fix-gnulib-lib-uniname-uniname.c-on-pre-C99.patch", 1)]
-        if OsUtils.isMac():
+        self.patchToApply['0.19.8.1'] = [("gettext-0.19.8.1-gtk-msvc-projects.diff", 1),
+                                        ("0001-gettext-tools-gnulib-lib-xalloc.h-Fix-function-signa.patch", 1),
+                                        ("0001-gettext-tools-src-Fix-linking.patch", 1),
+                                        ("0001-gettext-tools-src-x-lua.c-Fix-on-pre-C99.patch", 1),
+                                        ("0001-ostream.h-styled-ostream.h-Fix-linking.patch", 1),
+                                        ("0001-printf-parse.c-Fix-build-on-Visual-Studio-2008.patch", 1),
+                                        ("0001-tools-Fix-gnulib-lib-uniname-uniname.c-on-pre-C99.patch", 1)]
+
+        if CraftCore.compiler.isWindows:
+            self.patchToApply['0.19.8.1'] += [("gettext-0.19.8.1-20180607.diff", 2)]
+        elif CraftCore.compiler.isMacOs:
             self.patchToApply['0.19.8.1'] += [("0001-moopp-sed-extended-regexp.patch", 1)]
 
         self.description = "GNU internationalization (i18n)"
