@@ -41,7 +41,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = "default"
         if OsUtils.isLinux():
-            self.runtimeDependencies["kde/frameworks/tier1/kcrash"] = "default"
+            self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = "default"
 
 
 from Package.CMakePackageBase import *
