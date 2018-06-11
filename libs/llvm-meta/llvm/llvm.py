@@ -37,20 +37,6 @@ class Package(CMakePackageBase):
         maybeAddSubPackage(CraftPackageObject.get('libs/llvm-meta/lld'),
                            "LLVM_EXTERNAL_LLD_SOURCE_DIR")
 
-        # never build lldb under macOS, currently fails to compile with:
-        # Undefined symbols for architecture x86_64:
-        #   "_DNBLogEnabled", referenced from:
-        #       DNBArchImplI386::StartTransForHWP() in DNBArchImplI386.cpp.o
-        #
-        # ming:
-        #       lldb is pretty broken and needs heavy patching, we can give it a try as soon as
-        #       https://github.com/Alexpux/MINGW-packages/tree/master/mingw-w64-clang
-        #       supports it
-        #
-        if CraftCore.compiler.isMSVC2017():
-            maybeAddSubPackage(CraftPackageObject.get('libs/llvm-meta/lldb'),
-                               "LLVM_EXTERNAL_LLDB_SOURCE_DIR")
-
         # END: sub-package handling
 
         if CraftCore.compiler.isMSVC():
