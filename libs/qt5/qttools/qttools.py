@@ -5,9 +5,11 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchLevel["5.11.0"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.runtimeDependencies["libs/llvm-meta/llvm"] = "default"
 
 
 from Package.Qt5CorePackageBase import *
@@ -21,3 +23,7 @@ class QtPackage(Qt5CorePackageBase):
 class Package(Qt5CoreSdkPackageBase):
     def __init__(self):
         Qt5CoreSdkPackageBase.__init__(self, classA=QtPackage)
+
+    def compile(self):
+        with utils.ScopedEnv({"LLVM_INSTALL_DIR" : CraftCore.standardDirs.craftRoot()}):
+            return super().compile()
