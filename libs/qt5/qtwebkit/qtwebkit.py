@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
 
         # there is not 5.10 branch, jet
         self.svnTargets["5.10"] = self.svnTargets["5.9"]
+        self.svnTargets["5.11"] = self.svnTargets["5.9"]
 
         # replace tarbals by git branches
         branchRegEx = re.compile("\d\.\d+\.\d+")
