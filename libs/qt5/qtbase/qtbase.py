@@ -12,6 +12,11 @@ class subinfo(info.infoclass):
             qtVer = CraftVersion(ver)
             if ver == "dev":
                 self.patchToApply[ver] = []
+            elif qtVer >= CraftVersion("5.11"):
+                self.patchToApply[ver] = [
+                    ("qdbus-manager-quit-5.7.patch", 1), # https://phabricator.kde.org/D2545#69186
+                    ("fix_GenericDataLocation_mac.patch", 1),
+                ]
             elif qtVer >= CraftVersion("5.10"):
                 self.patchToApply[ver] = [
                     ("qdbus-manager-quit-5.7.patch", 1), # https://phabricator.kde.org/D2545#69186
