@@ -5,7 +5,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchLevel["5.11.0"] = 1
+        self.patchLevel["5.11.0"] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
@@ -25,5 +25,7 @@ class Package(Qt5CoreSdkPackageBase):
         Qt5CoreSdkPackageBase.__init__(self, classA=QtPackage)
 
     def compile(self):
-        with utils.ScopedEnv({"LLVM_INSTALL_DIR" : CraftCore.standardDirs.craftRoot()}):
+        with utils.ScopedEnv({
+            "LLVM_INSTALL_DIR" : CraftCore.standardDirs.craftRoot(),
+            "FORCE_MINGW_QDOC_BUILD" : "1"}):
             return super().compile()
