@@ -11,12 +11,12 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "git://anongit.kde.org/phonon"
-        for ver in ["4.10.0"]:
+        for ver in ["4.10.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/phonon/{ver}/phonon-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/phonon/{ver}/phonon-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"phonon-{ver}"
         self.description = "a Qt based multimedia framework"
-        self.defaultTarget = "4.10.0"
+        self.defaultTarget = "4.10.1"
 
 
 from Package.CMakePackageBase import *
