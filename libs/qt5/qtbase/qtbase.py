@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
             elif qtVer >= CraftVersion("5.11"):
                 self.patchToApply[ver] = [
                     ("qdbus-manager-quit-5.7.patch", 1), # https://phabricator.kde.org/D2545#69186
+                    ("0001-Fix-private-headers.patch", 1),  # https://bugreports.qt.io/browse/QTBUG-37417
                     ("fix_GenericDataLocation_mac.patch", 1),
                 ]
             elif qtVer >= CraftVersion("5.10"):
@@ -73,6 +74,7 @@ class subinfo(info.infoclass):
                 ]
 
         self.patchLevel["5.9.4"] = 3
+        self.patchLevel["5.11.0"] = 1
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):
