@@ -12,10 +12,10 @@ class subinfo( info.infoclass ):
 
     def setDependencies( self ):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.buildDependencies["kde/frameworks/tier3/kconfigwidgets"] = "default"
-        self.buildDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
-        self.buildDependencies["kde/frameworks/tier3/ktexteditor"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = "default"
         self.runtimeDependencies["extragear/atcore"] = "master"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtserialport"] = "default"
