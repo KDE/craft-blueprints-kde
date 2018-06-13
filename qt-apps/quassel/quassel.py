@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
         self.runtimeDependencies["libs/qt5/qtscript"] = "default"
-        self.runtimeDependencies["libs/qt5/qttools"] = "default"
+        self.buildDependencies["libs/qt5/qttools"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/sonnet"] = "default"
 
 

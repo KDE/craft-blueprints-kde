@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = "default"
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/qt5/qttools"] = "default"
+        self.buildDependencies["libs/qt5/qttools"] = "default"
 
 
 from Package.CMakePackageBase import *
