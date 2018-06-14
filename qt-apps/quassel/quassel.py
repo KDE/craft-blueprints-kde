@@ -61,6 +61,7 @@ class Package(CMakePackageBase):
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["productname"] = None
         self.defines["company"] = None
+        self.defines["vcredist"] = "none"
 
         self.scriptname = os.path.join(self.sourceDir(), "scripts", "build", "NullsoftInstaller.nsi")
         self.ignoredPackages.append("binary/mysql")
