@@ -8,13 +8,14 @@ class subinfo(info.infoclass):
         self.defaultTarget = '1.0'
 
         self.displayName = "AtCoreTest"
+        self.webpage = "https://atelier.kde.org"
         self.description = "The KDE core of Atelier Printer Host"
 
     def setDependencies(self):
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/qt5/qtserialport"] = "default"
-        self.runtimeDependencies["libs/qt5/qtcharts"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtserialport"] = None
+        self.runtimeDependencies["libs/qt5/qtcharts"] = None
 
 
 from Package.CMakePackageBase import *
@@ -25,12 +26,9 @@ class Package(CMakePackageBase):
         if self.buildTarget != "1.0":
             self.subinfo.options.configure.args = "-DBUILD_GUI=ON "
 
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
-
     def createPackage(self):
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         self.defines["executable"] = "bin\\atcore-gui.exe"
         self.defines["appname"] = "atcore-gui"
-        self.defines["website"] = "https://atelier.kde.org"
         self.defines["icon"] = os.path.join(self.packageDir(), "atcore.ico")
-
-        return TypePackager.createPackage(self)
+        return super().createPackage()
