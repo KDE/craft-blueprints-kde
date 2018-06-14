@@ -39,3 +39,9 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+
+
+    def createPackage(self):
+        self.defines["appname"] = "labplot2"
+        return super().createPackage()
+
