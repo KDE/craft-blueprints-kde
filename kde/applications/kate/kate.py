@@ -49,8 +49,8 @@ class Package(CMakePackageBase):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         self.defines["shortcuts"] = [{"name" : "Kate", "target":"bin/kate.exe", "description" : self.subinfo.description}]
         self.defines["icon"] = os.path.join(self.packageDir(), "kate.ico")
-        self.defines["registy_hook"] = ("""WriteRegStr @{HKCR} "*\\shell\\EditWithKate" "" "Edit with Kate"\n"""
-                                        """WriteRegStr @{HKCR} "*\\shell\\EditWithKate\\command" "" '"$INSTDIR\\bin\\kate.exe" "%V"'\n""")
+        self.defines["registy_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate" "" "Edit with Kate"\n"""
+                                        """WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate\\command" "" '"$INSTDIR\\bin\\kate.exe" "%V"'\n""")
 
 
         self.ignoredPackages.append("binary/mysql")
