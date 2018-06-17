@@ -9,6 +9,10 @@ class subinfo( info.infoclass ):
         self.targetDigestUrls['0.1.0'] = 'https://download.kde.org/stable/elisa/0.1/elisa-0.1.tar.xz.sha256'
         self.targetInstSrc['0.1.0'] = 'elisa-0.1'
 
+        self.targets['0.1.80'] = 'https://download.kde.org/unstable/elisa/0.1.80/elisa-0.1.80.tar.xz'
+        self.targetDigestUrls['0.1.80'] = 'https://download.kde.org/unstable/elisa/0.1.80/elisa-0.1.80.tar.xz.sha256'
+        self.targetInstSrc['0.1.80'] = 'elisa-0.1.80'
+
         self.defaultTarget = '0.1.80'
 
         self.displayName = "Elisa"
