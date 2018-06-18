@@ -10,6 +10,8 @@ class subinfo(info.infoclass):
             self.archiveNames[ver] = f"kdstatemachineeditor-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"KDStateMachineEditor-{ver}"
 
+        self.patchToApply["1.2.3"] = [("kdstatemachineeditor-1.2.3-20180618.diff", 1)]
+
         self.targetDigests['1.2.0'] = (['c43b864e60c025b1d4eb03f0b3073e00ebb642aecf10dd8b5b29f4a2da2b1c07'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.2.1'] = (['a97597aa3c67356bba7f6c1503018ddf3369ada5534f33129adab29a53f6ed11'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.2.2'] = (['d616acc9cea6dc6ad4731d3a2fe12e19cf9ce6d3a59b4cd685cf719bd1b82637'], CraftHash.HashAlgorithm.SHA256)
