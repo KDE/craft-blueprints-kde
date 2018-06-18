@@ -5,10 +5,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = 'a desktop planetarium'
-        for ver in ['2.9.5']:
+        for ver in ['2.9.6']:
             self.targets[ver] = 'http://download.kde.org/stable/kstars/kstars-%s.tar.xz' % ver
             self.targetInstSrc[ver] = 'kstars-%s' % ver
-        self.defaultTarget = '2.9.5'
+        self.defaultTarget = '2.9.6'
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
@@ -38,6 +38,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libraw"] = "default"
         self.runtimeDependencies["libs/gsl"] = "default"
         self.runtimeDependencies["qt-libs/phonon-vlc"] = "default"
+        self.runtimeDependencies["qt-libs/qtkeychain"] = "default"
 
         # Install proper theme
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = "default"
