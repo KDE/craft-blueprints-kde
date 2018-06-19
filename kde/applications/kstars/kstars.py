@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = "default"
         self.runtimeDependencies["libs/qt5/qtsvg"] = "default"
         self.runtimeDependencies["libs/qt5/qtdatavis3d"] = "default"
+        self.runtimeDependencies["libs/qt5/qtwebsockets"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = "default"
