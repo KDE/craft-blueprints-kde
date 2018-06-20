@@ -1,0 +1,71 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' gpgme-1.11.1.orig/lang/cpp/src/data.cpp gpgme-1.11.1/lang/cpp/src/data.cpp
+--- gpgme-1.11.1.orig/lang/cpp/src/data.cpp	2018-04-16 10:40:57.000000000 +0100
++++ gpgme-1.11.1/lang/cpp/src/data.cpp	2018-06-20 17:38:09.950646300 +0100
+@@ -83,7 +83,7 @@
+     }
+ }
+ 
+-GpgME::Data::Data(const char *filename, off_t offset, size_t length)
++GpgME::Data::Data(const char *filename, gpgme_off_t offset, size_t length)
+ {
+     gpgme_data_t data;
+     const gpgme_error_t e = gpgme_data_new_from_filepart(&data, filename, 0, offset, length);
+@@ -97,7 +97,7 @@
+     d.reset(new Private(e ? 0 : data));
+ }
+ 
+-GpgME::Data::Data(FILE *fp, off_t offset, size_t length)
++GpgME::Data::Data(FILE *fp, gpgme_off_t offset, size_t length)
+ {
+     gpgme_data_t data;
+     const gpgme_error_t e = gpgme_data_new_from_filepart(&data, 0, fp, offset, length);
+@@ -134,7 +134,7 @@
+         d->data = 0;
+     }
+     if (dp->isSupported(DataProvider::Seek)) {
+-        off_t size = seek(0, SEEK_END);
++        gpgme_off_t size = seek(0, SEEK_END);
+         seek(0, SEEK_SET);
+         std::string sizestr = std::to_string(size);
+         // Ignore errors as this is optional
+@@ -227,7 +227,7 @@
+     return gpgme_data_write(d->data, buffer, length);
+ }
+ 
+-off_t GpgME::Data::seek(off_t offset, int whence)
++gpgme_off_t GpgME::Data::seek(gpgme_off_t offset, int whence)
+ {
+     return gpgme_data_seek(d->data, offset, whence);
+ }
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' gpgme-1.11.1.orig/lang/cpp/src/data.h gpgme-1.11.1/lang/cpp/src/data.h
+--- gpgme-1.11.1.orig/lang/cpp/src/data.h	2018-04-16 10:40:57.000000000 +0100
++++ gpgme-1.11.1/lang/cpp/src/data.h	2018-06-20 17:38:08.531043800 +0100
+@@ -31,6 +31,8 @@
+ #include <algorithm>
+ #include <memory>
+ 
++#include <gpgme.h>
++
+ namespace GpgME
+ {
+ 
+@@ -50,8 +52,8 @@
+     // Memory-Based Data Buffers:
+     Data(const char *buffer, size_t size, bool copy = true);
+     explicit Data(const char *filename);
+-    Data(const char *filename, off_t offset, size_t length);
+-    Data(std::FILE *fp, off_t offset, size_t length);
++    Data(const char *filename, gpgme_off_t offset, size_t length);
++    Data(std::FILE *fp, gpgme_off_t offset, size_t length);
+     // File-Based Data Buffers:
+     explicit Data(std::FILE *fp);
+     explicit Data(int fd);
+@@ -108,7 +110,7 @@
+ 
+     ssize_t read(void *buffer, size_t length);
+     ssize_t write(const void *buffer, size_t length);
+-    off_t seek(off_t offset, int whence);
++    gpgme_off_t seek(gpgme_off_t offset, int whence);
+ 
+     /** Try to parse the data to a key object using the
+      * Protocol proto. Returns an empty list on error.*/
