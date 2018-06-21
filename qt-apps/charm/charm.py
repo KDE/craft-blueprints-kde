@@ -22,7 +22,7 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
-        # don't use the internal script for now as it doesn't know about openssl 1.1
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\Charm.exe"
         self.defines["license"] = os.path.join(self.sourceDir(), "License.txt")
