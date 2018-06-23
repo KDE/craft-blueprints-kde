@@ -31,8 +31,8 @@ bin/data/info/.*
 bin/data/kdevappwizard/.*
 bin/data/kf5/(?!(libkholidays)).*
 bin/data/knotifications5/.*
-bin/data/kservices5/.*
-bin/data/kservicetypes5/.*
+bin/data/kservices5/useragentstrings/.*
+bin/data/kservices5/searchproviders/.*
 bin/data/libgpg-error/.*
 bin/data/locale/.*
 bin/data/mime/packages/(?!(x-kmymoney)).*
