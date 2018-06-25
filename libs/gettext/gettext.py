@@ -19,8 +19,10 @@ class subinfo(info.infoclass):
                                         ("0001-gettext-tools-src-x-lua.c-Fix-on-pre-C99.patch", 1),
                                         ("0001-ostream.h-styled-ostream.h-Fix-linking.patch", 1),
                                         ("0001-printf-parse.c-Fix-build-on-Visual-Studio-2008.patch", 1),
-                                        ("0001-tools-Fix-gnulib-lib-uniname-uniname.c-on-pre-C99.patch", 1),
-                                        ("09-asm-underscore-mingw.patch", 1)]
+                                        ("0001-tools-Fix-gnulib-lib-uniname-uniname.c-on-pre-C99.patch", 1)]
+
+        #https://raw.githubusercontent.com/Alexpux/MINGW-packages/35567f5ba0f3bf2db06ea321090432cdafe024af/mingw-w64-gettext/09-asm-underscore-mingw.patch
+        self.patchToApply['0.19.8.1'] += [("09-asm-underscore-mingw.patch", 1)]
 
         if CraftCore.compiler.isWindows:
             self.patchToApply['0.19.8.1'] += [("gettext-0.19.8.1-20180607.diff", 2)]
