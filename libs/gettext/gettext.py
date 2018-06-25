@@ -19,7 +19,8 @@ class subinfo(info.infoclass):
                                         ("0001-gettext-tools-src-x-lua.c-Fix-on-pre-C99.patch", 1),
                                         ("0001-ostream.h-styled-ostream.h-Fix-linking.patch", 1),
                                         ("0001-printf-parse.c-Fix-build-on-Visual-Studio-2008.patch", 1),
-                                        ("0001-tools-Fix-gnulib-lib-uniname-uniname.c-on-pre-C99.patch", 1)]
+                                        ("0001-tools-Fix-gnulib-lib-uniname-uniname.c-on-pre-C99.patch", 1),
+                                        ("09-asm-underscore-mingw.patch", 1)]
 
         if CraftCore.compiler.isWindows:
             self.patchToApply['0.19.8.1'] += [("gettext-0.19.8.1-20180607.diff", 2)]
@@ -32,6 +33,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/iconv"] = "default"
+        self.runtimeDependencies["libs/libxml2"] = "default"
         if CraftCore.compiler.isGCCLike():
             self.buildDependencies["dev-utils/msys"] = "default"
 
