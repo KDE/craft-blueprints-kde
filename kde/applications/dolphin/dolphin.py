@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
+        self.runtimeDependencies["kde/kdenetwork/kio-extras"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
