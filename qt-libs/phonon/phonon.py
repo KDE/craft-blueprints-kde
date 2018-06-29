@@ -25,7 +25,11 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.package.disableBinaryCache = True
         self.subinfo.options.configure.args = " -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=ON -DPHONON_BUILD_PHONON4QT5=ON"
         if not self.subinfo.options.isActive("libs/dbus"):
             self.subinfo.options.configure.args += " -DPHONON_NO_DBUS=ON "
+
+    def postInstall(self):
+        brokenFiles = [ os.path.join(self.installDir(), "lib", "cmake", "phonon4qt5", "Phonon4Qt5Config.cmake"),
+                        os.path.join(self.installDir(), "mkspecs", "modules", "qt_phonon4qt5.pri") ]
+        return self.patchInstallPrefix(brokenFiles, OsUtils.toUnixPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))
