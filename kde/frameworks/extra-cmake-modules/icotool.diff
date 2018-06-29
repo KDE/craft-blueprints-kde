@@ -1,5 +1,131 @@
+commit 92e13af34d8280cb42512c77c35ba066bcd12b15
+Author: Dominik Schmidt <kde@dominik-schmidt.de>
+Date:   Sat Jun 23 15:26:35 2018 +0200
+
+    Improve ECMAddAppIconMacro.
+    
+    Summary:
+    - Add support for SIDEBAR_ICONS on macOS
+    - Allow specifying a basename for the icon file via OUTFILE_BASENAME
+    - Add support for HiRes icons on Windows via icotool
+    
+    I'm sorry this went all into one big change. I see that it's not optimal,
+    but it's really hard to rip them apart...
+    
+    Test Plan:
+    We use this version of ECMAddAppIconMacro in ownCloud client and it works...
+    I tested icotool natively and while cross-compiling on linux.
+    
+    SIDEBAR_ICONS are also working.
+    
+    If you want to test this with the ownCloud client, it's best to use
+    https://github.com/dschmidt/owncloud-client/tree/fix-app-icon-macro
+    because that contains a small fix I just PR'ed and which is not
+    in master yet.
+    
+    Reviewers: vonreth
+    
+    Subscribers: kde-frameworks-devel, kde-buildsystem
+    
+    Tags: #frameworks, #build_system
+    
+    Differential Revision: https://phabricator.kde.org/D13698
+
+diff --git a/docs/find-module/FindIcoTool.rst b/docs/find-module/FindIcoTool.rst
+new file mode 100644
+index 0000000..ec088a6
+--- /dev/null
++++ b/docs/find-module/FindIcoTool.rst
+@@ -0,0 +1 @@
++.. ecm-module:: ../../find-modules/FindIcoTool.cmake
+diff --git a/find-modules/FindIcoTool.cmake b/find-modules/FindIcoTool.cmake
+new file mode 100644
+index 0000000..cf893d6
+--- /dev/null
++++ b/find-modules/FindIcoTool.cmake
+@@ -0,0 +1,80 @@
++#.rst:
++# FindIcoTool
++# -----------
++#
++# Try to find icotool.
++#
++# If the icotool executable is not in your PATH, you can provide
++# an alternative name or full path location with the ``IcoTool_EXECUTABLE``
++# variable.
++#
++# This will define the following variables:
++#
++# ``IcoTool_FOUND``
++#     True if icotool is available.
++#
++# ``IcoTool_EXECUTABLE``
++#     The icotool executable.
++#
++# If ``IcoTool_FOUND`` is TRUE, it will also define the following imported
++# target:
++#
++# ``IcoTool::IcoTool``
++#     The icotool executable.
++#
++# Since 5.48.
++
++#=============================================================================
++# Copyright 2017 Vincent Pinon <vpinon@kde.org>
++# Copyright 2014 Alex Merry <alex.merry@kde.org>
++#
++# Redistribution and use in source and binary forms, with or without
++# modification, are permitted provided that the following conditions
++# are met:
++#
++# 1. Redistributions of source code must retain the copyright
++#    notice, this list of conditions and the following disclaimer.
++# 2. Redistributions in binary form must reproduce the copyright
++#    notice, this list of conditions and the following disclaimer in the
++#    documentation and/or other materials provided with the distribution.
++# 3. The name of the author may not be used to endorse or promote products
++#    derived from this software without specific prior written permission.
++#
++# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
++# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
++# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
++# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
++# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
++# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
++# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++#=============================================================================
++
++include(${CMAKE_CURRENT_LIST_DIR}/ECMFindModuleHelpersStub.cmake)
++ecm_find_package_version_check(IcoTool)
++find_program(IcoTool_EXECUTABLE NAMES icotool)
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args(IcoTool
++    FOUND_VAR
++        IcoTool_FOUND
++    REQUIRED_VARS
++        IcoTool_EXECUTABLE
++)
++mark_as_advanced(IcoTool_EXECUTABLE)
++
++if (IcoTool_FOUND)
++    if (NOT TARGET IcoTool::IcoTool)
++        add_executable(IcoTool::IcoTool IMPORTED)
++        set_target_properties(IcoTool::IcoTool PROPERTIES
++            IMPORTED_LOCATION "${IcoTool_EXECUTABLE}"
++        )
++    endif()
++endif()
++
++include(FeatureSummary)
++set_package_properties(IcoTool PROPERTIES
++    URL "http://www.nongnu.org/icoutils/"
++    DESCRIPTION "Executable that converts a collection of PNG files into a Windows icon file"
++)
 diff --git a/modules/ECMAddAppIcon.cmake b/modules/ECMAddAppIcon.cmake
-index 3e609d3..51af4ea 100644
+index 3e609d3..87be864 100644
 --- a/modules/ECMAddAppIcon.cmake
 +++ b/modules/ECMAddAppIcon.cmake
 @@ -7,7 +7,10 @@
@@ -8,30 +134,39 @@ index 3e609d3..51af4ea 100644
  #  ecm_add_app_icon(<sources_var>
 -#                   ICONS <icon> [<icon> [...]])
 +#                   ICONS <icon> [<icon> [...]]
-+#                   [SIDEBAR_ICONS <icon> [<icon> [...]] # Since 5.4x
-+#                   [OUTFILE_BASE <name>]) # Since 5.4x
++#                   [SIDEBAR_ICONS <icon> [<icon> [...]] # Since 5.48
++#                   [OUTFILE_BASENAME <name>]) # Since 5.48
 +#                   )
  #
  # The given icons, whose names must match the pattern::
  #
-@@ -22,6 +25,16 @@
+@@ -22,12 +25,23 @@
  # ``<other_text>`` can be any other text. See the platform notes below for any
  # recommendations about icon sizes.
  #
 +# ``SIDEBAR_ICONS`` can be used to add Mac OS X sidebar
 +# icons to the generated iconset. They are used when a folder monitored by the
-+# application is dragged into Finder's sidebar. Since 5.4x.
++# application is dragged into Finder's sidebar. Since 5.48.
 +#
-+# ``OUTFILE_BASE`` will be used as the basename for the icon file. If
-+# you specify it, the icon file will be called ``<OUTFILE_BASE>.icns`` on Mac OS X
-+# and ``<OUTFILE_BASE>.ico`` on Windows. If you don't specify it, it defaults
-+# to ``<sources_var>.<ext>``. Since 5.4x.
++# ``OUTFILE_BASENAME`` will be used as the basename for the icon file. If
++# you specify it, the icon file will be called ``<OUTFILE_BASENAME>.icns`` on Mac OS X
++# and ``<OUTFILE_BASENAME>.ico`` on Windows. If you don't specify it, it defaults
++# to ``<sources_var>.<ext>``. Since 5.48.
 +#
 +#
  # Windows notes
  #    * Icons are compiled into the executable using a resource file.
  #    * Icons may not show up in Windows Explorer if the executable
-@@ -42,14 +55,18 @@
+ #      target does not have the ``WIN32_EXECUTABLE`` property set.
+-#    * The tool png2ico is required. See :find-module:`FindPng2Ico`.
+-#    * Supported sizes: 16, 32, 48, 64, 128.
++#    * One of the tools png2ico (See :find-module:`FindPng2Ico`) or
++#      icotool (see :find-module:`FindIcoTool`) is required.
++#    * Supported sizes: 16, 24, 32, 48, 64, 128, 256, 512 and 1024.
+ #
+ # Mac OS X notes
+ #    * The executable target must have the ``MACOSX_BUNDLE`` property set.
+@@ -42,14 +56,18 @@
  #      "Retina" (high-resolution) displays. For example, a 32px icon, if
  #      provided, will be used as a 32px icon on standard-resolution displays,
  #      and as a 16px-equivalent icon (with an "@2x" tag) on high-resolution
@@ -51,18 +186,18 @@ index 3e609d3..51af4ea 100644
  #=============================================================================
  # Copyright 2014 Alex Merry <alex.merry@kde.org>
  # Copyright 2014 Ralf Habacker <ralf.habacker@freenet.de>
-@@ -84,8 +101,8 @@ include(CMakeParseArguments)
+@@ -84,8 +102,8 @@ include(CMakeParseArguments)
  
  function(ecm_add_app_icon appsources)
      set(options)
 -    set(oneValueArgs)
 -    set(multiValueArgs ICONS)
-+    set(oneValueArgs OUTFILE_BASE)
++    set(oneValueArgs OUTFILE_BASENAME)
 +    set(multiValueArgs ICONS SIDEBAR_ICONS)
      cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
  
      if(NOT ARG_ICONS)
-@@ -120,82 +137,68 @@ function(ecm_add_app_icon appsources)
+@@ -120,82 +138,70 @@ function(ecm_add_app_icon appsources)
          endforeach()
      endif()
  
@@ -95,9 +230,9 @@ index 3e609d3..51af4ea 100644
 -            endif()
 -        endif()
 -    endforeach()
-+    _ecm_add_app_icon_categorize_icons("${ARG_ICONS}" "icons" "16;32;48;64;128;256;512;1024")
++    _ecm_add_app_icon_categorize_icons("${ARG_ICONS}" "icons" "16;24;32;48;64;128;256;512;1024")
 +    if(ARG_SIDEBAR_ICONS)
-+        _ecm_add_app_icon_categorize_icons("${ARG_SIDEBAR_ICONS}" "sidebar_icons" "16;18;32;36;64")
++        _ecm_add_app_icon_categorize_icons("${ARG_SIDEBAR_ICONS}" "sidebar_icons" "16;32;64;128;256")
 +    endif()
  
 -    set(mac_icons ${icons_at_16px}
@@ -109,17 +244,20 @@ index 3e609d3..51af4ea 100644
                    ${icons_at_128px}
                    ${icons_at_256px}
                    ${icons_at_512px}
--                  ${icons_at_1024px})
-+                  ${icons_at_1024px}
+                   ${icons_at_1024px})
+-    if (NOT icons_at_128px)
+-        message(AUTHOR_WARNING "No 128px icon provided; this will not work on Mac OS X")
 +
++    set(mac_sidebar_icons
 +                  # Sidebar Icons: https://developer.apple.com/library/content/documentation/General/Conceptual/ExtensibilityPG/Finder.html#//apple_ref/doc/uid/TP40014214-CH15-SW15
 +                  ${sidebar_icons_at_16px}
-+                  ${sidebar_icons_at_18px}
 +                  ${sidebar_icons_at_32px}
-+                  ${sidebar_icons_at_36px}
-+                  ${sidebar_icons_at_64px})
-     if (NOT icons_at_128px)
-         message(AUTHOR_WARNING "No 128px icon provided; this will not work on Mac OS X")
++                  ${sidebar_icons_at_64px}
++                  ${sidebar_icons_at_128px}
++                  ${sidebar_icons_at_256px})
++
++    if (NOT (mac_icons OR mac_sidebar_icons))
++        message(AUTHOR_WARNING "No icons suitable for use on macOS provided")
      endif()
  
 -    set(windows_icons ${icons_at_16px}
@@ -145,8 +283,8 @@ index 3e609d3..51af4ea 100644
      endif()
  
 -    set (_outfilename "${CMAKE_CURRENT_BINARY_DIR}/${appsources}")
-+    if (ARG_OUTFILE_BASE)
-+        set (_outfilebasename "${ARG_OUTFILE_BASE}")
++    if (ARG_OUTFILE_BASENAME)
++        set (_outfilebasename "${ARG_OUTFILE_BASENAME}")
 +    else()
 +        set (_outfilebasename "${appsources}")
 +    endif()
@@ -185,7 +323,7 @@ index 3e609d3..51af4ea 100644
                      WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
                  )
                  # this bit's a little hacky to make the dependency stuff work
-@@ -207,10 +210,65 @@ function(ecm_add_app_icon appsources)
+@@ -207,12 +213,67 @@ function(ecm_add_app_icon appsources)
                      DEPENDS "${_outfilename}.ico"
                      WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
                  )
@@ -193,7 +331,7 @@ index 3e609d3..51af4ea 100644
 +        endfunction()
 +
 +        if (IcoTool_FOUND)
-+            set(icotool_args "-c -o \"${_outfilename}.ico\"")
++            list(APPEND icotool_args "-c" "-o" "${_outfilename}.ico")
 +
 +            # According to https://stackoverflow.com/a/40851713/2886832
 +            # Windows always chooses the first icon above 255px, all other ones will be ignored
@@ -204,7 +342,7 @@ index 3e609d3..51af4ea 100644
 +                endif()
 +            endforeach()
 +
-+            foreach(size 16 32 48 64 128 ${maxSize})
++            foreach(size 16 24 32 48 64 128 ${maxSize})
 +                if(NOT icons_at_${size}px)
 +                    continue()
 +                endif()
@@ -230,7 +368,7 @@ index 3e609d3..51af4ea 100644
 +            list(APPEND png2ico_args "${windows_icons_classic}")
 +
 +            create_windows_icon_and_rc(Png2Ico::Png2Ico "${png2ico_args}" "${windows_icons_classic}")
-+            set(${appsources} "${${appsources}};${_outfilename}.rc" PARENT_SCOPE)
+             set(${appsources} "${${appsources}};${_outfilename}.rc" PARENT_SCOPE)
 +
 +        # png2ico from kdewin provides rcfile argument
 +        elseif(Png2Ico_FOUND AND windows_icons_classic)
@@ -245,15 +383,18 @@ index 3e609d3..51af4ea 100644
 +                  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 +              )
 +
-             set(${appsources} "${${appsources}};${_outfilename}.rc" PARENT_SCOPE)
++            set(${appsources} "${${appsources}};${_outfilename}.rc" PARENT_SCOPE)
 +        # else none of the supported tools was found
          else()
 -            message(WARNING "Unable to find the png2ico utility - application will not have an application icon!")
 +            message(WARNING "Unable to find the png2ico or icotool utilities or icons in matching sizes - application will not have an application icon!")
          endif()
-     elseif (APPLE AND mac_icons)
+-    elseif (APPLE AND mac_icons)
++    elseif (APPLE AND (mac_icons OR mac_sidebar_icons))
          # first generate .iconset directory structure, then convert to .icns format using the Mac OS X "iconutil" utility,
-@@ -224,28 +282,38 @@ function(ecm_add_app_icon appsources)
+         # to create retina compatible icon, you need png source files in pixel resolution 16x16, 32x32, 64x64, 128x128,
+         # 256x256, 512x512, 1024x1024
+@@ -224,31 +285,55 @@ function(ecm_add_app_icon appsources)
                  ARGS -E make_directory "${_outfilename}.iconset"
              )
              set(iconset_icons)
@@ -274,9 +415,12 @@ index 3e609d3..51af4ea 100644
                  )
                  list(APPEND iconset_icons
 -                            "${_outfilename}.iconset/icon_${sizename}.png")
-+                            "${_outfilename}.iconset/${type}_${sizename}.png")
++                        "${_outfilename}.iconset/${type}_${sizename}.png")
              endmacro()
 -            foreach(size 16 32 64 128 256 512)
++
++            # List of supported sizes and filenames taken from:
++            # https://developer.apple.com/library/content/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Optimizing/Optimizing.html#//apple_ref/doc/uid/TP40012302-CH7-SW4
 +            foreach(size 16 32 128 256 512)
                  math(EXPR double_size "2 * ${size}")
                  foreach(file ${icons_at_${size}px})
@@ -286,20 +430,34 @@ index 3e609d3..51af4ea 100644
                  foreach(file ${icons_at_${double_size}px})
 -                    copy_icon("${file}" "${size}x${size}@2x")
 +                    copy_icon("${file}" "${size}x${size}@2x" "icon")
-+                endforeach()
-+            endforeach()
-+
-+            foreach(size 16 18 32)
-+                math(EXPR double_size "2 * ${size}")
-+                foreach(file ${sidebar_icons_at_${size}px})
-+                    copy_icon("${file}" "${size}x${size}" "sidebar")
-+                endforeach()
-+                foreach(file ${sidebar_icons_at_${double_size}px})
-+                    copy_icon("${file}" "${size}x${size}@2x" "sidebar")
                  endforeach()
              endforeach()
  
-@@ -257,20 +325,58 @@ function(ecm_add_app_icon appsources)
++            # List of supported sizes and filenames taken from:
++            # https://developer.apple.com/library/content/documentation/General/Conceptual/ExtensibilityPG/Finder.html#//apple_ref/doc/uid/TP40014214-CH15-SW15
++            foreach(file ${sidebar_icons_at_16px})
++                copy_icon("${file}" "16x16" "sidebar")
++            endforeach()
++            foreach(file ${sidebar_icons_at_32px})
++                copy_icon("${file}" "16x16@2x" "sidebar")
++            endforeach()
++            foreach(file ${sidebar_icons_at_32px})
++                copy_icon("${file}" "18x18" "sidebar")
++            endforeach()
++            foreach(file ${sidebar_icons_at_64px})
++                copy_icon("${file}" "18x18@2x" "sidebar")
++            endforeach()
++            foreach(file ${sidebar_icons_at_128px})
++                copy_icon("${file}" "32x32" "sidebar")
++            endforeach()
++            foreach(file ${sidebar_icons_at_256px})
++                copy_icon("${file}" "32x32@2x" "sidebar")
++            endforeach()
++
+             # generate .icns icon file
+             add_custom_command(
+                 OUTPUT "${_outfilename}.icns"
+@@ -257,20 +342,58 @@ function(ecm_add_app_icon appsources)
                      --convert icns
                      --output "${_outfilename}.icns"
                      "${_outfilename}.iconset"
@@ -361,3 +519,90 @@ index 3e609d3..51af4ea 100644
 +        endif()
 +    endforeach()
 +endmacro()
+diff --git a/tests/ECMAddAppIconTest/128-category-name-sidebar.png b/tests/ECMAddAppIconTest/128-category-name-sidebar.png
+new file mode 100644
+index 0000000..fa32c2a
+Binary files /dev/null and b/tests/ECMAddAppIconTest/128-category-name-sidebar.png differ
+diff --git a/tests/ECMAddAppIconTest/16-category-name-sidebar.png b/tests/ECMAddAppIconTest/16-category-name-sidebar.png
+new file mode 100644
+index 0000000..4d7b7dd
+Binary files /dev/null and b/tests/ECMAddAppIconTest/16-category-name-sidebar.png differ
+diff --git a/tests/ECMAddAppIconTest/CMakeLists.txt b/tests/ECMAddAppIconTest/CMakeLists.txt
+index dc556c1..93dfd56 100644
+--- a/tests/ECMAddAppIconTest/CMakeLists.txt
++++ b/tests/ECMAddAppIconTest/CMakeLists.txt
+@@ -8,18 +8,57 @@ set(CMAKE_MODULE_PATH
+ 
+ include(ECMAddAppIcon)
+ 
+-set(ICONS 16-category-name.png 128-category-name.png)
++if(WIN32)
++    set(icon_extension_to_test "rc")
++elseif(APPLE)
++    set(icon_extension_to_test "icns")
++endif()
++
++#### Test 1: ecm_add_app_icon with only regular icons and no OUTFILE_BASENAME ####
++set(ICONS_1 16-category-name.png 128-category-name.png)
++ecm_add_app_icon(OUT_1 ICONS ${ICONS_1})
++
++if(WIN32 OR APPLE)
++    list(LENGTH OUT_1 out_count)
++    if(out_count EQUAL 0)
++        message(FATAL_ERROR "ecm_add_app_icon() hasn't produced anything")
++    endif()
++
++
++    if(NOT OUT_1 MATCHES "OUT_1.${icon_extension_to_test}")
++        message(FATAL_ERROR "ecm_add_app_icon() did not fall back to target name for icon name: ${OUT_1}")
++    endif()
++endif()
++
++add_custom_target(t_1 ALL DEPENDS ${OUT_1})
++list(APPEND OUT "${OUT_1}")
++
++#### Test 2: ecm_add_app_icon with regular and sidebar icons and OUTFILE_BASENAME set ####
++set(ICONS_2 16-category-name.png 128-category-name.png)
++set(SIDEBAR_ICONS_2 16-category-name-sidebar.png 128-category-name-sidebar.png)
+ 
+-ecm_add_app_icon(OUT ICONS ${ICONS})
++ecm_add_app_icon(OUT_2 ICONS ${ICONS_2} SIDEBAR_ICONS ${SIDEBAR_ICONS_2} OUTFILE_BASENAME "SuperBasename")
+ 
+ if(WIN32 OR APPLE)
+-    list(LENGTH OUT out_count)
++    list(LENGTH OUT_2 out_count)
+     if(out_count EQUAL 0)
+-        message(FATAL_ERROR "ecm_add_app_icon() haven't produced anything")
++        message(FATAL_ERROR "ecm_add_app_icon() hasn't produced anything")
+     endif()
++
++    if(NOT OUT_2 MATCHES "SuperBasename.${icon_extension_to_test}")
++        message(FATAL_ERROR "ecm_add_app_icon() did not respect OUTFILE_BASENAME: ${OUT_2}")
++    endif()
++endif()
++
++if(APPLE)
++    list(APPEND expected_icons "icon_16x16.png" "icon_128x128.png" "sidebar_16x16.png" "sidebar_32x32.png")
++    foreach(expected_icon ${expected_icons})
++        list(APPEND OUT_2 "${CMAKE_CURRENT_BINARY_DIR}/SuperBasename.iconset/${expected_icon}")
++    endforeach()
+ endif()
+ 
+-add_custom_target(t ALL DEPENDS ${OUT})
++add_custom_target(t_2 ALL DEPENDS ${OUT_2})
++list(APPEND OUT "${OUT_2}")
+ 
+-# this will be run by CTest
++#### this will be run by CTest ####
+ configure_file(check_files.cmake.in "${CMAKE_CURRENT_BINARY_DIR}/check_files.cmake" @ONLY)
+diff --git a/tests/ECMAddAppIconTest/check_files.cmake.in b/tests/ECMAddAppIconTest/check_files.cmake.in
+index e7beb27..09f9831 100644
+--- a/tests/ECMAddAppIconTest/check_files.cmake.in
++++ b/tests/ECMAddAppIconTest/check_files.cmake.in
+@@ -6,4 +6,4 @@ foreach(f ${FILES})
+         message(SEND_ERROR "${f} was not found")
+     endif()
+ endforeach()
+-endif()
+\ No newline at end of file
++endif()
