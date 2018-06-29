@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/qt5/qtwinextras"] = "default"
+        self.runtimeDependencies["libs/qt5/qtmacextras"] = "default"
         self.runtimeDependencies["qt-libs/qtkeychain"] = "default"
 
 
