@@ -56,7 +56,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = "default"
         self.runtimeDependencies["kde/pim/kcontacts"] = "default"
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = "default"
-        # self.runtimeDependencies["kde/pim/akonadi"] = "default"
+        self.runtimeDependencies["kde/pim/akonadi"] = "default"
         self.runtimeDependencies["binary/mysql"] = "default"
         self.runtimeDependencies["libs/sqlite"] = "default"
         self.runtimeDependencies["libs/libofx"] = "default"
