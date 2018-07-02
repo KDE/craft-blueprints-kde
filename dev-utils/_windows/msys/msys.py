@@ -49,15 +49,14 @@ class MsysPackage(BinaryPackageBase):
     def qmerge(self):
         if not self.subinfo.msysInstallShim(self.installDir()):
             return False
-        if not BinaryPackageBase.qmerge(self):
-            return False
+        return BinaryPackageBase.qmerge(self)
+
+    def postQmerge(self):
         msysDir = os.path.join(CraftStandardDirs.craftRoot(), "msys")
-        # start and restart msys before first use
-        if not (self.shell.execute(".", "echo", "Firstrun") and
-                utils.system("autorebase.bat", cwd=msysDir) and
-                self.shell.execute(".", "pacman-key", "--init") and
-                self.shell.execute(".", "pacman-key", "--populate")):
-            return False
+
+        def autorebase():
+            return (OsUtils.killProcess("*", msysDir) and
+                    utils.system("autorebase.bat", cwd=msysDir))
 
         def queryForUpdate():
             out = io.BytesIO()
@@ -67,18 +66,23 @@ class MsysPackage(BinaryPackageBase):
             out = out.getvalue()
             return out != b""
 
+        # start and restart msys before first use
+        if not (self.shell.execute(".", "echo", "Firstrun") and
+                autorebase() and
+                self.shell.execute(".", "pacman-key", "--init") and
+                self.shell.execute(".", "pacman-key", "--populate")):
+            return False
+
         try:
             while queryForUpdate():
                 if not (self.shell.execute(".", "pacman", "-Su --noconfirm --force --ask 20") and
-                        OsUtils.killProcess("*", CraftCore.standardDirs.msysDir()) and
-                        utils.system("autorebase.bat", cwd=msysDir)):
+                        autorebase()):
                     return False
         except Exception as e:
             print(e)
             return False
         return (self.shell.execute(".", "pacman", "-S base-devel --noconfirm --force --needed") and
-                OsUtils.killProcess("*", CraftCore.standardDirs.msysDir()) and
-                utils.system("autorebase.bat", cwd=msysDir))
+                autorebase())
 
 
 class VirtualPackage(VirtualPackageBase):
