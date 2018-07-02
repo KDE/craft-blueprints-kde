@@ -2,19 +2,22 @@ import io
 
 import info
 import shells
+
+from CraftOS.osutils import OsUtils
+
 from Package.MaybeVirtualPackageBase import *
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        ver = "20161025"
+        ver = "20180531"
         arch = "i686"
         if CraftCore.compiler.isX64():
             arch = "x86_64"
         # don't set an actual version  instead of base. Msys must be manually updated so doing a craft update of msys wil break things.
         self.targets["base"] = f"http://repo.msys2.org/distrib/{arch}/msys2-base-{arch}-{ver}.tar.xz"
-        self.targetDigests["base"] = (['8bafd3d52f5a51528a8671c1cae5591b36086d6ea5b1e76e17e390965cf6768f'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigestsX64["base"] = (['bb1f1a0b35b3d96bf9c15092da8ce969a84a134f7b08811292fbc9d84d48c65d'], CraftHash.HashAlgorithm.SHA256)
+        #self.targetDigests["base"] = (['8bafd3d52f5a51528a8671c1cae5591b36086d6ea5b1e76e17e390965cf6768f'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigestsX64["base"] = (['4e799b5c3efcf9efcb84923656b7bcff16f75a666911abd6620ea8e5e1e9870c'], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "base"
 
@@ -50,7 +53,10 @@ class MsysPackage(BinaryPackageBase):
             return False
         msysDir = os.path.join(CraftStandardDirs.craftRoot(), "msys")
         # start and restart msys before first use
-        if not self.shell.execute(".", "echo", "Firstrun") and utils.system("autorebase.bat", cwd=msysDir):
+        if not (self.shell.execute(".", "echo", "Firstrun") and
+                utils.system("autorebase.bat", cwd=msysDir) and
+                self.shell.execute(".", "pacman-key", "--init") and
+                self.shell.execute(".", "pacman-key", "--populate")):
             return False
 
         def queryForUpdate():
@@ -63,13 +69,15 @@ class MsysPackage(BinaryPackageBase):
 
         try:
             while queryForUpdate():
-                if not self.shell.execute(".", "pacman", "-Su --noconfirm --force --ask 20") and \
-                        utils.system("autorebase.bat", cwd=msysDir):
+                if not (self.shell.execute(".", "pacman", "-Su --noconfirm --force --ask 20") and
+                        OsUtils.killProcess("*", CraftCore.standardDirs.msysDir()) and
+                        utils.system("autorebase.bat", cwd=msysDir)):
                     return False
         except Exception as e:
             print(e)
             return False
         return (self.shell.execute(".", "pacman", "-S base-devel --noconfirm --force --needed") and
+                OsUtils.killProcess("*", CraftCore.standardDirs.msysDir()) and
                 utils.system("autorebase.bat", cwd=msysDir))
 
 
