@@ -1,19 +1,16 @@
 diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' cfitsio.orig/CMakeLists.txt cfitsio/CMakeLists.txt
---- cfitsio.orig/CMakeLists.txt	2018-05-09 22:16:00.000000000 +0300
-+++ cfitsio/CMakeLists.txt	2018-07-05 23:07:15.963098800 +0300
-@@ -119,7 +119,14 @@
+--- cfitsio.orig/CMakeLists.txt	2018-05-09 20:16:00.000000000 +0100
++++ cfitsio/CMakeLists.txt	2018-07-05 23:14:30.568881000 +0100
+@@ -119,7 +119,11 @@
  TARGET_LINK_LIBRARIES(${LIB_NAME} ${PTHREADS_LIBRARY} ${M_LIB} ${CURL_LIBRARIES})
- 
+
  SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION} SOVERSION ${${PROJECT_NAME}_MAJOR_VERSION})
 -install(TARGETS ${LIB_NAME} DESTINATION ${LIB_DESTINATION})
-+#install(TARGETS ${LIB_NAME} DESTINATION ${LIB_DESTINATION})
-+include(GNUInstallDirs)
-+message("CMake install lib dir is " ${CMAKE_INSTALL_LIBDIR})
-+install(TARGETS ${LIB_NAME} 
-+							RUNTIME DESTINATION bin
-+							LIBRARY DESTINATION lib
-+							ARCHIVE DESTINATION lib/static)
-+							
++install(TARGETS ${LIB_NAME}
++                            RUNTIME DESTINATION bin
++                            LIBRARY DESTINATION lib
++                            ARCHIVE DESTINATION lib)
++
  install(FILES ${H_FILES} DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
- 
+
  ENABLE_TESTING()
