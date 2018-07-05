@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ['3.08', '3.10', '3.14', '3.20', '3.31', '3.35']:
+        for ver in ['3.08', '3.10', '3.14', '3.20', '3.31', '3.35', '3.45']:
             self.targets[ver] = 'ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/cfitsio' + ver.replace(".",
                                                                                                       "") + '0.tar.gz'
             self.targetInstSrc[ver] = "cfitsio"
@@ -13,9 +13,10 @@ class subinfo(info.infoclass):
         self.patchToApply['3.20'] = [("cfitsio-20101130.diff", 1)]
         self.patchToApply['3.31'] = [("cfitsio-20130124.diff", 1)]
         self.patchToApply['3.35'] = [("cfitsio-20130124.diff", 1)]
+		self.patchToApply['3.45'] = [("cfitsio-3.45-20180706.diff", 1)]
 
         self.description = "library for the FITS (Flexible Image Transport System) file format"
-        self.defaultTarget = '3.35'
+        self.defaultTarget = '3.45'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
