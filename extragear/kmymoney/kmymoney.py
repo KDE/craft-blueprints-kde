@@ -61,6 +61,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/sqlite"] = "default"
         self.runtimeDependencies["libs/libofx"] = "default"
         self.runtimeDependencies["libs/libical"] = "default"
+        self.runtimeDependencies["libs/sqlcipher"] = "default"
         if not CraftCore.compiler.isMSVC():
             self.runtimeDependencies["libs/aqbanking"] = "default"
         self.runtimeDependencies["libs/gettext"] = "default"
