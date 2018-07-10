@@ -3,9 +3,9 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        "http://downloads.activestate.com/ActivePerl/releases/5.24.1.2402/ActivePerl-5.24.1.2402-MSWin32-x64-401627.exe"
-        ver = "5.24.1.2402"
-        build = "401627"
+        "http://downloads.activestate.com/ActivePerl/releases/5.24.3.2404/ActivePerl-5.24.3.2404-MSWin32-x64-404865.exe"
+        ver = "5.24.3.2404"
+        build = "404865"
         arch = "x86-64int"
         if CraftCore.compiler.isX64():
             arch = "x64"
