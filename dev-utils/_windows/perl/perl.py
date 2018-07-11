@@ -3,19 +3,12 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        "http://downloads.activestate.com/ActivePerl/releases/5.24.3.2404/ActivePerl-5.24.3.2404-MSWin32-x64-404865.exe"
         ver = "5.24.3.2404"
         build = "404865"
-        arch = "x86-64int"
-        if CraftCore.compiler.isX64():
-            arch = "x64"
-        self.targets[
-            ver] = "http://downloads.activestate.com/ActivePerl/releases/{ver}/ActivePerl-{ver}-MSWin32-{arch}-{build}.exe".format(
-            ver=ver, arch=arch, build=build)
+        self.targets[ver] = f"http://downloads.activestate.com/ActivePerl/releases/{ver}/ActivePerl-{ver}-MSWin32-x64-{build}.exe"
         self.targetInstallPath[ver] = "dev-utils"
-        self.targetDigestUrls[ver] = (
-            ["http://downloads.activestate.com/ActivePerl/releases/{0}/SHA256SUM".format(ver)],
-            CraftHash.HashAlgorithm.SHA256)
+        self.targetDigestUrls[ver] = ([f"http://downloads.activestate.com/ActivePerl/releases/{ver}/SHA256SUM"],
+                                       CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = ver
 
     def setDependencies(self):
@@ -29,7 +22,7 @@ class Package(BinaryPackageBase):
     def __init__(self):
         BinaryPackageBase.__init__(self)
         self.subinfo.options.unpack.runInstaller = True
-        self.subinfo.options.configure.args = "/extract {0}".format(self.workDir())
+        self.subinfo.options.configure.args = f"/extract {self.workDir()}"
 
     def unpack(self):
         if not BinaryPackageBase.unpack(self):
@@ -39,5 +32,5 @@ class Package(BinaryPackageBase):
             return False
         utils.mergeTree(os.path.join(self.workDir(), dirs[0]), self.workDir())
         _, name = os.path.split(self.subinfo.targets[self.subinfo.buildTarget])
-        utils.deleteFile(os.path.join(self.sourceDir(), "{0}.msi".format(name)))
+        utils.deleteFile(os.path.join(self.sourceDir(), f"{name}.msi"))
         return True
