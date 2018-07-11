@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
+        self.runtimeDependencies["libs/cyrus-sasl"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
         self.runtimeDependencies["kde/pim/kcalcore"] = "default"
