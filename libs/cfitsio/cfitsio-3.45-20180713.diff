@@ -1,0 +1,11 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' cfitsio.orig/CMakeLists.txt cfitsio/CMakeLists.txt
+--- cfitsio.orig/CMakeLists.txt	2018-07-13 19:06:33.135686200 +0300
++++ cfitsio/CMakeLists.txt	2018-07-13 19:04:42.206754700 +0300
+@@ -155,3 +155,7 @@
+     LINK_FLAGS "setargv.obj"
+   )
+ endif(MSVC)
++
++set(PKGCONFIG_INSTALL_PREFIX "${CMAKE_INSTALL_LIBDIR}/pkgconfig/")
++configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cfitsio.pc.in ${CMAKE_CURRENT_BINARY_DIR}/cfitsio.pc @ONLY)
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cfitsio.pc DESTINATION ${PKGCONFIG_INSTALL_PREFIX})

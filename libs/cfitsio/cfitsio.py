@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.patchToApply['3.20'] = [("cfitsio-20101130.diff", 1)]
         self.patchToApply['3.31'] = [("cfitsio-20130124.diff", 1)]
         self.patchToApply['3.35'] = [("cfitsio-20130124.diff", 1)]
-        self.patchToApply['3.45'] = [("cfitsio-3.45-20180706.diff", 1)]
+        self.patchToApply['3.45'] = [("cfitsio-3.45-20180706.diff", 1), ("cfitsio-3.45-20180713.diff", 1)]
 
         self.description = "library for the FITS (Flexible Image Transport System) file format"
         self.defaultTarget = '3.45'
