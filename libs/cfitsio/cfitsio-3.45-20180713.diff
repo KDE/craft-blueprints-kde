@@ -1,22 +1,21 @@
 diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' cfitsio.orig/cfitsio.pc.cmake cfitsio/cfitsio.pc.cmake
 --- cfitsio.orig/cfitsio.pc.cmake	1970-01-01 03:00:00.000000000 +0300
-+++ cfitsio/cfitsio.pc.cmake	2018-07-13 21:00:24.631201700 +0300
-@@ -0,0 +1,12 @@
++++ cfitsio/cfitsio.pc.cmake	2018-07-13 21:39:34.823567000 +0300
+@@ -0,0 +1,11 @@
 +prefix=@CMAKE_INSTALL_PREFIX@
 +exec_prefix=@CMAKE_INSTALL_PREFIX@
-+libdir=@PKG_CONFIG_LIBDIR@
-+includedir=@INCLUDE_INSTALL_DIR@
++libdir=${prefix}/lib
++includedir=${prefix}/include
 +
 +Name: cfitsio
 +Description: FITS File Subroutine Library
 +URL: https://heasarc.gsfc.nasa.gov/fitsio/
-+Version: @CFITSIO_MAJOR@.@CFITSIO_MINOR@
-+Libs: -L${libdir} @PKG_CONFIG_LIBS@
-+Libs.private: -lm
++Version: @CFITSIO_VERSION@
++Libs: -L${libdir} -lcfitsio -lm
 +Cflags: -I${includedir}
 diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' cfitsio.orig/CMakeLists.txt cfitsio/CMakeLists.txt
---- cfitsio.orig/CMakeLists.txt	2018-07-13 21:01:55.062260200 +0300
-+++ cfitsio/CMakeLists.txt	2018-07-13 21:01:48.723628600 +0300
+--- cfitsio.orig/CMakeLists.txt	2018-07-13 21:39:43.490674400 +0300
++++ cfitsio/CMakeLists.txt	2018-07-13 21:29:44.914260600 +0300
 @@ -155,3 +155,6 @@
      LINK_FLAGS "setargv.obj"
    )
