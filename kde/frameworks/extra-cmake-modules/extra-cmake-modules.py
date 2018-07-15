@@ -31,7 +31,7 @@ class subinfo(info.infoclass):
 
         for ver in self.versionInfo.tarballs() + self.versionInfo.branches() + self.versionInfo.tags():
             ecmVer = CraftVersion(ver)
-            if ecmVer <= CraftVersion("5.47.0"):
+            if ecmVer <= CraftVersion("5.48.0"):
               self.patchLevel[ver] = 3
               self.patchToApply[ver] = ('icotool.diff', 1)
 
