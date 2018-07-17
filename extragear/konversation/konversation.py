@@ -7,10 +7,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['1.7'] = 'git://anongit.kde.org/konversation|1.7'
         self.svnTargets['master'] = 'git://anongit.kde.org/konversation|master'
-        for ver in ['1.7.4']:
+        for ver in ['1.7.4', '1.7.5']:
             self.targets[ver] = 'http://download.kde.org/stable/konversation/%s/src/konversation-%s.tar.xz' % (ver, ver)
             self.targetInstSrc[ver] = 'konversation-%s' % ver
-        self.defaultTarget = '1.7.4'
+        self.defaultTarget = '1.7.5'
 
         self.displayName = "Konversation"
         self.description = "a KDE based irc client"
