@@ -49,9 +49,21 @@ class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         if CraftCore.compiler.isMinGW():
+            self.subinfo.options.make.supportsMultijob = False
             self.subinfo.options.configure.args += " --disable-static --enable-shared --enable-tempstore=yes CFLAGS='-DSQLITE_HAS_CODEC -I%s' " % OsUtils.toMSysPath(os.path.join(CraftCore.standardDirs.craftRoot(), "include"))
         else:
             self.subinfo.options.configure.args += " --disable-static --enable-shared --enable-tempstore=yes CFLAGS='-DSQLITE_HAS_CODEC' "
+
+    def install(self):
+        if CraftCore.compiler.isMinGW():
+            fileName = os.path.join(self.buildDir(), "Makefile")
+            with open(fileName, "rt") as f:
+                content = f.read()
+            content = content.replace("$(DESTDIR)", "") # otherwise install path looks like e.g. /m/image-RelWithDebInfo-3.4.2/m/lib because install path = $(DESTDIR)$(libdir)
+            with open(fileName, "wt") as f:
+                f.write(content)
+
+        return super().install()
 
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
