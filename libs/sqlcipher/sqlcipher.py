@@ -65,6 +65,15 @@ class PackageAutotools(AutoToolsPackageBase):
 
         return super().install()
 
+    def postInstall(self):
+        if CraftCore.compiler.isMinGW():
+            cmakes = [ os.path.join(CraftCore.standardDirs.craftRoot(), "lib" , "pkgconfig", "sqlcipher.pc")]
+        else:
+            cmakes = []
+        return self.patchInstallPrefix(cmakes,
+                                        OsUtils.toMSysPath(self.subinfo.buildPrefix)[:-1],
+                                        OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()[:-1]))
+
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
