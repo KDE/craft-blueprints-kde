@@ -24,7 +24,11 @@ class subinfo(info.infoclass):
         self.targetInstSrc['3.24.0'] = "sqlite-amalgamation-3240000"
 
         self.description = "a library providing a self-contained, serverless, zero-configuration, transactional SQL database engine"
-        self.defaultTarget = '3.24.0'
+        if OsUtils.isMac():
+          #otherwise akonadi reports that "Sqlite 3.24.0 was found, but it is not compiled with -DSQLITE_ENABLE_UNLOCK_NOTIFY"
+          self.defaultTarget = '3.15.0'
+        else:
+          self.defaultTarget = '3.24.0'
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
