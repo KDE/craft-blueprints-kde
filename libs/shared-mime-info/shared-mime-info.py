@@ -49,6 +49,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxml2"] = "default"
         self.runtimeDependencies["libs/glib"] = "default"
         self.runtimeDependencies["libs/zlib"] = "default"
+        self.runtimeDependencies["libs/liblzma"] = "default"
         if CraftCore.compiler.isMSVC():
             self.runtimeDependencies["kdesupport/kdewin"] = "default"
 
