@@ -72,7 +72,7 @@ class PackageAutoTools(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
         root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
-        self.subinfo.options.configure.args += f"--enable-shared --disable-static --with-pcre=internal"
+        self.subinfo.options.configure.args += f"--enable-shared --disable-static --with-pcre=internal --with-libiconv=gnu"
         self.subinfo.options.configure.cflags = "-Wno-format-nonliteral"
 
         if not CraftCore.cache.findApplication("pkg-config"):
