@@ -33,6 +33,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'https://github.com/sqlcipher/sqlcipher/archive/v%s.zip' % ver
             self.archiveNames[ver] = "sqlcipher-%s.zip" % ver
             self.targetInstSrc[ver] = 'sqlcipher-%s' % ver
+            self.patchLevel[ver] = 2
 
         self.targetDigests["3.4.2"] = (['f2afbde554423fd3f8e234d21e91a51b6f6ba7fc4971e73fdf5d388a002f79f1'], CraftHash.HashAlgorithm.SHA256)
 
