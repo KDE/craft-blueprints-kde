@@ -35,6 +35,10 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = 'sqlcipher-%s' % ver
 
         self.targetDigests["3.4.2"] = (['f2afbde554423fd3f8e234d21e91a51b6f6ba7fc4971e73fdf5d388a002f79f1'], CraftHash.HashAlgorithm.SHA256)
+
+        if CraftCore.compiler.isWindows:
+            self.patchToApply["3.4.2"] = [("sqlcipher-3.4.2-20180727.diff", 1)]
+
         self.defaultTarget = "3.4.2"
 
     def setDependencies(self):
@@ -85,15 +89,18 @@ class PackageMSVC(MSBuildPackageBase):
             content = f.read()
 
         # recipe taken from https://github.com/sqlitebrowser/sqlitebrowser/wiki/Win64-setup-%E2%80%94-Compiling-SQLCipher
-        hasCodec = ("TCC = $(TCC) -DSQLITE_HAS_CODEC\n"
-                    "RCC = $(RCC) -DSQLITE_HAS_CODEC\n")
+
+        # libname_EXPORTS is cmake variable. It allows to use __declspec(dllexport) while building this library
+        # and __declspec(dllimport) while linking to this library
+        defines = ("TCC = $(TCC) -DSQLITE_HAS_CODEC -Dlibsqlcipher_EXPORTS\n"
+                   "RCC = $(RCC) -DSQLITE_HAS_CODEC -Dlibsqlcipher_EXPORTS\n")
 
         includeDir = os.path.join(CraftCore.standardDirs.craftRoot() , "include")
         includeDirs = (f"TCC = $(TCC) -I{includeDir}\n"
                        f"RCC = $(RCC) -I{includeDir}\n")
 
         index = content.find("TCC = $(TCC) -DSQLITE_TEMP_STORE=1")
-        content = content[:index] + hasCodec + includeDirs + content[index:]
+        content = content[:index] + defines + includeDirs + content[index:]
 
         libDir = os.path.join(CraftCore.standardDirs.craftRoot() , "lib")
         includeLibs = (f"LTLIBPATHS = $(LTLIBPATHS) /LIBPATH:{libDir}\n"
