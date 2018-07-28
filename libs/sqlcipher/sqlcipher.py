@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'https://github.com/sqlcipher/sqlcipher/archive/v%s.zip' % ver
             self.archiveNames[ver] = "sqlcipher-%s.zip" % ver
             self.targetInstSrc[ver] = 'sqlcipher-%s' % ver
-            self.patchLevel[ver] = 2
+            self.patchLevel[ver] = 3
 
         self.targetDigests["3.4.2"] = (['f2afbde554423fd3f8e234d21e91a51b6f6ba7fc4971e73fdf5d388a002f79f1'], CraftHash.HashAlgorithm.SHA256)
 
@@ -59,16 +59,32 @@ class PackageAutotools(AutoToolsPackageBase):
         else:
             self.subinfo.options.configure.args += " --disable-static --enable-shared --enable-tempstore=yes CFLAGS='-DSQLITE_HAS_CODEC' "
 
-    def install(self):
-        if CraftCore.compiler.isMinGW():
-            fileName = os.path.join(self.buildDir(), "Makefile")
-            with open(fileName, "rt") as f:
+    def configure(self):
+        isConfigured = super().configure()
+        if isConfigured and CraftCore.compiler.isMinGW():
+            Makefile = os.path.join(self.buildDir(), "Makefile")
+
+            with open(Makefile, "rt") as f:
                 content = f.read()
-            content = content.replace("$(DESTDIR)", "") # otherwise install path looks like e.g. /m/image-RelWithDebInfo-3.4.2/m/lib because install path = $(DESTDIR)$(libdir)
-            with open(fileName, "wt") as f:
+
+            m = re.search("TCLLIBDIR = (?P<absolutePath>.*)", content)
+            if not m:
+                return False
+
+            relativePath = os.path.relpath(m.group('absolutePath'), CraftCore.standardDirs.craftRoot())
+            relativePath = relativePath.replace('\\', '/')
+
+            content = content.replace(r"$(DESTDIR)$(bindir)", r"$(DESTDIR)/bin")
+            content = content.replace(r"$(DESTDIR)$(libdir)", r"$(DESTDIR)/lib")
+            content = content.replace(r"$(DESTDIR)$(includedir)", r"$(DESTDIR)/include/sqlcipher")
+            content = content.replace(r"$(DESTDIR)$(mandir)", r"$(DESTDIR)/share/man")
+            content = content.replace(r"$(DESTDIR)$(TCLLIBDIR)", r"$(DESTDIR)/" + relativePath)
+            content = content.replace(r"$(DESTDIR)$(pkgconfigdir)", r"$(DESTDIR)/lib/pkgconfig")
+
+            with open(Makefile, "wt") as f:
                 f.write(content)
 
-        return super().install()
+        return isConfigured
 
     def postInstall(self):
         if CraftCore.compiler.isMinGW():
@@ -147,6 +163,7 @@ class PackageMSVC(MSBuildPackageBase):
             content = content.replace(r"@exec_prefix@", r"${prefix}/bin")
             content = content.replace(r"@libdir@", r"${prefix}/lib")
             content = content.replace(r"@includedir@", r"${prefix}/include")
+            content = content.replace(r"@PACKAGE_VERSION@", self.version)
 
             with open(pkgConfigFile, "wt") as f:
                 f.write(content)

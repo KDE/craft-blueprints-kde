@@ -32,6 +32,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'https://github.com/tcltk/tcl/archive/core-%s.zip' % ver
             self.archiveNames[ver] = "core-%s.zip" % ver
             self.targetInstSrc[ver] = 'tcl-core-%s' % ver
+            self.patchLevel[ver] = 2
 
         self.targetDigests['8-6-8'] = (['7d4b0aea18142dce44a34f366ed251e50d4edba8918894adf0fab7a932a1f80d'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = '8-6-8'
@@ -55,6 +56,26 @@ class PackageAutotools(AutoToolsPackageBase):
 
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += " --enable-framework --disable-corefoundation "
+
+    def configure(self):
+        isConfigured = super().configure()
+        if isConfigured and CraftCore.compiler.isMinGW():
+            Makefile = os.path.join(self.buildDir(), "Makefile")
+
+            with open(Makefile, "rt") as f:
+                content = f.read()
+
+            content = content.replace(r"INSTALL_ROOT	=", r"INSTALL_ROOT	= %s" % OsUtils.toMSysPath(self.installDir()))
+            content = content.replace(r"$(INSTALL_ROOT)$(bindir)", r"$(INSTALL_ROOT)/bin")
+            content = content.replace(r"$(INSTALL_ROOT)$(libdir)", r"$(INSTALL_ROOT)/lib")
+            content = content.replace(r"$(INSTALL_ROOT)$(includedir)", r"$(INSTALL_ROOT)/include")
+            content = content.replace(r"$(INSTALL_ROOT)$(mandir)", r"$(INSTALL_ROOT)/share/man")
+            content = content.replace(r"$(INSTALL_ROOT)$(TCL_LIBRARY)", r"$(INSTALL_ROOT)/lib/tcl$(VERSION)")
+
+            with open(Makefile, "wt") as f:
+                f.write(content)
+
+        return isConfigured
 
     def install(self):
         if CraftCore.compiler.isMinGW():
