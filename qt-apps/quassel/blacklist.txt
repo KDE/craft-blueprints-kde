@@ -1,5 +1,0 @@
-lib/plugins/libsnore.*/libsnore_backend_freedesktop\.dll
-
-html/.*
-# strip most executables
-bin/(?!(quassel|QtWebEngineProcess|SnoreToast)).*\.exe
