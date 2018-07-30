@@ -68,6 +68,11 @@ share/icons/oxygen/64x64/.*
 share/icons/oxygen/128x128/.*
 share/icons/oxygen/256x256/.*
 
+# doubled dlls
+bin/icudt\.dll
+bin/icuin\.dll
+bin/icuuc\.dll
+
 # doubled qt dlls
 lib/[^/]*\.dll
 # more qt leftovers
@@ -78,9 +83,11 @@ mkspecs/.*
 # unneeded stuff from bin\
 bin/qt\.conf
 bin/syncqt\.pl
+bin/d3dcompiler_47\.dll
+bin/libGLESv2\.dll
 
 bin/dbus-*\.exe
 bin/dbus-env\.bat
 
 # strip most executables
-bin/(?!(kmymoney|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
+bin/(?!(kmymoney|sqlcipher|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
