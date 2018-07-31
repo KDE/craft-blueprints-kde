@@ -33,3 +33,7 @@ class Package(BinaryPackageBase):
                                     os.path.join(self.imageDir(), "dev-utils", "nsis", f"{name}.exe")):
                 return False
         return True
+
+    def postQmerge(self):
+        CraftCore.cache.clear()
+        return True
