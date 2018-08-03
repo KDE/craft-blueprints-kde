@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["svnHEAD"] = "http://source.icu-project.org/repos/icu/icu/trunk"
         self.targetInstSrc["svnHEAD"] = "source"
-        for ver in ["53.1", "55.1", "58.2"]:
+        for ver in ["53.1", "55.1", "58.2", "62.1"]:
             ver2 = ver.replace(".", "_")
             self.targets[ver] = f"http://download.icu-project.org/files/icu4c/{ver}/icu4c-{ver2}-src.tgz"
             self.targetDigestUrls[ver] = (
@@ -22,13 +22,13 @@ class subinfo(info.infoclass):
             self.patchToApply["55.1"] = [("icu-20150414.diff", 2), ("icu-msys.diff", 2)]
             self.patchToApply["58.2"] = ("0020-workaround-missing-locale.patch",
                                          2)  # https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-icu/0020-workaround-missing-locale.patch
-        self.defaultTarget = "58.2"
+        self.defaultTarget = "62.1"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
+        self.buildDependencies["dev-utils/pkg-config"] = "default"
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = "default"
-
 
 from Package.MSBuildPackageBase import *
 
