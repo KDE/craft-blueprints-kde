@@ -65,6 +65,7 @@ from Package.AutoToolsPackageBase import *
 class PackageMSys(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
+        self.subinfo.options.configure.autoreconf = False
 
     def make(self):
         datafile = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icudt55l.dat")
