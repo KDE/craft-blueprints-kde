@@ -99,91 +99,94 @@ class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
 
-    def compile(self):
-        with self.getQtBaseEnv():
-            return Qt5CorePackageBase.compile(self)
-
     def configure(self, unused1=None, unused2=""):
-        if CraftCore.compiler.isMinGW() and "DXSDK_DIR" not in os.environ:
-            CraftCore.log.critical("Failed to detec a DirectX SDK")
-            CraftCore.log.critical(
-                "Please visite https://community.kde.org/Guidelines_and_HOWTOs/Build_from_source/Windows#Direct_X_SDK for instructions")
-            return False
-        self.enterBuildDir()
-        if OsUtils.isWin():
-            configure = OsUtils.toUnixPath(os.path.join(self.sourceDir(), "configure.bat"))
-            if self.qtVer < CraftVersion("5.10"):
-                # not needed anymore as we don't patch configure anymore
-                if not os.path.exists(os.path.join(self.sourceDir(), ".gitignore")):  # force bootstrap of configure.exe
-                    with open(os.path.join(self.sourceDir(), ".gitignore"), "wt+") as bootstrap:
-                        bootstrap.write("Force Bootstrap")
-                    if os.path.exists(os.path.join(self.sourceDir(), "configure.exe")):
-                        os.remove(os.path.join(self.sourceDir(), "configure.exe"))
-        elif OsUtils.isUnix():
-            configure = os.path.join(self.sourceDir(), "configure")
+        with self.getQtBaseEnv():
+            if CraftCore.compiler.isMinGW() and "DXSDK_DIR" not in os.environ:
+                CraftCore.log.critical("Failed to detec a DirectX SDK")
+                CraftCore.log.critical(
+                    "Please visite https://community.kde.org/Guidelines_and_HOWTOs/Build_from_source/Windows#Direct_X_SDK for instructions")
+                return False
+            self.enterBuildDir()
+            if OsUtils.isWin():
+                configure = OsUtils.toUnixPath(os.path.join(self.sourceDir(), "configure.bat"))
+                if self.qtVer < CraftVersion("5.10"):
+                    # not needed anymore as we don't patch configure anymore
+                    if not os.path.exists(os.path.join(self.sourceDir(), ".gitignore")):  # force bootstrap of configure.exe
+                        with open(os.path.join(self.sourceDir(), ".gitignore"), "wt+") as bootstrap:
+                            bootstrap.write("Force Bootstrap")
+                        if os.path.exists(os.path.join(self.sourceDir(), "configure.exe")):
+                            os.remove(os.path.join(self.sourceDir(), "configure.exe"))
+            elif OsUtils.isUnix():
+                configure = os.path.join(self.sourceDir(), "configure")
 
-        command = " %s -opensource  -confirm-license -prefix %s -platform %s " % (
-        configure, CraftStandardDirs.craftRoot(), self.platform)
-        command += "-headerdir %s " % os.path.join(CraftStandardDirs.craftRoot(), "include", "qt5")
-        command += "-qt-libpng "
-        command += "-qt-libjpeg "
-        # can we drop that in general?
-        version = CraftVersion(self.subinfo.buildTarget)
-        if version <= CraftVersion("5.6"):
-            command += "-c++11 "
-        if version >= CraftVersion("5.8"):
-            command += "-mp "
-        else:
-            command += "-qt-pcre "
-        if OsUtils.isWin():
-            command += "-opengl dynamic "
-            command += "-plugin-sql-odbc "
-        # if not (OsUtils.isFreeBSD() or compiler.isMinGW()):#currently breaks unmaintained modules like qtscript and webkit
-        #    command += "-ltcg "
-        if self.buildType() == "RelWithDebInfo":
-            command += "-force-debug-info "
-        if self.buildType() == "Debug":
-            command += "-debug "
-        else:
-            command += "-release "
+            command = f"{configure} -opensource  -confirm-license -prefix {CraftStandardDirs.craftRoot()} -platform {self.platform} "
+            command += "-headerdir %s " % os.path.join(CraftStandardDirs.craftRoot(), "include", "qt5")
+            command += "-qt-libpng "
+            command += "-qt-libjpeg "
+            # can we drop that in general?
+            version = CraftVersion(self.subinfo.buildTarget)
+            if version <= CraftVersion("5.6"):
+                command += "-c++11 "
+            if version >= CraftVersion("5.8"):
+                command += "-mp "
+            else:
+                command += "-qt-pcre "
 
-        if not self.subinfo.options.buildStatic:
-            command += "-I \"%s\" -L \"%s\" " % (
-            os.path.join(CraftStandardDirs.craftRoot(), "include"), os.path.join(CraftStandardDirs.craftRoot(), "lib"))
-            if self.subinfo.options.isActive("libs/openssl"):
-                command += " -openssl-linked "
-                if self.qtVer >= CraftVersion("5.10"):
-                    opensslIncDir = os.path.join(CraftCore.standardDirs.craftRoot(), "include", "openssl")
-                    command += f" OPENSSL_INCDIR=\"{opensslIncDir}\""
-                    if CraftCore.compiler.isWindows:
-                        command += f" OPENSSL_LIBS=\"-llibssl -llibcrypto\" "
-                    else:
-                        command += f" OPENSSL_LIBS=\"-lssl -lcrypto\" "
-            if self.subinfo.options.isActive("binary/mysql"):
-                command += " -plugin-sql-mysql "
-            if self.subinfo.options.isActive("libs/dbus"):
-                command += " -qdbus -dbus-runtime -I \"%s\" -I \"%s\" " % (
-                os.path.join(CraftStandardDirs.craftRoot(), "include", "dbus-1.0"),
-                os.path.join(CraftStandardDirs.craftRoot(), "lib", "dbus-1.0", "include"))
-            if self.subinfo.options.isActive("libs/icu"):
-                command += " -icu "
-            if self.subinfo.options.isActive("libs/zlib"):
-                command += " -system-zlib "
-                if CraftCore.compiler.isMSVC():
-                    command += " ZLIB_LIBS=zlib.lib "
-        else:
-            command += " -static -static-runtime "
+            if OsUtils.isWin():
+                command += "-opengl dynamic "
+                command += "-plugin-sql-odbc "
 
-        command += "-nomake examples "
-        command += "-nomake tests "
+            # if not (OsUtils.isFreeBSD() or compiler.isMinGW()):#currently breaks unmaintained modules like qtscript and webkit
+            #    command += "-ltcg "
+            if self.buildType() == "RelWithDebInfo":
+                command += "-force-debug-info "
+            if self.buildType() == "Debug":
+                command += "-debug "
+            else:
+                command += "-release "
 
-        if (CraftCore.compiler.isMSVC() and CraftCore.compiler.isClang()) or OsUtils.isUnix() or self.supportsCCACHE:
-            command += "-no-pch "
+            if not self.subinfo.options.buildStatic:
+                command += "-I \"%s\" -L \"%s\" " % (
+                os.path.join(CraftStandardDirs.craftRoot(), "include"), os.path.join(CraftStandardDirs.craftRoot(), "lib"))
+                if self.subinfo.options.isActive("libs/openssl"):
+                    command += " -openssl-linked "
+                    if self.qtVer >= CraftVersion("5.10"):
+                        opensslIncDir = os.path.join(CraftCore.standardDirs.craftRoot(), "include", "openssl")
+                        command += f" OPENSSL_INCDIR=\"{opensslIncDir}\""
+                        if CraftCore.compiler.isWindows:
+                            command += f" OPENSSL_LIBS=\"-llibssl -llibcrypto\" "
+                        else:
+                            command += f" OPENSSL_LIBS=\"-lssl -lcrypto\" "
+                if self.subinfo.options.isActive("binary/mysql"):
+                    command += " -plugin-sql-mysql "
+                if self.subinfo.options.isActive("libs/dbus"):
+                    command += " -qdbus -dbus-runtime -I \"%s\" -I \"%s\" " % (
+                    os.path.join(CraftStandardDirs.craftRoot(), "include", "dbus-1.0"),
+                    os.path.join(CraftStandardDirs.craftRoot(), "lib", "dbus-1.0", "include"))
+                if self.subinfo.options.isActive("libs/icu"):
+                    command += " -icu "
+                if self.subinfo.options.isActive("libs/zlib"):
+                    command += " -system-zlib "
+                    if CraftCore.compiler.isMSVC():
+                        command += " ZLIB_LIBS=zlib.lib "
+            else:
+                command += " -static -static-runtime "
 
-        if CraftCore.compiler.isMinGW() and self.qtVer < CraftVersion("5.10"):
-            command += """ "QMAKE_CXXFLAGS += -Wa,-mbig-obj" """
+            command += "-nomake examples "
+            command += "-nomake tests "
 
-        return utils.system(command)
+            if (CraftCore.compiler.isMSVC() and CraftCore.compiler.isClang()) or OsUtils.isUnix() or self.supportsCCACHE:
+                command += "-no-pch "
+
+            if CraftCore.compiler.isMinGW() and self.qtVer < CraftVersion("5.10"):
+                command += """ "QMAKE_CXXFLAGS += -Wa,-mbig-obj" """
+
+            return utils.system(command)
+
+
+    def make(self):
+        with self.getQtBaseEnv():
+            return super().make()
 
     def install(self):
         with self.getQtBaseEnv():
