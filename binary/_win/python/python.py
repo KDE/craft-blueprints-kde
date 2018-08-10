@@ -7,10 +7,12 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isX64():
             arch = "amd64"
 
-        for ver in ["3.5.1", "3.6.0"]:
+        for ver in ["3.6.6", "3.7.0"]:
             self.targets[ver] = f"https://www.python.org/ftp/python/{ver}/python-{ver}-embed-{arch}.zip"
             self.targetInstallPath[ver] = "python"
-        self.defaultTarget = "3.6.0"
+        self.targetDigestsX64["3.6.6"] = (['d294ed2a18bb2fb822a1be346af79a48980eb0d3d5f209cf9e728e93883b565a'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigestsX64["3.7.0"] = (['0cc08f3c74c0112abc2adafd16a534cde12fe7c7aafb42e936d59fd3ab08fcdb'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "3.6.6"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/bin-base"] = "default"
