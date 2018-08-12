@@ -38,11 +38,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/indiclient"] = "default"
         self.runtimeDependencies["libs/libraw"] = "default"
         self.runtimeDependencies["libs/gsl"] = "default"
-        self.runtimeDependencies["qt-libs/phonon-vlc"] = "default"
         self.runtimeDependencies["qt-libs/qtkeychain"] = "default"
 
         # Install proper theme
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = "default"
+
+        if not Craft.compiler.isMacOS:
+            self.runtimeDependencies["qt-libs/phonon-vlc"] = "default"
 
 
 from Package.CMakePackageBase import *
