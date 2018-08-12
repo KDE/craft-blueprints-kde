@@ -21,7 +21,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["kde/kdenetwork/kio-extras"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
@@ -30,6 +29,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = "default"
         self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = "default"
+
+        # While KDNSSD is nice, it doesn't work on macOS, so we cannot have kio-extras there
+        if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["kde/kdenetwork/kio-extras"] = "default"
 
 
 from Package.CMakePackageBase import *

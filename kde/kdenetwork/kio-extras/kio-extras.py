@@ -27,11 +27,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/khtml"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = "default"
-
-        # While KDNSSD is nice, it doesn't work on macOS...
-        if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["kde/frameworks/tier2/kdnssd"] = "default"
-
+        self.runtimeDependencies["kde/frameworks/tier2/kdnssd"] = "default"
 
 # Would be nice, but... yeah, pty on windows may happen, but not yet
 #        self.runtimeDependencies["kde/frameworks/tier2/kpty"] = "default"
