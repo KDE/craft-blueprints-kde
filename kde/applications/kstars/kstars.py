@@ -43,7 +43,7 @@ class subinfo(info.infoclass):
         # Install proper theme
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = "default"
 
-        if not Craft.compiler.isMacOS:
+        if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["qt-libs/phonon-vlc"] = "default"
 
 
