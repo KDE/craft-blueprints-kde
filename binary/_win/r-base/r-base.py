@@ -3,7 +3,7 @@
 import info
 
 PACKAGE_CRAN_MIRROR = 'http://ftp5.gwdg.de/pub/misc/cran'
-PACKAGE_PATH = '/bin/windows/base/'
+PACKAGE_PATH = '/bin/windows/base/old/'
 
 
 class subinfo(info.infoclass):
