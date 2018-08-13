@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for version in ['3.4.4']:
-            self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-' + version + '-win.exe'
+            self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + version + '/' + 'R-' + version + '-win.exe'
         self.targets['devel'] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-devel.exe'
         self.defaultTarget = '3.4.4'
 
