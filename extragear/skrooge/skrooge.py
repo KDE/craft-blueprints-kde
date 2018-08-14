@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
         self.runtimeDependencies["kdesupport/grantlee"] = "default"
+        self.runtimeDependencies["kdesupport/qca"] = "default"
 
 
 from Package.CMakePackageBase import *
