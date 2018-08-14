@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = "default"
         self.runtimeDependencies["kdesupport/grantlee"] = "default"
         self.runtimeDependencies["kdesupport/qca"] = "default"
 
