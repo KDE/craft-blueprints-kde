@@ -33,7 +33,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
         # for php support
-        self.runtimeDependencies["extragear/kdevelop/kdevplatform"] = "default"
         self.runtimeDependencies["extragear/kdevelop-pg-qt"] = "default"
         self.runtimeDependencies["extragear/kdevelop/kdev-php"] = "default"
 
