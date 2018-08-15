@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxml2"] = "default"
         self.runtimeDependencies["libs/libxslt"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = "default"
         self.runtimeDependencies["kde/frameworks/tier2/kauth"] = "default"
