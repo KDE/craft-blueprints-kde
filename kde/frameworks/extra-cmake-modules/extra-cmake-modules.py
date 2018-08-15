@@ -38,7 +38,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/icoutils"] = None
-        self.buildDependencies["dev-utils/png2ico"] = None# TODO: remove once the icoutils is upstream
         # needed for many kf5's
         self.buildDependencies["dev-utils/flexbison"] = None
         self.buildDependencies["libs/qt5/qttools"] = None
