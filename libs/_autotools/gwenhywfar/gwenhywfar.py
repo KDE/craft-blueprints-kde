@@ -32,7 +32,10 @@ class subinfo(info.infoclass):
         self.targetDigests["4.20"] = (['5a88daabba1388f9528590aab5de527a12dd44a7da4572ce48469a29911b0fb0'], CraftHash.HashAlgorithm.SHA256)
         self.archiveNames["4.20"] = "gwenhywfar-4.20.0.tar.gz"
         self.targetInstSrc["4.20"] = "gwenhywfar-4.20.0"
-        self.patchToApply["4.20"] = [("gwenhywfar-4.20.0-20180503.diff", 1)]
+        if CraftCore.compiler.isMinGW():
+            self.patchToApply["4.20"] = [("gwenhywfar-4.19.0-20180218.diff", 1)]
+        elif CraftCore.compiler.isMacOS:
+            self.patchToApply["4.20"] = [("gwenhywfar-4.20.0-20180503.diff", 1)]
         self.defaultTarget = "4.20"
         self.patchLevel["4.20"] = 1
 
