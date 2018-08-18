@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'https://github.com/sqlcipher/sqlcipher/archive/v%s.zip' % ver
             self.archiveNames[ver] = "sqlcipher-%s.zip" % ver
             self.targetInstSrc[ver] = 'sqlcipher-%s' % ver
-            self.patchLevel[ver] = 4
+            self.patchLevel[ver] = 5
 
         self.targetDigests["3.4.2"] = (['f2afbde554423fd3f8e234d21e91a51b6f6ba7fc4971e73fdf5d388a002f79f1'], CraftHash.HashAlgorithm.SHA256)
 
@@ -46,6 +46,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/openssl"] = "default"
         self.runtimeDependencies["libs/tcl"] = "default"
+        self.runtimeDependencies["libs/icu"] = "default"
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = "default"
 
@@ -113,6 +114,8 @@ class PackageMSVC(MSBuildPackageBase):
                    "RCC = $(RCC) -DSQLITE_HAS_CODEC -Dlibsqlcipher_EXPORTS\n")
 
         includeDir = os.path.join(CraftCore.standardDirs.craftRoot() , "include")
+        libDir = os.path.join(CraftCore.standardDirs.craftRoot() , "lib")
+        binDir = os.path.join(CraftCore.standardDirs.craftRoot() , "bin")
         includeDirs = (f"TCC = $(TCC) -I{includeDir}\n"
                        f"RCC = $(RCC) -I{includeDir}\n")
 
@@ -127,7 +130,19 @@ class PackageMSVC(MSBuildPackageBase):
         content = content[:index] + includeLibs + content[index:]
 
         content = content.replace(r"-DSQLITE_TEMP_STORE=1", r"-DSQLITE_TEMP_STORE=2")
-        content = content.replace(r"winsqlite3.dll", r"sqlcipher.exe")
+
+        # stops segfaulting each time in qsqlcipher-test in KMyMoney with this, but is still unstable with core application
+        content = content.replace(r"USE_CRT_DLL = 0", r"USE_CRT_DLL = 1")
+
+        content = content.replace(r"USE_ICU = 0", r"USE_ICU = 1")
+        content = content.replace(r"c:\icu\include", includeDir)
+        content = content.replace(r"c:\icu\lib", libDir)
+        content = content.replace(r"c:\tcl\bin", binDir)
+
+        content = content.replace(r"c:\tcl\include", includeDir)
+        content = content.replace(r"c:\tcl\lib", libDir)
+
+        content = content.replace(r"winsqlite3.dll", r"sqlcipher.dll")
         content = content.replace(r"winsqlite3.lib", r"sqlcipher.lib")
         content = content.replace(r"winsqlite3shell.exe", r"sqlcipher.exe")
         content = content.replace(r"sqlite3.dll", r"sqlcipher.dll")
