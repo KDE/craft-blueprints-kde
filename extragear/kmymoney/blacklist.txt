@@ -83,8 +83,6 @@ mkspecs/.*
 # unneeded stuff from bin\
 bin/qt\.conf
 bin/syncqt\.pl
-bin/d3dcompiler_47\.dll
-bin/libGLESv2\.dll
 
 bin/dbus-*\.exe
 bin/dbus-env\.bat
