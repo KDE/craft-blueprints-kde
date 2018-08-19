@@ -37,7 +37,7 @@ class subinfo(info.infoclass):
         elif CraftCore.compiler.isMacOS:
             self.patchToApply["4.20"] = [("gwenhywfar-4.20.0-20180503.diff", 1)]
         self.defaultTarget = "4.20"
-        self.patchLevel["4.20"] = 2
+        self.patchLevel["4.20"] = 3
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
@@ -57,8 +57,7 @@ class Package(AutoToolsPackageBase):
         # Disable autoreconf. Otherwise following errors prevent configuring:
         # configure.ac:618: warning: macro 'AM_PATH_LIBGCRYPT' not found in library
         # configure.ac:633: warning: macro 'AM_PATH_GPG_ERROR' not found in library
-        if CraftCore.compiler.isMinGW():
-            self.subinfo.options.configure.autoreconf = False
+        self.subinfo.options.configure.autoreconf = False
 
     def configure(self):
         if CraftCore.compiler.isMinGW():
