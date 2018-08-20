@@ -39,6 +39,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["libs/zlib"] = "default"
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = "default"
 
