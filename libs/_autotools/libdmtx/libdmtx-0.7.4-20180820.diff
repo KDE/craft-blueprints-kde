@@ -1,0 +1,11 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' libdmtx-0.7.4.orig/Makefile.am libdmtx-0.7.4/Makefile.am
+--- libdmtx-0.7.4.orig/Makefile.am	2011-06-02 09:09:36.000000000 +0200
++++ libdmtx-0.7.4/Makefile.am	2018-08-20 12:25:54.878703700 +0200
+@@ -11,6 +11,7 @@
+ lib_LTLIBRARIES = libdmtx.la
+ libdmtx_la_SOURCES = dmtx.c
+ libdmtx_la_CFLAGS = -Wall -pedantic
++libdmtx_la_LDFLAGS = -no-undefined
+ 
+ EXTRA_libdmtx_la_SOURCES = dmtxencode.c dmtxencodestream.c dmtxencodescheme.c \
+ 	dmtxencodeoptimize.c dmtxencodeascii.c dmtxencodec40textx12.c \
