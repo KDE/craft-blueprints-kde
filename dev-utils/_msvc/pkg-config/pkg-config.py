@@ -13,8 +13,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/bin-base"] = "default"
-        self.buildDependencies["libs/mingw-crt4msvc"] = "default"
-
 
 class Package(BinaryPackageBase):
     def __init__(self):
