@@ -4,10 +4,11 @@ from Package.BinaryPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["0.29.2"] = "http://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-pkg-config-0.29.2-1-any.pkg.tar.xz"
-        self.targetDigests["0.28"] = "8fe89c3ac4217beffbb942a2e9da3597d30226e8"
-        self.targetInstSrc["0.29.2"] = "mingw64"
-        self.targetInstallPath["0.29.2"] = "dev-utils"
+        build = "56"
+        for ver in ["0.29.2"]:
+            self.targets[ ver ] = f"https://files.kde.org/craft/autotools/packages/pkg-config-{ver}-{build}-windows-mingw_{CraftCore.compiler.bits}-gcc.7z"
+            self.targetDigestUrls[ ver ] = f"https://files.kde.org/craft/autotools/packages/pkg-config-{ver}-{build}-windows-mingw_{CraftCore.compiler.bits}-gcc.7z.sha256"
+            self.targetInstallPath[ ver ] = "dev-utils/pkg-config"
         self.defaultTarget = "0.29.2"
 
     def setDependencies(self):
@@ -18,3 +19,8 @@ class subinfo(info.infoclass):
 class Package(BinaryPackageBase):
     def __init__(self):
         BinaryPackageBase.__init__(self)
+
+    def install(self):
+        if not super().install():
+            return False
+        return utils.createShim(os.path.join(self.imageDir(), "bin", "pkg-config.exe"), os.path.join(self.installDir(), "bin", "pkg-config.exe"))

@@ -3,9 +3,10 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
+        build = "56"
         for ver in ["0.32.3"]:
-            self.targets[ ver ] = f"https://files.kde.org/craft/autotools/packages/icoutils-{ver}-windows-mingw_{CraftCore.compiler.bits}-gcc.7z"
-            self.targetDigestUrls[ ver ] = f"https://files.kde.org/craft/autotools/packages/icoutils-{ver}-windows-mingw_{CraftCore.compiler.bits}-gcc.7z.sha256"
+            self.targets[ ver ] = f"https://files.kde.org/craft/autotools/packages/icoutils-{ver}-{build}-windows-mingw_{CraftCore.compiler.bits}-gcc.7z"
+            self.targetDigestUrls[ ver ] = f"https://files.kde.org/craft/autotools/packages/icoutils-{ver}-{build}-windows-mingw_{CraftCore.compiler.bits}-gcc.7z.sha256"
             self.targetInstallPath[ ver ] = "dev-utils/icoutils"
 
         self.description = "The icoutils are a set of command-line programs for extracting and converting images in Microsoft Windows(R) icon and cursor files."
