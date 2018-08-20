@@ -37,7 +37,8 @@ class subinfo(info.infoclass):
         self.targetDigests["1.11.1"] = (["2d1b111774d2e3dd26dcd7c251819ce4ef774ec5e566251eb9308fa7542fbd6f"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["1.9.0"] = [("gpgme-1.9.0-20170801.diff", 1)]
         self.patchToApply["1.11.1"] = [("gpgme-1.1.11-20170801.diff", 1),
-                                       ("qt Respect --disable-gpg-test for tests.patch", 1)]
+                                       ("qt Respect --disable-gpg-test for tests.patch", 1),
+                                       ("gpgme-1.11.1-20180820.diff", 1)]# disable the documentation (crashes on x86)
         if CraftCore.compiler.isWindows:
             self.patchToApply["1.11.1"] += [("gpgme-1.1.11-20180620.diff", 1)]
 
