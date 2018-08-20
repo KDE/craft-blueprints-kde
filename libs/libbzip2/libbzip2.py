@@ -27,4 +27,6 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         self.supportsNinja = False
         self.subinfo.options.package.packageName = 'libbzip2'
+        if CraftCore.compiler.isClang():
+            self.subinfo.options.configure.args += ' -DCMAKE_C_FLAGS="-fPIC" '
         # self.supportsNinja = False
