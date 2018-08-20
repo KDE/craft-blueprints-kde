@@ -11,11 +11,8 @@ from Package.MaybeVirtualPackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         ver = "20180531"
-        arch = "i686"
-        if CraftCore.compiler.isX64():
-            arch = "x86_64"
         # don't set an actual version  instead of base. Msys must be manually updated so doing a craft update of msys wil break things.
-        self.targets["base"] = f"http://repo.msys2.org/distrib/{arch}/msys2-base-{arch}-{ver}.tar.xz"
+        self.targets["base"] = f"http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-{ver}.tar.xz"
         self.targetDigests["base"] = (['8ef5b18c4c91f3f2394823f1981babdee78a945836b2625f091ec934b1a37d32'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigestsX64["base"] = (['4e799b5c3efcf9efcb84923656b7bcff16f75a666911abd6620ea8e5e1e9870c'], CraftHash.HashAlgorithm.SHA256)
 
