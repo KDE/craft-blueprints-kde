@@ -26,6 +26,6 @@ index ab85960..a1b83e8 100644
 +tests =
 +endif
 +
-+SUBDIRS = src ${tests}
++SUBDIRS = src ${tests} doc
 
  EXTRA_DIST = README
