@@ -36,6 +36,9 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://launchpad.net/intltool/trunk/{ver}/+download/intltool-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"intltool-{ver}"
             self.targetInstallPath[ver] = "dev-utils"
+        self.patchToApply['0.51.0'] = [
+            ("0001-Perl-5-22-compatibility.patch", 1)
+        ]
         self.defaultTarget = '0.51.0'
 
 
