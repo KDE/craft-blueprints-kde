@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
             self.targets[ ver ] = f"https://files.kde.org/craft/autotools/packages/pkg-config-{ver}-{build}-windows-mingw_{CraftCore.compiler.bits}-gcc.7z"
             self.targetDigestUrls[ ver ] = f"https://files.kde.org/craft/autotools/packages/pkg-config-{ver}-{build}-windows-mingw_{CraftCore.compiler.bits}-gcc.7z.sha256"
             self.targetInstallPath[ ver ] = "dev-utils/pkg-config"
+        self.patchLevel["0.29.2"] = 1
         self.defaultTarget = "0.29.2"
 
     def setDependencies(self):
