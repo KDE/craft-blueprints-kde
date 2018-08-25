@@ -21,7 +21,7 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
         self.supportsClang = False
-        self.subinfo.options.configure.args = "-DLLVM_TARGETS_TO_BUILD='X86'"
+        self.subinfo.options.configure.args = "-DLLVM_TARGETS_TO_BUILD='host'"
 
         # BEGIN: sub-package handling
         self.subPackages = []
