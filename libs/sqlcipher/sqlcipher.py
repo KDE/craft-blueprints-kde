@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'https://github.com/sqlcipher/sqlcipher/archive/v%s.zip' % ver
             self.archiveNames[ver] = "sqlcipher-%s.zip" % ver
             self.targetInstSrc[ver] = 'sqlcipher-%s' % ver
-            self.patchLevel[ver] = 5
+            self.patchLevel[ver] = 6
 
         self.targetDigests["3.4.2"] = (['f2afbde554423fd3f8e234d21e91a51b6f6ba7fc4971e73fdf5d388a002f79f1'], CraftHash.HashAlgorithm.SHA256)
 
@@ -134,6 +134,8 @@ class PackageMSVC(MSBuildPackageBase):
         # stops segfaulting each time in qsqlcipher-test in KMyMoney with this, but is still unstable with core application
         content = content.replace(r"USE_CRT_DLL = 0", r"USE_CRT_DLL = 1")
 
+        content = content.replace(r"DYNAMIC_SHELL = 0", r"DYNAMIC_SHELL = 1")
+
         content = content.replace(r"USE_ICU = 0", r"USE_ICU = 1")
         content = content.replace(r"c:\icu\include", includeDir)
         content = content.replace(r"c:\icu\lib", libDir)
@@ -142,11 +144,15 @@ class PackageMSVC(MSBuildPackageBase):
         content = content.replace(r"c:\tcl\include", includeDir)
         content = content.replace(r"c:\tcl\lib", libDir)
 
-        content = content.replace(r"winsqlite3.dll", r"sqlcipher.dll")
-        content = content.replace(r"winsqlite3.lib", r"sqlcipher.lib")
+        # sqlite3.lib will be picked by next replace method
+        content = content.replace(r"libsqlite3.lib", r"sqlite3.lib")
+
+        content = content.replace(r"winsqlite3.dll", r"libsqlcipher.dll")
+        content = content.replace(r"winsqlite3.lib", r"libsqlcipher.lib")
         content = content.replace(r"winsqlite3shell.exe", r"sqlcipher.exe")
-        content = content.replace(r"sqlite3.dll", r"sqlcipher.dll")
-        content = content.replace(r"sqlite3.lib", r"sqlcipher.lib")
+        # if libraries are called "sqlcipher" then no DYNAMIC_SHELL is possible
+        content = content.replace(r"sqlite3.dll", r"libsqlcipher.dll")
+        content = content.replace(r"sqlite3.lib", r"libsqlcipher.lib")
         content = content.replace(r"sqlite3.exe", r"sqlcipher.exe")
         content = content.replace(r"sqlite3sh.pdb", r"sqlciphersh.pdb")
         content = content.replace(r"sqlite3.def", r"sqlcipher.def")
@@ -163,9 +169,9 @@ class PackageMSVC(MSBuildPackageBase):
         if isInstalled:
             # move sqlcipher headers to sqlcipher directory to not conflit with sqlite3
             includeDir = os.path.join(self.installDir(), "include")
-            utils.moveDir(includeDir, os.path.join(self.installDir(), "sqlcipher") )
+            utils.moveFile(includeDir, os.path.join(self.installDir(), "sqlcipher") )
             utils.createDir(includeDir)
-            utils.moveDir(os.path.join(self.installDir(), "sqlcipher"), os.path.join(includeDir, "sqlcipher"))
+            utils.moveFile(os.path.join(self.installDir(), "sqlcipher"), os.path.join(includeDir, "sqlcipher"))
 
             # allow finding sqlcipher library by pkgconfig module
             pkgConfigDir = os.path.join(self.installDir(), "lib", "pkgconfig")
@@ -182,6 +188,10 @@ class PackageMSVC(MSBuildPackageBase):
 
             with open(pkgConfigFile, "wt") as f:
                 f.write(content)
+
+            # remove a dummy library and replace it with the real one
+            utils.rmtree(os.path.join(self.installDir(), "lib", "sqlcipher.lib"))
+            utils.copyFile(os.path.join(self.installDir(), "lib", "libsqlcipher.lib"), os.path.join(self.installDir(), "lib", "sqlcipher.lib"))
 
         return isInstalled
 
