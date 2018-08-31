@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = '2.9.7'
 
     def setDependencies(self):
+        self.buildDependencies["dev-utils/pkg-config"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/zlib"] = "default"
         self.runtimeDependencies["libs/iconv"] = "default"

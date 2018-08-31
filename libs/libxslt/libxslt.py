@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = '1.1.32'
 
     def setDependencies(self):
+        self.buildDependencies["dev-utils/pkg-config"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/libxml2"] = "default"
         self.runtimeDependencies["libs/zlib"] = "default"
