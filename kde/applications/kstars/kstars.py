@@ -60,5 +60,15 @@ class Package(CMakePackageBase):
         self.defines["executable"] = "bin\\kstars.exe"
         #self.defines["setupname"] = "kstars-latest-win64.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kstars.ico")
+        # TODO: support dpi scaling
+        # TODO: use assets from src with the next release
+        #self.defines["icon_png"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Square150x150Logo.scale-100.png")
+        #self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Square44x44Logo.scale-100.png")
+        #self.defines["icon_png_310x150"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Wide310x150Logo.scale-100.png")
+        #self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Square310x310Logo.scale-100.png")
+        self.defines["icon_png"] = os.path.join(self.packageDir(), "assets", "Square150x150Logo.scale-100.png")
+        self.defines["icon_png_44"] = os.path.join(self.packageDir(), "assets", "Square44x44Logo.scale-100.png")
+        self.defines["icon_png_310x150"] = os.path.join(self.packageDir(), "assets", "Wide310x150Logo.scale-100.png")
+        self.defines["icon_png_310x310"] = os.path.join(self.packageDir(), "assets", "Square310x310Logo.scale-100.png")
 
         return TypePackager.createPackage(self)
