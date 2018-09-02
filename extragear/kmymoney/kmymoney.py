@@ -27,12 +27,10 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/kmymoney|master'
-        self.svnTargets['5.0'] = 'git://anongit.kde.org/kmymoney|5.0'
+        self.versionInfo.setDefaultValues()
         self.description = "a personal finance manager for KDE"
         self.displayName = "KMyMoney"
-        self.defaultTarget = 'master'
-        self.patchLevel["master"] = 1
+        self.defaultTarget = '5.0'
 
     def setDependencies(self):
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = "default"
