@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         #self.buildDependencies["dev-utils/pkg-config"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.runtimeDependencies["libs/zlib"] = "default"
+        self.runtimeDependencies["libs/liblzma"] = "default"
         self.runtimeDependencies["libs/iconv"] = "default"
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = "default"
