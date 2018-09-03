@@ -72,7 +72,14 @@ class PackageAutoTools(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
         root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
-        self.subinfo.options.configure.args += f"--enable-shared --disable-static --with-pcre=internal --with-libiconv=gnu"
+        self.subinfo.options.configure.args += f"--enable-shared --disable-static --with-pcre=internal"
+        if OsUtils.isMac():
+            # If we use --with-libiconv=gnu glib will try to find libiconv_open instead of iconv_open.
+            # We could fix that by building libiconv, however it conflicts with the system libiconv.dylib.
+            # Forcing glib to build against the native libiconv fixes this problem.
+            self.subinfo.options.configure.args += " --with-libiconv=native"
+        else:
+            self.subinfo.options.configure.args += " --with-libiconv=gnu"
         self.subinfo.options.configure.cflags = "-Wno-format-nonliteral"
 
         if not CraftCore.cache.findApplication("pkg-config"):
