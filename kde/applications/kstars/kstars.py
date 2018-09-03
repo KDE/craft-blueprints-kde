@@ -1,6 +1,5 @@
 import info
 
-
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -70,5 +69,7 @@ class Package(CMakePackageBase):
         self.defines["icon_png_44"] = os.path.join(self.packageDir(), "assets", "Square44x44Logo.scale-100.png")
         self.defines["icon_png_310x150"] = os.path.join(self.packageDir(), "assets", "Wide310x150Logo.scale-100.png")
         self.defines["icon_png_310x310"] = os.path.join(self.packageDir(), "assets", "Square310x310Logo.scale-100.png")
+        if isinstance(self, AppxPackager):
+              self.defines["display_name"] = "KStars"
 
         return TypePackager.createPackage(self)
