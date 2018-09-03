@@ -3,6 +3,10 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # TODO: fix build
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotLinux
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
