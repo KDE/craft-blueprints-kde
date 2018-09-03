@@ -12,12 +12,20 @@ class subinfo(info.infoclass):
             qtVer = CraftVersion(ver)
             if ver == "dev":
                 self.patchToApply[ver] = []
+            elif qtVer >= CraftVersion("5.11.1"):
+                self.patchToApply[ver] = [
+                    ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
+                    ("workaround-mingw-egl.diff", 1),
+                    ("fix_GenericDataLocation_mac.patch", 1),
+                    ("qstandardpaths-extra-dirs.patch", 1),
+                ]
             elif qtVer >= CraftVersion("5.11"):
                 self.patchToApply[ver] = [
                     ("qdbus-manager-quit-5.7.patch", 1), # https://phabricator.kde.org/D2545#69186
                     ("0001-Fix-private-headers.patch", 1),  # https://bugreports.qt.io/browse/QTBUG-37417
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_GenericDataLocation_mac.patch", 1),
+                    ("qstandardpaths-extra-dirs.patch", 1),
                 ]
             elif qtVer >= CraftVersion("5.10"):
                 self.patchToApply[ver] = [
@@ -26,6 +34,7 @@ class subinfo(info.infoclass):
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_AppDataLocation_mac.patch", 1), #https://bugreports.qt.io/browse/QTBUG-61159
                     ("fix_GenericDataLocation_mac.patch", 1),
+                    ("qstandardpaths-extra-dirs.patch", 1),
                 ]
             elif qtVer >= CraftVersion("5.9.4") or qtVer == CraftVersion("5.9"):
                 self.patchToApply[ver] = [
@@ -131,6 +140,9 @@ class QtPackage(Qt5CorePackageBase):
                 command += "-mp "
             else:
                 command += "-qt-pcre "
+
+            if OsUtils.isMac() and version >= CraftVersion("5.10"):
+                command += f"-macos-additional-datadirs \"{CraftStandardDirs.craftRoot()}/share\" "
 
             if OsUtils.isWin():
                 command += "-opengl dynamic "
