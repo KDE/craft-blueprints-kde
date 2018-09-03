@@ -59,10 +59,8 @@ class PackageMSVC(MakeFilePackageBase):
 class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        root = CraftCore.standardDirs.craftRoot()
-        self.subinfo.options.configure.args += (" --disable-static --enable-shared --without-python "
-                                                f" PKG_CONFIG=':'"
-                                                f" --with-zlib='{root}' --with-iconv='{root}' --with-lzma='{root}'")
+        self.subinfo.options.configure.autoreconf = False
+        self.subinfo.options.configure.args += " --disable-static --enable-shared --without-python "
 
 if CraftCore.compiler.isGCCLike():
     class Package(PackageMinGW):
