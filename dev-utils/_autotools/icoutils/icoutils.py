@@ -2,6 +2,9 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+
     def setTargets( self ):
         for ver in ["0.32.3"]:
             self.targets[ ver ] = f"http://savannah.nongnu.org/download/icoutils/icoutils-{ver}.tar.bz2"
