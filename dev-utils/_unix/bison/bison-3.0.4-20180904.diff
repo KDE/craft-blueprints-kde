@@ -1,0 +1,11 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' bison-3.0.4.orig/configure.ac bison-3.0.4/configure.ac
+--- bison-3.0.4.orig/configure.ac	2015-01-22 16:57:01.000000000 +0100
++++ bison-3.0.4/configure.ac	2018-09-04 14:01:57.507398600 +0200
+@@ -205,6 +205,7 @@
+ # latest Gettext.
+ AM_GNU_GETTEXT([external], [need-ngettext])
+ AM_GNU_GETTEXT_VERSION([0.18])
++AM_GNU_GETTEXT_REQUIRE_VERSION([0.18])
+ BISON_I18N
+ 
+ # Internationalized parsers.

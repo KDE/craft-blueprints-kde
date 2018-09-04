@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/msys"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
         self.buildDependencies["dev-utils/help2man"] = "default"
+        self.buildDependencies["libs/gettext"] = "default"
 
     def setTargets(self):
         self.description = "Bison is a general-purpose parser generator that converts an annotated context-free grammar into a deterministic LR or generalized LR (GLR) parser employing LALR(1) parser tables"
@@ -15,7 +16,7 @@ class subinfo(info.infoclass):
         for ver in ["3.0.4"]:
             self.targets[ver] = f"http://ftp.gnu.org/gnu/bison/bison-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"bison-{ver}"
-        self.patchToApply["3.0.4"] = [("vasnprintf-macos.diff", 1)]
+        self.patchToApply["3.0.4"] = [("vasnprintf-macos.diff", 1), ("bison-3.0.4-20180904.diff", 1)]
         self.targetDigests["3.0.4"] = (['a72428c7917bdf9fa93cb8181c971b6e22834125848cf1d03ce10b1bb0716fe1'], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = '3.0.4'
@@ -23,7 +24,4 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        # autoreconf is not enough here
-        self.subinfo.options.configure.bootstrap = True
         self.subinfo.options.configure.args += " --disable-static --enable-shared"
-

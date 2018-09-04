@@ -7,6 +7,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = "default"
         self.runtimeDependencies["virtual/base"] = "default"
+        self.buildDependencies["libs/gettext"] = "default"
 
     def setTargets(self):
         self.description = "Flex is a tool for generating scanners: programs which recognize lexical patterns in text."
