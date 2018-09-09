@@ -13,7 +13,11 @@ class subinfo( info.infoclass ):
         self.targetDigestUrls['0.1.80'] = 'https://download.kde.org/unstable/elisa/0.1.80/elisa-0.1.80.tar.xz.sha256'
         self.targetInstSrc['0.1.80'] = 'elisa-0.1.80'
 
-        self.defaultTarget = '0.2.1'
+        self.targets['0.2.80'] = 'https://download.kde.org/unstable/elisa/0.2.80/elisa-0.2.80.tar.xz'
+        self.targetDigestUrls['0.2.80'] = 'https://download.kde.org/unstable/elisa/0.2.80/elisa-0.2.80.tar.xz.sha256'
+        self.targetInstSrc['0.2.80'] = 'elisa-0.2.80'
+
+        self.defaultTarget = '0.2.80'
 
         self.displayName = "Elisa"
         self.description = "the Elisa music player"
