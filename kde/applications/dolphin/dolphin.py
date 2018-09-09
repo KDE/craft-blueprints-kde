@@ -29,6 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = "default"
         self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = "default"
 
         # While KDNSSD is nice, it doesn't work on macOS, so we cannot have kio-extras there
         if not CraftCore.compiler.isMacOS:
