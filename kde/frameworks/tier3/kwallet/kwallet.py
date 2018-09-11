@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = "default"
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
         self.runtimeDependencies["libs/gcrypt"] = "default"
+        self.runtimeDependencies['libs/gpgme'] = 'default'
 
 
 from Package.CMakePackageBase import *
