@@ -21,4 +21,7 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args += " --disable-static --enable-shared "
+        # Don't include the system aclocal files since it breaks gnulib:
+        # https://lists.gnu.org/archive/html/bug-gnulib/2016-12/msg00140.html
+        self.subinfo.options.configure.useDefaultAutoreconfIncludes = False
 
