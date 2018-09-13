@@ -49,6 +49,9 @@ class Package(AutoToolsPackageBase):
         # this prevents "cannot find the library libaqhbci.la or unhandled argument libaqhbci.la"
         self.subinfo.options.make.supportsMultijob = False
 
+        # Including libtool from the newer autotools in craftroot breaks the build (at least on macOS)
+        self.subinfo.options.configure.autoreconf = False
+
     def postInstall(self):
 
         cmakes = [ os.path.join(self.installDir(), "lib", "cmake", f"aqbanking-{self.subinfo.defaultTarget[:-2]}", "aqbanking-config.cmake") ]
