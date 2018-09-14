@@ -1,0 +1,2 @@
+Contents/PlugIns/sqldrivers/libqsqlmysql\.dylib
+Contents/PlugIns/sqldrivers/libqsqlpsql\.dylib
