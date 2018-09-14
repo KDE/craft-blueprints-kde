@@ -5,6 +5,9 @@ from Package.CMakePackageBase import *
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.registerOption("update_check_url", "")
+
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/KDAB/Charm.git'
         for ver in ["1.12.0"]:
@@ -28,6 +31,8 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         if self.subinfo.buildTarget != "master":
            self.subinfo.options.configure.args = f"-DCharm_VERSION={self.subinfo.buildTarget}"
+        if self.subinfo.options.dynamic.update_check_url:
+            self.subinfo.options.configure.args += f" -DUPDATE_CHECK_URL={self.subinfo.options.dynamic.update_check_url}"
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
