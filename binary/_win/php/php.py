@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
                                                               re.compile(r"7\.\d\.\d\d"))
         versions.sort(key=lambda v: StrictVersion(v))
         for ver in versions:
-            self.targets[ver] = "http://windows.php.net/downloads/releases/php-%s-Win32-VC14-%s.zip" % (
+            self.targets[ver] = "http://windows.php.net/downloads/releases/php-%s-Win32-VC15-%s.zip" % (
             ver, CraftCore.compiler.architecture)
             self.targetDigestUrls[ver] = (
             "http://windows.php.net/downloads/releases/sha1sum.txt", CraftHash.HashAlgorithm.SHA1)
