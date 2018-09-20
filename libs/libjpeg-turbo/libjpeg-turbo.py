@@ -62,7 +62,11 @@ class PackageAutotools(AutoToolsPackageBase):
             self.subinfo.options.configure.args = "--disable-shared --enable-static "
         else:
             self.subinfo.options.configure.args = "--enable-shared --disable-static "
-        self.subinfo.options.configure.args += f"--disable-doc-build NASM={CraftCore.cache.findApplication('nasm')}"
+        self.subinfo.options.configure.args += "--disable-doc-build"
+
+    def configure(self):
+        self.subinfo.options.configure.args += f" NASM={CraftCore.cache.findApplication('nasm')}"
+        return super().configure()
 
 if CraftCore.compiler.isUnix:
     class Package(PackageAutotools):
