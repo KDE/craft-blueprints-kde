@@ -38,11 +38,13 @@ class subinfo(info.infoclass):
         self.patchToApply["1.9.0"] = [("gpgme-1.9.0-20170801.diff", 1)]
         self.patchToApply["1.11.1"] = [("gpgme-1.1.11-20170801.diff", 1),
                                        ("qt Respect --disable-gpg-test for tests.patch", 1),
-                                       ("gpgme-1.11.1-20180820.diff", 1)]# disable the documentation (crashes on x86)
+                                       ("gpgme-1.11.1-20180820.diff", 1),# disable the documentation (crashes on x86)
+                                       ("gpgme-1.11.1-20180920.diff", 1),# fix qgpgme config
+                                       ]
         if CraftCore.compiler.isWindows:
             self.patchToApply["1.11.1"] += [("gpgme-1.1.11-20180620.diff", 1)]
 
-        self.patchLevel["1.11.1"] = 3
+        self.patchLevel["1.11.1"] = 4
 
     def registerOptions(self):
         self.options.dynamic.registerOption("enableCPP", True)

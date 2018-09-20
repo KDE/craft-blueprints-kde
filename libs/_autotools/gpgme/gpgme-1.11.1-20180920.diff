@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' gpgme-1.11.1.orig/lang/qt/src/QGpgmeConfig-w32.cmake.in.in gpgme-1.11.1/lang/qt/src/QGpgmeConfig-w32.cmake.in.in
+--- gpgme-1.11.1.orig/lang/qt/src/QGpgmeConfig-w32.cmake.in.in	2017-03-28 16:49:24.000000000 +0200
++++ gpgme-1.11.1/lang/qt/src/QGpgmeConfig-w32.cmake.in.in	2018-09-20 14:25:15.024484200 +0200
+@@ -62,7 +62,7 @@
+ add_library(QGpgme SHARED IMPORTED)
+ 
+ set_target_properties(QGpgme PROPERTIES
+-  IMPORTED_IMPLIB_RELEASE "@resolved_libdir@/libqgpgme.dll.a"
++  IMPORTED_IMPLIB "@resolved_libdir@/libqgpgme.dll.a"
+   INTERFACE_INCLUDE_DIRECTORIES "@resolved_includedir@/qgpgme;@resolved_includedir@"
+   INTERFACE_LINK_LIBRARIES "Gpgmepp;Qt5::Core"
+   IMPORTED_LOCATION "@resolved_libdir@/libqgpgme-7.dll"
