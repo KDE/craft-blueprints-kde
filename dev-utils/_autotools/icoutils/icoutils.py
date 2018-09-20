@@ -2,9 +2,6 @@ import info
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
-
     def setTargets( self ):
         for ver in ["0.32.3"]:
             self.targets[ ver ] = f"http://savannah.nongnu.org/download/icoutils/icoutils-{ver}.tar.bz2"
@@ -25,3 +22,5 @@ from Package.AutoToolsPackageBase import *
 class Package(AutoToolsPackageBase):
     def __init__( self, **args ):
         AutoToolsPackageBase.__init__( self )
+        self.subinfo.options.configure.autoreconf = False
+
