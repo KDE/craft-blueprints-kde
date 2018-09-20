@@ -65,7 +65,9 @@ class PackageAutotools(AutoToolsPackageBase):
         self.subinfo.options.configure.args += "--disable-doc-build"
 
     def configure(self):
-        self.subinfo.options.configure.args += f" NASM={CraftCore.cache.findApplication('nasm')}"
+        nasm = CraftCore.cache.findApplication("nasm")
+        if nasm:
+            self.subinfo.options.configure.args += f" NASM={nasm}"
         return super().configure()
 
 if CraftCore.compiler.isUnix:
