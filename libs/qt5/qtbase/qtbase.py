@@ -221,12 +221,14 @@ class QtPackage(Qt5CorePackageBase):
             return True
 
     def postInstall(self):
-        if OsUtils.isWin() and CraftCore.settings.getboolean("Packager", "UseCache"):
-            if not utils.system(["qtbinpatcher", "--nobackup",
+        if CraftCore.compiler.isWindows and CraftCore.settings.getboolean("Packager", "UseCache"):
+            return utils.system(["qtbinpatcher", "--nobackup",
                                  f"--qt-dir={self.installDir()}",
-                                 f"--new-dir={CraftStandardDirs.craftRoot()}"]):
-                return False
-        return True
+                                 f"--new-dir={CraftStandardDirs.craftRoot()}"])
+        else:
+            return self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "qt.conf")],
+                                           self.subinfo.buildPrefix,
+                                           CraftCore.standardDirs.craftRoot())
 
     def getQtBaseEnv(self):
         envs = {}
