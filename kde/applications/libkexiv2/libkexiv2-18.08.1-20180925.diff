@@ -1,12 +1,29 @@
 diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' libkexiv2-18.08.1.orig/CMakeLists.txt libkexiv2-18.08.1/CMakeLists.txt
 --- libkexiv2-18.08.1.orig/CMakeLists.txt	2017-08-19 14:13:37.000000000 +0200
-+++ libkexiv2-18.08.1/CMakeLists.txt	2018-09-25 16:19:45.038181000 +0200
-@@ -9,7 +9,7 @@
- message(STATUS "----------------------------------------------------------------------------------")
- message(STATUS "Starting CMake configuration for: ${PROJECT_NAME}")
++++ libkexiv2-18.08.1/CMakeLists.txt	2018-09-25 16:55:40.664751000 +0200
+@@ -4,18 +4,19 @@
+ # Redistribution and use is allowed according to the terms of the BSD license.
+ # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
  
+-project(libkexiv2)
+-
+-message(STATUS "----------------------------------------------------------------------------------")
+-message(STATUS "Starting CMake configuration for: ${PROJECT_NAME}")
+-
 -set(CMAKE_MIN_VERSION   "2.8.12")
-+set(CMAKE_MIN_VERSION   "3.0")
++set(CMAKE_MIN_VERSION   3.0)
  set(ECM_MIN_VERSION     "1.1.0")
  set(REQUIRED_QT_VERSION "5.2.0")
  set(EXIV2_MIN_VERSION   "0.24")
+ 
+ cmake_minimum_required(VERSION ${CMAKE_MIN_VERSION})
+ 
++project(libkexiv2)
++
++message(STATUS "----------------------------------------------------------------------------------")
++message(STATUS "Starting CMake configuration for: ${PROJECT_NAME}")
++
++
+ # =======================================================
+ # Information to update before to release this library.
+ 
