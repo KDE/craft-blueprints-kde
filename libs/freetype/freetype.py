@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["libs/libpng"] = "default"
         self.buildDependencies["dev-utils/msys"] = "default"
         self.buildDependencies["dev-utils/pkg-config"] = "default"
 
