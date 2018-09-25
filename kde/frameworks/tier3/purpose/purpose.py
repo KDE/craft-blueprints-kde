@@ -4,6 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["5.50.0"] = [("purpose-5.50.0-20180925.diff", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
