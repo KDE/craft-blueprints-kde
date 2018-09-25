@@ -25,7 +25,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils/msys"] = "default"
 
 
 class Package(AutoToolsPackageBase):
