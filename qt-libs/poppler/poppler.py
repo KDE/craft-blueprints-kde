@@ -57,6 +57,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libcurl"] = "default"
         self.runtimeDependencies["libs/tiff"] = "default"
         self.runtimeDependencies["libs/iconv"] = "default"
+        self.runtimeDependencies["libs/fontconfig"] = "default"
         self.runtimeDependencies["data/poppler-data"] = "default"
         self.runtimeDependencies["libs/qt5/qtbase"] = "default"
 
