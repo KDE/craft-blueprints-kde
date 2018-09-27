@@ -22,7 +22,10 @@ class subinfo(info.infoclass):
             self.patchToApply["55.1"] = [("icu-20150414.diff", 2), ("icu-msys.diff", 2)]
             self.patchToApply["58.2"] = ("0020-workaround-missing-locale.patch",
                                          2)  # https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-icu/0020-workaround-missing-locale.patch
-        self.defaultTarget = "62.1"
+        if CraftCore.compiler.isWindows:
+            self.defaultTarget = "58.2"
+        else:
+            self.defaultTarget = "62.1"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = "default"
