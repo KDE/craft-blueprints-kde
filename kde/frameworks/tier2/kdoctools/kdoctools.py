@@ -52,6 +52,6 @@ class Package(CMakePackageBase):
     def postInstall(self):
         if not CraftCore.compiler.isWindows:
             return True
-        return self.patchInstallPrefix([os.path.join(self.installDir(), "bin/data/kf5/kdoctools/customization/xsl/all-l10n.xml")],
+        return self.patchInstallPrefix([os.path.join(self.installDir(), CraftCore.standardDirs.locations.data, "kf5/kdoctools/customization/xsl/all-l10n.xml")],
                                        OsUtils.toUnixPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))
 
