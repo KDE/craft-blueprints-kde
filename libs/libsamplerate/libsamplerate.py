@@ -20,4 +20,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = " -DBUILD_SHARED_LIBS=ON -DBUILD_EXAMPLES=ON -DBUILD_TEST=ON"
+        self.subinfo.options.configure.args = " -DBUILD_SHARED_LIB=ON -DBUILD_EXAMPLES=ON -DBUILD_TEST=ON"
