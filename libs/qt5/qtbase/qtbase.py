@@ -207,7 +207,8 @@ class QtPackage(Qt5CorePackageBase):
             parser = configparser.ConfigParser()
             parser.read(os.path.join(self.buildDir(), "bin", "qt.conf"))
             parser.remove_section("EffectiveSourcePaths")
-            parser.write(os.path.join(self.imageDir(), "bin", "qt.conf"))
+            with open(os.path.join(self.imageDir(), "bin", "qt.conf"), "wt") as out:
+                parser.write(out)
 
             # install msvc debug files if available
             if CraftCore.compiler.isMSVC():
@@ -229,7 +230,8 @@ class QtPackage(Qt5CorePackageBase):
             parser = configparser.ConfigParser()
             parser.read(conf)
             parser.remove_section("EffectiveSourcePaths")
-            parser.write(conf)
+            with open(conf, "wt") as out:
+                parser.write(out)
 
         if CraftCore.compiler.isWindows and CraftCore.settings.getboolean("Packager", "UseCache"):
             return utils.system(["qtbinpatcher", "--nobackup",
