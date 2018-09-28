@@ -206,8 +206,7 @@ class QtPackage(Qt5CorePackageBase):
                 return False
             parser = configparser.ConfigParser()
             parser.read(os.path.join(self.buildDir(), "bin", "qt.conf"))
-            if parser.has_section("EffectiveSourcePaths"):
-                parser.remove_section("EffectiveSourcePaths")
+            parser.remove_section("EffectiveSourcePaths")
             parser.write(os.path.join(self.imageDir(), "bin", "qt.conf"))
 
             # install msvc debug files if available
@@ -224,6 +223,14 @@ class QtPackage(Qt5CorePackageBase):
             return True
 
     def postInstall(self):
+        # TODO: remove after the next cache rebuild (now 5.11.2)
+        conf = os.path.join(self.imageDir(), "bin", "qt.conf")
+        if os.path.exists(conf):
+            parser = configparser.ConfigParser()
+            parser.read(conf)
+            parser.remove_section("EffectiveSourcePaths")
+            parser.write(conf)
+
         if CraftCore.compiler.isWindows and CraftCore.settings.getboolean("Packager", "UseCache"):
             return utils.system(["qtbinpatcher", "--nobackup",
                                  f"--qt-dir={self.installDir()}",
