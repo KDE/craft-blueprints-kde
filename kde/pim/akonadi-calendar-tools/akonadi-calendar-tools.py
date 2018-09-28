@@ -8,17 +8,17 @@ class subinfo(info.infoclass):
         self.description = "Calendar Tools"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi"] = "default"
-        self.runtimeDependencies["kde/pim/kcalcore"] = "default"
-        self.runtimeDependencies["kde/pim/kcalutils"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi-calendar"] = "default"
-        self.runtimeDependencies["kde/pim/libkdepim"] = "default"
-        self.runtimeDependencies["kde/pim/calendarsupport"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/pim/akonadi"] = None
+        self.runtimeDependencies["kde/pim/kcalcore"] = None
+        self.runtimeDependencies["kde/pim/kcalutils"] = None
+        self.runtimeDependencies["kde/pim/akonadi-calendar"] = None
+        self.runtimeDependencies["kde/pim/libkdepim"] = None
+        self.runtimeDependencies["kde/pim/calendarsupport"] = None
 
 
 from Package.CMakePackageBase import *

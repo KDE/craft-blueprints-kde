@@ -9,17 +9,17 @@ class subinfo(info.infoclass):
         self.patchToApply['17.04.1'] = [("fix_keditbookmarks_unistd.patch", 1)]
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
 
 
 from Package.CMakePackageBase import *

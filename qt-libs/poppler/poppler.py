@@ -44,22 +44,22 @@ class subinfo(info.infoclass):
         self.defaultTarget = "0.68.0"
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/pkg-config"] = "default"
-        self.runtimeDependencies["data/poppler-data"] = "default"
-        self.runtimeDependencies["libs/freetype"] = "default"
-        self.runtimeDependencies["libs/libjpeg-turbo"] = "default"
-        self.runtimeDependencies["libs/lcms"] = "default"
-        self.runtimeDependencies["libs/lcms2"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
-        self.runtimeDependencies["libs/openjpeg"] = "default"
-        self.runtimeDependencies["libs/libjpeg-turbo"] = "default"
-        self.runtimeDependencies["libs/libpng"] = "default"
-        self.runtimeDependencies["libs/libcurl"] = "default"
-        self.runtimeDependencies["libs/tiff"] = "default"
-        self.runtimeDependencies["libs/iconv"] = "default"
-        self.runtimeDependencies["libs/fontconfig"] = "default"
-        self.runtimeDependencies["data/poppler-data"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.runtimeDependencies["data/poppler-data"] = None
+        self.runtimeDependencies["libs/freetype"] = None
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
+        self.runtimeDependencies["libs/lcms"] = None
+        self.runtimeDependencies["libs/lcms2"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/openjpeg"] = None
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
+        self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/libcurl"] = None
+        self.runtimeDependencies["libs/tiff"] = None
+        self.runtimeDependencies["libs/iconv"] = None
+        self.runtimeDependencies["libs/fontconfig"] = None
+        self.runtimeDependencies["data/poppler-data"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
 
 
 class Package(CMakePackageBase):

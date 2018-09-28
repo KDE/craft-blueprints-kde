@@ -10,16 +10,16 @@ class subinfo(info.infoclass):
         self.displayName = "KDE Connect"
 
     def setDependencies(self):
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["kdesupport/qca"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kdesupport/qca"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
 
 
 class Package(CMakePackageBase):

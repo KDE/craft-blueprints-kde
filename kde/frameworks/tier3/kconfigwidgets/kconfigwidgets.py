@@ -8,17 +8,17 @@ class subinfo(info.infoclass):
         self.description = "Extra widgets for easier configuration support"
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kauth"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = "default"
-        self.buildDependencies["libs/gettext"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
+        self.buildDependencies["libs/gettext"] = None
 
 from Package.CMakePackageBase import *
 

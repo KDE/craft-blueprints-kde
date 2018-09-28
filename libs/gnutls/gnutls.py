@@ -39,14 +39,14 @@ class subinfo(info.infoclass):
         self.defaultTarget = "3.5.17"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/gcrypt"] = "default"
-        self.runtimeDependencies["libs/nettle"] = "default"
-        self.runtimeDependencies["libs/libidn"] = "default"
-        self.runtimeDependencies["libs/libunistring"] = "default"
-        self.runtimeDependencies["libs/libtasn1"] = "default"
-        self.runtimeDependencies["libs/p11kit"] = "default"
+        self.runtimeDependencies["libs/gcrypt"] = None
+        self.runtimeDependencies["libs/nettle"] = None
+        self.runtimeDependencies["libs/libidn"] = None
+        self.runtimeDependencies["libs/libunistring"] = None
+        self.runtimeDependencies["libs/libtasn1"] = None
+        self.runtimeDependencies["libs/p11kit"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
 
 
 class PackageAutoTools(AutoToolsPackageBase):

@@ -6,8 +6,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
     def setDependencies(self):
-        self.runtimeDependencies["extragear/kdevelop-pg-qt"] = "default"
-        self.runtimeDependencies["extragear/kdevelop/kdevelop"] = "default"
+        self.runtimeDependencies["extragear/kdevelop-pg-qt"] = None
+        self.runtimeDependencies["extragear/kdevelop/kdevelop"] = None
 
 
 from Package.CMakePackageBase import *

@@ -7,8 +7,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues(packageName="clang-tools-extra", gitUrl="[git]https://git.llvm.org/git/clang-tools-extra.git")
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/llvm-meta/llvm"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/llvm-meta/llvm"] = None
 
 
 from Package.VirtualPackageBase import *

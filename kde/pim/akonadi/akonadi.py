@@ -18,16 +18,16 @@ class subinfo(info.infoclass):
         self.description = "A storage service for PIM data and meta data"
 
     def setDependencies(self):
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["libs/boost/boost-graph"] = "default"
-        self.runtimeDependencies["libs/libxslt"] = "default"
-        self.runtimeDependencies["libs/sqlite"] = "default"
-        self.runtimeDependencies["libs/shared-mime-info"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kdesignerplugin"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.buildDependencies["libs/boost/boost-graph"] = None
+        self.runtimeDependencies["libs/libxslt"] = None
+        self.runtimeDependencies["libs/sqlite"] = None
+        self.runtimeDependencies["libs/shared-mime-info"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kdesignerplugin"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
 
 
 from Package.CMakePackageBase import *

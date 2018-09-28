@@ -43,12 +43,12 @@ class subinfo(info.infoclass):
         self.defaultTarget = "3.4.2"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/openssl"] = "default"
-        self.runtimeDependencies["libs/tcl"] = "default"
-        self.runtimeDependencies["libs/icu"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/openssl"] = None
+        self.runtimeDependencies["libs/tcl"] = None
+        self.runtimeDependencies["libs/icu"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
 
 #warning: empty sqlite3.h can prevent successfull build
 class PackageAutotools(AutoToolsPackageBase):

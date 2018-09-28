@@ -9,11 +9,11 @@ class subinfo(info.infoclass):
         self.description = "Akonadi Notes library"
 
     def setDependencies(self):
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/pim/kmime"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["kde/pim/akonadi"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/pim/kmime"] = None
 
 
 from Package.CMakePackageBase import *

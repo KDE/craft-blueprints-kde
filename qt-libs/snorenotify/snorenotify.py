@@ -5,14 +5,14 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["libs/qt5/qttools"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/qt5/qtwebsockets"] = "default"
-        self.runtimeDependencies["libs/qt5/qtmultimedia"] = "default"
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
-        self.runtimeDependencies["libs/qt5/qtspeech"] = "default"
-        self.runtimeDependencies["libs/snoregrowl"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.buildDependencies["libs/qt5/qttools"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtwebsockets"] = None
+        self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
+        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt5/qtspeech"] = None
+        self.runtimeDependencies["libs/snoregrowl"] = None
 
     def setTargets(self):
         self.svnTargets['master'] = 'git://anongit.kde.org/snorenotify'

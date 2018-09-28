@@ -15,11 +15,11 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
-        self.runtimeDependencies["kdesupport/qca"] = "default"
-        self.runtimeDependencies["libs/mpir"] = "default"
-        self.runtimeDependencies["libs/gpgme"] = "default"
-        self.runtimeDependencies["libs/gcrypt"] = "default"
-        self.buildDependencies["libs/gettext"] = "default"
+        self.runtimeDependencies["kdesupport/qca"] = None
+        self.runtimeDependencies["libs/mpir"] = None
+        self.runtimeDependencies["libs/gpgme"] = None
+        self.runtimeDependencies["libs/gcrypt"] = None
+        self.buildDependencies["libs/gettext"] = None
 
 class Package(CMakePackageBase):
     def __init__(self):

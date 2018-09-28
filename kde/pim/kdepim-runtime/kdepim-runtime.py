@@ -8,39 +8,39 @@ class subinfo(info.infoclass):
         self.description = "kdepim runtime"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
 
-        self.runtimeDependencies["kde/pim/kmime"] = "default"
-        self.runtimeDependencies["kde/pim/kdav"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi-contacts"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi-calendar"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi-notes"] = "default"
-        self.runtimeDependencies["kde/pim/kcontacts"] = "default"
-        self.runtimeDependencies["kde/pim/kimap"] = "default"
-        self.runtimeDependencies["kde/pim/kcalutils"] = "default"
-        self.runtimeDependencies["kde/pim/kcalcore"] = "default"
-        self.runtimeDependencies["kde/pim/kmbox"] = "default"
-        self.runtimeDependencies["kde/pim/pimcommon"] = "default"
+        self.runtimeDependencies["kde/pim/kmime"] = None
+        self.runtimeDependencies["kde/pim/kdav"] = None
+        self.runtimeDependencies["kde/pim/akonadi"] = None
+        self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
+        self.runtimeDependencies["kde/pim/akonadi-calendar"] = None
+        self.runtimeDependencies["kde/pim/akonadi-notes"] = None
+        self.runtimeDependencies["kde/pim/kcontacts"] = None
+        self.runtimeDependencies["kde/pim/kimap"] = None
+        self.runtimeDependencies["kde/pim/kcalutils"] = None
+        self.runtimeDependencies["kde/pim/kcalcore"] = None
+        self.runtimeDependencies["kde/pim/kmbox"] = None
+        self.runtimeDependencies["kde/pim/pimcommon"] = None
 
-        self.runtimeDependencies["kde/pim/akonadi-mime"] = "default"
+        self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         # Laurent reactivate when libkgapi will be fixed
-        # self.runtimeDependencies["kde/pim/libkgapi"] = "default"
-        self.runtimeDependencies["kde/pim/kpimtextedit"] = "default"
-        self.runtimeDependencies["kdesupport/grantlee"] = "default"
-        self.runtimeDependencies["libs/cyrus-sasl"] = "default"
-        self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
-        self.runtimeDependencies["libs/libkolabxml"] = "default"
-        self.runtimeDependencies["libs/libkolabxml"] = "default"
+        # self.runtimeDependencies["kde/pim/libkgapi"] = None
+        self.runtimeDependencies["kde/pim/kpimtextedit"] = None
+        self.runtimeDependencies["kdesupport/grantlee"] = None
+        self.runtimeDependencies["libs/cyrus-sasl"] = None
+        self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+        self.runtimeDependencies["libs/libkolabxml"] = None
+        self.runtimeDependencies["libs/libkolabxml"] = None
 
 
 from Package.CMakePackageBase import *

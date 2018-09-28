@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.13.03"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/bin-base"] = "default"
+        self.runtimeDependencies["virtual/bin-base"] = None
 
 
 from Package.BinaryPackageBase import *

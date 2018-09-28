@@ -10,11 +10,11 @@ class subinfo(info.infoclass):
         self.description = "Qt 5 addon providing a barcode api to produce QRCode barcodes and DataMatrix barcodes."
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/qrencode"] = "default"
-        self.runtimeDependencies["libs/libdmtx"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qrencode"] = None
+        self.runtimeDependencies["libs/libdmtx"] = None
 
 
 from Package.CMakePackageBase import *

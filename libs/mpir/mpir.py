@@ -17,10 +17,10 @@ class subinfo(info.infoclass):
         self.defaultTarget = '3.0.0'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils/yasm"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/yasm"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
 
 
 from Package.AutoToolsPackageBase import *

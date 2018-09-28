@@ -28,10 +28,10 @@ class subinfo(info.infoclass):
             self.defaultTarget = "62.1"
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils/pkg-config"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/pkg-config"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
 
 from Package.MSBuildPackageBase import *
 

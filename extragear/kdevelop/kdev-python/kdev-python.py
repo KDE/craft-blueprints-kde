@@ -8,10 +8,10 @@ class subinfo(info.infoclass):
         self.description = "python support for kdevelop"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["extragear/kdevelop/kdevelop"] = "default"
-        self.runtimeDependencies["extragear/kdevelop/kdev-php"] = "default"
-        self.runtimeDependencies["binary/python-libs"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["extragear/kdevelop/kdevelop"] = None
+        self.runtimeDependencies["extragear/kdevelop/kdev-php"] = None
+        self.runtimeDependencies["binary/python-libs"] = None
 
 from Package.CMakePackageBase import *
 

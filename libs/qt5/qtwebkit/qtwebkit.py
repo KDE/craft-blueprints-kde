@@ -35,20 +35,20 @@ class subinfo(info.infoclass):
 
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/sqlite"] = "default"
-        self.runtimeDependencies["libs/icu"] = "default"
-        self.runtimeDependencies["libs/libxslt"] = "default"
-        self.runtimeDependencies["libs/libxml2"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/qt5/qtscript"] = "default"
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
-        self.runtimeDependencies["libs/qt5/qtmultimedia"] = "default"
-        self.runtimeDependencies["libs/qt5/qtwebchannel"] = "default"
-        self.runtimeDependencies["libs/qt5/qtsensors"] = "default"
-        self.buildDependencies["dev-utils/ruby"] = "default"
-        self.buildDependencies["dev-utils/flexbison"] = "default"
-        self.buildDependencies["dev-utils/gperf"] = "default"
+        self.runtimeDependencies["libs/sqlite"] = None
+        self.runtimeDependencies["libs/icu"] = None
+        self.runtimeDependencies["libs/libxslt"] = None
+        self.runtimeDependencies["libs/libxml2"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtscript"] = None
+        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
+        self.runtimeDependencies["libs/qt5/qtwebchannel"] = None
+        self.runtimeDependencies["libs/qt5/qtsensors"] = None
+        self.buildDependencies["dev-utils/ruby"] = None
+        self.buildDependencies["dev-utils/flexbison"] = None
+        self.buildDependencies["dev-utils/gperf"] = None
 
 
 from Package.Qt5CorePackageBase import *

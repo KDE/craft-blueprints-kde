@@ -15,9 +15,9 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.5.1"
 
     def setDependencies( self ):
-        self.buildDependencies["dev-utils/msys"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/gpg-error"] = "default"
+        self.buildDependencies["dev-utils/msys"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/gpg-error"] = None
 
 from Package.AutoToolsPackageBase import *
 

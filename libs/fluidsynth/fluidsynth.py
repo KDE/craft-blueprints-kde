@@ -15,9 +15,9 @@ class subinfo(info.infoclass):
         self.defaultTarget = '1.1.6'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils/pkg-config"] = "default"
-        self.runtimeDependencies["libs/glib"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.runtimeDependencies["libs/glib"] = None
 
 
 from Package.CMakePackageBase import *

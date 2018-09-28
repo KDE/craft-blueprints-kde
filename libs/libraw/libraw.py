@@ -14,10 +14,10 @@ class subinfo(info.infoclass):
         self.defaultTarget = '0.18.13'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/jasper"] = "default"
-        self.runtimeDependencies["libs/lcms"] = "default"
-        self.runtimeDependencies["libs/libjpeg-turbo"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/jasper"] = None
+        self.runtimeDependencies["libs/lcms"] = None
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
 
 
 class Package(CMakePackageBase):

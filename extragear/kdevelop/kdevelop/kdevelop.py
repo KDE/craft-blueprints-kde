@@ -16,54 +16,54 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("fullPlasma", False)
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["dev-utils/7zip"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
-        self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kinit"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/sonnet"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
-        self.runtimeDependencies["kde/kdesdk/libkomparediff2"] = "default"
-        self.runtimeDependencies["data/hicolor-icon-theme"] = "default"
-        self.runtimeDependencies["libs/llvm-meta/clang"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.buildDependencies["dev-utils/7zip"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt5/qtwebkit"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kinit"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/sonnet"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/kdesdk/libkomparediff2"] = None
+        self.runtimeDependencies["data/hicolor-icon-theme"] = None
+        self.runtimeDependencies["libs/llvm-meta/clang"] = None
 
         # handle kdevplatform merge into kdevelop.git
         if self.buildTarget != "master" and CraftVersion(self.buildTarget) < CraftVersion("5.2"):
-            self.runtimeDependencies["extragear/kdevelop/kdevplatform"] = "default"
+            self.runtimeDependencies["extragear/kdevelop/kdevplatform"] = None
         else:
-            self.runtimeDependencies["libs/qt5/qtquickcontrols"] = "default"
-            self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
-            self.runtimeDependencies["kdesupport/grantlee"] = "default"
+            self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
+            self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+            self.runtimeDependencies["kdesupport/grantlee"] = None
 
         if self.options.dynamic.fullPlasma:
-            self.runtimeDependencies["kde/frameworks/tier3/krunner"] = "default"
-            self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = "default"
+            self.runtimeDependencies["kde/frameworks/tier3/krunner"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
         if self.options.dynamic.fullKDevelop:
-            self.packagingDependencies["extragear/kdevelop/kdev-python"] = "default"
-            self.packagingDependencies["extragear/kdevelop/kdev-php"] = "default"
-        self.runtimeDependencies["extragear/kdevelop-pg-qt"] = "default"
+            self.packagingDependencies["extragear/kdevelop/kdev-python"] = None
+            self.packagingDependencies["extragear/kdevelop/kdev-php"] = None
+        self.runtimeDependencies["extragear/kdevelop-pg-qt"] = None
 
         # Install extra plugins shipped by Kate
-        self.runtimeDependencies["kde/applications/kate"] = "default"
+        self.runtimeDependencies["kde/applications/kate"] = None
 
 
 from Package.CMakePackageBase import *

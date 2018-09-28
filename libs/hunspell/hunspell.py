@@ -16,11 +16,11 @@ class subinfo(info.infoclass):
 
     def setDependencies( self ):
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/gettext"] = "default"
-        self.runtimeDependencies["libs/iconv"] = "default"
-        self.runtimeDependencies["data/hunspell-dictionaries"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/gettext"] = None
+        self.runtimeDependencies["libs/iconv"] = None
+        self.runtimeDependencies["data/hunspell-dictionaries"] = None
 
 from Package.MSBuildPackageBase import *
 

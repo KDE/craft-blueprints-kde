@@ -8,13 +8,13 @@ class subinfo(info.infoclass):
         self.description = "Scripts and data for building API documentation (dox) in a standard format and style."
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils/cmake"] = "default"
-        self.buildDependencies["dev-utils/python3"] = "default"
-        self.buildDependencies["dev-utils/doxygen"] = "default"
-        self.buildDependencies["python-modules/pyyaml"] = "default"
-        self.buildDependencies["python-modules/jinja2"] = "default"
-        self.buildDependencies["python-modules/doxyqml"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/cmake"] = None
+        self.buildDependencies["dev-utils/python3"] = None
+        self.buildDependencies["dev-utils/doxygen"] = None
+        self.buildDependencies["python-modules/pyyaml"] = None
+        self.buildDependencies["python-modules/jinja2"] = None
+        self.buildDependencies["python-modules/doxyqml"] = None
 
 
 from Package.CMakePackageBase import *

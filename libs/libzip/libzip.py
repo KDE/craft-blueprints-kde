@@ -22,10 +22,10 @@ class subinfo(info.infoclass):
         self.defaultTarget = '1.5.1'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
-        self.runtimeDependencies["libs/nettle"] = "default"
-        self.runtimeDependencies["libs/gnutls"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/nettle"] = None
+        self.runtimeDependencies["libs/gnutls"] = None
 
 
 from Package.CMakePackageBase import *

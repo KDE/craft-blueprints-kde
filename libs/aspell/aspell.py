@@ -15,10 +15,10 @@ class subinfo(info.infoclass):
         self.defaultTarget = '0.60.6.1'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils/perl"] = "default"
-        self.runtimeDependencies["libs/iconv"] = "default"
-        self.runtimeDependencies["data/aspell-data"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/perl"] = None
+        self.runtimeDependencies["libs/iconv"] = None
+        self.runtimeDependencies["data/aspell-data"] = None
 
 
 from Package.CMakePackageBase import *

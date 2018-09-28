@@ -20,10 +20,10 @@ class subinfo(info.infoclass):
         self.displayName = "Charm"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/qt5/qtwinextras"] = "default"
-        self.runtimeDependencies["libs/qt5/qtmacextras"] = "default"
-        self.runtimeDependencies["qt-libs/qtkeychain"] = "default"
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtwinextras"] = None
+        self.runtimeDependencies["libs/qt5/qtmacextras"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
 
 class Package(CMakePackageBase):

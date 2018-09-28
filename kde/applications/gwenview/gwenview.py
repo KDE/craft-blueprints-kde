@@ -8,17 +8,17 @@ class subinfo(info.infoclass):
         self.description = "Gwenview is a fast and easy to use image viewer for KDE."
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/libjpeg-turbo"] = "default"
-        self.runtimeDependencies["libs/libpng"] = "default"
-        self.runtimeDependencies["libs/exiv2"] = "default"
-        self.runtimeDependencies["libs/lcms2"] = "default"
-        self.runtimeDependencies["kde/libs/libkdcraw"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kactivities"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = "default"
-        self.runtimeDependencies["qt-libs/phonon"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.buildDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
+        self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/exiv2"] = None
+        self.runtimeDependencies["libs/lcms2"] = None
+        self.runtimeDependencies["kde/libs/libkdcraw"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kactivities"] = None
+        self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
+        self.runtimeDependencies["qt-libs/phonon"] = None
 
 
 from Package.CMakePackageBase import *

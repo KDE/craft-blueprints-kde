@@ -11,12 +11,12 @@ class subinfo(info.infoclass):
             self.patchToApply[ver] = [("0001-Remove-unneeded-type-conversion.patch", 1)]
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
 
-        self.buildDependencies["libs/eigen3"] = "default"
-        self.runtimeDependencies["libs/glew"] = "default"
+        self.buildDependencies["libs/eigen3"] = None
+        self.runtimeDependencies["libs/glew"] = None
 
 
 from Package.CMakePackageBase import *

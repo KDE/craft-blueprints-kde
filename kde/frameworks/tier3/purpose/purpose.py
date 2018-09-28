@@ -7,11 +7,11 @@ class subinfo(info.infoclass):
         self.patchToApply["5.50.0"] = [("purpose-5.50.0-20180925.diff", 1)]
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
 
 
 from Package.CMakePackageBase import *

@@ -8,14 +8,14 @@ class subinfo(info.infoclass):
         self.description = "KRuler app"
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["libs/qt5/qtbase"] = "default"
-        self.buildDependencies["kde/frameworks/tier2/kdoctools"] = "default"
-        self.buildDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.buildDependencies["kde/frameworks/tier3/knotifications"] = "default"
-        self.buildDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
-        self.buildDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.buildDependencies["libs/qt5/qtbase"] = None
+        self.buildDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.buildDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.buildDependencies["kde/frameworks/tier3/knotifications"] = None
+        self.buildDependencies["kde/frameworks/tier1/kwindowsystem"] = None
+        self.buildDependencies["kde/frameworks/tier3/kxmlgui"] = None
 
 
 from Package.CMakePackageBase import *

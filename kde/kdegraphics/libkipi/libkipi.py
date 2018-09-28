@@ -8,12 +8,12 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
     def setDependencies(self):
-        self.buildDependencies["libs/gettext"] = "default"
-        self.runtimeDependencies["libs/expat"] = "default"
-        self.runtimeDependencies["libs/tiff"] = "default"
-        self.runtimeDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
+        self.buildDependencies["libs/gettext"] = None
+        self.runtimeDependencies["libs/expat"] = None
+        self.runtimeDependencies["libs/tiff"] = None
+        self.runtimeDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
 
 
 class Package(CMakePackageBase):

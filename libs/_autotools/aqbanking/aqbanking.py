@@ -36,11 +36,11 @@ class subinfo(info.infoclass):
         self.patchLevel["5.7.8"] = 1
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/ktoblzcheck"] = "default"
-        self.runtimeDependencies["libs/gwenhywfar"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/ktoblzcheck"] = None
+        self.runtimeDependencies["libs/gwenhywfar"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):

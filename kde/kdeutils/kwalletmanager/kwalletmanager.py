@@ -8,25 +8,25 @@ class subinfo(info.infoclass):
         self.description = "KWalletManager"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kauth"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
 
 
 from Package.CMakePackageBase import *

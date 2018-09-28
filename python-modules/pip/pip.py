@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "master"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/bin-base"] = "default"
+        self.runtimeDependencies["virtual/bin-base"] = None
 
 
 from Package.BinaryPackageBase import *

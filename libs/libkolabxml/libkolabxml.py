@@ -16,14 +16,14 @@ class subinfo(info.infoclass):
         self.defaultTarget = '1.0.1'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies['dev-utils/xsd'] = 'default'
-        self.buildDependencies["libs/xerces-c"] = "default"
+        self.buildDependencies["libs/xerces-c"] = None
 
         # the following runtimeDependencies are runtime runtimeDependencies for packages linking to the static! libkolabxml
-        self.runtimeDependencies["libs/boost/boost-thread"] = "default"
-        self.runtimeDependencies["libs/boost/boost-system"] = "default"
-        self.runtimeDependencies["libs/libcurl"] = "default"
+        self.runtimeDependencies["libs/boost/boost-thread"] = None
+        self.runtimeDependencies["libs/boost/boost-system"] = None
+        self.runtimeDependencies["libs/libcurl"] = None
 
 
 class Package(CMakePackageBase):

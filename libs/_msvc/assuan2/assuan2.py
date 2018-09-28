@@ -6,9 +6,9 @@ class subinfo(info.infoclass):
         self.addCachedAutotoolsBuild("libs/_autotools/assuan2")
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/mingw-crt4msvc"] = "default"
-        self.runtimeDependencies["libs/gpg-error"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/mingw-crt4msvc"] = None
+        self.runtimeDependencies["libs/gpg-error"] = None
 
 
 from Package.BinaryPackageBase import *

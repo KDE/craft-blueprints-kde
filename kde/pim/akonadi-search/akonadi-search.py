@@ -9,17 +9,17 @@ class subinfo(info.infoclass):
         self.description = "Akonadi Search Agent"
 
     def setDependencies(self):
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/xapian-core"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi-mime"] = "default"
-        self.runtimeDependencies["kde/pim/kmime"] = "default"
-        self.runtimeDependencies["kde/pim/kcalcore"] = "default"
-        self.runtimeDependencies["kde/pim/kcontacts"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/xapian-core"] = None
+        self.runtimeDependencies["kde/pim/akonadi"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
+        self.runtimeDependencies["kde/pim/akonadi-mime"] = None
+        self.runtimeDependencies["kde/pim/kmime"] = None
+        self.runtimeDependencies["kde/pim/kcalcore"] = None
+        self.runtimeDependencies["kde/pim/kcontacts"] = None
 
 
 from Package.CMakePackageBase import *

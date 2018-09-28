@@ -31,12 +31,12 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
         if CraftCore.compiler.isMSVC():
-            self.runtimeDependencies["libs/mpir"] = "default"
+            self.runtimeDependencies["libs/mpir"] = None
         else:
-            self.runtimeDependencies["libs/libgmp"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
+            self.runtimeDependencies["libs/libgmp"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.description = "A library with common classes and functionality used by finance applications for the KDE SC."
 
 

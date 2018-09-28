@@ -20,10 +20,10 @@ class subinfo(info.infoclass):
         self.defaultTarget = '2.4.45'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/cyrus-sasl"] = "default"
-        self.runtimeDependencies["libs/pcre"] = "default"
-        self.runtimeDependencies["libs/openssl"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/cyrus-sasl"] = None
+        self.runtimeDependencies["libs/pcre"] = None
+        self.runtimeDependencies["libs/openssl"] = None
 
 
 from Package.CMakePackageBase import *

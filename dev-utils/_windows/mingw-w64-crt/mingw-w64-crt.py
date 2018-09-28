@@ -13,8 +13,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/msys"] = "default"
-        self.runtimeDependencies["dev-utils/mingw-w64-headers"] = "default"
+        self.buildDependencies["dev-utils/msys"] = None
+        self.runtimeDependencies["dev-utils/mingw-w64-headers"] = None
 
 
 from Package.AutoToolsPackageBase import *

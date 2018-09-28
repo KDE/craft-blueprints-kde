@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'svnHEAD'
 
     def setDependencies(self):
-        self.runtimeDependencies["kdesupport/qjson"] = "default"
+        self.runtimeDependencies["kdesupport/qjson"] = None
 
 
 class Package(CMakePackageBase):

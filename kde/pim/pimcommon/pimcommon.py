@@ -8,36 +8,36 @@ class subinfo(info.infoclass):
         self.description = "PimCommon library"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kdesignerplugin"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kdesignerplugin"] = None
 
-        self.runtimeDependencies["kde/pim/kmime"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi-contacts"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi-mime"] = "default"
-        self.runtimeDependencies["kde/pim/kpimtextedit"] = "default"
-        self.runtimeDependencies["kde/pim/kimap"] = "default"
-        self.runtimeDependencies["kde/pim/libkdepim"] = "default"
-        self.runtimeDependencies["kdesupport/grantlee"] = "default"
-        self.runtimeDependencies["libs/libxslt"] = "default"
+        self.runtimeDependencies["kde/pim/kmime"] = None
+        self.runtimeDependencies["kde/pim/akonadi"] = None
+        self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
+        self.runtimeDependencies["kde/pim/akonadi-mime"] = None
+        self.runtimeDependencies["kde/pim/kpimtextedit"] = None
+        self.runtimeDependencies["kde/pim/kimap"] = None
+        self.runtimeDependencies["kde/pim/libkdepim"] = None
+        self.runtimeDependencies["kdesupport/grantlee"] = None
+        self.runtimeDependencies["libs/libxslt"] = None
 
 
 from Package.CMakePackageBase import *

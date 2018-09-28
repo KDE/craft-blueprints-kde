@@ -10,13 +10,13 @@ class subinfo(info.infoclass):
         self.description = "common KDE graphics application plugins"
 
     def setDependencies(self):
-        self.runtimeDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["kde/kdegraphics/libkipi"] = "default"
+        self.runtimeDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/kdegraphics/libkipi"] = None
 
 
 class Package(CMakePackageBase):

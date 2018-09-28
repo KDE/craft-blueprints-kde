@@ -8,30 +8,30 @@ class subinfo(info.infoclass):
         self.displayName = "Okular"
 
     def setDependencies(self):
-        self.buildDependencies["libs/chm"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["qt-libs/poppler"] = "default"
-        self.runtimeDependencies["libs/tiff"] = "default"
-        self.runtimeDependencies["libs/djvu"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
-        self.runtimeDependencies["libs/freetype"] = "default"
-        self.runtimeDependencies["libs/ebook-tools"] = "default"
-        self.buildDependencies["libs/libspectre"] = "default"
-        self.runtimeDependencies["libs/ghostscript"] = "default"
-        self.runtimeDependencies["kde/applications/libkexiv2"] = "default"
-        self.runtimeDependencies["kde/kdegraphics/kdegraphics-mobipocket"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kjs"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/khtml"] = "default"
+        self.buildDependencies["libs/chm"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["qt-libs/poppler"] = None
+        self.runtimeDependencies["libs/tiff"] = None
+        self.runtimeDependencies["libs/djvu"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/freetype"] = None
+        self.runtimeDependencies["libs/ebook-tools"] = None
+        self.buildDependencies["libs/libspectre"] = None
+        self.runtimeDependencies["libs/ghostscript"] = None
+        self.runtimeDependencies["kde/applications/libkexiv2"] = None
+        self.runtimeDependencies["kde/kdegraphics/kdegraphics-mobipocket"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kjs"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
 
 
 from Package.CMakePackageBase import *

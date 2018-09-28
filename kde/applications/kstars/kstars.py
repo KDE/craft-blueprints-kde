@@ -11,39 +11,39 @@ class subinfo(info.infoclass):
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
-        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = "default"
-        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = "default"
-        self.runtimeDependencies["libs/qt5/qtsvg"] = "default"
-        self.runtimeDependencies["libs/qt5/qtdatavis3d"] = "default"
-        self.runtimeDependencies["libs/qt5/qtwebsockets"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kinit"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kplotting"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = "default"
-        self.runtimeDependencies["libs/eigen3"] = "default"
-        self.runtimeDependencies["libs/cfitsio"] = "default"
-        self.runtimeDependencies["libs/wcslib"] = "default"
-        self.runtimeDependencies["libs/indiclient"] = "default"
-        self.runtimeDependencies["libs/libraw"] = "default"
-        self.runtimeDependencies["libs/gsl"] = "default"
-        self.runtimeDependencies["qt-libs/qtkeychain"] = "default"
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
+        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+        self.runtimeDependencies["libs/qt5/qtsvg"] = None
+        self.runtimeDependencies["libs/qt5/qtdatavis3d"] = None
+        self.runtimeDependencies["libs/qt5/qtwebsockets"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kinit"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kplotting"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
+        self.runtimeDependencies["libs/eigen3"] = None
+        self.runtimeDependencies["libs/cfitsio"] = None
+        self.runtimeDependencies["libs/wcslib"] = None
+        self.runtimeDependencies["libs/indiclient"] = None
+        self.runtimeDependencies["libs/libraw"] = None
+        self.runtimeDependencies["libs/gsl"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
         # Install proper theme
-        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
 
         if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["qt-libs/phonon-vlc"] = "default"
+            self.runtimeDependencies["qt-libs/phonon-vlc"] = None
 
 
 from Package.CMakePackageBase import *

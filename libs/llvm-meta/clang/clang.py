@@ -7,9 +7,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues(packageName="cfe", gitUrl="[git]https://git.llvm.org/git/clang.git")
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/libxml2"] = "default"
-        self.runtimeDependencies["libs/llvm-meta/llvm"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/libxml2"] = None
+        self.runtimeDependencies["libs/llvm-meta/llvm"] = None
 
 
 from Package.VirtualPackageBase import *

@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         self.displayName = "KDSoap"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
 
 
 class Package(CMakePackageBase):

@@ -15,8 +15,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = '3.1.1'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/bin-base"] = "default"
-        self.buildDependencies["libs/xerces-c"] = "default"
+        self.runtimeDependencies["virtual/bin-base"] = None
+        self.buildDependencies["libs/xerces-c"] = None
 
 
 class PackageBin(BinaryPackageBase):

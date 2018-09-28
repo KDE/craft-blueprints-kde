@@ -43,8 +43,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = '1.5.3'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils/nasm"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/nasm"] = None
 
 
 from Package.CMakePackageBase import *

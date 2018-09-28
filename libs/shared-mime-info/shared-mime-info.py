@@ -41,17 +41,17 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.9"
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/msys"] = "default"
-        self.buildDependencies["dev-utils/intltool"] = "default"
-        self.buildDependencies["dev-utils/pkg-config"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/gettext"] = "default"
-        self.runtimeDependencies["libs/libxml2"] = "default"
-        self.runtimeDependencies["libs/glib"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
-        self.runtimeDependencies["libs/liblzma"] = "default"
+        self.buildDependencies["dev-utils/msys"] = None
+        self.buildDependencies["dev-utils/intltool"] = None
+        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/gettext"] = None
+        self.runtimeDependencies["libs/libxml2"] = None
+        self.runtimeDependencies["libs/glib"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/liblzma"] = None
         if CraftCore.compiler.isMSVC():
-            self.runtimeDependencies["kdesupport/kdewin"] = "default"
+            self.runtimeDependencies["kdesupport/kdewin"] = None
 
 
 class Package(AutoToolsPackageBase):

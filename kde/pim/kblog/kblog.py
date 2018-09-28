@@ -8,11 +8,11 @@ class subinfo(info.infoclass):
         self.description = "KBlog library"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["kde/pim/kcalcore"] = "default"
-        self.runtimeDependencies["kde/pim/syndication"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlrpcclient"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["kde/pim/kcalcore"] = None
+        self.runtimeDependencies["kde/pim/syndication"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlrpcclient"] = None
 
 
 from Package.CMakePackageBase import *

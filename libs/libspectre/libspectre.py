@@ -17,8 +17,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = '0.2.7'
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/ghostscript"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["libs/ghostscript"] = None
+        self.runtimeDependencies["virtual/base"] = None
 
 
 from Package.CMakePackageBase import *

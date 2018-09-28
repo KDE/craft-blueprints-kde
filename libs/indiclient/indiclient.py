@@ -12,11 +12,11 @@ class subinfo(info.infoclass):
         self.targetInstSrc['1.7.1'] = "libindi"
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/grep"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/libnova"] = "default"
-        self.runtimeDependencies["libs/cfitsio"] = "default"
+        self.buildDependencies["dev-utils/grep"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/libnova"] = None
+        self.runtimeDependencies["libs/cfitsio"] = None
 
 
 from Package.CMakePackageBase import *

@@ -8,28 +8,28 @@ class subinfo(info.infoclass):
         self.description = "MailCommon library"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
 
-        self.runtimeDependencies["kde/pim/akonadi"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi-mime"] = "default"
-        self.runtimeDependencies["kde/pim/messagelib"] = "default"
-        self.runtimeDependencies["kde/pim/kmailtransport"] = "default"
-        self.runtimeDependencies["kde/pim/mailimporter"] = "default"
-        self.runtimeDependencies["kde/pim/kmime"] = "default"
-        self.runtimeDependencies["kde/pim/pimcommon"] = "default"
+        self.runtimeDependencies["kde/pim/akonadi"] = None
+        self.runtimeDependencies["kde/pim/akonadi-mime"] = None
+        self.runtimeDependencies["kde/pim/messagelib"] = None
+        self.runtimeDependencies["kde/pim/kmailtransport"] = None
+        self.runtimeDependencies["kde/pim/mailimporter"] = None
+        self.runtimeDependencies["kde/pim/kmime"] = None
+        self.runtimeDependencies["kde/pim/pimcommon"] = None
 
 
 from Package.CMakePackageBase import *

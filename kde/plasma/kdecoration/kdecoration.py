@@ -8,10 +8,10 @@ class subinfo(info.infoclass):
         self.description = "Plugin based library to create window decorations."
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.buildDependencies["libs/qt5/qttools"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.buildDependencies["libs/qt5/qttools"] = None
 
 
 from Package.CMakePackageBase import *

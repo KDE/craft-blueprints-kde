@@ -4,7 +4,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["qt-libs/phonon"] = "default"
+        self.runtimeDependencies["qt-libs/phonon"] = None
 
     def setTargets(self):
         self.svnTargets['master'] = 'git://anongit.kde.org/phonon-directshow'

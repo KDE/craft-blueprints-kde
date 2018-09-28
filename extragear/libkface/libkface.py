@@ -8,8 +8,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["kdesupport/libface"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["kdesupport/libface"] = None
 
 
 from Package.CMakePackageBase import *

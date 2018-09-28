@@ -7,8 +7,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
-        self.runtimeDependencies["extragear/kdevelop/kdevplatform"] = "default"
-        self.runtimeDependencies["extragear/kdevelop/kdev-php"] = "default"
+        self.runtimeDependencies["extragear/kdevelop/kdevplatform"] = None
+        self.runtimeDependencies["extragear/kdevelop/kdev-php"] = None
 
 
 from Package.CMakePackageBase import *

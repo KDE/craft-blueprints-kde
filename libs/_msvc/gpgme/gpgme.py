@@ -7,9 +7,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies['virtual/base'] = 'default'
-        self.runtimeDependencies["libs/mingw-crt4msvc"] = "default"
+        self.runtimeDependencies["libs/mingw-crt4msvc"] = None
         self.runtimeDependencies['libs/assuan2'] = 'default'
-        self.runtimeDependencies["libs/gpg-error"] = "default"
+        self.runtimeDependencies["libs/gpg-error"] = None
 
 
 from Package.BinaryPackageBase import *

@@ -9,9 +9,9 @@ class subinfo(info.infoclass):
         self.description = "KDNSSD Framework"
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
 
 
 from Package.CMakePackageBase import *

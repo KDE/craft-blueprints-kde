@@ -5,22 +5,22 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qt3d"] = "default"
-        self.runtimeDependencies["qt-libs/quazip"] = "default"
-        self.runtimeDependencies["qt-libs/libjreen"] = "default"
-        # self.runtimeDependencies["qt-libs/qtsparkle"] = "default"
-        self.runtimeDependencies["qt-libs/qtkeychain"] = "default"
-        # self.runtimeDependencies["qt-libs/qtweetlib"] = "default"
-        self.runtimeDependencies["binary/vlc"] = "default"
-        self.runtimeDependencies["kdesupport/qca"] = "default"
-        self.runtimeDependencies["qt-libs/libechonest"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/attica"] = "default"
-        self.runtimeDependencies["qt-libs/liblastfm"] = "default"
-        self.runtimeDependencies["libs/luceneplusplus"] = "default"
-        self.runtimeDependencies["libs/taglib"] = "default"
-        self.runtimeDependencies["libs/gnutls"] = "default"
-        self.buildDependencies["libs/websocketpp"] = "default"
-        self.runtimeDependencies["libs/libsparsehash"] = "default"
+        self.runtimeDependencies["libs/qt5/qt3d"] = None
+        self.runtimeDependencies["qt-libs/quazip"] = None
+        self.runtimeDependencies["qt-libs/libjreen"] = None
+        # self.runtimeDependencies["qt-libs/qtsparkle"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
+        # self.runtimeDependencies["qt-libs/qtweetlib"] = None
+        self.runtimeDependencies["binary/vlc"] = None
+        self.runtimeDependencies["kdesupport/qca"] = None
+        self.runtimeDependencies["qt-libs/libechonest"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/attica"] = None
+        self.runtimeDependencies["qt-libs/liblastfm"] = None
+        self.runtimeDependencies["libs/luceneplusplus"] = None
+        self.runtimeDependencies["libs/taglib"] = None
+        self.runtimeDependencies["libs/gnutls"] = None
+        self.buildDependencies["libs/websocketpp"] = None
+        self.runtimeDependencies["libs/libsparsehash"] = None
 
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/tomahawk-player/tomahawk.git'

@@ -19,8 +19,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = '1.5.28'
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/zlib"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["virtual/base"] = None
 
 
 class Package(CMakePackageBase):

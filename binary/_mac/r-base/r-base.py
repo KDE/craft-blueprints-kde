@@ -8,7 +8,7 @@ PACKAGE_PATH = '/bin/macosx/'
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["virtual/bin-base"] = "default"
+        self.runtimeDependencies["virtual/bin-base"] = None
 
     def setTargets(self):
         for version in ['3.3.3']:

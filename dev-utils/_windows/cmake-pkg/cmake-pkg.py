@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "release"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
 
 
 from Package.CMakePackageBase import *

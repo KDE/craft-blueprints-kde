@@ -8,24 +8,24 @@ class subinfo(info.infoclass):
         self.description = "KDEPIM-apps library"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["kdesupport/grantlee"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kdesupport/grantlee"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
 
-        self.runtimeDependencies["kde/pim/akonadi"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi-contacts"] = "default"
-        self.runtimeDependencies["kde/pim/kcontacts"] = "default"
-        self.runtimeDependencies["kde/pim/grantleetheme"] = "default"
-        self.runtimeDependencies["kde/pim/libkleo"] = "default"
-        self.runtimeDependencies["kde/pim/pimcommon"] = "default"
-        self.runtimeDependencies["kdesupport/grantlee"] = "default"
+        self.runtimeDependencies["kde/pim/akonadi"] = None
+        self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
+        self.runtimeDependencies["kde/pim/kcontacts"] = None
+        self.runtimeDependencies["kde/pim/grantleetheme"] = None
+        self.runtimeDependencies["kde/pim/libkleo"] = None
+        self.runtimeDependencies["kde/pim/pimcommon"] = None
+        self.runtimeDependencies["kdesupport/grantlee"] = None
 
 
 from Package.CMakePackageBase import *

@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         self.description = "icons and bitmaps for the oxygen style"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
 
 
 from Package.CMakePackageBase import *

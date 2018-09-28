@@ -55,14 +55,14 @@ class subinfo(info.infoclass):
         self.defaultTarget = '1.1.0h'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils/perl"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/perl"] = None
         if CraftCore.compiler.isMinGW():
             # TODO: remove when we drop < 1.1
-            self.runtimeDependencies["libs/zlib"] = "default"
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.runtimeDependencies["libs/zlib"] = None
+            self.buildDependencies["dev-utils/msys"] = None
         elif CraftCore.compiler.isMSVC():
-            self.buildDependencies["dev-utils/nasm"] = "default"
+            self.buildDependencies["dev-utils/nasm"] = None
 
     @property
     def opensslUseLegacyBuildSystem(self):

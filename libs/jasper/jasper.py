@@ -10,8 +10,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = '1.900.1-2'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/libjpeg-turbo"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
 
 
 from Package.CMakePackageBase import *

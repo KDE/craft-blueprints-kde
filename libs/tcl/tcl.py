@@ -38,10 +38,10 @@ class subinfo(info.infoclass):
         self.defaultTarget = '8-6-8'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/zlib"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
 
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):

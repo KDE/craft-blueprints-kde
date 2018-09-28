@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         # qtquick1 is optional
-        # self.runtimeDependencies["libs/qtquick1"] = "default"
+        # self.runtimeDependencies["libs/qtquick1"] = None
 
     def setTargets(self):
         self.svnTargets["master"] = "git://anongit.kde.org/phonon"

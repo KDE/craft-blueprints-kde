@@ -12,8 +12,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = '0.12.1'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/pcre"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/pcre"] = None
 
 
 from Package.CMakePackageBase import *

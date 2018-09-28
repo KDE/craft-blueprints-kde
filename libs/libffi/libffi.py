@@ -26,9 +26,9 @@ class subinfo(info.infoclass):
         self.defaultTarget = "3.2.1"
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
+        self.buildDependencies["virtual/base"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
 
 
 class PackageCMake(MSBuildPackageBase):

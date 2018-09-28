@@ -33,42 +33,42 @@ class subinfo(info.infoclass):
         self.defaultTarget = '5.0'
 
     def setDependencies(self):
-        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kactivities"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kactivities"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies['libs/gpgme'] = 'default'
-        self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = "default"
-        self.runtimeDependencies["kde/pim/kcontacts"] = "default"
-        self.runtimeDependencies["kde/pim/kidentitymanagement"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi"] = "default"
-        self.runtimeDependencies["binary/mysql"] = "default"
-        self.runtimeDependencies["libs/sqlite"] = "default"
-        self.runtimeDependencies["libs/libofx"] = "default"
-        self.runtimeDependencies["libs/libical"] = "default"
-        self.runtimeDependencies["libs/sqlcipher"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None
+        self.runtimeDependencies["kde/pim/kcontacts"] = None
+        self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
+        self.runtimeDependencies["kde/pim/akonadi"] = None
+        self.runtimeDependencies["binary/mysql"] = None
+        self.runtimeDependencies["libs/sqlite"] = None
+        self.runtimeDependencies["libs/libofx"] = None
+        self.runtimeDependencies["libs/libical"] = None
+        self.runtimeDependencies["libs/sqlcipher"] = None
         if not CraftCore.compiler.isMSVC():
-            self.runtimeDependencies["libs/aqbanking"] = "default"
-        self.runtimeDependencies["libs/gettext"] = "default"
-        self.runtimeDependencies["extragear/libalkimia"] = "default"
-        self.runtimeDependencies["extragear/kdiagram"] = "default"
-        self.buildDependencies["libs/gettext"] = "default"
-        self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
+            self.runtimeDependencies["libs/aqbanking"] = None
+        self.runtimeDependencies["libs/gettext"] = None
+        self.runtimeDependencies["extragear/libalkimia"] = None
+        self.runtimeDependencies["extragear/kdiagram"] = None
+        self.buildDependencies["libs/gettext"] = None
+        self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         if CraftCore.compiler.isMinGW():
-            self.runtimeDependencies["kdesupport/kdewin"] = "default"
+            self.runtimeDependencies["kdesupport/kdewin"] = None
 
 
 from Package.CMakePackageBase import *

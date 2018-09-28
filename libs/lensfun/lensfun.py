@@ -28,8 +28,8 @@ class subinfo(info.infoclass):
         self.options.configure.args += " -DBUILD_DOC=OFF"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        # self.buildDependencies["dev-utils/doxygen"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        # self.buildDependencies["dev-utils/doxygen"] = None
         self.runtimeDependencies['libs/glib'] = 'default'
         # self.runtimeDependencies['libs-bin/zlib']  = 'default' # only needed if building auxfun and tests
         # self.runtimeDependencies['libs-bin/libpng'] = 'default' # only needed if building auxfun and tests

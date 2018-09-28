@@ -17,10 +17,10 @@ class subinfo(info.infoclass):
         self.defaultTarget = '2.3.2'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["libs/boost/boost-headers"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
-        self.runtimeDependencies["libs/libxml2"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["libs/boost/boost-headers"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/libxml2"] = None
 
 
 from Package.CMakePackageBase import *

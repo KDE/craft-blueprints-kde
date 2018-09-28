@@ -18,10 +18,10 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
-        self.runtimeDependencies["kdesupport/qca"] = "default"
-        self.runtimeDependencies["libs/mpir"] = "default"
-        self.runtimeDependencies["extragear/libktorrent"] = "default"
-        self.buildDependencies["libs/gettext"] = "default"
+        self.runtimeDependencies["kdesupport/qca"] = None
+        self.runtimeDependencies["libs/mpir"] = None
+        self.runtimeDependencies["extragear/libktorrent"] = None
+        self.buildDependencies["libs/gettext"] = None
 
 
 class Package(CMakePackageBase):

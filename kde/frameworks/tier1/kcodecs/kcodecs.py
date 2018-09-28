@@ -8,10 +8,10 @@ class subinfo(info.infoclass):
         self.description = "Plugins allowing Qt applications to access further types of images"
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.buildDependencies["dev-utils/gperf"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.buildDependencies["dev-utils/gperf"] = None
 
 
 from Package.CMakePackageBase import *

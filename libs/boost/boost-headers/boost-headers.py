@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.description = 'portable C++ libraries'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
 
 
 from Package.BoostPackageBase import *

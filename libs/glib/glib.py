@@ -26,15 +26,15 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.49.4"
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/libffi"] = "default"
-        self.runtimeDependencies["libs/pcre"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
-        self.runtimeDependencies["libs/gettext"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/libffi"] = None
+        self.runtimeDependencies["libs/pcre"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/gettext"] = None
         if not OsUtils.isWin():
-            self.runtimeDependencies["libs/iconv"] = "default"
+            self.runtimeDependencies["libs/iconv"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
 
 
 class PackageCMake(MSBuildPackageBase):

@@ -10,14 +10,14 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["extragear/rkward/rkward-translations"] = None
-        self.runtimeDependencies["binary/r-base"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = "default"
+        self.runtimeDependencies["binary/r-base"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = None
         # not strictly runtimeDependencies, but should be included in the package
-        self.runtimeDependencies["kde/applications/kate"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = "default"
+        self.runtimeDependencies["kde/applications/kate"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
 
 from Package.CMakePackageBase import *
 

@@ -55,8 +55,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = '3.24.0'
 
     def setDependencies(self):
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["virtual/base"] = None
 
 
 class Package(CMakePackageBase):

@@ -59,7 +59,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['extragear/kdiagram'] = 'default'
 
         if CraftCore.compiler.isMinGW():
-            self.runtimeDependencies["libs/runtime"] = "default" #mingw-based builds need this
+            self.runtimeDependencies["libs/runtime"] = None #mingw-based builds need this
 
 from Package.CMakePackageBase import *
 

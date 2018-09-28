@@ -16,9 +16,9 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.4.5"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/libxslt"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["libs/libxslt"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["virtual/base"] = None
 
 
 class Package(AutoToolsPackageBase):

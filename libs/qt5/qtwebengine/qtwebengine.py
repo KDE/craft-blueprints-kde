@@ -17,12 +17,12 @@ class subinfo(info.infoclass):
                 self.patchToApply[ver] = [("0001-Fix-the-detection-of-python2.exe.patch", 1)]#https://codereview.qt-project.org/#/c/203000/
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/gperf"] = "default"
-        self.buildDependencies["dev-utils/python2"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/qt5/qtlocation"] = "default"
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = "default"
-        self.runtimeDependencies["libs/qt5/qtwebchannel"] = "default"
+        self.buildDependencies["dev-utils/gperf"] = None
+        self.buildDependencies["dev-utils/python2"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtlocation"] = None
+        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt5/qtwebchannel"] = None
 
 
 from Package.Qt5CorePackageBase import *

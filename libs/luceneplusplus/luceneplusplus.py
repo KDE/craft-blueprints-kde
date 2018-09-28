@@ -3,14 +3,14 @@ import info
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/boost/boost-thread"] = "default"
-        self.runtimeDependencies["libs/boost/boost-system"] = "default"
-        self.runtimeDependencies["libs/boost/boost-regex"] = "default"
-        self.runtimeDependencies["libs/boost/boost-iostreams"] = "default"
-        self.runtimeDependencies["libs/boost/boost-date-time"] = "default"
-        self.runtimeDependencies["libs/boost/boost-filesystem"] = "default"
-        self.runtimeDependencies["libs/boost/boost-atomic"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/boost/boost-thread"] = None
+        self.runtimeDependencies["libs/boost/boost-system"] = None
+        self.runtimeDependencies["libs/boost/boost-regex"] = None
+        self.runtimeDependencies["libs/boost/boost-iostreams"] = None
+        self.runtimeDependencies["libs/boost/boost-date-time"] = None
+        self.runtimeDependencies["libs/boost/boost-filesystem"] = None
+        self.runtimeDependencies["libs/boost/boost-atomic"] = None
 
     def setTargets(self):
         for ver in []:

@@ -26,15 +26,15 @@ class subinfo(info.infoclass):
         self.defaultTarget = '2.8.0'
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/taglib"] = "default"
-        self.runtimeDependencies["libs/taglib-extras"] = "default"
-        self.runtimeDependencies["qt-libs/phonon"] = "default"
-        self.runtimeDependencies["kdesupport/qca"] = "default"
-        self.runtimeDependencies["binary/mysql"] = "default"
-        self.runtimeDependencies["qt-libs/liblastfm"] = "default"
-        self.runtimeDependencies["libs/gettext"] = "default"
-        self.runtimeDependencies["kdesupport/qtscriptgenerator"] = "default"
-        self.buildDependencies["libs/gettext"] = "default"
+        self.runtimeDependencies["libs/taglib"] = None
+        self.runtimeDependencies["libs/taglib-extras"] = None
+        self.runtimeDependencies["qt-libs/phonon"] = None
+        self.runtimeDependencies["kdesupport/qca"] = None
+        self.runtimeDependencies["binary/mysql"] = None
+        self.runtimeDependencies["qt-libs/liblastfm"] = None
+        self.runtimeDependencies["libs/gettext"] = None
+        self.runtimeDependencies["kdesupport/qtscriptgenerator"] = None
+        self.buildDependencies["libs/gettext"] = None
         self.description = "a powerful music player"
 
 

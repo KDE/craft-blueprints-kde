@@ -8,13 +8,13 @@ class subinfo(info.infoclass):
         self.description = "KWindowSystem"
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
         if OsUtils.isUnix():
-            self.runtimeDependencies["libs/qt5/qtx11extras"] = "default"
+            self.runtimeDependencies["libs/qt5/qtx11extras"] = None
         else:
-            self.runtimeDependencies["libs/qt5/qtwinextras"] = "default"
+            self.runtimeDependencies["libs/qt5/qtwinextras"] = None
 
 
 from Package.CMakePackageBase import *

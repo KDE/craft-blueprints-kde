@@ -11,8 +11,8 @@ class subinfo(info.infoclass):
 
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/llvm-meta/llvm"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/llvm-meta/llvm"] = None
 
 
 from Package.VirtualPackageBase import *

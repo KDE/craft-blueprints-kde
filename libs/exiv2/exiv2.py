@@ -25,11 +25,11 @@ class subinfo(info.infoclass):
         self.defaultTarget = '0.25'
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/iconv"] = "default"
-        self.runtimeDependencies["libs/gettext"] = "default"
-        self.runtimeDependencies["libs/expat"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["libs/iconv"] = None
+        self.runtimeDependencies["libs/gettext"] = None
+        self.runtimeDependencies["libs/expat"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["virtual/base"] = None
 
 
 from Package.CMakePackageBase import *

@@ -3,16 +3,16 @@ import info
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/zlib"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
-            self.runtimeDependencies["libs/lcms"] = "default"
-            self.runtimeDependencies["libs/lcms2"] = "default"
-            self.runtimeDependencies["libs/freetype"] = "default"
-            self.runtimeDependencies["libs/libjpeg-turbo"] = "default"
-            self.runtimeDependencies["libs/libpng"] = "default"
-            self.runtimeDependencies["libs/tiff"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
+            self.runtimeDependencies["libs/lcms"] = None
+            self.runtimeDependencies["libs/lcms2"] = None
+            self.runtimeDependencies["libs/freetype"] = None
+            self.runtimeDependencies["libs/libjpeg-turbo"] = None
+            self.runtimeDependencies["libs/libpng"] = None
+            self.runtimeDependencies["libs/tiff"] = None
 
     def setTargets(self):
         self.svnTargets['master'] = 'git://git.ghostscript.com/ghostpdl.git'

@@ -6,7 +6,7 @@ class subinfo( info.infoclass ):
         self.addCachedAutotoolsBuild("libs/runtime")
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
 
 from Package.BinaryPackageBase import *
 

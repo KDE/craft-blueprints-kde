@@ -13,35 +13,35 @@ class subinfo(info.infoclass):
         self.options.configure.args = " -DBUILD_EXAMPLES=ON"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/glib"] = "default" # mdb
-        self.runtimeDependencies["libs/sqlite"] = "default" # migration
-        self.runtimeDependencies["binary/mysql"] = "default" # migration
-        #TODO self.runtimeDependencies["binary/postgresql"] = "default" # migration
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
-        self.runtimeDependencies["kdesupport/kdewin"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
-        self.runtimeDependencies["extragear/kdb"] = "default"
-        self.runtimeDependencies["extragear/kproperty"] = "default"
-        self.runtimeDependencies["extragear/kreport"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/glib"] = None # mdb
+        self.runtimeDependencies["libs/sqlite"] = None # migration
+        self.runtimeDependencies["binary/mysql"] = None # migration
+        #TODO self.runtimeDependencies["binary/postgresql"] = None # migration
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtwebkit"] = None
+        self.runtimeDependencies["kdesupport/kdewin"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["extragear/kdb"] = None
+        self.runtimeDependencies["extragear/kproperty"] = None
+        self.runtimeDependencies["extragear/kreport"] = None
         # Desktop only:
-        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = "default"
+        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         if OsUtils.isLinux():
-            self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = "default"
+            self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
 
 
 from Package.CMakePackageBase import *

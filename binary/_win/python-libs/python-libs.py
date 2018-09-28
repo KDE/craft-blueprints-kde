@@ -7,12 +7,12 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isX64():
             arch = "amd64"
 
-        self.targets["default"] = ""
-        self.defaultTarget = "default"
+        self.targets[None] = ""
+        self.defaultTarget = None
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/bin-base"] = "default"
-        self.runtimeDependencies["binary/python"] = "default"
+        self.runtimeDependencies["virtual/bin-base"] = None
+        self.runtimeDependencies["binary/python"] = None
 
 
 from Package.BinaryPackageBase import *

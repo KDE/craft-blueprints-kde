@@ -8,8 +8,8 @@ class subinfo(info.infoclass):
         self.description = "kdeedu-data"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
 
 
 from Package.CMakePackageBase import *

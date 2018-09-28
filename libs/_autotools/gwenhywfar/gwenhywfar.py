@@ -40,13 +40,13 @@ class subinfo(info.infoclass):
         self.patchLevel["4.20"] = 3
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/xmlsec1"] = "default"
-        self.runtimeDependencies["libs/gnutls"] = "default"
-        self.runtimeDependencies["libs/gcrypt"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/xmlsec1"] = None
+        self.runtimeDependencies["libs/gnutls"] = None
+        self.runtimeDependencies["libs/gcrypt"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
 
 # 2018-02-11: compilation is successful if xmlmerge.exe gives any output in the console. For it to happen gnutls must be compiled with --enable-nls --enable-openssl-compatibility
 class Package(AutoToolsPackageBase):

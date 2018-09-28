@@ -41,12 +41,12 @@ class subinfo(info.infoclass):
         self.defaultTarget = "3.4"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/libgmp"] = "default"
-        self.runtimeDependencies["libs/openssl"] = "default"
+        self.runtimeDependencies["libs/libgmp"] = None
+        self.runtimeDependencies["libs/openssl"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
         if not CraftCore.compiler.isMacOS:
-            self.buildDependencies["dev-utils/m4"] = "default"
+            self.buildDependencies["dev-utils/m4"] = None
 
 
 class PackageAutoTools(AutoToolsPackageBase):

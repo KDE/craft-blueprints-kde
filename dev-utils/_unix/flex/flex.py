@@ -5,9 +5,9 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.buildDependencies["dev-utils/msys"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["libs/gettext"] = "default"
+        self.buildDependencies["dev-utils/msys"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["libs/gettext"] = None
 
     def setTargets(self):
         self.description = "Flex is a tool for generating scanners: programs which recognize lexical patterns in text."

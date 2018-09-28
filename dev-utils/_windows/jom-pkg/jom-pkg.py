@@ -18,9 +18,9 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'svnHEAD'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils/msys"] = "default"
-        self.buildDependencies["dev-utils/qlalr"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/msys"] = None
+        self.buildDependencies["dev-utils/qlalr"] = None
 
 
 class Package(CMakePackageBase):

@@ -9,13 +9,13 @@ class subinfo(info.infoclass):
         self.description = "Ki18n"
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["libs/gettext"] = "default"
-        self.buildDependencies["libs/qt5/qtdeclarative"] = "default" # only needed for unit tests
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/qt5/qtscript"] = "default"
-        self.runtimeDependencies["libs/gettext"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.buildDependencies["libs/gettext"] = None
+        self.buildDependencies["libs/qt5/qtdeclarative"] = None # only needed for unit tests
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtscript"] = None
+        self.runtimeDependencies["libs/gettext"] = None
 
 
 from Package.CMakePackageBase import *

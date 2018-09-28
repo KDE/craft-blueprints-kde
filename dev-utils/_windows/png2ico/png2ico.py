@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2002-12-08"
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/wget"] = "default"
+        self.buildDependencies["dev-utils/wget"] = None
 
 
 from Package.BinaryPackageBase import *

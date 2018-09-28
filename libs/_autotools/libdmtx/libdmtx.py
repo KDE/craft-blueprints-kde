@@ -16,8 +16,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = "0.7.4"
 
     def setDependencies( self ):
-        self.buildDependencies["dev-utils/msys"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.buildDependencies["dev-utils/msys"] = None
+        self.runtimeDependencies["virtual/base"] = None
 
 from Package.AutoToolsPackageBase import *
 

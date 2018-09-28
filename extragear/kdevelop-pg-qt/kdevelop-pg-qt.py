@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = '2.1'
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
 
 
 from Package.CMakePackageBase import *

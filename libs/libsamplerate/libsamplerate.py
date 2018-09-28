@@ -13,8 +13,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = '0.1.9'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/libsndfile"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/libsndfile"] = None
 
 
 class Package(CMakePackageBase):

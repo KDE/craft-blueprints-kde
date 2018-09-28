@@ -8,9 +8,9 @@ class subinfo(info.infoclass):
         self.defaultTarget = "master"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/bin-base"] = "default"
-        self.buildDependencies["binary/php"] = "default"
-        self.buildDependencies["dev-utils/libphutil"] = "default"
+        self.runtimeDependencies["virtual/bin-base"] = None
+        self.buildDependencies["binary/php"] = None
+        self.buildDependencies["dev-utils/libphutil"] = None
 
 
 from Package.BinaryPackageBase import *

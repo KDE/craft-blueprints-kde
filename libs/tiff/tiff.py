@@ -19,10 +19,10 @@ class subinfo(info.infoclass):
         self.defaultTarget = '4.0.9'
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/zlib"] = "default"
-        self.runtimeDependencies["libs/liblzma"] = "default"
-        self.runtimeDependencies["libs/libjpeg-turbo"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/liblzma"] = None
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
+        self.runtimeDependencies["virtual/base"] = None
 
 
 class Package(CMakePackageBase):

@@ -9,8 +9,8 @@ class subinfo(info.infoclass):
         self.patchLevel["5.10.1"] = 1
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/tiff"] = "default"
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/tiff"] = None
 
 
 from Package.Qt5CorePackageBase import *

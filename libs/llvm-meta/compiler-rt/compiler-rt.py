@@ -11,8 +11,8 @@ class subinfo(info.infoclass):
             self.patchToApply[ver] = [("fix_shortpath.patch", 1)]
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/llvm-meta/clang"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/llvm-meta/clang"] = None
 
 
 from Package.CMakePackageBase import *

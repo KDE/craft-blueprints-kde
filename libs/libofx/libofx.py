@@ -43,8 +43,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = '0.9.13'
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/libopensp"] = "default"
-        self.runtimeDependencies["libs/iconv"] = "default"
+        self.runtimeDependencies["libs/libopensp"] = None
+        self.runtimeDependencies["libs/iconv"] = None
 
 
 from Package.AutoToolsPackageBase import *

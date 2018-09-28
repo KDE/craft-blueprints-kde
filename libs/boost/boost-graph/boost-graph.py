@@ -10,10 +10,10 @@ class subinfo(info.infoclass):
         self.description = 'portable C++ libraries'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["libs/boost/boost-headers"] = "default"
-        self.buildDependencies["libs/boost/boost-bjam"] = "default"
-        self.runtimeDependencies["libs/boost/boost-regex"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["libs/boost/boost-headers"] = None
+        self.buildDependencies["libs/boost/boost-bjam"] = None
+        self.runtimeDependencies["libs/boost/boost-regex"] = None
 
 
 from Package.BoostPackageBase import *

@@ -28,7 +28,7 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
 
     def setTargets(self):
         self.description = "Utility scripts for internationalizing XML."

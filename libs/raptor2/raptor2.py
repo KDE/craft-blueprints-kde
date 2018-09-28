@@ -20,12 +20,12 @@ class subinfo(info.infoclass):
         self.defaultTarget = '2.0.8'
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/yajl"] = "default"
-        self.runtimeDependencies["libs/expat"] = "default"
-        self.runtimeDependencies["libs/libcurl"] = "default"
-        self.runtimeDependencies["libs/libxml2"] = "default"
-        self.runtimeDependencies["libs/libxslt"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["libs/yajl"] = None
+        self.runtimeDependencies["libs/expat"] = None
+        self.runtimeDependencies["libs/libcurl"] = None
+        self.runtimeDependencies["libs/libxml2"] = None
+        self.runtimeDependencies["libs/libxslt"] = None
+        self.runtimeDependencies["virtual/base"] = None
 
 
 class Package(CMakePackageBase):

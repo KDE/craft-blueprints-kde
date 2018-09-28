@@ -22,9 +22,9 @@ class subinfo(info.infoclass):
         self.defaultTarget = "0.9.10"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):

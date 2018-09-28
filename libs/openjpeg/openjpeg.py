@@ -17,11 +17,11 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.3.0"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/tiff"] = "default"
-        self.runtimeDependencies["libs/libpng"] = "default"
-        self.runtimeDependencies["libs/lcms2"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/tiff"] = None
+        self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/lcms2"] = None
+        self.runtimeDependencies["libs/zlib"] = None
 
 from Package.CMakePackageBase import *
 

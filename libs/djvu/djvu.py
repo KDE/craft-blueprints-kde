@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = '3.5.27'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
 
 from Package.CMakePackageBase import *
 from Package.AutoToolsPackageBase import *

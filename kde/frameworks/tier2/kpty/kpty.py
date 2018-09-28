@@ -8,8 +8,8 @@ class subinfo(info.infoclass):
         self.description = "Pty abstraction"
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
 
 
 from Package.CMakePackageBase import *

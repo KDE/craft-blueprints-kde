@@ -7,8 +7,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = "latest"
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/flex"] = "default"
-        self.buildDependencies["dev-utils/bison"] = "default"
+        self.buildDependencies["dev-utils/flex"] = None
+        self.buildDependencies["dev-utils/bison"] = None
 
 
 from Package.VirtualPackageBase import *

@@ -15,13 +15,13 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         # autoreconf requires pkg-config, but as pkg-config needs xml2 we disabled this dependency
-        #self.buildDependencies["dev-utils/pkg-config"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
-        self.runtimeDependencies["libs/liblzma"] = "default"
-        self.runtimeDependencies["libs/iconv"] = "default"
+        #self.buildDependencies["dev-utils/pkg-config"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/liblzma"] = None
+        self.runtimeDependencies["libs/iconv"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
 
 
 class PackageMSVC(MakeFilePackageBase):

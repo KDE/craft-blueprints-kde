@@ -14,15 +14,15 @@ class subinfo(info.infoclass):
         self.displayName = "FatCRM"
 
     def setDependencies(self):
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi"] = "default"
-        self.runtimeDependencies["kde/pim/kcontacts"] = "default"
-        self.runtimeDependencies["kde/pim/kcalcore"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi-contacts"] = "default"
-        self.runtimeDependencies["qt-libs/kdsoap"] = "default"
-        self.runtimeDependencies["qt-libs/kdreports"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
+        self.runtimeDependencies["kde/pim/akonadi"] = None
+        self.runtimeDependencies["kde/pim/kcontacts"] = None
+        self.runtimeDependencies["kde/pim/kcalcore"] = None
+        self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
+        self.runtimeDependencies["qt-libs/kdsoap"] = None
+        self.runtimeDependencies["qt-libs/kdreports"] = None
 
 
 class Package(CMakePackageBase):

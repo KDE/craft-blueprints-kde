@@ -6,8 +6,8 @@ class subinfo(info.infoclass):
         self.addCachedAutotoolsBuild("libs/_autotools/libdmtx")
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/mingw-crt4msvc"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/mingw-crt4msvc"] = None
 
 
 from Package.BinaryPackageBase import *

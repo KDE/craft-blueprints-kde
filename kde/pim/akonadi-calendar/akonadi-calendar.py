@@ -9,13 +9,13 @@ class subinfo(info.infoclass):
         self.description = "Akonadi Calendar library"
 
     def setDependencies(self):
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi"] = "default"
-        self.runtimeDependencies["kde/pim/kcalcore"] = "default"
-        self.runtimeDependencies["kde/pim/akonadi-contacts"] = "default"
-        self.runtimeDependencies["kde/pim/kmailtransport"] = "default"
-        self.runtimeDependencies["kde/pim/kcalutils"] = "default"
-        self.runtimeDependencies["kde/pim/kidentitymanagement"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["kde/pim/akonadi"] = None
+        self.runtimeDependencies["kde/pim/kcalcore"] = None
+        self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
+        self.runtimeDependencies["kde/pim/kmailtransport"] = None
+        self.runtimeDependencies["kde/pim/kcalutils"] = None
+        self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
 
 
 from Package.CMakePackageBase import *

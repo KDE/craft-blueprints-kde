@@ -33,11 +33,11 @@ class subinfo(info.infoclass):
         self.defaultTarget = '0.19.8.1'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/iconv"] = "default"
-        self.runtimeDependencies["libs/libxml2"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/iconv"] = None
+        self.runtimeDependencies["libs/libxml2"] = None
         if CraftCore.compiler.isGCCLike():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
 
 
 class PackageMinGW(AutoToolsPackageBase):

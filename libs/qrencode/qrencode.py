@@ -14,10 +14,10 @@ class subinfo(info.infoclass):
         self.defaultTarget = "4.0.0"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/libpng"] = "default"
-        self.runtimeDependencies["libs/iconv"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/iconv"] = None
+        self.runtimeDependencies["libs/zlib"] = None
 
 
 class Package(CMakePackageBase):

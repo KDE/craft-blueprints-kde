@@ -8,24 +8,24 @@ class subinfo(info.infoclass):
         self.description = "Blogilo"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
 
-        self.runtimeDependencies["kde/pim/kblog"] = "default"
-        self.runtimeDependencies["kde/pim/pimcommon"] = "default"
-        self.runtimeDependencies["kde/pim/kpimtextedit"] = "default"
-        self.runtimeDependencies["kde/pim/messagelib"] = "default"
-        self.runtimeDependencies["kde/pim/kimap"] = "default"
-        self.runtimeDependencies["kde/pim/libkgapi"] = "default"
-        self.runtimeDependencies["libs/qt5/qtwebengine"] = "default"
+        self.runtimeDependencies["kde/pim/kblog"] = None
+        self.runtimeDependencies["kde/pim/pimcommon"] = None
+        self.runtimeDependencies["kde/pim/kpimtextedit"] = None
+        self.runtimeDependencies["kde/pim/messagelib"] = None
+        self.runtimeDependencies["kde/pim/kimap"] = None
+        self.runtimeDependencies["kde/pim/libkgapi"] = None
+        self.runtimeDependencies["libs/qt5/qtwebengine"] = None
 
 
 from Package.CMakePackageBase import *

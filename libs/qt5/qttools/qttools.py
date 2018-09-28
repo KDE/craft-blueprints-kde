@@ -8,8 +8,8 @@ class subinfo(info.infoclass):
         self.patchLevel["5.11.0"] = 2
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["libs/llvm-meta/llvm"] = "default"
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/llvm-meta/llvm"] = None
 
 
 from Package.Qt5CorePackageBase import *

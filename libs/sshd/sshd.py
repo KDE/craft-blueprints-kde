@@ -11,9 +11,9 @@ class subinfo(info.infoclass):
         self.defaultTarget = '0.0.2'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/openssl"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/openssl"] = None
+        self.runtimeDependencies["libs/zlib"] = None
 
 
 class Package(CMakePackageBase):

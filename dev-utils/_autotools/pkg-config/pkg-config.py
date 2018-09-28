@@ -5,9 +5,9 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.buildDependencies["dev-utils/msys"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/glib"] = "default"
+        self.buildDependencies["dev-utils/msys"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/glib"] = None
 
     def setTargets(self):
         self.description = "pkg-config is a helper tool used when compiling applications and libraries"

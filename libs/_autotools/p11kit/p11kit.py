@@ -13,10 +13,10 @@ class subinfo(info.infoclass):
         self.defaultTarget = "0.23.9"
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/msys"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/libtasn1"] = "default"
-        self.runtimeDependencies["libs/libffi"] = "default"
+        self.buildDependencies["dev-utils/msys"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/libtasn1"] = None
+        self.runtimeDependencies["libs/libffi"] = None
 
 
 class Package(AutoToolsPackageBase):

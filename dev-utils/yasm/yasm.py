@@ -52,11 +52,11 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         if CraftCore.compiler.isMacOS:
-            self.buildDependencies["libs/gettext"] = "default"
-            self.buildDependencies["libs/iconv"] = "default"
-            self.buildDependencies["dev-utils/intltool"] = "default"
+            self.buildDependencies["libs/gettext"] = None
+            self.buildDependencies["libs/iconv"] = None
+            self.buildDependencies["dev-utils/intltool"] = None
 
-        self.runtimeDependencies["virtual/bin-base"] = "default"
+        self.runtimeDependencies["virtual/bin-base"] = None
 
 
 from Package.AutoToolsPackageBase import *

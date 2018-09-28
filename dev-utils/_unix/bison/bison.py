@@ -5,10 +5,10 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.buildDependencies["dev-utils/msys"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils/help2man"] = "default"
-        self.buildDependencies["libs/gettext"] = "default"
+        self.buildDependencies["dev-utils/msys"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/help2man"] = None
+        self.buildDependencies["libs/gettext"] = None
 
     def setTargets(self):
         self.description = "Bison is a general-purpose parser generator that converts an annotated context-free grammar into a deterministic LR or generalized LR (GLR) parser employing LALR(1) parser tables"

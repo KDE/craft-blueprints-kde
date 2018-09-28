@@ -3,10 +3,10 @@ import info
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.buildDependencies["dev-utils/doxygen"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        # self.runtimeDependencies["kdesupport/qjson"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/doxygen"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        # self.runtimeDependencies["kdesupport/qjson"] = None
 
     def setTargets(self):
         # Dbusmenu-qt moved to bazaar in launchpad

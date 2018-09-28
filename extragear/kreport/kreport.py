@@ -11,19 +11,19 @@ class subinfo(info.infoclass):
         self.options.configure.args = " -DBUILD_EXAMPLES=ON"
 
     def setDependencies(self):
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.buildDependencies["dev-utils/python2"] = "default"
-        self.runtimeDependencies["libs/qt5/qtwebkit"] = "default"
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = "default" # hard dependency for now
-        self.runtimeDependencies["extragear/kproperty"] = "default"
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.buildDependencies["dev-utils/python2"] = None
+        self.runtimeDependencies["libs/qt5/qtwebkit"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None # hard dependency for now
+        self.runtimeDependencies["extragear/kproperty"] = None
         # TODO Windows/Mac: add marble libs (we only need marble widget), for now marble libs are disabled there
         if not OsUtils.isWin() and not OsUtils.isMac():
-            self.runtimeDependencies["kde/applications/marble"] = "default"
+            self.runtimeDependencies["kde/applications/marble"] = None
 
 from Package.CMakePackageBase import *
 

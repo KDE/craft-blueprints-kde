@@ -7,9 +7,9 @@ class subinfo(info.infoclass):
         self.description = "Libkdcraw is a C++ interface around \"LibRaw library\""
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = "default"
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = "default"
-        self.runtimeDependencies["libs/libraw"] = "default"
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/libraw"] = None
 
 
 from Package.CMakePackageBase import *

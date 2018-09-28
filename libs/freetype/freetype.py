@@ -21,12 +21,12 @@ class subinfo(info.infoclass):
         self.description = "A Free, High-Quality, and Portable Font Engine"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/libpng"] = "default"
-        self.runtimeDependencies["libs/libbzip2"] = "default"
-        self.runtimeDependencies["libs/zlib"] = "default"
-        self.buildDependencies["dev-utils/msys"] = "default"
-        self.buildDependencies["dev-utils/pkg-config"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/libbzip2"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.buildDependencies["dev-utils/msys"] = None
+        self.buildDependencies["dev-utils/pkg-config"] = None
 
 class PackageCMake(CMakePackageBase):
     def __init__(self, **args):

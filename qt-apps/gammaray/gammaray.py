@@ -26,14 +26,14 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("disableGammarayBuildCliInjector", False)
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
-        self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = "default"
-        self.runtimeDependencies["qt-apps/kdstatemachineeditor"] = "default"
-        self.runtimeDependencies["libs/openssl"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
+        self.runtimeDependencies["qt-apps/kdstatemachineeditor"] = None
+        self.runtimeDependencies["libs/openssl"] = None
         probes = CraftPackageObject.get("kdab/gammaray-binary-probes")
         if probes and probes.isInstalled:
-            self.runtimeDependencies["kdab/gammaray-binary-probes"] = "default"
+            self.runtimeDependencies["kdab/gammaray-binary-probes"] = None
 
 
 from Package.CMakePackageBase import *

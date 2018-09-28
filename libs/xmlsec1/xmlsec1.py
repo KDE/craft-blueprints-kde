@@ -35,13 +35,13 @@ class subinfo(info.infoclass):
             self.patchToApply["1.2.25"] = [("xmlsec1-1.2.25-20180503.diff", 1)]
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = "default"
-        self.runtimeDependencies["libs/libxml2"] = "default"
-        self.runtimeDependencies["libs/libxslt"] = "default"
-        self.runtimeDependencies["libs/libidn"] = "default"
-        self.runtimeDependencies["libs/gnutls"] = "default"
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/libxml2"] = None
+        self.runtimeDependencies["libs/libxslt"] = None
+        self.runtimeDependencies["libs/libidn"] = None
+        self.runtimeDependencies["libs/gnutls"] = None
         if CraftCore.compiler.isMinGW():
-            self.buildDependencies["dev-utils/msys"] = "default"
+            self.buildDependencies["dev-utils/msys"] = None
 
 
 from Package.AutoToolsPackageBase import *

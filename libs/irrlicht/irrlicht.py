@@ -14,10 +14,10 @@ class subinfo(info.infoclass):
         self.defaultTarget = '1.8'
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/libjpeg-turbo"] = "default"
-        self.runtimeDependencies["libs/libpng"] = "default"
-        self.runtimeDependencies["libs/libbzip2"] = "default"
-        self.runtimeDependencies["virtual/bin-base"] = "default"
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
+        self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/libbzip2"] = None
+        self.runtimeDependencies["virtual/bin-base"] = None
 
 
 class Package(CMakePackageBase):
