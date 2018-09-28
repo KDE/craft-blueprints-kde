@@ -50,6 +50,7 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def postInstall(self):
-        return self.patchInstallPrefix([os.path.join(self.installDir(), CraftCore.standardDirs.locations.data, "kf5/kdoctools/customization/xsl/all-l10n.xml")],
+        dataDir = os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot())
+        return self.patchInstallPrefix([os.path.join(self.installDir(), dataDir, "kf5/kdoctools/customization/xsl/all-l10n.xml")],
                                        OsUtils.toUnixPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))
 
