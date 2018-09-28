@@ -51,6 +51,9 @@ class Package(CMakePackageBase):
 
     def postInstall(self):
         dataDir = os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot())
-        return self.patchInstallPrefix([os.path.join(self.installDir(), dataDir, "kf5/kdoctools/customization/xsl/all-l10n.xml")],
-                                       OsUtils.toUnixPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))
+        brokenFiles = [os.path.join(self.installDir(), dataDir, x) for x in ["kf5/kdoctools/customization/xsl/all-l10n.xml",
+                                                                             "kf5/kdoctools/customization/dtd/kdedbx45.dtd",
+                                                                             "kf5/kdoctools/customization/kde-include-common.xsl",
+                                                                             "kf5/kdoctools/customization/kde-include-man.xsl"]]
+        return self.patchInstallPrefix(brokenFiles, OsUtils.toUnixPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))
 
