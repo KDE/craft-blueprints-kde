@@ -204,8 +204,11 @@ class QtPackage(Qt5CorePackageBase):
         with self.getQtBaseEnv():
             if not Qt5CorePackageBase.install(self):
                 return False
-            utils.copyFile(os.path.join(self.buildDir(), "bin", "qt.conf"),
-                           os.path.join(self.imageDir(), "bin", "qt.conf"))
+            parser = configparser.ConfigParser()
+            parser.read(os.path.join(self.buildDir(), "bin", "qt.conf"))
+            if parser.has_section("EffectiveSourcePaths"):
+                parser.remove_section("EffectiveSourcePaths")
+            parser.write(os.path.join(self.imageDir(), "bin", "qt.conf"))
 
             # install msvc debug files if available
             if CraftCore.compiler.isMSVC():
