@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = 'master'
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5"] = "default"
+        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
         self.runtimeDependencies["libs/libfftw"] = "default"
         self.runtimeDependencies["libs/libsamplerate"] = "default"
 

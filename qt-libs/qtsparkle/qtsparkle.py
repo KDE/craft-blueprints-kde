@@ -5,7 +5,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5"] = "default"
+        self.runtimeDependencies["libs/qt5/qtbase"] = "default"
 
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/davidsansome/qtsparkle.git'
