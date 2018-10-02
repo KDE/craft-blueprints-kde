@@ -5,6 +5,10 @@ from Package.Qt5CorePackageBase import *
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.registerOption("buildCommercial", False)
+        self.options.dynamic.registerOption("libInfix", "")
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
@@ -129,7 +133,10 @@ class QtPackage(Qt5CorePackageBase):
             elif OsUtils.isUnix():
                 configure = os.path.join(self.sourceDir(), "configure")
 
-            command = f"{configure} -opensource  -confirm-license -prefix {CraftStandardDirs.craftRoot()} -platform {self.platform} "
+            command = f"{configure} -confirm-license -prefix {CraftStandardDirs.craftRoot()} -platform {self.platform} "
+            command += "-opensource " if not self.subinfo.options.dynamic.buildCommercial else "-commercial "
+            if self.subinfo.options.dynamic.libInfix:
+                command += f"-qtlibinfix {self.subinfo.options.dynamic.libInfix} "
             command += "-headerdir %s " % os.path.join(CraftStandardDirs.craftRoot(), "include", "qt5")
             command += "-qt-libpng "
             command += "-qt-libjpeg "
