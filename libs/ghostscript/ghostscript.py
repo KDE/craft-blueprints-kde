@@ -122,6 +122,22 @@ class PackageMSys(AutoToolsPackageBase):
             utils.rmtree(os.path.join(self.sourceDir(), d))
         return True
 
+    def make(self, dummyBuildType=None):
+        # Normal build first
+        if not super().make(dummyBuildType):
+            return False
+
+        # Now build the library
+        buildDirectory = self.buildDir()
+        if not self.subinfo.options.useShadowBuild:
+            buildDirectory = self.sourceDir()
+
+        if not self.shell.execute(self.sourceDir(), self.makeProgram, "so"):
+            print("while Make'ing. cmd: %s" % command)
+            return False
+
+        return True
+
     def install(self):
         if not AutoToolsPackageBase.cleanImage(self):
             return False
