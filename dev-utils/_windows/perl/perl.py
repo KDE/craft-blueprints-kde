@@ -5,9 +5,9 @@ class subinfo(info.infoclass):
     def setTargets(self):
         ver = "5.24.3.2404"
         build = "404865"
-        self.targets[ver] = f"http://downloads.activestate.com/ActivePerl/releases/{ver}/ActivePerl-{ver}-MSWin32-x64-{build}.exe"
+        self.targets[ver] = f"https://downloads.activestate.com/ActivePerl/releases/{ver}/ActivePerl-{ver}-MSWin32-x64-{build}.exe"
         self.targetInstallPath[ver] = "dev-utils"
-        self.targetDigestUrls[ver] = ([f"http://downloads.activestate.com/ActivePerl/releases/{ver}/SHA256SUM"],
+        self.targetDigestUrls[ver] = ([f"https://downloads.activestate.com/ActivePerl/releases/{ver}/SHA256SUM"],
                                        CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = ver
 
