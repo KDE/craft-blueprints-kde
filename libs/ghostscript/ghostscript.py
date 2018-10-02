@@ -36,6 +36,7 @@ class subinfo(info.infoclass):
             ]
         else:
             self.patchToApply['9.19'] = [("ghostscript-exports-fix.diff", 1)]
+        self.patchLevel['9.19'] = 1
         self.defaultTarget = '9.19'
 
 
