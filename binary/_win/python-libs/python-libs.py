@@ -7,8 +7,8 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isX64():
             arch = "amd64"
 
-        self.targets[None] = ""
-        self.defaultTarget = None
+        self.targets["default"] = ""
+        self.defaultTarget = "default"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/bin-base"] = None
