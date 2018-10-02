@@ -115,6 +115,9 @@ class Package(AutoToolsPackageBase):
         return (self.patchInstallPrefix(cmakes,
                                         OsUtils.toMSysPath(self.subinfo.buildPrefix),
                                         OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())) and
+                self.patchInstallPrefix(cmakes,
+                                        OsUtils.toUnixPath(self.subinfo.buildPrefix),
+                                        OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())) and
                 self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "gpgme-config")],
                                         OsUtils.toMSysPath(self.subinfo.buildPrefix),
                                         OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot())))
