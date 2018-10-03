@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets['master'] = 'git://anongit.kde.org/snorenotify'
+        self.svnTargets['0.7'] = 'git://anongit.kde.org/snorenotify|0.7'
         for ver in ['0.6.0', '0.7.0']:
             self.targets[ver] = "http://download.kde.org/stable/snorenotify/%s/src/snorenotify-%s.tar.xz" % (ver, ver)
             self.targetInstSrc[ver] = "snorenotify-%s" % ver
@@ -24,7 +25,7 @@ class subinfo(info.infoclass):
             CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Snorenotify is a multi platform Qt notification framework. Using a plugin system it is possible to create notifications with many different notification systems on Windows, Mac OS and Unix."
-        self.defaultTarget = '0.7.0'
+        self.defaultTarget = '0.7'
 
 
 class Package(CMakePackageBase):
