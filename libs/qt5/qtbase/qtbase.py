@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
             qtVer = CraftVersion(ver)
             if ver == "dev":
                 self.patchToApply[ver] = []
-            elif qtVer >= CraftVersion("5.12"):
+            elif qtVer >= CraftVersion("5.11.1"):
                 self.patchToApply[ver] = [
                     ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
                     ("workaround-mingw-egl.diff", 1),
@@ -89,7 +89,7 @@ class subinfo(info.infoclass):
 
         self.patchLevel["5.9.4"] = 3
         self.patchLevel["5.11.0"] = 2
-        self.patchLevel["5.11.2"] = 1
+        self.patchLevel["5.11.2"] = 2
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):
