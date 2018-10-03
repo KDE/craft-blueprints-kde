@@ -27,13 +27,13 @@ class PackageBin(BinaryPackageBase):
 
     def unpack(self):
         if not BinaryPackageBase.unpack(self): return False
-        os.renames(os.path.join(self.imageDir(), "xerces-c-3.1.1-x86-windows-vc-10.0", "include"),
-                   os.path.join(self.imageDir(), "include"))
-        os.renames(os.path.join(self.imageDir(), "xerces-c-3.1.1-x86-windows-vc-10.0", "bin"),
-                   os.path.join(self.imageDir(), "bin"))
-        os.renames(os.path.join(self.imageDir(), "xerces-c-3.1.1-x86-windows-vc-10.0", "lib"),
-                   os.path.join(self.imageDir(), "lib"))
-        shutil.rmtree(os.path.join(self.imageDir(), "xerces-c-3.1.1-x86-windows-vc-10.0"))
+        os.renames(os.path.join(self.sourceDir(), "xerces-c-3.1.1-x86-windows-vc-10.0", "include"),
+                   os.path.join(self.sourceDir(), "include"))
+        os.renames(os.path.join(self.sourceDir(), "xerces-c-3.1.1-x86-windows-vc-10.0", "bin"),
+                   os.path.join(self.sourceDir(), "bin"))
+        os.renames(os.path.join(self.sourceDir(), "xerces-c-3.1.1-x86-windows-vc-10.0", "lib"),
+                   os.path.join(self.sourceDir(), "lib"))
+        shutil.rmtree(os.path.join(self.sourceDir(), "xerces-c-3.1.1-x86-windows-vc-10.0"))
         return True
 
 
