@@ -28,4 +28,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DBUILD_WITH_QT4=OFF "
+        self.subinfo.options.configure.args = "-DBUILD_WITH_QT4=OFF -DECHONEST_BUILD_TESTS=OFF"
