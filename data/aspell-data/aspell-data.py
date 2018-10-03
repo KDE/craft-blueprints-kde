@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.60'] = """ https://files.intevation.de/local/windows-ce/aspell-0.60.6-data.zip"""
+        self.targets['0.60'] = """ http://files.intevation.de/local/windows-ce/aspell-0.60.6-data.zip"""
 
         self.defaultTarget = '0.60'
 
