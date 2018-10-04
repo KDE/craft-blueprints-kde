@@ -1,0 +1,2 @@
+# for Clang builtin include headers (required by kdev-clang)
+lib/clang/.*/include/.*
