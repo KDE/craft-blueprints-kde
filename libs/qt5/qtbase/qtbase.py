@@ -7,6 +7,7 @@ from Package.Qt5CorePackageBase import *
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.registerOption("buildCommercial", False)
+        self.options.dynamic.registerOption("buildReleaseAndDebug", False)
         self.options.dynamic.registerOption("libInfix", "")
 
     def setTargets(self):
@@ -158,16 +159,20 @@ class QtPackage(Qt5CorePackageBase):
 
             # if not (OsUtils.isFreeBSD() or compiler.isMinGW()):#currently breaks unmaintained modules like qtscript and webkit
             #    command += "-ltcg "
-            if self.buildType() == "RelWithDebInfo":
-                command += "-force-debug-info "
-            if self.buildType() == "Debug":
+
+            if self.subinfo.options.dynamic.buildReleaseAndDebug:
+                command += "-debug-and-release "
+            elif self.buildType() == "Debug":
                 command += "-debug "
             else:
                 command += "-release "
 
+            if self.buildType() == "RelWithDebInfo":
+                command += "-force-debug-info "
+
             if not self.subinfo.options.buildStatic:
                 command += "-I \"%s\" -L \"%s\" " % (
-                os.path.join(CraftStandardDirs.craftRoot(), "include"), os.path.join(CraftStandardDirs.craftRoot(), "lib"))
+                    os.path.join(CraftStandardDirs.craftRoot(), "include"), os.path.join(CraftStandardDirs.craftRoot(), "lib"))
                 if self.subinfo.options.isActive("libs/openssl"):
                     command += " -openssl-linked "
                     if self.qtVer >= CraftVersion("5.10"):
@@ -181,8 +186,8 @@ class QtPackage(Qt5CorePackageBase):
                     command += " -plugin-sql-mysql "
                 if self.subinfo.options.isActive("libs/dbus"):
                     command += " -qdbus -dbus-runtime -I \"%s\" -I \"%s\" " % (
-                    os.path.join(CraftStandardDirs.craftRoot(), "include", "dbus-1.0"),
-                    os.path.join(CraftStandardDirs.craftRoot(), "lib", "dbus-1.0", "include"))
+                        os.path.join(CraftStandardDirs.craftRoot(), "include", "dbus-1.0"),
+                        os.path.join(CraftStandardDirs.craftRoot(), "lib", "dbus-1.0", "include"))
                 if self.subinfo.options.isActive("libs/icu"):
                     command += " -icu "
                 if self.subinfo.options.isActive("libs/zlib"):
