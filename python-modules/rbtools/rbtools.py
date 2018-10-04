@@ -17,7 +17,6 @@ class Package(PipPackageBase):
     def __init__(self, **args):
         PipPackageBase.__init__(self)
         self.python3 = False
-        self.allowExternal = True
 
     def install(self):
         pythonPath = CraftCore.settings.get("Paths", "PYTHON27")
