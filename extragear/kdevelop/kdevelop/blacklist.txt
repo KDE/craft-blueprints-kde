@@ -7,14 +7,14 @@ share/kf5/kdoctools/.*
 lib/.*
 
 # Unused Qt modules
-qml/QtLocation
-qml/QtPositioning
-qml/QtMultimedia
-qml/QtWebChannel
-qml/QtWebEngine
-qml/QtWebKit
-qml/QtWinExtras
-qml/QtTest
+qml/QtLocation/.*
+qml/QtPositioning/.*
+qml/QtMultimedia/.*
+qml/QtWebChannel/.*
+qml/QtWebEngine/.*
+qml/QtWebKit/.*
+qml/QtWinExtras/.*
+qml/QtTest/.*
 
 # unneeded LLVM artifacts
 tools/msbuild/.*
