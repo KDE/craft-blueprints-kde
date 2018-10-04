@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qttools"] = None
+        self.buildDependencies["libs/qt5/qttools"] = None
 
 
 from Package.CMakePackageBase import *
