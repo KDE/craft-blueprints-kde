@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
             majorVer = ".".join(ver.split(".")[:2])
             self.targets[ver] = f"http://download.qt.io/official_releases/qtcreator/{majorVer}/{ver}/qt-creator-opensource-src-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"qt-creator-opensource-src-{ver}"
-        self.targetDigests['4.0.2'] = 'ef7c5760d7dc72cb68ee1ddf84cb4245e41c39d5'
+            self.targetDigestUrls[ver] = f"https://download.qt.io/official_releases/qtcreator/{majorVer}/{ver}/qt-creator-opensource-src-{ver}.tar.xz.sha256"
         self.defaultTarget = "4.7.1"
 
     def setDependencies(self):
