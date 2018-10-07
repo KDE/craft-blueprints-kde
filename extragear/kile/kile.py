@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = '2.9.92'
 
     def setDependencies(self):
+        self.runtimeDependencies["libs/qt5/qtscript"] = None
         # this is only a dependency for kile > 2.1, but we keep it like that for now
         self.runtimeDependencies['qt-libs/poppler'] = 'default'
         # this is only a dependency for kile > 2.1, but we keep it like that for now
