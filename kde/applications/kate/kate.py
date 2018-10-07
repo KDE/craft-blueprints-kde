@@ -44,6 +44,8 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        if not self.subinfo.options.dynamic.fullPlasma:
+            self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_KF5Plasma=ON -DCMAKE_DISABLE_FIND_PACKAGE_KF5ThreadWeaver=ON -DCMAKE_DISABLE_FIND_PACKAGE_KF5NewStuff=ON"
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
