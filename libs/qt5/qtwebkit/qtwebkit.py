@@ -66,11 +66,10 @@ class QtPackage(Qt5CorePackageBase):
             self.subinfo.options.configure.args += """ "QMAKE_CXXFLAGS += -g0 -O3 -w" """
         elif CraftCore.compiler.isMSVC() and self.buildType() == "Debug":
             # don't run out of heap during
-            self.subinfo.options.configure.args += """ "QMAKE_CXXFLAGS += -MDd -Zi -O2 -Ob1" """
+            self.subinfo.options.make.supportsMultijob = False
         self.subinfo.options.configure.args += """ "WEBKIT_CONFIG-=geolocation" """
 
     def fetch(self):
-        print(self.sourceDir())
         if os.path.exists(self.sourceDir()):
             utils.system(["git", "reset", "--hard"], cwd=self.sourceDir())
         return Qt5CorePackageBase.fetch(self)
