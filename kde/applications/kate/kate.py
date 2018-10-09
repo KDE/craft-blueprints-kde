@@ -5,6 +5,7 @@ from CraftOS.osutils import OsUtils
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchLevel["18.08.1"] = 1
 
         self.displayName = "Kate"
         self.description = "the KDE text editor"
