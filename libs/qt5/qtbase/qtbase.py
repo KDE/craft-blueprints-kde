@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.registerOption("buildCommercial", False)
         self.options.dynamic.registerOption("buildReleaseAndDebug", False)
+        self.options.dynamic.registerOption("buildDoc", True)
         self.options.dynamic.registerOption("libInfix", "")
 
     def setTargets(self):
