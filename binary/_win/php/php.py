@@ -29,15 +29,15 @@ class Package(BinaryPackageBase):
         if not BinaryPackageBase.install(self):
             return False
         # TODO: ouch
-        with open(os.path.join(self.imageDir(), "dev-utils", "php", "php.ini-development"), "rt+") as ini:
-            with open(os.path.join(self.imageDir(), "dev-utils", "php", "php.ini"), "wt+") as out:
+        with open(os.path.join(self.imageDir(), "dev-utils", "php", "php.ini-development"), "rt") as ini:
+            with open(os.path.join(self.imageDir(), "dev-utils", "php", "php.ini"), "wt") as out:
                 ext_dir = re.compile("^; extension_dir = \"ext\".*$")
-                curl = re.compile("^;extension=php_curl.dll.*$")
+                curl = re.compile("^;extension=curl.*$")
                 for line in ini:
                     if ext_dir.match(line):
                         line = "extension_dir = \"ext\"\n"
                     elif curl.match(line):
-                        line = "extension=php_curl.dll\n"
+                        line = "extension=curl\n"
                     out.write(line)
         return utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "php.exe"),
                                 os.path.join(self.imageDir(), "dev-utils", "php", "php.exe"))
