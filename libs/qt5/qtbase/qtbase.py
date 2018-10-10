@@ -189,6 +189,8 @@ class QtPackage(Qt5CorePackageBase):
                     command += " -qdbus -dbus-runtime -I \"%s\" -I \"%s\" " % (
                         os.path.join(CraftStandardDirs.craftRoot(), "include", "dbus-1.0"),
                         os.path.join(CraftStandardDirs.craftRoot(), "lib", "dbus-1.0", "include"))
+                else:
+                    command += " -no-dbus "
                 if self.subinfo.options.isActive("libs/icu"):
                     command += " -icu "
                 if self.subinfo.options.isActive("libs/zlib"):
