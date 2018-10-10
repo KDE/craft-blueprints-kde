@@ -91,7 +91,7 @@ class subinfo(info.infoclass):
 
         self.patchLevel["5.9.4"] = 3
         self.patchLevel["5.11.0"] = 2
-        self.patchLevel["5.11.2"] = 2
+        self.patchLevel["5.11.2"] = 3
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):
@@ -221,6 +221,7 @@ class QtPackage(Qt5CorePackageBase):
             if not Qt5CorePackageBase.install(self):
                 return False
             parser = configparser.ConfigParser()
+            parser.optionxform = str
             parser.read(os.path.join(self.buildDir(), "bin", "qt.conf"))
             parser.remove_section("EffectiveSourcePaths")
             with open(os.path.join(self.imageDir(), "bin", "qt.conf"), "wt") as out:
@@ -240,15 +241,6 @@ class QtPackage(Qt5CorePackageBase):
             return True
 
     def postInstall(self):
-        # TODO: remove after the next cache rebuild (now 5.11.2)
-        conf = os.path.join(self.imageDir(), "bin", "qt.conf")
-        if os.path.exists(conf):
-            parser = configparser.ConfigParser()
-            parser.read(conf)
-            parser.remove_section("EffectiveSourcePaths")
-            with open(conf, "wt") as out:
-                parser.write(out)
-
         if CraftCore.compiler.isWindows and CraftCore.settings.getboolean("Packager", "UseCache"):
             return utils.system(["qtbinpatcher", "--nobackup",
                                  f"--qt-dir={self.installDir()}",
