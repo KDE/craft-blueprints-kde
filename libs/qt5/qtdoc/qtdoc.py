@@ -27,7 +27,6 @@ class Package(Qt5CoreSdkPackageBase):
         children = CraftDependencyPackage(CraftPackageObject.get("libs/qt5")).getDependencies(DependencyType.Runtime)
         children.remove(self.package)
         children = list(filter(lambda x: x.path.startswith("libs/qt5"), children))
-        print(children)
         return children
 
 
@@ -37,9 +36,8 @@ class Package(Qt5CoreSdkPackageBase):
 
         for p in packages:
             CraftCore.log.info(f"Building doc for {p.path}")
-            if not (
-                    #utils.system([self.makeProgram, args], cwd=p.instance.buildDir()) and
-                  utils.globCopyDir(p.instance.buildDir(), self.buildDir(), [f"doc/*.qch"], linkOnly=False)):
+            if not (utils.system([self.makeProgram, args], cwd=p.instance.buildDir()) and
+                    utils.globCopyDir(p.instance.buildDir(), self.buildDir(), [f"doc/*.qch"], linkOnly=False)):
                 return False
         return super().make()
 
