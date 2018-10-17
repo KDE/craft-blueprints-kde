@@ -29,6 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
         self.runtimeDependencies["kdesupport/grantlee"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
+        self.runtimeDependencies["libs/sqlcipher"] = None
 
 
 from Package.CMakePackageBase import *
