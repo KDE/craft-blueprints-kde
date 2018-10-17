@@ -1,7 +1,7 @@
-diff --git b/kdiagram.orig/CMakeLists.txt a/kdiagram/CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
 index f49c41f..c7544aa 100644
---- b/kdiagram.orig/CMakeLists.txt
-+++ a/kdiagram/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
 @@ -1,4 +1,4 @@
 -cmake_minimum_required(VERSION 2.8.12)
 +cmake_minimum_required(VERSION 3.0)
