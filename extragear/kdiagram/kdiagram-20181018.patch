@@ -10,13 +10,3 @@ index f49c41f..92fd216 100644
 +project( kdiagram VERSION "2.6.89")
  
  find_package(ECM 1.4.0 REQUIRED NO_MODULE)
- 
-@@ -15,7 +15,7 @@ include(GenerateExportHeader)
- 
- include(ECMGenerateHeaders)
- include(ECMSetupVersion)
--include(ECMPackageConfigHelpers)
-+include(CMakePackageConfigHelpers)
- include(ECMGeneratePriFile)
- include(ECMPoQmTools)
- include(ECMAddTests)
