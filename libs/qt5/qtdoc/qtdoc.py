@@ -36,7 +36,7 @@ class Package(Qt5CoreSdkPackageBase):
 
         for p in packages:
             CraftCore.log.info(f"Building doc for {p.path}")
-            if not (utils.system([self.makeProgram, args], cwd=p.instance.buildDir()) and
+            if not (utils.system(" ".join([self.makeProgram, args]), cwd=p.instance.buildDir()) and
                     utils.globCopyDir(p.instance.buildDir(), self.buildDir(), [f"doc/*.qch"], linkOnly=False)):
                 return False
         return super().make()
