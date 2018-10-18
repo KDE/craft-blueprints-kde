@@ -1,0 +1,22 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f49c41f..92fd216 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,6 @@
+-cmake_minimum_required(VERSION 2.8.12)
++cmake_minimum_required(VERSION 3.0)
+ 
+-project( kdiagram )
++project( kdiagram VERSION "2.6.89")
+ 
+ find_package(ECM 1.4.0 REQUIRED NO_MODULE)
+ 
+@@ -15,7 +15,7 @@ include(GenerateExportHeader)
+ 
+ include(ECMGenerateHeaders)
+ include(ECMSetupVersion)
+-include(ECMPackageConfigHelpers)
++include(CMakePackageConfigHelpers)
+ include(ECMGeneratePriFile)
+ include(ECMPoQmTools)
+ include(ECMAddTests)
