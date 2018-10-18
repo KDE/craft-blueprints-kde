@@ -1,0 +1,13 @@
+diff --git a/cmake/FindLMDB.cmake b/cmake/FindLMDB.cmake
+index 17dc23f5..2b07a5d2 100644
+--- a/cmake/FindLMDB.cmake
++++ b/cmake/FindLMDB.cmake
+@@ -18,7 +18,7 @@ if (LMDB_INCLUDE_DIRS AND LMDB_LIBRARIES)
+ endif (LMDB_INCLUDE_DIRS AND LMDB_LIBRARIES)
+ 
+ find_path(LMDB_INCLUDE_DIRS NAMES "lmdb.h" HINTS "$ENV{LMDB_DIR}/include")
+-find_library(LMDB_LIBRARIES NAMES lmdb HINTS $ENV{LMDB_DIR}/lib )
++find_library(LMDB_LIBRARIES NAMES lmdb liblmdb HINTS $ENV{LMDB_DIR}/lib )
+ 
+ include(FindPackageHandleStandardArgs)
+ FIND_PACKAGE_HANDLE_STANDARD_ARGS(LMDB DEFAULT_MSG LMDB_INCLUDE_DIRS LMDB_LIBRARIES)
