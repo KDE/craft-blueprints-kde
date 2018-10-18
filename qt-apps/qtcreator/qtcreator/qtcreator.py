@@ -13,11 +13,13 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"http://download.qt.io/official_releases/qtcreator/{majorVer}/{ver}/qt-creator-opensource-src-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"qt-creator-opensource-src-{ver}"
             self.targetDigestUrls[ver] = f"https://download.qt.io/official_releases/qtcreator/{majorVer}/{ver}/qt-creator-opensource-src-{ver}.tar.xz.sha256"
+        self.patchLevel["4.7.1"] = 1
         self.defaultTarget = "4.7.1"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtscript"] = None
+        self.runtimeDependencies["binary/python"] = None
 
 
 from Package.Qt5CorePackageBase import *
@@ -26,3 +28,15 @@ from Package.Qt5CorePackageBase import *
 class Package(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
+        self.subinfo.options.install.args = "install install_docs"
+        self._buildEnv = {"PYTHON_INSTALL_DIR":CraftCore.settings.get("Paths", "Python")}
+
+    def configure(self, configureDefines=""):
+        with utils.ScopedEnv(self._buildEnv):
+            return super().configure(configureDefines)
+
+    def make(self):
+        with utils.ScopedEnv(self._buildEnv):
+            if not super().make():
+                return False
+            return utils.system(f"{self.makeProgram} {self.makeOptions('docs')}")
