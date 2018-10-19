@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
         self.description = "The Qt Location API helps you create viable mapping solutions" \
                                 " using the data available from some of the popular location services."
         self.tags = "Qt5Positioning, Qt5Location"
+        self.patchToApply["5.11.2"] = [("qt5location-fix-build-failure-due-to-GCC-5.x-bug-in-implicit-casts.diff", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
