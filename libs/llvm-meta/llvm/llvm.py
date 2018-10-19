@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.patchLevel["5.0.1"] = 2
         self.patchLevel["6.0.0"] = 2
+        self.patchToApply["6.0.1"] = [("llvm-6.0.1-20181019.diff", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
