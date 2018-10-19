@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "master"
         # otherwise undefined KGantt::Constraint while building tests
         if CraftCore.compiler.isMacOS:
-            self.patchToApply["master"] = [("kdiagram-20181018.patch", 1)]
+            self.patchToApply["master"] = [("kdiagram-20181019.patch", 1)]
 
         self.description = "Powerful libraries (KChart, KGantt) for creating business diagrams"
 

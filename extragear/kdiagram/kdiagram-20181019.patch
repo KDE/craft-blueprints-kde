@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index f49c41f..92fd216 100644
+index f49c41f..b2fb3fe 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1,6 +1,6 @@
@@ -10,3 +10,4 @@ index f49c41f..92fd216 100644
 +project( kdiagram VERSION "2.6.89")
  
  find_package(ECM 1.4.0 REQUIRED NO_MODULE)
+ 
