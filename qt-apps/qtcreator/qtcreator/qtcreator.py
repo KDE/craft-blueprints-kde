@@ -29,7 +29,9 @@ class Package(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
         self.subinfo.options.install.args = "install install_docs"
-        self._buildEnv = {"PYTHON_INSTALL_DIR":CraftCore.settings.get("Paths", "Python")}
+        self._buildEnv = {}
+        if CraftCore.compiler.isWindows:
+            self._buildEnv = {"PYTHON_INSTALL_DIR":CraftCore.settings.get("Paths", "Python")}
 
     def configure(self, configureDefines=""):
         with utils.ScopedEnv(self._buildEnv):
