@@ -6,6 +6,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "KAlgebra"
+        if CraftCore.compiler.isMacOS:
+            self.patchToApply[self.defaultTarget] = [("kalgebra-18.08.1-20181021.diff", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
