@@ -102,6 +102,14 @@ class Package(AutoToolsPackageBase):
                 f" GPGME_QT_LIBS='{GPGME_QT_LIBS}'"
                 f" GPGME_QTTEST_CFLAGS='{GPGME_QTTEST_CFLAGS}'"
                 f" GPGME_QTTEST_LIBS='{GPGME_QTTEST_LIBS}'")
+
+        if CraftCore.compiler.isLinux and self.subinfo.options.dynamic.enableCPP:
+            # In some environments, for unknown reasons, autohell won't try to look for or use pkg-config
+            # This leads to lots of things breaking - like finding Qt!
+            # Therefore on Linux systems we always tell it where to find pkg-config so it doesn't get the chance to fail
+            PKG_CONFIG=CraftCore.cache.findApplication("pkg-config")
+            self.subinfo.options.configure.args += (f" PKG_CONFIG='{PKG_CONFIG}'")
+
         return AutoToolsPackageBase.configure(self)
 
     def postInstall(self):
