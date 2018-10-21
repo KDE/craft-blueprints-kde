@@ -72,7 +72,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.args += " --disable-gpg-test"
 
     def configure(self):
-        if self.subinfo.options.dynamic.enableCPP:
+        if not CraftCore.compiler.isLinux and self.subinfo.options.dynamic.enableCPP:
             # The configure script does not honnor the env var is PKG_CONFIG is not installed / env var not set
             # This is problematic especially on macOS, let manually fill the env var to make configure happy finding Qt
             PKG_CONFIG = ":"
