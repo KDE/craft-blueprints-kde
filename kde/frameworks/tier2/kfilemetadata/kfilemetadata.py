@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
         # self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/taglib"] = None
         self.runtimeDependencies["libs/exiv2"] = None
+        self.runtimeDependencies["libs/xattr"] = None
 
 
 from Package.CMakePackageBase import *
