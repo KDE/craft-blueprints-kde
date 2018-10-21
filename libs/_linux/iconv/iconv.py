@@ -5,15 +5,6 @@ from Package.AutoToolsPackageBase import *
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        # do not build under macOS; there's already a system iconv lib
-        # if using a self-built iconv, we may run into issues like this:
-        #   dyld: Symbol not found: _iconv
-        #      Referenced from: /usr/lib/libcups.2.dylib
-        #      Expected in: /Users/packaging/Craft/BinaryFactory/macos-64-clang/lib/libiconv.2.dylib
-        #     in /usr/lib/libcups.2.dylib
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
-
     def setTargets(self):
         for ver in ['1.15']:
             self.targets[ver] = 'https://ftp.gnu.org/pub/gnu/libiconv/libiconv-%s.tar.gz' % ver
