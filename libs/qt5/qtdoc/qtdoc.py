@@ -31,11 +31,19 @@ class Package(Qt5CoreSdkPackageBase):
 
 
     def make(self):
+        if CraftCore.settings.getboolean("ContinuousIntegration", "ClearBuildFolder", False):
+            CraftCore.log.warning("Skipp building docs,\n"
+                                  "[ContinuousIntegration]\n"
+                                  "ClearBuildFolder = True")
+            return True
         packages = self.QtPackages
         args = self.makeOptions("docs")
 
         for p in packages:
             CraftCore.log.info(f"Building doc for {p.path}")
+            if not os.path.exists(p.buildDir()):
+                CraftCore.log.warning(f"Skip Building doc for {p.path}, {p.buildDir()}, does not exist.")
+                continue
             if not (utils.system(" ".join([self.makeProgram, args]), cwd=p.instance.buildDir()) and
                     utils.globCopyDir(p.instance.buildDir(), self.buildDir(), [f"doc/*.qch"], linkOnly=False)):
                 return False
@@ -43,6 +51,11 @@ class Package(Qt5CoreSdkPackageBase):
 
 
     def install(self):
+        if CraftCore.settings.getboolean("ContinuousIntegration", "ClearBuildFolder", False):
+            CraftCore.log.warning("Skipp installing docs,\n"
+                                  "[ContinuousIntegration]\n"
+                                  "ClearBuildFolder = True")
+            return True
         return utils.globCopyDir(self.buildDir(), self.installDir(), [f"doc/*.qch"], linkOnly=False)
 
 
