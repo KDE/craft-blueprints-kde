@@ -1,5 +1,3 @@
-from distutils.dir_util import mkpath
-
 import info
 from Blueprints.CraftVersion import CraftVersion
 
