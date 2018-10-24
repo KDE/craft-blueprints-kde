@@ -177,6 +177,10 @@ class PackageMSys(AutoToolsPackageBase):
             # target install needs perl with native path on configure time
             self.subinfo.options.configure.args = " shared zlib-dynamic enable-camellia enable-idea enable-mdc2 enable-tlsext enable-rfc3779"
 
+        if CraftCore.compiler.isGCC() and not CraftCore.compiler.isNative() and CraftCore.compiler.isX86():
+            self.subinfo.options.configure.args += " linux-x86"
+            self.subinfo.options.configure.projectFile = "Configure"
+
     def make(self, dummyBuildType=None):
         if not self.subinfo.opensslUseLegacyBuildSystem:
             return super().make()
