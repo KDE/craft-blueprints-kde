@@ -13,8 +13,9 @@ class subinfo(info.infoclass):
         ver = "20180531"
         # don't set an actual version  instead of base. Msys must be manually updated so doing a craft update of msys wil break things.
         self.targets["base"] = f"http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-{ver}.tar.xz"
-        self.targetDigests["base"] = (['8ef5b18c4c91f3f2394823f1981babdee78a945836b2625f091ec934b1a37d32'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigestsX64["base"] = (['4e799b5c3efcf9efcb84923656b7bcff16f75a666911abd6620ea8e5e1e9870c'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["base"] = "msys64"
+        self.targetInstallPath["base"] = "msys"
+        self.targetDigests["base"] = (['4e799b5c3efcf9efcb84923656b7bcff16f75a666911abd6620ea8e5e1e9870c'], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "base"
 
@@ -36,24 +37,16 @@ class MsysPackage(BinaryPackageBase):
         BinaryPackageBase.__init__(self)
         self.shell = shells.BashShell()
 
-    def install(self):
-        if CraftCore.compiler.isX64():
-            utils.copyDir(os.path.join(self.sourceDir(), "msys64"), os.path.join(self.installDir(), "msys"))
-        else:
-            utils.copyDir(os.path.join(self.sourceDir(), "msys32"), os.path.join(self.installDir(), "msys"))
-        return True
-
     def qmerge(self):
-        if not self.subinfo.msysInstallShim(self.installDir()):
+        if not self.subinfo.msysInstallShim(self.imageDir()):
             return False
         return BinaryPackageBase.qmerge(self)
 
     def postQmerge(self):
         msysDir = os.path.join(CraftStandardDirs.craftRoot(), "msys")
 
-        def autorebase():
-            return (OsUtils.killProcess("*", msysDir) and
-                    utils.system("autorebase.bat", cwd=msysDir))
+        def stopProcesses():
+            return OsUtils.killProcess("*", msysDir)
 
         def queryForUpdate():
             out = io.BytesIO()
@@ -65,7 +58,7 @@ class MsysPackage(BinaryPackageBase):
 
         # start and restart msys before first use
         if not (self.shell.execute(".", "echo", "Firstrun") and
-                autorebase() and
+                stopProcesses() and
                 self.shell.execute(".", "pacman-key", "--init") and
                 self.shell.execute(".", "pacman-key", "--populate")):
             return False
@@ -73,13 +66,15 @@ class MsysPackage(BinaryPackageBase):
         try:
             while queryForUpdate():
                 if not (self.shell.execute(".", "pacman", "-Su --noconfirm --force --ask 20") and
-                        autorebase()):
+                        stopProcesses()):
                     return False
         except Exception as e:
             print(e)
             return False
-        return (self.shell.execute(".", "pacman", "-S base-devel --noconfirm --force --needed") and
-                autorebase())
+        if not (self.shell.execute(".", "pacman", "-S base-devel --noconfirm --force --needed") and
+                stopProcesses()):
+            return False
+        return utils.system("autorebase.bat", cwd=msysDir)
 
 
 class VirtualPackage(VirtualPackageBase):
