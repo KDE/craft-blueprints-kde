@@ -7,8 +7,7 @@ class subinfo(info.infoclass):
 
         self.displayName = "JuK"
         self.description = "JuK is a simple music player and helps manage your music collection"
-        self.defaultTarget = 'master'
-        self.webpage = 'https://juk.kde.org/'
+        self.webpage = "https://juk.kde.org/"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
