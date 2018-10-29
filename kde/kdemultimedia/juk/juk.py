@@ -6,6 +6,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.displayName = "JuK"
+        self.patchToApply["18.08.1"] = [("juk-18.08.1-20181029.diff", 1)]
         self.description = "JuK is a simple music player and helps manage your music collection"
         self.webpage = "https://juk.kde.org/"
 
