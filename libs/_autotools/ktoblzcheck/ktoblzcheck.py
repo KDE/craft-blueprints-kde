@@ -14,10 +14,12 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         if CraftCore.compiler.isMinGW():
-          self.runtimeDependencies["binary/python"] = None
           self.buildDependencies["dev-utils/msys"] = None
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args += " --disable-static --enable-shared "
+        if CraftCore.compiler.isMinGW():
+          self.subinfo.options.configure.args += " --disable-python "
+
