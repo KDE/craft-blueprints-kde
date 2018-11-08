@@ -193,11 +193,11 @@ class QtPackage(Qt5CorePackageBase):
                 else:
                     command += " -no-dbus "
                 if self.subinfo.options.isActive("libs/icu"):
-                    command += " -icu=yes "
+                    command += " -icu "
                 else:
-                    command += " -icu=no "
+                    command += " -no-icu "
                 if self.subinfo.options.isActive("libs/zlib"):
-                    command += " -zlib=system "
+                    command += " -system-zlib "
                     if CraftCore.compiler.isMSVC():
                         command += " ZLIB_LIBS=zlib.lib "
             else:
