@@ -185,7 +185,7 @@ class QtPackage(Qt5CorePackageBase):
                         else:
                             command += f" OPENSSL_LIBS=\"-lssl -lcrypto\" "
                 if self.subinfo.options.isActive("binary/mysql"):
-                    command += " -plugin-sql-mysql "
+                    command += " -sql-mysql "
                 if self.subinfo.options.isActive("libs/dbus"):
                     command += " -qdbus -dbus-runtime -I \"%s\" -I \"%s\" " % (
                         os.path.join(CraftStandardDirs.craftRoot(), "include", "dbus-1.0"),
@@ -193,9 +193,11 @@ class QtPackage(Qt5CorePackageBase):
                 else:
                     command += " -no-dbus "
                 if self.subinfo.options.isActive("libs/icu"):
-                    command += " -icu "
+                    command += " -icu=yes "
+                else:
+                    command += " -icu=no "
                 if self.subinfo.options.isActive("libs/zlib"):
-                    command += " -system-zlib "
+                    command += " -zlib=system "
                     if CraftCore.compiler.isMSVC():
                         command += " ZLIB_LIBS=zlib.lib "
             else:
