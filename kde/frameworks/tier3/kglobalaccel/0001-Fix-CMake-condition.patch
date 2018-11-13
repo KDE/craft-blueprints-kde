@@ -1,0 +1,35 @@
+From 655fa6de4f4a1ace38971a9d6203cac8f4d607a1 Mon Sep 17 00:00:00 2001
+From: Hannah von Reth <vonreth@kde.org>
+Date: Tue, 13 Nov 2018 12:59:02 +0100
+Subject: [PATCH] Fix CMake condition
+
+Summary:
+11:29:37 CMake Error at src/runtime/plugins/CMakeLists.txt:1 (if):
+11:29:37   if given arguments:
+11:29:37
+11:29:37     "AND" "AND"
+11:29:37
+11:29:37   Unknown arguments specified
+
+Subscribers: kde-frameworks-devel
+
+Tags: #frameworks
+
+Differential Revision: https://phabricator.kde.org/D16862
+---
+ src/runtime/plugins/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/runtime/plugins/CMakeLists.txt b/src/runtime/plugins/CMakeLists.txt
+index 29e45d4..d01c1bd 100644
+--- a/src/runtime/plugins/CMakeLists.txt
++++ b/src/runtime/plugins/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-if (${XCB_XCB_FOUND} AND ${XCB_KEYSYMS_FOUND} AND ${XCB_XKB_FOUND})
++if (XCB_XCB_FOUND AND XCB_KEYSYMS_FOUND AND XCB_XKB_FOUND)
+     add_subdirectory(xcb)
+ endif()
+ # if (APPLE)
+-- 
+2.19.1.windows.1
+

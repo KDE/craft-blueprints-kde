@@ -4,6 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["5.52.0"] = [("0001-Fix-CMake-condition.patch", 1)]
 
         self.description = "KGlobalAccel"
 
