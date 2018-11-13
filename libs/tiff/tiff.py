@@ -1,6 +1,5 @@
 import info
 from Package.CMakePackageBase import *
-from Package.AutoToolsPackageBase import *
 
 
 class subinfo(info.infoclass):
@@ -17,7 +16,6 @@ class subinfo(info.infoclass):
 
         self.description = "a library to manipulate TIFF image files"
         self.webpage = "http://www.simplesystems.org/libtiff/"
-        self.patchLevel["4.0.9"] = 1
         self.defaultTarget = '4.0.9'
 
     def setDependencies(self):
@@ -27,23 +25,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-class PackageCMake(CMakePackageBase):
+class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         # both examples and tests can be run here
         self.subinfo.options.configure.args = "-DBUILD_TESTS=OFF -DBUILD_TOOLS=OFF"
-
-
-class PackageAutoTools(AutoToolsPackageBase):
-    def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += " --disable-static --enable-shared "
-
-if CraftCore.compiler.isGCCLike():
-    class Package(PackageAutoTools):
-        pass
-
-else:
-    class Package(PackageCMake):
-        pass
