@@ -7,6 +7,7 @@ class subinfo(info.infoclass):
         # https://raw.githubusercontent.com/KDE-mac/homebrew-kde/master/Formula/kf5-kdnssd.rb
         self.patchToApply["5.50.0"] = [("fix-mac.diff", 1)]
         self.patchToApply["5.51.0"] = [("fix-mac.diff", 1)]
+        self.patchToApply["5.52.0"] = [("fix-mac.diff", 1)]
         self.description = "KDNSSD Framework"
 
     def setDependencies(self):
