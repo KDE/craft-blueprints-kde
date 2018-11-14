@@ -18,7 +18,7 @@ qml/QtTest/.*
 
 # unneeded LLVM artifacts
 tools/msbuild/.*
-
+bin/LTO\.dll
 
 # other files
 bin/dbus-env\.bat
