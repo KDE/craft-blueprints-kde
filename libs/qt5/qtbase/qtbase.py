@@ -143,16 +143,16 @@ class QtPackage(Qt5CorePackageBase):
             command += "-headerdir %s " % os.path.join(CraftStandardDirs.craftRoot(), "include", "qt5")
             command += "-qt-libpng "
             command += "-qt-libjpeg "
+
             # can we drop that in general?
-            version = CraftVersion(self.subinfo.buildTarget)
-            if version <= CraftVersion("5.6"):
+            if self.qtVer <= "5.6":
                 command += "-c++11 "
-            if version >= CraftVersion("5.8"):
+            if self.qtVer >= "5.8":
                 command += "-mp "
             else:
                 command += "-qt-pcre "
 
-            if OsUtils.isMac() and version >= CraftVersion("5.10"):
+            if OsUtils.isMac() and self.qtVer >= "5.10":
                 command += f"-macos-additional-datadirs \"{CraftStandardDirs.craftRoot()}/share\" "
 
             if OsUtils.isWin():
@@ -209,7 +209,7 @@ class QtPackage(Qt5CorePackageBase):
             if (CraftCore.compiler.isMSVC() and CraftCore.compiler.isClang()) or OsUtils.isUnix() or self.supportsCCACHE:
                 command += "-no-pch "
 
-            if CraftCore.compiler.isMinGW() and self.qtVer < CraftVersion("5.10"):
+            if CraftCore.compiler.isMinGW() and self.qtVer < "5.10":
                 command += """ "QMAKE_CXXFLAGS += -Wa,-mbig-obj" """
 
             return utils.system(command)
@@ -256,10 +256,10 @@ class QtPackage(Qt5CorePackageBase):
     def getQtBaseEnv(self):
         envs = {}
         envs["PATH"] = os.pathsep.join([os.path.join(self.buildDir(), "bin"), os.environ["PATH"]])
-        if CraftVersion(self.subinfo.buildTarget) < CraftVersion("5.9"):
+        if self.qtVer < "5.9":
             # so that the mkspecs can be found, when -prefix is set
             envs["QMAKEPATH"] = self.sourceDir()
-        if CraftVersion(self.subinfo.buildTarget) < CraftVersion("5.8"):
+        if self.qtVer < "5.8":
             envs["QMAKESPEC"] = os.path.join(self.sourceDir(), 'mkspecs', self.platform)
         else:
             envs["QMAKESPEC"] = None
