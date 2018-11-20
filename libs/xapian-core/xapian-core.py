@@ -33,8 +33,6 @@ class Package(AutoToolsPackageBase):
         if CraftCore.compiler.isMSVC():
             self.shell.useMSVCCompatEnv = True
             self.subinfo.options.useShadowBuild = False
-            self.shell.environment["CC"] = f"{self.shell.toNativePath(os.path.join(self.sourceDir(), 'compile'))} {self.shell.environment['CC']}"
-            self.shell.environment["CXX"] = f"{self.shell.toNativePath(os.path.join(self.sourceDir(), 'compile'))} {self.shell.environment['CXX']}"
 
     def configure(self):
         if self.buildTarget == "master":
