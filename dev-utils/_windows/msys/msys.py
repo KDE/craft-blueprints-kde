@@ -71,7 +71,7 @@ class MsysPackage(BinaryPackageBase):
         except Exception as e:
             print(e)
             return False
-        if not (self.shell.execute(".", "pacman", "-S base-devel --noconfirm --force --needed") and
+        if not (self.shell.execute(".", "pacman", "-S base-devel msys/binutils --noconfirm --force --needed") and
                 stopProcesses()):
             return False
         return utils.system("autorebase.bat", cwd=msysDir)
