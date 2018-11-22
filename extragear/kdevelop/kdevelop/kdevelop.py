@@ -1,6 +1,9 @@
 import info
 from Blueprints.CraftVersion import CraftVersion
 
+import subprocess
+import sys
+
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -69,6 +72,12 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+
+    def preArchive(self):
+        installColorSchemesScript = os.path.join(self.sourceDir(), 'release-scripts/install_colorschemes.py')
+        CraftCore.log.info(f"Executing: {installColorSchemesScript}")
+        subprocess.check_call([sys.executable, installColorSchemesScript, os.path.join(self.archiveDir(), "bin/data")])
+        return super().preArchive()
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
