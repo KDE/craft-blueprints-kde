@@ -74,9 +74,10 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def preArchive(self):
-        installColorSchemesScript = os.path.join(self.sourceDir(), 'release-scripts/install_colorschemes.py')
-        CraftCore.log.info(f"Executing: {installColorSchemesScript}")
-        subprocess.check_call([sys.executable, installColorSchemesScript, os.path.join(self.archiveDir(), "bin/data")])
+        if CraftVersion(self.buildTarget) > CraftVersion("5.3.0"):
+            installColorSchemesScript = os.path.join(self.sourceDir(), 'release-scripts/install_colorschemes.py')
+            CraftCore.log.info(f"Executing: {installColorSchemesScript}")
+            subprocess.check_call([sys.executable, installColorSchemesScript, os.path.join(self.archiveDir(), "bin/data")])
         return super().preArchive()
 
     def createPackage(self):
