@@ -1,0 +1,38 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' perl-5.29.3\win32.orig/Makefile perl-5.29.3\win32/Makefile
+--- perl-5.29.3\win32.orig/Makefile	2018-10-02 11:27:18.278177700 +0200
++++ perl-5.29.3\Makefile	2018-10-02 11:27:08.677306300 +0200
+@@ -27,7 +27,7 @@
+ # Uncomment if you want to build a 32-bit Perl using a 32-bit compiler
+ # on a 64-bit version of Windows.
+ #
+-#WIN64		= undef
++WIN64		= $(CRAFT_WIN64)
+ 
+ #
+ # Comment this out if you DON'T want your perl installation to be versioned.
+@@ -99,14 +99,14 @@
+ # Comment this out if you want the legacy default behavior of including '.' at
+ # the end of @INC.
+ #
+-DEFAULT_INC_EXCLUDES_DOT = define
++# DEFAULT_INC_EXCLUDES_DOT = define
+ 
+ #
+ # Uncomment this if you want to disable looking up values from
+ # HKEY_CURRENT_USER\Software\Perl and HKEY_LOCAL_MACHINE\Software\Perl in
+ # the Registry.
+ #
+-#USE_NO_REGISTRY = define
++USE_NO_REGISTRY = define
+ 
+ #
+ # uncomment exactly one of the following
+@@ -170,7 +170,7 @@
+ # File::DosGlob that are more powerful.  This option is supported only with
+ # Visual C.
+ #
+-#USE_SETARGV	= define
++USE_SETARGV	= define
+ 
+ #
+ # set this if you wish to use perl's malloc
