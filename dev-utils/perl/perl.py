@@ -5,7 +5,7 @@ from Package.MakeFilePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["5.28.0", "5.29.3"]:
+        for ver in ["5.28.0"]:
             self.targets[ver] = f"https://www.cpan.org/src/5.0/perl-{ver}.tar.gz"
             self.targetInstallPath[ver] = os.path.join("dev-utils", "perl")
             if CraftCore.compiler.isWindows:
@@ -14,19 +14,12 @@ class subinfo(info.infoclass):
                 self.targetInstSrc[ver] = f"perl-{ver}"
 
         if CraftCore.compiler.isWindows:
-            self.patchToApply["5.29.3"] = [("perl-src-5.29.3-20181001.diff", 1),
-                                           ("perl-5.29.3-20181002.diff", 1)]
-            self.patchToApply["5.28.0"] = [("perl-src-5.29.3-20181001.diff", 1),
-                                           ("perl-5.29.3-20181002.diff", 1),
-                                           ("perl-5.28.0-20181002.diff", 1),
-                                           ("perl-5.28.0-20181128.diff", 1)
-                                           ]
-        self.targetDigests["5.29.3"] = (['27c45775dc85e3e419f22b5e8c93912bb46f367cb21c92361417019284899d14'], CraftHash.HashAlgorithm.SHA256)
+            self.patchToApply["5.28.0"] = [("perl-5.28.0-20181129.diff", 1)]
         self.targetDigests["5.28.0"] = (['7e929f64d4cb0e9d1159d4a59fc89394e27fa1f7004d0836ca0d514685406ea8'], CraftHash.HashAlgorithm.SHA256)
         self.description = ("Perl 5 is a highly capable, feature-rich programming language with over 30 years of "
                             "development. Perl 5 runs on over 100 platforms from portables to mainframes and is "
                             "suitable for both rapid prototyping and large scale development projects.")
-        self.patchLevel["5.28.0"] = 3
+        self.patchLevel["5.28.0"] = 4
         self.defaultTarget = "5.28.0"
 
     def setDependencies(self):
@@ -60,6 +53,16 @@ class PackageMSVC(MakeFilePackageBase):
                                   os.path.join(self.installDir(), "include", "perl"), ["**/*.h"]))
 
     def postInstall(self):
+        newPrefix = OsUtils.toUnixPath(self.installPrefix())
+        oldPrefixes = [self.installDir(), OsUtils.toUnixPath(self.installDir())]
+
+        pattern = [re.compile("^.*(pl)$")]
+        files = utils.filterDirectoryContent(self.installDir(),
+                                             whitelist=lambda x, root: utils.regexFileFilter(x, root, pattern),
+                                             blacklist=lambda x, root: True)
+
+        if not self.patchInstallPrefix(files, oldPrefixes, newPrefix):
+            return False
         return utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "perl.exe"),
                                 os.path.join( self.installDir(), "bin", "perl.exe"))
 
@@ -69,7 +72,7 @@ class PackageAutoTools(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         # https://metacpan.org/pod/distribution/perl/INSTALL
         self.subinfo.options.install.args = "install.perl"
-        self.subinfo.options.configure.args = f"-des -D 'prefix={self.installPrefix()}' -D mksymlinks  -D userelocatableinc"
+        self.subinfo.options.configure.args = f"-des -D 'prefix={self.installPrefix()}' -D mksymlinks  -D userelocatableinc -U default_inc_excludes_dot"
 
         cflags = self.shell.environment["CFLAGS"]
         ldflags = self.shell.environment["LDFLAGS"]
