@@ -14,6 +14,8 @@ class subinfo(info.infoclass):
                 self.targetInstSrc[ver] = f"perl-{ver}"
 
         if CraftCore.compiler.isWindows:
+            # With msvc2015+ and Windows 10 1803 perlglob is broken. for that reason we provide a precompiled version
+            # https://developercommunity.visualstudio.com/content/problem/245615/first-file-name-in-command-line-wildcard-expansion.html
             self.patchToApply["5.28.0"] = [("perl-5.28.0-20181129.diff", 1)]
         self.targetDigests["5.28.0"] = (['7e929f64d4cb0e9d1159d4a59fc89394e27fa1f7004d0836ca0d514685406ea8'], CraftHash.HashAlgorithm.SHA256)
         self.description = ("Perl 5 is a highly capable, feature-rich programming language with over 30 years of "
@@ -44,6 +46,13 @@ class PackageMSVC(MakeFilePackageBase):
         self.subinfo.options.make.args += " ".join(["{0}={1}".format(x, y) for x, y in config.items()])
         self.subinfo.options.install.args = f"{self.subinfo.options.make.args} installbare"
 
+    def make(self):
+        env = {}
+        if CraftCore.compiler.isMSVC():
+            # use precompiled perlglob.exe
+            env = {"PATH": f"{self.packageDir()};{os.environ['PATH']}"}
+        with utils.ScopedEnv(env):
+            return super().make()
 
     def install(self):
         return (super().install() and
