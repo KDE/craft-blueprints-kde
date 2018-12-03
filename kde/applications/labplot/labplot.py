@@ -5,6 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Interactive graphing and analysis of scientific data"
+        self.displayName = "LabPlot2"
 
         for ver in ['2.4.0']:
             self.targets[ver] = 'http://download.kde.org/stable/labplot/%s/labplot-%s-kf5.tar.xz' % (ver, ver)
@@ -44,5 +45,6 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["appname"] = "labplot2"
+        self.defines["icon"] = os.path.join(self.packageDir(), "labplot2.ico")
         return super().createPackage()
 
