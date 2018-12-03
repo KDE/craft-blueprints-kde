@@ -29,9 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdnssd"] = None
-
-# Would be nice, but... yeah, pty on windows may happen, but not yet
-#        self.runtimeDependencies["kde/frameworks/tier2/kpty"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kpty"] = None
 
 from Package.CMakePackageBase import *
 
