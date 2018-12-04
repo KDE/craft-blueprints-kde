@@ -1,3 +1,5 @@
+import tempfile
+
 import info
 from Package.AutoToolsPackageBase import *
 from Package.MakeFilePackageBase import *
@@ -21,11 +23,32 @@ class subinfo(info.infoclass):
         self.description = ("Perl 5 is a highly capable, feature-rich programming language with over 30 years of "
                             "development. Perl 5 runs on over 100 platforms from portables to mainframes and is "
                             "suitable for both rapid prototyping and large scale development projects.")
-        self.patchLevel["5.28.0"] = 4
+        self.patchLevel["5.28.0"] = 5
         self.defaultTarget = "5.28.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+
+    def _installExtraModules(self, package):
+        # we need a fresh config
+        with tempfile.TemporaryDirectory() as tmp:
+            with utils.ScopedEnv({"HOME": tmp, "USERPROFILE": tmp}):
+                perl = os.path.join(package.installDir(), "bin", "perl")
+                if CraftCore.compiler.isWindows:
+                    if not utils.system([f"cmd", "/C", f"echo yes | {perl} -MCPAN -e mkmyconfig"], shell=True):
+                        return False
+                else:
+                    if not utils.system([f"yes | {perl} -MCPAN -e mkmyconfig"], shell=True):
+                        return False
+
+                for module in ["URI::URL"]:
+                    if not utils.system([perl, "-MCPAN",  "-e", f"CPAN::Shell->notest('force', 'install', '{module}')"]):
+                        return False
+            # we might need to force the deletion
+            OsUtils.rmDir(tmp, True)
+            # tmp file expects this dir to exist..
+            utils.createDir(tmp)
+        return True
 
 
 class PackageMSVC(MakeFilePackageBase):
@@ -46,20 +69,25 @@ class PackageMSVC(MakeFilePackageBase):
         self.subinfo.options.make.args += " ".join(["{0}={1}".format(x, y) for x, y in config.items()])
         self.subinfo.options.install.args = f"{self.subinfo.options.make.args} installbare"
 
-    def make(self):
+
+    def _globEnv(self):
         env = {}
         if CraftCore.compiler.isMSVC():
-            # use precompiled perlglob.exe
             env = {"PATH": f"{self.packageDir()};{os.environ['PATH']}"}
-        with utils.ScopedEnv(env):
+        return env
+
+    def make(self):
+        with utils.ScopedEnv(self._globEnv()):
             return super().make()
 
     def install(self):
-        return (super().install() and
-                utils.globCopyDir(os.path.join(self.sourceDir(), ".."), os.path.join(self.installDir(), "lib"),
-                                  ["perl5*.lib", "perl5*.pdb"]) and
-                utils.globCopyDir(os.path.join(self.sourceDir(), "..", "lib", "CORE"),
-                                  os.path.join(self.installDir(), "include", "perl"), ["**/*.h"]))
+        with utils.ScopedEnv(self._globEnv()):
+            return (super().install() and
+                    utils.globCopyDir(os.path.join(self.sourceDir(), ".."), os.path.join(self.installDir(), "lib"),
+                                      ["perl5*.lib", "perl5*.pdb"]) and
+                    utils.globCopyDir(os.path.join(self.sourceDir(), "..", "lib", "CORE"),
+                                      os.path.join(self.installDir(), "include", "perl"), ["**/*.h"]) and
+                    self.subinfo._installExtraModules(self))
 
     def postInstall(self):
         newPrefix = OsUtils.toUnixPath(self.installPrefix())
@@ -96,6 +124,9 @@ class PackageAutoTools(AutoToolsPackageBase):
         return self.shell.execute(self.buildDir(), os.path.join(self.sourceDir(), "Configure"),
                                   self.subinfo.options.configure.args)
 
+
+    def install(self):
+        return super().install() and self.subinfo._installExtraModules(self)
 
     def postInstall(self):
         return utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "perl"),
