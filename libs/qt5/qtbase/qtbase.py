@@ -210,6 +210,8 @@ class QtPackage(Qt5CorePackageBase):
 
             if (CraftCore.compiler.isMSVC() and CraftCore.compiler.isClang()) or OsUtils.isUnix() or self.supportsCCACHE:
                 command += "-no-pch "
+            if CraftCore.compiler.isLinux:
+                command += """-R "../lib" """
 
             if CraftCore.compiler.isMinGW() and self.qtVer < "5.10":
                 command += """ "QMAKE_CXXFLAGS += -Wa,-mbig-obj" """
