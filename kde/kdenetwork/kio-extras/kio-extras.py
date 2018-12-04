@@ -6,14 +6,14 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.patchToApply["17.12.0"] = [("fix-taglib-detection-and-build-on-windows.diff", 1)]
         self.patchToApply["17.12.3"] = [("fix-taglib-detection-and-build-on-windows.diff", 1)]
-        self.patchLevel["18.08.3"] = 1
+        self.patchLevel["18.08.3"] = 2
 
         self.description = "Extra plugins for KIO (thumbnail generators, archives, remote filesystems and more)"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["libs/libssh2"] = None
+        self.runtimeDependencies["libs/libssh"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kactivities"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
