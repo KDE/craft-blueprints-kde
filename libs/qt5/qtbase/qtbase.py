@@ -24,7 +24,6 @@ class subinfo(info.infoclass):
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_GenericDataLocation_mac.patch", 1),
                     ("qstandardpaths-extra-dirs.patch", 1),
-                    ("0001-Export-qt_open64-from-QtCore.patch", 1), # fix 32 bit unix builds, backport of 4fc4f7b0ce0e6ee186a7d7fe9b5dd20e94efe432
                 ]
             elif qtVer >= CraftVersion("5.11"):
                 self.patchToApply[ver] = [
@@ -90,6 +89,9 @@ class subinfo(info.infoclass):
                     ("qdbus-manager-quit-5.7.patch", 1)  # https://phabricator.kde.org/D2545#69186
                 ]
 
+        self.patchToApply["5.11.2"] += [
+            ("0001-Export-qt_open64-from-QtCore.patch", 1), # fix 32 bit unix builds, backport of 4fc4f7b0ce0e6ee186a7d7fe9b5dd20e94efe432
+        ]
         self.patchLevel["5.9.4"] = 3
         self.patchLevel["5.11.0"] = 2
         self.patchLevel["5.11.2"] = 3
