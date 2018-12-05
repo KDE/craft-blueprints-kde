@@ -64,7 +64,7 @@ class QtPackage(Qt5CorePackageBase):
             # things get too big
             # disable warnings as the project is unmaintained an the log files where getting too big
             self.subinfo.options.configure.args += """ "QMAKE_CXXFLAGS += -g0 -O3 -w" """
-        elif CraftCore.compiler.isMSVC() and self.buildType() == "Debug":
+        elif CraftCore.compiler.isMSVC():
             # don't run out of heap during
             self.subinfo.options.make.supportsMultijob = False
         self.subinfo.options.configure.args += """ "WEBKIT_CONFIG-=geolocation" """
