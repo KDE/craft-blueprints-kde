@@ -43,9 +43,18 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
-
     def createPackage(self):
         self.defines["appname"] = "labplot2"
+        self.defines["website"] = "https://labplot.kde.org/"
+        self.defines["executable"] = "bin\\labplot2.exe"
+        self.defines["shortcuts"] = [{"name" : "LabPlot2", "target":"bin/labplot2.exe", "description" : self.subinfo.description}]
         self.defines["icon"] = os.path.join(self.packageDir(), "labplot2.ico")
+
+        self.defines["mimetypes"] = ["application/x-labplot2"]
+        self.defines["file_types"] = [".lml"]
+
+        # ignored files
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+
         return super().createPackage()
 
