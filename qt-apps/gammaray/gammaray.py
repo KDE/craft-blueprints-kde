@@ -42,7 +42,6 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.needsShortPath = True
         self.subinfo.options.configure.args = "-DGAMMARAY_INSTALL_QT_LAYOUT=ON "
 
         nultiBuild = CraftPackageObject.get("libs/qt5/qtbase").subinfo.options.dynamic.buildReleaseAndDebug or CraftCore.settings.getboolean("QtSDK", "Enabled", False)
