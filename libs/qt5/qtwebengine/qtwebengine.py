@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
+        self.buildDependencies["dev-utils/flexbison"] = None
         self.buildDependencies["dev-utils/python2"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtlocation"] = None
