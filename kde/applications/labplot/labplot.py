@@ -50,11 +50,11 @@ class Package(CMakePackageBase):
         #self.defines["shortcuts"] = [{"name" : "LabPlot2", "target":"bin/labplot2.exe", "description" : self.subinfo.description}]
         self.defines["icon"] = os.path.join(self.packageDir(), "labplot2.ico")
 
-        self.defines["mimetypes"] = ["application/x-labplot2"]
-        self.defines["file_types"] = [".lml"]
+        #self.defines["mimetypes"] = ["application/x-labplot2"]
+        #self.defines["file_types"] = [".lml"]
 
         # ignored files
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        #self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
 
         return super().createPackage()
 
