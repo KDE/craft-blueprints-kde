@@ -18,6 +18,13 @@ class subinfo(info.infoclass):
             qtVer = CraftVersion(ver)
             if ver == "dev":
                 self.patchToApply[ver] = []
+            elif qtVer >= CraftVersion("5.12.0"):
+                self.patchToApply[ver] = [
+                    ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
+                    ("workaround-mingw-egl.diff", 1),
+                    ("fix_GenericDataLocation_mac.patch", 1),
+                    ("0001-Allow-additional-QStandardPaths-data-directories-on-.patch", 1),
+                ]
             elif qtVer >= CraftVersion("5.11.1"):
                 self.patchToApply[ver] = [
                     ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
@@ -142,7 +149,8 @@ class QtPackage(Qt5CorePackageBase):
             command += "-opensource " if not self.subinfo.options.dynamic.buildCommercial else "-commercial "
             if self.subinfo.options.dynamic.libInfix:
                 command += f"-qtlibinfix {self.subinfo.options.dynamic.libInfix} "
-            command += "-headerdir %s " % os.path.join(CraftStandardDirs.craftRoot(), "include", "qt5")
+            command += f"-headerdir {os.path.join(CraftStandardDirs.craftRoot(), 'include', 'qt5')} "
+            command += f"-libdir {os.path.join(CraftStandardDirs.craftRoot(), 'lib', 'qt5')} "
             command += "-qt-libpng "
             command += "-qt-libjpeg "
 
@@ -154,8 +162,10 @@ class QtPackage(Qt5CorePackageBase):
             else:
                 command += "-qt-pcre "
 
-            if OsUtils.isMac() and self.qtVer >= "5.10":
-                command += f"-macos-additional-datadirs \"{CraftStandardDirs.craftRoot()}/share\" "
+            if self.qtVer >= "5.12":
+                command += f"-additional-datadir \"{CraftCore.standardDirs.locations.data}\" "
+            elif CraftCore.compiler.isMacOS and self.qtVer >= "5.10":
+                command += f"-macos-additional-datadirs \"{CraftCore.standardDirs.locations.data}\" "
 
             if OsUtils.isWin():
                 command += "-opengl dynamic "
