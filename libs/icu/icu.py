@@ -10,11 +10,13 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["svnHEAD"] = "http://source.icu-project.org/repos/icu/icu/trunk"
         self.targetInstSrc["svnHEAD"] = "source"
-        for ver in ["53.1", "55.1", "58.2", "62.1"]:
+        for ver in ["53.1", "55.1", "58.2", "62.1", "63.1"]:
             ver2 = ver.replace(".", "_")
-            self.targets[ver] = f"http://download.icu-project.org/files/icu4c/{ver}/icu4c-{ver2}-src.tgz"
-            self.targetDigestUrls[ver] = (
-                [f"https://ssl.icu-project.org/files/icu4c/{ver}/icu4c-src-{ver2}.md5"], CraftHash.HashAlgorithm.MD5)
+            self.targets[ver] = f"https://download.icu-project.org/files/icu4c/{ver}/icu4c-{ver2}-src.tgz"
+            if CraftVersion(ver) < "63.1":
+                self.targetDigestUrls[ver] = ([f"https://ssl.icu-project.org/files/icu4c/{ver}/icu4c-src-{ver2}.md5"], CraftHash.HashAlgorithm.MD5)
+            else:
+                self.targetDigestUrls[ver] = ([f"https://ssl.icu-project.org/files/icu4c/{ver}/SHASUM512.txt"], CraftHash.HashAlgorithm.SHA512)
             self.targetInstSrc[ver] = os.path.join("icu", "source")
         if CraftCore.compiler.isMSVC2015() or CraftCore.compiler.isMinGW():
             self.patchToApply["55.1"] = ("icu-20150414.diff", 2)
