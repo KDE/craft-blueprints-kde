@@ -61,6 +61,7 @@ class WinPackage(BinaryPackageBase):
 
     def postQmerge(self):
         root = OsUtils.toNativePath(os.path.join(CraftCore.standardDirs.craftBin(), ".."))
+        utils.createDir(os.path.dirname(self._shortcutPath))
         utils.system([self.powershell,
                       "-NoProfile",
                       "-ExecutionPolicy", "ByPass",
