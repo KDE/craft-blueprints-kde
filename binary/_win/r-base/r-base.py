@@ -35,8 +35,7 @@ class Package(BinaryPackageBase):
         # create combined package
         self.subinfo.options.package.withCompiler = None
         self.subinfo.options.unpack.runInstaller = True
-        with TemporaryUseShortpath(False):
-            self.subinfo.options.configure.args = "/DIR=\"{0}\" /SILENT".format(self.workDir())
+        self.subinfo.options.configure.args = "/DIR=\"{0}\" /SILENT".format(self.workDir())
 
     def install(self):
         srcdir = self.workDir()
