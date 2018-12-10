@@ -27,7 +27,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.8.4", "1.10.4", "1.11.4", "1.11.8", "1.11.14"]:
+        for ver in ["1.8.4", "1.10.4", "1.11.4", "1.11.8", "1.11.14", "1.12.12"]:
             self.targets[ver] = f"http://dbus.freedesktop.org/releases/dbus/dbus-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"dbus-{ver}"
             self.targetConfigurePath[ver] = "cmake"
@@ -41,15 +41,15 @@ class subinfo(info.infoclass):
         self.patchToApply["1.11.4"] = [("dbus-1.11.4-20160903.diff", 1)]
         self.patchToApply["1.11.14"] = [("dbus-1.11.4-20160903.diff", 1),
                                         ("dbus-fix_data_dir.diff", 1)]
+        self.patchToApply["1.12.12"] = [("dbus-1.11.4-20160903.diff", 1),
+                                        ("dbus-fix_data_dir.diff", 1)]
         self.patchLevel["1.11.14"] = 2
 
         self.targetDigests["1.10.4"] = "ec1921a09199c81ea20b20448237146a414d51ae"
-        self.targetDigests["1.11.4"] = (
-            ["474de2afde8087adbd26b3fc5cbf6ec45559763c75b21981169a9a1fbac256c9"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests['1.11.8'] = (
-            ['fa207530d694706e33378c87e65b2b4304eb99fff71fc6d6caa6f70591b9afd5'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests['1.11.14'] = (
-            ['55cfc7fdd2cccb2fce1f75d2132ad4801b5ed6699fc2ce79ed993574adf90c80'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.11.4"] = (["474de2afde8087adbd26b3fc5cbf6ec45559763c75b21981169a9a1fbac256c9"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['1.11.8'] = (['fa207530d694706e33378c87e65b2b4304eb99fff71fc6d6caa6f70591b9afd5'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['1.11.14'] = (['55cfc7fdd2cccb2fce1f75d2132ad4801b5ed6699fc2ce79ed993574adf90c80'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['1.12.12'] =  (['9546f226011a1e5d9d77245fe5549ef25af4694053189d624d0d6ac127ecf5f8'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Freedesktop message bus system (daemon and clients)"
         self.webpage = "http://www.freedesktop.org/wiki/Software/dbus/"
