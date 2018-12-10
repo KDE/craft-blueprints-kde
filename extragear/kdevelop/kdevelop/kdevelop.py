@@ -20,8 +20,11 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["dev-utils/7zip"] = None
+        self.runtimeDependencies["libs/llvm-meta/clang"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
+        self.runtimeDependencies["libs/qt5/qtwebengine"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -43,16 +46,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/kdesdk/libkomparediff2"] = None
+        self.runtimeDependencies["kdesupport/grantlee"] = None
         self.runtimeDependencies["data/hicolor-icon-theme"] = None
-        self.runtimeDependencies["libs/llvm-meta/clang"] = None
-
-        # handle kdevplatform merge into kdevelop.git
-        if self.buildTarget != "master" and CraftVersion(self.buildTarget) < CraftVersion("5.2"):
-            self.runtimeDependencies["extragear/kdevelop/kdevplatform"] = None
-        else:
-            self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
-            self.runtimeDependencies["libs/qt5/qtwebengine"] = None
-            self.runtimeDependencies["kdesupport/grantlee"] = None
 
         if self.options.dynamic.fullPlasma:
             self.runtimeDependencies["kde/frameworks/tier3/krunner"] = None
