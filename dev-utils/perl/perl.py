@@ -66,6 +66,8 @@ class PackageMSVC(MakeFilePackageBase):
         if CraftCore.compiler.isMinGW():
             config["CCHOME"] = os.path.join(CraftCore.standardDirs.craftRoot(), "mingw64")
             config["SHELL"] = os.environ["COMSPEC"]
+        elif CraftCore.compiler.isX86():
+            config["PROCESSOR_ARCHITECTURE"] = CraftCore.compiler.architecture
 
 
         self.subinfo.options.make.args += " ".join(["{0}={1}".format(x, y) for x, y in config.items()])
