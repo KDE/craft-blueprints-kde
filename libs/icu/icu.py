@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.targetInstSrc["svnHEAD"] = "source"
         for ver in ["53.1", "55.1", "58.2", "62.1", "63.1"]:
             ver2 = ver.replace(".", "_")
-            self.targets[ver] = f"https://download.icu-project.org/files/icu4c/{ver}/icu4c-{ver2}-src.tgz"
+            self.targets[ver] = f"http://download.icu-project.org/files/icu4c/{ver}/icu4c-{ver2}-src.tgz"
             if CraftVersion(ver) < "63.1":
                 self.targetDigestUrls[ver] = ([f"https://ssl.icu-project.org/files/icu4c/{ver}/icu4c-src-{ver2}.md5"], CraftHash.HashAlgorithm.MD5)
             else:
