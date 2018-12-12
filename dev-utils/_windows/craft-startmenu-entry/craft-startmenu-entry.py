@@ -27,8 +27,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["2"] = f""
-        self.defaultTarget = "2"
+        self.targets["3"] = ""
+        self.defaultTarget = "3"
 
     def registerOptions(self):
         self.options.dynamic.registerOption("usePowershellCore", False)
@@ -68,6 +68,7 @@ class WinPackage(BinaryPackageBase):
                       "-Command",
                       os.path.join(self.packageDir(), "install-lnk.ps1"),
                       "-Path", "'{0}'".format(os.path.join(CraftCore.standardDirs.craftRoot(), "bin", "craft.exe")),
+                      "-Arguments", "--shimgen-gui",
                       "-WorkingDirectory", f"'{root}'",
                       "-Name", f"'{self._shortcutPath}'",
                       "-Icon", "'{0}'".format(os.path.join(CraftCore.standardDirs.craftBin(), "data", "icons", "craft.ico")),
