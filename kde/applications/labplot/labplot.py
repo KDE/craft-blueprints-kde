@@ -46,8 +46,8 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["appname"] = "labplot2"
         self.defines["website"] = "https://labplot.kde.org/"
-        #self.defines["executable"] = "bin\\labplot2.exe"
-        #self.defines["shortcuts"] = [{"name" : "LabPlot2", "target":"bin/labplot2.exe", "description" : self.subinfo.description}]
+        self.defines["executable"] = "bin\\labplot2.exe"
+        self.defines["shortcuts"] = [{"name" : "LabPlot2", "target" : "bin/labplot2.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\labplot2\\labplot2.ico" }]
         self.defines["icon"] = os.path.join(self.packageDir(), "labplot2.ico")
 
         self.defines["mimetypes"] = ["application/x-labplot2"]
