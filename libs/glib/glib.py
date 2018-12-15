@@ -71,6 +71,8 @@ from Package.AutoToolsPackageBase import *
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
+
+    def configure(self):
         self.subinfo.options.configure.autoreconf = False
         root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
         self.subinfo.options.configure.args += f"--enable-shared --disable-static --with-pcre=internal --with-python={CraftCore.cache.findApplication('python3')}"
@@ -86,6 +88,7 @@ class PackageAutoTools(AutoToolsPackageBase):
         if not CraftCore.cache.findApplication("pkg-config"):
             version = CraftPackageObject.get("libs/libffi").subinfo.buildTarget
             self.subinfo.options.configure.args += f" LIBFFI_LIBS=-lffi LIBFFI_CFLAGS='-I{root}/lib/libffi-{version}/include'"
+        return super().configure()
 
     def install(self):
         if not AutoToolsBuildSystem.install(self):
