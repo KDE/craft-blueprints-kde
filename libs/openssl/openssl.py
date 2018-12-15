@@ -35,13 +35,13 @@ class subinfo(info.infoclass):
 
         # older versions  -> inside old/major.minor.patch/
         for ver in ['1.0.2a', '1.0.2c', '1.0.2d', '1.0.2j', '1.0.2m',
-                    "1.1.0g", "1.1.0h"]:
+                    "1.1.0g", "1.1.0h", "1.1.1"]:
             dir = re.search(r"\d+\.\d+.\d+", ver).group(0)
             baseUrl = f'ftp://ftp.openssl.org/source/old/{dir}/'
             addTarget(baseUrl, ver)
 
         # latest versions -> inside source/
-        for ver in ["1.0.2o", "1.1.0i", "1.1.1", "1.1.1a"]:
+        for ver in ["1.0.2o", "1.1.0i", "1.1.1a"]:
             baseUrl = 'ftp://ftp.openssl.org/source/'
             addTarget(baseUrl, ver)
 
