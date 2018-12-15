@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/python3"] = None
         self.runtimeDependencies["libs/libffi"] = None
         self.runtimeDependencies["libs/pcre"] = None
         self.runtimeDependencies["libs/zlib"] = None
@@ -72,7 +73,7 @@ class PackageAutoTools(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
         root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
-        self.subinfo.options.configure.args += f"--enable-shared --disable-static --with-pcre=internal"
+        self.subinfo.options.configure.args += f"--enable-shared --disable-static --with-pcre=internal --with-python{CraftCore.cache.findApplication('python3')}"
         if OsUtils.isMac():
             # If we use --with-libiconv=gnu glib will try to find libiconv_open instead of iconv_open.
             # We could fix that by building libiconv, however it conflicts with the system libiconv.dylib.
