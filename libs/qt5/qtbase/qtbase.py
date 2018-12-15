@@ -102,6 +102,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.9.4"] = 3
         self.patchLevel["5.11.0"] = 2
         self.patchLevel["5.11.2"] = 3
+        self.patchLevel["5.12.1"] = 1
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):
@@ -150,7 +151,6 @@ class QtPackage(Qt5CorePackageBase):
             if self.subinfo.options.dynamic.libInfix:
                 command += f"-qtlibinfix {self.subinfo.options.dynamic.libInfix} "
             command += f"-headerdir {os.path.join(CraftStandardDirs.craftRoot(), 'include', 'qt5')} "
-            command += f"-libdir {os.path.join(CraftStandardDirs.craftRoot(), 'lib', 'qt5')} "
             command += "-qt-libpng "
             command += "-qt-libjpeg "
 
