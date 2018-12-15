@@ -1,0 +1,61 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' icu\source.orig/common/umutex.h icu\source/common/umutex.h
+--- icu\source.orig/common/umutex.h	2018-10-02 00:39:56.000000000 +0200
++++ icu\source/common/umutex.h	2018-12-15 17:28:02.129488500 +0100
+@@ -54,15 +54,23 @@
+ 
+ #include <atomic>
+ 
+-U_NAMESPACE_BEGIN
+-
+ // Export an explicit template instantiation of std::atomic<int32_t>. 
+ // When building DLLs for Windows this is required as it is used as a data member of the exported SharedObject class.
+ // See digitlst.h, pluralaffix.h, datefmt.h, and others for similar examples.
+-#if U_PF_WINDOWS <= U_PLATFORM && U_PLATFORM <= U_PF_CYGWIN
++#if U_PF_WINDOWS <= U_PLATFORM && U_PLATFORM <= U_PF_CYGWIN && !defined(U_IN_DOXYGEN)
++  #if defined(__clang__)
++  // Suppress the warning that the explicit instantiation after explicit specialization has no effect.
++  #pragma clang diagnostic push
++  #pragma clang diagnostic ignored "-Winstantiation-after-specialization"
++  #endif
+ template struct U_COMMON_API std::atomic<int32_t>;
++  #if defined(__clang__)
++  #pragma clang diagnostic pop
++  #endif
+ #endif
+ 
++U_NAMESPACE_BEGIN
++
+ typedef std::atomic<int32_t> u_atomic_int32_t;
+ #define ATOMIC_INT32_T_INITIALIZER(val) ATOMIC_VAR_INIT(val)
+ 
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' icu\source.orig/i18n/unicode/numberrangeformatter.h icu\source/i18n/unicode/numberrangeformatter.h
+--- icu\source.orig/i18n/unicode/numberrangeformatter.h	2018-10-15 20:02:37.000000000 +0200
++++ icu\source/i18n/unicode/numberrangeformatter.h	2018-12-15 17:43:15.217924500 +0100
+@@ -185,8 +185,14 @@
+  * Export an explicit template instantiation. See datefmt.h
+  * (When building DLLs for Windows this is required.)
+  */
+-#if U_PF_WINDOWS <= U_PLATFORM && U_PLATFORM <= U_PF_CYGWIN && !defined(U_IN_DOXYGEN)
+-template struct U_I18N_API std::atomic<impl::NumberRangeFormatterImpl*>;
++#if U_PLATFORM == U_PF_WINDOWS && !defined(U_IN_DOXYGEN)
++} // namespace icu::number
++U_NAMESPACE_END
++
++template struct U_I18N_API std::atomic< U_NAMESPACE_QUALIFIER number::impl::NumberRangeFormatterImpl*>;
++
++U_NAMESPACE_BEGIN
++namespace number {  // icu::number
+ #endif
+ /** \endcond */
+ 
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' icu\source.orig/test/intltest/numbertest.h icu\source/test/intltest/numbertest.h
+--- icu\source.orig/test/intltest/numbertest.h	2018-10-02 00:39:56.000000000 +0200
++++ icu\source/test/intltest/numbertest.h	2018-12-15 17:28:02.142454000 +0100
+@@ -10,6 +10,7 @@
+ #include "intltest.h"
+ #include "number_affixutils.h"
+ #include "numparse_stringsegment.h"
++#include "numrange_impl.h"
+ #include "unicode/locid.h"
+ #include "unicode/numberformatter.h"
+ #include "unicode/numberrangeformatter.h"

@@ -18,7 +18,9 @@ class subinfo(info.infoclass):
             else:
                 self.targetDigestUrls[ver] = ([f"https://ssl.icu-project.org/files/icu4c/{ver}/SHASUM512.txt"], CraftHash.HashAlgorithm.SHA512)
             self.targetInstSrc[ver] = os.path.join("icu", "source")
-        self.patchToApply["63.1"] = [("icu-63.1-20181212.diff", 1)]
+        self.patchToApply["63.1"] = [("icu-63.1-20181212.diff", 1),
+                                     ("icu-63.1-20181215.diff", 2), # backport https://github.com/unicode-org/icu/pull/228
+                                     ]
         if CraftCore.compiler.isMSVC2015() or CraftCore.compiler.isMinGW():
             self.patchToApply["55.1"] = ("icu-20150414.diff", 2)
         if CraftCore.compiler.isMinGW():
