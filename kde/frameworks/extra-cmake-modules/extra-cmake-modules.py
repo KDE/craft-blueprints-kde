@@ -41,7 +41,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/icoutils"] = None
         # needed for many kf5's
         self.buildDependencies["dev-utils/flexbison"] = None
-        self.buildDependencies["libs/qt5/qttools"] = None
 
         if CraftCore.settings.getboolean("CMake", "KDE_L10N_AUTO_TRANSLATIONS", False):
             self.buildDependencies["dev-utils/ruby"] = None
