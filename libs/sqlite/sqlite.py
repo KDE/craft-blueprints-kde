@@ -40,6 +40,7 @@ class subinfo(info.infoclass):
 
         self.description = "a library providing a self-contained, serverless, zero-configuration, transactional SQL database engine"
         self.defaultTarget = "3.26.0"
+        self.patchLevel["3.26.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

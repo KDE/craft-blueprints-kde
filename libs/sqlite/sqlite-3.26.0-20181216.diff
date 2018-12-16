@@ -1,7 +1,7 @@
 diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgamation-3260000.orig/CMakeLists.txt sqlite-amalgamation-3260000/CMakeLists.txt
 --- sqlite-amalgamation-3260000.orig/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ sqlite-amalgamation-3260000/CMakeLists.txt	2018-12-16 16:39:04.898512300 +0100
-@@ -0,0 +1,60 @@
++++ sqlite-amalgamation-3260000/CMakeLists.txt	2018-12-16 18:59:45.661392100 +0100
+@@ -0,0 +1,73 @@
 +cmake_minimum_required( VERSION 3.0)
 +
 +
@@ -20,30 +20,43 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgam
 +include(ECMGeneratePkgConfigFile)
 +
 +if(STATIC_LIBRARY)
-+    set(SQLITE3_STATIC 1)
 +    set(LIBRARY_TYPE STATIC)
-+    add_definitions(-DSQLITE3_STATIC_LIBS)
 +else(STATIC_LIBRARY)
 +    set(LIBRARY_TYPE SHARED)
 +endif(STATIC_LIBRARY)
 +
-+option(ENABLE_UNLOCK_NOTIFY "ENABLE_UNLOCK_NOTIFY" ON)
++option(SQLITE_ENABLE_UNLOCK_NOTIFY    "ENABLE_UNLOCK_NOTIFY"    ON)
++option(SQLITE_ENABLE_COLUMN_METADATA  "ENABLE_COLUMN_METADATA"  ON)
++option(SQLITE_ENABLE_FTS3             "ENABLE_FTS3"             ON)
++option(SQLITE_ENABLE_FTS3_PARENTHESIS "ENABLE_FTS3_PARENTHESIS" ON)
++option(SQLITE_ENABLE_FTS5             "ENABLE_FTS5"             ON)
++option(SQLITE_ENABLE_RTREE            "ENABLE_RTREE"            ON)
++option(SQLITE_DISABLE_DIRSYNC         "DISABLE_DIRSYNC"         ON)
++option(SQLITE_SECURE_DELETE           "SECURE_DELETE"           ON)
++option(SQLITE_ENABLE_DBSTAT_VTAB      "ENABLE_DBSTAT_VTAB"      ON)
++option(SQLITE_ENABLE_JSON1            "ENABLE_JSON1"            ON)
 +
-+if (ENABLE_UNLOCK_NOTIFY)
-+    add_definitions(-DSQLITE_ENABLE_UNLOCK_NOTIFY)
++if(NOT WIN32)
++  set(DHAVE_USLEEP TRUE)
 +endif()
 +
 +find_package( Threads )
 +
 +
++configure_file(config.h.in config.h)
 +set( sqlite_HEADER sqlite3.h sqlite3ext.h ${CMAKE_CURRENT_BINARY_DIR}/libsqlite3_export.h)
 +
 +set( libsqlite_SRC sqlite3.c  )
 +set( sqlite_SRC shell.c )
 +
-+add_library( libsqlite3 ${LIBRARY_TYPE}  ${libsqlite_SRC} )
++add_library( libsqlite3 ${LIBRARY_TYPE} ${libsqlite_SRC} )
 +target_include_directories(libsqlite3 PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 +generate_export_header(libsqlite3 EXPORT_MACRO_NAME SQLITE_API STATIC_DEFINE SQLITE3_STATIC)
++target_compile_definitions(libsqlite3 PRIVATE _HAVE_SQLITE_CONFIG_H)
++
++if("${LIBRARY_TYPE}" STREQUAL "STATIC")
++  target_compile_definitions(libsqlite3 PRIVATE SQLITE3_STATIC)
++endif()
 +
 +ecm_generate_pkgconfig_file(
 +    BASE_NAME sqlite3
@@ -62,27 +75,37 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgam
 +install( TARGETS sqlite3_bin DESTINATION ${CMAKE_INSTALL_BINDIR})
 +
 +install( FILES ${sqlite_HEADER} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} )
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgamation-3260000.orig/sqlite3.c sqlite-amalgamation-3260000/sqlite3.c
---- sqlite-amalgamation-3260000.orig/sqlite3.c	2018-12-01 14:38:26.000000000 +0100
-+++ sqlite-amalgamation-3260000/sqlite3.c	2018-12-16 16:35:47.192405400 +0100
-@@ -1071,6 +1071,9 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgamation-3260000.orig/config.h.in sqlite-amalgamation-3260000/config.h.in
+--- sqlite-amalgamation-3260000.orig/config.h.in	1970-01-01 01:00:00.000000000 +0100
++++ sqlite-amalgamation-3260000/config.h.in	2018-12-16 19:02:06.014460200 +0100
+@@ -0,0 +1,18 @@
++#ifndef SQLITECONFIG_H
++#define SQLITECONFIG_H 1
++#include "libsqlite3_export.h"
++
++#cmakedefine01 SQLITE_ENABLE_UNLOCK_NOTIFY
++#cmakedefine01 SQLITE_ENABLE_COLUMN_METADATA1
++#cmakedefine01 SQLITE_ENABLE_FTS3
++#cmakedefine01 SQLITE_ENABLE_FTS3_PARENTHESIS
++#cmakedefine01 SQLITE_ENABLE_FTS5
++#cmakedefine01 SQLITE_ENABLE_RTREE
++#cmakedefine01 SQLITE_DISABLE_DIRSYNC
++#cmakedefine01 SQLITE_SECURE_DELETE
++#cmakedefine01 SQLITE_ENABLE_DBSTAT_VTAB
++#cmakedefine01 SQLITE_ENABLE_JSON1
++
++#cmakedefine01 HAVE_USLEEP
++
++#endif
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgamation-3260000.orig/sqlite3.h sqlite-amalgamation-3260000/sqlite3.h
+--- sqlite-amalgamation-3260000.orig/sqlite3.h	2018-12-01 14:38:26.000000000 +0100
++++ sqlite-amalgamation-3260000/sqlite3.h	2018-12-16 18:59:45.671388600 +0100
+@@ -32,6 +32,8 @@
  */
  #ifndef SQLITE3_H
  #define SQLITE3_H
-+
 +#include "libsqlite3_export.h"
 +
  #include <stdarg.h>     /* Needed for the definition of va_list */
  
  /*
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgamation-3260000.orig/sqlite3.h sqlite-amalgamation-3260000/sqlite3.h
---- sqlite-amalgamation-3260000.orig/sqlite3.h	2018-12-01 14:38:26.000000000 +0100
-+++ sqlite-amalgamation-3260000/sqlite3.h	2018-12-16 16:35:47.200380100 +0100
-@@ -33,6 +33,7 @@
- #ifndef SQLITE3_H
- #define SQLITE3_H
- #include <stdarg.h>     /* Needed for the definition of va_list */
-+#include "libsqlite3_export.h"
- 
- /*
- ** Make sure we can call this stuff from C++.
