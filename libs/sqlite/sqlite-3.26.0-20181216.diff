@@ -1,7 +1,7 @@
 diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgamation-3260000.orig/CMakeLists.txt sqlite-amalgamation-3260000/CMakeLists.txt
 --- sqlite-amalgamation-3260000.orig/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ sqlite-amalgamation-3260000/CMakeLists.txt	2018-12-16 15:28:47.209240700 +0100
-@@ -0,0 +1,62 @@
++++ sqlite-amalgamation-3260000/CMakeLists.txt	2018-12-16 16:39:04.898512300 +0100
+@@ -0,0 +1,60 @@
 +cmake_minimum_required( VERSION 3.0)
 +
 +
@@ -35,17 +35,14 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgam
 +
 +find_package( Threads )
 +
-+configure_file(sqlite3.h ${CMAKE_CURRENT_BINARY_DIR}/sqlite3.h)
-+configure_file(sqlite3.c ${CMAKE_CURRENT_BINARY_DIR}/sqlite3.c)
-+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 +
++set( sqlite_HEADER sqlite3.h sqlite3ext.h ${CMAKE_CURRENT_BINARY_DIR}/libsqlite3_export.h)
 +
-+set( sqlite_HEADER ${CMAKE_CURRENT_BINARY_DIR}/sqlite3.h sqlite3ext.h ${CMAKE_CURRENT_BINARY_DIR}/libsqlite3_export.h)
-+
-+set( libsqlite_SRC ${CMAKE_CURRENT_BINARY_DIR}/sqlite3.c  )
++set( libsqlite_SRC sqlite3.c  )
 +set( sqlite_SRC shell.c )
 +
 +add_library( libsqlite3 ${LIBRARY_TYPE}  ${libsqlite_SRC} )
++target_include_directories(libsqlite3 PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 +generate_export_header(libsqlite3 EXPORT_MACRO_NAME SQLITE_API STATIC_DEFINE SQLITE3_STATIC)
 +
 +ecm_generate_pkgconfig_file(
@@ -55,10 +52,11 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgam
 +
 +set_target_properties( libsqlite3 PROPERTIES RUNTIME_OUTPUT_NAME libsqlite ARCHIVE_OUTPUT_NAME sqlite3 PREFIX ""
 +                                  VERSION ${SQLITE_VERSION_STRING} SOVERSION ${SQLITE_VERSION_MAJOR})
-+install( TARGETS libsqlite3 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
++install( TARGETS libsqlite3 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} )
 +
 +add_executable( sqlite3_bin ${sqlite_SRC} )
 +target_link_libraries( sqlite3_bin libsqlite3 Threads::Threads ${CMAKE_DL_LIBS})
++target_include_directories(sqlite3_bin PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 +set_target_properties( sqlite3_bin PROPERTIES RUNTIME_OUTPUT_NAME sqlite3 ARCHIVE_OUTPUT_NAME sqlite3_bin )
 +
 +install( TARGETS sqlite3_bin DESTINATION ${CMAKE_INSTALL_BINDIR})
@@ -66,7 +64,7 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgam
 +install( FILES ${sqlite_HEADER} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} )
 diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgamation-3260000.orig/sqlite3.c sqlite-amalgamation-3260000/sqlite3.c
 --- sqlite-amalgamation-3260000.orig/sqlite3.c	2018-12-01 14:38:26.000000000 +0100
-+++ sqlite-amalgamation-3260000/sqlite3.c	2018-12-16 15:30:18.574217200 +0100
++++ sqlite-amalgamation-3260000/sqlite3.c	2018-12-16 16:35:47.192405400 +0100
 @@ -1071,6 +1071,9 @@
  */
  #ifndef SQLITE3_H
@@ -79,7 +77,7 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgam
  /*
 diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgamation-3260000.orig/sqlite3.h sqlite-amalgamation-3260000/sqlite3.h
 --- sqlite-amalgamation-3260000.orig/sqlite3.h	2018-12-01 14:38:26.000000000 +0100
-+++ sqlite-amalgamation-3260000/sqlite3.h	2018-12-16 15:28:47.227191100 +0100
++++ sqlite-amalgamation-3260000/sqlite3.h	2018-12-16 16:35:47.200380100 +0100
 @@ -33,6 +33,7 @@
  #ifndef SQLITE3_H
  #define SQLITE3_H
