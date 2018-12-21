@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-if CraftCore.compiler.isGCCLike:
+if CraftCore.compiler.isGCCLike():
     class Package(AutoToolsPackageBase):
         def __init__(self):
             AutoToolsPackageBase.__init__(self)

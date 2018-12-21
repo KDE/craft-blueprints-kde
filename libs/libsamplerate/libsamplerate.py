@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         self.targets['0.1.9'] = "http://www.mega-nerd.com/SRC/libsamplerate-0.1.9.tar.gz"
         self.targetInstSrc['0.1.9'] = 'libsamplerate-0.1.9'
         self.targetDigests['0.1.9'] = 'ed60f957a4ff87aa15cbb1f3dbd886fa7e5e9566'
-        if not CraftCore.compiler.isGCCLike:
+        if not CraftCore.compiler.isGCCLike():
             self.patchToApply['0.1.9'] = ('libsamplerate-0.1.9-20180928.diff', 1)
         self.description = "an audio sample rate converter library"
         self.defaultTarget = '0.1.9'
@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libsndfile"] = None
 
 
-if CraftCore.compiler.isGCCLike:
+if CraftCore.compiler.isGCCLike():
     class Package(AutoToolsPackageBase):
         def __init__(self):
             AutoToolsPackageBase.__init__(self)

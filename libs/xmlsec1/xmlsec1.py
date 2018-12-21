@@ -54,7 +54,7 @@ class PackageMinGW(AutoToolsPackageBase):
         self.subinfo.options.configure.ldflags += '-lgcrypt '
 
 
-if CraftCore.compiler.isGCCLike:
+if CraftCore.compiler.isGCCLike():
     class Package(PackageMinGW):
         def __init__(self):
             PackageMinGW.__init__(self)
