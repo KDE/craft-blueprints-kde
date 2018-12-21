@@ -3,21 +3,23 @@ import info
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        # TODO: fix build
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotLinux
-
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.svnTargets["5.212"] = "https://code.qt.io/qt/qtwebkit.git|5.212"
 
         for ver in self.versionInfo.branches():
-            self.patchToApply[ver] = [("build-with-mysql.diff", 1),
-                                      ("disable-icu-test.diff", 1)]
+            if CraftVersion(ver) < "5.212":
+                self.patchToApply[ver] = [("build-with-mysql.diff", 1),
+                                          ("disable-icu-test.diff", 1)]
 
-        # there is not 5.10 branch, jet
+        self.patchToApply["5.212"] = [("qtwebkit-20181022.patch", 1)]
+        self.patchToApply["dev"] = [("qtwebkit-20181022.patch", 1)]
+
         self.svnTargets["5.10"] = self.svnTargets["5.9"]
         self.svnTargets["5.11"] = self.svnTargets["5.9"]
-        self.svnTargets["5.12"] = self.svnTargets["5.9"]
+        for ver in ["5.12"]:
+            self.svnTargets[ver] = self.svnTargets["5.212"]
+            self.patchToApply[ver] = self.patchToApply["5.212"]
 
         # replace tarbals by git branches
         branchRegEx = re.compile("\d\.\d+\.\d+")
@@ -41,18 +43,24 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtscript"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt5/qtwebchannel"] = None
         self.runtimeDependencies["libs/qt5/qtsensors"] = None
+        self.runtimeDependencies["libs/qt5/qtlocation"] = None
         self.buildDependencies["dev-utils/ruby"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
         self.buildDependencies["dev-utils/gperf"] = None
+        self.buildDependencies["dev-utils/perl"] = None
+        self.buildDependencies["dev-utils/python2"] = None
+        self.buildDependencies["dev-utils/nasm"] = None
 
 
 from Package.Qt5CorePackageBase import *
+from Package.CMakePackageBase import *
 
 
 class QtPackage(Qt5CorePackageBase):
@@ -73,19 +81,29 @@ class QtPackage(Qt5CorePackageBase):
     def fetch(self):
         if os.path.exists(self.sourceDir()):
             utils.system(["git", "reset", "--hard"], cwd=self.sourceDir())
-        return Qt5CorePackageBase.fetch(self)
+        return super().fetch()
 
-    def configure(self, configureDefines=""):
-        with utils.ScopedEnv({"SQLITE3SRCDIR" : CraftPackageObject.get("libs/sqlite").instance.sourceDir()}):
-            if not len(self.subinfo.buildTarget) == 3:  # 5.9
-                with open(os.path.join(self.sourceDir(), ".qmake.conf"), "rt+") as conf:
-                    text = conf.read()
-                text = re.sub(re.compile(r"MODULE_VERSION = \d\.\d+\.\d+"), f"MODULE_VERSION = {self.subinfo.buildTarget}",
-                              text)
-                with open(os.path.join(self.sourceDir(), ".qmake.conf"), "wt+") as conf:
-                    conf.write(text)
-            return Qt5CorePackageBase.configure(self)
+class CMakePackage(CMakePackageBase):
+    def __init__(self, **args):
+        CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args += " -DPORT=Qt -DENABLE_API_TESTS=OFF -DENABLE_TOOLS=OFF " \
+                                               "-DENABLE_NETSCAPE_PLUGIN_API=OFF -DUSE_GSTREAMER=OFF " \
+                                               "-DUSE_QT_MULTIMEDIA=ON -DUSE_MEDIA_FOUNDATION=OFF -DUSE_LIBHYPHEN=OFF"
+        if CraftCore.compiler.isMSVC():
+            # TODO: find out why this is failing
+            self.subinfo.options.configure.args += " -DENABLE_WEBKIT2=OFF"
+            # TODO: why?
+            self.subinfo.options.configure.args += """ -DCMAKE_CXX_FLAGS="-D_ENABLE_EXTENDED_ALIGNED_STORAGE" """
+
+    def fetch(self):
+        if os.path.exists(self.sourceDir()):
+            utils.system(["git", "reset", "--hard"], cwd=self.sourceDir())
+        return super().fetch()
+
 
 class Package(Qt5CoreSdkPackageBase):
     def __init__(self):
-        Qt5CoreSdkPackageBase.__init__(self, classA=QtPackage)
+        base = QtPackage
+        if CraftVersion(CraftPackageObject.get("libs/qt5/qtbase").version) > "5.12":
+            base = CMakePackage
+        Qt5CoreSdkPackageBase.__init__(self, classA=base)
