@@ -43,6 +43,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/libpng"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtscript"] = None
@@ -94,11 +95,6 @@ class CMakePackage(CMakePackageBase):
             self.subinfo.options.configure.args += " -DENABLE_WEBKIT2=OFF"
             # TODO: why?
             self.subinfo.options.configure.args += """ -DCMAKE_CXX_FLAGS="-D_ENABLE_EXTENDED_ALIGNED_STORAGE" """
-
-    def fetch(self):
-        if os.path.exists(self.sourceDir()):
-            utils.system(["git", "reset", "--hard"], cwd=self.sourceDir())
-        return super().fetch()
 
 
 class Package(Qt5CoreSdkPackageBase):
