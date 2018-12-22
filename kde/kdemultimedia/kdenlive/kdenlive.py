@@ -46,7 +46,7 @@ class subinfo(info.infoclass):
 
 
 from Package.CMakePackageBase import *
-
+from Utils import GetFiles
 
 class Package(CMakePackageBase):
     def __init__(self):
@@ -65,4 +65,15 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".kdenlive"]
 
         return TypePackager.createPackage(self)
+
+    def postInstall(self):
+        if CraftCore.compiler.isWindows:
+            self.schemeDir = os.path.join(self.installDir(), 'bin', 'data', 'color-schemes')
+        else:
+            self.schemeDir = os.path.join(self.installDir(), 'share', 'color-schemes')
+        for scheme in ['Breeze', 'BreezeDark', 'BreezeHighContrast', 'BreezeLight']:
+            GetFiles.getFile('https://cgit.kde.org/breeze.git/plain/colors/'+scheme+'.colors', self.schemeDir)
+        for scheme in ['Honeycomb', 'Norway', 'ObsidianCoast', 'Oxygen', 'OxygenCold', 'Steel', 'WontonSoup', 'Zion', 'ZionReversed']:
+            GetFiles.getFile('https://cgit.kde.org/plasma-desktop.git/plain/kcms/colors/schemes/'+scheme+'.colors', self.schemeDir)
+        return True
 
