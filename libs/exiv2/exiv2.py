@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ['0.24', '0.25']:
-            self.targets[ver] = 'http://www.exiv2.org/exiv2-%s.tar.gz' % ver
+            self.targets[ver] = 'http://www.exiv2.org/releases/exiv2-%s.tar.gz' % ver
             self.targetInstSrc[ver] = 'exiv2-%s' % ver
 
         for ver in ['0.26']:
