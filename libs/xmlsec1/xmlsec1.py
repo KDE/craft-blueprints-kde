@@ -27,7 +27,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["1.2.25"] = "https://www.aleksey.com/xmlsec/download/xmlsec1-1.2.25.tar.gz"
+        self.targets["1.2.25"] = "https://files.kde.org/craft/sources/libs/xmlsec1/xmlsec1-1.2.25.tar.gz"
         self.targetDigests["1.2.25"] = (['967ca83edf25ccb5b48a3c4a09ad3405a63365576503bf34290a42de1b92fcd2'], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["1.2.25"] = "xmlsec1-1.2.25"
         self.defaultTarget = "1.2.25"
