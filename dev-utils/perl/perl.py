@@ -1,5 +1,6 @@
 import tempfile
 
+import CraftOS
 import info
 from Package.AutoToolsPackageBase import *
 from Package.MakeFilePackageBase import *
@@ -19,22 +20,30 @@ class subinfo(info.infoclass):
             # With msvc2015+ and Windows 10 1803 perlglob is broken. for that reason we provide a precompiled version
             # https://developercommunity.visualstudio.com/content/problem/245615/first-file-name-in-command-line-wildcard-expansion.html
             self.patchToApply["5.28.0"] = [("perl-5.28.0-20181129.diff", 1)]
-            self.patchToApply["5.28.1"] = [("perl-5.28.0-20181129.diff", 1)]
+            self.patchToApply["5.28.1"] = [("perl-5.28.0-20181129.diff", 1), ("perl-5.28.1-20181229.diff", 2)]
         self.targetDigests["5.28.0"] = (['7e929f64d4cb0e9d1159d4a59fc89394e27fa1f7004d0836ca0d514685406ea8'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["5.28.0"] = (['3ebf85fe65df2ee165b22596540b7d5d42f84d4b72d84834f74e2e0b8956c347'],CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["5.28.1"] = (['3ebf85fe65df2ee165b22596540b7d5d42f84d4b72d84834f74e2e0b8956c347'],CraftHash.HashAlgorithm.SHA256)
         self.description = ("Perl 5 is a highly capable, feature-rich programming language with over 30 years of "
                             "development. Perl 5 runs on over 100 platforms from portables to mainframes and is "
                             "suitable for both rapid prototyping and large scale development projects.")
         self.patchLevel["5.28.0"] = 5
+        self.patchLevel["5.28.1"] = 1
         self.defaultTarget = "5.28.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/expat"] = None
 
     def _installExtraModules(self, package):
         # we need a fresh config
         with tempfile.TemporaryDirectory() as tmp:
-            with utils.ScopedEnv({"HOME": tmp, "USERPROFILE": tmp}):
+            env = {"HOME": tmp, "USERPROFILE": tmp}
+            if CraftCore.compiler.isMSVC():
+                root = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
+                env.update({"INCLUDE": f"{os.environ['INCLUDE']};{root}/include",
+                            "LIB": f"{os.environ['LIB']};{root}/lib"})
+
+            with utils.ScopedEnv(env):
                 perl = os.path.join(package.installDir(), "bin", "perl")
                 if CraftCore.compiler.isWindows:
                     if not utils.system([f"cmd", "/C", f"echo yes | {perl} -MCPAN -e mkmyconfig"], shell=True):
@@ -42,8 +51,7 @@ class subinfo(info.infoclass):
                 else:
                     if not utils.system([f"yes | {perl} -MCPAN -e mkmyconfig"], shell=True):
                         return False
-
-                for module in ["URI::URL"]:
+                for module in ["URI::URL", "XML::Parser"]:
                     if not utils.system([perl, "-MCPAN",  "-e", f"CPAN::Shell->notest('force', 'install', '{module}')"]):
                         return False
             # we might need to force the deletion
@@ -58,6 +66,8 @@ class PackageMSVC(MakeFilePackageBase):
         MakeFilePackageBase.__init__(self)
         self.subinfo.options.make.supportsMultijob = False
         self.subinfo.options.useShadowBuild = False
+
+        root = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
         config = {  "CCTYPE": "MSVC141" if CraftCore.compiler.isMSVC() else "GCC",
                     "CRAFT_DESTDIR": self.installDir(),
                     "CRAFT_WIN64": "" if CraftCore.compiler.isX64() else "undef",
@@ -66,6 +76,7 @@ class PackageMSVC(MakeFilePackageBase):
         if CraftCore.compiler.isMinGW():
             config["CCHOME"] = os.path.join(CraftCore.standardDirs.craftRoot(), "mingw64")
             config["SHELL"] = os.environ["COMSPEC"]
+            config["CRAFT_CFLAGS"] = f"\"{os.environ.get('CFLAGS', '')} -I'{root}/include' -L'{root}/lib'\""
         elif CraftCore.compiler.isX86():
             config["PROCESSOR_ARCHITECTURE"] = CraftCore.compiler.architecture
 
@@ -85,6 +96,7 @@ class PackageMSVC(MakeFilePackageBase):
             return super().make()
 
     def install(self):
+#        return  self.subinfo._installExtraModules(self)
         with utils.ScopedEnv(self._globEnv()):
             return (super().install() and
                     utils.globCopyDir(os.path.join(self.sourceDir(), ".."), os.path.join(self.installDir(), "lib"),
