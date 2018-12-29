@@ -50,10 +50,6 @@ class Package(CMakePackageBase):
         # disable this support until we have a swig package in Craft
         self.subinfo.options.configure.args += " -DLLDB_DISABLE_PYTHON=ON"
 
-        if CraftCore.compiler.isMinGW():
-            # cc1plus.exe: out of memory allocating 65536 bytes
-            self.subinfo.options.make.supportsMultijob = False
-
     def fetch(self):
         if not CMakePackageBase.fetch(self):
             return False
