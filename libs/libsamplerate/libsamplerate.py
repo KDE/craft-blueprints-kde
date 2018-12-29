@@ -16,15 +16,15 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/libsndfile"] = None
 
 
 if CraftCore.compiler.isGCCLike():
     class Package(AutoToolsPackageBase):
         def __init__(self):
             AutoToolsPackageBase.__init__(self)
+            self.subinfo.options.configure.args = " --disable-static --disable-sndfile "
 else:
     class Package(CMakePackageBase):
         def __init__(self):
             CMakePackageBase.__init__(self)
-            self.subinfo.options.configure.args = " -DBUILD_SHARED_LIB=ON -DBUILD_EXAMPLES=ON -DBUILD_TEST=ON"
+            self.subinfo.options.configure.args = " -DBUILD_SHARED_LIB=ON -DBUILD_EXAMPLES=OFF -DBUILD_TEST=OFF"
