@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
                     ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_GenericDataLocation_mac.patch", 1),
-                    ("0001-Allow-additional-QStandardPaths-data-directories-on-.patch", 1),
+                    ("qstandardpaths-extra-dirs.patch", 1),
                 ]
             elif qtVer >= CraftVersion("5.11.1"):
                 self.patchToApply[ver] = [
@@ -162,9 +162,7 @@ class QtPackage(Qt5CorePackageBase):
             else:
                 command += "-qt-pcre "
 
-            if self.qtVer >= "5.12":
-                command += f"-additional-datadirs \"{CraftCore.standardDirs.locations.data}\" "
-            elif CraftCore.compiler.isMacOS and self.qtVer >= "5.10":
+            if CraftCore.compiler.isMacOS and self.qtVer >= "5.10":
                 command += f"-macos-additional-datadirs \"{CraftCore.standardDirs.locations.data}\" "
 
             if OsUtils.isWin():
