@@ -36,28 +36,35 @@ class subinfo(info.infoclass):
 
     def _installExtraModules(self, package):
         # we need a fresh config
-        with tempfile.TemporaryDirectory() as tmp:
-            env = {"HOME": tmp, "USERPROFILE": tmp}
-            if CraftCore.compiler.isMSVC():
-                root = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
-                env.update({"INCLUDE": f"{os.environ['INCLUDE']};{root}/include",
-                            "LIB": f"{os.environ['LIB']};{root}/lib"})
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                env = {"HOME": tmp, "USERPROFILE": tmp, "HOMEPATH": tmp}
+                if CraftCore.compiler.isMSVC():
+                    root = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
+                    env.update({"INCLUDE": f"{os.environ['INCLUDE']};{root}/include",
+                                "LIB": f"{os.environ['LIB']};{root}/lib"})
 
-            with utils.ScopedEnv(env):
-                perl = os.path.join(package.installDir(), "bin", "perl")
-                if CraftCore.compiler.isWindows:
-                    if not utils.system([f"cmd", "/C", f"echo yes | {perl} -MCPAN -e mkmyconfig"], shell=True):
-                        return False
-                else:
-                    if not utils.system([f"yes | {perl} -MCPAN -e mkmyconfig"], shell=True):
-                        return False
-                for module in ["URI::URL", "XML::Parser"]:
-                    if not utils.system([perl, "-MCPAN",  "-e", f"CPAN::Shell->notest('force', 'install', '{module}')"]):
-                        return False
-            # we might need to force the deletion
-            OsUtils.rmDir(tmp, True)
-            # tmp file expects this dir to exist..
-            utils.createDir(tmp)
+                with utils.ScopedEnv(env):
+                    perl = os.path.join(package.installDir(), "bin", "perl")
+                    if CraftCore.compiler.isWindows:
+                        if not utils.system([f"cmd", "/C", f"echo yes | {perl} -MCPAN -e mkmyconfig"], shell=True):
+                            return False
+                    else:
+                        if not utils.system([f"yes | {perl} -MCPAN -e mkmyconfig"], shell=True):
+                            return False
+                    for module in ["URI::URL", "XML::Parser"]:
+                        if not utils.system([perl, "-MCPAN",  "-e", f"CPAN::Shell->notest('force', 'install', '{module}')"]):
+                            return False
+                try:
+                    # we might need to force the deletion
+                    OsUtils.rmDir(tmp, True)
+                except PermissionError as e:
+                    CraftCore.log.error(f"Can't delete {e}")
+
+                # tmp file expects this dir to exist..
+                utils.createDir(tmp)
+        except PermissionError:
+            pass
         return True
 
 
