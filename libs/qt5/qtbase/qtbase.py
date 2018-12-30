@@ -163,7 +163,7 @@ class QtPackage(Qt5CorePackageBase):
                 command += "-qt-pcre "
 
             if self.qtVer >= "5.12":
-                command += f"-additional-datadir \"{CraftCore.standardDirs.locations.data}\" "
+                command += f"-additional-datadirs \"{CraftCore.standardDirs.locations.data}\" "
             elif CraftCore.compiler.isMacOS and self.qtVer >= "5.10":
                 command += f"-macos-additional-datadirs \"{CraftCore.standardDirs.locations.data}\" "
 
