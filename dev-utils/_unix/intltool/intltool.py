@@ -29,6 +29,7 @@ from Package.AutoToolsPackageBase import *
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["dev-utils/perl"] = None
 
     def setTargets(self):
         self.description = "Utility scripts for internationalizing XML."
@@ -47,6 +48,15 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
 
     def postInstall(self):
+        # fix shebang
+        for f in ["dev-utils/bin/intltool-update", "dev-utils/bin/intltool-prepare",
+                  "dev-utils/bin/intltool-merge", "dev-utils/bin/intltool-extract"]:
+            f = os.path.join(self.imageDir(), f)
+            with open(f, "rb") as t:
+                text = t.readlines()
+            text[0] = b"#!/usr/bin/env perl -w\n"
+            with open(f, "wb") as t:
+                t.writelines(text)
         return self.patchInstallPrefix([os.path.join(self.imageDir(), x) for x in ["dev-utils/bin/intltoolize"]],
                                        self.subinfo.buildPrefix,
                                        CraftCore.standardDirs.craftRoot())
