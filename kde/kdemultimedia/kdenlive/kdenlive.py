@@ -43,6 +43,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kinit"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
 from Package.CMakePackageBase import *
