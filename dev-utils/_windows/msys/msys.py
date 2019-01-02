@@ -84,7 +84,7 @@ class VirtualPackage(VirtualPackageBase):
     def install(self):
         if not VirtualPackageBase.install(self):
             return False
-        return self.subinfo.msysInstallShim(self.installDir())
+        return self.subinfo.msysInstallShim(self.imageDir())
 
 
 class Package(MaybeVirtualPackageBase):
