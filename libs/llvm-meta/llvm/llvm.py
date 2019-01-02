@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.0.1"] = 2
         self.patchLevel["6.0.0"] = 2
         self.patchToApply["6.0.1"] = [("llvm-6.0.1-20181019.diff", 1)]
+        self.patchToApply["7.0.1"] = [("llvm-7.0.1-20190102.diff", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -22,8 +23,7 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.supportsClang = False
-        self.subinfo.options.dynamic.buildTests = False
-        self.subinfo.options.configure.args += " -DLLVM_INCLUDE_TESTS=OFF"
+        self.subinfo.options.configure.args += " -DLLVM_BUILD_TESTS=OFF  -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_GO_TESTS=OFF"
         self.subinfo.options.configure.args += " -DLLVM_TARGETS_TO_BUILD='host'"
 
         # BEGIN: sub-package handling
