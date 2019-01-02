@@ -1,0 +1,111 @@
+From 11177a68cbc233420b73e30a38c870e2fb0e6bda Mon Sep 17 00:00:00 2001
+From: Hannah von Reth <vonreth@kde.org>
+Date: Wed, 2 Jan 2019 09:29:01 +0100
+Subject: [PATCH] Require CMake 3.4 and use the OpenSSL imported libs
+
+Differential Revision: https://phabricator.kde.org/D17913
+---
+ CMakeLists.txt                  |  6 +-----
+ cmake/modules/QcaMacro.cmake    | 26 ++++++++++----------------
+ plugins/qca-ossl/CMakeLists.txt | 16 ++--------------
+ 3 files changed, 13 insertions(+), 35 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 65b95f8..5aa856a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -8,11 +8,7 @@ endif(NOT CMAKE_INSTALL_PREFIX)
+ 
+ project(qca)
+ 
+-if(NOT APPLE)
+-  cmake_minimum_required(VERSION 2.8.12)
+-else()
+-  cmake_minimum_required(VERSION 3.0)
+-endif()
++cmake_minimum_required(VERSION 3.4)
+ 
+ set(QCA_LIB_MAJOR_VERSION "2")
+ set(QCA_LIB_MINOR_VERSION "2")
+diff --git a/cmake/modules/QcaMacro.cmake b/cmake/modules/QcaMacro.cmake
+index 88e3121..83b7e5c 100644
+--- a/cmake/modules/QcaMacro.cmake
++++ b/cmake/modules/QcaMacro.cmake
+@@ -11,15 +11,14 @@ IF (Qt5Core_FOUND)
+   ENDMACRO(QT4_GET_MOC_INC_DIRS)
+ 
+   MACRO(SETUP_QT5_DIRS)
+-    GET_TARGET_PROPERTY(QMAKE_EXECUTABLE ${Qt5Core_QMAKE_EXECUTABLE} LOCATION)
+-    EXEC_PROGRAM( ${QMAKE_EXECUTABLE} ARGS "-query QT_INSTALL_LIBS" OUTPUT_VARIABLE QT_LIBRARY_DIR )
+-    EXEC_PROGRAM( ${QMAKE_EXECUTABLE} ARGS "-query QT_INSTALL_PREFIX" OUTPUT_VARIABLE QT_PREFIX_DIR )
+-    EXEC_PROGRAM( ${QMAKE_EXECUTABLE} ARGS "-query QT_INSTALL_PLUGINS" OUTPUT_VARIABLE QT_PLUGINS_DIR )
+-    EXEC_PROGRAM( ${QMAKE_EXECUTABLE} ARGS "-query QT_INSTALL_BINS" OUTPUT_VARIABLE QT_BINARY_DIR )
+-    EXEC_PROGRAM( ${QMAKE_EXECUTABLE} ARGS "-query QT_INSTALL_HEADERS" OUTPUT_VARIABLE QT_HEADERS_DIR )
+-    EXEC_PROGRAM( ${QMAKE_EXECUTABLE} ARGS "-query QT_INSTALL_DOCS" OUTPUT_VARIABLE QT_DOC_DIR )
+-    EXEC_PROGRAM( ${QMAKE_EXECUTABLE} ARGS "-query QT_INSTALL_DATA" OUTPUT_VARIABLE QT_DATA_DIR )
+-    EXEC_PROGRAM( ${QMAKE_EXECUTABLE} ARGS "-query QT_HOST_DATA" OUTPUT_VARIABLE QT_ARCHDATA_DIR )
++    EXEC_PROGRAM( $<TARGET_FILE:Qt5::qmake> ARGS "-query QT_INSTALL_LIBS" OUTPUT_VARIABLE QT_LIBRARY_DIR )
++    EXEC_PROGRAM( $<TARGET_FILE:Qt5::qmake> ARGS "-query QT_INSTALL_PREFIX" OUTPUT_VARIABLE QT_PREFIX_DIR )
++    EXEC_PROGRAM( $<TARGET_FILE:Qt5::qmake> ARGS "-query QT_INSTALL_PLUGINS" OUTPUT_VARIABLE QT_PLUGINS_DIR )
++    EXEC_PROGRAM( $<TARGET_FILE:Qt5::qmake> ARGS "-query QT_INSTALL_BINS" OUTPUT_VARIABLE QT_BINARY_DIR )
++    EXEC_PROGRAM( $<TARGET_FILE:Qt5::qmake> ARGS "-query QT_INSTALL_HEADERS" OUTPUT_VARIABLE QT_HEADERS_DIR )
++    EXEC_PROGRAM( $<TARGET_FILE:Qt5::qmake> ARGS "-query QT_INSTALL_DOCS" OUTPUT_VARIABLE QT_DOC_DIR )
++    EXEC_PROGRAM( $<TARGET_FILE:Qt5::qmake> ARGS "-query QT_INSTALL_DATA" OUTPUT_VARIABLE QT_DATA_DIR )
++    EXEC_PROGRAM( $<TARGET_FILE:Qt5::qmake> ARGS "-query QT_HOST_DATA" OUTPUT_VARIABLE QT_ARCHDATA_DIR )
+     SET( QT_MKSPECS_DIR "${QT_ARCHDATA_DIR}/mkspecs" )
+   ENDMACRO(SETUP_QT5_DIRS)
+ ELSE (Qt5Core_FOUND)
+@@ -102,13 +101,8 @@ endmacro(add_qca_test)
+ 
+ macro(install_pdb TARGET INSTALL_PATH)
+   if(MSVC)
+-    get_target_property(LOCATION ${TARGET} LOCATION_DEBUG)
+-    string(REGEX REPLACE "\\.[^.]*$" ".pdb" LOCATION "${LOCATION}")
+-    install(FILES ${LOCATION} DESTINATION ${INSTALL_PATH} CONFIGURATIONS Debug)
+-
+-    get_target_property(LOCATION ${TARGET} LOCATION_RELWITHDEBINFO)
+-    string(REGEX REPLACE "\\.[^.]*$" ".pdb" LOCATION "${LOCATION}")
+-    install(FILES ${LOCATION} DESTINATION ${INSTALL_PATH} CONFIGURATIONS RelWithDebInfo)
++    install(FILES $<TARGET_PDB_FILE:${TARGET}> DESTINATION ${INSTALL_PATH} CONFIGURATIONS Debug)
++    install(FILES $<TARGET_PDB_FILE:${TARGET}> DESTINATION ${INSTALL_PATH} CONFIGURATIONS RelWithDebInfo)
+   endif(MSVC)
+ endmacro(install_pdb)
+ 
+diff --git a/plugins/qca-ossl/CMakeLists.txt b/plugins/qca-ossl/CMakeLists.txt
+index d87bc5a..af3d756 100644
+--- a/plugins/qca-ossl/CMakeLists.txt
++++ b/plugins/qca-ossl/CMakeLists.txt
+@@ -56,28 +56,16 @@ if(OPENSSL_FOUND)
+     set_property(TARGET qca-ossl PROPERTY SUFFIX ".dylib")
+   endif()
+ 
+-  include_directories(${OPENSSL_INCLUDE_DIR})
+   target_link_libraries(qca-ossl ${QT_QTCORE_LIBRARY})
+   target_link_libraries(qca-ossl ${QCA_LIB_NAME})
+-  target_link_libraries(qca-ossl ${OPENSSL_LIBRARIES})
+-
+-  if(APPLE)
+-    target_link_libraries(qca-ossl crypto)
+-  endif(APPLE)
+-
+-  if(WIN32)
+-    add_definitions(-DOSSL_097)
+-    target_link_libraries(qca-ossl gdi32)
+-    target_link_libraries(qca-ossl wsock32)
+-    target_link_libraries(qca-ossl ${OPENSSL_EAY_LIBRARIES})
+-  endif(WIN32)
++  target_link_libraries(qca-ossl OpenSSL::SSL OpenSSL::Crypto)
+ 
+   if(NOT DEVELOPER_MODE)
+     install(TARGETS qca-ossl
+             LIBRARY DESTINATION "${QCA_CRYPTO_INSTALL_DIR}"
+             ARCHIVE DESTINATION "${QCA_CRYPTO_INSTALL_DIR}"
+             RUNTIME DESTINATION "${QCA_CRYPTO_INSTALL_DIR}")
+-  
++
+     install_pdb(qca-ossl ${QCA_CRYPTO_INSTALL_DIR})
+   endif()
+ 
+-- 
+2.20.0.windows.1
+
