@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/tiff"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
 
-if not CraftCore.compiler.isWindows():
+if not CraftCore.compiler.isWindows:
     class Package(AutoToolsPackageBase):
         def __init__(self):
             AutoToolsPackageBase.__init__(self)
