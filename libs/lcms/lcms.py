@@ -7,7 +7,8 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.targets['1.19'] = "http://download.sourceforge.net/lcms/lcms-1.19.tar.gz"
         self.targetInstSrc['1.19'] = "lcms-1.19"
-        self.patchToApply['1.19'] = ('lcms-1.19-20101212.diff', 1)
+        if CraftCore.compiler.isWindows:
+            self.patchToApply['1.19'] = ('lcms-1.19-20101212.diff', 1)
         self.targetDigests['1.19'] = (['80ae32cb9f568af4dc7ee4d3c05a4c31fc513fc3e31730fed0ce7378237273a9'], CraftHash.HashAlgorithm.SHA256)
         self.description = "A small-footprint, speed optimized color management engine"
         self.defaultTarget = '1.19'
