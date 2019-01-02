@@ -40,6 +40,8 @@ class subinfo(info.infoclass):
         self.patchToApply['0.51.0'] = [
             ("0001-Perl-5-22-compatibility.patch", 1)
         ]
+        self.targetDigests['0.51.0'] = (['67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd'], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel['0.51.0'] = 1
         self.defaultTarget = '0.51.0'
 
 
@@ -48,15 +50,6 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
 
     def postInstall(self):
-        # fix shebang
-        for f in ["dev-utils/bin/intltool-update", "dev-utils/bin/intltool-prepare",
-                  "dev-utils/bin/intltool-merge", "dev-utils/bin/intltool-extract"]:
-            f = os.path.join(self.imageDir(), f)
-            with open(f, "rb") as t:
-                text = t.readlines()
-            text[0] = b"#!/usr/bin/env perl -w\n"
-            with open(f, "wb") as t:
-                t.writelines(text)
         return self.patchInstallPrefix([os.path.join(self.imageDir(), x) for x in ["dev-utils/bin/intltoolize"]],
                                        self.subinfo.buildPrefix,
                                        CraftCore.standardDirs.craftRoot())
