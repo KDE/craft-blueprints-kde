@@ -22,16 +22,10 @@ class Package(BoostPackageBase):
         BoostPackageBase.__init__(self)
 
     def install(self):
-        if OsUtils.isUnix():
-            return utils.copyFile(
-                os.path.join(CraftPackageObject.get('libs/boost/boost-headers').instance.sourceDir(),
-                             "tools", "build", "bjam"),
-                os.path.join(self.imageDir(), "bin", "bjam"))
-        else:
-            return utils.copyFile(
-                os.path.join(CraftPackageObject.get('libs/boost/boost-headers').instance.sourceDir(),
-                             "tools", "build", "bjam.exe"),
-                os.path.join(self.imageDir(), "bin", "bjam.exe"))
+        src = CraftPackageObject.get('libs/boost/boost-headers').instance.sourceDir()
+        return utils.copyFile(
+            os.path.join(src, f"bjam{CraftCore.compiler.executableSuffix}"),
+            os.path.join(self.imageDir(), "bin", f"bjam{CraftCore.compiler.executableSuffix}"), linkOnly=False)
 
     def make(self):
         if OsUtils.isUnix():
@@ -49,7 +43,11 @@ class Package(BoostPackageBase):
             elif CraftCore.compiler.isMSVC():
                 platform = str(CraftCore.compiler.getMsvcPlatformToolset())
                 cmd += f"vc{platform[:2]}"
-        utils.system(cmd, cwd=os.path.join(CraftPackageObject.get('libs/boost/boost-headers').instance.sourceDir(),
-                                           "tools", "build")) or CraftCore.log.critical(
-            "command: %s failed" % (cmd))
+        src = CraftPackageObject.get('libs/boost/boost-headers').instance.sourceDir()
+        if not utils.system(cmd, cwd=src):
+            log = os.path.joine(src, "bootstrap.log")
+            if os.path.exists(log):
+                with open(log, "wt") as txt:
+                    CraftCore.log.log(txt.read())
+            return False
         return True
