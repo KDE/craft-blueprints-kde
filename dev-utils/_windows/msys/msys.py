@@ -37,10 +37,8 @@ class MsysPackage(BinaryPackageBase):
         BinaryPackageBase.__init__(self)
         self.shell = shells.BashShell()
 
-    def qmerge(self):
-        if not self.subinfo.msysInstallShim(self.imageDir()):
-            return False
-        return BinaryPackageBase.qmerge(self)
+    def postInstall(self):
+        return self.subinfo.msysInstallShim(self.imageDir())
 
     def postQmerge(self):
         msysDir = os.path.join(CraftStandardDirs.craftRoot(), "msys")
