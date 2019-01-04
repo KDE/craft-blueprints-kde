@@ -48,7 +48,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["data/poppler-data"] = None
         self.runtimeDependencies["libs/freetype"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
-        self.runtimeDependencies["libs/lcms"] = None
         self.runtimeDependencies["libs/lcms2"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/openjpeg"] = None

@@ -7,7 +7,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
-            self.runtimeDependencies["libs/lcms"] = None
             self.runtimeDependencies["libs/lcms2"] = None
             self.runtimeDependencies["libs/freetype"] = None
             self.runtimeDependencies["libs/libjpeg-turbo"] = None
