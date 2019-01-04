@@ -12,6 +12,8 @@ class subinfo(info.infoclass):
         self.patchToApply["7.0.1"] = [("llvm-7.0.1-20190102.diff", 1)]
 
     def setDependencies(self):
+        # workaround, ensure system clang is used to build bjam
+        self.buildDependencies["libs/boost/boost-bjam"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["libs/libxml2"] = None
 

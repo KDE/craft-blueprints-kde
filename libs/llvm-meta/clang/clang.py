@@ -7,8 +7,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues(packageName="cfe", gitUrl="[git]https://git.llvm.org/git/clang.git")
 
     def setDependencies(self):
-        # workaround, ensure system clang is used to build bjam
-        self.buildDependencies["libs/boost/boost-bjam"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/llvm-meta/llvm"] = None
