@@ -47,7 +47,7 @@ class Package(BoostPackageBase):
         if not utils.system(cmd, cwd=src):
             log = os.path.join(src, "bootstrap.log")
             if os.path.exists(log):
-                with open(log, "wt") as txt:
+                with open(log, "rt") as txt:
                     CraftCore.log.log(txt.read())
             return False
         return True
