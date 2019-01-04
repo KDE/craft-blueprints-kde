@@ -45,7 +45,7 @@ class Package(BoostPackageBase):
                 cmd += f"vc{platform[:2]}"
         src = CraftPackageObject.get('libs/boost/boost-headers').instance.sourceDir()
         if not utils.system(cmd, cwd=src):
-            log = os.path.joine(src, "bootstrap.log")
+            log = os.path.join(src, "bootstrap.log")
             if os.path.exists(log):
                 with open(log, "wt") as txt:
                     CraftCore.log.log(txt.read())
