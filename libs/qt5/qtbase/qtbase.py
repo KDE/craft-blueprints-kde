@@ -241,18 +241,6 @@ class QtPackage(Qt5CorePackageBase):
             parser.remove_section("EffectiveSourcePaths")
             with open(os.path.join(self.imageDir(), "bin", "qt.conf"), "wt") as out:
                 parser.write(out)
-
-            # install msvc debug files if available
-            if CraftCore.compiler.isMSVC():
-                srcdir = os.path.join(self.buildDir(), "lib")
-                destdir = os.path.join(self.installDir(), "lib")
-
-                filelist = os.listdir(srcdir)
-
-                for file in filelist:
-                    if file.endswith(".pdb"):
-                        utils.copyFile(os.path.join(srcdir, file), os.path.join(destdir, file))
-
             return True
 
     def postInstall(self):
