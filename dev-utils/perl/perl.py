@@ -107,7 +107,7 @@ class PackageMSVC(MakeFilePackageBase):
         with utils.ScopedEnv(self._globEnv()):
             return (super().install() and
                     utils.globCopyDir(os.path.join(self.sourceDir(), ".."), os.path.join(self.installDir(), "lib"),
-                                      ["perl5*.lib", "perl5*.pdb"]) and
+                                      ["perl5*.lib"]) and
                     utils.globCopyDir(os.path.join(self.sourceDir(), "..", "lib", "CORE"),
                                       os.path.join(self.installDir(), "include", "perl"), ["**/*.h"]) and
                     self.subinfo._installExtraModules(self))

@@ -74,8 +74,6 @@ class Package(AutoToolsPackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMSVC() and self.buildType() == "Debug":
-            return utils.copyFile(os.path.join(self.buildDir(), "update-mime-database.pdb"), os.path.join(self.installDir(), "bin", "update-mime-database.pdb"))
         if OsDetection.isWin():
             manifest = os.path.join(self.packageDir(), "update-mime-database.exe.manifest")
             executable = os.path.join(self.installDir(), "bin", "update-mime-database.exe")

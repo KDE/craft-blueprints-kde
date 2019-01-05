@@ -61,7 +61,7 @@ class Package(BinaryPackageBase):
         if not self.subinfo.options.dynamic.useMariaDB:
             utils.copyFile(os.path.join(self.sourceDir(), "lib", f"lib{libname}d.dll"), os.path.join(self.installDir(), "bin"))
         shutil.copytree(os.path.join(self.sourceDir(), "lib"), os.path.join(self.installDir(), "lib"),
-                        ignore=shutil.ignore_patterns('*.pdb', '*.map', 'debug*', f'lib{libname}.dll',
+                        ignore=shutil.ignore_patterns('*.map', 'debug*', f'lib{libname}.dll',
                                                       f'lib{libname}.dll', f'{libname}*'))
         if CraftCore.compiler.isMinGW():
             utils.createImportLibs(f"lib{libname}d", self.installDir())

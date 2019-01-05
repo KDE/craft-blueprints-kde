@@ -41,7 +41,7 @@ class Package(QMakePackageBase):
         for file in os.listdir(os.path.join(self.buildDir(), "lib")):
             if file.endswith(".dll"):
                 utils.copyFile(os.path.join(self.buildDir(), "lib", file), os.path.join(self.installDir(), "bin", file))
-            elif file.endswith(".lib") or file.endswith(".prl") or file.endswith(".pdb"):
+            elif file.endswith(".lib") or file.endswith(".prl"):
                 utils.copyFile(os.path.join(self.buildDir(), "lib", file), os.path.join(self.installDir(), "lib", file))
         for file in os.listdir(os.path.join(self.sourceDir(), "src")):
             if file.endswith(("kqoauthrequest.h", "kqoauthrequest_1.h", "kqoauthrequest_xauth.h", "kqoauthmanager.h",
