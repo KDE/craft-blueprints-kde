@@ -20,7 +20,7 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.noDataRootDir = True
         self.platform = ""
-        self.subinfo.options.configure.args += "--disable-examples --disable-install-docs"
+        self.subinfo.options.configure.args += "--disable-examples --disable-install-docs --disable-unit-tests "
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += " --enable-shared"
 
