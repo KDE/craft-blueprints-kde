@@ -39,9 +39,9 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += " -DEXIV2_BUILD_SAMPLES=OFF -DEXIV2_ENABLE_WIN_UNICODE=ON -DEXIV2_ENABLE_NLS=OFF"
+        self.subinfo.options.configure.args += " -DEXIV2_BUILD_SAMPLES=OFF -DEXIV2_ENABLE_NLS=OFF -DIconv_IS_BUILT_IN=OFF"
         if CraftCore.compiler.isWindows:
-            self.subinfo.options.configure.args += " -DICONV_ACCEPTS_CONST_INPUT=ON"
+            self.subinfo.options.configure.args += " -DICONV_ACCEPTS_CONST_INPUT=ON -DEXIV2_ENABLE_WIN_UNICODE=ON"
         if CraftCore.compiler.isMinGW():
             # https://github.com/Exiv2/exiv2/issues/421
             self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=OFF"
