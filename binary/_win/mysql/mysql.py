@@ -56,7 +56,7 @@ class Package(BinaryPackageBase):
     def install(self):
         libname = "mariadb" if self.subinfo.options.dynamic.useMariaDB else "mysql"
         shutil.copytree(os.path.join(self.sourceDir(), "bin"), os.path.join(self.installDir(), "bin"),
-                        ignore=shutil.ignore_patterns('*.pdb', '*.map', '*test*', 'mysqld-debug.exe', '*.pl', 'debug*'))
+                        ignore=shutil.ignore_patterns('*.map', '*test*', 'mysqld-debug.exe', '*.pl', 'debug*'))
         utils.copyFile(os.path.join(self.sourceDir(), "lib", f"lib{libname}.dll"), os.path.join(self.installDir(), "bin"))
         if not self.subinfo.options.dynamic.useMariaDB:
             utils.copyFile(os.path.join(self.sourceDir(), "lib", f"lib{libname}d.dll"), os.path.join(self.installDir(), "bin"))
