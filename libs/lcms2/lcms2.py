@@ -1,4 +1,5 @@
 import info
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Package.CMakePackageBase import *
 
 
@@ -23,7 +24,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-class Package(CMakePackageBase):
-    def __init__(self, **args):
-        CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DBUILD_TESTS=ON -DBUILD_UTILS=OFF"
+if not CraftCore.compiler.isWindows:
+    class Package(AutoToolsPackageBase):
+        def __init__(self):
+            AutoToolsPackageBase.__init__(self)
+else:
+    class Package(CMakePackageBase):
+        def __init__(self):
+            CMakePackageBase.__init__(self)
+            self.subinfo.options.configure.args = "-DBUILD_TESTS=ON -DBUILD_UTILS=OFF"
+
