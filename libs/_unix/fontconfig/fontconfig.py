@@ -18,7 +18,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/freetype"] = None
-        self.runtimeDependencies["libs/uuid"] = None
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
