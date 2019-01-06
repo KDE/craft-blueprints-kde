@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright 2018 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
+# Copyright 2019 Thomas Baumgart <tbaumgart@kde.org>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -28,11 +29,16 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'git://anongit.kde.org/alkimia|master'
-        self.defaultTarget = 'master'
+        for ver in ['7.0.1', '7.0.2']:
+          self.targets[ver] = 'http://download.kde.org/download.php?url=stable/alkimia/' + ver + '/alkimia-' + ver + '.tar.xz'
+          self.targetInstSrc[ver] = 'alkimia-' + ver
+
+        self.defaultTarget = '7.0.2'
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         if CraftCore.compiler.isMSVC():
             self.runtimeDependencies["libs/mpir"] = None
         else:
