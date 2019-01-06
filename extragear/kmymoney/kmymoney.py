@@ -50,6 +50,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
         self.runtimeDependencies['libs/gpgme'] = 'default'
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None
