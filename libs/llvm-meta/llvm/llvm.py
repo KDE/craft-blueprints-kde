@@ -4,6 +4,9 @@ from Package import CMakePackageBase
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.registerOption("buildType", "Release", overwrite=True)
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.patchLevel["5.0.1"] = 2
