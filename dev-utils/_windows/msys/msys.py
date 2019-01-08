@@ -50,7 +50,7 @@ class MsysPackage(BinaryPackageBase):
             out = io.BytesIO()
             if not self.shell.execute(".", "pacman", "-Sy --noconfirm --force"):
                 raise Exception()
-            self.shell.execute(".", "pacman", "-Qu --noconfirm", out=out, err=subprocess.PIPE)
+            self.shell.execute(".", "pacman", "-Qu --noconfirm", stdout=out, stderr=subprocess.PIPE)
             out = out.getvalue()
             return out != b""
 
