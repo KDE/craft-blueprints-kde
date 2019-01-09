@@ -45,6 +45,13 @@ class PackageMinGW(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args += " --disable-static --enable-shared --disable-java --disable-native-java --enable-nls --enable-c++ --with-included-gettext --with-included-glib --with-included-regex --with-gettext-tools"
 
+    def postInstall(self):
+        return self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "autopoint"),
+                                        os.path.join(self.installDir(), "bin", "gettextize"),
+                                        os.path.join(self.installDir(), "lib", "gettext", "user-email")],
+                                       self.subinfo.buildPrefix,
+                                       CraftCore.standardDirs.craftRoot())
+
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
