@@ -4,6 +4,9 @@ from Package.CMakePackageBase import *
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildType", "Release")
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/llvm-meta/clang"] = None
