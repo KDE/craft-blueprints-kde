@@ -5,7 +5,8 @@ from Package import CMakePackageBase
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.options.dynamic.registerOption("buildType", "Release", overwrite=True)
+        if self.options.dynamic.buildType != "Debug":
+            self.options.dynamic.setDefault("buildType", "Release")
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
