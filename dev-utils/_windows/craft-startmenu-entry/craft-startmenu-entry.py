@@ -34,7 +34,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("usePowershellCore", False)
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/shimgen"] = None
+        self.buildDependencies["dev-utils/kshim"] = None
 
 from Package.BinaryPackageBase import *
 
@@ -68,7 +68,6 @@ class WinPackage(BinaryPackageBase):
                       "-Command",
                       os.path.join(self.packageDir(), "install-lnk.ps1"),
                       "-Path", "'{0}'".format(os.path.join(CraftCore.standardDirs.craftRoot(), "bin", "craft.exe")),
-                      "-Arguments", "--shimgen-gui",
                       "-WorkingDirectory", f"'{root}'",
                       "-Name", f"'{self._shortcutPath}'",
                       "-Icon", "'{0}'".format(os.path.join(CraftCore.standardDirs.craftBin(), "data", "icons", "craft.ico")),
