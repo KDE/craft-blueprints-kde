@@ -56,7 +56,7 @@ class WinPackage(BinaryPackageBase):
     def install(self):
         return utils.createShim(os.path.join(self.installDir(), "bin", "craft.exe"),
                                 self.powershell,
-                                f"-NoExit -ExecutionPolicy ByPass -Command {CraftCore.standardDirs.craftBin()}/../craftenv.ps1",
+                                ["-NoExit", "-ExecutionPolicy", "ByPass", "-Command", os.path.join(CraftCore.standardDirs.craftBin(), "..", "craftenv.ps1")],
                                 useAbsolutePath=True)
 
     def postQmerge(self):
