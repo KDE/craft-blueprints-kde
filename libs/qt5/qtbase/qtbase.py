@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_GenericDataLocation_mac.patch", 1),
                     ("qstandardpaths-extra-dirs.patch", 1),
+                    ("0001-QComboBox-WindowVistaStyle-restore-focus-rect.patch", 1), # https://codereview.qt-project.org/#/c/248945/
                 ]
             elif qtVer >= CraftVersion("5.11.1"):
                 self.patchToApply[ver] = [
@@ -102,7 +103,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.9.4"] = 3
         self.patchLevel["5.11.0"] = 2
         self.patchLevel["5.11.2"] = 3
-        self.patchLevel["5.12.0"] = 1
+        self.patchLevel["5.12.0"] = 2
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):
