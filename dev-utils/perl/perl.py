@@ -10,7 +10,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["5.28.1"]:
             self.targets[ver] = f"https://www.cpan.org/src/5.0/perl-{ver}.tar.gz"
-            self.targetInstallPath[ver] = os.path.join("dev-utils", "perl")
             if CraftCore.compiler.isWindows:
                 self.targetInstSrc[ver] = f"perl-{ver}/win32"
             else:
@@ -33,39 +32,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/expat"] = None
-
-    def _installExtraModules(self, package):
-        # we need a fresh config
-        try:
-            with tempfile.TemporaryDirectory() as tmp:
-                env = {"HOME": tmp, "USERPROFILE": tmp, "HOMEPATH": tmp}
-                if CraftCore.compiler.isMSVC():
-                    root = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
-                    env.update({"INCLUDE": f"{os.environ['INCLUDE']};{root}/include",
-                                "LIB": f"{os.environ['LIB']};{root}/lib"})
-
-                with utils.ScopedEnv(env):
-                    perl = os.path.join(package.installDir(), "bin", "perl")
-                    if CraftCore.compiler.isWindows:
-                        if not utils.system([f"cmd", "/C", f"echo yes | {perl} -MCPAN -e mkmyconfig"], shell=True):
-                            return False
-                    else:
-                        if not utils.system([f"yes | {perl} -MCPAN -e mkmyconfig"], shell=True):
-                            return False
-                    for module in ["URI::URL", "XML::Parser"]:
-                        if not utils.system([perl, "-MCPAN",  "-e", f"CPAN::Shell->notest('force', 'install', '{module}')"]):
-                            return False
-                try:
-                    # we might need to force the deletion
-                    OsUtils.rmDir(tmp, True)
-                except PermissionError as e:
-                    CraftCore.log.error(f"Can't delete {e}")
-
-                # tmp file expects this dir to exist..
-                utils.createDir(tmp)
-        except PermissionError:
-            pass
-        return True
 
 
 class PackageMSVC(MakeFilePackageBase):
@@ -103,28 +69,23 @@ class PackageMSVC(MakeFilePackageBase):
             return super().make()
 
     def install(self):
-#        return  self.subinfo._installExtraModules(self)
         with utils.ScopedEnv(self._globEnv()):
             return (super().install() and
                     utils.globCopyDir(os.path.join(self.sourceDir(), ".."), os.path.join(self.installDir(), "lib"),
                                       ["perl5*.lib"]) and
                     utils.globCopyDir(os.path.join(self.sourceDir(), "..", "lib", "CORE"),
-                                      os.path.join(self.installDir(), "include", "perl"), ["**/*.h"]) and
-                    self.subinfo._installExtraModules(self))
+                                      os.path.join(self.installDir(), "include", "perl"), ["**/*.h"]))
 
     def postInstall(self):
         newPrefix = OsUtils.toUnixPath(self.installPrefix())
-        oldPrefixes = [self.installDir(), OsUtils.toUnixPath(self.installDir())]
+        oldPrefixes = [self.installDir(), OsUtils.toUnixPath(self.installDir()), self.installDir().replace("\\", "\\\\")]
 
-        pattern = [re.compile("^.*(pl)$")]
+        pattern = [re.compile("^.*(pl|pm)$")]
         files = utils.filterDirectoryContent(self.installDir(),
                                              whitelist=lambda x, root: utils.regexFileFilter(x, root, pattern),
                                              blacklist=lambda x, root: True)
 
-        if not self.patchInstallPrefix(files, oldPrefixes, newPrefix):
-            return False
-        return utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "perl.exe"),
-                                os.path.join( self.installDir(), "bin", "perl.exe"))
+        return self.patchInstallPrefix(files, oldPrefixes, newPrefix)
 
 
 class PackageAutoTools(AutoToolsPackageBase):
@@ -147,13 +108,6 @@ class PackageAutoTools(AutoToolsPackageBase):
         return self.shell.execute(self.buildDir(), os.path.join(self.sourceDir(), "Configure"),
                                   self.subinfo.options.configure.args)
 
-
-    def install(self):
-        return super().install() and self.subinfo._installExtraModules(self)
-
-    def postInstall(self):
-        return utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "perl"),
-                                os.path.join( self.installDir(), "bin", "perl"))
 
 
 if CraftCore.compiler.isUnix:
