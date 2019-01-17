@@ -4,6 +4,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
+        self.patchToApply["5.12.0"] = [(".qt-5.12.0", 1)]
         self.versionInfo.setDefaultValues()
 
     def setDependencies(self):
