@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
                     ("fix_GenericDataLocation_mac.patch", 1),
                     ("qstandardpaths-extra-dirs.patch", 1),
                     ("0001-QComboBox-WindowVistaStyle-restore-focus-rect.patch", 1), # https://codereview.qt-project.org/#/c/248945/
+                    (".qt-5.12.0", 1)
                 ]
             elif qtVer >= CraftVersion("5.11.1"):
                 self.patchToApply[ver] = [
