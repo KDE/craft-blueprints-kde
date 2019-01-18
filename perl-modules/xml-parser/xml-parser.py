@@ -5,6 +5,7 @@ from Package.PerlPackageBase import *
 
 class subinfo(info.infoclass):
     def setDependencies( self ):
+        self.runtimeDependencies["dev-utils/perl"] = None
         self.runtimeDependencies["libs/expat"] = None
 
     def setTargets(self):

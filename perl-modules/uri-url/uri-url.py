@@ -4,7 +4,8 @@ from Package.PerlPackageBase import *
 
 
 class subinfo(info.infoclass):
-    # def setDependencies( self ):
+    def setDependencies( self ):
+        self.runtimeDependencies["dev-utils/perl"] = None
 
     def setTargets(self):
         for ver in ["1.76"]:
