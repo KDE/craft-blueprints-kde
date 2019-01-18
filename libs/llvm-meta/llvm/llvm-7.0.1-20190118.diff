@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' llvm-7.0.1.src.orig/cmake/config-ix.cmake llvm-7.0.1.src/cmake/config-ix.cmake
+--- llvm-7.0.1.src.orig/cmake/config-ix.cmake	2018-06-14 20:19:54.000000000 +0200
++++ llvm-7.0.1.src/cmake/config-ix.cmake	2019-01-18 11:37:54.703793700 +0100
+@@ -153,7 +153,7 @@
+         else()
+           include_directories(${LIBXML2_INCLUDE_DIR})
+         endif()
+-        set(LIBXML2_LIBS "xml2")
++        set(LIBXML2_LIBS ${LIBXML2_LIBRARIES})
+       endif()
+     endif()
+   endif()
