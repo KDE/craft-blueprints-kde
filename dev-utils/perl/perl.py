@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
                             "development. Perl 5 runs on over 100 platforms from portables to mainframes and is "
                             "suitable for both rapid prototyping and large scale development projects.")
         self.patchLevel["5.28.0"] = 5
-        self.patchLevel["5.28.1"] = 1
+        self.patchLevel["5.28.1"] = 2
         self.defaultTarget = "5.28.1"
 
     def setDependencies(self):
