@@ -4,7 +4,7 @@ from CraftOS.osutils import OsUtils
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        versions = ['3.1', 'master']
+        versions = ['3.2', 'master']
         for ver in versions:
             self.svnTargets[ver] = f"git://anongit.kde.org/kexi|{ver}"
         self.defaultTarget = versions[0]
