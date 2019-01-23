@@ -4,10 +4,8 @@ from CraftOS.osutils import OsUtils
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        versions = ['3.2', 'master']
-        for ver in versions:
-            self.svnTargets[ver] = f"git://anongit.kde.org/kexi|{ver}"
-        self.defaultTarget = versions[0]
+        self.versionInfo.setDefaultValues()
+
         self.description = "A visual database applications builder"
         self.displayName = "KEXI"
         self.options.configure.args = " -DBUILD_EXAMPLES=ON"
@@ -32,9 +30,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        self.runtimeDependencies["extragear/kdb"] = None
-        self.runtimeDependencies["extragear/kproperty"] = None
-        self.runtimeDependencies["extragear/kreport"] = None
+        self.runtimeDependencies["extragear/kexi/kdb"] = None
+        self.runtimeDependencies["extragear/kexi/kproperty"] = None
+        self.runtimeDependencies["extragear/kexi/kreport"] = None
         # Desktop only:
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
