@@ -6,6 +6,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.patchToApply["18.08.1"] = [("libkexiv2-18.08.1-20180925.diff", 1)]
 
+        self.patchLevel["18.12.1"] = 2
+        self.patchToApply["18.12.1"] = [("libkexiv2-18.12.1-20190123.diff", 1)]
+
         self.description = "Libkexiv2 is a wrapper around Exiv2 library to manipulate pictures metadata as EXIF IPTC and XMP."
 
     def setDependencies(self):
