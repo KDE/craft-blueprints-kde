@@ -13,6 +13,8 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"XML-Parser-{ver}"
         self.targetDigests["2.44"] = (['1ae9d07ee9c35326b3d9aad56eae71a6730a73a116b9fe9e8a4758b7cc033216'], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["2.44"] = 1
+
         self.tags = 'XML::Parser'
         self.defaultTarget = '2.44'
 
