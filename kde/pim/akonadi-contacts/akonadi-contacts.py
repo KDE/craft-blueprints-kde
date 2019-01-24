@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.patchToApply['17.04.0'] = [("akonadi-contacts-17.04.0-fix-compile.diff", 1)]
         self.patchToApply['17.04.1'] = [("akonadi-contacts-17.04.1-fix-compile.diff", 1)]
         self.patchToApply['17.04.2'] = [("akonadi-contacts-17.04.1-fix-compile.diff", 1)]
+        self.patchToApply['18.12.1'] = [("akonadi-contacts-18.12.1-20190124.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
