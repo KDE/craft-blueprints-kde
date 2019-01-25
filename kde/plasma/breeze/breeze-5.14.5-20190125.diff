@@ -1,0 +1,20 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' breeze-5.14.5.orig/libbreezecommon/CMakeLists.txt breeze-5.14.5/libbreezecommon/CMakeLists.txt
+--- breeze-5.14.5.orig/libbreezecommon/CMakeLists.txt	2019-01-08 11:57:16.000000000 +0100
++++ breeze-5.14.5/libbreezecommon/CMakeLists.txt	2019-01-25 22:05:50.142297600 +0100
+@@ -36,6 +36,7 @@
+ 
+     target_link_libraries(breezecommon4 ${KDE4_KDEUI_LIBS})
+     target_link_libraries(breezecommon4 ${FFTW_LIBRARIES})
++    target_include_directories(breezecommon4 ${FFTW_INCLUDES})
+ 
+     set_target_properties(breezecommon4 PROPERTIES
+         VERSION ${PROJECT_VERSION}
+@@ -56,6 +57,8 @@
+         PRIVATE
+             ${FFTW_LIBRARIES})
+ 
++    target_include_directories(breezecommon5 PRIVATE ${FFTW_INCLUDES})
++
+     set_target_properties(breezecommon5 PROPERTIES
+         VERSION ${PROJECT_VERSION}
+         SOVERSION ${PROJECT_VERSION_MAJOR})
