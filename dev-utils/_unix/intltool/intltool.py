@@ -30,6 +30,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["dev-utils/perl"] = None
+        self.runtimeDependencies["perl-modules/xml-parser"] = None
 
     def setTargets(self):
         self.description = "Utility scripts for internationalizing XML."
