@@ -25,4 +25,5 @@ from Package.AutoToolsPackageBase import *
 class Package(AutoToolsPackageBase):
     def __init__( self, **args ):
         AutoToolsPackageBase.__init__( self )
+        self.subinfo.options.configure.bootstrap = True
         self.subinfo.options.configure.args = "--enable-static=no --enable-shared=yes"
