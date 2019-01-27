@@ -3,9 +3,6 @@ import info
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
-
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.svnTargets["5.212"] = "https://code.qt.io/qt/qtwebkit.git|5.212"
@@ -15,7 +12,9 @@ class subinfo(info.infoclass):
                 self.patchToApply[ver] = [("build-with-mysql.diff", 1),
                                           ("disable-icu-test.diff", 1)]
 
-        self.patchToApply["5.212"] = [("qtwebkit-20181022.patch", 1)]
+        self.patchToApply["5.212"] = [("qtwebkit-20181022.patch", 1),
+                                      ("0001-gettickcount64-compatibility-xp.patch", 1),#https://raw.githubusercontent.com/Alexpux/MINGW-packages/2cfdf054df2c826d7c61237ee5ac2453b0f3964d/mingw-w64-qtwebkit/0001-gettickcount64-compatibility-xp.patch
+                                      ]
         self.patchToApply["dev"] = [("qtwebkit-20181022.patch", 1)]
 
         self.svnTargets["5.10"] = self.svnTargets["5.9"]
