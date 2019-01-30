@@ -98,6 +98,10 @@ class CMakePackage(CMakePackageBase):
             self.subinfo.options.configure.args += " -DENABLE_WEBKIT2=OFF"
             # TODO: why?
             self.subinfo.options.configure.args += """ -DCMAKE_CXX_FLAGS="-D_ENABLE_EXTENDED_ALIGNED_STORAGE" """
+        elif CraftCore.compiler.isGCC():
+            # don't spam warnings
+            self.subinfo.options.configure.args += """ -DCMAKE_CXX_FLAGS="-w" """
+
 
 
 class Package(Qt5CoreSdkPackageBase):
