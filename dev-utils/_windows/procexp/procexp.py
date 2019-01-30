@@ -3,13 +3,11 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['16.21'] = 'http://download.sysinternals.com/files/ProcessExplorer.zip'
-        self.defaultTarget = '16.21'
-        self.targetDigests['16.21'] = (
-            ['9f32608a5f9ce2d2eb0fe9cdfe65ebc06f7c3c2b52d2b6b1bf3737af9a2d2bad'], CraftHash.HashAlgorithm.SHA256)
-        # the zip file does not have a bin dir, so we have to create it
-        # This attribute is in prelimary state
-        self.targetInstallPath['16.21'] = os.path.join("dev-utils", "bin")
+        for ver in ["16.22"]:
+            self.targets[ver] = 'http://download.sysinternals.com/files/ProcessExplorer.zip'
+            self.targetInstallPath[ver] = os.path.join("dev-utils", "bin")
+        self.targetDigests['16.22'] = (['d393f062091c4fcf720ce0cad56520a920ffcc9412cdc7941150e3bb3fc4fefa'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "16.22"
 
 
 from Package.BinaryPackageBase import *
