@@ -13,8 +13,8 @@ class subinfo(info.infoclass):
                                           ("disable-icu-test.diff", 1)]
 
         self.patchToApply["5.212"] = [("qtwebkit-20181022.patch", 1),
-                                      ("0001-gettickcount64-compatibility-xp.patch", 1),#https://raw.githubusercontent.com/Alexpux/MINGW-packages/2cfdf054df2c826d7c61237ee5ac2453b0f3964d/mingw-w64-qtwebkit/0001-gettickcount64-compatibility-xp.patch
-                                      ("0004-msvc-bug-not-mingw.patch", 1),#https://raw.githubusercontent.com/Alexpux/MINGW-packages/2cfdf054df2c826d7c61237ee5ac2453b0f3964d/mingw-w64-qtwebkit/0004-msvc-bug-not-mingw.patch
+                                      ("0001-gettickcount64-compatibility-xp.patch", 1),# https://raw.githubusercontent.com/Alexpux/MINGW-packages/2cfdf054df2c826d7c61237ee5ac2453b0f3964d/mingw-w64-qtwebkit/0001-gettickcount64-compatibility-xp.patch
+                                      ("0004-msvc-bug-not-mingw.patch", 1),# https://raw.githubusercontent.com/Alexpux/MINGW-packages/2cfdf054df2c826d7c61237ee5ac2453b0f3964d/mingw-w64-qtwebkit/0004-msvc-bug-not-mingw.patch
                                       ]
         self.patchToApply["dev"] = [("qtwebkit-20181022.patch", 1)]
 
@@ -101,6 +101,8 @@ class CMakePackage(CMakePackageBase):
         elif CraftCore.compiler.isGCC():
             # don't spam warnings
             self.subinfo.options.configure.args += """ -DCMAKE_CXX_FLAGS="-w" """
+            if CraftCore.compiler.isMinGW():
+                self.subinfo.options.configure.args += """ -DCMAKE_CXX_FLAGS_RELEASE="-g0 -O3" """
 
 
 
