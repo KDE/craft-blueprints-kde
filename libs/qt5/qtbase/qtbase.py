@@ -23,6 +23,13 @@ class subinfo(info.infoclass):
                     ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_GenericDataLocation_mac.patch", 1),
+                    ("qstandardpaths-extra-dirs.patch", 1)
+                ]
+            elif qtVer >= CraftVersion("5.12.0"):
+                self.patchToApply[ver] = [
+                    ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
+                    ("workaround-mingw-egl.diff", 1),
+                    ("fix_GenericDataLocation_mac.patch", 1),
                     ("qstandardpaths-extra-dirs.patch", 1),
                     ("0001-QComboBox-WindowVistaStyle-restore-focus-rect.patch", 1), # https://codereview.qt-project.org/#/c/248945/
                     (".qt-5.12.0", 1)
