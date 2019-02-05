@@ -33,9 +33,6 @@ class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
         self.subinfo.options.fetch.checkoutSubmodules = True
-        # sources on different partitions other than the one of the build dir
-        # fails. some submodules fail even with the common shadow build...
-        self.subinfo.options.useShadowBuild = False
 
     def fetch(self):
         if isinstance(self, GitSource):
