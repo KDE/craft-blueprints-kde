@@ -3,6 +3,7 @@ from Blueprints.CraftVersion import CraftVersion
 
 import subprocess
 import sys
+from info import DependencyRequirementType
 
 
 class subinfo(info.infoclass):
@@ -24,7 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
-        self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+        self.runtimeDependencies["libs/qt5/qtwebengine"] = (None, DependencyRequirementType.Required)
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
