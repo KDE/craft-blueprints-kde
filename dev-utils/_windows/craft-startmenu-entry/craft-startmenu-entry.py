@@ -54,7 +54,7 @@ class WinPackage(BinaryPackageBase):
             return CraftCore.cache.findApplication("pwsh")
 
     def install(self):
-        return utils.createShim(os.path.join(self.installDir(), "bin", "craft.exe"),
+        return utils.createShim(os.path.join(self.installDir(), "bin", "craftenv.exe"),
                                 self.powershell,
                                 ["-NoExit", "-ExecutionPolicy", "ByPass", "-Command", os.path.join(CraftCore.standardDirs.craftBin(), "..", "craftenv.ps1")],
                                 useAbsolutePath=True)
@@ -67,7 +67,7 @@ class WinPackage(BinaryPackageBase):
                       "-ExecutionPolicy", "ByPass",
                       "-Command",
                       os.path.join(self.packageDir(), "install-lnk.ps1"),
-                      "-Path", "'{0}'".format(os.path.join(CraftCore.standardDirs.craftRoot(), "bin", "craft.exe")),
+                      "-Path", "'{0}'".format(os.path.join(CraftCore.standardDirs.craftRoot(), "bin", "craftenv.exe")),
                       "-WorkingDirectory", f"'{root}'",
                       "-Name", f"'{self._shortcutPath}'",
                       "-Icon", "'{0}'".format(os.path.join(CraftCore.standardDirs.craftBin(), "data", "icons", "craft.ico")),
