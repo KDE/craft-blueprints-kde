@@ -112,6 +112,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.11.0"] = 2
         self.patchLevel["5.11.2"] = 3
         self.patchLevel["5.12.0"] = 2
+        self.patchLevel["5.12.1"] = 1
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):
@@ -225,8 +226,9 @@ class QtPackage(Qt5CorePackageBase):
             command += "-nomake examples "
             command += "-nomake tests "
 
-            if (CraftCore.compiler.isMSVC() and CraftCore.compiler.isClang()) or OsUtils.isUnix() or self.supportsCCACHE:
-                command += "-no-pch "
+            # doesn't work quite often and increases the build size of qtwebengine by the factor of 100000
+            command += "-no-pch "
+            
             if CraftCore.compiler.isLinux:
                 command += """-R "../lib" """
 
