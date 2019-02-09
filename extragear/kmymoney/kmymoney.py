@@ -56,7 +56,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kcontacts"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
         # akonadi is currently not building on MacOS so we skip it here
-        if not CraftCore.compiler.isMacOS():
+        if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["binary/mysql"] = None
         self.runtimeDependencies["libs/sqlite"] = None
