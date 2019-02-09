@@ -1,0 +1,34 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' gnupg-2.2.12.orig/configure.ac gnupg-2.2.12/configure.ac
+--- gnupg-2.2.12.orig/configure.ac	2018-12-11 17:29:45.000000000 +0100
++++ gnupg-2.2.12/configure.ac	2019-02-09 17:04:16.980827400 +0100
+@@ -75,7 +75,7 @@
+ 
+ NEED_SQLITE_VERSION=3.7
+ 
+-development_version=mym4_isbeta
++development_version=no
+ PACKAGE=$PACKAGE_NAME
+ PACKAGE_GT=${PACKAGE_NAME}2
+ VERSION=$PACKAGE_VERSION
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' gnupg-2.2.12.orig/tests/gpgscm/scheme.c gnupg-2.2.12/tests/gpgscm/scheme.c
+--- gnupg-2.2.12.orig/tests/gpgscm/scheme.c	2017-08-28 12:22:54.000000000 +0200
++++ gnupg-2.2.12/tests/gpgscm/scheme.c	2019-02-09 17:02:15.012016600 +0100
+@@ -872,7 +872,7 @@
+ {
+ #ifdef NDEBUG
+   fprintf(stderr,
+-	  "insufficient reservation\n")
++	  "insufficient reservation\n");
+ #else
+   fprintf(stderr,
+ 	  "insufficient %s reservation in line %d\n",
+@@ -5615,7 +5615,9 @@
+   sc->fcells = 0;
+   sc->inhibit_gc = GC_ENABLED;
+   sc->reserved_cells = 0;
++#ifndef NDEBUG
+   sc->reserved_lineno = 0;
++#endif
+   sc->no_memory=0;
+   sc->inport=sc->NIL;
+   sc->outport=sc->NIL;
