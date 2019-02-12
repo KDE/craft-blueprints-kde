@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
                                        ("0003-Fix-build-against-TagLib-1.11.patch", 1)]
         self.patchToApply["5.55.0"] = [("kfilemetadata-5.55.0-20190212.diff", 1)]
 
+        self.patchLevel["5.55.0"] = 1
         self.description = "A file metadata and text extraction library"
 
     def setDependencies(self):
@@ -19,7 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
 
-        #self.runtimeDependencies["qt-libs/poppler"] = None
+        self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/taglib"] = None
         self.runtimeDependencies["libs/exiv2"] = None
         self.runtimeDependencies["libs/xattr"] = None
