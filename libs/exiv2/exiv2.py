@@ -16,8 +16,10 @@ class subinfo(info.infoclass):
         self.patchToApply['0.24'] = ('exiv2-0.22-20120117.diff', 1)
         self.patchToApply['0.25'] = ('exiv2-0.25-20150826.diff', 1)
         self.targetDigests['0.25'] = 'adb8ffe63916e7c27bda9792e690d1330ec7273d'
-        self.patchToApply["0.27.0a"] = ('exiv2-0.27.0a-20190105.diff', 1)
+        self.patchToApply["0.27.0a"] = [('exiv2-0.27.0a-20190105.diff', 1),
+                                        ("exiv2-0.27.0a-20190201.diff", 1)]
         self.targetDigests["0.27.0a"] = (['a4adfa7aaf295b0383adead476f8e0493b9d6c6c7570d5884d2ebf8a2871902f'], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["0.27.0a"] = 1
 
         self.svnTargets['svnHEAD'] = 'svn://dev.exiv2.org/svn/trunk'
 
