@@ -5,9 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Libre Video Editor, by KDE community"
-        self.svnTargets['18.12'] = 'git://anongit.kde.org/kdenlive|Applications/18.12'
         self.svnTargets['19.04beta'] = 'git://anongit.kde.org/kdenlive|refactoring_timeline'
-        self.defaultTarget = '18.12'
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
