@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.patchToApply[ ver ] = [("run-exe-from-bin.patch", 1)]
         self.targetDigests['6.12.0'] = (['a4af6245f0d78f9b5d4bfdfd632d7f6a8a81e47c6eb7184fb1c040db747607ac'], CraftHash.HashAlgorithm.SHA256)
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
-        self.defaultTarget = "6.12.0"
+        self.defaultTarget = "master"
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/pkg-config"] = None
