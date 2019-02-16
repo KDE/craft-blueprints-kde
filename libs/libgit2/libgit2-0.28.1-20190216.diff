@@ -1,0 +1,66 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' libgit2-0.28.1.orig/cmake/Modules/FindIconv.cmake libgit2-0.28.1/cmake/Modules/FindIconv.cmake
+--- libgit2-0.28.1.orig/cmake/Modules/FindIconv.cmake	2019-02-14 17:36:00.000000000 +0100
++++ libgit2-0.28.1/cmake/Modules/FindIconv.cmake	1970-01-01 01:00:00.000000000 +0100
+@@ -1,45 +0,0 @@
+-# - Try to find Iconv
+-# Once done this will define
+-#
+-# ICONV_FOUND - system has Iconv
+-# ICONV_INCLUDE_DIR - the Iconv include directory
+-# ICONV_LIBRARIES - Link these to use Iconv
+-#
+-
+-IF(ICONV_INCLUDE_DIR AND ICONV_LIBRARIES)
+-	# Already in cache, be silent
+-	SET(ICONV_FIND_QUIETLY TRUE)
+-ENDIF()
+-
+-FIND_PATH(ICONV_INCLUDE_DIR iconv.h)
+-CHECK_FUNCTION_EXISTS(iconv_open libc_has_iconv)
+-FIND_LIBRARY(iconv_lib NAMES iconv libiconv libiconv-2 c)
+-
+-IF(ICONV_INCLUDE_DIR AND libc_has_iconv)
+-	SET(ICONV_FOUND TRUE)
+-	SET(ICONV_LIBRARIES "")
+-	IF(NOT ICONV_FIND_QUIETLY)
+-		MESSAGE(STATUS "Found Iconv: provided by libc")
+-	ENDIF(NOT ICONV_FIND_QUIETLY)
+-ELSEIF(ICONV_INCLUDE_DIR AND iconv_lib)
+-	SET(ICONV_FOUND TRUE)
+-	# split iconv into -L and -l linker options, so we can
+-	# set them for pkg-config
+-	GET_FILENAME_COMPONENT(iconv_path ${iconv_lib} PATH)
+-	GET_FILENAME_COMPONENT(iconv_name ${iconv_lib} NAME_WE)
+-	STRING(REGEX REPLACE "^lib" "" iconv_name ${iconv_name})
+-	SET(ICONV_LIBRARIES "-L${iconv_path} -l${iconv_name}")
+-
+-	IF(NOT ICONV_FIND_QUIETLY)
+-		MESSAGE(STATUS "Found Iconv: ${ICONV_LIBRARIES}")
+-	ENDIF(NOT ICONV_FIND_QUIETLY)
+-ELSE()
+-	IF(Iconv_FIND_REQUIRED)
+-		MESSAGE(FATAL_ERROR "Could not find Iconv")
+-	ENDIF(Iconv_FIND_REQUIRED)
+-ENDIF()
+-
+-MARK_AS_ADVANCED(
+-	ICONV_INCLUDE_DIR
+-	ICONV_LIBRARIES
+-)
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' libgit2-0.28.1.orig/src/CMakeLists.txt libgit2-0.28.1/src/CMakeLists.txt
+--- libgit2-0.28.1.orig/src/CMakeLists.txt	2019-02-14 17:36:00.000000000 +0100
++++ libgit2-0.28.1/src/CMakeLists.txt	2019-02-16 10:13:41.235118200 +0100
+@@ -375,9 +375,8 @@
+ ENDIF()
+ IF (ICONV_FOUND)
+ 	SET(GIT_USE_ICONV 1)
+-	LIST(APPEND LIBGIT2_SYSTEM_INCLUDES ${ICONV_INCLUDE_DIR})
+-	LIST(APPEND LIBGIT2_LIBS ${ICONV_LIBRARIES})
+-	LIST(APPEND LIBGIT2_PC_LIBS ${ICONV_LIBRARIES})
++	LIST(APPEND LIBGIT2_LIBS Iconv::Iconv)
++	LIST(APPEND LIBGIT2_PC_LIBS ${Iconv_LIBRARY})
+ ENDIF()
+ ADD_FEATURE_INFO(iconv GIT_USE_ICONV "iconv encoding conversion support")
+ 
+C:\CraftRoot\dev-utils\bin\diff.exe: libgit2-0.28.1.orig/tests/resources/status: Invalid argument
+C:\CraftRoot\dev-utils\bin\diff.exe: libgit2-0.28.1/tests/resources/status: Invalid argument
