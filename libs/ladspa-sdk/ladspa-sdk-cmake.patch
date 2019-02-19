@@ -1,0 +1,56 @@
+--- /dev/null	2019-02-16 23:29:29.000000000 +0100
++++ cmake/modules/FindDl.cmake	2019-02-16 23:27:56.058000000 +0100
+@@ -0,0 +1,28 @@
++# - Try to find the dl functions
++# This will define
++#
++#  DL_FOUND
++#  DL_INCLUDE_DIR
++#  DL_LIBRARY
++
++
++IF (DL_INCLUDE_DIR)
++    SET(DL_FIND_QUIETLY TRUE)
++ENDIF (DL_INCLUDE_DIR)
++
++find_path(DL_INCLUDE_DIR dlfcn.h)
++
++find_library(DL_LIBRARY NAMES dl)
++
++mark_as_advanced(DL_INCLUDE_DIR DL_LIBRARY)
++
++
++if (DL_LIBRARY)
++   set(DL_FOUND TRUE)
++endif (DL_LIBRARY)
++
++   set(_CMAKE_REQUIRED_LIBRARIES_TMP ${CMAKE_REQUIRED_LIBRARIES})
++   set(CMAKE_REQUIRED_LIBRARIES ${CMAKE_REQUIRED_LIBRARIES} ${DL_LIBRARY})
++
++include(FindPackageHandleStandardArgs)
++find_package_handle_standard_args(DL REQUIRED_VARS DL_LIBRARY DL_INCLUDE_DIR)
+--- /dev/null	2019-02-16 22:46:10.000000000 +0100
++++ CMakeLists.txt	2019-02-16 22:40:03.084999900 +0100
+@@ -0,0 +1,22 @@
++cmake_minimum_required (VERSION 2.6)
++project (ladspa-sdk)
++set (VERSION 1.15)
++set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
++find_package(Dl REQUIRED)
++include_directories(${DL_INCLUDE_DIR})
++link_libraries(m)
++include_directories(${CMAKE_CURRENT_SOURCE_DIR})
++add_library(amp MODULE plugins/amp.c)
++add_library(delay MODULE plugins/delay.c)
++add_library(filter MODULE plugins/filter.c)
++add_library(noise MODULE plugins/noise.c)
++add_library(sine MODULE plugins/sine.cpp)
++add_executable (listplugins listplugins.c search.c)
++target_link_libraries (listplugins ${DL_LIBRARY})
++install (TARGETS amp LIBRARY DESTINATION lib/ladspa)
++install (TARGETS delay LIBRARY DESTINATION lib/ladspa)
++install (TARGETS filter LIBRARY DESTINATION lib/ladspa)
++install (TARGETS noise LIBRARY DESTINATION lib/ladspa)
++install (TARGETS sine LIBRARY DESTINATION lib/ladspa)
++install (TARGETS listplugins DESTINATION bin)
++install(FILES ladspa.h DESTINATION include)

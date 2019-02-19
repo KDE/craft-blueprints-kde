@@ -1,0 +1,39 @@
+--- /dev/null	2019-02-16 23:29:29.000000000 +0100
++++ cmake/modules/FindLadspa.cmake	2019-02-16 23:27:56.058000000 +0100
+@@ -0,0 +1,19 @@
++# - Try to find LADSPA header
++# This will define
++#
++#  LADSPA_FOUND
++#  LADSPA_INCLUDE_DIR
++
++IF (LADSPA_INCLUDE_DIR)
++    SET(LADSPA_FIND_QUIETLY TRUE)
++ENDIF (LADSPA_INCLUDE_DIR)
++
++FIND_PATH (LADSPA_INCLUDE_DIR ladspa.h)
++
++MARK_AS_ADVANCED(LADSPA_INCLUDE_DIR)
++IF (LADSPA_INCLUDE_DIR)
++   set(LADSPA_FOUND TRUE)
++ENDIF (LADSPA_INCLUDE_DIR)
++
++INCLUDE(FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(LADSPA DEFAULT_MSG LADSPA_INCLUDE_DIR)
+--- /dev/null	2019-02-16 23:14:09.000000000 +0100
++++ CMakeLists.txt	2019-02-16 23:13:55.881000100 +0100
+@@ -0,0 +1,14 @@
++cmake_minimum_required (VERSION 2.6)
++project (ladspa-cmt)
++set (VERSION 1.17)
++set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
++find_package(Ladspa REQUIRED)
++include_directories(${LADSPA_INCLUDE_DIR})
++file (GLOB cmt_cpp *.cpp)
++set (cmt_cpp ${cmt_cpp}
++       freeverb/Components/allpass.cpp
++       freeverb/Components/comb.cpp
++       freeverb/Components/revmodel.cpp
++       freeverb/freeverb.cpp)
++add_library (cmt MODULE ${cmt_cpp})
++install (TARGETS cmt LIBRARY DESTINATION lib/ladspa)

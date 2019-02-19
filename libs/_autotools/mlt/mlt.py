@@ -19,13 +19,17 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtsvg"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/libsamplerate"] = None
+        # self.runtimeDependencies["libs/exiv2"] = None
 
         if OsUtils.isWin():
             self.runtimeDependencies["libs/dlfcn-win32"] = None
         self.runtimeDependencies["libs/frei0r-plugins"] = None
         self.runtimeDependencies["libs/libsdl2"] = None
-        #self.runtimeDependencies["libs/ladspa-sdk"] = None
-        #self.runtimeDependencies["libs/gtk2"] = None
+        self.runtimeDependencies["libs/libfftw"] = None
+        self.runtimeDependencies["libs/vidstab"] = None
+        # self.runtimeDependencies["libs/jack"] = None
+        # self.runtimeDependencies["libs/ladspa-sdk"] = None
+        # self.runtimeDependencies["libs/ladspa-cmt"] = None
 
 from Package.AutoToolsPackageBase import *
 
