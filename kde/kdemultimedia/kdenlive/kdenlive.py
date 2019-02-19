@@ -39,9 +39,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kinit"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
+        # if CraftCore.compiler.isWindows:
+        #     self.runtimeDependencies["libs/drmingw"] = None
 
 
 from Package.CMakePackageBase import *
