@@ -25,6 +25,6 @@ class Package(CMakePackageBase):
         self.supportsNinja = False
         self.subinfo.options.configure.args += ' -DBUILD_TESTS=OFF'
         # -DENABLE_THREADS=ON -DENABLE_OPENMP=ON'
-        self.subinfo.options.configure.args += ' -DENABLE_SSE2=ON -DENABLE_AVX=ON'
+        self.subinfo.options.configure.args += ' -DENABLE_FLOAT=ON -DENABLE_SSE=ON'
         if CraftCore.compiler.isWindows:
             self.subinfo.options.configure.args += ' -DWITH_OUR_MALLOC=1'

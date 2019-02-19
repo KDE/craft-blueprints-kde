@@ -1,0 +1,11 @@
+--- cmake.config.h.in	2018-05-24 14:03:22.000000000 +0200
++++ cmake.config.h.in	2019-02-18 14:35:29.545430800 +0100
+@@ -377,7 +377,7 @@
+ 
+ /* Use our own aligned malloc routine; mainly helpful for Windows systems
+    lacking aligned allocation system-library routines. */
+-/* #undef WITH_OUR_MALLOC */
++#cmakedefine WITH_OUR_MALLOC
+ 
+ /* Use low-precision timers, making planner very slow */
+ /* #undef WITH_SLOW_TIMER */
