@@ -25,6 +25,16 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtlocation"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtwebchannel"] = None
+        self.runtimeDependencies["libs/lcms2"] = None
+        self.runtimeDependencies["libs/freetype"] = None
+        self.runtimeDependencies["libs/libopus"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/libxml2"] = None
+        self.runtimeDependencies["libs/libxslt"] = None
+        self.runtimeDependencies["libs/freetype"] = None
+        self.runtimeDependencies["libs/fontconfig"] = None
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
+        self.runtimeDependencies["qt-libs/poppler"] = None
 
 
 from Package.Qt5CorePackageBase import *
@@ -34,6 +44,7 @@ class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
         self.subinfo.options.fetch.checkoutSubmodules = True
+        self.subinfo.options.configure.args += " -- --webengine-pulseaudio=no "
 
     def fetch(self):
         if isinstance(self, GitSource):
