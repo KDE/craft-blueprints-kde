@@ -94,10 +94,12 @@ class PackageAutoTools(AutoToolsPackageBase):
     def install(self):
         if not AutoToolsBuildSystem.install(self):
             return False
-        utils.copyFile(os.path.join(self.buildDir(), "glib", "glibconfig.h"),
+        return utils.copyFile(os.path.join(self.buildDir(), "glib", "glibconfig.h"),
                        os.path.join(self.imageDir(), "include", "glib-2.0", "glibconfig.h"), False)
-        return True
 
+    def postInstall(self):
+        hardCoded = [os.path.join(self.imageDir(), x) for x in ["bin/glib-mkenums"]]
+        return self.patchInstallPrefix(hardCoded, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())
 
 if CraftCore.compiler.isGCCLike():
     class Package(PackageAutoTools):
