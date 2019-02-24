@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
 
         for ver in self.versionInfo.tarballs() + self.versionInfo.branches() + self.versionInfo.tags():
             qtVer = CraftVersion(ver)
-            if qtVer >= CraftVersion("5.9"):
+            if qtVer <= CraftVersion("5.9"):
                 self.patchToApply[ver] = [("0001-Fix-the-detection-of-python2.exe.patch", 1)]#https://codereview.qt-project.org/#/c/203000/
 
     def setDependencies(self):
@@ -47,7 +47,8 @@ class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
         self.subinfo.options.fetch.checkoutSubmodules = True
-        self.subinfo.options.configure.args += " -- --webengine-pulseaudio=no --webengine-ffmpeg=system"
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.args += " -- --webengine-pulseaudio=no --webengine-ffmpeg=system"
 
     def fetch(self):
         if isinstance(self, GitSource):
