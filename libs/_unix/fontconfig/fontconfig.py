@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
 
         self.description = "Fontconfig is a library for configuring and customizing font access. "
         self.webpage = "https://www.freedesktop.org/wiki/Software/fontconfig/"
+        self.patchLevel["2.13.1"] = 1
         self.defaultTarget = "2.13.1"
 
     def setDependencies(self):
