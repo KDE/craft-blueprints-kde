@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
             self.buildDependencies["dev-utils/msys"] = None
             self.runtimeDependencies["libs/lcms2"] = None
             self.runtimeDependencies["libs/freetype"] = None
-            self.runtimeDependencies["libs/libjpeg-turbo"] = None
+            self.runtimeDependencies["libs/openjpeg"] = None
             self.runtimeDependencies["libs/libpng"] = None
             self.runtimeDependencies["libs/tiff"] = None
 
@@ -23,6 +23,11 @@ class subinfo(info.infoclass):
             self.targetDigestUrls[ver] = ([
                                               "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs%s/SHA1SUMS" % ver.replace(
                                                   ".", "")], CraftHash.HashAlgorithm.SHA1)
+        for ver in ['9.26']:
+            ver2 = ver.replace(".", "")
+            self.targets[ver] = f"https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{ver2}/ghostscript-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"ghostscript-{ver}"
+            self.targetDigestUrls[ver] = ([f"https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{ver2}/SHA512SUMS" ], CraftHash.HashAlgorithm.SHA512)
 
         if CraftCore.compiler.isMinGW():
             self.patchToApply['9.19'] = [
@@ -36,7 +41,8 @@ class subinfo(info.infoclass):
         else:
             self.patchToApply['9.19'] = [("ghostscript-exports-fix.diff", 1)]
         self.patchLevel['9.19'] = 1
-        self.defaultTarget = '9.19'
+        self.patchToApply['9.26'] = [(".9.26", 1)]
+        self.defaultTarget = '9.26'
 
 
 from Package.CMakePackageBase import *
@@ -108,56 +114,26 @@ from Package.AutoToolsPackageBase import *
 class PackageMSys(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.make.supportsMultijob = False
-        self.subinfo.options.package.packageName = 'ghostscript'
-        self.subinfo.options.package.packSources = False
-        self.subinfo.options.configure.defiens = " --with-drivers=ALL --disable-cups --with-system-libtiff --with-jbig2dec --enable-openjpeg --enable-fontconfig --enable-freetype --disable-contrib --without-x"
-        self.subinfo.options.make.arg = "so"
+        #self.subinfo.options.make.supportsMultijob = False
+        self.subinfo.options.configure.args += " --with-drivers=ALL --disable-cups --with-system-libtiff --with-jbig2dec --enable-openjpeg --enable-fontconfig --enable-freetype --disable-contrib --without-x"
+        self.subinfo.options.make.args = "so all"
+        self.subinfo.options.install.args = "install-so install"
         self.subinfo.options.useShadowBuild = False
 
     def unpack(self):
         if not AutoToolsPackageBase.unpack(self):
             return False
-        for d in ["freetype", "jpeg", "libpng", "lcms", "lcms2", "tiff"]:  # , "zlib"]: #openjpeg]
+        for d in ["freetype", "jpeg", "libpng", "lcms", "lcms2", "tiff", "zlib", "openjpeg"]:
             utils.rmtree(os.path.join(self.sourceDir(), d))
         return True
 
-    def make(self, dummyBuildType=None):
-        # Normal build first
-        if not super().make(dummyBuildType):
-            return False
-
-        # Now build the library
-        buildDirectory = self.buildDir()
-        if not self.subinfo.options.useShadowBuild:
-            buildDirectory = self.sourceDir()
-
-        if not self.shell.execute(self.sourceDir(), self.makeProgram, "so"):
-            print("while Make'ing. cmd: %s" % command)
-            return False
-
-        return True
-
     def install(self):
-        if not AutoToolsPackageBase.cleanImage(self):
+        if not super().install():
             return False
-        os.makedirs(os.path.join(self.imageDir(), "bin"))
-        os.makedirs(os.path.join(self.imageDir(), "lib"))
-        os.makedirs(os.path.join(self.imageDir(), "include", "ghostscript"))
-        utils.copyDir(os.path.join(self.sourceDir(), "sobin"), os.path.join(self.imageDir(), "bin"), False)
-        utils.moveFile(os.path.join(self.imageDir(), "bin", "libgs.dll.a"),
-                       os.path.join(self.imageDir(), "lib", "libgs.dll.a"))
-        utils.copyFile(os.path.join(self.sourceDir(), "psi", "iapi.h"),
-                       os.path.join(self.imageDir(), "include", "ghostscript", "iapi.h"), False)
-        utils.copyFile(os.path.join(self.sourceDir(), "psi", "ierrors.h"),
-                       os.path.join(self.imageDir(), "include", "ghostscript", "ierrors.h"), False)
-        utils.copyFile(os.path.join(self.sourceDir(), "devices", "gdevdsp.h"),
-                       os.path.join(self.imageDir(), "include", "ghostscript", "gdevdsp.h"), False)
-        utils.copyFile(os.path.join(self.sourceDir(), "base", "gserrors.h"),
-                       os.path.join(self.imageDir(), "include", "ghostscript", "gserrors.h"), False)
-        utils.copyDir(os.path.join(self.sourceDir(), "lib"), os.path.join(self.imageDir(), "lib"), False)
+        if CraftCore.compiler.isLinux:
+            # only the sym links get installed...
+            return utils.copyFile(f"{self.buildDir()}/sobin/libgs.so.9", f"{self.installDir()}/lib/libgs.so.9")
         return True
-
 
 if CraftCore.compiler.isGCCLike():
     class Package(PackageMSys):
