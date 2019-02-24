@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchLevel["5.12.1"] = 1
+        self.patchLevel["5.12.1"] = 2
 
         for ver in self.versionInfo.tarballs() + self.versionInfo.branches() + self.versionInfo.tags():
             qtVer = CraftVersion(ver)
@@ -35,8 +35,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/freetype"] = None
             self.runtimeDependencies["libs/fontconfig"] = None
             self.runtimeDependencies["libs/libjpeg-turbo"] = None
-            self.runtimeDependencies["libs/ffmpeg"] = None
             self.runtimeDependencies["qt-libs/poppler"] = None
+            self.runtimeDependencies["libs/webp"] = None
+            self.runtimeDependencies["libs/ffmpeg"] = None
 
 
 from Package.Qt5CorePackageBase import *
@@ -46,7 +47,7 @@ class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
         self.subinfo.options.fetch.checkoutSubmodules = True
-        self.subinfo.options.configure.args += " -- --webengine-pulseaudio=no "
+        self.subinfo.options.configure.args += " -- --webengine-pulseaudio=no --webengine-ffmpeg=system"
 
     def fetch(self):
         if isinstance(self, GitSource):
