@@ -53,6 +53,7 @@ from Utils import GetFiles
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        #self.subinfo.options.configure.args += " -DBUILD_TESTS=OFF "
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
