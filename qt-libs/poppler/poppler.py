@@ -43,6 +43,9 @@ class subinfo(info.infoclass):
 
         self.description = "PDF rendering library based on xpdf-3.0"
         self.defaultTarget = "0.74.0"
+        if CraftCore.compiler.isMSVC2015():
+            self.defaultTarget = "0.68.0"
+
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
