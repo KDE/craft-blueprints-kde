@@ -22,6 +22,6 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.noDataRootDir = True
         self.platform = ""
         self.subinfo.options.configure.args += "--disable-examples --disable-install-docs --disable-unit-tests --disable-avx512 "
-        if CraftCore.compiler.isUnix:
+        if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += " --enable-shared"
 
