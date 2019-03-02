@@ -8,13 +8,13 @@ class subinfo(info.infoclass):
         for branch in ["4.3", "4.4", "4.5"]:
             self.svnTargets[branch] = f"git://code.qt.io/qt-creator/qt-creator.git|{branch}"
 
-        for ver in ["4.7.1", "4.8.0", "4.8.1"]:
+        for ver in ["4.7.1", "4.8.0", "4.8.1", "4.8.2"]:
             majorVer = ".".join(ver.split(".")[:2])
             self.targets[ver] = f"http://download.qt.io/official_releases/qtcreator/{majorVer}/{ver}/qt-creator-opensource-src-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"qt-creator-opensource-src-{ver}"
             self.targetDigestUrls[ver] = f"https://download.qt.io/official_releases/qtcreator/{majorVer}/{ver}/qt-creator-opensource-src-{ver}.tar.xz.sha256"
         self.patchLevel["4.7.1"] = 1
-        self.defaultTarget = "4.8.1"
+        self.defaultTarget = "4.8.2"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
