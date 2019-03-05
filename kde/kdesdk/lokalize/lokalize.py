@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/hunspell"] = None
         self.runtimeDependencies["libs/runtime"] = None
+        self.runtimeDependencies["libs/qt5/qtscript"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
