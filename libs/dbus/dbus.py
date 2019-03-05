@@ -42,8 +42,10 @@ class subinfo(info.infoclass):
         self.patchToApply["1.11.14"] = [("dbus-1.11.4-20160903.diff", 1),
                                         ("dbus-fix_data_dir.diff", 1)]
         self.patchToApply["1.12.12"] = [("dbus-1.11.4-20160903.diff", 1),
-                                        ("dbus-fix_data_dir.diff", 1)]
+                                        ("dbus-fix_data_dir.diff", 1),
+                                        ("dbus-1.12.12-launchd.diff", 1)]
         self.patchLevel["1.11.14"] = 2
+        self.patchLevel["1.12.12"] = 2
 
         self.targetDigests["1.10.4"] = "ec1921a09199c81ea20b20448237146a414d51ae"
         self.targetDigests["1.11.4"] = (["474de2afde8087adbd26b3fc5cbf6ec45559763c75b21981169a9a1fbac256c9"], CraftHash.HashAlgorithm.SHA256)
@@ -64,7 +66,7 @@ class subinfo(info.infoclass):
 from Package.CMakePackageBase import *
 
 
-class Package(CMakePackageBase):
+class PackageCMake(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args = (
@@ -87,9 +89,6 @@ class Package(CMakePackageBase):
                 "-DDBUS_SESSION_BUS_CONNECT_ADDRESS:STRING=autolaunch:scope=*install-path "
                 "-DDBUS_SYSTEM_BUS_DEFAULT_ADDRESS:STRING=autolaunch:scope=*install-path ")
 
-        if OsUtils.isMac():
-            self.subinfo.options.configure.args += "-DDBUS_BUILD_X11:BOOL=OFF "
-
     def install(self):
         if not CMakePackageBase.install(self): return False
         # TODO: fix
@@ -106,3 +105,31 @@ class Package(CMakePackageBase):
                                    os.path.join(imagedir, "libdbus-1d.dll.a"))
 
         return True
+
+from Package.AutoToolsPackageBase import *
+
+
+class PackageAutotools(AutoToolsPackageBase):
+    def __init__(self, **args):
+        AutoToolsPackageBase.__init__(self)
+        self.subinfo.options.configure.autoreconf = False
+        self.subinfo.options.configure.args = (
+            "--disable-dependency-tracking "
+            "--disable-doxygen-docs "
+            "--enable-verbose-mode "
+            "--enable-launchd "
+            f"--with-launchd-agent-dir='{os.path.join(CraftCore.standardDirs.craftRoot(), 'Library', 'LaunchAgents')}' "
+            "--without-x "
+            "--disable-tests "
+        )
+
+    def postQmerge(self):
+        return utils.system(["launchctl", "load", os.path.join(CraftCore.standardDirs.craftRoot(), 'Library', 'LaunchAgents', 'org.freedesktop.dbus-session.plist')])
+
+
+if CraftCore.compiler.isMacOS:
+    class Package(PackageAutotools):
+        pass
+else:
+    class Package(PackageCMake):
+        pass
