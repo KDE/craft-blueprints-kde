@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
                                         ("akonadi-17.08.3-20171204-2.diff", 1)]
         self.patchToApply["17.12.0"] = [("akonadi-17.12.0-20171220.diff", 1),
                                         ("0001-Win-Create-local-socket-named-pipes-based-on-the-ins.patch", 1)]
+        self.patchToApply["18.12.2"] = [("akonadi-18.12.2-macos.diff", 1)]
 
         self.description = "A storage service for PIM data and meta data"
 
@@ -36,4 +37,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = " -DDATABASE_BACKEND=SQLITE -DAKONADI_RUN_MYSQL_ISOLATED_TESTS=OFF"
+        self.subinfo.options.configure.args = " -DDATABASE_BACKEND=SQLITE -DAKONADI_RUN_MYSQL_ISOLATED_TESTS=OFF -DBUILD_TESTING=OFF"

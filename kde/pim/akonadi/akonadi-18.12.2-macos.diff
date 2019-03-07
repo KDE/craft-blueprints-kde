@@ -1,0 +1,150 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' akonadi-18.12.2.orig/autotests/libs/testresource/CMakeLists.txt akonadi-18.12.2/autotests/libs/testresource/CMakeLists.txt
+--- akonadi-18.12.2.orig/autotests/libs/testresource/CMakeLists.txt	2019-02-02 18:10:04.000000000 +0100
++++ akonadi-18.12.2/autotests/libs/testresource/CMakeLists.txt	2019-03-07 16:59:07.000000000 +0100
+@@ -26,12 +26,7 @@
+ )
+
+ add_executable(akonadi_knut_resource ${knutresource_SRCS})
+-
+-if (APPLE)
+-  set_target_properties(akonadi_knut_resource PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.template)
+-  set_target_properties(akonadi_knut_resource PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER "org.kde.Akonadi.Knut")
+-  set_target_properties(akonadi_knut_resource PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "KDE Akonadi Knut Resource")
+-endif ()
++ecm_mark_nongui_executable(akonadi_knut_resource)
+
+ target_link_libraries(akonadi_knut_resource
+   KF5::AkonadiXml
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' akonadi-18.12.2.orig/src/agentserver/CMakeLists.txt akonadi-18.12.2/src/agentserver/CMakeLists.txt
+--- akonadi-18.12.2.orig/src/agentserver/CMakeLists.txt	2019-02-02 18:10:04.000000000 +0100
++++ akonadi-18.12.2/src/agentserver/CMakeLists.txt	2019-03-07 16:59:07.000000000 +0100
+@@ -9,6 +9,7 @@
+ ecm_qt_declare_logging_category(akonadi_agent_server_srcs HEADER akonadiagentserver_debug.h IDENTIFIER AKONADIAGENTSERVER_LOG CATEGORY_NAME org.kde.pim.akonadiagentserver)
+ 
+ add_executable(akonadi_agent_server ${akonadi_agent_server_srcs})
++ecm_mark_nongui_executable(akonadi_agent_server)
+ 
+ target_link_libraries(akonadi_agent_server
+     akonadi_shared
+@@ -25,7 +26,8 @@
+     akonadiagentserver_debug.cpp
+ )
+ 
+-add_executable(akonadi_agent_launcher MACOSX_BUNDLE ${akonadi_agent_launcher_SRCS})
++add_executable(akonadi_agent_launcher ${akonadi_agent_launcher_SRCS})
++ecm_mark_nongui_executable(akonadi_agent_launcher)
+ 
+ target_link_libraries(akonadi_agent_launcher
+     akonadi_shared
+@@ -34,20 +36,9 @@
+     Qt5::Widgets
+ )
+ 
+-if(Q_WS_MAC)
+-  set_target_properties(akonadi_agent_launcher PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/../Info.plist.template)
+-  set_target_properties(akonadi_agent_launcher PROPERTIES MACOSX_BUNDLE_GUI_IDENTIFIER "org.kde.Akonadi.agentlauncher")
+-  set_target_properties(akonadi_agent_launcher PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "Akonadi Agent Launcher")
+-endif()
+-
+ # Install both helper apps.
+-if(Q_WS_MAC)
+-  install(TARGETS akonadi_agent_launcher
+-          DESTINATION ${AKONADI_BUNDLE_PATH})
+-else()
+-  install(TARGETS akonadi_agent_launcher
++install(TARGETS akonadi_agent_launcher
+           DESTINATION ${BIN_INSTALL_DIR})
+-endif()
+ 
+ install(TARGETS akonadi_agent_server
+         ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' akonadi-18.12.2.orig/src/akonadicontrol/CMakeLists.txt akonadi-18.12.2/src/akonadicontrol/CMakeLists.txt
+--- akonadi-18.12.2.orig/src/akonadicontrol/CMakeLists.txt	2019-02-02 18:10:04.000000000 +0100
++++ akonadi-18.12.2/src/akonadicontrol/CMakeLists.txt	2019-03-07 17:04:35.000000000 +0100
+@@ -31,6 +31,7 @@
+ qt5_add_dbus_interface(control_SRCS ${Akonadi_SOURCE_DIR}/src/interfaces/org.freedesktop.Akonadi.PreprocessorManager.xml preprocessor_manager)
+ 
+ add_executable(akonadi_control ${control_SRCS})
++ecm_mark_nongui_executable(akonadi_control)
+ set_target_properties(akonadi_control PROPERTIES OUTPUT_NAME akonadi_control)
+ 
+ if (WIN32)
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' akonadi-18.12.2.orig/src/akonadictl/CMakeLists.txt akonadi-18.12.2/src/akonadictl/CMakeLists.txt
+--- akonadi-18.12.2.orig/src/akonadictl/CMakeLists.txt	2019-02-02 18:10:04.000000000 +0100
++++ akonadi-18.12.2/src/akonadictl/CMakeLists.txt	2019-03-07 17:04:35.000000000 +0100
+@@ -15,8 +15,8 @@
+ )
+ 
+ add_executable(akonadictl ${akonadictl_SRCS})
+-set_target_properties(akonadictl PROPERTIES OUTPUT_NAME akonadictl)
+ ecm_mark_nongui_executable(akonadictl)
++set_target_properties(akonadictl PROPERTIES OUTPUT_NAME akonadictl)
+ target_link_libraries(akonadictl
+     akonadi_shared
+     KF5AkonadiPrivate
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' akonadi-18.12.2.orig/src/asapcat/CMakeLists.txt akonadi-18.12.2/src/asapcat/CMakeLists.txt
+--- akonadi-18.12.2.orig/src/asapcat/CMakeLists.txt	2019-02-02 18:10:04.000000000 +0100
++++ akonadi-18.12.2/src/asapcat/CMakeLists.txt	2019-03-07 17:04:34.000000000 +0100
+@@ -4,6 +4,7 @@
+ )
+ 
+ add_executable(asapcat ${asapcat_srcs})
++ecm_mark_nongui_executable(asapcat)
+ 
+ target_link_libraries(asapcat
+     akonadi_shared
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' akonadi-18.12.2.orig/src/private/protocolgen/CMakeLists.txt akonadi-18.12.2/src/private/protocolgen/CMakeLists.txt
+--- akonadi-18.12.2.orig/src/private/protocolgen/CMakeLists.txt	2019-02-02 18:10:04.000000000 +0100
++++ akonadi-18.12.2/src/private/protocolgen/CMakeLists.txt	2019-03-07 17:04:35.000000000 +0100
+@@ -10,6 +10,7 @@
+ )
+ 
+ add_executable(protocolgen ${protocolgen_SRCS})
++ecm_mark_nongui_executable(protocolgen)
+ target_link_libraries(protocolgen
+     Qt5::Core
+ )
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' akonadi-18.12.2.orig/src/rds/CMakeLists.txt akonadi-18.12.2/src/rds/CMakeLists.txt
+--- akonadi-18.12.2.orig/src/rds/CMakeLists.txt	2019-02-02 18:10:04.000000000 +0100
++++ akonadi-18.12.2/src/rds/CMakeLists.txt	2019-03-07 17:04:34.000000000 +0100
+@@ -7,6 +7,7 @@
+ )
+ 
+ add_executable(akonadi_rds ${akonadi_rds_srcs})
++ecm_mark_nongui_executable(akonadi_rds)
+ 
+ target_link_libraries(akonadi_rds
+     akonadi_shared
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' akonadi-18.12.2.orig/src/server/CMakeLists.txt akonadi-18.12.2/src/server/CMakeLists.txt
+--- akonadi-18.12.2.orig/src/server/CMakeLists.txt	2019-02-02 18:10:04.000000000 +0100
++++ akonadi-18.12.2/src/server/CMakeLists.txt	2019-03-07 17:04:35.000000000 +0100
+@@ -169,6 +169,7 @@
+ )
+ 
+ add_executable(akonadiserver ${akonadiserver_SRCS})
++ecm_mark_nongui_executable(akonadiserver)
+ set_target_properties(akonadiserver PROPERTIES OUTPUT_NAME akonadiserver)
+ target_link_libraries(akonadiserver
+     libakonadiserver
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' akonadi-18.12.2.orig/src/xml/CMakeLists.txt akonadi-18.12.2/src/xml/CMakeLists.txt
+--- akonadi-18.12.2.orig/src/xml/CMakeLists.txt	2019-02-02 18:10:04.000000000 +0100
++++ akonadi-18.12.2/src/xml/CMakeLists.txt	2019-03-07 17:04:35.000000000 +0100
+@@ -32,6 +32,7 @@
+ )
+ 
+ add_executable(akonadi2xml akonadi2xml.cpp)
++ecm_mark_nongui_executable(akonadi2xml)
+ 
+ target_link_libraries(akonadi2xml
+     KF5::AkonadiXml
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' akonadi-18.12.2.orig/templates/akonadiresource/src/CMakeLists.txt akonadi-18.12.2/templates/akonadiresource/src/CMakeLists.txt
+--- akonadi-18.12.2.orig/templates/akonadiresource/src/CMakeLists.txt	2019-02-02 18:10:04.000000000 +0100
++++ akonadi-18.12.2/templates/akonadiresource/src/CMakeLists.txt	2019-03-07 17:04:34.000000000 +0100
+@@ -24,6 +24,7 @@
+ )
+ 
+ add_executable(akonadi_%{APPNAMELC}_resource ${%{APPNAMELC}resource_SRCS})
++ecm_mark_nongui_executable(akonadi_%{APPNAMELC}_resource)
+ 
+ target_link_libraries(akonadi_%{APPNAMELC}_resource
+     Qt5::DBus
