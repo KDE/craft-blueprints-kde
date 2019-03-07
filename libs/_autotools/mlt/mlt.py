@@ -7,10 +7,9 @@ class subinfo(info.infoclass):
         for ver in ["6.12.0"]:
             self.targets[ ver ] = f"https://github.com/mltframework/mlt/archive/v{ver}.tar.gz"
             self.targetInstSrc[ ver ] = "mlt-" + ver
-            self.patchToApply[ ver ] = [("run-exe-from-bin.patch", 1)]
         self.targetDigests['6.12.0'] = (['a4af6245f0d78f9b5d4bfdfd632d7f6a8a81e47c6eb7184fb1c040db747607ac'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply['6.12.0'] = [("run-exe-from-bin.patch", 1)]
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
-        self.patchToApply["master"] = [("run-exe-from-bin.patch", 1)]
         self.defaultTarget = "master"
 
     def setDependencies( self ):
