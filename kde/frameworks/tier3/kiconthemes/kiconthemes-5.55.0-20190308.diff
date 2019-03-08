@@ -1,0 +1,15 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' kiconthemes-5.55.0.orig/src/kicontheme.cpp kiconthemes-5.55.0/src/kicontheme.cpp
+--- kiconthemes-5.55.0.orig/src/kicontheme.cpp	2019-02-03 00:57:59.000000000 +0100
++++ kiconthemes-5.55.0/src/kicontheme.cpp	2019-03-08 15:41:07.000000000 +0100
+@@ -47,7 +47,10 @@
+ // For this reason we use AppDataLocation: BINDIR/data on Windows, Resources on OS X
+ void initRCCIconTheme()
+ {
+-    const QString iconThemeRcc = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("icontheme.rcc"));
++    QString iconThemeRcc = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("icontheme.rcc"));
++    if (iconThemeRcc.isEmpty())
++        iconThemeRcc = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("icontheme.rcc"));
++
+     if (!iconThemeRcc.isEmpty()) {
+         const QString iconThemeName = QStringLiteral("kf5_rcc_theme");
+         const QString iconSubdir = QStringLiteral("/icons/") + iconThemeName;
