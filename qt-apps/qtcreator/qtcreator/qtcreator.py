@@ -21,7 +21,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtscript"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/llvm-meta/llvm"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["binary/python"] = None
+        self.runtimeDependencies["dev-utils/clazy"] = None
 
 
 from Package.Qt5CorePackageBase import *
@@ -30,10 +32,15 @@ from Package.Qt5CorePackageBase import *
 class Package(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
+        self.subinfo.options.fetch.checkoutSubmodules = True
         self.subinfo.options.install.args = "install install_docs"
-        self._buildEnv = {}
+        root = CraftCore.standardDirs.craftRoot()
+        self._buildEnv = {
+            "KSYNTAXHIGHLIGHTING_LIB_DIR": root,
+            "QTC_ENABLE_CLANG_LIBTOOLING": "1"
+            }
         if CraftCore.compiler.isWindows:
-            self._buildEnv = {"PYTHON_INSTALL_DIR":CraftCore.settings.get("Paths", "Python")}
+            self._buildEnv.update({"PYTHON_INSTALL_DIR":CraftCore.settings.get("Paths", "Python")})
 
     def configure(self, configureDefines=""):
         with utils.ScopedEnv(self._buildEnv):
