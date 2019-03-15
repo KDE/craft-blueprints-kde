@@ -41,9 +41,9 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.useShadowBuild = False
         self.subinfo.options.configure.args = " --enable-gpl --enable-gpl3 --enable-sdl2 --disable-sdl --disable-rtaudio --disable-decklink "
         if CraftCore.compiler.isWindows:
-
             prefix = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
-            includedir = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())+'/include/qt5'
-            libdir = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())+'/lib'
-            self.subinfo.options.configure.args += f" --target-os=MinGW --qt-libdir='{libdir}' --qt-includedir='{includedir}'"
+            includedir = prefix+'/include/qt5'
+            libdir = prefix+'/lib'
+            self.subinfo.options.configure.args += \
+                f" --target-os=MinGW --qt-libdir='{libdir}' --qt-includedir='{includedir}' --disable-windeploy "
 
