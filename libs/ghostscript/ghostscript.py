@@ -42,6 +42,7 @@ class subinfo(info.infoclass):
             self.patchToApply['9.19'] = [("ghostscript-exports-fix.diff", 1)]
         self.patchLevel['9.19'] = 1
         self.patchToApply['9.26'] = [(".9.26", 1)]
+        self.patchLevel['9.26'] = 1
         self.defaultTarget = '9.26'
 
 
@@ -130,7 +131,7 @@ class PackageMSys(AutoToolsPackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.isUnix:
             # only the sym links get installed...
             return utils.copyFile(f"{self.buildDir()}/sobin/libgs.so.9", f"{self.installDir()}/lib/libgs.so.9")
         return True
