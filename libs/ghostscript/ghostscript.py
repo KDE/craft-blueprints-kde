@@ -131,9 +131,13 @@ class PackageMSys(AutoToolsPackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isUnix:
+        if CraftCore.compiler.isLinux:
             # only the sym links get installed...
             return utils.copyFile(f"{self.buildDir()}/sobin/libgs.so.9", f"{self.installDir()}/lib/libgs.so.9")
+        elif CraftCore.compiler.isMacOS:
+            # only the sym links get installed...
+            return utils.copyFile(f"{self.buildDir()}/sobin/libgs.dylib.9", f"{self.installDir()}/lib/libgs.dylib.9")
+
         return True
 
 if CraftCore.compiler.isGCCLike():
