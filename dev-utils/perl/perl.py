@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
                             "development. Perl 5 runs on over 100 platforms from portables to mainframes and is "
                             "suitable for both rapid prototyping and large scale development projects.")
         self.patchLevel["5.28.0"] = 5
-        self.patchLevel["5.28.1"] = 2
+        self.patchLevel["5.28.1"] = 3
         self.defaultTarget = "5.28.1"
 
     def setDependencies(self):
@@ -96,6 +96,7 @@ class PackageAutoTools(AutoToolsPackageBase):
 
         cflags = self.shell.environment["CFLAGS"]
         ldflags = self.shell.environment["LDFLAGS"]
+        cflags += " -DPERL_IMPLICIT_CONTEXT"
         if CraftCore.compiler.isGCC() and not CraftCore.compiler.isNative() and CraftCore.compiler.isX86():
             cflags += " -m32"
             ldflags += " -m32"
