@@ -1,0 +1,56 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' kactivities-stats-5.55.0.orig/src/resultset.h kactivities-stats-5.55.0/src/resultset.h
+--- kactivities-stats-5.55.0.orig/src/resultset.h	2019-02-02 18:19:28.000000000 +0100
++++ kactivities-stats-5.55.0/src/resultset.h	2019-03-20 08:35:33.434938100 +0100
+@@ -162,16 +162,16 @@
+ 
+         reference operator[](difference_type n) const;
+ 
+-        friend bool operator==(const const_iterator &left, const const_iterator &right);
+-        friend bool operator!=(const const_iterator &left, const const_iterator &right);
++        KACTIVITIESSTATS_EXPORT friend bool operator==(const const_iterator &left, const const_iterator &right);
++        KACTIVITIESSTATS_EXPORT friend bool operator!=(const const_iterator &left, const const_iterator &right);
+ 
+-        friend bool operator<(const const_iterator &left, const const_iterator &right);
+-        friend bool operator>(const const_iterator &left, const const_iterator &right);
++        KACTIVITIESSTATS_EXPORT friend bool operator<(const const_iterator &left, const const_iterator &right);
++        KACTIVITIESSTATS_EXPORT friend bool operator>(const const_iterator &left, const const_iterator &right);
+ 
+-        friend bool operator<=(const const_iterator &left, const const_iterator &right);
+-        friend bool operator>=(const const_iterator &left, const const_iterator &right);
++        KACTIVITIESSTATS_EXPORT friend bool operator<=(const const_iterator &left, const const_iterator &right);
++        KACTIVITIESSTATS_EXPORT friend bool operator>=(const const_iterator &left, const const_iterator &right);
+ 
+-        friend difference_type operator-(const const_iterator &left, const const_iterator &right);
++        KACTIVITIESSTATS_EXPORT friend difference_type operator-(const const_iterator &left, const const_iterator &right);
+ 
+     private:
+         const_iterator(const ResultSet *resultSet, int currentRow);
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' kactivities-stats-5.55.0.orig/src/resultset_iterator.cpp kactivities-stats-5.55.0/src/resultset_iterator.cpp
+--- kactivities-stats-5.55.0.orig/src/resultset_iterator.cpp	2019-02-02 18:19:28.000000000 +0100
++++ kactivities-stats-5.55.0/src/resultset_iterator.cpp	2019-03-20 08:35:05.530836500 +0100
+@@ -72,10 +72,9 @@
+     friend void swap(ResultSet_IteratorPrivate &left,
+                      ResultSet_IteratorPrivate &right)
+     {
+-        using namespace std;
+-        swap(left.resultSet,    right.resultSet);
+-        swap(left.currentRow,   right.currentRow);
+-        swap(left.currentValue, right.currentValue);
++        std::swap(left.resultSet,    right.resultSet);
++        std::swap(left.currentRow,   right.currentRow);
++        std::swap(left.currentValue, right.currentValue);
+     }
+ 
+     bool operator==(const ResultSet_IteratorPrivate &other) const
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' kactivities-stats-5.55.0.orig/src/utils/lazy_val.h kactivities-stats-5.55.0/src/utils/lazy_val.h
+--- kactivities-stats-5.55.0.orig/src/utils/lazy_val.h	2019-02-02 18:19:28.000000000 +0100
++++ kactivities-stats-5.55.0/src/utils/lazy_val.h	2019-03-20 08:41:11.181896400 +0100
+@@ -38,7 +38,7 @@
+     mutable bool valueRetrieved;
+ 
+ public:
+-    operator decltype(_f()) () const
++    operator auto() const -> decltype(_f())
+     {
+         if (!valueRetrieved) {
+             valueRetrieved = true;
