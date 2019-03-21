@@ -31,10 +31,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kactivities"] = None
-        if self.options.dynamic.fullPlasma:
-            self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
         self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
+        if self.options.dynamic.fullPlasma:
+            self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
         if OsUtils.isUnix():
             self.runtimeDependencies["kde/applications/konsole"] = None
 
@@ -46,7 +46,7 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         if not self.subinfo.options.dynamic.fullPlasma:
-            self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_KF5Plasma=ON -DCMAKE_DISABLE_FIND_PACKAGE_KF5ThreadWeaver=ON -DCMAKE_DISABLE_FIND_PACKAGE_KF5NewStuff=ON"
+            self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_KF5Plasma=ON"
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
