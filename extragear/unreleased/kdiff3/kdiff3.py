@@ -25,3 +25,10 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+    def createPackage(self):
+        self.defines["executable"] = "bin\\kdiff3.exe"
+        self.defines["icon"] = os.path.join(self.packageDir(), "kdiff3.ico")
+
+        self.ignoredPackages.append("binary/mysql")
+
+        return TypePackager.createPackage(self)
