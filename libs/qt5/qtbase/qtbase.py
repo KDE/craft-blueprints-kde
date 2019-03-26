@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("buildReleaseAndDebug", False)
         self.options.dynamic.registerOption("buildDoc", True)
         self.options.dynamic.registerOption("libInfix", "")
+        self.options.dynamic.registerOption("enableCcache", "")
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -226,6 +227,8 @@ class QtPackage(Qt5CorePackageBase):
             command += "-nomake examples "
             command += "-nomake tests "
 
+            if self.subinfo.options.dynamic.enableCcache and self.supportsCCACHE:
+                command += "-ccache "
             if (CraftCore.compiler.isMSVC() and CraftCore.compiler.isClang()) or OsUtils.isUnix() or self.supportsCCACHE:
                 command += "-no-pch "
             if CraftCore.compiler.isLinux:
