@@ -19,7 +19,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kactivities"] = None
         self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
-        self.runtimeDependencies["kde/plasma/plasma-workspace"] = None
 
 
 from Package.CMakePackageBase import *
