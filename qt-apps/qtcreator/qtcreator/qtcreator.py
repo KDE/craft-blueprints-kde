@@ -37,7 +37,7 @@ class Package(Qt5CorePackageBase):
         root = CraftCore.standardDirs.craftRoot()
         self._buildEnv = {
             "KSYNTAXHIGHLIGHTING_LIB_DIR": root,
-            "QTC_ENABLE_CLANG_LIBTOOLING": "1"
+            #"QTC_ENABLE_CLANG_LIBTOOLING": "1"
             }
         if CraftCore.compiler.isWindows:
             self._buildEnv.update({"PYTHON_INSTALL_DIR":CraftCore.settings.get("Paths", "Python")})
