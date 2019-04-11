@@ -32,6 +32,7 @@ class Package(CMakePackageBase):
         self.supportsClang = False
         self.subinfo.options.configure.args += " -DLLVM_BUILD_TESTS=OFF  -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_GO_TESTS=OFF"
         self.subinfo.options.configure.args += " -DLLVM_TARGETS_TO_BUILD='host'"
+        self.subinfo.options.configure.args += " -DLLVM_ENABLE_RTTI=ON"
 
         # BEGIN: sub-package handling
         self.subPackages = []
