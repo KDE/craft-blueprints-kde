@@ -42,6 +42,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
+        self.runtimeDependencies["libs/rttr"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         # if CraftCore.compiler.isWindows:
         #     self.runtimeDependencies["libs/drmingw"] = None
@@ -53,7 +54,6 @@ from Utils import GetFiles
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        #self.subinfo.options.configure.args += " -DBUILD_TESTS=OFF "
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))

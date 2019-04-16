@@ -1,0 +1,25 @@
+From 7cc2a4587a28ff75f4df8fc389bfebcc80fa97b6 Mon Sep 17 00:00:00 2001
+From: Vincent Pinon <vpinon@kde.org>
+Date: Wed, 17 Apr 2019 00:39:30 +0200
+Subject: [PATCH] Fix build failing with GCC8
+
+---
+ CMake/utility.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMake/utility.cmake b/CMake/utility.cmake
+index 8dda62e..c307ada 100644
+--- a/CMake/utility.cmake
++++ b/CMake/utility.cmake
+@@ -392,7 +392,7 @@ endfunction()
+ ####################################################################################
+ function( set_compiler_warnings target)
+   if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+-    set(WARNINGS "-Werror"
++    set(WARNINGS # "-Werror"
+                  "-Wall")
+   elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+     set(WARNINGS "-Werror"
+-- 
+2.20.1
+
