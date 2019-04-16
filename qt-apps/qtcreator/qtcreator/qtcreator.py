@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         for branch in ["4.3", "4.4", "4.5", "4.8", "4.9"]:
             self.svnTargets[branch] = f"https://code.qt.io/qt-creator/qt-creator.git|{branch}"
 
-        for ver in ["4.7.1", "4.8.0", "4.8.1", "4.8.2"]:
+        for ver in ["4.7.1", "4.8.0", "4.8.1", "4.8.2", "4.9.0"]:
             majorVer = ".".join(ver.split(".")[:2])
             self.targets[ver] = f"http://download.qt.io/official_releases/qtcreator/{majorVer}/{ver}/qt-creator-opensource-src-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"qt-creator-opensource-src-{ver}"
@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtscript"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
-        self.runtimeDependencies["libs/llvm-meta/llvm"] = None
+        self.runtimeDependencies["libs/llvm-meta/llvm"] = None if self.buildTarget < CraftVersion("4.9") else "8.0"
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["binary/python"] = None
         self.runtimeDependencies["dev-utils/clazy"] = None
