@@ -97,8 +97,9 @@ class CMakePackage(CMakePackageBase):
                                                "-DENABLE_NETSCAPE_PLUGIN_API=OFF -DUSE_GSTREAMER=OFF " \
                                                "-DUSE_QT_MULTIMEDIA=ON -DUSE_MEDIA_FOUNDATION=OFF -DUSE_LIBHYPHEN=OFF"
         if CraftCore.compiler.isMSVC():
-            # TODO: find out why this is failing
-            self.subinfo.options.configure.args += " -DENABLE_WEBKIT2=OFF"
+            if not CraftCore.compiler.isMSVC2019():
+                # TODO: find out why this is failing
+                self.subinfo.options.configure.args += " -DENABLE_WEBKIT2=OFF"
             # TODO: why?
             self.subinfo.options.configure.args += """ -DCMAKE_CXX_FLAGS="-D_ENABLE_EXTENDED_ALIGNED_STORAGE" """
         elif CraftCore.compiler.isGCC():
