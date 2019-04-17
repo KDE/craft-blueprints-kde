@@ -5,6 +5,9 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.patchToApply["5.55.0"] = [("kactivities-stats-5.55.0-20190320.diff", 1)]
+        self.patchToApply["5.56.0"] = [("kactivities-stats-5.55.0-20190320.diff", 1)]
+        self.patchToApply["5.57.0"] = [("kactivities-stats-5.55.0-20190320.diff", 1)]
+
 
         self.description = "A library for accessing the usage data collected by the activities system"
 
