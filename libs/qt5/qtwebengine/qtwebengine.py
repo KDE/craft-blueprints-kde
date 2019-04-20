@@ -4,8 +4,8 @@ import info
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        # only supports msvc17
-        if CraftCore.compiler.isMSVC() and not CraftCore.compiler.isMSVC2017():
+        # only supports msvc17+
+        if CraftCore.compiler.isMSVC() and CraftCore.compiler.getInternalVersion() <= 15:
             self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
 
     def setTargets(self):
