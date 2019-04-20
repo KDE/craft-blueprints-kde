@@ -17,6 +17,9 @@ class subinfo(info.infoclass):
                 self.targetDigestUrls[ver] = ([f"https://ssl.icu-project.org/files/icu4c/{ver}/icu4c-src-{ver2}.md5"], CraftHash.HashAlgorithm.MD5)
             else:
                 self.targetDigestUrls[ver] = ([f"https://ssl.icu-project.org/files/icu4c/{ver}/SHASUM512.txt"], CraftHash.HashAlgorithm.SHA512)
+            if CraftVersion(ver) == "63.1":
+                self.targets[ver] = f"https://files.kde.org/craft/sources/libs/icu/icu4c-{ver2}-src.tgz"
+                self.targetDigestUrls[ver] = ([f"https://files.kde.org/craft/sources/libs/icu/SHASUM512.txt"], CraftHash.HashAlgorithm.SHA512)
             self.targetInstSrc[ver] = os.path.join("icu", "source")
         self.patchToApply["63.1"] = [("icu-63.1-20181212.diff", 1),
                                      ("icu-63.1-20181215.diff", 2), # backport https://github.com/unicode-org/icu/pull/228
