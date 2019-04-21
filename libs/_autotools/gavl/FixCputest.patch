@@ -1,0 +1,45 @@
+Description: simplify cpuid detection.
+ since all CPUs that can run Debian also have cpuid(),
+ we don't need to explicitly test for it.
+ This fixes an FTBFS on x32
+Author: Adam Borowski <kilobyte@angband.pl>
+Reviewed-by: IOhannes m zmölnig
+Last-Update: 2015-07-13
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- gavl.orig/gavl/cputest.c
++++ gavl/gavl/cputest.c
+@@ -69,32 +69,8 @@
+      int rval = 0;
+     int eax, ebx, ecx, edx;
+     int max_std_level, max_ext_level, std_caps=0, ext_caps=0;
+-    long a, c;
+-
+-    __asm__ __volatile__ (
+-                          /* See if CPUID instruction is supported ... */
+-                          /* ... Get copies of EFLAGS into eax and ecx */
+-                          "pushf\n\t"
+-                          "pop %0\n\t"
+-                          "mov %0, %1\n\t"
+-
+-                          /* ... Toggle the ID bit in one copy and store */
+-                          /*     to the EFLAGS reg */
+-                          "xor $0x200000, %0\n\t"
+-                          "push %0\n\t"
+-                          "popf\n\t"
+-
+-                          /* ... Get the (hopefully modified) EFLAGS */
+-                          "pushf\n\t"
+-                          "pop %0\n\t"
+-                          : "=a" (a), "=c" (c)
+-                          :
+-                          : "cc"
+-                          );
+-
+-    if (a == c)
+-        return 0; /* CPUID not supported */
+ 
++    /* any CPU that can run Debian has CPUID */
+     cpuid(0, max_std_level, ebx, ecx, edx);
+ 
+     if(max_std_level >= 1){
