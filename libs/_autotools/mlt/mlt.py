@@ -4,10 +4,11 @@ class subinfo(info.infoclass):
     def setTargets( self ):
         self.description = "Open source multimedia framework"
         self.webpage = "https://www.mltframework.org"
-        for ver in ["6.12.0"]:
+        for ver in ['6.12.0', '6.14.0']:
             self.targets[ ver ] = f"https://github.com/mltframework/mlt/archive/v{ver}.tar.gz"
             self.targetInstSrc[ ver ] = "mlt-" + ver
         self.targetDigests['6.12.0'] = (['a4af6245f0d78f9b5d4bfdfd632d7f6a8a81e47c6eb7184fb1c040db747607ac'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['6.14.0'] = (['d387350f7bb7dd01efce3933c5ab7987b596e98bef7cc9c2349524d55a808b5e'], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply['6.12.0'] = [("run-exe-from-bin.patch", 1)]
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 1
