@@ -12,13 +12,13 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "git://anongit.kde.org/qca.git"
         self.patchLevel["master"] = 4
 
-        #for ver in []:
-            #self.targets[ver] = f"https://download.kde.org/stable/qca-qt5/{ver}/src/qca-qt5-{ver}.tar.xz"
-            #self.targetDigestUrls[ver] = f"https://download.kde.org/stable/qca-qt5/{ver}/src/qca-qt5-{ver}.tar.xz.sha256"
-            #self.targetInstSrc[ver] = f"qca-qt5-{ver}"
+        for ver in ['2.2.0']:
+            self.targets[ver] = f"https://download.kde.org/stable/qca/{ver}/qca-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/qca/{ver}/qca-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = f"qca-{ver}"
 
         self.description = "Qt Cryptographic Architecture (QCA)"
-        self.defaultTarget = "master"
+        self.defaultTarget = "2.2.0"
 
 
 from Package.CMakePackageBase import *
