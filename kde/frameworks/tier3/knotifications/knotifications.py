@@ -4,6 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply['5.57.0'] = [("disabled-deprecated-before.patch", 1)]
 
         self.description = "TODO"
 
