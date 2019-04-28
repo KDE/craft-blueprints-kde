@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
         for ver in ["1.9.1", "1.11.1"]:
             self.targets[ver] = f"https://taglib.github.io/releases/taglib-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"taglib-{ver}"
+            self.patchLevel[ver] = 1
         self.targetDigests["1.9.1"] = "4fa426c453297e62c1d1eff64a46e76ed8bebb45"
         self.targetDigests["1.11.1"] = (['b6d1a5a610aae6ff39d93de5efd0fdc787aa9e9dc1e7026fa4c961b26563526b'], CraftHash.HashAlgorithm.SHA256)
         self.description = "audio metadata library"
@@ -30,3 +31,5 @@ class Package(CMakePackageBase):
         #        self.subinfo.options.configure.args += " -DNO_ITUNES_HACKS=ON"
         self.subinfo.options.configure.args += " -DWITH_ASF=ON"
         self.subinfo.options.configure.args += " -DWITH_MP4=ON"
+        # Taglib ships a binary which has hardcoded paths in it, which will break the build of anything using it
+        self.subinfo.options.package.disableBinaryCache = True
