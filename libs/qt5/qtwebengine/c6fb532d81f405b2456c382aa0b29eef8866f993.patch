@@ -1,0 +1,28 @@
+From c6fb532d81f405b2456c382aa0b29eef8866f993 Mon Sep 17 00:00:00 2001
+From: Allan Sandfeld Jensen <allan.jensen@qt.io>
+Date: Wed, 17 Apr 2019 16:29:37 +0200
+Subject: [PATCH] Allow VS 2019 to try to build QtWebEngine
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Task-number: QTBUG-75212
+Change-Id: I1d1a99d9a5b6684d23e51cf55d384e7dfee6ef2a
+Reviewed-by: Jüri Valdmann <juri.valdmann@qt.io>
+---
+ src/core/config/windows.pri | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/core/config/windows.pri b/src/core/config/windows.pri
+index 9eb15830d..730b38a35 100644
+--- a/src/core/config/windows.pri
++++ b/src/core/config/windows.pri
+@@ -56,6 +56,8 @@ msvc:contains(QT_ARCH, "i386"):!usingMSVC32BitCrossCompiler() {
+ msvc {
+     equals(MSVC_VER, 15.0) {
+         MSVS_VERSION = 2017
++    } else: equals(MSVC_VER, 16.0) {
++        MSVS_VERSION = 2019
+     } else {
+         error("Visual Studio compiler version \"$$MSVC_VER\" is not supported by Qt WebEngine")
+     }

@@ -12,7 +12,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.patchLevel["5.12.1"] = 2
 
-        self.patchToApply["5.12.3"] = [("0001-Fix-building-GN-with-VS-2019.patch", 1)]
+        self.patchToApply["5.12.3"] = [("0001-Fix-building-GN-with-VS-2019.patch", 1),
+                                       ("c6fb532d81f405b2456c382aa0b29eef8866f993.patch", 1)]
 
         for ver in self.versionInfo.tarballs() + self.versionInfo.branches() + self.versionInfo.tags():
             qtVer = CraftVersion(ver)
