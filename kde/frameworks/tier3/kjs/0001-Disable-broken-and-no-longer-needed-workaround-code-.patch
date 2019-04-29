@@ -1,0 +1,68 @@
+From 461f45d6370732f7642749b917bb662112578f55 Mon Sep 17 00:00:00 2001
+From: Hannah von Reth <vonreth@kde.org>
+Date: Mon, 29 Apr 2019 22:09:56 +0200
+Subject: [PATCH] Disable broken and no longer needed workaround code with
+ msvc2019
+
+Summary:
+See:
+```
+
+int main() {
+	const auto inf = std::numeric_limits<double>::infinity();
+	print(_MSC_VER);
+	print(atan2(inf, inf));
+	print(atan2(-inf, -inf));
+	print(atan2(inf, -inf));
+	print(fmod(10.0, inf));
+	print(fmod(10.0, -inf));
+
+	return 0;
+}
+
+```
+
+->
+```
+_MSC_VER: 1920
+atan2(inf, inf): 0.785398
+atan2(-inf, -inf): -2.35619
+atan2(inf, -inf): 2.35619
+fmod(10.0, inf): 10
+fmod(10.0, -inf): 10
+
+```
+
+Subscribers: kde-frameworks-devel
+
+Tags: #frameworks
+
+Differential Revision: https://phabricator.kde.org/D20907
+---
+ src/wtf/MathExtras.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/wtf/MathExtras.h b/src/wtf/MathExtras.h
+index d28254a..0ef1df8 100644
+--- a/src/wtf/MathExtras.h
++++ b/src/wtf/MathExtras.h
+@@ -88,6 +88,7 @@ inline bool signbit(double num)
+ }
+ #endif
+ 
++#if _MSC_VER < 1920
+ #ifndef BUILDING_KDE__
+ // FIXME: where to get std::numeric_limits from?
+ // Work around a bug in Win, where atan2(+-infinity, +-infinity) yields NaN instead of specific values.
+@@ -127,7 +128,7 @@ inline double wtf_fmod(double x, double y)
+ #define fmod(x, y) wtf_fmod(x, y)
+ 
+ #define atan2(x, y) wtf_atan2(x, y)
+-
++#endif // _MSC_VER < 1920
+ #endif // #if COMPILER(MSVC)
+ 
+ inline double deg2rad(double d)
+-- 
+2.20.0.windows.1
+
