@@ -33,6 +33,8 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += " -DLLVM_BUILD_TESTS=OFF  -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_GO_TESTS=OFF"
         self.subinfo.options.configure.args += " -DLLVM_TARGETS_TO_BUILD='host'"
         self.subinfo.options.configure.args += " -DLLVM_ENABLE_RTTI=ON"
+        # allow gcc < 5
+        self.subinfo.options.configure.args += " -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=ON"
 
         # BEGIN: sub-package handling
         self.subPackages = []
