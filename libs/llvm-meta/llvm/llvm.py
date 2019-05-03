@@ -32,9 +32,11 @@ class Package(CMakePackageBase):
         self.supportsClang = False
         self.subinfo.options.configure.args += " -DLLVM_BUILD_TESTS=OFF  -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_GO_TESTS=OFF"
         self.subinfo.options.configure.args += " -DLLVM_TARGETS_TO_BUILD='host'"
-        self.subinfo.options.configure.args += " -DLLVM_ENABLE_RTTI=ON"
+        self.subinfo.options.configure.args += " -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_EH=ON -DLLVM_INCLUDE_DOCS=OFF -DLLVM_INSTALL_UTILS=ON -DLLVM_OPTIMIZED_TABLEGEN=ON -DLLVM_TARGETS_TO_BUILD=all"
         # allow gcc < 5
         self.subinfo.options.configure.args += " -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=ON"
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += " -DLLVM_BUILD_LLVM_DYLIB=ON"
 
         # BEGIN: sub-package handling
         self.subPackages = []
