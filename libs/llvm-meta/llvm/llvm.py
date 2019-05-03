@@ -35,8 +35,6 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += " -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_EH=ON -DLLVM_INCLUDE_DOCS=OFF -DLLVM_INSTALL_UTILS=ON -DLLVM_OPTIMIZED_TABLEGEN=ON -DLLVM_TARGETS_TO_BUILD=all"
         # allow gcc < 5
         self.subinfo.options.configure.args += " -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=ON"
-        if CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += " -DLLVM_BUILD_LLVM_DYLIB=ON"
 
         # BEGIN: sub-package handling
         self.subPackages = []
@@ -56,6 +54,8 @@ class Package(CMakePackageBase):
 
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += " -DLLVM_EXPORT_SYMBOLS_FOR_PLUGINS=ON"
+        elif CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += " -DLLVM_BUILD_LLVM_DYLIB=ON"
         else:
             self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=ON"
 
