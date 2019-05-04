@@ -56,20 +56,27 @@ class QtPackage(Qt5CorePackageBase):
     def fetch(self):
         if isinstance(self, GitSource):
             utils.system(["git", "clean", "-xdf"], cwd=self.sourceDir())
-        return Qt5CorePackageBase.fetch(self)
+        return super().fetch(self)
 
-    def compile(self):
-        env = {}
+    def _getEnv(self):
+        env = {"BISON_PKGDATADIR" : None}
         if CraftCore.compiler.isMacOS:
             # we need mac's version of libtool here
             env["PATH"] = f"/usr/bin/:{os.environ['PATH']}"
         if self.qtVer < CraftVersion("5.9") and CraftCore.compiler.isWindows:
             env["PATH"] = CraftCore.settings.get("Paths", "PYTHON27") + ";" + os.environ["PATH"]
-        with utils.ScopedEnv(env):
-            return Qt5CorePackageBase.compile(self)
+        return env
+
+    def configure(self, configureDefines=""):
+        with utils.ScopedEnv(self._getEnv()):
+            return super().configure(self)
+
+    def make(self):
+        with utils.ScopedEnv(self._getEnv()):
+            return super().make(self)
 
     def install(self):
-        if not Qt5CorePackageBase.install(self):
+        if not super().install(self):
             return False
 
         if CraftCore.compiler.isWindows and os.path.isdir(os.path.join(self.imageDir(), "resources")):
