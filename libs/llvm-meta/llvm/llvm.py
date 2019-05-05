@@ -13,9 +13,12 @@ class subinfo(info.infoclass):
         self.patchLevel["6.0.0"] = 2
         self.patchLevel["7.0.1"] = 1
         self.patchLevel["8.0.0"] = 1
+        if CraftCore.compiler.isMacOS:
+            self.patchLevel["8.0.0"] += 1
         self.patchToApply["6.0.1"] = [("llvm-6.0.1-20181019.diff", 1)]
         self.patchToApply["7.0.1"] = [("llvm-7.0.1-20190118.diff", 1), ("llvm-7.0.1-20190102.diff", 1)]
-        self.patchToApply["8.0.0"] = [("llvm-8.0.0-20190411.diff", 1)]
+        if not CraftCore.compiler.isMacOS:
+            self.patchToApply["8.0.0"] = [("llvm-8.0.0-20190411.diff", 1)]
 
     def setDependencies(self):
         # workaround, ensure system clang is used to build bjam
