@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
-        self.runtimeDependencies["qt-libs/phonon-vlc"] = None
+        self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
 
 class Package(CMakePackageBase):
     def __init__(self):
