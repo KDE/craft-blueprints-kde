@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.isMSVC():
             self.patchToApply["5.55.0"] = [("kactivities-stats-5.55.0-20190320.diff", 1)]
             self.patchToApply["5.56.0"] = [("kactivities-stats-5.55.0-20190320.diff", 1)]
             self.patchToApply["5.57.0"] = [("kactivities-stats-5.55.0-20190320.diff", 1)]
