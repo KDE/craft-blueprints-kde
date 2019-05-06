@@ -33,6 +33,6 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.args += " --disable-static --enable-shared"
 
     def postInstall(self):
-        hardCoded = [os.path.join(self.imageDir(), x) for x in ["bin/yacc"]]
+        hardCoded = [os.path.join(self.installDir(), x) for x in ["bin/yacc"]]
         return self.patchInstallPrefix(hardCoded, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())
 
