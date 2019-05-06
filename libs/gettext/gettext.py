@@ -34,6 +34,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["dev-utils/automake"] = None
         self.runtimeDependencies["libs/iconv"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         if CraftCore.compiler.isGCCLike():
