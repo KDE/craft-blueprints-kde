@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         if CraftVersion(self.buildTarget) >= CraftVersion("5.10") and self.options.dynamic.qdocThroughLLVM:
             self.runtimeDependencies["libs/llvm-meta/llvm"] = None
 
