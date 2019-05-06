@@ -2,6 +2,11 @@ import info
 
 
 class subinfo(info.infoclass):
+
+    def registerOptions(self):
+        if CraftCore.compiler.isMinGW():
+            self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
+
     def setTargets(self):
         for ver in ['0.24', '0.25']:
             self.targets[ver] = 'http://www.exiv2.org/releases/exiv2-%s.tar.gz' % ver
