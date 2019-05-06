@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' rttr-0.9.6.orig/CMake/utility.cmake rttr-0.9.6/CMake/utility.cmake
+--- rttr-0.9.6.orig/CMake/utility.cmake	2019-05-06 17:08:53.914063300 +0200
++++ rttr-0.9.6/CMake/utility.cmake	2019-05-06 17:08:05.867520900 +0200
+@@ -395,7 +395,7 @@
+     set(WARNINGS # "-Werror"
+                  "-Wall")
+   elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+-    set(WARNINGS "-Werror"
++    set(WARNINGS #"-Werror"
+                  "-Wall")
+   elseif(MSVC)
+     set(WARNINGS "/WX"
