@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"qt-creator-opensource-src-{ver}"
             self.targetDigestUrls[ver] = f"https://download.qt.io/official_releases/qtcreator/{majorVer}/{ver}/qt-creator-opensource-src-{ver}.tar.xz.sha256"
         self.patchLevel["4.7.1"] = 1
-        self.defaultTarget = "4.8.2"
+        self.defaultTarget = "4.9.0"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
