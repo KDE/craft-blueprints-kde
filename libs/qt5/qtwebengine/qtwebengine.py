@@ -56,7 +56,7 @@ class QtPackage(Qt5CorePackageBase):
     def fetch(self):
         if isinstance(self, GitSource):
             utils.system(["git", "clean", "-xdf"], cwd=self.sourceDir())
-        return super().fetch(self)
+        return super().fetch()
 
     def _getEnv(self):
         env = {"BISON_PKGDATADIR" : None}
@@ -69,14 +69,14 @@ class QtPackage(Qt5CorePackageBase):
 
     def configure(self, configureDefines=""):
         with utils.ScopedEnv(self._getEnv()):
-            return super().configure(self)
+            return super().configure()
 
     def make(self):
         with utils.ScopedEnv(self._getEnv()):
-            return super().make(self)
+            return super().make()
 
     def install(self):
-        if not super().install(self):
+        if not super().install():
             return False
 
         if CraftCore.compiler.isWindows and os.path.isdir(os.path.join(self.imageDir(), "resources")):
