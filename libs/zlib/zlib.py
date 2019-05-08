@@ -12,7 +12,10 @@ class subinfo(info.infoclass):
         self.patchToApply['1.2.6'] = [("zlib-1.2.6-20120421.diff", 1)]
         self.patchToApply['1.2.7'] = [("zlib-1.2.7-20130123.diff", 1)]
         self.patchToApply['1.2.8'] = [("zlib-1.2.8-20130901.diff", 1)]
-        self.patchToApply['1.2.11'] = [("zlib-1.2.11-20180203.diff", 1)]
+        self.patchToApply['1.2.11'] = [("zlib-1.2.11-20180203.diff", 1),
+                                       ("zlib-1.2.11-20190508.diff", 1) # https://github.com/conan-community/conan-zlib/pull/41/files
+                                       ]
+        self.patchLevel["1.2.11"] = 1
         self.targetDigests['1.2.5'] = '8e8b93fa5eb80df1afe5422309dca42964562d7e'
         self.targetDigests['1.2.7'] = '4aa358a95d1e5774603e6fa149c926a80df43559'
         self.targetDigests['1.2.8'] = 'a4d316c404ff54ca545ea71a27af7dbc29817088'
