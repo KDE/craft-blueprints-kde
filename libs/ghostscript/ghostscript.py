@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/openjpeg"] = None
             self.runtimeDependencies["libs/libpng"] = None
             self.runtimeDependencies["libs/tiff"] = None
+            self.runtimeDependencies["libs/fontconfig"] = None
 
     def setTargets(self):
         self.svnTargets['master'] = 'git://git.ghostscript.com/ghostpdl.git'
