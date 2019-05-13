@@ -8,7 +8,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["dev-utils/m4"] = None
-        self.buildDependencies["libs/gettext"] = None
 
     def setTargets(self):
         self.description = "sed (stream editor) is a non-interactive command-line text editor."
@@ -21,5 +20,5 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        # TODO: why is autoreconf broken
+        # we are a core dep so don't run autoreconf
         self.subinfo.options.configure.autoreconf = False
