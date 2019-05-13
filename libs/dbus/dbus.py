@@ -138,7 +138,7 @@ class PackageAutotools(AutoToolsPackageBase):
         return True
 
 
-if CraftCore.compiler.isMacOS:
+if not CraftCore.compiler.isWindows:
     class Package(PackageAutotools):
         pass
 else:
