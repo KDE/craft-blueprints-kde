@@ -27,8 +27,6 @@ class Package(BinaryPackageBase):
         BinaryPackageBase.__init__(self)
 
     def unpack(self):
-        workdir = self.workDir()
-
         for filename in self.localFileNames():
             utils.system("hdiutil attach -mountpoint %s %s"%(os.path.join(CraftCore.standardDirs.downloadDir(), "archives", self.package.path, "temp"),
                 os.path.join(CraftCore.standardDirs.downloadDir(), "archives", self.package.path, filename)))
