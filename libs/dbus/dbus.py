@@ -124,8 +124,18 @@ class PackageAutotools(AutoToolsPackageBase):
             "--disable-tests "
         )
 
+    def postInstall(self):
+        hardCodedFiles = []
+        if CraftCore.compiler.isMacOS:
+            hardCodedFiles += [os.path.join(self.installDir(), "Library", "LaunchAgents", "org.freedesktop.dbus-session.plist")]
+        return self.patchInstallPrefix(hardCodedFiles,
+                                       self.subinfo.buildPrefix,
+                                       CraftCore.standardDirs.craftRoot())
+
     def postQmerge(self):
-        return utils.system(["launchctl", "load", os.path.join(CraftCore.standardDirs.craftRoot(), 'Library', 'LaunchAgents', 'org.freedesktop.dbus-session.plist')])
+        if CraftCore.compiler.isMacOS:
+            return utils.system(["launchctl", "load", os.path.join(CraftCore.standardDirs.craftRoot(), 'Library', 'LaunchAgents', 'org.freedesktop.dbus-session.plist')])
+        return True
 
 
 if CraftCore.compiler.isMacOS:
