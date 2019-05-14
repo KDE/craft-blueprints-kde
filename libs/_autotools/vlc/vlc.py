@@ -60,4 +60,4 @@ from Package.AutoToolsPackageBase import *
 class Package(AutoToolsPackageBase):
     def __init__( self, **args ):
         AutoToolsPackageBase.__init__( self )
-        self.subinfo.options.configure.args += " --disable-lua --disable-a52 --enable-vpx=no"
+        self.subinfo.options.configure.args += " --disable-lua --disable-a52 --enable-vpx=no --enable-sparkle=no"
