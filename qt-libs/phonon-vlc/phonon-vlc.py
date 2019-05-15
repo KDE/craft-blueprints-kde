@@ -16,6 +16,9 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://download.kde.org/stable/phonon/phonon-backend-vlc/{ver}/phonon-backend-vlc-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/phonon/phonon-backend-vlc/{ver}/phonon-backend-vlc-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"phonon-vlc-{ver}"
+
+            self.patchToApply[ver] = [("qtdbus-lib-macos.diff", 1)] # Add patch for link error of QtDBus on macOS
+
         self.svnTargets["master"] = "git://anongit.kde.org/phonon-vlc"
 
         self.description = "the vlc based phonon multimedia backend"

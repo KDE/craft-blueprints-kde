@@ -1,0 +1,13 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 47427b2..1cdb250 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -81,7 +81,7 @@ if(APPLE)
+ endif(APPLE)
+ 
+ automoc4_add_library(phonon_vlc MODULE ${phonon_vlc_SRCS})
+-qt5_use_modules(phonon_vlc Core Widgets)
++qt5_use_modules(phonon_vlc Core Widgets DBus)
+ 
+ set_target_properties(phonon_vlc PROPERTIES
+     PREFIX ""
