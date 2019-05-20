@@ -192,6 +192,10 @@ class QtPackage(Qt5CorePackageBase):
             if self.buildType() == "RelWithDebInfo":
                 command += "-force-debug-info "
 
+            if not self.subinfo.options.dynamic.buildReleaseAndDebug:
+                if self.buildType() == "Debug" and CraftCore.compiler.isMacOS:
+                    command += "-no-framework "
+
             if not self.subinfo.options.buildStatic:
                 command += "-I \"%s\" -L \"%s\" " % (
                     os.path.join(CraftStandardDirs.craftRoot(), "include"), os.path.join(CraftStandardDirs.craftRoot(), "lib"))
