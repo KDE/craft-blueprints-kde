@@ -18,6 +18,11 @@ class subinfo(info.infoclass):
         self.description = "a Qt based multimedia framework"
         self.defaultTarget = "4.10.1"
 
+        self.patchToApply["4.10.1"] = [
+            ("phonon-4.10.1-macos-rpath.diff", 1), # fix rpath lokup issue during build
+        ]
+        self.patchLevel["4.10.1"] = 1
+
 
 from Package.CMakePackageBase import *
 

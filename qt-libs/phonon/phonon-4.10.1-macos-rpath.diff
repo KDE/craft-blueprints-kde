@@ -1,0 +1,9 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' phonon-4.10.1.orig/designer/CMakeLists.txt phonon-4.10.1/designer/CMakeLists.txt
+--- phonon-4.10.1.orig/designer/CMakeLists.txt	2018-04-27 11:23:33.000000000 +0200
++++ phonon-4.10.1/designer/CMakeLists.txt	2019-05-21 11:12:18.000000000 +0200
+@@ -1,4 +1,5 @@
+ include_directories(${CMAKE_CURRENT_BINARY_DIR}/../) # For phonon/ includes.
++link_directories(${CMAKE_INSTALL_RPATH}) # Fix rpath lookup issue on mac os
+ 
+ set(phononwidgetsplugin_SRCS
+     phononcollection.cpp
