@@ -16,34 +16,19 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets['master'] = 'git://git.ghostscript.com/ghostpdl.git'
-        for ver in ['9.19', '9.21']:
-            self.targets[
-                ver] = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs%s/ghostscript-%s.tar.gz" % (
-            ver.replace(".", ""), ver)
-            self.targetInstSrc[ver] = 'ghostscript-%s' % ver
-            self.targetDigestUrls[ver] = ([
-                                              "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs%s/SHA1SUMS" % ver.replace(
-                                                  ".", "")], CraftHash.HashAlgorithm.SHA1)
         for ver in ['9.26']:
             ver2 = ver.replace(".", "")
+            self.patchToApply['9.26'] = []
             self.targets[ver] = f"https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{ver2}/ghostscript-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"ghostscript-{ver}"
             self.targetDigestUrls[ver] = ([f"https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{ver2}/SHA512SUMS" ], CraftHash.HashAlgorithm.SHA512)
 
         if CraftCore.compiler.isMinGW():
-            self.patchToApply['9.19'] = [
-                # ("mingw-build.patch", 1),# origin: https://github.com/Alexpux/MINGW-packages/tree/master/mingw-w64-ghostscript
-                # ("ghostscript-sys-zlib.patch", 1),# origin: https://github.com/Alexpux/MINGW-packages/tree/master/mingw-w64-ghostscript
-                ("ghostscript-9.18-20151217.diff", 1),
-                ("ghostscript-exports-fix.diff", 1),
-                ("libspectre.patch", 1)
-                # origin: https://github.com/Alexpux/MINGW-packages/tree/master/mingw-w64-ghostscript
-            ]
-        else:
-            self.patchToApply['9.19'] = [("ghostscript-exports-fix.diff", 1)]
+            self.patchToApply['9.26'] += [(".9.26", 1)]
+        if CraftCore.compiler.isMacOS:
+            self.patchToApply['9.26'] += [("mac.diff", 1)]
         self.patchLevel['9.19'] = 1
-        self.patchToApply['9.26'] = [(".9.26", 1)]
-        self.patchLevel['9.26'] = 1
+        self.patchLevel['9.26'] = 2
         self.defaultTarget = '9.26'
 
 
@@ -117,7 +102,13 @@ class PackageMSys(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
         #self.subinfo.options.make.supportsMultijob = False
-        self.subinfo.options.configure.args += " --with-drivers=ALL --disable-cups --with-system-libtiff --with-jbig2dec --enable-openjpeg --enable-fontconfig --enable-freetype --disable-contrib --without-x"
+        self.subinfo.options.configure.args += " --with-drivers=ALL --disable-cups" \
+                                               " --without-x --disable-contrib --enable-freetype" \
+                                               "  --with-jbig2dec --enable-openjpeg --disable-gtk --enable-fontconfig"
+
+        if not CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += " --with-system-libtiff"
+
         self.subinfo.options.make.args = "so all"
         self.subinfo.options.install.args = "install-so install"
         self.subinfo.options.useShadowBuild = False
@@ -125,7 +116,10 @@ class PackageMSys(AutoToolsPackageBase):
     def unpack(self):
         if not AutoToolsPackageBase.unpack(self):
             return False
-        for d in ["freetype", "jpeg", "libpng", "lcms", "lcms2", "tiff", "zlib", "openjpeg"]:
+        forceSystemLibs = ["freetype", "jpeg", "libpng", "lcms", "lcms2", "zlib", "openjpeg"]
+        if not CraftCore.compiler.isMacOS:
+            forceSystemLibs += ["tiff"]
+        for d in forceSystemLibs:
             utils.rmtree(os.path.join(self.sourceDir(), d))
         return True
 
@@ -135,9 +129,6 @@ class PackageMSys(AutoToolsPackageBase):
         if CraftCore.compiler.isLinux:
             # only the sym links get installed...
             return utils.copyFile(f"{self.buildDir()}/sobin/libgs.so.9", f"{self.installDir()}/lib/libgs.so.9")
-        elif CraftCore.compiler.isMacOS:
-            # only the sym links get installed...
-            return utils.copyFile(f"{self.buildDir()}/sobin/libgs.dylib.9", f"{self.installDir()}/lib/libgs.dylib.9")
 
         return True
 
