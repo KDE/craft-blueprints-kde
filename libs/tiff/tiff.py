@@ -4,7 +4,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ['3.9.2', '4.0.3', '4.0.4', '4.0.9']:
+        for ver in ['3.9.2', '4.0.3', '4.0.4', '4.0.9', '4.0.10']:
             self.targets[ver] = "http://download.osgeo.org/libtiff/tiff-" + ver + ".tar.gz"
             self.targetInstSrc[ver] = "tiff-" + ver
         self.patchToApply['3.9.2'] = [('tiff-3.9.2-20100418.diff', 1)]
@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
 
         self.description = "a library to manipulate TIFF image files"
         self.webpage = "http://www.simplesystems.org/libtiff/"
-        self.defaultTarget = '4.0.9'
+        self.defaultTarget = '4.0.10'
 
     def setDependencies(self):
         self.runtimeDependencies["libs/zlib"] = None
