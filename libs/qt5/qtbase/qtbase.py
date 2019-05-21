@@ -108,11 +108,15 @@ class subinfo(info.infoclass):
         self.patchToApply["5.11.2"] += [
             ("0001-Export-qt_open64-from-QtCore.patch", 1), # fix 32 bit unix builds, backport of 4fc4f7b0ce0e6ee186a7d7fe9b5dd20e94efe432
         ]
+        self.patchToApply["5.12.3"] += [
+            ("qtbase-5.12.3-macos-debug.diff", 1), # fix cmake generated config files for debug non frameworks libs
+        ]
         self.patchLevel["5.9.4"] = 3
         self.patchLevel["5.11.0"] = 2
         self.patchLevel["5.11.2"] = 3
         self.patchLevel["5.12.0"] = 2
         self.patchLevel["5.12.1"] = 2
+        self.patchLevel["5.12.3"] = 1
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):

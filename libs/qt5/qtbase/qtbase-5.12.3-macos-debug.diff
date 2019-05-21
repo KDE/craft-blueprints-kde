@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' qtbase-everywhere-src-5.12.3.orig/mkspecs/features/create_cmake.prf qtbase-everywhere-src-5.12.3/mkspecs/features/create_cmake.prf
+--- qtbase-everywhere-src-5.12.3.orig/mkspecs/features/create_cmake.prf	2019-04-09 11:51:26.000000000 +0200
++++ qtbase-everywhere-src-5.12.3/mkspecs/features/create_cmake.prf	2019-05-21 09:38:02.000000000 +0200
+@@ -217,7 +217,7 @@
+             CMAKE_LIB_FILE_LOCATION_RELEASE = Qt$${CMAKE_MODULE_NAME}$${QT_LIBINFIX}.framework/Qt$${CMAKE_MODULE_NAME}$${QT_LIBINFIX}
+             CMAKE_BUILD_IS_FRAMEWORK = "true"
+         } else {
+-            CMAKE_LIB_FILE_LOCATION_DEBUG = lib$${CMAKE_QT_STEM}_debug.$$eval(QT.$${MODULE}.VERSION).dylib
++            CMAKE_LIB_FILE_LOCATION_DEBUG = lib$${CMAKE_QT_STEM}.$$eval(QT.$${MODULE}.VERSION).dylib
+             CMAKE_LIB_FILE_LOCATION_RELEASE = lib$${CMAKE_QT_STEM}.$$eval(QT.$${MODULE}.VERSION).dylib
+         }
+     }
