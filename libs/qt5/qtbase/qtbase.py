@@ -18,12 +18,15 @@ class subinfo(info.infoclass):
             qtVer = CraftVersion(ver)
             if ver == "dev":
                 self.patchToApply[ver] = []
-            elif qtVer >= CraftVersion("5.12.0"):
+            elif qtVer >= CraftVersion("5.12.4"):
+                raise Exception("check patches!")# recheck
+            elif qtVer >= CraftVersion("5.12.1"):
                 self.patchToApply[ver] = [
                     ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_GenericDataLocation_mac.patch", 1),
-                    ("qstandardpaths-extra-dirs.patch", 1)
+                    ("qstandardpaths-extra-dirs.patch", 1),
+                    ("qtbase-5.12.3-macos-debug.diff", 1) # https://codereview.qt-project.org/c/qt/qtbase/+/260917
                 ]
             elif qtVer >= CraftVersion("5.12.0"):
                 self.patchToApply[ver] = [
@@ -108,9 +111,7 @@ class subinfo(info.infoclass):
         self.patchToApply["5.11.2"] += [
             ("0001-Export-qt_open64-from-QtCore.patch", 1), # fix 32 bit unix builds, backport of 4fc4f7b0ce0e6ee186a7d7fe9b5dd20e94efe432
         ]
-        self.patchToApply["5.12.3"] += [
-            ("qtbase-5.12.3-macos-debug.diff", 1), # fix cmake generated config files for debug non frameworks libs
-        ]
+
         self.patchLevel["5.9.4"] = 3
         self.patchLevel["5.11.0"] = 2
         self.patchLevel["5.11.2"] = 3
