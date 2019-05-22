@@ -114,15 +114,20 @@ class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args = (
+        self.subinfo.options.configure.args += (
             "--disable-dependency-tracking "
             "--disable-doxygen-docs "
             "--enable-verbose-mode "
-            "--enable-launchd "
-            f"--with-launchd-agent-dir='{os.path.join(CraftCore.standardDirs.craftRoot(), 'Library', 'LaunchAgents')}' "
             "--without-x "
             "--disable-tests "
         )
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += (
+                "--enable-launchd "
+                f"--with-launchd-agent-dir='{os.path.join(CraftCore.standardDirs.craftRoot(), 'Library', 'LaunchAgents')}' ")
+
+
+
 
     def postInstall(self):
         hardCodedFiles = []
