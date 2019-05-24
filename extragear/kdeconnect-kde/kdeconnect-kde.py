@@ -33,6 +33,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["executable"] = "bin\\kdeconnect-indicator.exe"
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
+        self.defines["appname"] = "kdeconnect-indicator"
 
         self.ignoredPackages.append("binary/mysql")
 
@@ -42,5 +43,7 @@ class Package(CMakePackageBase):
         archiveDir = self.archiveDir()
 
         # move everything to the location where Qt expects it
+        pluginPath = os.path.join(archiveDir, "plugins")
         binPath = os.path.join(archiveDir, "bin")
-        return utils.mergeTree(os.path.join(archiveDir, "lib/qca-qt5"), binPath)
+        return utils.mergeTree(os.path.join(archiveDir, "lib/qca-qt5"), 
+            pluginPath if CraftCore.compiler.isMacOS else binPath)
