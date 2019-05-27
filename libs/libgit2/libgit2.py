@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import info
+from Package import AutoToolsPackageBase
 
 
 class subinfo(info.infoclass):
@@ -12,7 +13,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"libgit2-{ver}"
         self.patchToApply["0.28.1"] = [ ("libgit2-0.28.1-20190216.diff", 1)]
         self.targetDigests["0.28.1"] = (['0ca11048795b0d6338f2e57717370208c2c97ad66c6d5eac0c97a8827d13936b'], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["0.28.1"] = 2
+        self.patchLevel["0.28.1"] = 3
 
         self.description = "a portable C library for accessing git repositories"
         self.defaultTarget = '0.28.1'
@@ -27,10 +28,13 @@ class subinfo(info.infoclass):
 
 from Package.CMakePackageBase import *
 
-
-class Package(CMakePackageBase):
-    def __init__(self, **args):
-        CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += "-DUSE_ICONV=ON -DBUILD_CLAR=OFF"
-
-# self.subinfo.options.configure.args = "-DDBUS_REPLACE_LOCAL_DIR=ON "
+if CraftCore.compiler.isWindows:
+    class Package(CMakePackageBase):
+        def __init__(self, **args):
+            CMakePackageBase.__init__(self)
+            self.subinfo.options.configure.args += "-DUSE_ICONV=ON -DBUILD_CLAR=OFF"
+else:
+    class Package(AutoToolsPackageBase):
+        def __init__(self, **args):
+            AutoToolsPackageBase.__init__(self)
+            self.subinfo.options.configure.args = " --disable-static --enable-shared"
