@@ -31,5 +31,8 @@ class Package(CMakePackageBase):
         #        self.subinfo.options.configure.args += " -DNO_ITUNES_HACKS=ON"
         self.subinfo.options.configure.args += " -DWITH_ASF=ON"
         self.subinfo.options.configure.args += " -DWITH_MP4=ON"
-        # Taglib ships a binary which has hardcoded paths in it, which will break the build of anything using it
-        self.subinfo.options.package.disableBinaryCache = True
+
+
+    def postInstall(self):
+        hardCoded = [os.path.join(self.installDir(), x) for x in ["bin/taglib-config"]]
+        return self.patchInstallPrefix(hardCoded, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())
