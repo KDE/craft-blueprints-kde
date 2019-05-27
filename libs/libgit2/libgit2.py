@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
-from Package import AutoToolsPackageBase
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+
 
 
 class subinfo(info.infoclass):
