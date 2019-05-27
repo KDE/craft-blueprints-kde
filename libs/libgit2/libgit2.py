@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 import info
-from Package.AutoToolsPackageBase import AutoToolsPackageBase
-
 
 
 class subinfo(info.infoclass):
@@ -29,13 +27,7 @@ class subinfo(info.infoclass):
 
 from Package.CMakePackageBase import *
 
-if CraftCore.compiler.isWindows:
-    class Package(CMakePackageBase):
-        def __init__(self, **args):
-            CMakePackageBase.__init__(self)
-            self.subinfo.options.configure.args += "-DUSE_ICONV=ON -DBUILD_CLAR=OFF"
-else:
-    class Package(AutoToolsPackageBase):
-        def __init__(self, **args):
-            AutoToolsPackageBase.__init__(self)
-            self.subinfo.options.configure.args = " --disable-static --enable-shared"
+class Package(CMakePackageBase):
+    def __init__(self, **args):
+        CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args += "-DUSE_ICONV=ON -DBUILD_CLAR=OFF"
