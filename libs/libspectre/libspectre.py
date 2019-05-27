@@ -4,7 +4,7 @@ from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.platform = ~CraftCore.compiler.Platforms.MacOS
+        self.parent.package.platforms = CraftCore.compiler.Platforms.NotMacOS
 
     def setTargets(self):
         """ """
