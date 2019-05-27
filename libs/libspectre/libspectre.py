@@ -3,6 +3,9 @@ from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.platform = ~CraftCore.compiler.Platforms.MacOS
+
     def setTargets(self):
         """ """
         for ver in ['0.2.1', '0.2.6', '0.2.7', '0.2.8']:
