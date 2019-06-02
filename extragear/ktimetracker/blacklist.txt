@@ -1,0 +1,90 @@
+# blacklist
+
+# general
+manifest/.*
+.*\.exp
+.*\.pdb
+.*\.la
+.*\.nsis
+.*\.prl
+
+# multiple docs
+doc/.*
+share/man/.*
+man/.*
+share/xml/.*
+share/locale/.*
+
+# cmake stuff
+share/apps/cmake/.*
+
+# common app stuff
+share/apps/ark/.*
+share/apps/kgpg/.*
+share/kf5/kdoctools/.*
+lib/.*
+bin/data/kpackage/kcms/.*
+bin/data/aclocal/.*
+bin/data/applications/.*
+bin/data/aspell/.*
+bin/data/bash-completion/.*
+bin/data/doc/.*
+bin/data/icons/.*
+bin/data/gdb/.*
+bin/data/glib-2.0/.*
+bin/data/gtk-doc/.*
+bin/data/hunspell/.*
+bin/data/kf5/.*
+bin/data/knotifications5/.*
+bin/data/kpackage/.*
+bin/data/kservices5/.*
+bin/data/kservicetypes5/.*
+bin/data/locale/.*
+bin/data/man/.*
+bin/data/metainfo/.*
+bin/data/mime/.*
+bin/data/xdg/.*
+bin/data/xml/.*
+bin/sqldrivers/.*
+
+# Not using QML
+.*\.qml
+.*\.qmltypes
+.*/qmldir
+qml/.*
+bin/Qt/.*
+bin/QtQml/.*
+bin/QtQuick/.*
+bin/QtQuick.2/.*
+bin/QtTest/.*
+bin/QtWinExtras/.*
+bin/qmltooling/.*
+
+# unrelated
+dev-utils/.*
+share/dbus-1/services/.*
+share/pkgconfig/.*
+
+# cleanup breeze stuff
+share/wallpapers/.*
+share/icons/Breeze_Snow/.*
+share/icons/breeze-dark/.*
+
+# cut the big oxygen icons: this can lead to errors though if used!!!!
+share/icons/oxygen/64x64/.*
+share/icons/oxygen/128x128/.*
+share/icons/oxygen/256x256/.*
+
+# doubled qt dlls
+lib/[^/]*\.dll
+# more qt leftovers
+translations/.*
+phrasebooks/.*
+mkspecs/.*
+
+# unneeded stuff from bin\
+bin/qt\.conf
+bin/syncqt\.pl
+
+# strip most executables
+bin/(?!(ktimetracker|dbus-daemon|dbus-launch|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
