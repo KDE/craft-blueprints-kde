@@ -51,6 +51,10 @@ class Package(CMakePackageBase):
             # Move kdeconnect-cli and kdeconnectd to package
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
+            if not utils.copyFile(os.path.join(binPath, "dbus-daemon"), 
+                os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
+                return False
+            
             if not utils.copyFile(os.path.join(binPath, "kdeconnect-cli"), 
                 os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
                 return False
