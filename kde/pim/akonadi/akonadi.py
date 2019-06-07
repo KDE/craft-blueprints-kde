@@ -14,10 +14,15 @@ class subinfo(info.infoclass):
                                         ("akonadi-17.08.3-20171204-2.diff", 1)]
         self.patchToApply["17.12.0"] = [("akonadi-17.12.0-20171220.diff", 1),
                                         ("0001-Win-Create-local-socket-named-pipes-based-on-the-ins.patch", 1)]
-        self.patchToApply["18.12.2"] = [("akonadi-18.12.2-macos.diff", 1)]
-        self.patchLevel["18.12.2"] = 1
-        self.patchToApply["18.12.3"] = [("akonadi-18.12.2-macos.diff", 1)]
-        self.patchLevel["18.12.3"] = 1
+        self.patchToApply["18.12.2"] = [("akonadi-18.12.2-macos.diff", 1),
+                                        ("akonadi-18.12.2-errorstring.diff", 1)]
+        self.patchLevel["18.12.2"] = 2
+        self.patchToApply["18.12.3"] = [("akonadi-18.12.2-macos.diff", 1),
+                                        ("akonadi-18.12.2-errorstring.diff", 1)]
+        self.patchLevel["18.12.3"] = 2
+        self.patchToApply["19.04.1"] = [("akonadi-19.04-macos.diff", 1),
+                                        ("akonadi-18.12.2-errorstring.diff", 1)]
+        self.patchLevel["19.04.1"] = 1
 
         self.description = "A storage service for PIM data and meta data"
 
