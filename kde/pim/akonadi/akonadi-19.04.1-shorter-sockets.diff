@@ -1,0 +1,57 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' akonadi-19.04.1.orig/src/private/standarddirs.cpp akonadi-19.04.1/src/private/standarddirs.cpp
+--- akonadi-19.04.1.orig/src/private/standarddirs.cpp	2019-04-19 06:59:33.000000000 +0200
++++ akonadi-19.04.1/src/private/standarddirs.cpp	2019-06-07 15:05:49.000000000 +0200
+@@ -110,6 +110,8 @@
+         fullPath = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + fullRelPath;
+     } else if (qstrncmp(resource, "data", 4) == 0) {
+         fullPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + fullRelPath;
++    } else if (qstrncmp(resource, "runtime", 7) == 0) {
++        fullPath = QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) + fullRelPath;
+     } else {
+         qt_assert_x(__FUNCTION__, "Invalid resource type", __FILE__, __LINE__);
+         return {};
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' akonadi-19.04.1.orig/src/server/utils.cpp akonadi-19.04.1/src/server/utils.cpp
+--- akonadi-19.04.1.orig/src/server/utils.cpp	2019-04-19 06:59:33.000000000 +0200
++++ akonadi-19.04.1/src/server/utils.cpp	2019-06-07 16:31:18.000000000 +0200
+@@ -33,7 +33,6 @@
+ #include <cstdlib>
+ #include <sys/types.h>
+ #include <cerrno>
+-#include <pwd.h>
+ #include <unistd.h>
+ 
+ static QString akonadiSocketDirectory();
+@@ -101,15 +100,8 @@
+         return QString();
+     }
+ 
+-    const uid_t uid = getuid();
+-    const struct passwd *pw_ent = getpwuid(uid);
+-    if (!pw_ent) {
+-        qCCritical(AKONADISERVER_LOG) << "Could not get passwd entry for user id" << uid;
+-        return QString();
+-    }
+-
+     const QString link = StandardDirs::saveDir("data") + QLatin1Char('/') + QLatin1String("socket-") + hostname;
+-    QString tmpl = QLatin1String("akonadi-") + QString::fromLocal8Bit(pw_ent->pw_name) + QLatin1String(".XXXXXX");
++    QString tmpl = QLatin1String("XXXXXX");
+ 
+     // Workaround for QLocalServer encoding bug
+     // basically replace non-latin characters
+@@ -152,7 +144,7 @@
+ 
+ static bool createSocketDirectory(const QString &link, const QString &tmpl)
+ {
+-    QString directory = QStringLiteral("%1%2%3").arg(QDir::tempPath()).arg(QDir::separator()).arg(tmpl);
++    QString directory = QStringLiteral("%1%2%3").arg(StandardDirs::saveDir("runtime")).arg(QDir::separator()).arg(tmpl);
+ 
+     QByteArray directoryString = directory.toLocal8Bit();
+ 
+@@ -177,6 +169,7 @@
+ QString Utils::getDirectoryFileSystem(const QString &directory)
+ {
+ #ifndef Q_OS_LINUX
++    Q_UNUSED(directory);
+     return QString();
+ #else
+     QString bestMatchPath;

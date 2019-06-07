@@ -21,8 +21,9 @@ class subinfo(info.infoclass):
                                         ("akonadi-18.12.2-errorstring.diff", 1)]
         self.patchLevel["18.12.3"] = 2
         self.patchToApply["19.04.1"] = [("akonadi-19.04-macos.diff", 1),
-                                        ("akonadi-18.12.2-errorstring.diff", 1)]
-        self.patchLevel["19.04.1"] = 1
+                                        ("akonadi-18.12.2-errorstring.diff", 1),
+                                        ("akonadi-19.04.1-shorter-sockets.diff", 1)] # macos temp path are so long that if a user has a long nick it bypass the limited socket file path length of 104chars.
+        self.patchLevel["19.04.1"] = 2
 
         self.description = "A storage service for PIM data and meta data"
 
