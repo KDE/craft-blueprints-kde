@@ -77,7 +77,7 @@ class PackageAutoTools(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         # https://metacpan.org/pod/distribution/perl/INSTALL
         self.subinfo.options.install.args = "install.perl"
-        self.subinfo.options.configure.args = f"-des -D 'prefix={self.installPrefix()}' -D mksymlinks  -D userelocatableinc -U default_inc_excludes_dot"
+        self.subinfo.options.configure.args = f"-des -D 'prefix={self.installPrefix()}' -D mksymlinks -U default_inc_excludes_dot -D useshrplib"
 
         cflags = self.shell.environment["CFLAGS"]
         ldflags = self.shell.environment["LDFLAGS"]
