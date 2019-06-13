@@ -19,14 +19,16 @@ class subinfo(info.infoclass):
             # With msvc2015+ and Windows 10 1803 perlglob is broken. for that reason we provide a precompiled version
             # https://developercommunity.visualstudio.com/content/problem/245615/first-file-name-in-command-line-wildcard-expansion.html
             self.patchToApply["5.28.0"] = [("perl-5.28.0-20181129.diff", 1)]
-            self.patchToApply["5.28.1"] = [("perl-5.28.0-20181129.diff", 1), ("perl-5.28.1-20181229.diff", 2)]
+            self.patchToApply["5.28.1"] = [("perl-5.28.0-20181129.diff", 1),
+                                           ("perl-5.28.1-20181229.diff", 2)
+                                           ]
         self.targetDigests["5.28.0"] = (['7e929f64d4cb0e9d1159d4a59fc89394e27fa1f7004d0836ca0d514685406ea8'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["5.28.1"] = (['3ebf85fe65df2ee165b22596540b7d5d42f84d4b72d84834f74e2e0b8956c347'],CraftHash.HashAlgorithm.SHA256)
         self.description = ("Perl 5 is a highly capable, feature-rich programming language with over 30 years of "
                             "development. Perl 5 runs on over 100 platforms from portables to mainframes and is "
                             "suitable for both rapid prototyping and large scale development projects.")
         self.patchLevel["5.28.0"] = 5
-        self.patchLevel["5.28.1"] = 3
+        self.patchLevel["5.28.1"] = 4
         self.defaultTarget = "5.28.1"
 
     def setDependencies(self):
