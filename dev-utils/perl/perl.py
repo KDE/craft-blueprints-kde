@@ -69,22 +69,7 @@ class PackageMSVC(MakeFilePackageBase):
 
     def install(self):
         with utils.ScopedEnv(self._globEnv()):
-            return (super().install() and
-                    utils.globCopyDir(os.path.join(self.sourceDir(), ".."), os.path.join(self.installDir(), "lib"),
-                                      ["perl5*.lib"]) and
-                    utils.globCopyDir(os.path.join(self.sourceDir(), "..", "lib", "CORE"),
-                                      os.path.join(self.installDir(), "include", "perl"), ["**/*.h"]))
-
-    def postInstall(self):
-        newPrefix = OsUtils.toUnixPath(self.installPrefix())
-        oldPrefixes = [self.installDir(), OsUtils.toUnixPath(self.installDir()), self.installDir().replace("\\", "\\\\")]
-
-        pattern = [re.compile("^.*(pl|pm)$")]
-        files = utils.filterDirectoryContent(self.installDir(),
-                                             whitelist=lambda x, root: utils.regexFileFilter(x, root, pattern),
-                                             blacklist=lambda x, root: True)
-
-        return self.patchInstallPrefix(files, oldPrefixes, newPrefix)
+            return super().install()
 
 
 class PackageAutoTools(AutoToolsPackageBase):
