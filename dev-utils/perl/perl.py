@@ -32,7 +32,6 @@ class subinfo(info.infoclass):
         self.defaultTarget = "5.28.1"
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/chrpath"] = None
         self.runtimeDependencies["virtual/base"] = None
 
 
@@ -95,21 +94,6 @@ class PackageAutoTools(AutoToolsPackageBase):
         self.enterBuildDir()
         return self.shell.execute(self.buildDir(), os.path.join(self.sourceDir(), "Configure"),
                                   self.subinfo.options.configure.args)
-
-    def postInstall(self):
-        if not super().postInstall():
-            return False
-        if CraftCore.compiler.isLinux:
-            with io.StringIO() as tmp:
-                if not utils.system(["chrpath", "-l", os.path.join(self.installDir(), "bin", "perl")], stdout=tmp):
-                    return False
-                # get the last path
-                rpath = tmp.getvalue().strip().rsplit(":", 1)[1]
-            # this will only succeed if the new rpath is smaller or equal
-            rpath = ":".join(["$ORIGIN/../lib", rpath.replace(self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())])
-            if not utils.system(["chrpath", "-r",  rpath,os.path.join(self.installDir(), "bin", "perl")]):
-                return False
-        return True
 
 
 
