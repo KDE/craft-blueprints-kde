@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
                             "development. Perl 5 runs on over 100 platforms from portables to mainframes and is "
                             "suitable for both rapid prototyping and large scale development projects.")
         self.patchLevel["5.28.0"] = 5
-        self.patchLevel["5.28.1"] = 4
+        self.patchLevel["5.28.1"] = 5
         self.defaultTarget = "5.28.1"
 
     def setDependencies(self):
@@ -79,11 +79,14 @@ class PackageAutoTools(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         # https://metacpan.org/pod/distribution/perl/INSTALL
         self.subinfo.options.install.args = "install.perl"
-        self.subinfo.options.configure.args = f"-des -D 'prefix={self.installPrefix()}' -D mksymlinks  -D userelocatableinc -U default_inc_excludes_dot"
+        self.subinfo.options.configure.args = f"-des -D 'prefix={self.installPrefix()}' " \
+            f"-D mksymlinks  " \
+            f"-D userelocatableinc " \
+            f"-U default_inc_excludes_dot " \
+            f"-D usethreads"
 
         cflags = self.shell.environment["CFLAGS"]
         ldflags = self.shell.environment["LDFLAGS"]
-        cflags += " -DPERL_IMPLICIT_CONTEXT"
         if CraftCore.compiler.isGCC() and not CraftCore.compiler.isNative() and CraftCore.compiler.isX86():
             cflags += " -m32"
             ldflags += " -m32"
