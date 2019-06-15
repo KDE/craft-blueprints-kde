@@ -28,14 +28,13 @@ from Package.MSBuildPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ['8-6-8']:
-            self.targets[ver] = 'https://github.com/tcltk/tcl/archive/core-%s.zip' % ver
-            self.archiveNames[ver] = "core-%s.zip" % ver
-            self.targetInstSrc[ver] = 'tcl-core-%s' % ver
-            self.patchLevel[ver] = 2
+        for ver in ["8-6-8"]:
+            self.targets[ver] = f"https://github.com/tcltk/tcl/archive/core-{ver}.tar.gz"
+            self.archiveNames[ver] = f"core-{ver}.zip"
+            self.targetInstSrc[ver] = f"tcl-core-{ver}"
 
-        self.targetDigests['8-6-8'] = (['7d4b0aea18142dce44a34f366ed251e50d4edba8918894adf0fab7a932a1f80d'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '8-6-8'
+        self.targetDigests['8-6-8'] = (['64143476957248a6dc5913a2685ca4c1efbb5e185278dbf32e6fb4343e47b83a'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "8-6-8"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
