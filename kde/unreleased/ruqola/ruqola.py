@@ -40,6 +40,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt5/qtspeech"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
