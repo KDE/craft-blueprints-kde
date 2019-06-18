@@ -17,8 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
-        if not OsUtils.isWin():
-            self.runtimeDependencies["qt-libs/phonon"] = None
+        self.runtimeDependencies["qt-libs/phonon"] = None
         if OsUtils.isMac():
             self.runtimeDependencies["libs/qt5/qtmacextras"] = None
 
