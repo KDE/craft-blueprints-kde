@@ -3,6 +3,10 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        if CraftCore.compiler.isMinGW():
+            self.options.dynamic.setDefault("buildType", "Release")
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.svnTargets["5.212"] = "https://code.qt.io/qt/qtwebkit.git|5.212"
