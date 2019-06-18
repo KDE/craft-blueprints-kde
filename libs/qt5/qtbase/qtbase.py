@@ -19,7 +19,12 @@ class subinfo(info.infoclass):
             if ver == "dev":
                 self.patchToApply[ver] = []
             elif qtVer >= CraftVersion("5.12.4"):
-                raise Exception("check patches!")# recheck
+                self.patchToApply[ver] = [
+                    ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
+                    ("workaround-mingw-egl.diff", 1),
+                    ("fix_GenericDataLocation_mac.patch", 1),
+                    ("qstandardpaths-extra-dirs.patch", 1),
+                ]
             elif qtVer >= CraftVersion("5.12.1"):
                 self.patchToApply[ver] = [
                     ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
