@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
     def setBuildOptions(self):
         info.infoclass.setBuildOptions(self)
 
-        self.options.configure.args += "-DICONV_PATH="+CraftCore.standardDirs.craftRoot()+'/lib'
+        # self.options.configure.args += "-dICONV_PATH="+CraftCore.standardDirs.craftRoot()+'\lib'
         # self.options.configure.args += " -DBUILD_TESTS=OFF"
 
     def setDependencies(self):
