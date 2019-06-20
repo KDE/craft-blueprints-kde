@@ -31,7 +31,6 @@ class Package(CMakePackageBase):
         ]
 
     def createPackage(self):
-        self.defines["executable"] = "bin\\kdeconnect-indicator.exe"
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
         self.defines["appname"] = "kdeconnect-indicator"
 
