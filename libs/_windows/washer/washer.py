@@ -11,7 +11,6 @@ class subinfo(info.infoclass):
         version = 'master'
         self.defaultTarget = version
         self.svnTargets[version] = 'https://github.com/brute4s99/washer.git'
-        self.targetInstallPath[version] = "dev-utils"
 
 
 class Package(CMakePackageBase):
