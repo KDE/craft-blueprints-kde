@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.buildDependencies['libs/boost/boost-date-time'] = None
         self.buildDependencies["libs/washer"] = None
         self.buildDependencies["libs/wtl"] = None
-        self.buildDependencies["dev-utils/comet"] = None
+        self.buildDependencies["libs/comet"] = None
 
 
 
