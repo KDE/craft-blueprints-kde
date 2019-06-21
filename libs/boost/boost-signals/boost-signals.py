@@ -13,7 +13,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["libs/boost/boost-headers"] = None
         self.buildDependencies["libs/boost/boost-bjam"] = None
-        self.buildDependencies["libs/boost/boost-build"] = None
 
 
 from Package.BoostPackageBase import *
