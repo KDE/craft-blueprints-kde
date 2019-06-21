@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
                             "development. Perl 5 runs on over 100 platforms from portables to mainframes and is "
                             "suitable for both rapid prototyping and large scale development projects.")
         self.patchLevel["5.28.0"] = 5
-        self.patchLevel["5.28.1"] = 5
+        self.patchLevel["5.28.1"] = 6
         self.defaultTarget = "5.28.1"
 
     def setDependencies(self):
@@ -72,6 +72,16 @@ class PackageMSVC(MakeFilePackageBase):
     def install(self):
         with utils.ScopedEnv(self._globEnv()):
             return super().install()
+
+    def postInstall(self):
+        # in difference to the defaultePrefix replace, we replace the installDir with the installPrefix
+        # not an older install prefix with another
+        newPrefix = OsUtils.toUnixPath(self.installPrefix())
+        oldPrefixes = [self.installDir()]
+        files = utils.filterDirectoryContent(self.installDir(),
+                                             whitelist=lambda x, root: Path(x).suffix in BuildSystemBase.PatchableFile,
+                                             blacklist=lambda x, root: True)
+        return self.patchInstallPrefix(files, oldPrefixes, newPrefix)
 
 
 class PackageAutoTools(AutoToolsPackageBase):

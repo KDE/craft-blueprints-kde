@@ -14,6 +14,9 @@ class subinfo(info.infoclass):
             ('boost_1_56_0-spirit-20131114.diff', 1)]  # TODO: also include in future releases!
         self.patchToApply['1_57_0'] = [('boost_1_56_0-spirit-20131114.diff', 1)]
 
+        if CraftCore.compiler.isWindows:
+            self.patchToApply['1_69_0'] = [('boost-headers-1.69.0-20190621.diff', 1)]# don't look for xlocale on windows
+
         self.webpage = 'http://www.boost.org/'
 
         self.description = 'portable C++ libraries'

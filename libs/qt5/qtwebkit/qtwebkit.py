@@ -4,7 +4,8 @@ import info
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
+        if CraftCore.compiler.isMinGW():
+            self.options.dynamic.setDefault("buildType", "Release")
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
