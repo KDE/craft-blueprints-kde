@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://www.libssh2.org/download/libssh2-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libssh2-{ver}"
         self.targetDigests["1.8.0"] = (['39f34e2f6835f4b992cafe8625073a88e5a28ba78f83e8099610a7b3af4676d4'], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["1.8.0"] = 3
+        self.patchLevel["1.8.0"] = 4
         self.defaultTarget = '1.8.0'
 
     def setDependencies( self ):
@@ -24,7 +24,8 @@ if CraftCore.compiler.isWindows:
     class Package(CMakePackageBase):
         def __init__(self, **args):
             CMakePackageBase.__init__(self)
-            self.subinfo.options.configure.args += " -DENABLE_ZLIB_COMPRESSION=ON -DBUILD_SHARED_LIBS=ON -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF"
+            # the lib has no exports so we can't build it shared
+            self.subinfo.options.configure.args += " -DENABLE_ZLIB_COMPRESSION=ON -DBUILD_SHARED_LIBS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF"
 else:
     class Package(AutoToolsPackageBase):
         def __init__(self, **args):
