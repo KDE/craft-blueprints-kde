@@ -30,10 +30,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["8-6-8"]:
             self.targets[ver] = f"https://github.com/tcltk/tcl/archive/core-{ver}.tar.gz"
-            self.archiveNames[ver] = f"core-{ver}.zip"
+            self.archiveNames[ver] = f"core-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"tcl-core-{ver}"
 
-        self.targetDigests['8-6-8'] = (['64143476957248a6dc5913a2685ca4c1efbb5e185278dbf32e6fb4343e47b83a'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['8-6-8'] = (['4169fc899a19b212794287790bace46a161aa858b6c6ba2649cc4f468bdb35f7'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "8-6-8"
 
     def setDependencies(self):
