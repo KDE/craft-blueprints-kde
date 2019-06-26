@@ -31,6 +31,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdnssd"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kpty"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
 
 from Package.CMakePackageBase import *
 
