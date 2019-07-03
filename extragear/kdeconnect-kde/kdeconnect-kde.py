@@ -25,16 +25,35 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file = [
-            PackagerLists.runtimeBlacklist,
-            os.path.join(os.path.dirname(__file__), "blacklist.txt")
-        ]
 
     def createPackage(self):
-        self.defines["executable"] = "bin\\kdeconnect-indicator.exe"
+        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+
+        self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
         self.defines["appname"] = "kdeconnect-indicator"
 
+        self.defines["nsis_include"] = f"!include {self.packageDir()}\\SnoreNotify.nsh"
+        self.defines["sections"] = r"""
+            !define MyApp_AppUserModelId  org.kde.kdeconnect.daemon
+            !define SnoreToastExe "$INSTDIR\bin\SnoreToast.exe"
+
+            Section "@{productname}"
+                SectionIn 1
+                !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+                    !insertmacro SnoreShortcut "$SMPROGRAMS\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe" "${MyApp_AppUserModelId}"
+                    CreateShortCut "$SMPROGRAMS\Startup\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe"
+                    CreateShortCut "$DESKTOP\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe"
+                !insertmacro MUI_STARTMENU_WRITE_END
+            SectionEnd
+            """
+        self.defines["un_sections"]=r"""
+            Section "Un.Remove Shortcuts"
+                Delete "$SMPROGRAMS\@{productname}.lnk"
+                Delete "$SMPROGRAMS\Startup\@{productname}.lnk"
+                Delete "$DESKTOP\@{productname}.lnk"
+            SectionEnd
+            """
         self.ignoredPackages.append("binary/mysql")
 
         return TypePackager.createPackage(self)
