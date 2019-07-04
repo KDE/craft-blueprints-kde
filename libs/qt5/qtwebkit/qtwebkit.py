@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
 
         self.svnTargets["5.10"] = self.svnTargets["5.9"]
         self.svnTargets["5.11"] = self.svnTargets["5.9"]
-        for ver in ["5.12"]:
+        for ver in ["5.12", "5.13"]:
             self.svnTargets[ver] = self.svnTargets["5.212"]
             self.patchToApply[ver] = self.patchToApply["5.212"]
 
