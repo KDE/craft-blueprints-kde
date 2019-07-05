@@ -20,6 +20,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/phonon"] = None
         if OsUtils.isMac():
             self.runtimeDependencies["libs/qt5/qtmacextras"] = None
+        if OsUtils.isWin():
+            self.runtimeDependencies["dev-utils/snoretoast"] = None
 
 
 from Package.CMakePackageBase import *
