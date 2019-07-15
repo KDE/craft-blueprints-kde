@@ -28,4 +28,5 @@ class Package(AutoToolsPackageBase):
         if not super().install():
             return False
         self.subinfo.options.make.supportsMultijob = old
+        return True
 
