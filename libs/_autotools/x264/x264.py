@@ -21,3 +21,11 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args = "--enable-shared"
 
+
+    def install(self):
+        old = self.subinfo.options.make.supportsMultijob
+        self.subinfo.options.make.supportsMultijob = False
+        if not super().install():
+            return False
+        self.subinfo.options.make.supportsMultijob = old
+
