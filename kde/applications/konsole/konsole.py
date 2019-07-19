@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kpty"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
 
 
 from Package.CMakePackageBase import *
