@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://www.libssh2.org/download/libssh2-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libssh2-{ver}"
         self.targetDigests["1.8.0"] = (['39f34e2f6835f4b992cafe8625073a88e5a28ba78f83e8099610a7b3af4676d4'], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["1.8.0"] = 4
+        self.patchLevel["1.8.0"] = 5
         self.defaultTarget = '1.8.0'
 
     def setDependencies( self ):
@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
 
 from Package.CMakePackageBase import *
 
-if CraftCore.compiler.isWindows:
+if CraftCore.compiler.isGCCLike():
     class Package(CMakePackageBase):
         def __init__(self, **args):
             CMakePackageBase.__init__(self)
