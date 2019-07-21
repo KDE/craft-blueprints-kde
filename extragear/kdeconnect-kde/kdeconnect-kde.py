@@ -81,6 +81,14 @@ class Package(CMakePackageBase):
             if not utils.copyFile(os.path.join(libPath, "libexec", "kdeconnectd"), 
                 os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
                 return False
-        
+
+            if not utils.copyFile(os.path.join(archiveDir, "Applications", "KDE", "kdeconnect.app", "Contents", "MacOS", "kdeconnect"),
+                os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
+                return False
+
+            if not utils.copyFile(os.path.join(archiveDir, "Applications", "KDE", "kdeconnect-sms.app", "Contents", "MacOS", "kdeconnect-sms"),
+                os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
+                return False
+
         return utils.mergeTree(os.path.join(archiveDir, "lib/qca-qt5"), 
             pluginPath if CraftCore.compiler.isMacOS else binPath)
