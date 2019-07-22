@@ -53,6 +53,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/libpng"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
+        self.runtimeDependencies["libs/webp"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtscript"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
