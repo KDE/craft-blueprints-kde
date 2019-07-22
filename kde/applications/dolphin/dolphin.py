@@ -30,10 +30,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
-
-        # While KDNSSD is nice, it doesn't work on macOS, so we cannot have kio-extras there
-        if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
+        self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
 
 
 from Package.CMakePackageBase import *
