@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
 
         self.patchToApply["5.12.3"] = [("0001-Fix-building-GN-with-VS-2019.patch", 1),
                                        ("c6fb532d81f405b2456c382aa0b29eef8866f993.patch", 1)]
+        self.patchToApply["5.13.0"] = [("20b5e27.diff", 1)]
 
         for ver in self.versionInfo.tarballs() + self.versionInfo.branches() + self.versionInfo.tags():
             qtVer = CraftVersion(ver)

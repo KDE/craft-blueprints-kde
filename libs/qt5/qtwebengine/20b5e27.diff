@@ -1,0 +1,78 @@
+
+From 20b5e2797c7495a69a4969c8eb2db90a2599d65c Mon Sep 17 00:00:00 2001
+From: Allan Sandfeld Jensen <allan.jensen@qt.io>
+Date: Tue, 04 Jun 2019 16:13:43 +0000
+Subject: [PATCH] Revert "Make .moc files jumbo built"
+
+This reverts commit 87570b4e360ab62ef5791d5c23ddd36aaa07ba05.
+
+Reason for revert: Made QTBUG-59769 worse
+
+Task-number: QTBUG-59769
+Change-Id: I616930145eb6f89d6167f10d5be56b2ae898f29d
+Reviewed-by: Michal Klocek <michal.klocek@qt.io>
+ 
+ 
+ 
+---
+
+diff --git a/mkspecs/features/gn_generator.prf b/mkspecs/features/gn_generator.prf
+index 78b56d1..863169c 100644
+--- a/mkspecs/features/gn_generator.prf
++++ b/mkspecs/features/gn_generator.prf
+@@ -26,8 +26,6 @@
+ isEmpty(GN_RUN_BINARY_SCRIPT): GN_RUN_BINARY_SCRIPT = "//build/gn_run_binary.py"
+ isEmpty(GN_FIND_MOCABLES_SCRIPT): GN_FIND_MOCABLES_SCRIPT = "//build/gn_find_mocables.py"
+ 
+-GN_CONTENTS += "import(\"//build/config/jumbo.gni\")"
+-
+ # MOC SETUP
+ 
+ GN_CONTENTS += "moc_source_h_files = exec_script(\"$$GN_FIND_MOCABLES_SCRIPT\","
+@@ -176,26 +174,6 @@
+ 
+ # TARGET SETUP
+ 
+-GN_CONTENTS += "jumbo_source_set(\"$${TARGET}_MOC\") {"
+-GN_CONTENTS += "  configs += [ \":$${TARGET}_config\" ]"
+-GN_CONTENTS += "  configs += [ \"//build/config:precompiled_headers\" ]"
+-GN_CONTENTS += "  sources = []"
+-GN_CONTENTS += "  deps = []"
+-GN_CONTENTS += "  if (moc_source_h_files != []) {"
+-GN_CONTENTS += "    deps += ["
+-GN_CONTENTS += "        \":generate_h_mocs\","
+-GN_CONTENTS += "    ]"
+-# Add moc output files to compile
+-GN_CONTENTS += "    sources += get_target_outputs(\":generate_h_mocs\")"
+-GN_CONTENTS += "  }"
+-GN_CONTENTS += "  if (moc_source_cpp_files != []) {"
+-GN_CONTENTS += "    deps += ["
+-GN_CONTENTS += "        \":generate_cpp_mocs\","
+-GN_CONTENTS += "    ]"
+-GN_CONTENTS += "  }"
+-GN_CONTENTS += "}"
+-
+-
+ TARGET_TYPE = $$getTargetType()
+ 
+ GN_CONTENTS += "$${TARGET_TYPE}(\"$$TARGET\") {"
+@@ -248,7 +226,18 @@
+     CONFIG(rtti): GN_CONTENTS += "  configs += [\"//build/config/compiler:rtti\"]"
+ }
+ 
+-GN_CONTENTS += "  deps += [ \":$${TARGET}_MOC\" ]"
++GN_CONTENTS += "  if (moc_source_h_files != []) {"
++GN_CONTENTS += "    deps += ["
++GN_CONTENTS += "        \":generate_h_mocs\","
++GN_CONTENTS += "    ]"
++# Add moc output files to compile
++GN_CONTENTS += "    sources += get_target_outputs(\":generate_h_mocs\")"
++GN_CONTENTS += "  }"
++GN_CONTENTS += "  if (moc_source_cpp_files != []) {"
++GN_CONTENTS += "    deps += ["
++GN_CONTENTS += "        \":generate_cpp_mocs\","
++GN_CONTENTS += "    ]"
++GN_CONTENTS += "  }"
+ GN_CONTENTS += "}"
+ GN_CONTENTS += ""
+ GN_CONTENTS += "if (!defined(core_include_dirs)) {"\
