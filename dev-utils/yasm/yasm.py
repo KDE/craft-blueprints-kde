@@ -27,25 +27,11 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        if CraftCore.compiler.isUnix:
-            self.targets['1.3.0'] = "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz"
-            self.targetDigests['1.3.0'] = (['3dce6601b495f5b3d45b59f7d2492a340ee7e84b5beca17e48f862502bd5603f'], CraftHash.HashAlgorithm.SHA256)
-            self.targetInstSrc['1.3.0'] = "yasm-1.3.0"
-        elif CraftCore.compiler.isX64():
-            if CraftCore.compiler.isMinGW():
-                self.targets['1.3.0'] = "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe"
-            if CraftCore.compiler.isMSVC():
-                self.targets['1.3.0'] = "http://www.tortall.net/projects/yasm/releases/vsyasm-1.3.0-win64.zip"
-        else:
-            if CraftCore.compiler.isMinGW():
-                self.targets['1.3.0'] = "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win32.exe"
-            if CraftCore.compiler.isMSVC():
-                self.targets['1.3.0'] = "http://www.tortall.net/projects/yasm/releases/vsyasm-1.3.0-win32.zip"
-
-        if CraftCore.compiler.isUnix:
-            self.targetInstallPath["1.3.0"] = "dev-utils"
-        else:
-            self.targetInstallPath["1.3.0"] = os.path.join("dev-utils", "bin")
+        self.targets['1.3.0'] = "https://github.com/yasm/yasm/archive/v1.3.0.tar.gz"
+        self.archiveNames["1.3.0"] = "yasm-1.3.0.tar.gz"
+        self.targetDigests['1.3.0'] = (['f708be0b7b8c59bc1dbe7134153cd2f31faeebaa8eec48676c10f972a1f13df3'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc['1.3.0'] = "yasm-1.3.0"
+        self.targetInstallPath["1.3.0"] = "dev-utils"
 
         self.description = "The Yasm Modular Assembler Project"
         self.defaultTarget = '1.3.0'
@@ -55,40 +41,19 @@ class subinfo(info.infoclass):
             self.buildDependencies["libs/gettext"] = None
             self.buildDependencies["libs/iconv"] = None
             self.buildDependencies["dev-utils/intltool"] = None
+            self.buildDependencies["dev-utils/cmake"] = None
 
         self.runtimeDependencies["virtual/bin-base"] = None
 
 
 from Package.AutoToolsPackageBase import *
-from Package.BinaryPackageBase import *
-
-class PackageAutotools(AutoToolsPackageBase):
-    def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
-
-class BinaryPackage(BinaryPackageBase):
-    def __init__(self, **args):
-        BinaryPackageBase.__init__(self)
-        
-    def install(self):
-        if not BinaryPackageBase.install(self):
-            return False
-        if CraftCore.compiler.isMinGW_W32():
-            shutil.move(os.path.join(self.installDir(), "yasm-1.3.0-win32.exe"),
-                        os.path.join(self.installDir(), "yasm.exe"))
-        if CraftCore.compiler.isMinGW_W64():
-            shutil.move(os.path.join(self.installDir(), "yasm-1.3.0-win64.exe"),
-                        os.path.join(self.installDir(), "yasm.exe"))
-        
-        return True
-
+from Package.CMakePackageBase import *
 
 if CraftCore.compiler.isUnix:
-    class Package(PackageAutotools):
-        def __init__(self):
-            PackageAutotools.__init__(self)
+    class Package(AutoToolsPackageBase):
+        def __init__(self, **args):
+            AutoToolsPackageBase.__init__(self)
 else:
-    class Package(BinaryPackage):
-        def __init__(self):
-            BinaryPackage.__init__(self)
-            ## @todo remove the readme.txt file
+    class Package(CMakePackageBase):
+        def __init__(self, **args):
+            CMakePackageBase.__init__(self)
