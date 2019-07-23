@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kpeople"] = None
+        self.runtimeDependencies["kde/unreleased/kpeoplevcard"] = None
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
 
 class Package(CMakePackageBase):
