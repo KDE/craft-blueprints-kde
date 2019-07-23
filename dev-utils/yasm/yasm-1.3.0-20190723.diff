@@ -1,0 +1,96 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' yasm-1.3.0.orig/frontends/yasm/yasm-plugin.c yasm-1.3.0/frontends/yasm/yasm-plugin.c
+--- yasm-1.3.0.orig/frontends/yasm/yasm-plugin.c	2014-08-11 08:18:52.000000000 +0200
++++ yasm-1.3.0/frontends/yasm/yasm-plugin.c	2019-07-23 17:47:56.000000000 +0200
+@@ -31,7 +31,7 @@
+ #include "libyasm-stdint.h"
+ #include "yasm-plugin.h"
+ 
+-#if defined(_MSC_VER)
++#if defined(_WIN32)
+ #include <windows.h>
+ #elif defined(__GNUC__)
+ #include <dlfcn.h>
+@@ -43,7 +43,7 @@
+ static void *
+ load_dll(const char *name)
+ {
+-#if defined(_MSC_VER)
++#if defined(_WIN32)
+     return LoadLibrary(name);
+ #elif defined(__GNUC__)
+     return dlopen(name, RTLD_NOW);
+@@ -62,7 +62,7 @@
+     /* Load library */
+ 
+     path = yasm_xmalloc(strlen(name)+10);
+-#if defined(_MSC_VER)
++#if defined(_WIN32)
+     strcpy(path, name);
+     strcat(path, ".dll");
+     lib = load_dll(path);
+@@ -92,7 +92,7 @@
+ 
+     /* Get yasm_init_plugin() function and run it */
+ 
+-#if defined(_MSC_VER)
++#if defined(_WIN32)
+     init_plugin =
+         (void (*)(void))GetProcAddress((HINSTANCE)lib, "yasm_init_plugin");
+ #elif defined(__GNUC__)
+@@ -115,7 +115,7 @@
+         return;
+ 
+     for (i = 0; i < num_loaded_plugins; i++) {
+-#if defined(_MSC_VER)
++#if defined(_WIN32)
+         FreeLibrary((HINSTANCE)loaded_plugins[i]);
+ #elif defined(__GNUC__)
+         dlclose(loaded_plugins[i]);
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' yasm-1.3.0.orig/libyasm-stdint.h.cmake yasm-1.3.0/libyasm-stdint.h.cmake
+--- yasm-1.3.0.orig/libyasm-stdint.h.cmake	2014-08-11 08:18:52.000000000 +0200
++++ yasm-1.3.0/libyasm-stdint.h.cmake	2019-07-23 17:51:49.000000000 +0200
+@@ -26,7 +26,7 @@
+ #endif
+ 
+ #ifndef YASM_LIB_DECL
+-# if defined(BUILD_SHARED_LIBS) && defined(_MSC_VER)
++# if defined(BUILD_SHARED_LIBS) && defined(_WIN32)
+ #  ifdef YASM_LIB_SOURCE
+ #   define YASM_LIB_DECL __declspec(dllexport)
+ #  else
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' yasm-1.3.0.orig/modules/CMakeLists.txt yasm-1.3.0/modules/CMakeLists.txt
+--- yasm-1.3.0.orig/modules/CMakeLists.txt	2014-08-11 08:18:52.000000000 +0200
++++ yasm-1.3.0/modules/CMakeLists.txt	2019-07-23 17:51:30.000000000 +0200
+@@ -57,7 +57,7 @@
+              "extern yasm_${_type}_module yasm_${_keyword}_LTX_${_type};\n")
+     ENDFOREACH(module)
+     IF(BUILD_SHARED_LIBS)
+-        FILE(APPEND ${INIT_PLUGIN_C} "\n#ifdef _MSC_VER\n")
++        FILE(APPEND ${INIT_PLUGIN_C} "\n#ifdef _WIN32\n")
+         FILE(APPEND ${INIT_PLUGIN_C} "__declspec(dllexport)\n")
+         FILE(APPEND ${INIT_PLUGIN_C} "#endif\n")
+     ENDIF(BUILD_SHARED_LIBS)
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' yasm-1.3.0.orig/plugins/dbg/init_plugin.c yasm-1.3.0/plugins/dbg/init_plugin.c
+--- yasm-1.3.0.orig/plugins/dbg/init_plugin.c	2014-08-11 08:18:52.000000000 +0200
++++ yasm-1.3.0/plugins/dbg/init_plugin.c	2019-07-23 17:51:37.000000000 +0200
+@@ -3,7 +3,7 @@
+ 
+ extern yasm_arch_module yasm_dbg_LTX_objfmt;
+ 
+-#ifdef _MSC_VER
++#ifdef _WIN32
+ __declspec(dllexport)
+ #endif
+ void
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' yasm-1.3.0.orig/plugins/x86/init_plugin.c yasm-1.3.0/plugins/x86/init_plugin.c
+--- yasm-1.3.0.orig/plugins/x86/init_plugin.c	2014-08-11 08:18:52.000000000 +0200
++++ yasm-1.3.0/plugins/x86/init_plugin.c	2019-07-23 17:51:45.000000000 +0200
+@@ -3,7 +3,7 @@
+ 
+ extern yasm_arch_module yasm_x86_LTX_arch;
+ 
+-#ifdef _MSC_VER
++#ifdef _WIN32
+ __declspec(dllexport)
+ #endif
+ void
