@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
         self.targetInstSrc['1.3.0'] = "yasm-1.3.0"
         self.targetInstallPath["1.3.0"] = "dev-utils"
         self.patchToApply["1.3.0"] = [("yasm-1.3.0-20190723.diff", 1)]
-        self.patchLevel["1.3.0"] = 1
+        self.patchLevel["1.3.0"] = 2
 
         self.description = "The Yasm Modular Assembler Project"
         self.defaultTarget = '1.3.0'
@@ -51,7 +51,7 @@ class subinfo(info.infoclass):
 from Package.AutoToolsPackageBase import *
 from Package.CMakePackageBase import *
 
-if CraftCore.compiler.isUnix:
+if CraftCore.compiler.isGCCLike():
     class Package(AutoToolsPackageBase):
         def __init__(self, **args):
             AutoToolsPackageBase.__init__(self)
