@@ -33,6 +33,7 @@ class subinfo(info.infoclass):
         self.targetInstSrc['1.3.0'] = "yasm-1.3.0"
         self.targetInstallPath["1.3.0"] = "dev-utils"
         self.patchToApply["1.3.0"] = [("yasm-1.3.0-20190723.diff", 1)]
+        self.patchLevel["1.3.0"] = 1
 
         self.description = "The Yasm Modular Assembler Project"
         self.defaultTarget = '1.3.0'
@@ -58,3 +59,4 @@ else:
     class Package(CMakePackageBase):
         def __init__(self, **args):
             CMakePackageBase.__init__(self)
+            self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=OFF"
