@@ -68,7 +68,7 @@ class Package(CMakePackageBase):
         binPath = os.path.join(archiveDir, "bin")
 
         if CraftCore.compiler.isMacOS:
-            # Move kdeconnect-cli and kdeconnectd to package
+            # Move kdeconnect, kdeconnect-cli, kdeconnect-sms and dbus-daemon to the package
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
             if not utils.copyFile(os.path.join(binPath, "dbus-daemon"), 
