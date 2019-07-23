@@ -55,6 +55,8 @@ if CraftCore.compiler.isGCCLike():
     class Package(AutoToolsPackageBase):
         def __init__(self, **args):
             AutoToolsPackageBase.__init__(self)
+            self.subinfo.options.configure.autoreconfArgs += " -I m4"
+
 else:
     class Package(CMakePackageBase):
         def __init__(self, **args):
