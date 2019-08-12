@@ -10,6 +10,8 @@ class subinfo(info.infoclass):
             self.patchToApply["5.57.0"] = [("kactivities-stats-5.55.0-20190320.diff", 1)]
             self.patchToApply["5.58.0"] = [("kactivities-stats-5.55.0-20190320.diff", 1)]
             self.patchToApply["5.59.0"] = [("kactivities-stats-5.55.0-20190320.diff", 1)]
+            self.patchToApply["5.60.0"] = [("kactivities-stats-5.55.0-20190320.diff", 1)]
+            self.patchToApply["5.61.0"] = [("kactivities-stats-5.55.0-20190320.diff", 1)]
 
 
         self.description = "A library for accessing the usage data collected by the activities system"
