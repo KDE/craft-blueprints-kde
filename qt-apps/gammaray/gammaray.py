@@ -6,7 +6,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "[git]https://github.com/KDAB/GammaRay.git"
-        for ver in ["2.7.0", "2.9.0", "2.9.1", "2.10.0"]:
+        for ver in ["2.7.0", "2.9.0", "2.9.1", "2.10.0", "2.11.0"]:
             self.targets[ver] = f"https://github.com/KDAB/GammaRay/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"GammaRay-{ver}"
             self.archiveNames[ver] = f"gammaray-{ver}.tar.gz"
@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.webpage = "http://www.kdab.com/gammaray"
         self.displayName = "GammaRay"
 
-        self.defaultTarget = "2.10.0"
+        self.defaultTarget = "2.11.0"
 
     def registerOptions(self):
         self.options.dynamic.registerOption("gammarayProbeOnly", False)
