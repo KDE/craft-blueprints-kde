@@ -116,16 +116,11 @@ class Package(AutoToolsPackageBase):
         if not self.copyToMsvcImportLib():
             return False
         if self.subinfo.options.dynamic.enableCPP:
-            cmakes = [ os.path.join(self.installDir(), "lib" , "cmake", "Gpgmepp", "GpgmeppConfig.cmake"),
+            badFiles = [ os.path.join(self.installDir(), "lib" , "cmake", "Gpgmepp", "GpgmeppConfig.cmake"),
                         os.path.join(self.installDir(), "lib" , "cmake", "QGpgme", "QGpgmeConfig.cmake") ]
         else:
-            cmakes = []
-        return (self.patchInstallPrefix(cmakes,
-                                        OsUtils.toMSysPath(self.subinfo.buildPrefix),
-                                        OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())) and
-                self.patchInstallPrefix(cmakes,
-                                        OsUtils.toUnixPath(self.subinfo.buildPrefix),
-                                        OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())) and
-                self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "gpgme-config")],
-                                        OsUtils.toMSysPath(self.subinfo.buildPrefix),
-                                        OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot())))
+            badFiles = []
+        badFiles.append(os.path.join(self.installDir(), "bin", "gpgme-config"))
+        return self.patchInstallPrefix(badFiles,
+                                        [OsUtils.toMSysPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(self.subinfo.buildPrefix)],
+                                        CraftCore.standardDirs.craftRoot())
