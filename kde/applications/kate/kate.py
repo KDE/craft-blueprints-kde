@@ -6,6 +6,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.patchLevel["18.08.1"] = 1
+        self.patchToApply["19.04.3"] = [("kate-19.04.3-20190813.diff", 1)]
 
         self.displayName = "Kate"
         self.description = "the KDE text editor"
