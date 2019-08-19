@@ -41,7 +41,7 @@ class Package(CMakePackageBase):
             self.defines["sections"] = r"""
                 !define MyApp_AppUserModelId  org.kde.kdeconnect.daemon
                 !define SnoreToastExe "$INSTDIR\bin\SnoreToast.exe"
-    
+
                 Section "@{productname}"
                     SectionIn 1
                     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
@@ -60,6 +60,10 @@ class Package(CMakePackageBase):
                 """
         else:
             self.defines["shortcuts"] = [{"name" : self.subinfo.displayName , "target" : f"bin/{self.defines['appname']}{CraftCore.compiler.executableSuffix}", "description" : self.subinfo.description}]
+            self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "Square150x150Logo.scale-100.png")
+            self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "Square44x44Logo.scale-100.png")
+            self.defines["icon_png_310x150"] = os.path.join(self.packageDir(), ".assets", "Wide310x150Logo.scale-100.png")
+            self.defines["icon_png_310x310"] = os.path.join(self.packageDir(), ".assets", "Square310x310Logo.scale-100.png")
 
         self.ignoredPackages.append("binary/mysql")
         return TypePackager.createPackage(self)
@@ -75,11 +79,11 @@ class Package(CMakePackageBase):
             # Move kdeconnect, kdeconnect-cli, kdeconnect-sms and dbus-daemon to the package
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
-            if not utils.copyFile(os.path.join(binPath, "dbus-daemon"), 
+            if not utils.copyFile(os.path.join(binPath, "dbus-daemon"),
                 os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
                 return False
-            
-            if not utils.copyFile(os.path.join(binPath, "kdeconnect-cli"), 
+
+            if not utils.copyFile(os.path.join(binPath, "kdeconnect-cli"),
                 os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
                 return False
 
@@ -91,5 +95,5 @@ class Package(CMakePackageBase):
                 os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
                 return False
 
-        return utils.mergeTree(os.path.join(archiveDir, "lib/qca-qt5"), 
+        return utils.mergeTree(os.path.join(archiveDir, "lib/qca-qt5"),
             pluginPath if CraftCore.compiler.isMacOS else binPath)
