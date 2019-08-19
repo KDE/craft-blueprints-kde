@@ -36,29 +36,32 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
         self.defines["appname"] = "kdeconnect-indicator"
 
-        self.defines["nsis_include"] = f"!include {self.packageDir()}\\SnoreNotify.nsh"
-        self.defines["sections"] = r"""
-            !define MyApp_AppUserModelId  org.kde.kdeconnect.daemon
-            !define SnoreToastExe "$INSTDIR\bin\SnoreToast.exe"
+        if isinstance(self, NullsoftInstallerPackager):
+            self.defines["nsis_include"] = f"!include {self.packageDir()}\\SnoreNotify.nsh"
+            self.defines["sections"] = r"""
+                !define MyApp_AppUserModelId  org.kde.kdeconnect.daemon
+                !define SnoreToastExe "$INSTDIR\bin\SnoreToast.exe"
+    
+                Section "@{productname}"
+                    SectionIn 1
+                    !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
+                        !insertmacro SnoreShortcut "$SMPROGRAMS\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe" "${MyApp_AppUserModelId}"
+                        CreateShortCut "$SMPROGRAMS\Startup\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe"
+                        CreateShortCut "$DESKTOP\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe"
+                    !insertmacro MUI_STARTMENU_WRITE_END
+                SectionEnd
+                """
+            self.defines["un_sections"]=r"""
+                Section "Un.Remove Shortcuts"
+                    Delete "$SMPROGRAMS\@{productname}.lnk"
+                    Delete "$SMPROGRAMS\Startup\@{productname}.lnk"
+                    Delete "$DESKTOP\@{productname}.lnk"
+                SectionEnd
+                """
+        else:
+            self.defines["shortcuts"] = [{"name" : self.subinfo.displayName , "target" : f"bin/{self.defines['appname']}{CraftCore.compiler.executableSuffix}", "description" : self.subinfo.description}]
 
-            Section "@{productname}"
-                SectionIn 1
-                !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-                    !insertmacro SnoreShortcut "$SMPROGRAMS\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe" "${MyApp_AppUserModelId}"
-                    CreateShortCut "$SMPROGRAMS\Startup\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe"
-                    CreateShortCut "$DESKTOP\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe"
-                !insertmacro MUI_STARTMENU_WRITE_END
-            SectionEnd
-            """
-        self.defines["un_sections"]=r"""
-            Section "Un.Remove Shortcuts"
-                Delete "$SMPROGRAMS\@{productname}.lnk"
-                Delete "$SMPROGRAMS\Startup\@{productname}.lnk"
-                Delete "$DESKTOP\@{productname}.lnk"
-            SectionEnd
-            """
         self.ignoredPackages.append("binary/mysql")
-
         return TypePackager.createPackage(self)
 
     def preArchive(self):
