@@ -5,7 +5,7 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["8.41"]:
-            self.targets[ver] = f"ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-{ver}.tar.bz2"
+            self.targets[ver] = f"https://ftp.pcre.org/pub/pcre/pcre-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"pcre-{ver}"
         self.patchToApply["8.41"] = [("pcre-8.10-20101125.diff", 1)]
         self.targetDigests['8.41'] = (
