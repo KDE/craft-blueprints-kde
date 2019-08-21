@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/boost/boost-bjam"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["libs/libxml2"] = None
+        self.buildDependencies["dev-utils/python3"] = None
 
 
 from Package.CMakePackageBase import *
@@ -111,3 +112,11 @@ class Package(CMakePackageBase):
             if not maybeCopy(os.path.join(self.installDir(), "bin", "clang-cl")):
                 return False
         return maybeCopy(os.path.join(self.installDir(), "bin", "clang++"))
+
+    def postInstall(self):
+        if CraftCore.compiler.isWindows:
+            # wrapper for python scripts
+            root = Path(CraftCore.standardDirs.craftRoot())
+            if not utils.createShim(os.path.join(self.installDir(), "bin","git-clang-format.exe"), root / "dev-utils/bin/python3.exe", [ root/ "bin/git-clang-format"], useAbsolutePath=True):
+                return False
+        return True
