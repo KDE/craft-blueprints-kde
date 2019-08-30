@@ -48,6 +48,8 @@ class Package(CMakePackageBase):
                         !insertmacro SnoreShortcut "$SMPROGRAMS\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe" "${MyApp_AppUserModelId}"
                         CreateShortCut "$SMPROGRAMS\Startup\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe"
                         CreateShortCut "$DESKTOP\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe"
+                        CreateShortCut "$SENDTO\Send to remote device via @{productname}.lnk" "$INSTDIR\bin\kdeconnect-handler.exe"  "" "$INSTDIR\bin\@{appname}.exe" 0
+                        CreateShortCut "$SENDTO\Open on remote device via @{productname}.lnk" "$INSTDIR\bin\kdeconnect-handler.exe"  "--open" "$INSTDIR\bin\@{appname}.exe" 0
                     !insertmacro MUI_STARTMENU_WRITE_END
                 SectionEnd
                 """
@@ -56,6 +58,8 @@ class Package(CMakePackageBase):
                     Delete "$SMPROGRAMS\@{productname}.lnk"
                     Delete "$SMPROGRAMS\Startup\@{productname}.lnk"
                     Delete "$DESKTOP\@{productname}.lnk"
+                    Delete "$SENDTO\Send to remote device via @{productname}.lnk"
+                    Delete "$SENDTO\Open on remote device via @{productname}.lnk"
                 SectionEnd
                 """
         else:
