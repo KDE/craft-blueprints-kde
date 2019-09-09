@@ -8,4 +8,4 @@ qml/QtWinExtras
 qml/QtTest
 
 # strip most executables
-bin/(?!(kate|kwrite|update-mime-database|kioslave)).*\.exe
+bin/(?!(kate|update-mime-database|kioslave)).*\.exe
