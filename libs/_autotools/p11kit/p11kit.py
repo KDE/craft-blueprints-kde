@@ -17,6 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libtasn1"] = None
         self.runtimeDependencies["libs/libffi"] = None
+        self.runtimeDependencies["libs/gettext"] = None
 
 
 class Package(AutoToolsPackageBase):
