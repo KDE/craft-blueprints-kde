@@ -108,6 +108,11 @@ class PackageAutoTools(AutoToolsPackageBase):
         return self.shell.execute(self.buildDir(), os.path.join(self.sourceDir(), "Configure"),
                                   self.subinfo.options.configure.args)
 
+    def postInstall(self):
+        hardCoded = [os.path.join(self.imageDir(), x) for x in ["bin/pod2man"]]
+        return self.patchInstallPrefix(hardCoded, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())
+
+
 
 
 if CraftCore.compiler.isUnix:
