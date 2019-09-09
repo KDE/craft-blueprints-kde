@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
+        self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libtasn1"] = None
         self.runtimeDependencies["libs/libffi"] = None
