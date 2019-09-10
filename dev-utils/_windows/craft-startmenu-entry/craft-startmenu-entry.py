@@ -34,7 +34,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("usePowershellCore", False)
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/kshim"] = None
+        self.buildDependencies["dev-utils/kshimgen"] = None
 
 from Package.BinaryPackageBase import *
 
