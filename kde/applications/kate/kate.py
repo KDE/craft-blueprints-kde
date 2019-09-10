@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
 
         self.displayName = "Kate"
         self.description = "the KDE text editor"
+        self.webpage = "https://kate-editor.org/"
 
     def registerOptions(self):
         self.options.dynamic.registerOption("fullPlasma", False)
