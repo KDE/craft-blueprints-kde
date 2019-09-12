@@ -1,0 +1,369 @@
+diff --git a/kstars/ekos/align/align.cpp b/kstars/ekos/align/align.cpp
+index 606c92075..c5fb5f879 100644
+--- a/kstars/ekos/align/align.cpp
++++ b/kstars/ekos/align/align.cpp
+@@ -56,7 +56,7 @@
+ 
+ namespace Ekos
+ {
+-// 30 arcmiutes RA movement
++// 30 arcminutes RA movement
+ const double Align::RAMotion = 0.5;
+ // Sidereal rate, degrees/s
+ const double Align::SIDRATE = 0.004178;
+@@ -218,11 +218,11 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
+     page = dialog->addPage(opsAstrometry, i18n("Solver Options"));
+     page->setIcon(QIcon::fromTheme("configure"));
+ 
++#ifndef Q_OS_WIN
+     opsAstrometryCfg = new OpsAstrometryCfg(this);
+     page = dialog->addPage(opsAstrometryCfg, i18n("Astrometry.cfg"));
+     page->setIcon(QIcon::fromTheme("document-edit"));
+ 
+-#ifndef Q_OS_WIN
+     opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);
+     page = dialog->addPage(opsAstrometryIndexFiles, i18n("Index Files"));
+     page->setIcon(QIcon::fromTheme("map-flat"));
+@@ -2383,7 +2383,7 @@ QStringList Align::generateOptions(const QVariantMap &optionsMap)
+     // -4 Expected DEC
+     // -5 Radius (deg)
+     // -L lower scale of image in arcminutes
+-    // -H upper scale of image in arcmiutes
++    // -H upper scale of image in arcminutes
+     // -u aw set scale to be in arcminutes
+     // -W solution.wcs name of solution file
+     // apog1.jpg name of target file to analyze
+@@ -2464,7 +2464,7 @@ void Align::generateArgs()
+     // -4 Expected DEC
+     // -5 Radius (deg)
+     // -L lower scale of image in arcminutes
+-    // -H upper scale of image in arcmiutes
++    // -H upper scale of image in arcminutes
+     // -u aw set scale to be in arcminutes
+     // -W solution.wcs name of solution file
+     // apog1.jpg name of target file to analyze
+@@ -3775,7 +3775,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
+             if(!PAHManual->isChecked())
+             {
+                 double deltaAngle = fabs(telescopeCoord.ra().deltaAngle(targetPAH.ra()).Degrees());
+-                qCDebug(KSTARS_EKOS_ALIGN) << "First mount rotation remainging degrees:" << deltaAngle;
++                qCDebug(KSTARS_EKOS_ALIGN) << "First mount rotation remaining degrees:" << deltaAngle;
+                 if (deltaAngle <= PAH_ROTATION_THRESHOLD)
+                 {
+                     currentTelescope->StopWE();
+@@ -3807,7 +3807,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
+             if(!PAHManual->isChecked())
+             {
+                 double deltaAngle = fabs(telescopeCoord.ra().deltaAngle(targetPAH.ra()).Degrees());
+-                qCDebug(KSTARS_EKOS_ALIGN) << "Second mount rotation remainging degrees:" << deltaAngle;
++                qCDebug(KSTARS_EKOS_ALIGN) << "Second mount rotation remaining degrees:" << deltaAngle;
+                 if (deltaAngle <= PAH_ROTATION_THRESHOLD)
+                 {
+                     currentTelescope->StopWE();
+@@ -3907,7 +3907,7 @@ void Align::processNumber(INumberVectorProperty *nvp)
+         }
+     }
+ 
+-    // N.B. Ekos::Manager already mananges TELESCOPE_INFO, why here again?
++    // N.B. Ekos::Manager already manages TELESCOPE_INFO, why here again?
+     //if (!strcmp(coord->name, "TELESCOPE_INFO"))
+     //syncTelescopeInfo();
+ }
+@@ -4041,7 +4041,7 @@ void Align::measureAzError()
+     pahStage = PAH_IDLE;
+     emit newPAHStage(pahStage);
+ 
+-    qCDebug(KSTARS_EKOS_ALIGN) << "Polar Measureing Azimuth Error...";
++    qCDebug(KSTARS_EKOS_ALIGN) << "Polar Measuring Azimuth Error...";
+ 
+     switch (azStage)
+     {
+@@ -4143,7 +4143,7 @@ void Align::measureAltError()
+     pahStage = PAH_IDLE;
+     emit newPAHStage(pahStage);
+ 
+-    qCDebug(KSTARS_EKOS_ALIGN) << "Polar Measureing Altitude Error...";
++    qCDebug(KSTARS_EKOS_ALIGN) << "Polar Measuring Altitude Error...";
+ 
+     switch (altStage)
+     {
+diff --git a/kstars/ekos/align/opsastrometryindexfiles.ui b/kstars/ekos/align/opsastrometryindexfiles.ui
+index 4fa973bfb..a20776476 100644
+--- a/kstars/ekos/align/opsastrometryindexfiles.ui
++++ b/kstars/ekos/align/opsastrometryindexfiles.ui
+@@ -23,7 +23,7 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
+ }</string>
+      </property>
+      <property name="text">
+-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Offline&lt;/span&gt; astrometry.net solver requires index files in order to solve an image.  Please see the Astrometrty.net &lt;a href=&quot;http://astrometry.net/doc/readme.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;README&lt;/span&gt;&lt;/a&gt; for details. The following list provides a complete list of the index files, along with recommended index files to install given the current CCD Field of View. Installed index files are checked. Next to each index file is an icon that represents the following:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
++      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Offline&lt;/span&gt; astrometry.net solver requires index files in order to solve an image.  Please see the Astrometry.net &lt;a href=&quot;http://astrometry.net/doc/readme.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;README&lt;/span&gt;&lt;/a&gt; for details. The following list provides a complete list of the index files, along with recommended index files to install given the current CCD Field of View. Installed index files are checked. Next to each index file is an icon that represents the following:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+diff --git a/kstars/ekos/capture/capture.cpp b/kstars/ekos/capture/capture.cpp
+index a58e19818..1fac4c3a6 100644
+--- a/kstars/ekos/capture/capture.cpp
++++ b/kstars/ekos/capture/capture.cpp
+@@ -2058,7 +2058,7 @@ bool Capture::resumeCapture()
+ 
+     // FIXME ought to be able to combine these - only different is value passed
+     //       to checkFocus()
+-    // 2018-08-23 Jasem: For now in-sequence-focusing takes precedense.
++    // 2018-08-23 Jasem: For now in-sequence-focusing takes precedence.
+     if (isInSequenceFocus && requiredAutoFocusStarted == false)
+     {
+         requiredAutoFocusStarted = true;
+diff --git a/kstars/ekos/capture/capture.h b/kstars/ekos/capture/capture.h
+index 4dcffc5e2..5854a9c1b 100644
+--- a/kstars/ekos/capture/capture.h
++++ b/kstars/ekos/capture/capture.h
+@@ -43,7 +43,7 @@ class RotatorSettings;
+  * - Control your telescope, CCD (& DSLRs), filter wheel, focuser, guider, adaptive optics unit, and any INDI-compatible auxiliary device from Ekos.
+  * - Extremely accurate GOTOs using astrometry.net solver (both Online and Offline solvers supported).
+  * - Load & Slew: Load a FITS image, slew to solved coordinates, and center the mount on the exact image coordinates in order to get the same desired frame.
+- * - Measure & Correct Polar Alignment errors using astromety.net solver.
++ * - Measure & Correct Polar Alignment errors using astrometry.net solver.
+  * - Auto and manual focus modes using Half-Flux-Radius (HFR) method.
+  * - Automated unattended meridian flip. Ekos performs post meridian flip alignment, calibration, and guiding to resume the capture session.
+  * - Automatic focus between exposures when a user-configurable HFR limit is exceeded.
+@@ -841,7 +841,7 @@ class Capture : public QWidget, public Ui::Capture
+         int refocusEveryNMinutesValue { 0 };  // number of minutes between forced refocus
+         QElapsedTimer refocusEveryNTimer; // used to determine when next force refocus should occur
+ 
+-        // Meridan flip
++        // Meridian flip
+         SkyPoint initialMountCoords;
+         bool resumeAlignmentAfterFlip { false };
+         bool resumeGuidingAfterFlip { false };
+diff --git a/kstars/ekos/ekoslive/cloud.cpp b/kstars/ekos/ekoslive/cloud.cpp
+index 1911a6670..75a8a5364 100644
+--- a/kstars/ekos/ekoslive/cloud.cpp
++++ b/kstars/ekos/ekoslive/cloud.cpp
+@@ -81,7 +81,7 @@ void Cloud::onConnected()
+ 
+ void Cloud::onDisconnected()
+ {
+-    qCInfo(KSTARS_EKOS) << "Disonnected from Cloud Websocket server.";
++    qCInfo(KSTARS_EKOS) << "Disconnected from Cloud Websocket server.";
+     m_isConnected = false;
+ 
+     disconnect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Cloud::onTextReceived);
+diff --git a/kstars/ekos/ekoslive/media.cpp b/kstars/ekos/ekoslive/media.cpp
+index 895f644a2..ef254583a 100644
+--- a/kstars/ekos/ekoslive/media.cpp
++++ b/kstars/ekos/ekoslive/media.cpp
+@@ -79,7 +79,7 @@ void Media::onConnected()
+ 
+ void Media::onDisconnected()
+ {
+-    qCInfo(KSTARS_EKOS) << "Disonnected from media Websocket server.";
++    qCInfo(KSTARS_EKOS) << "Disconnected from media Websocket server.";
+     m_isConnected = false;
+ 
+     disconnect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Media::onTextReceived);
+diff --git a/kstars/ekos/ekoslive/message.cpp b/kstars/ekos/ekoslive/message.cpp
+index 3148ab19b..ea7372c28 100644
+--- a/kstars/ekos/ekoslive/message.cpp
++++ b/kstars/ekos/ekoslive/message.cpp
+@@ -80,7 +80,7 @@ void Message::onConnected()
+ 
+ void Message::onDisconnected()
+ {
+-    qCInfo(KSTARS_EKOS) << "Disonnected from Message Websocket server.";
++    qCInfo(KSTARS_EKOS) << "Disconnected from Message Websocket server.";
+     m_isConnected = false;
+     disconnect(&m_WebSocket, &QWebSocket::textMessageReceived,  this, &Message::onTextReceived);
+ 
+diff --git a/kstars/ekos/focus/focus.cpp b/kstars/ekos/focus/focus.cpp
+index 359814b83..8653a2101 100644
+--- a/kstars/ekos/focus/focus.cpp
++++ b/kstars/ekos/focus/focus.cpp
+@@ -1177,7 +1177,7 @@ void Focus::setCaptureComplete()
+         // If we have a valid HFR value
+         if (currentHFR > 0)
+         {
+-            // Check if we're done from polynomail fitting algorithm
++            // Check if we're done from polynomial fitting algorithm
+             if (focusAlgorithm == FOCUS_POLYNOMIAL && polySolutionFound == MINIMUM_POLY_SOLUTIONS)
+             {
+                 polySolutionFound = 0;
+@@ -1766,7 +1766,7 @@ void Focus::autoFocusAbs()
+                 {
+                     minHFR    = lastHFR;
+                     minHFRPos = currentPosition;
+-                    qCDebug(KSTARS_EKOS_FOCUS) << "new minHFR " << minHFR << " @ positioin " << minHFRPos;
++                    qCDebug(KSTARS_EKOS_FOCUS) << "new minHFR " << minHFR << " @ position " << minHFRPos;
+                 }
+ 
+                 lastHFRPos = currentPosition;
+@@ -3138,7 +3138,7 @@ void Focus::loadSettings()
+     maxTravelIN->setValue(Options::focusMaxTravel());
+     // Step
+     stepIN->setValue(Options::focusTicks());
+-    // Tolernace
++    // Tolerance
+     toleranceIN->setValue(Options::focusTolerance());
+     // Threshold spin
+     thresholdSpin->setValue(Options::focusThreshold());
+@@ -3312,7 +3312,7 @@ void Focus::initConnections()
+ 
+     // Capture a single frame
+     connect(captureB, &QPushButton::clicked, this, &Ekos::Focus::capture);
+-    // Start continious capture
++    // Start continuous capture
+     connect(startLoopB, &QPushButton::clicked, this, &Ekos::Focus::startFraming);
+     // Use a subframe when capturing
+     connect(useSubFrame, &QCheckBox::toggled, this, &Ekos::Focus::toggleSubframe);
+diff --git a/kstars/ekos/guide/externalguide/linguider.cpp b/kstars/ekos/guide/externalguide/linguider.cpp
+index 6c8e95cd1..5e079020f 100644
+--- a/kstars/ekos/guide/externalguide/linguider.cpp
++++ b/kstars/ekos/guide/externalguide/linguider.cpp
+@@ -322,7 +322,7 @@ void LinGuider::sendCommand(LinGuiderCommand command, const QString &args)
+ 
+ bool LinGuider::calibrate()
+ {
+-    // Let's start calibraiton. It is already calibrated but in this step we auto-select and star and set the square
++    // Let's start calibration. It is already calibrated but in this step we auto-select and star and set the square
+     emit newStatus(Ekos::GUIDE_CALIBRATING);
+ 
+     sendCommand(FIND_STAR);
+diff --git a/kstars/ekos/guide/externalguide/phd2.cpp b/kstars/ekos/guide/externalguide/phd2.cpp
+index 68603b8ad..0233b63a2 100644
+--- a/kstars/ekos/guide/externalguide/phd2.cpp
++++ b/kstars/ekos/guide/externalguide/phd2.cpp
+@@ -284,7 +284,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
+         case StartGuiding:
+             setEquipmentConnected();
+             updateGuideParameters();
+-            // Do not report guiding as started becuase it will start scheduled capture before guiding is settled
++            // Do not report guiding as started because it will start scheduled capture before guiding is settled
+             // just print the log message and GUIDE_STARTED status will be set in SettleDone
+             // phd2 will always send SettleDone event
+             emit newLog(i18n("PHD2: Waiting for guiding to settle."));
+diff --git a/kstars/ekos/manager.cpp b/kstars/ekos/manager.cpp
+index 9c0e43cfc..8b96f4028 100644
+--- a/kstars/ekos/manager.cpp
++++ b/kstars/ekos/manager.cpp
+@@ -145,7 +145,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
+     connect(ekosLiveClient.get()->message(), &EkosLive::Message::previewJPEGGenerated, ekosLiveClient.get()->media(), &EkosLive::Media::sendPreviewJPEG);
+     connect(KSMessageBox::Instance(), &KSMessageBox::newMessage, ekosLiveClient.get()->message(), &EkosLive::Message::sendDialog);
+ 
+-    // Serial Port Assistat
++    // Serial Port Assistant
+     connect(serialPortAssistantB, &QPushButton::clicked, [&]()
+     {
+         serialPortAssistant->show();
+diff --git a/kstars/ekos/mount/mount.h b/kstars/ekos/mount/mount.h
+index 55bb2b6a3..0c5626c49 100644
+--- a/kstars/ekos/mount/mount.h
++++ b/kstars/ekos/mount/mount.h
+@@ -100,7 +100,7 @@ class Mount : public QWidget, public Ui::Mount
+ 
+         /** DBUS interface function.
+              * Returns the mount altitude limits.
+-             * @return Returns array of doubles. First item is minimum altititude in degrees. Second item is maximum altitude limit in degrees.
++             * @return Returns array of doubles. First item is minimum altitude in degrees. Second item is maximum altitude limit in degrees.
+              */
+         Q_SCRIPTABLE QList<double> altitudeLimits();
+ 
+diff --git a/kstars/ekos/observatory/observatoryweathermodel.cpp b/kstars/ekos/observatory/observatoryweathermodel.cpp
+index 9fb154ec6..f3e082b1a 100644
+--- a/kstars/ekos/observatory/observatoryweathermodel.cpp
++++ b/kstars/ekos/observatory/observatoryweathermodel.cpp
+@@ -105,7 +105,7 @@ QString ObservatoryWeatherModel::getWarningActionsStatus()
+     if (warningTimer.isActive())
+     {
+         int remaining = warningTimer.remainingTime() / 1000;
+-        return i18np("%1 second remaining", "%1 seconds remaining", QString::number(remaining));
++        return i18np("%1 second remaining", "%1 seconds remaining", remaining);
+     }
+ 
+     return i18n("Status: inactive");
+@@ -125,7 +125,7 @@ QString ObservatoryWeatherModel::getAlertActionsStatus()
+     if (alertTimer.isActive())
+     {
+         int remaining = alertTimer.remainingTime() / 1000;
+-        return i18np("%1 second remaining", "%1 seconds remaining", QString::number(remaining));
++        return i18np("%1 second remaining", "%1 seconds remaining", remaining);
+     }
+ 
+     return i18n("Status: inactive");
+diff --git a/kstars/ekos/profileeditor.ui b/kstars/ekos/profileeditor.ui
+index a4bd3bb0f..4d8c35dcb 100644
+--- a/kstars/ekos/profileeditor.ui
++++ b/kstars/ekos/profileeditor.ui
+@@ -379,7 +379,7 @@
+       <item row="3" column="4">
+        <widget class="QLabel" name="label_17">
+         <property name="toolTip">
+-         <string>Auxliary #4</string>
++         <string>Auxiliary #4</string>
+         </property>
+         <property name="text">
+          <string>Aux 4:</string>
+@@ -439,7 +439,7 @@
+       <item row="2" column="4">
+        <widget class="QLabel" name="label_15">
+         <property name="toolTip">
+-         <string>Auxliary #3</string>
++         <string>Auxiliary #3</string>
+         </property>
+         <property name="text">
+          <string>Aux 3:</string>
+@@ -568,7 +568,7 @@
+       <item row="0" column="4">
+        <widget class="QLabel" name="label_16">
+         <property name="toolTip">
+-         <string>Auxliary #1</string>
++         <string>Auxiliary #1</string>
+         </property>
+         <property name="text">
+          <string>Aux 1:</string>
+@@ -604,7 +604,7 @@
+       <item row="1" column="4">
+        <widget class="QLabel" name="label_14">
+         <property name="toolTip">
+-         <string>Auxliary #2</string>
++         <string>Auxiliary #2</string>
+         </property>
+         <property name="text">
+          <string>Aux 2:</string>
+diff --git a/kstars/ekos/qMDNS.cpp b/kstars/ekos/qMDNS.cpp
+index 0b0c0c215..ad4fc2234 100644
+--- a/kstars/ekos/qMDNS.cpp
++++ b/kstars/ekos/qMDNS.cpp
+@@ -75,7 +75,7 @@ const int IP4_LENGTH = IPI_LENGTH + 4;
+ const int IP6_LENGTH = IPI_LENGTH + 16;
+ 
+ /**
+- * Encondes the 16-bit \a number as two 8-bit numbers in a byte array
++ * Encodes the 16-bit \a number as two 8-bit numbers in a byte array
+  */
+ QByteArray ENCODE_16_BIT (quint16 number) {
+     QByteArray data;
+diff --git a/kstars/ekos/scheduler/scheduler.cpp b/kstars/ekos/scheduler/scheduler.cpp
+index 8bd7a7439..a935e28d0 100644
+--- a/kstars/ekos/scheduler/scheduler.cpp
++++ b/kstars/ekos/scheduler/scheduler.cpp
+@@ -6033,7 +6033,7 @@ void Scheduler::startMosaicTool()
+         // #1.2 Set directory to output/Target-Part#
+ 
+         // #2 Save all sequence files in Jobs dir
+-        // #3 Set as currnet Sequence file
++        // #3 Set as current Sequence file
+         // #4 Change Target name to Target-Part#
+         // #5 Update J2000 coords
+         // #6 Repeat and save Ekos Scheduler List in the output directory
+diff --git a/kstars/ekos/scheduler/scheduler.h b/kstars/ekos/scheduler/scheduler.h
+index 33042dcb7..c195362d4 100644
+--- a/kstars/ekos/scheduler/scheduler.h
++++ b/kstars/ekos/scheduler/scheduler.h
+@@ -714,7 +714,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
+         QProgressIndicator *pi { nullptr };
+         /// Are we editing a job right now? Job row index
+         int jobUnderEdit { -1 };
+-        /// Pointer to Geograpic locatoin
++        /// Pointer to Geographic location
+         GeoLocation *geo { nullptr };
+         /// How many repeated job batches did we complete thus far?
+         uint16_t captureBatch { 0 };
