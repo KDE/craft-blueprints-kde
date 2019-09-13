@@ -7,5 +7,8 @@ qml/QtWebKit
 qml/QtWinExtras
 qml/QtTest
 
+# we use a icontheme.rc on windows
+bin/data/icons/.*
+
 # strip most executables
 bin/(?!(kate|update-mime-database|kioslave)).*\.exe
