@@ -60,7 +60,7 @@ class Package(CMakePackageBase):
         self.defines["registy_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate" "" "Edit with Kate"\n"""
                                         """WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate\\command" "" '"$INSTDIR\\bin\\kate.exe" "%V"'\n""")
 
-        self.defines["mimetypes"] = ["text/plain"]
+        self.defines["mimetypes"] = ["text/plain", "text/html", "text/xml", "text/css", "text/csv", "application/json", "application/xml", "application/javascript"]
         self.defines["file_types"] = [".ini", ".conf"]
 
 
