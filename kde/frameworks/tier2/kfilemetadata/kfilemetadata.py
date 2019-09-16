@@ -4,11 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply["5.41.0"] = [("0001-Check-for-Linux-instead-of-TagLib-and-avoid-building.patch", 1),
-                                       ("0003-Fix-build-against-TagLib-1.11.patch", 1)]
-        self.patchToApply["5.55.0"] = [("kfilemetadata-5.55.0-20190212.diff", 1)]
 
-        self.patchLevel["5.55.0"] = 1
         self.description = "A file metadata and text extraction library"
 
     def setDependencies(self):
