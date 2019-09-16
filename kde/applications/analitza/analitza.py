@@ -6,11 +6,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "Analitza Library"
-        if CraftCore.compiler.isMacOS:
-            self.patchToApply[self.defaultTarget] = [("analitza-18.08.1-20181022.diff", 1)]
-
-        for ver in ['17.08.3']:
-            self.patchToApply[ver] = [("0001-Remove-unneeded-type-conversion.patch", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
