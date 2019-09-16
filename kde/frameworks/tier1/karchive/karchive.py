@@ -4,8 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchLevel["5.44.0"] = 1
-        self.patchLevel["5.57.0"] = 1
 
         self.description = "Qt 5 addon providing access to numerous types of archives"
 

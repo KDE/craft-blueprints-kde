@@ -4,7 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchLevel["5.57.0"] = 1
 
         self.description = "Plugins allowing Qt applications to access further types of images"
 
