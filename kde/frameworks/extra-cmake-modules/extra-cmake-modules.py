@@ -29,15 +29,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        for ver in self.versionInfo.tarballs() + self.versionInfo.branches() + self.versionInfo.tags():
-            ecmVer = CraftVersion(ver)
-            if ecmVer <= CraftVersion("5.48.0"):
-              self.patchLevel[ver] = 3
-              self.patchToApply[ver] = ('icotool.diff', 1)
-        self.patchToApply["5.54.0"] = [("extra-cmake-modules-5.54.0-20190126.diff", 1)]
-        self.patchToApply["5.55.0"] = [("extra-cmake-modules-5.54.0-20190126.diff", 1),
-                                       ("pkgconfig-fix.diff", 1)]
-        self.patchLevel["5.54.0"] = 1
         self.tags = "ECM"
 
     def setDependencies(self):
