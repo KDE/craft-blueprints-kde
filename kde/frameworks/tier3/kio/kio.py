@@ -41,5 +41,6 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args += f" -DKIO_ASSERT_SLAVE_STATES={'ON' if self.buildType() == 'Debug' else 'OFF'}"
         if OsUtils.isWin() or OsUtils.isMac():
-            self.subinfo.options.configure.args = " -DKIO_FORK_SLAVES=ON "
+            self.subinfo.options.configure.args += " -DKIO_FORK_SLAVES=ON "
