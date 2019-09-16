@@ -7,8 +7,6 @@ class subinfo(info.infoclass):
 
         self.description = "Baloo is a file indexing and searching framework."
 
-        self.patchToApply['5.51.0'] = ('fix-lmdb-finding.patch', 1)
-
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
