@@ -50,6 +50,7 @@ class Package(CMakePackageBase):
         self.defines["executable"] = "bin\\okular.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "okular.ico")
         self.defines["mimetypes"] = ["application/pdf"]
+        self.defines["file_types"] = [".pdf"]
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")
