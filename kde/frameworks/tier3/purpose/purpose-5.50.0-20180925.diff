@@ -1,9 +1,0 @@
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' purpose-5.50.0.orig/CMakeLists.txt purpose-5.50.0/CMakeLists.txt
---- purpose-5.50.0.orig/CMakeLists.txt	2018-09-02 21:39:55.000000000 +0200
-+++ purpose-5.50.0/CMakeLists.txt	2018-09-25 16:16:27.355633700 +0200
-@@ -1,4 +1,4 @@
--cmake_minimum_required(VERSION 2.8.12)
-+cmake_minimum_required(VERSION 3.0)
- 
- project(Purpose)
- 
