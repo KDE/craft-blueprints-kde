@@ -1,2 +1,5 @@
+# we use a icontheme.rc on windows
+bin/data/icons/.*
+
 # strip most executables
 bin/(?!(okular|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
