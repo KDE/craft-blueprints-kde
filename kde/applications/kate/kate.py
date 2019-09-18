@@ -51,10 +51,13 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         self.defines["shortcuts"] = [{"name" : "Kate", "target":"bin/kate.exe", "description" : self.subinfo.description}]
+
+        # kate icons
         self.defines["icon"] = os.path.join(self.packageDir(), "kate.ico")
-        self.defines["icon_png"] = os.path.join(self.sourceDir(), "kate", "icons", "128-apps-kate.png")
+        self.defines["icon_png"] = os.path.join(self.sourceDir(), "kate", "icons", "150-apps-kate.png")
         self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "kate", "icons", "44-apps-kate.png")
-        #self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "kate", "icons", "310-apps-kate.png")
+        self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "kate", "icons", "310-apps-kate.png")
+
         self.defines["registy_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate" "" "Edit with Kate"\n"""
                                         """WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate\\command" "" '"$INSTDIR\\bin\\kate.exe" "%V"'\n""")
 
