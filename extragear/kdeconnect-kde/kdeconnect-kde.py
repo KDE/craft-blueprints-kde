@@ -35,11 +35,11 @@ class Package(CMakePackageBase):
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
         self.defines["appname"] = "kdeconnect-indicator"
+        self.defines["AppUserModelID"] = "kdeconnect.daemon"
 
         if isinstance(self, NullsoftInstallerPackager):
             self.defines["nsis_include"] = f"!include {self.packageDir()}\\SnoreNotify.nsh"
             self.defines["sections"] = r"""
-                !define MyApp_AppUserModelId  org.kde.kdeconnect.daemon
                 !define SnoreToastExe "$INSTDIR\bin\SnoreToast.exe"
 
                 Section "@{productname}"
