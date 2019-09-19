@@ -34,7 +34,7 @@ class Package(CMakePackageBase):
 
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
-        self.defines["exename"] = "kdeconnect-indicator"
+        self.defines["appname"] = "kdeconnect-indicator"
         self.defines["AppUserModelID"] = "kdeconnect.daemon"
 
         if isinstance(self, NullsoftInstallerPackager):
@@ -45,11 +45,11 @@ class Package(CMakePackageBase):
                 Section "@{productname}"
                     SectionIn 1
                     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-                        !insertmacro SnoreShortcut "$SMPROGRAMS\@{productname}.lnk" "$INSTDIR\bin\@{exename}.exe" "@{AppUserModelID}"
-                        CreateShortCut "$SMPROGRAMS\Startup\@{productname}.lnk" "$INSTDIR\bin\@{exename}.exe"
-                        CreateShortCut "$DESKTOP\@{productname}.lnk" "$INSTDIR\bin\@{exename}.exe"
-                        CreateShortCut "$SENDTO\Send to remote device via @{productname}.lnk" "$INSTDIR\bin\kdeconnect-handler.exe"  "" "$INSTDIR\bin\@{exename}.exe" 0
-                        CreateShortCut "$SENDTO\Open on remote device via @{productname}.lnk" "$INSTDIR\bin\kdeconnect-handler.exe"  "--open" "$INSTDIR\bin\@{exename}.exe" 0
+                        !insertmacro SnoreShortcut "$SMPROGRAMS\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe" "@{AppUserModelID}"
+                        CreateShortCut "$SMPROGRAMS\Startup\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe"
+                        CreateShortCut "$DESKTOP\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe"
+                        CreateShortCut "$SENDTO\Send to remote device via @{productname}.lnk" "$INSTDIR\bin\kdeconnect-handler.exe"  "" "$INSTDIR\bin\@{appname}.exe" 0
+                        CreateShortCut "$SENDTO\Open on remote device via @{productname}.lnk" "$INSTDIR\bin\kdeconnect-handler.exe"  "--open" "$INSTDIR\bin\@{appname}.exe" 0
                     !insertmacro MUI_STARTMENU_WRITE_END
                 SectionEnd
                 """
@@ -63,8 +63,8 @@ class Package(CMakePackageBase):
                 SectionEnd
                 """
         elif isinstance(self, AppxPackager):
-            self.defines["startup_task"] = r"bin/@{exename}.exe"
-            self.defines["shortcuts"] = [{"name" : self.subinfo.displayName , "target" : f"bin/{self.defines['exename']}{CraftCore.compiler.executableSuffix}", "description" : self.subinfo.description}]
+            self.defines["startup_task"] = r"bin/@{appname}.exe"
+            self.defines["shortcuts"] = [{"name" : self.subinfo.displayName , "target" : f"bin/{self.defines['appname']}{CraftCore.compiler.executableSuffix}", "description" : self.subinfo.description}]
             self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "Square150x150Logo.scale-100.png")
             self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "Square44x44Logo.scale-100.png")
             self.defines["icon_png_310x150"] = os.path.join(self.packageDir(), ".assets", "Wide310x150Logo.scale-100.png")
