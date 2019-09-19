@@ -34,7 +34,7 @@ class Package(CMakePackageBase):
 
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
-        self.defines["appname"] = "kdeconnect-indicator"
+        self.defines["exename"] = "kdeconnect-indicator"
         self.defines["AppUserModelID"] = "kdeconnect.daemon"
 
         if isinstance(self, NullsoftInstallerPackager):
