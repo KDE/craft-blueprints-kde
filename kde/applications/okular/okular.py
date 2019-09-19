@@ -49,7 +49,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["executable"] = "bin\\okular.exe"
         self.defines["mimetypes"] = ["application/pdf"]
-        self.defines["file_types"] = [".pdf"]
+        self.defines["file_types"] = [".pdf", ".mobi", ".epub", ".tiff"]
 
         # okular icons
         self.defines["icon"] = os.path.join(self.packageDir(), "okular.ico")
