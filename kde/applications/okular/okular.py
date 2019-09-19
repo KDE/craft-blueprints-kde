@@ -41,13 +41,10 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file = [
-            PackagerLists.runtimeBlacklist,
-            os.path.join(os.path.dirname(__file__), "blacklist.txt")
-        ]
 
     def createPackage(self):
-        self.defines["executable"] = "bin\\okular.exe"
+        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.defines["executable"] = r"bin\okular.exe"
         self.defines["mimetypes"] = ["application/pdf"]
         self.defines["file_types"] = [".pdf", ".mobi", ".epub", ".tiff"]
 
