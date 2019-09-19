@@ -11,4 +11,4 @@ qml/QtTest
 bin/data/icons/.*
 
 # strip most executables
-bin/(?!(kate|update-mime-database|kioslave)).*\.exe
+bin/(?!(kate|update-mime-database|kioslave)).*\.(exe|pdb)
