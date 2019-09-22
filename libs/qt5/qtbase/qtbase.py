@@ -273,9 +273,20 @@ class QtPackage(Qt5CorePackageBase):
                                  f"--qt-dir={self.installDir()}",
                                  f"--new-dir={CraftStandardDirs.craftRoot()}"])
         else:
-            return self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "qt.conf")],
+            if not self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "qt.conf")],
                                            self.subinfo.buildPrefix,
-                                           CraftCore.standardDirs.craftRoot())
+                                           CraftCore.standardDirs.craftRoot()):
+                return False
+
+        # try to normalize the auto-detected paths during Qt build for non-debian distros
+        if CraftCore.compiler.isLinux:
+            files = utils.filterDirectoryContent(self.installDir(),
+                                             whitelist=lambda x, root: Path(x).suffix in {".cmake", ".prl", ".pri"},
+                                             blacklist=lambda x, root: True)
+            if not self.patchInstallPrefix(files, "/usr/lib/x86_64-linux-gnu/", ""):
+                return False
+
+        return True
 
     def getQtBaseEnv(self):
         envs = {}
