@@ -1,4 +1,5 @@
 import info
+from CraftOS.osutils import OsUtils
 
 
 class subinfo(info.infoclass):
@@ -24,7 +25,9 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         if self.buildTarget != "1.0":
-            self.subinfo.options.configure.args = "-DBUILD_GUI=ON "
+            self.subinfo.options.configure.args = "-DBUILD_GUI=ON"
+            if OsUtils.isMac():
+                self.subinfo.options.configure.args += "-DDEPLOY_PLUGINS_WITH_BINARY=ON"
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))

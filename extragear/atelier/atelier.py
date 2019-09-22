@@ -23,7 +23,6 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["libs/qt5/qtcharts"] = None
         self.runtimeDependencies["libs/qt5/qt3d"] = None
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
-        self.runtimeDependencies["kdesupport/qwt"] = None
 
 from Package.CMakePackageBase import *
 
