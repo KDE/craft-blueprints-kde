@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
-        if CraftVersion(self.buildTarget) >= CraftVersion("5.10") and self.options.dynamic.qdocThroughLLVM:
+        if self.options.dynamic.qdocThroughLLVM:
             self.runtimeDependencies["libs/llvm-meta/llvm"] = None
 
 
@@ -31,7 +31,7 @@ class Package(Qt5CoreSdkPackageBase):
 
     def compile(self):
         env = {}
-        if CraftVersion(self.subinfo.buildTarget) >= CraftVersion("5.10") and self.subinfo.options.dynamic.qdocThroughLLVM:
+        if self.subinfo.options.dynamic.qdocThroughLLVM:
             env = { "LLVM_INSTALL_DIR" : CraftCore.standardDirs.craftRoot(),
                 "FORCE_MINGW_QDOC_BUILD" : "1"}
         with utils.ScopedEnv(env):

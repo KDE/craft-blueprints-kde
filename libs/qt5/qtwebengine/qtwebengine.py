@@ -16,11 +16,6 @@ class subinfo(info.infoclass):
                                        ("c6fb532d81f405b2456c382aa0b29eef8866f993.patch", 1)]
         self.patchToApply["5.13.0"] = [("20b5e27.diff", 1)]
 
-        for ver in self.versionInfo.tarballs() + self.versionInfo.branches() + self.versionInfo.tags():
-            qtVer = CraftVersion(ver)
-            if qtVer <= CraftVersion("5.9"):
-                self.patchToApply[ver] = [("0001-Fix-the-detection-of-python2.exe.patch", 1)]#https://codereview.qt-project.org/#/c/203000/
-
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
