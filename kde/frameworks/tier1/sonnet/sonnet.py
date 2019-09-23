@@ -9,7 +9,6 @@ class subinfo(info.infoclass):
 
     def registerOptions(self):
         self.options.dynamic.registerOption("useHunspell", True)
-        self.options.dynamic.registerOption("useAspell", False)
 
 
     def setDependencies(self):
@@ -25,7 +24,8 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+
+        # always use just hunspell, if at all!
+        self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_ASPELL=ON"
         if not self.subinfo.options.dynamic.useHunspell:
             self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_HUNSPELL=ON"
-        if not self.subinfo.options.dynamic.useAspell:
-            self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_ASPELL=ON"

@@ -114,7 +114,6 @@ bin/data/hunspell/.*
 bin/data/mime/.*
 bin/designer/.*
 bin/kauth/.*
-lib/aspell-0.60/.*
 lib/mecab/.*
 lib/plugin/.*
 share/(?!(dbus).*)

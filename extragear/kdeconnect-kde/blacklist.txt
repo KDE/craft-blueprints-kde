@@ -20,11 +20,9 @@ share/phonon4qt5/buildsystem
 
 #stuff in lib that we don't need
 lib/fonts
-lib/aspell-0\.60
 lib/gpg-error\.def
 
 #big dlls we don't use
-bin/aspell\.dll
 bin/libGLESv2\.dll
 bin/Qt5Designer\.dll
 bin/Qt5DesignerComponents\.dll

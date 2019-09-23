@@ -26,7 +26,6 @@ lib/.*
 bin/data/kpackage/kcms/.*
 bin/data/aclocal/.*
 bin/data/applications/.*
-bin/data/aspell/.*
 bin/data/bash-completion/.*
 bin/data/doc/.*
 bin/data/icons/.*
