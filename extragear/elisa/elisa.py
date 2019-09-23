@@ -61,8 +61,8 @@ class Package( CMakePackageBase ):
         self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "150-apps-elisa.png")
         self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "44-apps-elisa.png")
 
-        self.defines["mimetypes"] = ["audio/mpeg", "audio/mp4", "audio/ogg", "audio/wav"]
-        self.defines["file_types"] = [".mp3", ".ogg", ".m4a", ".flac", ".wav", ".m3u"]
+        self.defines["mimetypes"] = ["audio/mpeg", "audio/mp4"]
+        self.defines["file_types"] = [".mp3", ".ogg", ".m4a", ".flac", ".wav", ".m3u", ".opus"]
 
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
 
