@@ -28,24 +28,15 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "git://git.freedesktop.org/git/poppler/poppler"
-        for ver in ["0.38.0", "0.57.0", "0.62.0", "0.68.0", "0.74.0"]:
-            self.targets[ver] = f"https://poppler.freedesktop.org/poppler-{ver}.tar.xz"
-            self.targetInstSrc[ver] = f"poppler-{ver}"
-        self.patchToApply["0.38.0"] = ("poppler-0.38.0-20151130.diff", 1)
-        self.patchToApply["0.57.0"] = ("poppler-0.57.0-20170810.diff", 1)
-        self.patchToApply["0.62.0"] = ("poppler-0.62.0-20180314.diff", 1)
-        self.targetDigests["0.38.0"] = "62d334116e509d59cd1d8f172f02c0a81e73182f"
-        self.targetDigests['0.57.0'] = (['0ea37de71b7db78212ebc79df59f99b66409a29c2eac4d882dae9f2397fe44d8'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests['0.62.0'] = (['5b9a73dfd4d6f61d165ada1e4f0abd2d420494bf9d0b1c15d0db3f7b83a729c6'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests['0.68.0'] = (['f90d04f0fb8df6923ecb0f106ae866cf9f8761bb537ddac64dfb5322763d0e58'],  CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests['0.74.0'] = (['92e09fd3302567fd36146b36bb707db43ce436e8841219025a82ea9fb0076b2f'], CraftHash.HashAlgorithm.SHA256)
-
         self.description = "PDF rendering library based on xpdf-3.0"
-        self.defaultTarget = "0.74.0"
-        if CraftCore.compiler.isMSVC2015():
-            self.defaultTarget = "0.68.0"
+        self.svnTargets["master"] = "git://git.freedesktop.org/git/poppler/poppler"
 
+        # use latest version with all security fixes!
+        ver = "0.81.0";
+        self.defaultTarget = ver
+        self.targets[ver] = f"https://poppler.freedesktop.org/poppler-{ver}.tar.xz"
+        self.targetInstSrc[ver] = f"poppler-{ver}"
+        self.targetDigests[ver] = (['212d020b035b67b36c9666bd08ac778dff3222d85c01c338787d546f0f9bfe02'], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
