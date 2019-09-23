@@ -3,11 +3,10 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['4.81'] = 'http://download.sysinternals.com/files/DebugView.zip'
-        self.targetInstallPath['4.81'] = "dev-utils/bin"
-        self.targetDigests['4.81'] = (
-            ['98edbe8d5e10d8c81f91c1d79668df8dd3924abd6bb64e3450613c43bf0c60f6'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '4.81'
+        self.targets['4.90'] = 'http://download.sysinternals.com/files/DebugView.zip'
+        self.targetInstallPath['4.90'] = "dev-utils/bin"
+        self.targetDigests['4.90'] = (['9ccac2978ef0ad16611dfeb15f0fb5f3c554882e1b193c8eebd16ce58a2fed4b'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = '4.90'
 
 
 from Package.BinaryPackageBase import *

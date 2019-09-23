@@ -66,58 +66,12 @@ class subinfo(info.infoclass):
                     ("fix_GenericDataLocation_mac.patch", 1),
                     ("qstandardpaths-extra-dirs.patch", 1),
                 ]
-            elif qtVer >= CraftVersion("5.9.4") or qtVer == CraftVersion("5.9"):
-                self.patchToApply[ver] = [
-                    ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
-                    ("0001-Fix-private-headers.patch", 1),  # https://bugreports.qt.io/browse/QTBUG-37417
-                    ("workaround-mingw-egl-qt5.9.4.diff", 1),
-                    ("0001-Add-APPDIR-data-APPNAME-5.9.4.patch", 1),  # https://codereview.qt-project.org/#/c/197855/
-                ]
-            elif qtVer >= CraftVersion("5.9.3"):
-                self.patchToApply[ver] = [
-                    ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
-                    ("0001-Fix-private-headers.patch", 1),  # https://bugreports.qt.io/browse/QTBUG-37417
-                    ("0001-Add-APPDIR-data-APPNAME-to-the-non-Generic-paths-on-.patch", 1)]  # https://codereview.qt-project.org/#/c/197855/
-            elif qtVer >= CraftVersion("5.9"):
-                self.patchToApply[ver] = [
-                    ("fix-angle-mingw.patch", 1),
-                    ("qtbase-5.8.patch", 1),  # https://codereview.qt-project.org/#/c/149550/
-                    ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
-                    ("hack-fix-syncqt.patch", 1),
-                    ("0001-Fix-private-headers.patch", 1),  # https://bugreports.qt.io/browse/QTBUG-37417
-                    ("0001-Add-APPDIR-data-APPNAME-to-the-non-Generic-paths-on-.patch", 1)]  # https://codereview.qt-project.org/#/c/197855/
-            elif qtVer >= CraftVersion("5.8"):
-                self.patchToApply[ver] = [
-                    ("fix-angle-mingw.patch", 1),
-                    ("qtbase-5.8.patch", 1),  # https://codereview.qt-project.org/#/c/141254/
-                    # https://codereview.qt-project.org/#/c/149550/
-                    ("qdbus-manager-quit-5.7.patch", 1)  # https://phabricator.kde.org/D2545#69186
-                ]
-            elif qtVer >= CraftVersion("5.7"):
-                self.patchToApply[ver] = [
-                    ("fix-angle-mingw.patch", 1),
-                    ("qtbase-5.7.patch", 1),  # https://codereview.qt-project.org/#/c/141254/
-                    # https://codereview.qt-project.org/#/c/149550/
-                    ("do-not-spawn-console-qprocess-startdetached.patch", 1),
-                    # https://codereview.qt-project.org/#/c/162585/
-                    ("qdbus-manager-quit-5.7.patch", 1)  # https://phabricator.kde.org/D2545#69186
-                ]
-            else:
-                self.patchToApply[ver] = [
-                    ("qmake-fix-install-root.patch", 1),
-                    ("qtbase-5.6.patch", 1),  # https://codereview.qt-project.org/#/c/141254/
-                    # https://codereview.qt-project.org/#/c/149550/
-                    ("do-not-spawn-console-qprocess-startdetached.patch", 1),
-                    # https://codereview.qt-project.org/#/c/162585/
-                    ("fix-angle-mingw-5.6.2-20161027.diff", 1),
-                    ("qdbus-manager-quit-5.7.patch", 1)  # https://phabricator.kde.org/D2545#69186
-                ]
+
 
         self.patchToApply["5.11.2"] += [
             ("0001-Export-qt_open64-from-QtCore.patch", 1), # fix 32 bit unix builds, backport of 4fc4f7b0ce0e6ee186a7d7fe9b5dd20e94efe432
         ]
 
-        self.patchLevel["5.9.4"] = 3
         self.patchLevel["5.11.0"] = 2
         self.patchLevel["5.11.2"] = 3
         self.patchLevel["5.12.0"] = 2
@@ -132,7 +86,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/perl"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
         if not self.options.buildStatic:
-            if CraftVersion(self.buildTarget) < CraftVersion("5.10") or CraftCore.settings.getboolean("QtSDK", "Enabled", False):
+            if CraftCore.settings.getboolean("QtSDK", "Enabled", False):
                 self.runtimeDependencies["libs/openssl"] = None
             else:
                 self.runtimeDependencies["libs/openssl"] = "1.1"
@@ -156,13 +110,6 @@ class QtPackage(Qt5CorePackageBase):
             self.enterBuildDir()
             if OsUtils.isWin():
                 configure = OsUtils.toUnixPath(os.path.join(self.sourceDir(), "configure.bat"))
-                if self.qtVer < CraftVersion("5.10"):
-                    # not needed anymore as we don't patch configure anymore
-                    if not os.path.exists(os.path.join(self.sourceDir(), ".gitignore")):  # force bootstrap of configure.exe
-                        with open(os.path.join(self.sourceDir(), ".gitignore"), "wt+") as bootstrap:
-                            bootstrap.write("Force Bootstrap")
-                        if os.path.exists(os.path.join(self.sourceDir(), "configure.exe")):
-                            os.remove(os.path.join(self.sourceDir(), "configure.exe"))
             elif OsUtils.isUnix():
                 configure = os.path.join(self.sourceDir(), "configure")
 
@@ -174,15 +121,9 @@ class QtPackage(Qt5CorePackageBase):
             command += "-qt-libpng "
             command += "-qt-libjpeg "
 
-            # can we drop that in general?
-            if self.qtVer <= "5.6":
-                command += "-c++11 "
-            if self.qtVer >= "5.8":
-                command += "-mp "
-            else:
-                command += "-qt-pcre "
+            command += "-mp "
 
-            if CraftCore.compiler.isMacOS and self.qtVer >= "5.10":
+            if CraftCore.compiler.isMacOS:
                 command += f"-macos-additional-datadirs \"{CraftCore.standardDirs.locations.data}\" "
 
             if OsUtils.isWin():
@@ -291,13 +232,7 @@ class QtPackage(Qt5CorePackageBase):
     def getQtBaseEnv(self):
         envs = {}
         envs["PATH"] = os.pathsep.join([os.path.join(self.buildDir(), "bin"), os.environ["PATH"]])
-        if self.qtVer < "5.9":
-            # so that the mkspecs can be found, when -prefix is set
-            envs["QMAKEPATH"] = self.sourceDir()
-        if self.qtVer < "5.8":
-            envs["QMAKESPEC"] = os.path.join(self.sourceDir(), 'mkspecs', self.platform)
-        else:
-            envs["QMAKESPEC"] = None
+        envs["QMAKESPEC"] = None
         return utils.ScopedEnv(envs)
 
 
