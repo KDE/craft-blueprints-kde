@@ -80,7 +80,7 @@ class PackageCMake(CMakePackageBase):
         else:
             self.enterBuildDir()
             prefix = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
-            return utils.system(["perl", os.path.join(self.sourceDir(), "Configure"), f"--prefix={prefix}", f"--openssldir={prefix}/ssl"]
+            return utils.system(["perl", os.path.join(self.sourceDir(), "Configure"), f"--prefix={prefix}"]
                                 + self.subinfo.options.configure.args.split(" ")
                                 + ["-FS",
                                     f"-I{OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), 'include'))}",
