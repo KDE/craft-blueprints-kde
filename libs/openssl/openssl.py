@@ -38,10 +38,12 @@ class subinfo(info.infoclass):
             baseUrl = 'ftp://ftp.openssl.org/source/'
             addTarget(baseUrl, ver)
 
+        self.patchLevel["1.1.1d"] = 1
+
         self.description = "The OpenSSL runtime environment"
 
         #set the default config for openssl 1.1
-        self.options.configure.args = "shared no-zlib threads no-rc5 no-idea no-ssl3-method no-weak-ssl-ciphers no-heartbeats"
+        self.options.configure.args = "shared no-zlib threads no-rc5 no-idea no-ssl3-method no-weak-ssl-ciphers no-heartbeats no-dynamic-engine"
 
         self.defaultTarget = '1.1.1d'
 
@@ -70,7 +72,7 @@ class PackageCMake(CMakePackageBase):
         self.staticBuild = False
         self.supportsNinja = False
         if not self.subinfo.opensslUseLegacyBuildSystem:
-            self.subinfo.options.install.args = "install_sw install_ssldirs"
+            self.subinfo.options.install.args = "install_sw"
 
     def configure( self, defines=""):
         if self.subinfo.opensslUseLegacyBuildSystem:
@@ -162,7 +164,7 @@ class PackageMSys(AutoToolsPackageBase):
         self.supportsCCACHE = False
         self.subinfo.options.configure.noDataRootDir = True
         if not self.subinfo.opensslUseLegacyBuildSystem:
-            self.subinfo.options.install.args = "install_sw install_ssldirs"
+            self.subinfo.options.install.args = "install_sw"
         else:
             self.subinfo.options.make.supportsMultijob = False
             self.subinfo.options.useShadowBuild = False
