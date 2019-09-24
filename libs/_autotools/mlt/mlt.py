@@ -24,7 +24,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/dlfcn-win32"] = None
         self.runtimeDependencies["libs/frei0r-plugins"] = None
         self.runtimeDependencies["libs/libsdl2"] = None
-        self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/vidstab"] = None
         # self.runtimeDependencies["libs/jack"] = None
         # self.runtimeDependencies["libs/ladspa-sdk"] = None

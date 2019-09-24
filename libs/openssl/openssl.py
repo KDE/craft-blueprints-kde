@@ -35,7 +35,7 @@ class subinfo(info.infoclass):
 
         # latest versions -> inside source/
         for ver in ["1.0.2s", "1.1.1d"]:
-            baseUrl = 'ftp://ftp.openssl.org/source/'
+            baseUrl = 'https://openssl.org/source/'
             addTarget(baseUrl, ver)
 
         self.patchLevel["1.1.1d"] = 1
