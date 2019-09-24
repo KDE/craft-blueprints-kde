@@ -41,7 +41,8 @@ class subinfo(info.infoclass):
         self.description = "The OpenSSL runtime environment"
 
         #set the default config for openssl 1.1
-        self.options.configure.args = "shared no-zlib threads no-rc5 no-idea no-ssl3-method no-weak-ssl-ciphers no-heartbeats"
+        prefix = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
+        self.options.configure.args = [f"--prefix={prefix}", f"--openssldir={prefix}/ssl", "shared", "no-zlib", "threads", "no-rc5", "no-idea", "no-ssl3-method", "no-weak-ssl-ciphers", "no-heartbeats"]
 
         self.defaultTarget = '1.1.1d'
 
@@ -77,9 +78,8 @@ class PackageCMake(CMakePackageBase):
             return True
         else:
             self.enterBuildDir()
-            prefix = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
-            return utils.system(["perl", os.path.join(self.sourceDir(), "Configure"), f"--prefix={prefix}", f"--openssldir={prefix}/ssl"]
-                                + self.subinfo.options.configure.args.split(" ")
+            return utils.system(["perl", os.path.join(self.sourceDir(), "Configure")]
+                                + self.subinfo.options.configure.args
                                 + ["-FS",
                                     f"-I{OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), 'include'))}",
                                     "VC-WIN64A" if CraftCore.compiler.isX64() else "VC-WIN32"])
@@ -162,6 +162,7 @@ class PackageMSys(AutoToolsPackageBase):
         self.supportsCCACHE = False
         self.subinfo.options.configure.noDataRootDir = True
         if not self.subinfo.opensslUseLegacyBuildSystem:
+            self.subinfo.options.configure.args = subprocess.list2cmdline(self.subinfo.options.configure.args)
             self.subinfo.options.install.args = "install_sw install_ssldirs"
         else:
             self.subinfo.options.make.supportsMultijob = False
@@ -182,7 +183,6 @@ class PackageMSys(AutoToolsPackageBase):
                 AutoToolsPackageBase.make(self, dummyBuildType)
 
     def install(self):
-        self.subinfo.options.make.supportsMultijob = False
         if not self.subinfo.opensslUseLegacyBuildSystem:
             # TODO: don't install doc
             if not super().install():
