@@ -20,7 +20,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["binary/mysql"] = None
         self.runtimeDependencies["qt-libs/liblastfm"] = None
         self.runtimeDependencies["libs/gettext"] = None
-        self.runtimeDependencies["kdesupport/qtscriptgenerator"] = None
         self.buildDependencies["libs/gettext"] = None
         self.description = "a powerful music player"
 
