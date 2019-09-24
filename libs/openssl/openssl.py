@@ -71,6 +71,7 @@ class PackageCMake(CMakePackageBase):
         self.supportsNinja = False
         if not self.subinfo.opensslUseLegacyBuildSystem:
             self.subinfo.options.install.args = "install_sw install_ssldirs"
+
     def configure( self, defines=""):
         if self.subinfo.opensslUseLegacyBuildSystem:
             return True
@@ -113,6 +114,7 @@ class PackageCMake(CMakePackageBase):
             return utils.system(cmd)
 
     def install(self):
+        self.subinfo.options.make.supportsMultijob = False
         if not self.subinfo.opensslUseLegacyBuildSystem:
             return super().install()
         else:
@@ -180,6 +182,7 @@ class PackageMSys(AutoToolsPackageBase):
                 AutoToolsPackageBase.make(self, dummyBuildType)
 
     def install(self):
+        self.subinfo.options.make.supportsMultijob = False
         if not self.subinfo.opensslUseLegacyBuildSystem:
             # TODO: don't install doc
             if not super().install():
