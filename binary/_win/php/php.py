@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = "http://windows.php.net/downloads/releases/php-%s-Win32-VC15-%s.zip" % (
             ver, CraftCore.compiler.architecture)
             self.targetDigestUrls[ver] = (
-            "http://windows.php.net/downloads/releases/sha1sum.txt", CraftHash.HashAlgorithm.SHA1)
+            "http://windows.php.net/downloads/releases/sha256sum.txt", CraftHash.HashAlgorithm.SHA256)
             self.targetInstallPath[ver] = os.path.join("dev-utils", "php")
             self.defaultTarget = ver
 
