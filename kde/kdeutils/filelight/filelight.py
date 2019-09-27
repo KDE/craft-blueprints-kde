@@ -30,7 +30,11 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["website"] = "https://utils.kde.org/projects/filelight/"
         self.defines["executable"] = "bin\\filelight.exe"
+
+        # filelight icons
         self.defines["icon"] = os.path.join(self.packageDir(), "filelight.ico")
+        self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "150-apps-filelight.png")
+        self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "44-apps-filelight.png")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/qt5/qtdeclarative") # pulled in by solid
