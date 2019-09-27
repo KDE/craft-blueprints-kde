@@ -28,7 +28,7 @@ class Package(CMakePackageBase):
         self.blacklist_file.append(os.path.join(os.path.dirname(__file__), 'blacklist.txt'))
 
     def createPackage(self):
-        self.defines["website"] = "https://utils.kde.org/projects/filelight/"
+        self.defines["website"] = "https://kde.org/applications/utilities/org.kde.filelight"
         self.defines["executable"] = "bin\\filelight.exe"
 
         # filelight icons
