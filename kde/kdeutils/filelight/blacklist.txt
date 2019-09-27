@@ -1,4 +1,8 @@
-# blacklist. It extends the default blacklist at craft/bin/Packager/applications_blacklist.txt
+# we use a icontheme.rc on windows
+bin/data/icons/.*
+
+# no hunspell dictionaries
+bin/data/hunspell/.*
 
 # strip most executables
 bin/(?!(filelight|kioslave)).*\.exe
