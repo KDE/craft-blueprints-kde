@@ -10,6 +10,10 @@ class subinfo(info.infoclass):
         self.description = "the KDE text editor"
         self.webpage = "https://kate-editor.org/"
 
+        self.patchToApply["19.08.1"] = [
+            ("hidpi.patch", 1), # fix hidpi support, https://invent.kde.org/kde/kate/commit/5daa2ff7b7ce4e980fa96cad72190cb92c4e13a1
+        ]
+
     def registerOptions(self):
         self.options.dynamic.registerOption("fullPlasma", False)
 

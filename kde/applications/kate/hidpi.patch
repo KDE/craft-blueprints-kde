@@ -1,0 +1,67 @@
+commit 5daa2ff7b7ce4e980fa96cad72190cb92c4e13a1
+Author: Christoph Cullmann <cullmann@kde.org>
+Date:   Sat Sep 28 16:45:15 2019 +0200
+
+    fix HiDPI support for KWrite + Kate
+    
+    without this, we don't scale properly on e.g. Windows
+
+diff --git a/kate/main.cpp b/kate/main.cpp
+index 4bad91537..6fbdabcce 100644
+--- a/kate/main.cpp
++++ b/kate/main.cpp
+@@ -75,6 +75,12 @@ int main(int argc, char **argv)
+      */
+     Q_INIT_RESOURCE(kate);
+ 
++    /**
++     * enable high dpi support
++     */
++    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
++    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
++
+     /**
+      * Create application first
+      */
+@@ -89,11 +95,6 @@ int main(int argc, char **argv)
+      */
+     app.setApplicationName(QStringLiteral("kate"));
+ 
+-    /**
+-     * enable high dpi support
+-     */
+-    app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+-
+     /**
+      * Enable crash handling through KCrash.
+      */
+diff --git a/kwrite/main.cpp b/kwrite/main.cpp
+index 97287139a..5452fb6b1 100644
+--- a/kwrite/main.cpp
++++ b/kwrite/main.cpp
+@@ -63,6 +63,13 @@ extern "C" Q_DECL_EXPORT int main(int argc, char **argv)
+         }
+     }
+ #endif
++
++    /**
++     * enable high dpi support
++     */
++    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
++    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
++
+     /**
+      * Create application first
+      * Enforce application name even if the executable is renamed
+@@ -70,11 +77,6 @@ extern "C" Q_DECL_EXPORT int main(int argc, char **argv)
+     QApplication app(argc, argv);
+     app.setApplicationName(QStringLiteral("kwrite"));
+ 
+-    /**
+-     * enable high dpi support
+-     */
+-    app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+-
+     /**
+      * Enable crash handling through KCrash.
+      */
