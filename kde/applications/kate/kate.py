@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.patchToApply["19.08.1"] = [
             ("hidpi.patch", 1),
             ("hidpi-2.patch", 1),
+            ("hidpi-3.patch", 1),
         ]
 
     def registerOptions(self):

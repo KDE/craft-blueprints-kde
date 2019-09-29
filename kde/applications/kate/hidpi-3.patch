@@ -1,0 +1,96 @@
+commit a853e687ac4f56f1c996e6edefd46f26192c3127
+Author: Christoph Cullmann <cullmann@kde.org>
+Date:   Sun Sep 29 14:02:06 2019 +0200
+
+    fix hi-dpi rendering of tab buttons
+
+diff --git a/kate/katetabbutton.cpp b/kate/katetabbutton.cpp
+index 9cd72146f..f60f482f7 100644
+--- a/kate/katetabbutton.cpp
++++ b/kate/katetabbutton.cpp
+@@ -36,37 +36,34 @@
+ 
+ #include <math.h>
+ 
+-TabCloseButton::TabCloseButton(QWidget * parent)
+-    : QAbstractButton(parent)
++TabCloseButton::TabCloseButton(QWidget *parent)
++    : QPushButton(parent)
+ {
+     // should never have focus
+     setFocusPolicy(Qt::NoFocus);
+ 
+     // closing a tab closes the document
+     setToolTip(i18n("Close Document"));
++    setIcon(QIcon::fromTheme(QStringLiteral("document-close")));
+ }
+ 
+-void TabCloseButton::paintEvent(QPaintEvent *event)
++void TabCloseButton::paintEvent(QPaintEvent *)
+ {
+-    Q_UNUSED(event)
+-
+     // get the tab this close button belongs to
+     KateTabButton *tabButton = qobject_cast<KateTabButton*>(parent());
+     const bool isActive = underMouse()
+         || (tabButton && tabButton->isChecked());
+ 
+-    // set style options depending on current state
+-    QStyleOption opt;
+-    opt.init(this);
+-    if (isActive && !isChecked()) {
+-        opt.state |= QStyle::State_Raised;
+-    }
+-    if (isChecked()) {
+-        opt.state |= QStyle::State_Sunken;
+-    }
++    QStyleOptionButton opt;
++    opt.initFrom(this);
++    opt.icon = icon();
++    opt.iconSize = sizeHint();
++    // removes the QStyleOptionButton::HasMenu ButtonFeature
++    opt.features = QStyleOptionButton::Flat;
++    opt.state.setFlag(QStyle::State_Enabled, isActive);
+ 
+-    QPainter p(this);
+-    style()->drawPrimitive(QStyle::PE_IndicatorTabClose, &opt, &p, this);
++    QPainter painter(this);
++    style()->drawControl(QStyle::CE_PushButton, &opt, &painter, this);
+ }
+ 
+ QSize TabCloseButton::sizeHint() const
+@@ -83,13 +80,13 @@ QSize TabCloseButton::sizeHint() const
+ void TabCloseButton::enterEvent(QEvent *event)
+ {
+     update(); // repaint on hover
+-    QAbstractButton::enterEvent(event);
++    QPushButton::enterEvent(event);
+ }
+ 
+ void TabCloseButton::leaveEvent(QEvent *event)
+ {
+     update(); // repaint on hover
+-    QAbstractButton::leaveEvent(event);
++    QPushButton::leaveEvent(event);
+ }
+ 
+ 
+diff --git a/kate/katetabbutton.h b/kate/katetabbutton.h
+index c3d02fa39..96e175cd5 100644
+--- a/kate/katetabbutton.h
++++ b/kate/katetabbutton.h
+@@ -21,12 +21,12 @@
+ #ifndef KATE_TAB_BUTTON
+ #define KATE_TAB_BUTTON
+ 
+-#include <QAbstractButton>
++#include <QPushButton>
+ #include <QUrl>
+ 
+ class QPropertyAnimation;
+ 
+-class TabCloseButton : public QAbstractButton
++class TabCloseButton : public QPushButton
+ {
+     Q_OBJECT
+ 
