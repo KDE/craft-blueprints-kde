@@ -1,0 +1,28 @@
+commit 209f2f743c308bb5c65cd79f46fb4f87c1d73811
+Author: Christoph Cullmann <cullmann@kde.org>
+Date:   Sun Sep 29 13:32:30 2019 +0200
+
+    fix hi-dpi rendering of toolview buttons
+
+diff --git a/kate/katemainwindow.cpp b/kate/katemainwindow.cpp
+index 0989e584c..e65c99274 100644
+--- a/kate/katemainwindow.cpp
++++ b/kate/katemainwindow.cpp
+@@ -1230,8 +1230,7 @@ void KateMainWindow::slotQuickOpen()
+ 
+ QWidget *KateMainWindow::createToolView(KTextEditor::Plugin *plugin, const QString &identifier, KTextEditor::MainWindow::ToolViewPosition pos, const QIcon &icon, const QString &text)
+ {
+-    // FIXME KF5
+-    return KateMDI::MainWindow::createToolView(plugin, identifier, (KMultiTabBar::KMultiTabBarPosition)(pos), icon.pixmap(QSize(16, 16)), text);
++    return KateMDI::MainWindow::createToolView(plugin, identifier, (KMultiTabBar::KMultiTabBarPosition)(pos), icon, text);
+ }
+ 
+ bool KateMainWindow::moveToolView(QWidget *widget, KTextEditor::MainWindow::ToolViewPosition pos)
+@@ -1240,7 +1239,6 @@ bool KateMainWindow::moveToolView(QWidget *widget, KTextEditor::MainWindow::Tool
+         return false;
+     }
+ 
+-    // FIXME KF5
+     return KateMDI::MainWindow::moveToolView(qobject_cast<KateMDI::ToolView *>(widget), (KMultiTabBar::KMultiTabBarPosition)(pos));
+ }
+ 

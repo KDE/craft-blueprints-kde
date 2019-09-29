@@ -11,7 +11,8 @@ class subinfo(info.infoclass):
         self.webpage = "https://kate-editor.org/"
 
         self.patchToApply["19.08.1"] = [
-            ("hidpi.patch", 1), # fix hidpi support, https://invent.kde.org/kde/kate/commit/5daa2ff7b7ce4e980fa96cad72190cb92c4e13a1
+            ("hidpi.patch", 1),
+            ("hidpi-2.patch", 1),
         ]
 
     def registerOptions(self):
