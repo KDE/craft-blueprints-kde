@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
             ("hidpi.patch", 1),
             ("hidpi-2.patch", 1),
             ("hidpi-3.patch", 1),
+            ("hidpi-4.patch", 1),
         ]
 
     def registerOptions(self):
