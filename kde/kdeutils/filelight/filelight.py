@@ -8,10 +8,6 @@ class subinfo(info.infoclass):
         self.description = "GUI utility to show where your diskspace is being used"
         self.displayName = "Filelight"
 
-        self.patchToApply["19.08.1"] = [
-            ("hidpi.patch", 1), # fix hidpi support, https://invent.kde.org/kde/okular/commit/8205cea97bdfb1bb33802736686c4d73e0aa9522
-        ]
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
