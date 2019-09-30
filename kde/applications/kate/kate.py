@@ -73,7 +73,6 @@ class Package(CMakePackageBase):
         self.defines["mimetypes"] = ["text/plain", "text/html", "text/xml", "text/css", "text/csv", "application/json", "application/xml", "application/javascript"]
         self.defines["file_types"] = [".ini", ".conf", ".cpp", ".hpp", ".py"]
 
-
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
 
