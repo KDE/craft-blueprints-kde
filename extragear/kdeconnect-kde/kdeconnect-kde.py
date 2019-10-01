@@ -92,7 +92,7 @@ class Package(CMakePackageBase):
                 os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
                 return False
 
-            if not utils.copyFile(os.path.join(archiveDir, "Applications", "KDE", "kdeconnect.app", "Contents", "MacOS", "kdeconnect"),
+            if not utils.copyFile(os.path.join(archiveDir, "Applications", "KDE", "kdeconnect-app.app", "Contents", "MacOS", "kdeconnect-app"),
                 os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
                 return False
 
