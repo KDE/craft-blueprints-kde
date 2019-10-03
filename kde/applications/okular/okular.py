@@ -7,6 +7,10 @@ class subinfo(info.infoclass):
         self.description = "KDE document viewer"
         self.displayName = "Okular"
 
+        self.patchToApply["19.08.1"] = [
+            ("hidpi.patch", 1),
+        ]
+
     def setDependencies(self):
         self.buildDependencies["libs/chm"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
