@@ -45,6 +45,8 @@ class subinfo(info.infoclass):
         if OsUtils.isUnix():
             self.runtimeDependencies["kde/applications/konsole"] = None
 
+        # try to use Breeze style as Windows style has severe issues for e.g. scaling
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 from Package.CMakePackageBase import *
 
