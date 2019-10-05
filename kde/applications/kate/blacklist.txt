@@ -1,14 +1,21 @@
 # blacklist
 
-# Unused Qt modules
-qml/QtMultimedia
-qml/QtWebChannel
-qml/QtWebKit
-qml/QtWinExtras
-qml/QtTest
+# global unused stuff
+lib/.*
+qml/.*
+share/.*
 
 # we use a icontheme.rc on windows
 bin/data/icons/.*
+
+# remove plasma parts
+bin/data/wallpapers/.*
+
+# no qml
+bin/org/.*
+bin/org.kde.kdecoration2/.*
+bin/QtQuick/.*
+bin/QtQuick.2/.*
 
 # strip most executables
 bin/(?!(kate|update-mime-database|kioslave)).*\.(exe|pdb)
