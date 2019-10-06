@@ -1,0 +1,25 @@
+diff --git a/kate/main.cpp b/kate/main.cpp
+index 6fbdabcce..a1eceb21e 100644
+--- a/kate/main.cpp
++++ b/kate/main.cpp
+@@ -90,6 +90,8 @@ int main(int argc, char **argv)
+     QApplication app(argc, argv);
+ #endif
+ 
++    QApplication::setStyle(QStringLiteral("breeze"));
++
+     /**
+      * Enforce application name even if the executable is renamed
+      */
+diff --git a/kwrite/main.cpp b/kwrite/main.cpp
+index 5452fb6b1..687bc89af 100644
+--- a/kwrite/main.cpp
++++ b/kwrite/main.cpp
+@@ -75,6 +75,7 @@ extern "C" Q_DECL_EXPORT int main(int argc, char **argv)
+      * Enforce application name even if the executable is renamed
+      */
+     QApplication app(argc, argv);
++    QApplication::setStyle(QStringLiteral("breeze"));
+     app.setApplicationName(QStringLiteral("kwrite"));
+ 
+     /**
