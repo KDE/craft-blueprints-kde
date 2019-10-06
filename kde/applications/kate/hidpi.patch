@@ -18,7 +18,7 @@ index 4bad91537..6fbdabcce 100644
 +     * enable high dpi support
 +     */
 +    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true); QApplication::setStyle(QStringLiteral("Breeze"));
++    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 +
      /**
       * Create application first
