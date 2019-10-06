@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
 
         self.patchToApply["19.08.1"] = [
             ("hidpi.patch", 1),
+            ("breeze.patch", 1),
         ]
 
     def setDependencies(self):

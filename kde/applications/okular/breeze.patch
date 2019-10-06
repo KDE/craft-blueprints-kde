@@ -1,0 +1,12 @@
+diff --git a/shell/main.cpp b/shell/main.cpp
+index ea0d3bcec..a16c5a01e 100644
+--- a/shell/main.cpp
++++ b/shell/main.cpp
+@@ -42,6 +42,7 @@ int main(int argc, char** argv)
+ #endif
+ 
+     QApplication app(argc, argv);
++    QApplication::setStyle(QStringLiteral("breeze"));
+     KLocalizedString::setApplicationDomain("okular");
+ 
+     KAboutData aboutData = okularAboutData();
