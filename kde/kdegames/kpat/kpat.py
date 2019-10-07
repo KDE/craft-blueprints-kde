@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.description = "KBounce"
+        self.description = "KPat (aka KPatience)"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
