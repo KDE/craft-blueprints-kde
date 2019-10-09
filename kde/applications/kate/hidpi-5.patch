@@ -1,0 +1,160 @@
+commit 90f1b2bdca5a361bfb7b7aed020c3e5be41f136a
+Author: Christoph Cullmann <cullmann@kde.org>
+Date:   Sat Oct 5 18:58:03 2019 +0200
+
+    reasonable sub-toolbar sizes, like normal QPushButton sizes
+
+diff --git a/addons/filebrowser/katefilebrowser.cpp b/addons/filebrowser/katefilebrowser.cpp
+index 1916158a0..49c9ad27a 100644
+--- a/addons/filebrowser/katefilebrowser.cpp
++++ b/addons/filebrowser/katefilebrowser.cpp
+@@ -44,6 +44,7 @@
+ #include <QAction>
+ #include <QDir>
+ #include <QLineEdit>
++#include <QStyle>
+ #include <QVBoxLayout>
+ 
+ //END Includes
+@@ -53,7 +54,6 @@ KateFileBrowser::KateFileBrowser(KTextEditor::MainWindow *mainWindow,
+   : QWidget (parent)
+   , m_mainWindow(mainWindow)
+ {
+-
+   QVBoxLayout *mainLayout = new QVBoxLayout(this);
+   mainLayout->setContentsMargins(0, 0, 0, 0);
+   mainLayout->setSpacing(0);
+@@ -62,6 +62,12 @@ KateFileBrowser::KateFileBrowser(KTextEditor::MainWindow *mainWindow,
+   m_toolbar->setMovable(false);
+   m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+   m_toolbar->setContextMenuPolicy(Qt::NoContextMenu);
++
++  // ensure reasonable icons sizes, like e.g. the quick-open and co. icons
++  // the normal toolbar sizes are TOO large, e.g. for scaled stuff even more!
++  const int iconSize = style()->pixelMetric(QStyle::PM_ButtonIconSize, nullptr, this);
++  m_toolbar->setIconSize(QSize(iconSize, iconSize));
++
+   mainLayout->addWidget(m_toolbar);
+ 
+   // includes some actions, but not hooked into the shortcut dialog atm
+@@ -243,7 +249,7 @@ void KateFileBrowser::openSelectedFiles()
+     if (KMessageBox::questionYesNo(this,i18np("You are trying to open 1 file, are you sure?", "You are trying to open %1 files, are you sure?", list.count()))
+       == KMessageBox::No) return;
+   }
+-  
++
+   foreach (const KFileItem& item, list)
+   {
+     m_mainWindow->openUrl(item.url());
+@@ -334,7 +340,7 @@ void KateFileBrowser::setupActions()
+   optionsMenu->addAction(m_autoSyncFolder);
+ 
+   m_actionCollection->addAction(QStringLiteral("configure"), optionsMenu);
+-  
++
+   //
+   // Remove all shortcuts due to shortcut clashes (e.g. F5: reload, Ctrl+B: bookmark)
+   // BUGS: #188954, #236368
+diff --git a/addons/filetree/katefiletreeplugin.cpp b/addons/filetree/katefiletreeplugin.cpp
+index 0bb3f5426..64d10d955 100644
+--- a/addons/filetree/katefiletreeplugin.cpp
++++ b/addons/filetree/katefiletreeplugin.cpp
+@@ -39,6 +39,7 @@
+ 
+ #include <QAction>
+ #include <QApplication>
++#include <QStyle>
+ #include <QVBoxLayout>
+ 
+ #include "katefiletreedebug.h"
+@@ -143,6 +144,12 @@ KateFileTreePluginView::KateFileTreePluginView(KTextEditor::MainWindow *mainWind
+     m_toolbar->setMovable(false);
+     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+     m_toolbar->setContextMenuPolicy(Qt::NoContextMenu);
++
++    // ensure reasonable icons sizes, like e.g. the quick-open and co. icons
++    // the normal toolbar sizes are TOO large, e.g. for scaled stuff even more!
++    const int iconSize = m_toolView->style()->pixelMetric(QStyle::PM_ButtonIconSize, nullptr, m_toolView);
++    m_toolbar->setIconSize(QSize(iconSize, iconSize));
++
+     mainLayout->addWidget(m_toolbar);
+ 
+     // create filetree
+diff --git a/addons/katesql/dataoutputwidget.cpp b/addons/katesql/dataoutputwidget.cpp
+index 7e0dc43d9..409be4df3 100644
+--- a/addons/katesql/dataoutputwidget.cpp
++++ b/addons/katesql/dataoutputwidget.cpp
+@@ -44,6 +44,7 @@
+ #include <qtimer.h>
+ #include <QApplication>
+ #include <QClipboard>
++#include <QStyle>
+ #include <QTime>
+ 
+ DataOutputWidget::DataOutputWidget(QWidget *parent)
+@@ -60,7 +61,11 @@ DataOutputWidget::DataOutputWidget(QWidget *parent)
+   KToolBar *toolbar = new KToolBar(this);
+   toolbar->setOrientation(Qt::Vertical);
+   toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+-  toolbar->setIconSize(QSize(16, 16));
++
++  // ensure reasonable icons sizes, like e.g. the quick-open and co. icons
++  // the normal toolbar sizes are TOO large, e.g. for scaled stuff even more!
++  const int iconSize = style()->pixelMetric(QStyle::PM_ButtonIconSize, nullptr, this);
++  toolbar->setIconSize(QSize(iconSize, iconSize));
+ 
+   /// TODO: disable actions if no results are displayed or selected
+ 
+diff --git a/addons/katesql/textoutputwidget.cpp b/addons/katesql/textoutputwidget.cpp
+index f11df6187..f443cd1d0 100644
+--- a/addons/katesql/textoutputwidget.cpp
++++ b/addons/katesql/textoutputwidget.cpp
+@@ -27,6 +27,7 @@
+ #include <qlayout.h>
+ #include <qtextedit.h>
+ #include <qdatetime.h>
++#include <QStyle>
+ 
+ TextOutputWidget::TextOutputWidget(QWidget *parent)
+ : QWidget(parent)
+@@ -49,7 +50,11 @@ TextOutputWidget::TextOutputWidget(QWidget *parent)
+   KToolBar *toolbar = new KToolBar(this);
+   toolbar->setOrientation(Qt::Vertical);
+   toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+-  toolbar->setIconSize(QSize(16, 16));
++
++  // ensure reasonable icons sizes, like e.g. the quick-open and co. icons
++  // the normal toolbar sizes are TOO large, e.g. for scaled stuff even more!
++  const int iconSize = style()->pixelMetric(QStyle::PM_ButtonIconSize, nullptr, this);
++  toolbar->setIconSize(QSize(iconSize, iconSize));
+ 
+   /// TODO: disable actions if no results are displayed
+ 
+diff --git a/kate/katemainwindow.cpp b/kate/katemainwindow.cpp
+index 39459112a..bc570a8ee 100644
+--- a/kate/katemainwindow.cpp
++++ b/kate/katemainwindow.cpp
+@@ -76,6 +76,7 @@
+ #include <QApplication>
+ #include <QMenu>
+ #include <QMenuBar>
++#include <QStyle>
+ #include <QToolButton>
+ #include <QTimer>
+ #include <QFontDatabase>
+diff --git a/kate/katemdi.cpp b/kate/katemdi.cpp
+index 8173ebea1..bb9698afa 100644
+--- a/kate/katemdi.cpp
++++ b/kate/katemdi.cpp
+@@ -226,6 +226,11 @@ ToolView::ToolView(MainWindow *mainwin, Sidebar *sidebar, QWidget *parent)
+     m_toolbar = new KToolBar(this);
+     m_toolbar->setVisible(false);
+     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
++
++    // ensure reasonable icons sizes, like e.g. the quick-open and co. icons
++    // the normal toolbar sizes are TOO large, e.g. for scaled stuff even more!
++    const int iconSize = style()->pixelMetric(QStyle::PM_ButtonIconSize, nullptr, this);
++    m_toolbar->setIconSize(QSize(iconSize, iconSize));
+ }
+ 
+ QSize ToolView::sizeHint() const

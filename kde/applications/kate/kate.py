@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
             ("hidpi-2.patch", 1),
             ("hidpi-3.patch", 1),
             ("hidpi-4.patch", 1),
+            ("hidpi-5.patch", 1),
             ("breeze.patch", 1),
         ]
 
