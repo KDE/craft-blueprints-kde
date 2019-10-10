@@ -10,12 +10,7 @@ class subinfo(info.infoclass):
         self.description = "the KDE text editor"
         self.webpage = "https://kate-editor.org/"
 
-        self.patchToApply["19.08.1"] = [
-            ("hidpi.patch", 1),
-            ("hidpi-2.patch", 1),
-            ("hidpi-3.patch", 1),
-            ("hidpi-4.patch", 1),
-            ("hidpi-5.patch", 1),
+        self.patchToApply["19.08.2"] = [
             ("breeze.patch", 1),
         ]
 
