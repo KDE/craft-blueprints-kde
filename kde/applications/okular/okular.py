@@ -7,8 +7,7 @@ class subinfo(info.infoclass):
         self.description = "KDE document viewer"
         self.displayName = "Okular"
 
-        self.patchToApply["19.08.1"] = [
-            ("hidpi.patch", 1),
+        self.patchToApply["19.08.2"] = [
             ("breeze.patch", 1),
         ]
 
