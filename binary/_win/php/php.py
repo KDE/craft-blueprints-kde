@@ -31,8 +31,8 @@ class Package(BinaryPackageBase):
         # TODO: ouch
         with open(os.path.join(self.imageDir(), "dev-utils", "php", "php.ini-development"), "rt") as ini:
             with open(os.path.join(self.imageDir(), "dev-utils", "php", "php.ini"), "wt") as out:
-                ext_dir = re.compile("^; extension_dir = \"ext\".*$")
-                curl = re.compile("^;extension=curl.*$")
+                ext_dir = re.compile("^;\s*extension_dir\s*=\s*\"ext\".*$")
+                curl = re.compile("^;\s*extension\s*=\s*curl.*$")
                 for line in ini:
                     if ext_dir.match(line):
                         line = "extension_dir = \"ext\"\n"
