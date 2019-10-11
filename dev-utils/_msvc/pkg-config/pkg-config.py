@@ -13,7 +13,5 @@ class Package(BinaryPackageBase):
     def __init__(self):
         BinaryPackageBase.__init__(self)
 
-    def install(self):
-        if not super().install():
-            return False
+    def postInstall(self):
         return utils.createShim(os.path.join(self.imageDir(), "bin", "pkg-config.exe"), os.path.join(self.installDir(), "bin", "pkg-config.exe"))
