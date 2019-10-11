@@ -13,8 +13,6 @@ class subinfo(info.infoclass):
 
 
 from Package.BinaryPackageBase import *
-from Package.MaybeVirtualPackageBase import *
-
 
 class Package(BinaryPackageBase):
     def __init__(self, **args):

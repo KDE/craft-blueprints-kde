@@ -113,8 +113,6 @@ class Package(AutoToolsPackageBase):
         return AutoToolsPackageBase.configure(self)
 
     def postInstall(self):
-        if not self.copyToMsvcImportLib():
-            return False
         if self.subinfo.options.dynamic.enableCPP:
             badFiles = [ os.path.join(self.installDir(), "lib" , "cmake", "Gpgmepp", "GpgmeppConfig.cmake"),
                         os.path.join(self.installDir(), "lib" , "cmake", "QGpgme", "QGpgmeConfig.cmake") ]

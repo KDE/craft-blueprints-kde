@@ -28,5 +28,4 @@ class Package(AutoToolsPackageBase):
     def postInstall( self ):
         return (self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "libassuan-config")],
                                 OsUtils.toMSysPath(self.subinfo.buildPrefix),
-                                OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot())) and
-                self.copyToMsvcImportLib())
+                                OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot())))

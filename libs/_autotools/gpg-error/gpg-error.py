@@ -30,5 +30,4 @@ class Package(AutoToolsPackageBase):
         return (self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "gpg-error-config"),
                                          os.path.join(self.installDir(), "bin", "gpgrt-config")],
                         OsUtils.toMSysPath(self.subinfo.buildPrefix),
-                        OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot())) and
-                self.copyToMsvcImportLib())
+                        OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot())))

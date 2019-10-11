@@ -22,9 +22,3 @@ class Package( AutoToolsPackageBase ):
     def __init__( self ):
         AutoToolsPackageBase.__init__( self )
         self.subinfo.options.configure.args += " --disable-static --enable-shared --disable-asm --disable-padlock-support"
-
-
-    def install( self ):
-        if not AutoToolsPackageBase.install(self):
-            return False
-        return self.copyToMsvcImportLib()
