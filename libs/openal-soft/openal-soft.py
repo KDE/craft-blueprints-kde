@@ -4,12 +4,11 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ['1.15.1', '1.18.0', '1.19.1']:
+        for ver in ['1.19.1']:
             self.targets[ver] = \
-                'http://kcat.strangesoft.net/openal-releases/openal-soft-' + ver + '.tar.bz2'
-            self.targetInstSrc[ver] = 'openal-soft-' + ver
-        self.patchToApply['1.15.1'] = ('openal-soft-1.15.1-20130411.diff', 1)
-        self.targetDigests['1.15.1'] = 'a0e73a46740c52ccbde38a3912c5b0fd72679ec8'
+                f'https://github.com/kcat/openal-soft/archive/openal-soft-{ver}.tar.gz'
+            self.targetInstSrc[ver] = f'openal-soft-openal-soft-{ver}'
+        self.targetDigests["1.19.1"] = (['9f3536ab2bb7781dbafabc6a61e0b34b17edd16bd6c2eaf2ae71bc63078f98c7'], CraftHash.HashAlgorithm.SHA256)
         self.description = 'a library for audio support'
         self.defaultTarget = '1.19.1'
 
