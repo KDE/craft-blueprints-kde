@@ -1,9 +1,7 @@
 # blacklist
 
 # global unused stuff
-lib/.*
 qml/.*
-share/.*
 
 # we use a icontheme.rc on windows
 bin/data/icons/.*
