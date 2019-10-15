@@ -52,7 +52,7 @@ class Package(CMakePackageBase):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
         self.defines["executable"] = r"bin\okular.exe"
         self.defines["mimetypes"] = ["application/pdf"]
-        self.defines["file_types"] = [".pdf", ".mobi", ".epub", ".tiff"]
+        self.defines["file_types"] = [".pdf", ".mobi", ".epub", ".tiff", ".djvu"]
 
         # okular icons
         self.defines["icon"] = os.path.join(self.packageDir(), "okular.ico")
