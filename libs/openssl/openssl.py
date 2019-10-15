@@ -71,6 +71,7 @@ class PackageCMake(CMakePackageBase):
         CMakePackageBase.__init__(self)
         self.staticBuild = False
         self.supportsNinja = False
+        self.subinfo.options.make.supportsMultijob = False
         if not self.subinfo.opensslUseLegacyBuildSystem:
             self.subinfo.options.install.args = "install_sw"
 
@@ -116,7 +117,6 @@ class PackageCMake(CMakePackageBase):
             return utils.system(cmd)
 
     def install(self):
-        self.subinfo.options.make.supportsMultijob = False
         if not self.subinfo.opensslUseLegacyBuildSystem:
             return super().install()
         else:
