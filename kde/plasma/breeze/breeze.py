@@ -3,8 +3,6 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.patchToApply["5.14.4"] = [("breeze-5.14.5-20190125.diff", 1)]
-        self.patchToApply["5.14.5"] = [("breeze-5.14.5-20190125.diff", 1)]
         self.versionInfo.setDefaultValues()
 
     def setDependencies(self):
