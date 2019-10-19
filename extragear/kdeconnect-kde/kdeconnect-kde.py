@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         for ver in ["1.3.5"]:
             self.targets[ver] = f"https://download.kde.org/stable/kdeconnect/{ver}/kdeconnect-kde-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kdeconnect/{ver}/kdeconnect-kde-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = f"kdeconnect-kde-{ver}"
 
         self.defaultTarget = '1.3.5'
         self.description = "KDE Connect adds communication between KDE and your smartphone"
