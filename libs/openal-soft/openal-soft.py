@@ -15,11 +15,12 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-
+        self.buildDependencies["libs/qt5/qtbase"] = None
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args += " -DALSOFT_EXAMPLES=OFF"
         # fix dsound.h search
         if CraftCore.compiler.isMinGW():
             if CraftCore.compiler.isX64():
