@@ -20,3 +20,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+        # fix dsound.h search
+        if CraftCore.compiler.isMinGW():
+            self.subinfo.options.configure.args += " -DCMAKE_SYSTEM_PREFIX_PATH=" + CraftCore.standardDirs.craftRoot() + "/mingw64/x86_64-w64-mingw32"
