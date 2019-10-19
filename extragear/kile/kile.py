@@ -6,19 +6,17 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'git://anongit.kde.org/kile'
         self.svnTargets['gitStable-2.1'] = 'git://anongit.kde.org/kile|2.1|'
-        for ver in ['2.1.1', '2.9.92']:
+        for ver in ['2.1.1', '2.9.92', '2.9.93']:
             self.targets[ver] = 'http://downloads.sourceforge.net/kile/kile-' + ver + '.tar.bz2'
             self.targetInstSrc[ver] = 'kile-' + ver
         self.description = "a user friendly TeX/LaTeX editor for KDE"
         self.displayName = "Kile"
         self.webpage = "https://kile.sourceforge.io/"
-        self.defaultTarget = '2.9.92'
+        self.defaultTarget = '2.9.93'
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtscript"] = None
-        # this is only a dependency for kile > 2.1, but we keep it like that for now
         self.runtimeDependencies['qt-libs/poppler'] = 'default'
-        # this is only a dependency for kile > 2.1, but we keep it like that for now
         self.runtimeDependencies['kde/applications/okular'] = 'default'
         self.runtimeDependencies["kde/applications/kate"] = None
         self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
