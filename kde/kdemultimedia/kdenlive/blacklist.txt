@@ -1,6 +1,7 @@
 # blacklist
 bin/data/(?!(applications|color-schemes|config.kcfg|dbus-1|icon|k|locale|metainfo)).*
 bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt)).*\.exe
+plugins/styles/qwindowsvistastyle.dll
 etc/(?!(xdg)).*
 lib/(?!(mlt|frei0r-1|ladspa)).*
 qml/(QtWinExtras|QtTest)
