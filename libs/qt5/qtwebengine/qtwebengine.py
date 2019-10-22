@@ -45,6 +45,7 @@ from Package.Qt5CorePackageBase import *
 class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
+        self.subinfo.options.make.supportsMultijob = False
         self.subinfo.options.fetch.checkoutSubmodules = True
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += " -- --webengine-pulseaudio=no --webengine-ffmpeg=system"
