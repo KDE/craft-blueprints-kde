@@ -45,7 +45,6 @@ from Package.Qt5CorePackageBase import *
 class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
-        self.subinfo.options.make.supportsMultijob = False
         self.subinfo.options.fetch.checkoutSubmodules = True
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += " -- --webengine-pulseaudio=no --webengine-ffmpeg=system"
@@ -56,7 +55,10 @@ class QtPackage(Qt5CorePackageBase):
         return super().fetch()
 
     def _getEnv(self):
-        env = {"BISON_PKGDATADIR" : None}
+        env = {
+            "BISON_PKGDATADIR": None,
+            "NINJAFLAGS": "-j{0}".format(int(CraftCore.settings.get("Compile", "Jobs", multiprocessing.cpu_count()) / 2))
+        }
         if CraftCore.compiler.isMacOS:
             # we need mac's version of libtool here
             env["PATH"] = f"/usr/bin/:{os.environ['PATH']}"
