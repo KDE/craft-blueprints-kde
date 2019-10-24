@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("buildReleaseAndDebug", False)
         self.options.dynamic.registerOption("buildDoc", True)
         self.options.dynamic.registerOption("libInfix", "")
+        self.options.dynamic.registerOption("useLtcg", False)
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -130,8 +131,8 @@ class QtPackage(Qt5CorePackageBase):
                 command += "-opengl dynamic "
                 command += "-plugin-sql-odbc "
 
-            # if not (OsUtils.isFreeBSD() or compiler.isMinGW()):#currently breaks unmaintained modules like qtscript and webkit
-            #    command += "-ltcg "
+            if self.subinfo.options.dynamic.useLtcg:
+                command += "-ltcg "
 
             if self.subinfo.options.dynamic.buildReleaseAndDebug:
                 command += "-debug-and-release "
