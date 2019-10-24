@@ -183,6 +183,9 @@ class QtPackage(Qt5CorePackageBase):
 
             if (CraftCore.compiler.isMSVC() and CraftCore.compiler.isClang()) or OsUtils.isUnix() or self.supportsCCACHE:
                 command += "-no-pch "
+            if self.supportsCCACHE:
+                command += "-ccache "
+
             if CraftCore.compiler.isLinux:
                 command += """-R "../lib" """
 
