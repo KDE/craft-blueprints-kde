@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtspeech"] = None
         self.runtimeDependencies["libs/snoregrowl"] = None
+        self.runtimeDependencies["dev-utils/snoretoast"] = None
 
     def setTargets(self):
         self.svnTargets['master'] = 'git://anongit.kde.org/snorenotify'
@@ -25,7 +26,7 @@ class subinfo(info.infoclass):
             CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Snorenotify is a multi platform Qt notification framework. Using a plugin system it is possible to create notifications with many different notification systems on Windows, Mac OS and Unix."
-        self.patchLevel["0.7"] = 1
+        self.patchLevel["0.7"] = 2
         self.defaultTarget = '0.7'
 
 
@@ -33,3 +34,4 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.staticArgs = "-DSNORE_STATIC=ON -DSNORE_STATIC_QT=ON"
+
