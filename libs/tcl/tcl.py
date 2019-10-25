@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
             self.archiveNames[ver] = f"core-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"tcl-core-{ver}"
 
-        self.targetDigests['8-6-8'] = (['4169fc899a19b212794287790bace46a161aa858b6c6ba2649cc4f468bdb35f7'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['8-6-8'] = (['35e242ce5628f89f7bc65f6381cda32ba97d630b27a8b03188850c83d950f37a'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "8-6-8"
 
     def setDependencies(self):
