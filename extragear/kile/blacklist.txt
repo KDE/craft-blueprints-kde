@@ -1,65 +1,19 @@
 # blacklist
 
-# general
-manifest/.*
-.*\.exp
-.*\.pdb
-.*\.la
-.*\.nsis
-.*\.prl
+# global unused stuff
+qml/.*
 
-# multiple docs
-doc/.*
-share/man/.*
-man/.*
-share/xml/.*
-share/locale/.*
+# we use a icontheme.rc on windows
+bin/data/icons/.*
 
-# cmake stuff
-share/apps/cmake/.*
+# remove plasma parts
+bin/data/wallpapers/.*
 
-# common app stuff
-share/apps/ark/.*
-share/apps/kgpg/.*
-share/kf5/kdoctools/.*
-lib/.*
-bin/data/(?!(icontheme.rcc|applications|kile|config.kcfg|dbus-1|hunspell|icons|kconf_update|knotifications5|kservices5|kxmlgui5|locale|metainfo|mime|locale)).*
-
-# Unused Qt modules
-qml/QtMultimedia
-qml/QtWebChannel
-qml/QtWebKit
-qml/QtWinExtras
-qml/QtTest
-
-# unrelated
-dev-utils/.*
-share/dbus-1/services/.*
-share/pkgconfig/.*
-
-# cleanup breeze stuff
-share/wallpapers/.*
-share/icons/Breeze_Snow/.*
-share/icons/breeze-dark/.*
-
-# cut the big oxygen icons: this can lead to errors though if used!!!!
-share/icons/oxygen/64x64/.*
-share/icons/oxygen/128x128/.*
-share/icons/oxygen/256x256/.*
-
-# doubled qt dlls
-lib/[^/]*\.dll
-# more qt leftovers
-translations/.*
-phrasebooks/.*
-mkspecs/.*
-
-# unneeded stuff from bin\
-bin/qt\.conf
-bin/syncqt\.pl
-
-bin/dbus-*\.exe
-bin/dbus-env\.bat
+# no qml
+bin/org/.*
+bin/org.kde.kdecoration2/.*
+bin/QtQuick/.*
+bin/QtQuick.2/.*
 
 # strip most executables
-bin/(?!(kile|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
+bin/(?!(kile|okular|update-mime-database|kioslave)).*\.(exe|pdb)
