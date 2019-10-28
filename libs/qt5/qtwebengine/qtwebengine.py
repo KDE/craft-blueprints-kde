@@ -57,7 +57,7 @@ class QtPackage(Qt5CorePackageBase):
     def _getEnv(self):
         env = {
             "BISON_PKGDATADIR": None,
-            "NINJAFLAGS": "-j{0}".format(int(CraftCore.settings.get("Compile", "Jobs", multiprocessing.cpu_count()) / 2))
+            "NINJAFLAGS": " "  # if this is not set qmake will do a verbose mode
         }
         if CraftCore.compiler.isMacOS:
             # we need mac's version of libtool here
