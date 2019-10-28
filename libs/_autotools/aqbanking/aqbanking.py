@@ -28,9 +28,8 @@ from CraftOS.osutils import OsUtils
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["5.7.8"] = "https://www.aquamaniac.de/sites/download/download.php?package=03&release=217&file=02&dummy=aqbanking-5.7.8.tar.gz"
+        self.targets["5.7.8"] = "https://www.aquamaniac.de/rdm/attachments/download/27/aqbanking-5.7.8.tar.gz"
         self.targetDigests["5.7.8"] = (['16f86e4cc49a9eaaa8dfe3206607e627873208bce45a70030c3caea9b5afc768'], CraftHash.HashAlgorithm.SHA256)
-        self.archiveNames["5.7.8"] = "aqbanking-5.7.8.tar.gz"
         self.targetInstSrc["5.7.8"] = "aqbanking-5.7.8"
         self.defaultTarget = "5.7.8"
         self.patchLevel["5.7.8"] = 1
@@ -53,11 +52,10 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
 
     def postInstall(self):
-
-        cmakes = [ os.path.join(self.installDir(), "lib", "cmake", f"aqbanking-{self.subinfo.defaultTarget[:-2]}", "aqbanking-config.cmake") ]
+        cmakes = [ os.path.join(self.installDir(), "lib", "cmake", f"aqbanking-{self.subinfo.buildTarget[:-2]}", "aqbanking-config.cmake") ]
         for cmake in cmakes:
-            f = open(cmake, "r+")
-            cmakeFileContents = f.readlines()
+            with open(cmake, "rt") as f:
+                cmakeFileContents = f.readlines()
             for i in range(len(cmakeFileContents)):
                 if CraftCore.compiler.isMinGW():
                     m = re.search('set_and_check\(prefix "(?P<root>[^"]*)"\)', cmakeFileContents[i])
@@ -74,7 +72,6 @@ class Package(AutoToolsPackageBase):
                     m2 = re.search("libaqbanking.so", cmakeFileContents[i])
                     if m2 is not None:
                         cmakeFileContents[i] = cmakeFileContents[i].replace("libaqbanking.so", "libaqbanking.35.dylib")
-            f.seek(0)
-            f.write(''.join(cmakeFileContents))
-            f.close()
+            with open(cmake, "wt") as f:
+                f.write(''.join(cmakeFileContents))
         return AutoToolsPackageBase.postInstall(self)
