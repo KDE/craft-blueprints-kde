@@ -237,6 +237,9 @@ class QtPackage(Qt5CorePackageBase):
         envs = {}
         envs["PATH"] = os.pathsep.join([os.path.join(self.buildDir(), "bin"), os.environ["PATH"]])
         envs["QMAKESPEC"] = None
+        if CraftCore.compiler.isMacOS:
+            # we need mac's version of libtool here
+            envs["PATH"] = os.pathsep.join(["/usr/bin/", os.environ["PATH"]])
         return utils.ScopedEnv(envs)
 
 
