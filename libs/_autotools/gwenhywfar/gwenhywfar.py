@@ -28,16 +28,15 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["4.20"] = "https://www.aquamaniac.de/sites/download/download.php?package=01&release=208&file=02&dummy=gwenhywfar-4.20.0.tar.gz"
-        self.targetDigests["4.20"] = (['5a88daabba1388f9528590aab5de527a12dd44a7da4572ce48469a29911b0fb0'], CraftHash.HashAlgorithm.SHA256)
-        self.archiveNames["4.20"] = "gwenhywfar-4.20.0.tar.gz"
-        self.targetInstSrc["4.20"] = "gwenhywfar-4.20.0"
+        self.targets["4.20.0"] = "https://www.aquamaniac.de/rdm/attachments/download/10/gwenhywfar-4.20.0.tar.gz"
+        self.targetDigests["4.20.0"] = (['5a88daabba1388f9528590aab5de527a12dd44a7da4572ce48469a29911b0fb0'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["4.20.0"] = "gwenhywfar-4.20.0"
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["4.20"] = [("gwenhywfar-4.19.0-20180218.diff", 1)]
+            self.patchToApply["4.20.0"] = [("gwenhywfar-4.19.0-20180218.diff", 1)]
         elif CraftCore.compiler.isMacOS:
-            self.patchToApply["4.20"] = [("gwenhywfar-4.20.0-20180503.diff", 1)]
-        self.defaultTarget = "4.20"
-        self.patchLevel["4.20"] = 3
+            self.patchToApply["4.20.0"] = [("gwenhywfar-4.20.0-20180503.diff", 1)]
+        self.defaultTarget = "4.20.0"
+        self.patchLevel["4.20.0"] = 3
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -71,14 +70,14 @@ class Package(AutoToolsPackageBase):
         return super().configure()
 
     def postInstall(self):
-
-        cmakes = [ os.path.join(self.installDir(), "lib", "cmake", f"gwengui-cpp-{self.subinfo.defaultTarget}", "gwengui-cpp-config.cmake"),
-                os.path.join(self.installDir(), "lib", "cmake", f"gwengui-qt5-{self.subinfo.defaultTarget}", "gwengui-qt5-config.cmake"),
-                os.path.join(self.installDir(), "lib", "cmake", f"gwenhywfar-{self.subinfo.defaultTarget}", "gwenhywfar-config.cmake")
+        versionWithoutPatch = ".".join(self.subinfo.buildTarget.split(".")[0:2])
+        cmakes = [ os.path.join(self.installDir(), "lib", "cmake", f"gwengui-cpp-{versionWithoutPatch}", "gwengui-cpp-config.cmake"),
+                os.path.join(self.installDir(), "lib", "cmake", f"gwengui-qt5-{versionWithoutPatch}", "gwengui-qt5-config.cmake"),
+                os.path.join(self.installDir(), "lib", "cmake", f"gwenhywfar-{versionWithoutPatch}", "gwenhywfar-config.cmake")
                 ]
         for cmake in cmakes:
-            f = open(cmake, "r+")
-            cmakeFileContents = f.readlines()
+            with open(cmake, "rt") as f:
+                cmakeFileContents = f.readlines()
 
             for i in range(len(cmakeFileContents)):
                 if CraftCore.compiler.isMinGW():
@@ -116,8 +115,7 @@ class Package(AutoToolsPackageBase):
                     if m4 is not None:
                         cmakeFileContents[i] = cmakeFileContents[i].replace("libgwengui-qt5.so", "libgwengui-qt5.dylib")
 
-            f.seek(0)
-            f.write(''.join(cmakeFileContents))
-            f.close()
+                with open(cmake, "wt") as f:
+                    f.write(''.join(cmakeFileContents))
 
         return AutoToolsPackageBase.postInstall(self)
