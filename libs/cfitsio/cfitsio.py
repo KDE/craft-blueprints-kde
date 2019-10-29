@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ['3.08', '3.10', '3.14', '3.20', '3.31', '3.35', '3.45']:
             self.targets[ver] = 'http://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio' + ver.replace('.','') + '0.tar.gz'
-            self.targetInstSrc[ver] = "cfitsio-" + ver
+            self.targetInstSrc[ver] = "cfitsio"
         for ver in ['3.47']:
             self.targets[ver] = 'http://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio-' + ver + '.tar.gz'
             self.targetInstSrc[ver] = "cfitsio-" + ver
