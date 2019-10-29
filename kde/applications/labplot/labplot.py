@@ -8,8 +8,8 @@ class subinfo(info.infoclass):
         self.displayName = "LabPlot2"
 
         for ver in ['2.5.0', '2.6.0', '2.7.0']:
-            self.targets[ver] = 'http://download.kde.org/stable/labplot/%s/labplot-%s-kf5.tar.xz' % (ver, ver)
-            self.targetInstSrc[ver] = 'labplot-%s-kf5' % ver
+            self.targets[ver] = 'http://download.kde.org/stable/labplot/%s/labplot-%s.tar.xz' % (ver, ver)
+            self.targetInstSrc[ver] = 'labplot-%s' % ver
 
         self.defaultTarget = '2.7.0'
 
