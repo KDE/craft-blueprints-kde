@@ -7,13 +7,11 @@ class subinfo(info.infoclass):
         self.description = "Interactive graphing and analysis of scientific data"
         self.displayName = "LabPlot2"
 
-        for ver in ['2.4.0']:
+        for ver in ['2.5.0', '2.6.0', '2.7.0']:
             self.targets[ver] = 'http://download.kde.org/stable/labplot/%s/labplot-%s-kf5.tar.xz' % (ver, ver)
             self.targetInstSrc[ver] = 'labplot-%s-kf5' % ver
 
-        # FIXME: note: 2.4.0 does not build. Wait for a new release.
-        # b/c of: cl : Command line error D8021 : invalid numeric argument '/Wextra'
-        self.defaultTarget = 'master' # '2.4.0'
+        self.defaultTarget = '2.7.0'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
