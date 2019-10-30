@@ -234,7 +234,7 @@ class QtPackage(Qt5CorePackageBase):
         return True
 
     def getQtBaseEnv(self):
-        envs = Qt5CoreBuildSystem._qtCoreEnv()
+        envs = Qt5CoreBuildSystem._qtCoreEnv(self)
         envs["PATH"] = os.pathsep.join([os.path.join(self.buildDir(), "bin"), os.environ["PATH"]])
         envs["QMAKESPEC"] = None
         return utils.ScopedEnv(envs)
