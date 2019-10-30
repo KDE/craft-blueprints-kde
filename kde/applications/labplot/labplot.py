@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'http://download.kde.org/stable/labplot/%s/labplot-%s.tar.xz' % (ver, ver)
             self.targetInstSrc[ver] = 'labplot-%s' % ver
 
-        self.defaultTarget = '2.7.0'
+        self.defaultTarget = 'master'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -40,6 +40,8 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        # hdf5 not available on craft
+        self.subinfo.options.configure.args += "-DENABLE_HDF5=OFF -DENABLE_NETCDF=OFF"
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
