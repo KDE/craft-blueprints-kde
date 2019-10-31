@@ -1,7 +1,33 @@
 # blacklist
 
+# general
+.*\.pdb
+
+# unused libs and exe
+bin/libgio-2.0-0.dll
+bin/libglib-2.0-0.dll
+bin/libgobject-2.0-0.dll
+bin/icuin.dll
+bin/icuuc.dll
+bin/snoretoast.exe
+bin/openssl.exe
+
+# unused Qt libs
+bin/Qt5WebKit.dll
+bin/Qt5Quick.dll
+bin/Qt5Location.dll
+bin/Qt5Script.dll
+bin/Qt5Multimedia.dll
+bin/libKF5KDELibs4Support.dll
+
+# doubled dlls
+lib/[^/]*\.dll
+
+# unused data
+bin/data/hunspell/.*
 
 # we use a icontheme.rc on windows
 bin/data/icons/.*
 
-# TODO
+# strip executables
+bin/(?!(labplot)).*\.exe
