@@ -58,5 +58,8 @@ class Package(CMakePackageBase):
         self.defines["mimetypes"] = ["application/x-labplot2"]
         self.defines["file_types"] = [".lml"]
 
+        self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("libs/dbus")
+
         return super().createPackage()
 
