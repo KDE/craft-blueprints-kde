@@ -9,6 +9,9 @@ class subinfo(info.infoclass):
 
         for ver in ['2.5.0', '2.6.0', '2.7.0']:
             self.targets[ver] = 'http://download.kde.org/stable/labplot/%s/labplot-%s.tar.xz' % (ver, ver)
+        for ver in ['2.6.0']:
+            self.targetInstSrc[ver] = 'labplot-2.6'
+        for ver in ['2.5.0', '2.7.0']:
             self.targetInstSrc[ver] = 'labplot-%s' % ver
 
         self.defaultTarget = 'master'
