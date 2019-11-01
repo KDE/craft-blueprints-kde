@@ -5,6 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Interactive graphing and analysis of scientific data"
+        self.webpage = "https://labplot.kde.org/"
         self.displayName = "LabPlot2"
 
         for ver in ['2.5.0', '2.6.0', '2.7.0']:
@@ -53,14 +54,20 @@ class Package(CMakePackageBase):
         self.defines["appname"] = "labplot2"
         self.defines["website"] = "https://labplot.kde.org/"
         self.defines["executable"] = "bin\\labplot2.exe"
-        self.defines["shortcuts"] = [{"name" : "LabPlot2", "target" : "bin/labplot2.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\labplot2\\labplot2.ico" }]
+        self.defines["shortcuts"] = [{"name" : "LabPlot2", "target" : "bin/labplot2.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\labplot2.ico" }]
         self.defines["icon"] = os.path.join(self.packageDir(), "labplot2.ico")
+
+        # TODO
+        #self.defines["registy_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate" "" "Edit with Kate"\n"""
+        #                                """WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate\\command" "" '"$INSTDIR\\bin\\kate.exe" "%V"'\n""")
 
         self.defines["mimetypes"] = ["application/x-labplot2"]
         self.defines["file_types"] = [".lml"]
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
+        self.ignoredPackages.append("kde/frameworks/kemoticons")
 
-        return super().createPackage()
+        #return super().createPackage()
+        return TypePackager.createPackage(self)
 
