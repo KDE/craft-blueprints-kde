@@ -2,23 +2,43 @@
 
 # general
 .*\.pdb
+.*\.sym
 
 # unused libs and exe
-bin/libgio-2.0-0.dll
-bin/libglib-2.0-0.dll
-bin/libgobject-2.0-0.dll
-bin/icuin.dll
-bin/icuuc.dll
-bin/snoretoast.exe
-bin/openssl.exe
+bin/libgio-2\.0-0\.dll
+bin/libglib-2\.0-0\.dll
+bin/libgobject-2\.0-0\.dll
+bin/icuin\.dll
+bin/icuuc\.dll
+bin/snoretoast\.exe
+bin/openssl\.exe
 
-# unused Qt libs
-bin/Qt5WebKit.dll
-bin/Qt5Quick.dll
-bin/Qt5Location.dll
-bin/Qt5Script.dll
-bin/Qt5Multimedia.dll
-bin/libKF5KDELibs4Support.dll
+# unused Qt/KF5 libs
+bin/Qt5Concurrent\.dll
+bin/Qt5Location\.dll
+bin/Qt5Multimedia.*\.dll
+bin/Qt5OpenGL\.dll
+bin/Qt5Positioning\.dll
+bin/Qt5Quick.*\.dll
+bin/Qt5Script.*\.dll
+bin/Qt5Sensors\.dll
+bin/Qt5Web.*\.dll
+bin/Qt5WinExtras\.dll
+bin/.*KF5KDELibs4Support\.dll
+bin/.*KF5CalendarEvents\.dll
+bin/.*KF5Declarative\.dll
+bin/.*KF5DocTools\.dll
+bin/.*KF5Emoticons\.dll
+bin/.*KF5GlobalAccelPrivate\.dll
+bin/.*KF5ItemModels\.dll
+bin/.*KF5KioGui\.dll
+bin/.*KF5Notifications\.dll
+bin/.*KF5Package\.dll
+bin/.*KF5Plotting\.dll
+bin/.*KF5QuickAddons\.dll
+bin/.*KF5Wallet\.dll
+bin/.*KF5Webkit\.dll
+bin/kwalletbackend5\.dll
 
 # doubled dlls
 lib/[^/]*\.dll
