@@ -45,7 +45,7 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         # hdf5 and lz4 (needed for ROOT) not available on craft
-        self.subinfo.options.configure.args += "-DENABLE_HDF5=OFF -DENABLE_NETCDF=OFF -DENABLE_ROOT=OFF"
+        self.subinfo.options.configure.args += "-DENABLE_TESTS=OFF -DENABLE_HDF5=OFF -DENABLE_NETCDF=OFF -DENABLE_ROOT=OFF"
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
