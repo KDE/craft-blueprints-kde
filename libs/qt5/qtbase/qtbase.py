@@ -141,6 +141,9 @@ class QtPackage(Qt5CorePackageBase):
             else:
                 command += "-release "
 
+            if self.buildType() != "Debug":
+                command += "-separate-debug-info "
+
             if self.buildType() == "RelWithDebInfo":
                 command += "-force-debug-info "
 
