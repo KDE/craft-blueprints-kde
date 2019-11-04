@@ -6,7 +6,16 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = "https://github.com/jrosdahl/ccache.git"
         self.targetInstallPath["master"] = "dev-utils"
-        self.defaultTarget = 'master'
+
+        for ver in ["3.7.5"]:
+            self.targets[ver] = f"https://github.com/ccache/ccache/releases/download/v{ver}/ccache-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"ccache-{ver}"
+            self.targetInstallPath[ver] = "dev-utils"
+        
+        self.targetDigests["3.7.5"] = (['058cc18a25d57c0fd9aa494efdee3cc567b1b60ba1c80a18c5a0128c23832c09'], CraftHash.HashAlgorithm.SHA256)
+       
+        self.webpage = "https://ccache.dev/"
+        self.defaultTarget = "3.7.5"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -18,18 +27,8 @@ from Package.AutoToolsPackageBase import *
 from Package.VirtualPackageBase import *
 
 
-class PackageMinGW(AutoToolsPackageBase):
+class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args = "--with-bundled-zlib "
         self.supportsCCACHE = False
-
-
-if CraftCore.compiler.isMinGW():
-    class Package(PackageMinGW):
-        def __init__(self):
-            PackageMinGW.__init__(self)
-else:
-    class Package(VirtualPackageBase):
-        def __init__(self):
-            VirtualPackageBase.__init__(self)
