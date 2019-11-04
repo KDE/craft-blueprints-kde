@@ -31,13 +31,17 @@ class subinfo(info.infoclass):
     def updateMsys(self):
         msysDir = CraftCore.settings.get("Paths", "Msys", os.path.join(CraftStandardDirs.craftRoot(), "msys"))
         shell = shells.BashShell()
+        useOverwrite = CraftCore.cache.checkCommandOutputFor(os.path.join(msysDir, "usr/bin", "pacman.exe"), "--overwrite", "-Sh")
+
+        # force was replace by overwrite
+        overwrite = "--overwrite='*'" if useOverwrite else "--force"
 
         def stopProcesses():
             return OsUtils.killProcess("*", msysDir)
 
         def queryForUpdate():
             out = io.BytesIO()
-            if not shell.execute(".", "pacman", "-Sy --noconfirm --force"):
+            if not shell.execute(".", "pacman", f"-Sy --noconfirm {overwrite}"):
                 raise Exception()
             shell.execute(".", "pacman", "-Qu --noconfirm", stdout=out, stderr=subprocess.PIPE)
             out = out.getvalue()
@@ -52,13 +56,13 @@ class subinfo(info.infoclass):
 
         try:
             while queryForUpdate():
-                if not (shell.execute(".", "pacman", "-Su --noconfirm --force --ask 20") and
+                if not (shell.execute(".", "pacman", f"-Su --noconfirm {overwrite} --ask 20") and
                         stopProcesses()):
                     return False
         except Exception as e:
             CraftCore.log.error(e, exc_info=e)
             return False
-        if not (shell.execute(".", "pacman", "-S base-devel msys/binutils --noconfirm --force --needed") and
+        if not (shell.execute(".", "pacman", f"-S base-devel msys/binutils --noconfirm {overwrite} --needed") and
                 stopProcesses()):
             return False
         return utils.system("autorebase.bat", cwd=msysDir)
