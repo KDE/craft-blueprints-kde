@@ -21,14 +21,15 @@ class subinfo(info.infoclass):
                 self.targets[ver] = f"https://files.kde.org/craft/sources/libs/icu/icu4c-{ver2}-src.tgz"
                 self.targetDigestUrls[ver] = ([f"https://files.kde.org/craft/sources/libs/icu/SHASUM512.txt"], CraftHash.HashAlgorithm.SHA512)
             self.targetInstSrc[ver] = os.path.join("icu", "source")
-        self.patchToApply["63.1"] = [("icu-63.1-20181212.diff", 1),
+            self.patchToApply[ver] = [("icu-msys.diff", 2)]
+        self.patchToApply["63.1"] += [("icu-63.1-20181212.diff", 1),
                                      ("icu-63.1-20181215.diff", 2), # backport https://github.com/unicode-org/icu/pull/228
                                      ]
         if CraftCore.compiler.isMSVC2015() or CraftCore.compiler.isMinGW():
-            self.patchToApply["55.1"] = ("icu-20150414.diff", 2)
+            self.patchToApply["55.1"] += [("icu-20150414.diff", 2)]
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["55.1"] = [("icu-20150414.diff", 2), ("icu-msys.diff", 2)]
-            self.patchToApply["58.2"] = ("0020-workaround-missing-locale.patch",
+            self.patchToApply["55.1"] += [("icu-20150414.diff", 2)]
+            self.patchToApply["58.2"] += ("0020-workaround-missing-locale.patch",
                                          2)  # https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-icu/0020-workaround-missing-locale.patch
         self.defaultTarget = "63.1"
 
