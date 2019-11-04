@@ -10,14 +10,13 @@ from Package.MaybeVirtualPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        ver = "20181211"
-        # don't set an actual version  instead of base. Msys must be manually updated so doing a craft update of msys wil break things.
-        self.targets["base"] = f"http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-{ver}.tar.xz"
-        self.targetInstSrc["base"] = "msys64"
-        self.targetInstallPath["base"] = "msys"
-        self.targetDigests["base"] = (['5cab863861bc9d414b4df2cbe0b1bf8b560eb9a19aa637afabd6f436b572f2e3'], CraftHash.HashAlgorithm.SHA256)
+        for ver in ["20190524"]:
+            self.targets[ver] = f"http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-{ver}.tar.xz"
+            self.targetInstSrc[ver] = "msys64"
+            self.targetInstallPath[ver] = "msys"
+        self.targetDigests["20190524"] =  (['168e156fa9f00d90a8445676c023c63be6e82f71487f4e2688ab5cb13b345383'], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "base"
+        self.defaultTarget = "20190524"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/bin-base"] = None
