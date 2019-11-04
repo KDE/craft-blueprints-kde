@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_GenericDataLocation_mac.patch", 1),
                     ("qstandardpaths-extra-dirs.patch", 1),
+                    ("qtbase-5.13.1-20191104.diff", 1)  # https://bugreports.qt.io/browse/QTBUG-72846
                 ]
             elif qtVer >= CraftVersion("5.12.1"):
                 self.patchToApply[ver] = [
