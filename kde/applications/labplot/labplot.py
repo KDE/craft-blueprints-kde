@@ -56,6 +56,8 @@ class Package(CMakePackageBase):
         self.defines["executable"] = "bin\\labplot2.exe"
         self.defines["shortcuts"] = [{"name" : "LabPlot2", "target" : "bin/labplot2.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\labplot2.ico" }]
         self.defines["icon"] = os.path.join(self.packageDir(), "labplot2.ico")
+        #self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "150-apps-okular.png")
+        #self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "44-apps-okular.png")
 
         # TODO
         #self.defines["registy_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate" "" "Edit with Kate"\n"""
@@ -65,8 +67,13 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".lml"]
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("libs/dbus")
         self.ignoredPackages.append("kde/frameworks/kemoticons")
+        self.ignoredPackages.append("kde/frameworks/kdesignerplugin")
+        self.ignoredPackages.append("libs/dbus")
+        self.ignoredPackages.append("libs/llvm-meta")
+
+        if isinstance(self, AppxPackager):
+              self.defines["display_name"] = "LabPlot"
 
         #return super().createPackage()
         return TypePackager.createPackage(self)
