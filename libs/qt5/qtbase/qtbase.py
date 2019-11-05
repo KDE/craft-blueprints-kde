@@ -142,7 +142,7 @@ class QtPackage(Qt5CorePackageBase):
             else:
                 command += "-release "
 
-            if self.buildType() != "Release":
+            if not CraftCore.compiler.isWindows and self.buildType() != "Release":
                 command += "-separate-debug-info "
 
             if self.buildType() == "RelWithDebInfo":
