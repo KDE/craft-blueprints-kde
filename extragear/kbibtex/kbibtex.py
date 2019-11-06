@@ -6,7 +6,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['kbibtex/0.9'] = 'git://anongit.kde.org/kbibtex|kbibtex/0.9'
         self.svnTargets['master'] = 'git://anongit.kde.org/kbibtex|master'
-        self.defaultTarget = 'kbibtex/0.9'
+        self.defaultTarget = 'master'
 
         self.description = "An editor for bibliographies used with LaTeX"
         self.webpage = "https://userbase.kde.org/KBibTeX"
@@ -15,9 +15,10 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies['qt-libs/poppler'] = None
         self.runtimeDependencies['libs/icu'] = None
+        self.runtimeDependencies['libs/qt5/qtconcurrent'] = None
+        self.runtimeDependencies['libs/qt5/qtnetworkauth'] = None
         self.runtimeDependencies['kdesupport/qca'] = None
         self.runtimeDependencies['kde/applications/okular'] = None
-        self.runtimeDependencies["kde/applications/kate"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
@@ -25,6 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
 
 
 class Package(CMakePackageBase):
