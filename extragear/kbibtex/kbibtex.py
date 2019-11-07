@@ -15,7 +15,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies['qt-libs/poppler'] = None
         self.runtimeDependencies['libs/icu'] = None
-        self.runtimeDependencies['libs/qt5/qtconcurrent'] = None
         self.runtimeDependencies['libs/qt5/qtnetworkauth'] = None
         self.runtimeDependencies['kdesupport/qca'] = None
         self.runtimeDependencies['kde/applications/okular'] = None
