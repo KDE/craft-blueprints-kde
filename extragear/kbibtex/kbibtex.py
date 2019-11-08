@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['qt-libs/poppler'] = None
         self.runtimeDependencies['libs/icu'] = None
         self.runtimeDependencies['libs/qt5/qtnetworkauth'] = None
-        self.runtimeDependencies['kdesupport/qca'] = None
+        self.runtimeDependencies['libs/qt5/qtwebengine'] = None
         self.runtimeDependencies['kde/applications/okular'] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
