@@ -46,26 +46,26 @@ class Package(CMakePackageBase):
         if isinstance(self, NullsoftInstallerPackager):
             self.defines["nsis_include"] = f"!include {self.packageDir()}\\SnoreNotify.nsh"
             self.defines["sections"] = r"""
-                !define SnoreToastExe "$INSTDIR\bin\SnoreToast.exe"
+                !define SnoreToastExe "$INSTDIR\\bin\\SnoreToast.exe"
 
                 Section "@{productname}"
                     SectionIn 1
                     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-                        !insertmacro SnoreShortcut "$SMPROGRAMS\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe" "@{AppUserModelID}"
-                        CreateShortCut "$SMPROGRAMS\Startup\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe"
-                        CreateShortCut "$DESKTOP\@{productname}.lnk" "$INSTDIR\bin\@{appname}.exe"
-                        CreateShortCut "$SENDTO\Send to remote device via @{productname}.lnk" "$INSTDIR\bin\kdeconnect-handler.exe"  "" "$INSTDIR\bin\@{appname}.exe" 0
-                        CreateShortCut "$SENDTO\Open on remote device via @{productname}.lnk" "$INSTDIR\bin\kdeconnect-handler.exe"  "--open" "$INSTDIR\bin\@{appname}.exe" 0
+                        !insertmacro SnoreShortcut "$SMPROGRAMS\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe" "@{AppUserModelID}"
+                        CreateShortCut "$SMPROGRAMS\\Startup\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
+                        CreateShortCut "$DESKTOP\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
+                        CreateShortCut "$SENDTO\\Send to remote device via @{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-handler.exe"  "" "$INSTDIR\\bin\\kdeconnect-handler.exe" 0
+                        CreateShortCut "$SENDTO\\Open on remote device via @{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-handler.exe"  "--open" "$INSTDIR\\bin\\kdeconnect-handler.exe" 0
                     !insertmacro MUI_STARTMENU_WRITE_END
                 SectionEnd
                 """
             self.defines["un_sections"]=r"""
                 Section "Un.Remove Shortcuts"
-                    Delete "$SMPROGRAMS\@{productname}.lnk"
-                    Delete "$SMPROGRAMS\Startup\@{productname}.lnk"
-                    Delete "$DESKTOP\@{productname}.lnk"
-                    Delete "$SENDTO\Send to remote device via @{productname}.lnk"
-                    Delete "$SENDTO\Open on remote device via @{productname}.lnk"
+                    Delete "$SMPROGRAMS\\@{productname}.lnk"
+                    Delete "$SMPROGRAMS\\Startup\\@{productname}.lnk"
+                    Delete "$DESKTOP\\@{productname}.lnk"
+                    Delete "$SENDTO\\Send to remote device via @{productname}.lnk"
+                    Delete "$SENDTO\\Open on remote device via @{productname}.lnk"
                 SectionEnd
                 """
         elif isinstance(self, AppxPackager):
