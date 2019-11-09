@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.displayName = "Kile"
         self.webpage = "https://kile.sourceforge.io/"
         self.defaultTarget = '2.9.93'
+        self.patchToApply['2.9.93'] = [('kile-disable-sonnet-language-autodetect.diff', 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtscript"] = None
@@ -34,9 +35,6 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(self.packageDir(), "kile.ico")
         self.defines["icon_png"] = os.path.join(self.sourceDir(), "src", "data", "icons", "150-apps-kile.png")
         self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "src", "data", "icons", "44-apps-kile.png")
-
-        # disable Sonnet's language auto-detection as it doesn't work within KatePart (yet)
-        self.defines["registy_hook"] = ("""WriteRegStr SHCTX "Software\\KDE\\Sonnet" "autodetectLanguage" 'false'""")
 
         # this requires an 310x150 variant in addition!
         #self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "src", "data", "icons", "310-apps-kile.png")
