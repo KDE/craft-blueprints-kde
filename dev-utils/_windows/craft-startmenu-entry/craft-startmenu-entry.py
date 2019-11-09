@@ -43,7 +43,6 @@ class WinPackage(BinaryPackageBase):
     def __init__(self):
         BinaryPackageBase.__init__(self)
         self.subinfo.options.package.disableBinaryCache = True
-        self._shortcutPath = os.path.join(os.environ["APPDATA"], "Microsoft", "Windows", "Start Menu", "Programs", "Craft", f"Craft {os.path.basename(CraftCore.standardDirs.craftRoot())}.lnk")
 
 
     @property
@@ -60,24 +59,17 @@ class WinPackage(BinaryPackageBase):
                                 useAbsolutePath=True)
 
     def postQmerge(self):
-
-        root = OsUtils.toNativePath(os.path.join(CraftCore.standardDirs.craftBin(), ".."))
-        utils.createDir(os.path.dirname(self._shortcutPath))
-        utils.system([self.powershell,
-                      "-NoProfile",
-                      "-ExecutionPolicy", "ByPass",
-                      "-Command",
-                      os.path.join(self.packageDir(), "install-lnk.ps1"),
-                      "-Path", "'{0}'".format(os.path.join(CraftCore.standardDirs.craftRoot(), "bin", "craftenv.exe")),
-                      "-WorkingDirectory", f"'{root}'",
-                      "-Name", f"'{self._shortcutPath}'",
-                      "-Icon", "'{0}'".format(os.path.join(CraftCore.standardDirs.craftBin(), "data", "icons", "craft.ico")),
-                      "-Description", f"'Craft installed to: {os.path.dirname(root)}'"])
+        utils.installShortcut(f"Craft {os.path.basename(CraftCore.standardDirs.craftRoot())}",
+                              os.path.join(CraftCore.standardDirs.craftRoot(), "bin", "craftenv.exe"),
+                              os.path.join(CraftCore.standardDirs.craftBin(), ".."),
+                              os.path.join(CraftCore.standardDirs.craftBin(), "data", "icons", "craft.ico"),
+                              f"Craft installed to: {os.path.dirname(CraftCore.standardDirs.craftRoot())}")
         return True
 
     def unmerge(self):
-        if os.path.exists(self._shortcutPath):
-            utils.deleteFile(self._shortcutPath)
+        shortcutPath = Path(os.environ["APPDATA"]) / f"Microsoft/Windows/Start Menu/Programs/Craft/Craft {os.path.basename(CraftCore.standardDirs.craftRoot())}.lnk"
+        if os.path.exists(shortcutPath):
+            utils.deleteFile(shortcutPath)
         return super().unmerge()
 
 from Package.MaybeVirtualPackageBase import *
