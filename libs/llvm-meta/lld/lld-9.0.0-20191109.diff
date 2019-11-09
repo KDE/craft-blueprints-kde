@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' lld-9.0.0.src.orig/ELF/Symbols.h lld-9.0.0.src/ELF/Symbols.h
+--- lld-9.0.0.src.orig/ELF/Symbols.h	2019-08-26 10:35:17.000000000 +0200
++++ lld-9.0.0.src/ELF/Symbols.h	2019-11-09 22:53:46.982215800 +0100
+@@ -467,7 +467,7 @@
+ // It is important to keep the size of SymbolUnion small for performance and
+ // memory usage reasons. 80 bytes is a soft limit based on the size of Defined
+ // on a 64-bit system.
+-static_assert(sizeof(SymbolUnion) <= 80, "SymbolUnion too large");
++// static_assert(sizeof(SymbolUnion) <= 80, "SymbolUnion too large");
+ 
+ template <typename T> struct AssertSymbol {
+   static_assert(std::is_trivially_destructible<T>(),

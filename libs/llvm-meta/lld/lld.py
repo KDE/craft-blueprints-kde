@@ -5,6 +5,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["9.0.0"] = [("lld-9.0.0-20191109.diff", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
