@@ -1,0 +1,39 @@
+diff --git a/kstars/ekos/align/align.cpp b/kstars/ekos/align/align.cpp
+index 490082adf..aec4de9df 100644
+--- a/kstars/ekos/align/align.cpp
++++ b/kstars/ekos/align/align.cpp
+@@ -257,6 +257,14 @@ Align::Align(ProfileInfo *activeProfile) : m_ActiveProfile(activeProfile)
+ 
+     solverTypeGroup->setId(astapSolverR, SOLVER_ASTAP);
+     solverTypeGroup->setId(astrometrySolverR, SOLVER_ASTROMETRYNET);
++
++    // JM 2019-11-10: solver type was 3 in previous version (online, offline, remote)
++    // But they are now two choices (ASTAP and ASTROMETERY.NET) so we need to accomodate that.
++    if (Options::solverType() > SOLVER_ASTROMETRYNET)
++    {
++        Options::setSolverType(SOLVER_ASTROMETRYNET);
++    }
++
+     solverTypeGroup->button(Options::solverType())->setChecked(true);
+     connect(solverTypeGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
+             this, &Align::setSolverType);
+diff --git a/kstars/ekos/align/astapastrometryparser.cpp b/kstars/ekos/align/astapastrometryparser.cpp
+index 9ec518064..4a6d24f2f 100644
+--- a/kstars/ekos/align/astapastrometryparser.cpp
++++ b/kstars/ekos/align/astapastrometryparser.cpp
+@@ -29,7 +29,14 @@ ASTAPAstrometryParser::ASTAPAstrometryParser() : AstrometryParser()
+ 
+ bool ASTAPAstrometryParser::init()
+ {
+-    return QFile::exists(Options::aSTAPExecutable());
++    bool validFile = QFile::exists(Options::aSTAPExecutable());
++    if (!validFile)
++    {
++        align->appendLogText(i18n("No valid ASTAP installation found. Select the path to ASTAP executable in options."));
++    }
++
++    return validFile;
++
+ }
+ 
+ void ASTAPAstrometryParser::verifyIndexFiles(double, double)
