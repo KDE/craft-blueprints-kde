@@ -7,14 +7,14 @@ class subinfo(info.infoclass):
         #self.patchToApply["3.3.6"] = [("kstars-3.3.6-20190912.diff", 1)]
         #self.patchLevel["3.3.6"] = 1
         
-        self.patchToApply["3.3.7"] = [("kstars-3.3.7-20191110.diff", 1), ("kstars-3.3.7-20191112.diff", 1)]
-        self.patchLevel["3.3.7"] = 1
+        #self.patchToApply["3.3.7"] = [("kstars-3.3.7-20191110.diff", 1), ("kstars-3.3.7-20191112.diff", 1)]
+        #self.patchLevel["3.3.7"] = 1
 
         self.description = 'a desktop planetarium'
-        for ver in ['3.3.7']:
+        for ver in ['3.3.8']:
             self.targets[ver] = 'http://download.kde.org/stable/kstars/kstars-%s.tar.xz' % ver
             self.targetInstSrc[ver] = 'kstars-%s' % ver
-        self.defaultTarget = '3.3.7'
+        self.defaultTarget = '3.3.8'
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
