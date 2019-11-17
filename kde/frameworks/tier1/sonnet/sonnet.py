@@ -7,16 +7,25 @@ class subinfo(info.infoclass):
 
         self.description = "Spelling framework for Qt, plugin-based."
 
-    def registerOptions(self):
-        self.options.dynamic.registerOption("useHunspell", True)
+        self.patchToApply["5.64.0"] = [
+            ("ispellchecker.patch", 1),
+        ]
 
+        self.patchLevel["5.64.0"] = 1
+
+    def registerOptions(self):
+        # hunspell just on unices, on Windows or Mac we try with the OS specific checkers
+        if OsUtils.isUnix():
+            self.options.dynamic.registerOption("useHunspell", True)
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["libs/hunspell"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
 
+        # hunspell just on unices, on Windows or Mac we try with the OS specific checkers
+        if OsUtils.isUnix():
+            self.runtimeDependencies["libs/hunspell"] = None
 
 from Package.CMakePackageBase import *
 
