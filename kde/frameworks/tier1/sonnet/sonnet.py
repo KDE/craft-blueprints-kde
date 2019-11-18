@@ -14,17 +14,15 @@ class subinfo(info.infoclass):
         self.patchLevel["5.64.0"] = 1
 
     def registerOptions(self):
-        # hunspell just on unices, on Windows or Mac we try with the OS specific checkers
-        if OsUtils.isUnix():
-            self.options.dynamic.registerOption("useHunspell", True)
+        # hunspell just when needed, on Windows(visual studio) or Mac we try with the OS specific checkers
+        self.options.dynamic.registerOption("useHunspell", CraftCore.compiler.isLinux or CraftCore.compiler.isMinGW())
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
 
-        # hunspell just on unices, on Windows or Mac we try with the OS specific checkers
-        if OsUtils.isUnix():
+        if self.options.dynamic.useHunspell:
             self.runtimeDependencies["libs/hunspell"] = None
 
 from Package.CMakePackageBase import *
