@@ -62071,7 +62071,7 @@ index 58b254c..6bc62a6 100644
      add_subdirectory( nsspellchecker )
  endif ()
 +
-+if (WIN32)
++if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 +    add_subdirectory( ispellchecker )
 +endif ()
 diff --git a/src/plugins/ispellchecker/CMakeLists.txt b/src/plugins/ispellchecker/CMakeLists.txt
