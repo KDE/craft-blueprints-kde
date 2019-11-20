@@ -5,21 +5,6 @@ from CraftOS.osutils import OsUtils
 class subinfo( info.infoclass ):
     def setTargets( self ):
         self.versionInfo.setDefaultValues()
-        self.targets['0.1.0'] = 'https://download.kde.org/stable/elisa/0.1/elisa-0.1.tar.xz'
-        self.targetDigestUrls['0.1.0'] = 'https://download.kde.org/stable/elisa/0.1/elisa-0.1.tar.xz.sha256'
-        self.targetInstSrc['0.1.0'] = 'elisa-0.1'
-
-        self.targets['0.1.80'] = 'https://download.kde.org/unstable/elisa/0.1.80/elisa-0.1.80.tar.xz'
-        self.targetDigestUrls['0.1.80'] = 'https://download.kde.org/unstable/elisa/0.1.80/elisa-0.1.80.tar.xz.sha256'
-        self.targetInstSrc['0.1.80'] = 'elisa-0.1.80'
-
-        self.targets['0.2.80'] = 'https://download.kde.org/unstable/elisa/0.2.80/elisa-0.2.80.tar.xz'
-        self.targetDigestUrls['0.2.80'] = 'https://download.kde.org/unstable/elisa/0.2.80/elisa-0.2.80.tar.xz.sha256'
-        self.targetInstSrc['0.2.80'] = 'elisa-0.2.80'
-
-        self.targets['0.3.80'] = 'https://download.kde.org/unstable/elisa/0.3.80/elisa-0.3.80.tar.xz'
-        self.targetDigestUrls['0.3.80'] = 'https://download.kde.org/unstable/elisa/0.3.80/elisa-0.3.80.tar.xz.sha256'
-        self.targetInstSrc['0.3.80'] = 'elisa-0.3.80'
 
         self.defaultTarget = '0.4.2'
 
