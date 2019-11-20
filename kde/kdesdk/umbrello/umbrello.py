@@ -6,7 +6,6 @@ class subinfo(info.infoclass):
 
         self.description = "Umbrello is a UML modelling application."
         self.displayName = "Umbrello"
-        self.defaultTarget = '18.12.0'
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
