@@ -6,8 +6,6 @@ class subinfo( info.infoclass ):
     def setTargets( self ):
         self.versionInfo.setDefaultValues()
 
-        self.defaultTarget = '0.4.2'
-
         self.displayName = "Elisa"
         self.description = "the Elisa music player"
 
