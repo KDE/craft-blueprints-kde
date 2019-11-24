@@ -47,7 +47,7 @@ class QtPackage(Qt5CorePackageBase):
         Qt5CorePackageBase.__init__(self)
         self.subinfo.options.fetch.checkoutSubmodules = True
         if CraftCore.compiler.isLinux:
-            self.subinfo.options.configure.args += " -- --webengine-pulseaudio=no --webengine-ffmpeg=system"
+            self.subinfo.options.configure.args += " -- --webengine-pulseaudio=no --webengine-ffmpeg=system --webengine-icu=system"
 
     def fetch(self):
         if isinstance(self, GitSource):
