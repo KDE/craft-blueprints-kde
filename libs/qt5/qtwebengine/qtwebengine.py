@@ -16,6 +16,9 @@ class subinfo(info.infoclass):
                                        ("c6fb532d81f405b2456c382aa0b29eef8866f993.patch", 1)]
         self.patchToApply["5.13.0"] = [("20b5e27.diff", 1)]
 
+        # reduce windows debug lvl to prevent out of memory during linking
+        self.patchToApply["5.13.2"] = [("qtwebengine-5.13.2-20191124.diff", 1)]
+
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
         self.buildDependencies["dev-utils/flexbison"] = None

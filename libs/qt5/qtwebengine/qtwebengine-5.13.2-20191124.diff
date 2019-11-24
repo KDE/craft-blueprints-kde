@@ -1,0 +1,16 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' qtwebengine-everywhere-src-5.13.2.orig/src/core/config/common.pri qtwebengine-everywhere-src-5.13.2/src/core/config/common.pri
+--- qtwebengine-everywhere-src-5.13.2.orig/src/core/config/common.pri	2019-10-23 12:30:33.000000000 +0200
++++ qtwebengine-everywhere-src-5.13.2/src/core/config/common.pri	2019-11-24 16:06:41.016971600 +0100
+@@ -83,8 +83,10 @@
+     gn_args += is_debug=false
+     force_debug_info {
+         # Level 1 is not enough to generate all Chromium debug symbols on Windows
+-        msvc: gn_args += symbol_level=2
+-        else: gn_args += symbol_level=1
++        # but lvl 2 break our builders...
++        # msvc: gn_args += symbol_level=2
++        # else: gn_args += symbol_level=1
++        gn_args += symbol_level=1
+     } else {
+         gn_args += symbol_level=0
+     }
