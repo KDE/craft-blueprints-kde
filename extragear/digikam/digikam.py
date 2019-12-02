@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['libs/libxslt'] = 'default'
         self.runtimeDependencies['libs/libxml2'] = 'default'
         self.runtimeDependencies['libs/libjpeg-turbo'] = 'default'
+        self.description = "Professional Photo Management with the Power of Open Source"
 
 class Package(CMakePackageBase):
     def __init__(self):
