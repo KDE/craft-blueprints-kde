@@ -21,6 +21,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['libs/opencv'] = 'default'
         self.runtimeDependencies['libs/lensfun'] = 'default'
         self.runtimeDependencies['libs/libpng'] = 'default'
+        self.runtimeDependencies['libs/libxslt'] = 'default'
+        self.runtimeDependencies['libs/libxml2'] = 'default'
         self.runtimeDependencies['libs/libjpeg-turbo'] = 'default'
 
 class Package(CMakePackageBase):
