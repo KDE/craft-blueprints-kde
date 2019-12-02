@@ -232,7 +232,7 @@ class QtPackage(Qt5CorePackageBase):
             files = utils.filterDirectoryContent(self.installDir(),
                                              whitelist=lambda x, root: Path(x).suffix in {".cmake", ".prl", ".pri"},
                                              blacklist=lambda x, root: True)
-            if not self.patchInstallPrefix(files, "/usr/lib/x86_64-linux-gnu/", ""):
+            if not self.patchInstallPrefix(files, "/usr/lib/x86_64-linux-gnu/", "-l"):
                 return False
 
         return True
