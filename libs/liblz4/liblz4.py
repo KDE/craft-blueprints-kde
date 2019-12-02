@@ -17,9 +17,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.CMakePackageBase import *
+from Package.AutoToolsPackageBase import *
 
 
-class Package(CMakePackageBase):
+class Package(MakeFilePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        MakeFilePackageBase.__init__(self)
