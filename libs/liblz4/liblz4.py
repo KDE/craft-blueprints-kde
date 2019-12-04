@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.AutoToolsPackageBase import *
+from Package.MakeFilePackageBase import *
 
 
 class Package(MakeFilePackageBase):
