@@ -236,7 +236,7 @@ class QtPackage(Qt5CorePackageBase):
                 with open(f, "rb") as _f:
                     old = _f.read()
                 with open(f, "wb") as _f:
-                    _f.write(old.replace(b"/usr/lib/x86_64-linux-gnu/", b"-l"))
+                    _f.write(re.sub(rb'/usr/lib/(\w+-\w+-\w+/)?lib(\w+)\.so', rb'-l\2', old))
         return True
 
     def getQtBaseEnv(self):
