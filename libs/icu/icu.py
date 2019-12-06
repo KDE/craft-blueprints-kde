@@ -64,6 +64,10 @@ class PackageCMake(MSBuildPackageBase):
 
         return True
 
+    def postInstall(self):
+        return self.patchInstallPrefix([os.path.join(self.installDir(), "bin/icu-config")],
+                                       self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())
+
 
 from Package.AutoToolsPackageBase import *
 
@@ -91,6 +95,10 @@ class PackageMSys(AutoToolsPackageBase):
             if dll.endswith(".dll"):
                 utils.copyFile(os.path.join(self.installDir(), "lib", dll), os.path.join(self.installDir(), "bin", dll))
         return True
+
+    def postInstall(self):
+        return self.patchInstallPrefix([os.path.join(self.installDir(), "bin/icu-config")],
+                                       self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())
 
 
 if CraftCore.compiler.isGCCLike():
