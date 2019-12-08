@@ -1,5 +1,5 @@
 import info
-
+from Package.MakeFilePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -16,10 +16,15 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
 
-
-from Package.MakeFilePackageBase import *
-
-
 class Package(MakeFilePackageBase):
     def __init__(self):
         MakeFilePackageBase.__init__(self)
+        self.subinfo.options.useShadowBuild = False
+        self.subinfo.options.make.args += f"liblz4.a"
+
+    def install(self):
+        utils.copyFile(os.path.join(self.sourceDir(), "lib", "liblz4.a"),
+                       os.path.join(self.imageDir(), "lib", "liblz4.a"))
+        utils.copyFile(os.path.join(self.sourceDir(), "lib", "lz4.h"),
+                       os.path.join(self.imageDir(), "include", "lz4.h"))
+        return True
