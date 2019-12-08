@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gsl"] = None
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/libfftw"] = None
+        self.runtimeDependencies["libs/liblz4"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
