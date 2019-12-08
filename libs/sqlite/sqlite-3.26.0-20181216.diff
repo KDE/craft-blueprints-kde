@@ -55,13 +55,14 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgam
 +target_include_directories(libsqlite3 PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 +generate_export_header(libsqlite3 EXPORT_MACRO_NAME SQLITE_API STATIC_DEFINE SQLITE3_STATIC)
 +target_compile_definitions(libsqlite3 PRIVATE _HAVE_SQLITE_CONFIG_H)
++target_link_libraries(libsqlite3 PUBLIC Threads::Threads ${CMAKE_DL_LIBS})
 +
 +if("${LIBRARY_TYPE}" STREQUAL "STATIC")
 +  target_compile_definitions(libsqlite3 PRIVATE SQLITE3_STATIC)
 +endif()
 +
 +if(NOT WIN32)
-+  target_link_libraries(libsqlite3 m)
++  target_link_libraries(libsqlite3 PUBLIC m)
 +endif()
 +
 +ecm_generate_pkgconfig_file(
@@ -75,7 +76,7 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' sqlite-amalgam
 +install( TARGETS libsqlite3 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} )
 +
 +add_executable( sqlite3_bin ${sqlite_SRC} )
-+target_link_libraries( sqlite3_bin libsqlite3 Threads::Threads ${CMAKE_DL_LIBS})
++target_link_libraries( sqlite3_bin libsqlite3)
 +target_include_directories(sqlite3_bin PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 +set_target_properties( sqlite3_bin PROPERTIES RUNTIME_OUTPUT_NAME sqlite3 ARCHIVE_OUTPUT_NAME sqlite3_bin )
 +
