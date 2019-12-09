@@ -20,7 +20,18 @@ class Package(MakeFilePackageBase):
     def __init__(self):
         MakeFilePackageBase.__init__(self)
         self.subinfo.options.useShadowBuild = False
+        self.subinfo.options.make.supportsMultijob = False
         self.subinfo.options.make.args += f"liblz4.a"
+
+        # fix Makefile
+        Makefile = os.path.join(self.sourceDir(), "Makefile")
+        with open(Makefile, "rt") as f:
+            content = f.read()
+
+        content = content.replace(r"include Makefile.inc", r"#include Makefile.inc")
+
+        with open(Makefile, "wt") as f:
+            f.write(content)
 
     def install(self):
         utils.copyFile(os.path.join(self.sourceDir(), "lib", "liblz4.a"),
