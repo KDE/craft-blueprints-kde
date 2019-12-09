@@ -62,6 +62,10 @@ class PackageMinGW(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += " --disable-static --enable-shared --without-python "
 
+    def postInstall(self):
+        hardCoded = [Path(self.imageDir()) / "bin/xml2-config" ]
+        return self.patchInstallPrefix(hardCoded, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())
+
 if CraftCore.compiler.isGCCLike():
     class Package(PackageMinGW):
         def __init__(self):
