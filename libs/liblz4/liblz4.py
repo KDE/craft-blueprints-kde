@@ -24,7 +24,7 @@ class Package(MakeFilePackageBase):
         self.subinfo.options.make.args += f"liblz4.a"
 
         # fix Makefile
-        Makefile = os.path.join(self.sourceDir(), "Makefile")
+        Makefile = os.path.join(self.buildDir(), "Makefile")
         with open(Makefile, "rt") as f:
             content = f.read()
 
