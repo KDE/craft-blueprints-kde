@@ -6,12 +6,12 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'https://invent.kde.org/kde/kdeconnect-kde.git'
 
-        for ver in ["1.3.5"]:
+        for ver in ["1.4"]:
             self.targets[ver] = f"https://download.kde.org/stable/kdeconnect/{ver}/kdeconnect-kde-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kdeconnect/{ver}/kdeconnect-kde-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"kdeconnect-kde-{ver}"
 
-        self.defaultTarget = '1.3.5'
+        self.defaultTarget = '1.4'
         self.description = "KDE Connect adds communication between KDE and your smartphone"
         self.displayName = "KDE Connect"
 
