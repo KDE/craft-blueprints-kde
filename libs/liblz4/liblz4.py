@@ -23,15 +23,17 @@ class Package(MakeFilePackageBase):
         self.subinfo.options.make.supportsMultijob = False
         self.subinfo.options.make.args += f"liblz4.a"
 
+    def make(self):
         # fix Makefile
-        Makefile = os.path.join(self.buildDir(), "Makefile")
-        with open(Makefile, "rt") as f:
+        makefile = os.path.join(self.sourceDir(), "Makefile")
+        with open(makefile, "rt") as f:
             content = f.read()
 
         content = content.replace(r"include Makefile.inc", r"#include Makefile.inc")
 
-        with open(Makefile, "wt") as f:
+        with open(makefile, "wt") as f:
             f.write(content)
+        return super().make()
 
     def install(self):
         utils.copyFile(os.path.join(self.sourceDir(), "lib", "liblz4.a"),
