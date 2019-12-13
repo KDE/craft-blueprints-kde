@@ -25,12 +25,12 @@ class subinfo(info.infoclass):
 
         self.svnTargets["5.10"] = "https://code.qt.io/qt/qtwebkit.git|5.9"
         self.svnTargets["5.11"] = "https://code.qt.io/qt/qtwebkit.git|5.9"
-        for ver in ["5.12", "5.13"]:
+        for ver in ["5.12", "5.13", "5.14"]:
             self.svnTargets[ver] = self.svnTargets["5.212"]
             self.patchToApply[ver] = self.patchToApply["5.212"]
 
         # replace tarbals by git branches
-        branchRegEx = re.compile("\d\.\d+\.\d+")
+        branchRegEx = re.compile(r"\d\.\d+\.\d+")
         for ver in self.versionInfo.tarballs():
             branch = branchRegEx.findall(ver)[0][:-2]
             del self.targets[ver]
