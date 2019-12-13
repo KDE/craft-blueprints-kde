@@ -34,7 +34,7 @@ else:
             # fix Makefile
             makefile = os.path.join(self.sourceDir(), "Makefile")
             with open(makefile, "rt") as f:
-            content = f.read()
+                content = f.read()
 
             content = content.replace(r"include Makefile.inc", r"#include Makefile.inc")
 
