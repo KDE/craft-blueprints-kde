@@ -28,6 +28,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        # KTimeTracker forces Breeze style on Windows
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 from Package.CMakePackageBase import *
 
