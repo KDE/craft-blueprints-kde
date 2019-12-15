@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/gettext"] = None
 
 from Package.AutoToolsPackageBase import *
 
