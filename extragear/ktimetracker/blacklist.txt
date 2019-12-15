@@ -38,7 +38,6 @@ bin/data/knotifications5/.*
 bin/data/kpackage/.*
 bin/data/kservices5/.*
 bin/data/kservicetypes5/.*
-bin/data/locale/.*
 bin/data/man/.*
 bin/data/metainfo/.*
 bin/data/mime/.*
