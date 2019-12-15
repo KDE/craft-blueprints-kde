@@ -4,6 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.addCachedBuild("https://files.kde.org/craft/prebuilt/packages/", packageName="dev-utils/_autotools/icoutils", targetInstallPath="dev-utils")
+        self.patchLevel["0.32.3"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
