@@ -1,0 +1,45 @@
+From 9220e5045687e7e5257b473af53b462b26584aad Mon Sep 17 00:00:00 2001
+From: Matthieu Gallien <matthieu_gallien@yahoo.fr>
+Date: Fri, 29 Nov 2019 23:26:50 +0100
+Subject: [PATCH 1/7] partial solution to accept accentuated characters on
+ windows
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Summary: If filename contains accentuated characters, taglib fails to open it on windows if the QString is converted to utf8.
+
+Test Plan: Elisa is now able to index files with simple accentuated characters like é, è
+
+Reviewers: bruns, #windows
+
+Reviewed By: bruns
+
+Subscribers: vonreth, astippich, kde-frameworks-devel, #baloo
+
+Tags: #frameworks, #baloo
+
+Differential Revision: https://phabricator.kde.org/D25622
+---
+ src/extractors/taglibextractor.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/extractors/taglibextractor.cpp b/src/extractors/taglibextractor.cpp
+index bf3a433..f40ace9 100644
+--- a/src/extractors/taglibextractor.cpp
++++ b/src/extractors/taglibextractor.cpp
+@@ -380,7 +380,11 @@ void TagLibExtractor::extract(ExtractionResult* result)
+     const QString mimeType = getSupportedMimeType(result->inputMimetype());
+ 
+     // Open the file readonly. Important if we're sandboxed.
++#if defined Q_OS_WINDOWS
++    TagLib::FileStream stream(fileUrl.toLocal8Bit().constData(), true);
++#else
+     TagLib::FileStream stream(fileUrl.toUtf8().constData(), true);
++#endif
+     if (!stream.isOpen()) {
+         qCWarning(KFILEMETADATA_LOG) << "Unable to open file readonly: " << fileUrl;
+         return;
+-- 
+2.24.0
+

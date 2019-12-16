@@ -7,6 +7,10 @@ class subinfo(info.infoclass):
 
         self.description = "A file metadata and text extraction library"
 
+        self.patchToApply["5.64.0"] = [
+            ("0001-partial-solution-to-accept-accentuated-characters-on.patch", 1),
+        ]
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
