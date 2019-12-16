@@ -1,0 +1,26 @@
+From 23a77a4b60fedf3e5411c485ef42424039c6f8ba Mon Sep 17 00:00:00 2001
+From: Matthieu Gallien <matthieu_gallien@yahoo.fr>
+Date: Fri, 13 Dec 2019 18:24:06 +0100
+Subject: [PATCH 3/3] add back missing icons for windows task bar integration
+
+---
+ src/windows/WindowsTheme.qml | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/windows/WindowsTheme.qml b/src/windows/WindowsTheme.qml
+index 650ca7d..271e25a 100644
+--- a/src/windows/WindowsTheme.qml
++++ b/src/windows/WindowsTheme.qml
+@@ -20,4 +20,9 @@ import QtQuick.Controls 2.2
+ 
+ BaseTheme {
+     property real mediaPlayerControlOpacity: 0.8
++
++    property string skipBackwardIcon: 'image://icon/media-skip-backward'
++    property string pauseIcon: 'image://icon/media-playback-pause'
++    property string playIcon: 'image://icon/media-playback-start'
++    property string skipForwardIcon: 'image://icon/media-skip-forward'
+ }
+-- 
+2.24.0
+
