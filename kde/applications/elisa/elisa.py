@@ -9,6 +9,12 @@ class subinfo( info.infoclass ):
         self.displayName = "Elisa"
         self.description = "the Elisa music player"
 
+        self.patchToApply["19.12.0"] = [
+            ("0001-use-global-menu-only-on-linux-due-to-behavior-differ.patch", 1),
+            ("0002-ensure-that-the-metadata-dialog-has-a-title-and-stan.patch", 1),
+            ("0003-add-back-missing-icons-for-windows-task-bar-integrat.patch", 1),
+        ]
+
     def setDependencies( self ):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
