@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.patchToApply["5.64.0"] = [
             ("0001-partial-solution-to-accept-accentuated-characters-on.patch", 1),
         ]
+        self.patchLevel["5.64.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
