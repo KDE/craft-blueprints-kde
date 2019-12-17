@@ -7,6 +7,10 @@ class subinfo(info.infoclass):
         self.svnTargets['master'] = 'git://anongit.kde.org/ktimetracker|master'
         self.defaultTarget = 'master'
 
+        for ver in ['5.0.0']:
+            self.targets[ver] = "http://download.kde.org/stable/ktimetracker/%s/src/ktimetracker-%s.tar.xz" % (ver, ver)
+            self.targetInstSrc[ver] = "ktimetracker-%s" % ver
+
         self.displayName = "KTimeTracker"
         self.description = "Personal Time Tracker"
         self.webpage = "https://userbase.kde.org/KTimeTracker"
