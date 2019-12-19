@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
 
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
-        self.runtimeDependencies["kde/pim/kcontacts"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/pim/grantleetheme"] = None
         self.runtimeDependencies["kde/pim/libkleo"] = None
         self.runtimeDependencies["kde/pim/pimcommon"] = None

@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
-        self.runtimeDependencies["kde/pim/kcontacts"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
         self.runtimeDependencies["kde/pim/kcalcore"] = None
         self.runtimeDependencies["kde/pim/calendarsupport"] = None

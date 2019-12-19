@@ -52,7 +52,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies['libs/gpgme'] = 'default'
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None
-        self.runtimeDependencies["kde/pim/kcontacts"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
         # akonadi is currently not building on MacOS so we skip it here
         if not CraftCore.compiler.isMacOS:

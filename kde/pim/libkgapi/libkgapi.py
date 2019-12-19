@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/pim/kcalcore"] = None
-        self.runtimeDependencies["kde/pim/kcontacts"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["libs/qt5/qtwebengine"] = None
 
 
