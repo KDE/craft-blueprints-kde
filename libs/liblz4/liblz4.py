@@ -23,7 +23,7 @@ if CraftCore.compiler.isMSVC():
     class Package(CMakePackageBase):
         def __init__(self, **args):
             CMakePackageBase.__init__(self)
-            #self.subinfo.options.configure.args = "-DBUILD_TESTS=OFF -DBUILD_TOOLS=OFF"
+            self.subinfo.options.configure.args = "-DBUILD_STATIC_LIBS=ON"
 else:
     class Package(MakeFilePackageBase):
         def __init__(self):
