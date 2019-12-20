@@ -8,9 +8,17 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
 
     def setTargets(self):
-        self.svnTargets["svnHEAD"] = "http://source.icu-project.org/repos/icu/icu/trunk"
-        self.targetInstSrc["svnHEAD"] = "source"
-        for ver in ["53.1", "55.1", "58.2", "62.1", "63.1"]:
+        self.svnTargets["master"] = "http://source.icu-project.org/repos/icu/icu/trunk"
+        self.targetInstSrc["master"] = "source"
+
+        for ver in ["65.1"]:
+            major, minor = ver.split(".")
+            self.targets[ver] = f"https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/icu4c-{major}_{minor}-src.tgz"
+            self.targetDigestUrls[ver] = ([f"https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/SHASUM512.txt"], CraftHash.HashAlgorithm.SHA512)
+            self.targetInstSrc[ver] = os.path.join("icu", "source")
+            self.patchToApply[ver] = [("icu-msys.diff", 2)]
+
+        for ver in ["62.1", "63.1"]:
             ver2 = ver.replace(".", "_")
             self.targets[ver] = f"http://download.icu-project.org/files/icu4c/{ver}/icu4c-{ver2}-src.tgz"
             if CraftVersion(ver) < "63.1":
@@ -25,12 +33,6 @@ class subinfo(info.infoclass):
         self.patchToApply["63.1"] += [("icu-63.1-20181212.diff", 1),
                                      ("icu-63.1-20181215.diff", 2), # backport https://github.com/unicode-org/icu/pull/228
                                      ]
-        if CraftCore.compiler.isMSVC2015() or CraftCore.compiler.isMinGW():
-            self.patchToApply["55.1"] += [("icu-20150414.diff", 2)]
-        if CraftCore.compiler.isMinGW():
-            self.patchToApply["55.1"] += [("icu-20150414.diff", 2)]
-            self.patchToApply["58.2"] += ("0020-workaround-missing-locale.patch",
-                                         2)  # https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-icu/0020-workaround-missing-locale.patch
         self.defaultTarget = "63.1"
 
     def setDependencies(self):
