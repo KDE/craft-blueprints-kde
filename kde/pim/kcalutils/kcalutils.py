@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
-        self.runtimeDependencies["kde/pim/kcalcore"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
         self.runtimeDependencies["kdesupport/grantlee"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
 

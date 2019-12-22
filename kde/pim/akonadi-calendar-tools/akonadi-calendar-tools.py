@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
-        self.runtimeDependencies["kde/pim/kcalcore"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
         self.runtimeDependencies["kde/pim/kcalutils"] = None
         self.runtimeDependencies["kde/pim/akonadi-calendar"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None

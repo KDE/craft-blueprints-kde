@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
-        self.runtimeDependencies["kde/pim/kcalcore"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
         self.runtimeDependencies["kde/pim/kmailtransport"] = None
         self.runtimeDependencies["kde/pim/kcalutils"] = None

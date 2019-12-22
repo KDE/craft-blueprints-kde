@@ -37,7 +37,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["kdesupport/grantlee"] = None
         self.runtimeDependencies["kde/pim/kldap"] = None
-        self.runtimeDependencies["kde/pim/kcalcore"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
         self.runtimeDependencies["kde/pim/kcalutils"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
         self.runtimeDependencies["kde/pim/kmailtransport"] = None
