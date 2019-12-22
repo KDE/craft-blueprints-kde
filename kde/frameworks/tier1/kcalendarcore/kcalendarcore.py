@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         self.description = "The KDE calendar access library"
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = None
+        self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/libical"] = None
