@@ -1,3 +1,16 @@
+diff --git a/apps/CMakeLists.txt b/apps/CMakeLists.txt
+index 70c77fd9..870e7a1d 100644
+--- a/apps/CMakeLists.txt
++++ b/apps/CMakeLists.txt
+@@ -21,7 +21,7 @@ ENDIF(INSTALL_HELPER_SCRIPTS)
+ 
+ # Inspired by http://bloerg.net/2012/11/10/cmake-and-distutils.html
+ 
+-FIND_PROGRAM(PYTHON "python3")
++#FIND_PROGRAM(PYTHON "python3")
+ IF(PYTHON)
+     SET(SETUP_PY_IN "${CMAKE_CURRENT_SOURCE_DIR}/setup.py.in")
+     SET(SETUP_PY    "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
 diff --git a/cmake/modules/FindGLIB2.cmake b/cmake/modules/FindGLIB2.cmake
 index 7c39093f..9f8be71b 100644
 --- a/cmake/modules/FindGLIB2.cmake
