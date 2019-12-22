@@ -8,12 +8,10 @@ class subinfo(info.infoclass):
         self.description = "a library to perform image correction based on lens profiles"
 
         for ver in ['0.2.6']:
-            self.targets[
-                ver] = "http://sourceforge.net/projects/lensfun.berlios/files/lensfun-%s.tar.bz2/download/lensfun-%s.tar.bz2" % (
-            ver, ver)
+            self.targets[ver] = "https://github.com/lensfun/lensfun/archive/v%s.tar.gz" % (ver)
             self.targetInstSrc[ver] = "lensfun-%s" % ver
 
-        self.targetDigests['0.2.6'] = '0d7ffbae5c54159308114f69a9e2bc5f4d24d836'
+        self.targetDigests['0.2.6'] = 'ed20d5a04ff5785d15ea8e135bc125752d2d5a73'
 
         self.patchToApply['0.2.6'] = ('lensfun-0.2.6.diff', 1)
 
