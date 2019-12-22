@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/liblz4"] = None
+        self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -46,8 +47,8 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        # hdf5 and netcdf not available yet
-        self.subinfo.options.configure.args += "-DENABLE_TESTS=OFF -DENABLE_HDF5=OFF -DENABLE_NETCDF=OFF"
+        # netcdf not available yet
+        self.subinfo.options.configure.args += "-DENABLE_TESTS=OFF -DENABLE_NETCDF=OFF"
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
