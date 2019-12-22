@@ -4,29 +4,20 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.defaultTarget = '2.4.5'
+        self.defaultTarget = '4.1.2'
         self.description = 'a library for real time computer vision'
 
-        self.svnTargets['master'] = 'git://code.opencv.org/opencv.git'
-
-        self.svnTargets['2.3'] = 'http://downloads.sourceforge.net/opencvlibrary/OpenCV-2.3.0-win-src.zip'
-        self.targetInstSrc['2.3'] = 'OpenCV-2.3.0'
-
-        # 2.4.5 is the first with .tar.gz, previous were .tar.bz2
-        for ver in ['2.4.5']:
-            self.targets[ver] = 'http://downloads.sourceforge.net/opencvlibrary/opencv-' + ver + '.tar.gz'
+        # 4.1.2 and later are all on Github
+        for ver in ['4.1.2']:
+            self.targets[ver] = 'https://github.com/opencv/opencv/archive/' + ver + '.tar.gz'
             self.targetInstSrc[ver] = 'opencv-' + ver
 
-        self.targetDigests['2.3'] = '126787da5a3d71e80eb6e8d3bed126391e0549c9'
-        self.targetDigests['2.4.5'] = '9e25f821db9e25aa454a31976ba6b5a3a50b6fa4'
-
-        self.patchToApply['2.3'] = ('OpenCV-2.3.0-20110817.diff', 1)
+        self.targetDigests['4.1.2'] = '385dd0a9c25e67ef0dd60e022d2a2d7b17e2f36819cf3cb46aa8cdff5c5282c9'
 
         self.options.configure.args = "-DBUILD_NEW_PYTHON_SUPPORT=OFF"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
