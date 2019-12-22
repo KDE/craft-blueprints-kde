@@ -1,3 +1,28 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ceac8fcb..5de53dc2 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -162,13 +162,13 @@ IF(BUILD_DOC)
+   ADD_SUBDIRECTORY(docs)
+ ENDIF()
+ 
+-IF(WIN32 AND NOT BUILD_STATIC)
+-  FIND_FILE(GLIB2_DLL 
+-            NAMES glib-2.dll glib-2-vs9.dll
+-            PATHS "${GLIB2_BASE_DIR}/bin"
+-            NO_SYSTEM_ENVIRONMENT_PATH)
+-  INSTALL(FILES ${GLIB2_DLL} DESTINATION ${CMAKE_INSTALL_BINDIR})
+-ENDIF()
++#IF(WIN32 AND NOT BUILD_STATIC)
++#  FIND_FILE(GLIB2_DLL 
++#            NAMES glib-2.dll glib-2-vs9.dll
++#            PATHS "${GLIB2_BASE_DIR}/bin"
++#            NO_SYSTEM_ENVIRONMENT_PATH)
++#  INSTALL(FILES ${GLIB2_DLL} DESTINATION ${CMAKE_INSTALL_BINDIR})
++#ENDIF()
+ 
+ # print some information
+ MESSAGE(STATUS "-------------------------------------------------------------------------------------")
 diff --git a/apps/CMakeLists.txt b/apps/CMakeLists.txt
 index 70c77fd9..870e7a1d 100644
 --- a/apps/CMakeLists.txt
