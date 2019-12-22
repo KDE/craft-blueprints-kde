@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'https://github.com/opencv/opencv/archive/' + ver + '.tar.gz'
             self.targetInstSrc[ver] = 'opencv-' + ver
 
-        self.targetDigests['4.1.2'] = '385dd0a9c25e67ef0dd60e022d2a2d7b17e2f36819cf3cb46aa8cdff5c5282c9'
+        self.targetDigests['4.1.2'] = (['385dd0a9c25e67ef0dd60e022d2a2d7b17e2f36819cf3cb46aa8cdff5c5282c9'], CraftHash.HashAlgorithm.SHA256)
 
         self.options.configure.args = "-DBUILD_NEW_PYTHON_SUPPORT=OFF"
 
