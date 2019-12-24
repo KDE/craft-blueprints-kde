@@ -66,7 +66,7 @@ class Package(CMakePackageBase):
         # this requires an 310x150 variant in addition!
         #self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "kate", "icons", "310-apps-kate.png")
 
-        self.defines["registy_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate" "" "Edit with Kate"\n"""
+        self.defines["registry_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate" "" "Edit with Kate"\n"""
                                         """WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate\\command" "" '"$INSTDIR\\bin\\kate.exe" "%V"'\n""")
 
         self.defines["mimetypes"] = ["text/plain", "text/html", "text/xml", "text/css", "text/csv", "application/json", "application/xml", "application/javascript"]
