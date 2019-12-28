@@ -59,6 +59,12 @@ class Package(CMakePackageBase):
             else:
                 rkward_ini.write("R executable=../lib/R/bin/i386/R.exe\n")
             rkward_ini.close()
+        elif OsUtils.isMac():
+            # Fix absolute library locations for R libs. Fortunately, rpath is ok, as the R startup wrapper sets it, appropriately
+            rkward_rbackend = os.path.join(self.imageDir(), "lib", "libexec", "rkward.rbackend")
+            for path in utils.getLibraryDeps(str(rkward_rbackend)):
+                if path.startswith("/Library/Frameworks/R.framework"):
+                    utils.system(["install_name_tool", "-change", path, os.path.join("@rpath", os.path.basename(path)), rkward_rbackend])
         return ret
 
     def configure(self):
@@ -82,6 +88,10 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["executable"] = "bin\\rkward.exe"
         self.defines["icon"] = os.path.join(self.sourceDir(), "rkward", "icons", "app-icon", "rkward.ico")
+
+        if OsUtils.isMac():
+            # We cannot reliably package R inside the bundle. Users will have to install it separately.
+            self.ignoredPackages.append("binary/r-base")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("data/hunspell-dictionaries")
