@@ -41,7 +41,7 @@ class subinfo(info.infoclass):
 from Package.BinaryPackageBase import *
 
 
-class PackageWin(BinaryPackageBase):
+class Package(BinaryPackageBase):
     def __init__(self):
         BinaryPackageBase.__init__(self)
         self.subinfo.options.package.disableBinaryCache = True
@@ -60,11 +60,3 @@ class PackageWin(BinaryPackageBase):
             d3dcompiler = shutil.which("d3dcompiler")
             utils.copyFile(d3dcompiler, os.path.join(destdir, os.path.basename(d3dcompiler)), linkOnly=False)
         return True
-
-
-from Package.MaybeVirtualPackageBase import *
-
-
-class Package(MaybeVirtualPackageBase):
-    def __init__(self):
-        MaybeVirtualPackageBase.__init__(self, condition=OsUtils.isWin(), classA=PackageWin)
