@@ -60,7 +60,9 @@ class Package(CMakePackageBase):
                 rkward_ini.write("R executable=../lib/R/bin/i386/R.exe\n")
             rkward_ini.close()
         elif OsUtils.isMac():
-            # Fix absolute library locations for R libs. Fortunately, rpath is ok, as the R startup wrapper sets it, appropriately
+            # Fix absolute library locations for R libs. Users may use RKWard with various versions of R (installed, separately), so
+            # we cannot set a stable relative path, either. However, the rkward frontend makes sure to cd to the appropriate directory
+            # when starting the backend, so the libs can be found by basename.
             rkward_rbackend = os.path.join(self.imageDir(), "lib", "libexec", "rkward.rbackend")
             for path in utils.getLibraryDeps(str(rkward_rbackend)):
                 if path.startswith("/Library/Frameworks/R.framework"):
@@ -101,10 +103,10 @@ class Package(CMakePackageBase):
 
     def preArchive(self):
         if OsUtils.isMac():
-            # during packaging, the relative path between rkward and R gets changed, so we need to create an rkward.ini to help rkward find R
+            # On Mac there is no sane way to bundle R along with RKWard, so make the default behavior to detect an R installation, automatically.
             rkward_dir = os.path.join(self.archiveDir(), "Applications", "KDE", "rkward.app", "Contents", "MacOS")
             utils.createDir(rkward_dir)
             rkward_ini = open(os.path.join(rkward_dir, "rkward.ini"), "w")
-            rkward_ini.write("R executable=../Frameworks/R/R.framework/Resources/R\n")
+            rkward_ini.write("R executable=auto\n")
             rkward_ini.close()
         return super().preArchive()
