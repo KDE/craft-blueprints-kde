@@ -67,6 +67,8 @@ class Package(CMakePackageBase):
             for path in utils.getLibraryDeps(str(rkward_rbackend)):
                 if path.startswith("/Library/Frameworks/R.framework"):
                     utils.system(["install_name_tool", "-change", path, os.path.join("@rpath", os.path.basename(path)), rkward_rbackend])
+            # Finally tell the loader to look in the current working directory (as set by the frontend)
+            utils.system(["install_name_tool", "-add_rpath", ".", rkward_rbackend])
         return ret
 
     def configure(self):
