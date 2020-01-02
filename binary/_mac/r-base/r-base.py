@@ -11,10 +11,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/bin-base"] = None
 
     def setTargets(self):
-        for version in ['3.3.3']:
+        # NOTE on choice of versions: 3.4.4 = earliest official build with R_GE_version 12
+        #                             3.3.3 = last official build to work with MacOS < 10.11
+        for version in ['3.4.4', '3.3.3']:
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-' + version + '.pkg'
-        self.defaultTarget = '3.3.3'  # NOTE: Last official build to work with MacOS < 10.11
-        self.patchLevel['3.3.3'] = 2
+        self.defaultTarget = '3.4.4'
 
 
 from Package.BinaryPackageBase import *
