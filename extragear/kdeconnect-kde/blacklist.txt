@@ -26,6 +26,3 @@ lib/gpg-error\.def
 bin/libGLESv2\.dll
 bin/Qt5Designer\.dll
 bin/Qt5DesignerComponents\.dll
-
-# strip most executables
-bin/(?!(kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioslave|SnoreToast)).*\.exe

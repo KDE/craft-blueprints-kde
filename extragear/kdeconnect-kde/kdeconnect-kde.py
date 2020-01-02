@@ -37,6 +37,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.addExecutableFilter(r"bin/(?!(kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioslave|SnoreToast).*)")
 
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
@@ -87,17 +88,9 @@ class Package(CMakePackageBase):
         binPath = os.path.join(archiveDir, "bin")
 
         if CraftCore.compiler.isMacOS:
-            # Move kdeconnect, kdeconnect-cli, kdeconnect-sms and dbus-daemon to the package
+            # Move kdeconnect, kdeconnect-sms to the package
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
-            if not utils.copyFile(os.path.join(binPath, "dbus-daemon"),
-                os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
-                return False
-
-            if not utils.copyFile(os.path.join(binPath, "kdeconnect-cli"),
-                os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
-                return False
-
             if not utils.copyFile(os.path.join(archiveDir, "Applications", "KDE", "kdeconnect-app.app", "Contents", "MacOS", "kdeconnect-app"),
                 os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
                 return False
