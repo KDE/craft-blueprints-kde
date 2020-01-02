@@ -21,4 +21,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        #self.subinfo.options.configure.args = "-DBUILD_SHARED_LIBS=OFF"
+        #self.subinfo.options.configure.args = "-DHDF5_DIR=${CPP}/cmake/hdf5"
+        hdf5dir = [ os.path.join(self.installDir(), "cmake", "hdf5")]
+        self.subinfo.options.configure.args = "-DHDF5_DIR={hdf5dir}"
