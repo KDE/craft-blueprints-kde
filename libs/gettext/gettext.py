@@ -33,8 +33,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = '0.19.8.1'
 
     def setDependencies(self):
+        self.buildDependencies["dev-utils/automake"] = None
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["dev-utils/automake"] = None
         self.runtimeDependencies["libs/iconv"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         if CraftCore.compiler.isGCCLike():
