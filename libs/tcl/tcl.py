@@ -23,6 +23,7 @@
 # SUCH DAMAGE.
 
 import info
+import stat
 from Package.AutoToolsPackageBase import *
 from Package.MSBuildPackageBase import *
 
