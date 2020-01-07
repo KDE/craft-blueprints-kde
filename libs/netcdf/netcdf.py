@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.targetDigests['4.7.3'] = (
             ['05d064a2d55147b83feff3747bea13deb77bef390cb562df4f9f9f1ce147840d'], CraftHash.HashAlgorithm.SHA256)
         self.description = 'A set of software libraries and self-describing, machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data'
-        self.defaultTarget = '4.6.0'
+        self.defaultTarget = '4.7.3'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -23,6 +23,9 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+        self.supportsNinja = False
         hdf5dir = os.path.join(CraftStandardDirs.craftRoot(), "cmake", "hdf5")
-        # -DBUILD_TESTING=OFF -DBUILD_TESTSETS=OFF -DENABLE_PARALLEL_TESTS=OFF -DENABLE_UNIT_TESTS=OFF
-        self.subinfo.options.configure.args = f"-DHDF5_DIR={hdf5dir} -DBUILD_SHARED_LIBS=ON"
+        # -DBUILD_TESTSETS=OFF -DENABLE_PARALLEL_TESTS=OFF -DENABLE_UNIT_TESTS=OFF
+        self.subinfo.options.configure.args = f"-DHDF5_DIR={hdf5dir} -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF"
+        if OsUtils.isWin():
+            self.subinfo.options.configure.args += "-DENABLE_DLL=ON"
