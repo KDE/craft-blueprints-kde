@@ -16,7 +16,6 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/icu4c-{major}_{minor}-src.tgz"
             self.targetDigestUrls[ver] = ([f"https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/SHASUM512.txt"], CraftHash.HashAlgorithm.SHA512)
             self.targetInstSrc[ver] = os.path.join("icu", "source")
-            self.patchToApply[ver] = [("icu-msys.diff", 2)]
 
         for ver in ["62.1", "63.1"]:
             ver2 = ver.replace(".", "_")
@@ -32,6 +31,9 @@ class subinfo(info.infoclass):
             self.patchToApply[ver] = [("icu-msys.diff", 2)]
         self.patchToApply["63.1"] += [("icu-63.1-20181212.diff", 1),
                                      ("icu-63.1-20181215.diff", 2), # backport https://github.com/unicode-org/icu/pull/228
+                                     ]
+        self.patchToApply["65.1"] = [
+                                     ("icu-65.1-20200109.diff", 2),
                                      ]
         self.defaultTarget = "63.1"
 
