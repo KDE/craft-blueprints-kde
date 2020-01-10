@@ -108,6 +108,14 @@ class subinfo(info.infoclass):
 class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
+        # https://github.com/qt/qtbase/blob/5.14/mkspecs/common/macx.conf#L8
+        if CraftCore.compiler.isMacOS and self.qtVer >= "5.12":
+            if self.qtVer >= "5.12":
+                mac_required = "10.12"
+            elif self.qtVer >= "5.14":
+                mac_required = "10.13"
+            if not CraftVersion(os.environ["MACOSX_DEPLOYMENT_TARGET"]) >= mac_required:
+                raise BlueprintException(f"Qt requires MACOSX_DEPLOYMENT_TARGET to be >= {mac_required}", self)
 
     def configure(self, unused1=None, unused2=""):
         with self.getQtBaseEnv():
