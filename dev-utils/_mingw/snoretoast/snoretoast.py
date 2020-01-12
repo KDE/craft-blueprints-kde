@@ -41,4 +41,4 @@ class Package(BinaryPackageBase):
         files = utils.filterDirectoryContent(self.installDir(),
                                              whitelist=lambda x, root: Path(x).suffix in BuildSystemBase.PatchableFile,
                                              blacklist=lambda x, root: True)
-        return self.patchInstallPrefix(files, oldPaths=["C:/Craft/BinaryCache/windows-msvc2017_64-cl", "C:/Craft/BinaryCache/windows-msvc2017_32-cl"])
+        return self.patchInstallPrefix(files, oldPaths=["C:/Craft/BinaryCache/windows-msvc2017_64-cl", "C:/Craft/BinaryCache/windows-msvc2017_32-cl", self.subinfo.buildPrefix])
