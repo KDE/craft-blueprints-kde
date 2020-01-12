@@ -1,0 +1,13 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user kio-5.65.0.orig/tests/kioslavetest.cpp kio-5.65.0/tests/kioslavetest.cpp
+--- kio-5.65.0.orig/tests/kioslavetest.cpp	2019-12-13 15:57:58.000000000 +0100
++++ kio-5.65.0/tests/kioslavetest.cpp	2020-01-12 15:19:23.134870900 +0100
+@@ -21,7 +21,8 @@
+ #include <QUrl>
+ #include <QThread>
+ 
+-#include <qplatformdefs.h>
++// needed for QT_STAT_LNK on windows
++#include <kioglobal_p.h>
+ 
+ #include <kjobuidelegate.h>
+ #include <kio/job.h>

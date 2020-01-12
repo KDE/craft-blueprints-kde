@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.patchToApply["5.62.0"] = [("ca501f5deaa2de3053e003a408aee6c65dc6206e.patch", 1)]
-        self.patchToApply["5.65.0"] = [("kio-5.65.0-20191219.diff", 1)]
+        self.patchToApply["5.65.0"] = [("kio-5.65.0-20191219.diff", 1), ("kio-5.65.0-20200112.diff", 1)]
         self.patchLevel["5.62.0"] = 1
 
         self.description = "Network transparent access to files and data"
