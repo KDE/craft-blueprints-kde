@@ -40,14 +40,15 @@ class Package(BinaryPackageBase):
     def install(self):
         srcdir = self.workDir()
         dstdir = self.installDir()
+        r_rootdir = os.path.join(dstdir, "lib", "R")
 
         utils.cleanDirectory(dstdir)
-        os.makedirs(os.path.join(dstdir, "lib", "R"))
+        os.makedirs(r_rootdir)
         os.makedirs(os.path.join(dstdir, "bin"))
 
         # place everything in dstdir/lib/R (similar to debian packaging)
         CraftCore.installdb.getInstalledPackages(self.package)
-        utils.copyDir(srcdir, os.path.join(dstdir, "lib", "R"))
+        utils.copyDir(srcdir, r_rootdir)
 
         # create a shortcut in dstdir/bin
         f = open(os.path.join(dstdir, "bin", "R.bat"), "w")
@@ -56,5 +57,7 @@ class Package(BinaryPackageBase):
                                                                                       "R.exe") + " %1 %2 %3 %4 %5 %6 %7 %8 %9\n")
         f.close()
 
-        return True
+        # Pre-install R2HTML-package. It will almost certainly be needed.
+        utils.system([os.path.join(r_rootdir, "bin", "R.exe"), "--no-save", "--slave", "--vanilla", "-e", "install.packages('R2HTML',lib=.Library[1],repos='https://ftp.gwdg.de/pub/misc/cran')"])
 
+        return True
