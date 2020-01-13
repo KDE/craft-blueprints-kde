@@ -4,7 +4,8 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply['19.12.0'] = [('cantor-19.12.0-MSVC-libmarkdown.diff', 1)]
+        for ver in ["19.12.0", "19.12.1"]:
+            self.patchToApply[ver] = [('cantor-19.12.0-MSVC-libmarkdown.diff', 1)]
 
         self.description = "Cantor"
 
