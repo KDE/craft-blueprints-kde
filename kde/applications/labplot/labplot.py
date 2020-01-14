@@ -48,8 +48,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        # netcdf not available yet
-        self.subinfo.options.configure.args += "-DENABLE_TESTS=OFF -DENABLE_NETCDF=OFF"
+        self.subinfo.options.configure.args += "-DENABLE_TESTS=OFF"
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
