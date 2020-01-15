@@ -43,7 +43,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/applications/konsole"] = None
 
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
-        self.runtimeDependencies["kde/plasma/breeze"] = None
+        if not CraftCore.compiler.isMacOS:
+            # plugins don't match naming required for signing
+            self.runtimeDependencies["kde/plasma/breeze"] = None
 
 from Package.CMakePackageBase import *
 
@@ -74,5 +76,9 @@ class Package(CMakePackageBase):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
+
+        # plugins don't match naming required for signing
+        if CraftCore.compiler.isMacOS:
+            self.ignoredPackages.append("kde/frameworks/tier1/kwindowsystem")
 
         return TypePackager.createPackage(self)
