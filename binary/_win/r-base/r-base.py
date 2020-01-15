@@ -11,10 +11,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/bin-base"] = None
 
     def setTargets(self):
-        for version in ['3.6.1', '3.4.4']:
+        for version in ['3.6.2', '3.4.4']:
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + version + '/' + 'R-' + version + '-win.exe'
         self.targets['devel'] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-devel.exe'
-        self.defaultTarget = '3.6.1'
+        self.defaultTarget = '3.6.2'
 
 
 from Package.BinaryPackageBase import *
