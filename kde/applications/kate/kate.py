@@ -58,6 +58,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.addExecutableFilter(r"bin/(?!(kate|update-mime-database|kioslave)).*")
         self.defines["shortcuts"] = [{"name" : "Kate", "target":"bin/kate.exe", "description" : self.subinfo.description}]
 
         # kate icons
