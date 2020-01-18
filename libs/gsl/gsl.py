@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
             ['e030783224c32aa8e1659c8df61355f229b4ecbf09732ba46c7f4040bbd7c940'], CraftHash.HashAlgorithm.SHA256)
         self.description = 'GNU Scientific Library'
         self.patchToApply['2.2.1'] = [("disable-broken-pdb-install.patch", 1)]
-        self.defaultTarget = '2.2.1'
+        self.defaultTarget = '2.5.0'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
