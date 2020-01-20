@@ -10,9 +10,8 @@ class subinfo(info.infoclass):
         self.description = "the KDE text editor"
         self.webpage = "https://kate-editor.org/"
 
-        self.patchToApply["19.08.2"] = [
-            ("breeze.patch", 1),
-        ]
+        self.patchToApply["19.08.2"] = [("breeze.patch", 1)]
+        self.patchToApply["19.12.1"] = [("breeze.patch", 1)]
 
     def registerOptions(self):
         self.options.dynamic.registerOption("fullPlasma", False)
