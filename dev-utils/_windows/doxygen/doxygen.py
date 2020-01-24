@@ -3,15 +3,16 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.8.16"]:
+        for ver in ["1.8.16", "1.8.17"]:
             self.targets[ver] = f"http://doxygen.nl/files/doxygen-{ver}.windows.x64.bin.zip"
             self.targetInstallPath[ver] = "dev-utils/bin"
 
         self.targetDigests['1.8.14'] = (['e2d635a05fb0516311071cfcc41a3859fa22a912b484ed2c2ddec70248b75845'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.8.16'] = (['c84890ec003841c1ee6ff35dd3b17fdfd5ae4c2914d1c8df11dcc3719d294ac5'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['1.8.17'] = (['49051ae149715b765d94d51eb8c4c6043636464cb27ba5f75c14f71ab81d8740'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = 'Automated C, C++, and Java Documentation Generator'
-        self.defaultTarget = '1.8.16'
+        self.defaultTarget = '1.8.17'
 
 
 from Package.BinaryPackageBase import *
