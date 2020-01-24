@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
         self.targetDigests['0.9.1'] = (
             ['9c2762d9d0759a65cdb80106d547db83c6e9fdea66f1973c6e9014f867c6f28e'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['0.10.0'] = (['5f916cd97843de550467db32d2e10f218b904af5b21cfdfcc7c6425d7dfc3ec2'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["0.10.0"] = [("0001-Don-t-use-absolute-path-to-frameworks.patch", 1)]
         self.defaultTarget = '0.10.0'
 
 
