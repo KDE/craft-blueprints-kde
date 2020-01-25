@@ -62,7 +62,7 @@ class Package(CMakePackageBase):
         self.defines["shortcuts"] = [{"name" : "Kate", "target":"bin/kate.exe", "description" : self.subinfo.description}]
 
         # kate icons
-        self.defines["icon"] = os.path.join(self.buildDir(), "kate", "CMakeFiles", "kate-bin.dir", "ICONS_SOURCES.ico")
+        self.defines["icon"] = os.path.join(self.packageDir(), "kate.ico")
         self.defines["icon_png"] = os.path.join(self.sourceDir(), "kate", "icons", "150-apps-kate.png")
         self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "kate", "icons", "44-apps-kate.png")
 
