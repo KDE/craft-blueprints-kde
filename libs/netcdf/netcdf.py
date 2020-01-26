@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+        self.supportsNinja = False
         hdf5dir = os.path.join(CraftStandardDirs.craftRoot(), "cmake", "hdf5")
         # -DBUILD_TESTSETS=OFF -DENABLE_PARALLEL_TESTS=OFF -DENABLE_UNIT_TESTS=OFF
         self.subinfo.options.configure.args = f"-DHDF5_DIR={hdf5dir} -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF"
