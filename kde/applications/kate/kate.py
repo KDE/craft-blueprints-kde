@@ -12,7 +12,6 @@ class subinfo(info.infoclass):
 
         self.patchToApply["19.08.2"] = [("breeze.patch", 1), ("hidpi.patch", 1)]
         self.patchToApply["19.12.1"] = [("breeze.patch", 1), ("hidpi.patch", 1)]
-        self.patchToApply["master"] = [("breeze.patch", 1)]
 
     def registerOptions(self):
         self.options.dynamic.registerOption("fullPlasma", False)
