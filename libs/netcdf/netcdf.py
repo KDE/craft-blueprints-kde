@@ -29,3 +29,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args = f"-DHDF5_DIR={hdf5dir} -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF"
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += " -DCMAKE_CXX_FLAGS='-DH5_BUILT_AS_DYNAMIC_LIB'"
+
+    def createPackage(self):
+        self.ignoredPackages.append("libs/dbus")
+        return TypePackager.createPackage(self)
