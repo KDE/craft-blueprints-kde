@@ -14,6 +14,12 @@ class subinfo( info.infoclass ):
             ("0002-ensure-that-the-metadata-dialog-has-a-title-and-stan.patch", 1),
             ("0003-add-back-missing-icons-for-windows-task-bar-integrat.patch", 1),
         ]
+        self.patchToApply["19.12.1"] = [
+            ("0001-remove-code-duplication-by-moving-signal-to-base-cla.patch", 1),
+            ("0002-fix-problems-with-wrong-type-passed-from-qml-to-c.patch", 1),
+            ("0003-fix-enqueue-not-working-for-views-that-display-list-.patch", 1),
+            ("0004-fix-enqueue-from-FileBrowserView-with-Qt-5.14.patch", 1),
+        ]
 
     def setDependencies( self ):
         self.runtimeDependencies["virtual/base"] = None

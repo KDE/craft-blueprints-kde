@@ -1,0 +1,25 @@
+From 6d0454526fe4be1892812db2c0bc324f6a5669b7 Mon Sep 17 00:00:00 2001
+From: Matthieu Gallien <matthieu_gallien@yahoo.fr>
+Date: Tue, 21 Jan 2020 17:19:54 +0100
+Subject: [PATCH 3/4] fix enqueue not working for views that display list of
+ tracks
+
+---
+ src/qml/DataListView.qml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/qml/DataListView.qml b/src/qml/DataListView.qml
+index 05289f57..0e501266 100644
+--- a/src/qml/DataListView.qml
++++ b/src/qml/DataListView.qml
+@@ -75,6 +75,7 @@ FocusScope {
+         id: proxyModel
+ 
+         sourceModel: realModel
++        playList: elisa.mediaPlayList
+     }
+ 
+     Loader {
+-- 
+2.25.0
+

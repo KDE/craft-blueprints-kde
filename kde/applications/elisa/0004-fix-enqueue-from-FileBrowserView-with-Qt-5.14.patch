@@ -1,0 +1,162 @@
+From 4a47e32dadbfaf0066bb5e700ea1f2e29987f5e7 Mon Sep 17 00:00:00 2001
+From: Matthieu Gallien <matthieu_gallien@yahoo.fr>
+Date: Tue, 21 Jan 2020 21:35:01 +0100
+Subject: [PATCH 4/4] fix enqueue from FileBrowserView with Qt 5.14
+
+---
+ src/models/filebrowserproxymodel.cpp | 36 ++++++++++++++++++++++++++++
+ src/models/filebrowserproxymodel.h   | 16 +++++++++++++
+ src/qml/FileBrowserView.qml          |  3 +--
+ 3 files changed, 53 insertions(+), 2 deletions(-)
+
+diff --git a/src/models/filebrowserproxymodel.cpp b/src/models/filebrowserproxymodel.cpp
+index 48a36d73..cbc29ae9 100644
+--- a/src/models/filebrowserproxymodel.cpp
++++ b/src/models/filebrowserproxymodel.cpp
+@@ -19,6 +19,7 @@
+ #include "filebrowserproxymodel.h"
+ 
+ #include "filebrowsermodel.h"
++#include "mediaplaylist.h"
+ 
+ #include <QReadLocker>
+ #include <QtConcurrentRun>
+@@ -138,6 +139,22 @@ QString FileBrowserProxyModel::parentFolder() const
+     }
+ }
+ 
++void FileBrowserProxyModel::disconnectPlayList()
++{
++    if (mPlayList) {
++        disconnect(this, &FileBrowserProxyModel::filesToEnqueue,
++                   mPlayList, static_cast<void(MediaPlayList::*)(const ElisaUtils::EntryDataList&, ElisaUtils::PlayListEntryType, ElisaUtils::PlayListEnqueueMode, ElisaUtils::PlayListEnqueueTriggerPlay)>(&MediaPlayList::enqueue));
++    }
++}
++
++void FileBrowserProxyModel::connectPlayList()
++{
++    if (mPlayList) {
++        connect(this, &FileBrowserProxyModel::filesToEnqueue,
++                mPlayList, static_cast<void(MediaPlayList::*)(const ElisaUtils::EntryDataList&, ElisaUtils::PlayListEntryType, ElisaUtils::PlayListEnqueueMode, ElisaUtils::PlayListEnqueueTriggerPlay)>(&MediaPlayList::enqueue));
++    }
++}
++
+ void FileBrowserProxyModel::openParentFolder()
+ {
+     auto fileBrowserModel = dynamic_cast<FileBrowserModel*>(sourceModel());
+@@ -216,10 +233,29 @@ void FileBrowserProxyModel::setSourceModel(QAbstractItemModel *sourceModel)
+     openFolder(mTopFolder, true);
+ }
+ 
++MediaPlayList *FileBrowserProxyModel::playList() const
++{
++    return mPlayList;
++}
++
+ void FileBrowserProxyModel::sortModel(Qt::SortOrder order)
+ {
+     this->sort(0,order);
+     Q_EMIT sortedAscendingChanged();
+ }
+ 
++void FileBrowserProxyModel::setPlayList(MediaPlayList *playList)
++{
++    disconnectPlayList();
++
++    if (mPlayList == playList) {
++        return;
++    }
++
++    mPlayList = playList;
++    Q_EMIT playListChanged();
++
++    connectPlayList();
++}
++
+ #include "moc_filebrowserproxymodel.cpp"
+diff --git a/src/models/filebrowserproxymodel.h b/src/models/filebrowserproxymodel.h
+index b07052dd..f7705890 100644
+--- a/src/models/filebrowserproxymodel.h
++++ b/src/models/filebrowserproxymodel.h
+@@ -31,6 +31,8 @@
+ 
+ #include <memory>
+ 
++class MediaPlayList;
++
+ class ELISALIB_EXPORT FileBrowserProxyModel : public KDirSortFilterProxyModel
+ {
+     Q_OBJECT
+@@ -52,6 +54,8 @@ class ELISALIB_EXPORT FileBrowserProxyModel : public KDirSortFilterProxyModel
+                READ sortedAscending
+                NOTIFY sortedAscendingChanged)
+ 
++    Q_PROPERTY(MediaPlayList* playList READ playList WRITE setPlayList NOTIFY playListChanged)
++
+ public:
+ 
+     explicit FileBrowserProxyModel(QObject *parent = nullptr);
+@@ -68,6 +72,8 @@ public:
+ 
+     void setSourceModel(QAbstractItemModel *sourceModel) override;
+ 
++    MediaPlayList* playList() const;
++
+ public Q_SLOTS:
+ 
+     void enqueueToPlayList();
+@@ -82,6 +88,8 @@ public Q_SLOTS:
+ 
+     void sortModel(Qt::SortOrder order);
+ 
++    void setPlayList(MediaPlayList* playList);
++
+ Q_SIGNALS:
+ 
+     void filesToEnqueue(const ElisaUtils::EntryDataList &newFiles,
+@@ -97,6 +105,8 @@ Q_SIGNALS:
+ 
+     void sortedAscendingChanged();
+ 
++    void playListChanged();
++
+ protected:
+ 
+     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
+@@ -105,6 +115,10 @@ private:
+ 
+     QString parentFolder() const;
+ 
++    void disconnectPlayList();
++
++    void connectPlayList();
++
+     QString mTopFolder;
+ 
+     FileScanner mFileScanner;
+@@ -117,6 +131,8 @@ private:
+ 
+     QThreadPool mThreadPool;
+ 
++    MediaPlayList* mPlayList = nullptr;
++
+ };
+ 
+ #endif // FILEBROWSERPROXYMODEL_H
+diff --git a/src/qml/FileBrowserView.qml b/src/qml/FileBrowserView.qml
+index 0cdb9af4..311127f0 100644
+--- a/src/qml/FileBrowserView.qml
++++ b/src/qml/FileBrowserView.qml
+@@ -47,8 +47,7 @@ FocusScope {
+         id: proxyModel
+ 
+         sourceModel: realModel
+-
+-        onFilesToEnqueue: elisa.mediaPlayList.enqueue(newFiles, databaseIdType, enqueueMode, triggerPlay)
++        playList: elisa.mediaPlayList
+     }
+ 
+     MouseArea {
+-- 
+2.25.0
+

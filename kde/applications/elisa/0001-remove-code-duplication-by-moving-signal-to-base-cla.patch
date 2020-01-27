@@ -1,0 +1,79 @@
+From f8cd299e7bacec2843688dc9e05fd7cb51ab4160 Mon Sep 17 00:00:00 2001
+From: Matthieu Gallien <matthieu_gallien@yahoo.fr>
+Date: Mon, 20 Jan 2020 07:43:31 +0100
+Subject: [PATCH 1/4] remove code duplication by moving signal to base class
+
+---
+ src/models/abstractmediaproxymodel.h | 5 +++++
+ src/models/alltracksproxymodel.h     | 5 -----
+ src/models/gridviewproxymodel.h      | 5 -----
+ src/models/singlealbumproxymodel.h   | 5 -----
+ 4 files changed, 5 insertions(+), 15 deletions(-)
+
+diff --git a/src/models/abstractmediaproxymodel.h b/src/models/abstractmediaproxymodel.h
+index d11d6b51..c64456dc 100644
+--- a/src/models/abstractmediaproxymodel.h
++++ b/src/models/abstractmediaproxymodel.h
+@@ -75,6 +75,11 @@ Q_SIGNALS:
+ 
+     void sortedAscendingChanged();
+ 
++    void entriesToEnqueue(const ElisaUtils::EntryDataList &newEntries,
++                          ElisaUtils::PlayListEntryType databaseIdType,
++                          ElisaUtils::PlayListEnqueueMode enqueueMode,
++                          ElisaUtils::PlayListEnqueueTriggerPlay triggerPlay);
++
+ protected:
+ 
+     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override = 0;
+diff --git a/src/models/alltracksproxymodel.h b/src/models/alltracksproxymodel.h
+index 6ea926e0..99da6b04 100644
+--- a/src/models/alltracksproxymodel.h
++++ b/src/models/alltracksproxymodel.h
+@@ -36,11 +36,6 @@ public:
+ 
+ Q_SIGNALS:
+ 
+-    void entriesToEnqueue(const ElisaUtils::EntryDataList &newEntries,
+-                          ElisaUtils::PlayListEntryType databaseIdType,
+-                          ElisaUtils::PlayListEnqueueMode enqueueMode,
+-                          ElisaUtils::PlayListEnqueueTriggerPlay triggerPlay);
+-
+ public Q_SLOTS:
+ 
+     void enqueueToPlayList();
+diff --git a/src/models/gridviewproxymodel.h b/src/models/gridviewproxymodel.h
+index 61cbe433..cb6a0311 100644
+--- a/src/models/gridviewproxymodel.h
++++ b/src/models/gridviewproxymodel.h
+@@ -41,11 +41,6 @@ public:
+ 
+ Q_SIGNALS:
+ 
+-    void entriesToEnqueue(const ElisaUtils::EntryDataList &newEntries,
+-                          ElisaUtils::PlayListEntryType databaseIdType,
+-                          ElisaUtils::PlayListEnqueueMode enqueueMode,
+-                          ElisaUtils::PlayListEnqueueTriggerPlay triggerPlay);
+-
+     void dataTypeChanged();
+ 
+ public Q_SLOTS:
+diff --git a/src/models/singlealbumproxymodel.h b/src/models/singlealbumproxymodel.h
+index c113bdb0..bc58c23d 100644
+--- a/src/models/singlealbumproxymodel.h
++++ b/src/models/singlealbumproxymodel.h
+@@ -36,11 +36,6 @@ public:
+ 
+ Q_SIGNALS:
+ 
+-    void entriesToEnqueue(const ElisaUtils::EntryDataList &newEntries,
+-                          ElisaUtils::PlayListEntryType databaseIdType,
+-                          ElisaUtils::PlayListEnqueueMode enqueueMode,
+-                          ElisaUtils::PlayListEnqueueTriggerPlay triggerPlay);
+-
+ public Q_SLOTS:
+ 
+     void enqueueToPlayList();
+-- 
+2.25.0
+

@@ -1,0 +1,171 @@
+From fcb76aec4fbd74c218c4e6e17c20a9e3c433f55e Mon Sep 17 00:00:00 2001
+From: Matthieu Gallien <matthieu_gallien@yahoo.fr>
+Date: Sun, 19 Jan 2020 11:21:17 +0100
+Subject: [PATCH 2/4] fix problems with wrong type passed from qml to c++
+
+BUG: 415827
+---
+ src/models/abstractmediaproxymodel.cpp | 37 ++++++++++++++++++++++++++
+ src/models/abstractmediaproxymodel.h   | 16 +++++++++++
+ src/qml/DataGridView.qml               |  3 +--
+ src/qml/DataListView.qml               |  2 --
+ 4 files changed, 54 insertions(+), 4 deletions(-)
+
+diff --git a/src/models/abstractmediaproxymodel.cpp b/src/models/abstractmediaproxymodel.cpp
+index a4c7a3e8..68d2eb6e 100644
+--- a/src/models/abstractmediaproxymodel.cpp
++++ b/src/models/abstractmediaproxymodel.cpp
+@@ -18,6 +18,8 @@
+ 
+ #include "abstractmediaproxymodel.h"
+ 
++#include "mediaplaylist.h"
++
+ #include <QWriteLocker>
+ 
+ AbstractMediaProxyModel::AbstractMediaProxyModel(QObject *parent) : QSortFilterProxyModel(parent)
+@@ -77,10 +79,45 @@ bool AbstractMediaProxyModel::sortedAscending() const
+     return sortOrder() ? false : true;
+ }
+ 
++MediaPlayList *AbstractMediaProxyModel::playList() const
++{
++    return mPlayList;
++}
++
+ void AbstractMediaProxyModel::sortModel(Qt::SortOrder order)
+ {
+     this->sort(0, order);
+     Q_EMIT sortedAscendingChanged();
+ }
+ 
++void AbstractMediaProxyModel::setPlayList(MediaPlayList *playList)
++{
++    disconnectPlayList();
++
++    if (mPlayList == playList) {
++        return;
++    }
++
++    mPlayList = playList;
++    Q_EMIT playListChanged();
++
++    connectPlayList();
++}
++
++void AbstractMediaProxyModel::disconnectPlayList()
++{
++    if (mPlayList) {
++        disconnect(this, &AbstractMediaProxyModel::entriesToEnqueue,
++                   mPlayList, static_cast<void(MediaPlayList::*)(const ElisaUtils::EntryDataList&, ElisaUtils::PlayListEntryType, ElisaUtils::PlayListEnqueueMode, ElisaUtils::PlayListEnqueueTriggerPlay)>(&MediaPlayList::enqueue));
++    }
++}
++
++void AbstractMediaProxyModel::connectPlayList()
++{
++    if (mPlayList) {
++        connect(this, &AbstractMediaProxyModel::entriesToEnqueue,
++                mPlayList, static_cast<void(MediaPlayList::*)(const ElisaUtils::EntryDataList&, ElisaUtils::PlayListEntryType, ElisaUtils::PlayListEnqueueMode, ElisaUtils::PlayListEnqueueTriggerPlay)>(&MediaPlayList::enqueue));
++    }
++}
++
+ #include "moc_abstractmediaproxymodel.cpp"
+diff --git a/src/models/abstractmediaproxymodel.h b/src/models/abstractmediaproxymodel.h
+index c64456dc..f594d0d2 100644
+--- a/src/models/abstractmediaproxymodel.h
++++ b/src/models/abstractmediaproxymodel.h
+@@ -28,6 +28,8 @@
+ #include <QReadWriteLock>
+ #include <QThreadPool>
+ 
++class MediaPlayList;
++
+ class ELISALIB_EXPORT AbstractMediaProxyModel : public QSortFilterProxyModel
+ {
+ 
+@@ -47,6 +49,8 @@ class ELISALIB_EXPORT AbstractMediaProxyModel : public QSortFilterProxyModel
+                READ sortedAscending
+                NOTIFY sortedAscendingChanged)
+ 
++    Q_PROPERTY(MediaPlayList* playList READ playList WRITE setPlayList NOTIFY playListChanged)
++
+ public:
+ 
+     explicit AbstractMediaProxyModel(QObject *parent = nullptr);
+@@ -59,6 +63,8 @@ public:
+ 
+     bool sortedAscending() const;
+ 
++    MediaPlayList* playList() const;
++
+ public Q_SLOTS:
+ 
+     void setFilterText(const QString &filterText);
+@@ -67,6 +73,8 @@ public Q_SLOTS:
+ 
+     void sortModel(Qt::SortOrder order);
+ 
++    void setPlayList(MediaPlayList* playList);
++
+ Q_SIGNALS:
+ 
+     void filterTextChanged(const QString &filterText);
+@@ -75,6 +83,8 @@ Q_SIGNALS:
+ 
+     void sortedAscendingChanged();
+ 
++    void playListChanged();
++
+     void entriesToEnqueue(const ElisaUtils::EntryDataList &newEntries,
+                           ElisaUtils::PlayListEntryType databaseIdType,
+                           ElisaUtils::PlayListEnqueueMode enqueueMode,
+@@ -84,6 +94,10 @@ protected:
+ 
+     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override = 0;
+ 
++    void disconnectPlayList();
++
++    void connectPlayList();
++
+     QString mFilterText;
+ 
+     int mFilterRating = 0;
+@@ -94,6 +108,8 @@ protected:
+ 
+     QThreadPool mThreadPool;
+ 
++    MediaPlayList* mPlayList = nullptr;
++
+ };
+ 
+ #endif // ABSTRACTMEDIAPROXYMODEL_H
+diff --git a/src/qml/DataGridView.qml b/src/qml/DataGridView.qml
+index 87266c71..593ac458 100644
+--- a/src/qml/DataGridView.qml
++++ b/src/qml/DataGridView.qml
+@@ -57,8 +57,7 @@ FocusScope {
+ 
+         sourceModel: realModel
+         dataType: modelType
+-
+-        onEntriesToEnqueue: elisa.mediaPlayList.enqueue(newEntries, databaseIdType, enqueueMode, triggerPlay)
++        playList: elisa.mediaPlayList
+     }
+ 
+     GridBrowserView {
+diff --git a/src/qml/DataListView.qml b/src/qml/DataListView.qml
+index 53fffe5c..05289f57 100644
+--- a/src/qml/DataListView.qml
++++ b/src/qml/DataListView.qml
+@@ -75,8 +75,6 @@ FocusScope {
+         id: proxyModel
+ 
+         sourceModel: realModel
+-
+-        onEntriesToEnqueue: elisa.mediaPlayList.enqueue(newEntries, databaseIdType, enqueueMode, triggerPlay)
+     }
+ 
+     Loader {
+-- 
+2.25.0
+
