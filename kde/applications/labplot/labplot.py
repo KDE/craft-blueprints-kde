@@ -70,6 +70,7 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".lml"]
 
         self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("binary/r-base")
         self.ignoredPackages.append("kde/frameworks/kemoticons")
         self.ignoredPackages.append("kde/frameworks/kdesignerplugin")
         self.ignoredPackages.append("libs/dbus")
