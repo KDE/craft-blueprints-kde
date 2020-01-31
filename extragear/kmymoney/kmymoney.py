@@ -79,14 +79,12 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file = [
-            PackagerLists.runtimeBlacklist,
-            os.path.join(os.path.dirname(__file__), 'blacklist.txt')
-        ]
 
     def createPackage(self):
         self.defines["executable"] = "bin\\kmymoney.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kmymoney.ico")
+
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
 
         self.ignoredPackages.append("binary/mysql")
 
