@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/hdf5"] = None
+        self.buildDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/libcurl"] = None
 
 class Package(CMakePackageBase):
