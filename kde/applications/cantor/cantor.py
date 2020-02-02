@@ -48,10 +48,10 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.make.supportsMultijob = False
 
-        if OsUtils.isWin():
-            self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "x64")
-            self.subinfo.options.configure.args = "-DR_EXECUTABLE=" + OsUtils.toUnixPath(os.path.join(self.r_dir, "R.exe"))
-            self.subinfo.options.configure.args += " -DR_R_LIBRARY=" + OsUtils.toUnixPath(os.path.join(self.r_dir, "R.dll"))
+        #if CraftCore.compiler.isMSVC():
+        #    self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "x64")
+        #    self.subinfo.options.configure.args = "-DR_EXECUTABLE=" + OsUtils.toUnixPath(os.path.join(self.r_dir, "R.exe"))
+        #    self.subinfo.options.configure.args += " -DR_R_LIBRARY=" + OsUtils.toUnixPath(os.path.join(self.r_dir, "R.dll"))
 
         pythonPath = CraftCore.settings.get("Paths", "PYTHON")
         self.subinfo.options.configure.args += f" -DPYTHONLIBS3_LIBRARY={pythonPath}"
