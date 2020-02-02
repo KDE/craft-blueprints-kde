@@ -1,0 +1,27 @@
+diff -ruNa cantor-19.12.1.orig/src/backends/R/rserver/rserver.cpp cantor-19.12.1/src/backends/R/rserver/rserver.cpp
+--- cantor-19.12.1.orig/src/backends/R/rserver/rserver.cpp	2020-01-06 14:49:54.000000000 +0100
++++ cantor-19.12.1/src/backends/R/rserver/rserver.cpp	2020-02-02 10:40:27.197011563 +0100
+@@ -33,7 +33,11 @@
+ #include <QDebug>
+ #include <KLocalizedString>
+ 
++#ifdef Q_OS_WIN
++#include <process.h>
++#else
+ #include <unistd.h>
++#endif
+ 
+ //R includes
+ #include <R.h>
+diff -ruNa cantor-19.12.1.orig/src/backends/R/rsession.cpp cantor-19.12.1/src/backends/R/rsession.cpp
+--- cantor-19.12.1.orig/src/backends/R/rsession.cpp	2020-01-06 14:49:54.000000000 +0100
++++ cantor-19.12.1/src/backends/R/rsession.cpp	2020-02-02 10:39:21.189441040 +0100
+@@ -62,7 +62,7 @@
+     m_process->waitForReadyRead();
+     qDebug()<<m_process->readAllStandardOutput();
+ 
+-    m_rServer = new org::kde::Cantor::R(QString::fromLatin1("org.kde.Cantor.R-%1").arg(m_process->pid()),  QLatin1String("/"), QDBusConnection::sessionBus(), this);
++    m_rServer = new org::kde::Cantor::R(QString::fromLatin1("org.kde.Cantor.R-%1").arg(m_process->processId()),  QLatin1String("/"), QDBusConnection::sessionBus(), this);
+ 
+     connect(m_rServer, &org::kde::Cantor::R::statusChanged, this, &RSession::serverChangedStatus);
+     connect(m_rServer,  &org::kde::Cantor::R::expressionFinished, this, &RSession::expressionFinished);
