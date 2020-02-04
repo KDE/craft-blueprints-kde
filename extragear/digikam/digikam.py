@@ -65,6 +65,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtimageformats"] = None
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
         self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+        self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies['kde/frameworks/tier1/kconfig'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kxmlgui'] = None
         self.runtimeDependencies['kde/frameworks/tier1/ki18n'] = None
