@@ -65,7 +65,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtimageformats"] = None
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
         self.runtimeDependencies["libs/qt5/qtwebengine"] = None
-        self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies['kde/frameworks/tier1/kconfig'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kxmlgui'] = None
         self.runtimeDependencies['kde/frameworks/tier1/ki18n'] = None
@@ -84,17 +83,17 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
         if OsUtils.isWin():
-            self.subinfo.options.configure.args = " -ENABLE_KFILEMETADATASUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -ENABLE_AKONADICONTACTSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -ENABLE_MEDIAPLAYER=OFF"
-            self.subinfo.options.configure.args += f" -ENABLE_DBUS=OFF"
-            self.subinfo.options.configure.args += f" -ENABLE_QWEBENGINE=ON"
-            self.subinfo.options.configure.args += f" -ENABLE_MYSQLSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -ENABLE_INTERNALMYSQL=OFF"
-            self.subinfo.options.configure.args += f" -ENABLE_DIGIKAM_MODELTEST=OFF"
-            self.subinfo.options.configure.args += f" -ENABLE_DRMINGW=OFF"
-            self.subinfo.options.configure.args += f" -ENABLE_MINGW_HARDENING_LINKER=OFF"
-            self.subinfo.options.configure.args += f" -BUILD_TESTING=OFF"
+            self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
+            self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
 
     def createPackage(self):
         self.defines["productname"] = "digiKam"
