@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "git://git.freedesktop.org/git/poppler/poppler"
 
         # use latest version with all security fixes!
-        ver = "0.81.0";
+        ver = "0.85.0";
         self.defaultTarget = ver
         self.targets[ver] = f"https://poppler.freedesktop.org/poppler-{ver}.tar.xz"
         self.targetInstSrc[ver] = f"poppler-{ver}"
