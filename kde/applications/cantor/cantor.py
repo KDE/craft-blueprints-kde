@@ -6,7 +6,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         for ver in ["19.12.0", "19.12.1", "19.12.2"]:
             self.patchToApply[ver] = [('cantor-19.12.0-MSVC-libmarkdown.diff', 1)]
-        for ver in ["19.12.1", "19.2.2"]:
+        for ver in ["19.12.1", "19.12.2"]:
             self.patchToApply[ver] += [('cantor-19.12.1-Windows.diff', 1)]
 
         self.description = "Cantor"
