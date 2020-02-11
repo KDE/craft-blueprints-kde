@@ -58,3 +58,8 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+
+    def createPackage(self):
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+        return super().createPackage()
