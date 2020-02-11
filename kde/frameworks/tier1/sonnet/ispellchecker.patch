@@ -1,16 +1,31 @@
+diff --git a/src/plugins/ispellchecker/ispellcheckerclient.h b/src/plugins/ispellchecker/ispellcheckerclient.h
+--- a/src/plugins/ispellchecker/ispellcheckerclient.h
++++ b/src/plugins/ispellchecker/ispellcheckerclient.h
+@@ -41,7 +41,6 @@
+     }
+ 
+ private:
+-    bool m_wasCOMInitialized = false;
+     ISpellCheckerFactory* m_spellCheckerFactory = nullptr;
+     QStringList m_languages;
+ };
 diff --git a/src/plugins/ispellchecker/ispellcheckerclient.cpp b/src/plugins/ispellchecker/ispellcheckerclient.cpp
 --- a/src/plugins/ispellchecker/ispellcheckerclient.cpp
 +++ b/src/plugins/ispellchecker/ispellcheckerclient.cpp
-@@ -19,7 +19,7 @@
-     m_wasCOMInitialized = SUCCEEDED(CoInitializeEx(nullptr, COINIT_MULTITHREADED));
+@@ -15,11 +15,8 @@
+ {
+     qCDebug(SONNET_ISPELLCHECKER) << " ISpellCheckerClient::ISpellCheckerClient";
  
+-    // init com if needed
+-    m_wasCOMInitialized = SUCCEEDED(CoInitializeEx(nullptr, COINIT_MULTITHREADED));
+-
      // get factory
 -    if (SUCCEEDED(CoCreateInstance(__uuidof(SpellCheckerFactory), nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_spellCheckerFactory)))) {
 +    if (SUCCEEDED(CoCreateInstance(__uuidof(SpellCheckerFactory), nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_spellCheckerFactory))) && m_spellCheckerFactory) {
          // if we have a factory, cache the language names
          IEnumString* enumLanguages = nullptr;
          if (SUCCEEDED(m_spellCheckerFactory->get_SupportedLanguages(&enumLanguages))) {
-@@ -41,15 +41,15 @@
+@@ -41,11 +38,6 @@
  
  ISpellCheckerClient::~ISpellCheckerClient()
  {
@@ -22,15 +37,6 @@ diff --git a/src/plugins/ispellchecker/ispellcheckerclient.cpp b/src/plugins/isp
      // release factory
      if (m_spellCheckerFactory) {
          m_spellCheckerFactory->Release();
-     }
-+
-+    // de-init com if needed
-+    if (m_wasCOMInitialized) {
-+        CoUninitialize();
-+    }
- }
- 
- SpellerPlugin *ISpellCheckerClient::createSpeller(const QString &language)
 diff --git a/src/plugins/ispellchecker/ispellcheckerdict.cpp b/src/plugins/ispellchecker/ispellcheckerdict.cpp
 --- a/src/plugins/ispellchecker/ispellcheckerdict.cpp
 +++ b/src/plugins/ispellchecker/ispellcheckerdict.cpp
