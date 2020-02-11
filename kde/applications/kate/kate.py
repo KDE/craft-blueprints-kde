@@ -39,9 +39,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/applications/konsole"] = None
 
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
-        if not CraftCore.compiler.isMacOS:
-            # plugins don't match naming required for signing
-            self.runtimeDependencies["kde/plasma/breeze"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 from Package.CMakePackageBase import *
 
@@ -54,6 +52,8 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
         self.addExecutableFilter(r"bin/(?!(kate|update-mime-database|kioslave)).*")
         self.defines["shortcuts"] = [{"name" : "Kate", "target":"bin/kate.exe", "description" : self.subinfo.description}]
 
@@ -73,9 +73,4 @@ class Package(CMakePackageBase):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
-
-        # plugins don't match naming required for signing
-        if CraftCore.compiler.isMacOS:
-            self.ignoredPackages.append("kde/frameworks/tier1/kwindowsystem")
-
         return TypePackager.createPackage(self)
