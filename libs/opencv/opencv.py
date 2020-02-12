@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.targetDigests['4.2.0'] = (['9ccb2192d7e8c03c58fee07051364d94ed7599363f3b0dce1c5e6cc11c1bb0ec'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = '4.2.0'
 
-        self.options.configure.args = "-DBUILD_NEW_PYTHON_SUPPORT=OFF -DBUILD_ZLIB=OFF -DBUILD_TIFF=OFF -DBUILD_JPEG=OFF -DBUILD_PNG=OFF -DBUILD_WEBP=OFF -DBUILD_JASPER=OFF -DWITH_JASPER=OFF -DBUILD_PROTOBUF=OFF -DPROTOBUF_UPDATE_FILES=ON -DWITH_QT=5"
+        self.options.configure.args = "-DBUILD_NEW_PYTHON_SUPPORT=OFF -DBUILD_ZLIB=OFF -DBUILD_TIFF=OFF -DBUILD_JPEG=OFF -DBUILD_PNG=OFF -DBUILD_WEBP=OFF -DBUILD_JASPER=OFF -DWITH_JASPER=OFF -DBUILD_PROTOBUF=ON -DPROTOBUF_UPDATE_FILES=ON -DWITH_QT=5"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
