@@ -10,7 +10,7 @@ diff --git a/src/plugins/ispellchecker/ispellcheckerclient.cpp b/src/plugins/isp
          // if we have a factory, cache the language names
          IEnumString* enumLanguages = nullptr;
          if (SUCCEEDED(m_spellCheckerFactory->get_SupportedLanguages(&enumLanguages))) {
-@@ -41,15 +41,15 @@
+@@ -41,15 +41,18 @@
  
  ISpellCheckerClient::~ISpellCheckerClient()
  {
@@ -19,6 +19,8 @@ diff --git a/src/plugins/ispellchecker/ispellcheckerclient.cpp b/src/plugins/isp
 -        CoUninitialize();
 -    }
 -
++    // leak stuff atm as cleanup crashs....
++#if 0
      // release factory
      if (m_spellCheckerFactory) {
          m_spellCheckerFactory->Release();
@@ -28,6 +30,7 @@ diff --git a/src/plugins/ispellchecker/ispellcheckerclient.cpp b/src/plugins/isp
 +    if (m_wasCOMInitialized) {
 +        CoUninitialize();
 +    }
++#endif
  }
  
  SpellerPlugin *ISpellCheckerClient::createSpeller(const QString &language)
