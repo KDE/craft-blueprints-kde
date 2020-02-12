@@ -7,11 +7,11 @@ class subinfo(info.infoclass):
 
         self.description = "Spelling framework for Qt, plugin-based."
 
-        self.patchToApply["5.66.0"] = [
+        self.patchToApply["5.67.0"] = [
             ("ispellchecker.patch", 1),
         ]
 
-        self.patchLevel["5.66.0"] = 4
+        self.patchLevel["5.67.0"] = 4
 
     def registerOptions(self):
         # hunspell just when needed, on Windows(visual studio) or Mac we try with the OS specific checkers
