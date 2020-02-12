@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
             ("ispellchecker.patch", 1),
         ]
 
-        self.patchLevel["5.67.0"] = 6
+        self.patchLevel["5.67.0"] = 7
 
     def registerOptions(self):
         # hunspell just when needed, on Windows(visual studio) or Mac we try with the OS specific checkers

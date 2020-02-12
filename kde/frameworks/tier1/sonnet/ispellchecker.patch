@@ -25,7 +25,7 @@ diff --git a/src/plugins/ispellchecker/ispellcheckerclient.h b/src/plugins/ispel
 diff --git a/src/plugins/ispellchecker/ispellcheckerclient.cpp b/src/plugins/ispellchecker/ispellcheckerclient.cpp
 --- a/src/plugins/ispellchecker/ispellcheckerclient.cpp
 +++ b/src/plugins/ispellchecker/ispellcheckerclient.cpp
-@@ -15,49 +15,47 @@
+@@ -15,52 +15,50 @@
  {
      qCDebug(SONNET_ISPELLCHECKER) << " ISpellCheckerClient::ISpellCheckerClient";
  
@@ -93,6 +93,10 @@ diff --git a/src/plugins/ispellchecker/ispellcheckerclient.cpp b/src/plugins/isp
  }
  
  QStringList ISpellCheckerClient::languages() const
+ {
+-    return m_languages;
++    return m_languages.keys();
+ }
 diff --git a/src/plugins/ispellchecker/ispellcheckerdict.h b/src/plugins/ispellchecker/ispellcheckerdict.h
 --- a/src/plugins/ispellchecker/ispellcheckerdict.h
 +++ b/src/plugins/ispellchecker/ispellcheckerdict.h
