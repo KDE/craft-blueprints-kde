@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/frei0r-plugins"] = None
         self.runtimeDependencies["libs/libsdl2"] = None
         self.runtimeDependencies["libs/vidstab"] = None
+        self.runtimeDependencies["libs/rubberband"] = None
         # self.runtimeDependencies["libs/jack"] = None
         # self.runtimeDependencies["libs/ladspa-sdk"] = None
         # self.runtimeDependencies["libs/ladspa-cmt"] = None
