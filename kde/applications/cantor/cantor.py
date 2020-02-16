@@ -4,12 +4,15 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        for ver in ["19.12.0", "19.12.1", "19.12.2"]:
-            self.patchToApply[ver] = [('cantor-19.12.0-MSVC-libmarkdown.diff', 1)]
-        for ver in ["19.12.1", "19.12.2"]:
-            self.patchToApply[ver] += [('cantor-19.12.1-Windows.diff', 1)]
+        #for ver in ["19.12.0", "19.12.1", "19.12.2"]:
+        #    self.patchToApply[ver] = [('cantor-19.12.0-MSVC-libmarkdown.diff', 1)]
+        #for ver in ["19.12.1", "19.12.2"]:
+        #    self.patchToApply[ver] += [('cantor-19.12.1-Windows.diff', 1)]
 
         self.description = "Cantor"
+        # master has several patches for Windows
+        if CraftCore.compiler.isWindows:
+            self.defaultTarget = 'master'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
