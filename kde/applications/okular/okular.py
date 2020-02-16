@@ -56,11 +56,11 @@ class Package(CMakePackageBase):
 
         # okular icons
         self.defines["icon"] = os.path.join(self.packageDir(), "okular.ico")
-        self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "150-apps-okular.png")
-        self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "44-apps-okular.png")
+        self.defines["icon_png"] = os.path.join(self.sourceDir(), "ui", "data", "icons", "150-apps-okular.png")
+        self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "ui", "data", "icons", , "44-apps-okular.png")
 
         # this requires an 310x150 variant in addition!
-        #self.defines["icon_png_310x310"] = os.path.join(self.packageDir(), ".assets", "310-apps-okular.png")
+        #self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "ui", "data", "icons", "310-apps-okular.png")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")
