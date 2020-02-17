@@ -19,7 +19,6 @@ bin/Qt5Location\.dll
 bin/Qt5Multimedia.*\.dll
 bin/Qt5OpenGL\.dll
 bin/Qt5Positioning\.dll
-bin/Qt5Quick.*\.dll
 bin/Qt5Script.*\.dll
 bin/Qt5Sensors\.dll
 bin/Qt5Web.*\.dll
