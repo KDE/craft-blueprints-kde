@@ -56,9 +56,5 @@ class Package(CMakePackageBase):
             #self.subinfo.options.configure.args = "-DR_EXECUTABLE=" + OsUtils.toUnixPath(os.path.join(self.r_dir, "R.exe"))
             #self.subinfo.options.configure.args += " -DR_R_LIBRARY=" + OsUtils.toUnixPath(os.path.join(self.r_dir, "R.dll"))
 
-            # Python (src/backends/python/pythonserver.cpp) backend fail compiling with MSVC
-            if not CraftCore.compiler.isMSVC():
-                pythonPath = CraftCore.settings.get("Paths", "PYTHON")
-                self.subinfo.options.configure.args += f" -DPYTHONLIBS3_LIBRARY={pythonPath}/python36.dll -DPYTHONLIBS3_INCLUDE_DIR={pythonPath}/include"
-                python27Path = CraftCore.settings.get("Paths", "PYTHON27")
-                self.subinfo.options.configure.args += f" -DPYTHON_LIBRARIES_DIR={python27Path}/libs -DPYTHON_INCLUDE_DIR={python27Path}/include"
+            pythonPath = CraftCore.settings.get("Paths", "PYTHON")
+            self.subinfo.options.configure.args += f" -DPYTHONLIBS3_LIBRARY={pythonPath}/libs/python36.lib -DPYTHONLIBS3_INCLUDE_DIR={pythonPath}/include"
