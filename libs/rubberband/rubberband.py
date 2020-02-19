@@ -10,11 +10,11 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ ver ] = f"rubberband-{ver}"
         self.targetDigests["1.8.2"] = (['0bb058710b476712480cf6b3e1c1178c6237e9e8e3c98092f00e31632a011d15'], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply['1.8.2'] = [("no-jni-to-install.patch", 0)]
-        self.svnTargets['master'] = "https://github.com/breakfastquay/rubberband"
+        self.svnTargets['master'] = "https://github.com/breakfastquay/rubberband.git"
 
         self.description = "An audio time-stretching and pitch-shifting library and utility program"
         self.webpage = "http://breakfastquay.com/rubberband/"
-        self.defaultTarget = "1.8.2"
+        self.defaultTarget = "master"
 
     def setDependencies( self ):
         self.runtimeDependencies["virtual/base"] = None
@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
+        self.subinfo.options.configure.args += " --disable-programs  --disable-vamp --disable-ladspa"
 
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
@@ -46,6 +47,7 @@ if CraftCore.compiler.isGCCLike():
         def __init__(self):
             PackageAutoTools.__init__(self)
             self.subinfo.options.useShadowBuild = False
+
 else:
     class Package(PackageMSVC):
         def __init__(self):
