@@ -12,6 +12,8 @@ class subinfo(info.infoclass):
         self.patchToApply['1.8.2'] = [("no-jni-to-install.patch", 0)]
         if CraftCore.compiler.isWindows:
             self.patchToApply['master'] = [("fftw3-linking.patch", 0)]
+            self.patchToApply['master'] = [("fftw-config-1.patch", 0)]
+            self.patchToApply['master'] = [("fftw-config-2.patch", 0)]
         self.svnTargets['master'] = "https://github.com/breakfastquay/rubberband.git"
 
         self.description = "An audio time-stretching and pitch-shifting library and utility program"
