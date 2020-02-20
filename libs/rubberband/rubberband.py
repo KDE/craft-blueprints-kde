@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ ver ] = f"rubberband-{ver}"
         self.targetDigests["1.8.2"] = (['0bb058710b476712480cf6b3e1c1178c6237e9e8e3c98092f00e31632a011d15'], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply['1.8.2'] = [("no-jni-to-install.patch", 0)]
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
             self.patchToApply['master'] = [("fftw3-linking.patch", 0), ("fftw-config-1.patch", 0), ("fftw-config-2.patch", 0)]
         self.svnTargets['master'] = "https://github.com/breakfastquay/rubberband.git"
 
