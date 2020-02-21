@@ -60,13 +60,6 @@ class PackageMSVC(MSBuildPackageBase):
         self.subinfo.options.configure.args = "/p:UseEnv=true"
         self.subinfo.options.configure.projectFile = os.path.join(self.gettextBuildDir, "gettext.sln")
 
-
-    def make(self):
-        with utils.ScopedEnv({
-            "LIB" : f"{os.environ['LIB']};{os.path.join(CraftStandardDirs.craftRoot() , 'lib')}",
-            "INCLUDE" : f"{os.environ['INCLUDE']};{os.path.join(CraftStandardDirs.craftRoot() , 'include')}"}):
-            return MSBuildPackageBase.make(self)
-
     def install(self):
         if not MSBuildPackageBase.install(self, installHeaders=False,
                                           buildDirs=[self.gettextBuildDir]):

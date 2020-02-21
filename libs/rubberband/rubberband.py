@@ -35,15 +35,6 @@ class PackageMSVC(MSBuildPackageBase):
         MSBuildPackageBase.__init__(self)
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "rubberband-dll.vcxproj")
 
-    def make(self):
-        with utils.ScopedEnv({
-            "LIB" : f"{os.environ['LIB']};{os.path.join(CraftStandardDirs.craftRoot() , 'lib')}",
-            "INCLUDE" : f"{os.environ['INCLUDE']};{os.path.join(CraftStandardDirs.craftRoot() , 'include')}"}):
-            return MSBuildPackageBase.make(self)
-
-    def install(self):
-        return MSBuildPackageBase.install(self)
-
 if CraftCore.compiler.isGCCLike():
     class Package(PackageAutoTools):
         def __init__(self):

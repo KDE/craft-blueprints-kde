@@ -46,13 +46,6 @@ class PackageCMake(MSBuildPackageBase):
         self.subinfo.options.configure.projectFile = \
             os.path.join(self.sourceDir(), "build", "win32", self.toolset, "glib.sln")
 
-
-    def make(self):
-        with utils.ScopedEnv({
-            "LIB" : f"{os.environ['LIB']};{os.path.join(CraftStandardDirs.craftRoot() , 'lib')}",
-            "INCLUDE" : f"{os.environ['INCLUDE']};{os.path.join(CraftStandardDirs.craftRoot() , 'include')}"}):
-            return MSBuildPackageBase.make(self)
-
     def install(self):
         self.cleanImage()
         arch = "win32"

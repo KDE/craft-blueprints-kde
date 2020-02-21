@@ -27,13 +27,7 @@ class PackageAutoTools(AutoToolsPackageBase):
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
-        self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir, "build", "VampSDK.sln")
-
-    def make(self):
-        with utils.ScopedEnv({
-            "LIB" : f"{os.environ['LIB']};{os.path.join(CraftStandardDirs.craftRoot() , 'lib')}",
-            "INCLUDE" : f"{os.environ['INCLUDE']};{os.path.join(CraftStandardDirs.craftRoot() , 'include')}"}):
-            return MSBuildPackageBase.make(self)
+        self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "build", "VampSDK.sln")
 
     def install(self):
         return MSBuildPackageBase.install(self, installHeaders=False,
