@@ -33,7 +33,9 @@ class PackageAutoTools(AutoToolsPackageBase):
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
-        self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "rubberband-dll.vcxproj")
+        self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "rubberband.sln")
+        self.msbuildTargets = ["rubberband-dll"]
+
 
 if CraftCore.compiler.isGCCLike():
     class Package(PackageAutoTools):
