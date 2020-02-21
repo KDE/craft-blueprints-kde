@@ -31,7 +31,7 @@ class PackageMSVC(MSBuildPackageBase):
 
     def install(self):
         return MSBuildPackageBase.install(self, installHeaders=False,
-                                          buildDirs=[os.path.join(self.sourceDir, "build")])
+                                          buildDirs=[os.path.join(self.sourceDir(), "build")])
 
 if CraftCore.compiler.isGCCLike():
     class Package(PackageAutoTools):
