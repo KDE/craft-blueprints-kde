@@ -11,10 +11,10 @@ class subinfo(info.infoclass):
         #self.patchLevel["3.3.7"] = 1
 
         self.description = 'a desktop planetarium'
-        for ver in ['3.4.0']:
+        for ver in ['3.4.1']:
             self.targets[ver] = 'http://download.kde.org/stable/kstars/kstars-%s.tar.xz' % ver
             self.targetInstSrc[ver] = 'kstars-%s' % ver
-        self.defaultTarget = '3.4.0'
+        self.defaultTarget = '3.4.1'
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
