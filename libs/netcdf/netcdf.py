@@ -37,6 +37,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.ignoredPackages.append("libs/dbus")
-        self.ignoredPackages.append("libs/hdf5")
         self.ignoredPackages.append("libs/gsl")
+        self.ignoredPackages.append("libs/hdf5")
+        self.ignoredPackages.append("libs/llvm-meta")
         return TypePackager.createPackage(self)

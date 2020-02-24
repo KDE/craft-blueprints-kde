@@ -5,11 +5,8 @@
 .*\.sym
 
 # unused libs and exe
-bin/axvlc\.dll
-bin/avcodec-58\.dll
-bin/avfilter-7\.dll
-bin/avformat-58\.dll
-bin/d3compiler_47\.dll
+# If using qml you probably won't want to strip DirectX
+#bin/d3compiler_47\.dll
 bin/djvulibre\.dll
 bin/elisaLib\.dll
 bin/gettextlib\.dll
@@ -20,18 +17,13 @@ bin/icuuc\.dll
 bin/libgio-2\.0-0\.dll
 bin/libglib-2\.0-0\.dll
 bin/libgobject-2\.0-0\.dll
-bin/libclang\.dll
 bin/libmecab\.dll
 bin/libmysqld\.dll
-bin/libvlccore\.dll
-bin/LLVM-C\.dll
-bin/LTO\.dll
 bin/Okular5Core\.dll
 bin/openssl\.exe
 bin/perl528\.dll
 bin/poppler-cpp\.dll
 bin/tag\.dll
-bin/snoretoast\.exe
 
 # unused Qt/KF5 libs
 bin/qca-qt5\.dll
@@ -56,7 +48,6 @@ bin/.*KF5DocTools\.dll
 bin/.*KF5Emoticons\.dll
 bin/.*KF5GlobalAccelPrivate\.dll
 bin/.*KF5ItemModels\.dll
-bin/.*KF5KDELibs4Support\.dll
 bin/.*KF5KHtml\.dll
 bin/.*KF5KioGui\.dll
 bin/.*KF5Notifications\.dll
@@ -79,4 +70,4 @@ bin/data/hunspell/.*
 bin/data/icons/.*
 
 # strip executables
-bin/(?!(labplot)).*\.exe
+bin/(?!(labplot|cantor.*|snoretoast)).*\.exe

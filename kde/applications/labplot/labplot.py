@@ -40,7 +40,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
-        self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
+        #self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
 
 
 from Package.CMakePackageBase import *
@@ -71,10 +71,11 @@ class Package(CMakePackageBase):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("binary/r-base")
+        self.ignoredPackages.append("binary/vlc")
         self.ignoredPackages.append("kde/frameworks/kemoticons")
         self.ignoredPackages.append("kde/frameworks/kdesignerplugin")
         self.ignoredPackages.append("libs/dbus")
-        self.ignoredPackages.append("libs/llvm-meta")
+        self.ignoredPackages.append("libs/ffmpeg")
 
         if isinstance(self, AppxPackager):
               self.defines["display_name"] = "LabPlot"
