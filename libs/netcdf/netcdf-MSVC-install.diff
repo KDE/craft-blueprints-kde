@@ -1,0 +1,19 @@
+diff -ruNa netcdf-c-4.7.3.orig/CMakeLists.txt netcdf-c-4.7.3/CMakeLists.txt
+--- netcdf-c-4.7.3.orig/CMakeLists.txt	2019-11-21 00:59:32.000000000 +0100
++++ netcdf-c-4.7.3/CMakeLists.txt	2020-02-26 07:04:18.406115552 +0100
+@@ -1828,13 +1828,12 @@
+ # in the libdir.
+ ##
+ IF(MSVC)
+-  FILE(GLOB COPY_FILES ${CMAKE_PREFIX_PATH}/lib/*.lib)
++  FILE(GLOB COPY_FILES ${CMAKE_PREFIX_PATH}/lib/netcdf.lib)
+   INSTALL(FILES ${COPY_FILES}
+   DESTINATION ${CMAKE_INSTALL_LIBDIR}
+   COMPONENT dependencies)
+ 
+-  FILE(GLOB COPY_FILES ${CMAKE_PREFIX_PATH}/bin/*.dll)
+-  STRING(REGEX REPLACE "msv[.*].dll" "" COPY_FILES "${COPY_FILES}")
++  FILE(GLOB COPY_FILES ${CMAKE_PREFIX_PATH}/bin/netcdf.dll)
+   INSTALL(FILES ${COPY_FILES}
+   DESTINATION ${CMAKE_INSTALL_BINDIR}
+   COMPONENT dependencies)

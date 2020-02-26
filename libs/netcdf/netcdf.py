@@ -13,12 +13,12 @@ class subinfo(info.infoclass):
         self.targetDigests['4.7.3'] = (
             ['05d064a2d55147b83feff3747bea13deb77bef390cb562df4f9f9f1ce147840d'], CraftHash.HashAlgorithm.SHA256)
         self.description = 'A set of software libraries and self-describing, machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data'
+        for ver in ["4.7.3"]:
+            self.patchToApply[ver] += [('netcdf-MSVC-install.diff', 1)]
         self.defaultTarget = '4.7.3'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        #self.buildDependencies["libs/gsl"] = None
-        #self.buildDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/libcurl"] = None
 
@@ -36,8 +36,4 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += " -DCMAKE_CXX_FLAGS='-DH5_BUILT_AS_DYNAMIC_LIB'"
 
     def createPackage(self):
-        self.ignoredPackages.append("libs/dbus")
-        self.ignoredPackages.append("libs/gsl")
-        self.ignoredPackages.append("libs/hdf5")
-        self.ignoredPackages.append("libs/llvm-meta")
         return TypePackager.createPackage(self)
