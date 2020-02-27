@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user qtwebengine-everywhere-src-5.14.1.orig/configure.pri qtwebengine-everywhere-src-5.14.1/configure.pri
+--- qtwebengine-everywhere-src-5.14.1.orig/configure.pri	2020-01-20 12:17:16.000000000 +0100
++++ qtwebengine-everywhere-src-5.14.1/configure.pri	2020-02-27 13:13:28.986966800 +0100
+@@ -162,6 +162,7 @@
+     ninja = $$qtConfFindInPath("ninja$$EXE_SUFFIX")
+     !isEmpty(ninja) {
+         qtLog("Found ninja from path: $$ninja")
++        return(true)
+         qtRunLoggedCommand("$$ninja --version", version)|return(false)
+         contains(version, "1.[7-9].*"): return(true)
+         qtLog("Ninja version too old")
+C:\CraftRoot\dev-utils\bin\diff.exe: qtwebengine-everywhere-src-5.14.1.orig/src/3rdparty/chromium/third_party/swiftshader/build/Visual Studio 15 2017 Win64/third_party/SPIRV-Tools/source: No such file or directory
