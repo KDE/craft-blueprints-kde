@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isMSVC():
             self.runtimeDependencies["binary/r-base"] = None
         # we use Crafts python
-        #self.runtimeDependencies["dev-utils/python3"] = None
+        self.runtimeDependencies["dev-utils/python3"] = None
         #self.runtimeDependencies["binary/python-libs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
@@ -57,4 +57,6 @@ class Package(CMakePackageBase):
             #self.subinfo.options.configure.args += " -DR_R_LIBRARY=" + OsUtils.toUnixPath(os.path.join(self.r_dir, "R.dll"))
 
             pythonPath = CraftCore.settings.get("Paths", "PYTHON")
-            self.subinfo.options.configure.args += f" -DPYTHONLIBS3_LIBRARY={pythonPath}/libs/python36.lib -DPYTHONLIBS3_INCLUDE_DIR={pythonPath}/include"
+            # TODO: include dir needed?
+            #self.subinfo.options.configure.args += f" -DPYTHONLIBS3_LIBRARY={pythonPath}/libs/python36.lib -DPYTHONLIBS3_INCLUDE_DIR={pythonPath}/include"
+            self.subinfo.options.configure.args += f" -DPYTHONLIBS3_LIBRARY={pythonPath}/libs/python36.lib"
