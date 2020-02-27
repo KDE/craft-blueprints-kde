@@ -7,58 +7,23 @@
 # unused libs and exe
 # If using qml you probably won't want to strip DirectX
 #bin/d3compiler_47\.dll
-bin/djvulibre\.dll
-bin/elisaLib\.dll
-bin/gettextlib\.dll
-bin/gio-2\.dll
-bin/gsdll64\.dll
 bin/icuin\.dll
 bin/icuuc\.dll
-bin/libgio-2\.0-0\.dll
-bin/libglib-2\.0-0\.dll
-bin/libgobject-2\.0-0\.dll
-bin/libmecab\.dll
-bin/libmysqld\.dll
-bin/Okular5Core\.dll
-bin/openssl\.exe
-bin/perl528\.dll
-bin/poppler-cpp\.dll
-bin/tag\.dll
 
 # unused Qt/KF5 libs
-bin/qca-qt5\.dll
-bin/Qt53DRender\.dll
-bin/Qt5Charts\.dll
-bin/Qt5Concurrent\.dll
-bin/Qt5Designer.*\.dll
-bin/Qt5Location\.dll
-bin/Qt5Multimedia.*\.dll
-bin/Qt5OpenGL\.dll
-bin/Qt5Positioning\.dll
-bin/Qt5Script.*\.dll
-bin/Qt5Sensors\.dll
-bin/Qt5Web.*\.dll
-bin/Qt5WinExtras\.dll
-bin/Kasten4Okteta2Controllers\.dll
-bin/KDev.*\.dll
-bin/.*KF5CalendarEvents\.dll
-bin/.*KF5Contacts\.dll
-bin/.*KF5Declarative\.dll
-bin/.*KF5DocTools\.dll
-bin/.*KF5Emoticons\.dll
-bin/.*KF5GlobalAccelPrivate\.dll
-bin/.*KF5ItemModels\.dll
-bin/.*KF5KHtml\.dll
-bin/.*KF5KioGui\.dll
-bin/.*KF5Notifications\.dll
-bin/.*KF5Package\.dll
-bin/.*KF5Plasma\.dll
-bin/.*KF5Plotting\.dll
-bin/.*KF5QuickAddons\.dll
-bin/.*KF5TextEditor\.dll
-bin/.*KF5Wallet\.dll
-bin/.*KF5Webkit\.dll
-bin/kwalletbackend5\.dll
+#bin/Qt5Concurrent\.dll
+#bin/Qt5OpenGL\.dll
+#bin/Qt5WinExtras\.dll
+#bin/.*KF5CalendarEvents\.dll
+#bin/.*KF5Declarative\.dll
+#bin/.*KF5DocTools\.dll
+#bin/.*KF5GlobalAccelPrivate\.dll
+#bin/.*KF5KioGui\.dll
+#bin/.*KF5Notifications\.dll
+#bin/.*KF5Package\.dll
+#bin/.*KF5QuickAddons\.dll
+#bin/.*KF5Wallet\.dll
+#bin/kwalletbackend5\.dll
 
 # doubled dlls
 lib/[^/]*\.dll
@@ -70,4 +35,4 @@ bin/data/hunspell/.*
 bin/data/icons/.*
 
 # strip executables
-bin/(?!(labplot|cantor.*|snoretoast)).*\.exe
+bin/(?!(labplot|cantor.*)).*\.exe
