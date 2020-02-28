@@ -73,8 +73,10 @@ class QtPackage(Qt5CorePackageBase):
         if CraftCore.compiler.isMacOS:
             # we need mac's version of libtool here
             env["PATH"] = f"/usr/bin/:{os.environ['PATH']}"
-        if self.qtVer < CraftVersion("5.9") and CraftCore.compiler.isWindows:
-            env["PATH"] = CraftCore.settings.get("Paths", "PYTHON27") + ";" + os.environ["PATH"]
+        if CraftCore.compiler.isWindows:
+            # shorten the path to python2 which is passed to gn...
+            shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/bin").shortPath
+            env["PATH"] = f"{shortDevUtils};{os.environ['PATH']}"
         return env
 
     def configure(self, configureDefines=""):
