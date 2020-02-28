@@ -54,6 +54,12 @@ class QtPackage(Qt5CorePackageBase):
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += " -- --webengine-pulseaudio=no --webengine-ffmpeg=system --webengine-icu=system"
 
+    def sourceDir(self):
+        return CraftShortPath(super().sourceDir()).shortPath
+
+    def buildDir(self):
+        return CraftShortPath(super().buildDir()).shortPath
+
     def fetch(self):
         if isinstance(self, GitSource):
             utils.system(["git", "clean", "-xdf"], cwd=self.sourceDir())
