@@ -54,17 +54,6 @@ class QtPackage(Qt5CorePackageBase):
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += " -- --webengine-pulseaudio=no --webengine-ffmpeg=system --webengine-icu=system"
 
-    def sourceDir(self):
-        # as qmake manages to resolve the src dir from short path try to shorten it before...
-        src = Path(super().sourceDir())
-        newSrc = Path(self.workDir()) / "src"
-        if src.exists():
-            utils.moveFile(src, newSrc)
-        return CraftShortPath(newSrc).shortPath
-
-    def buildDir(self):
-        return CraftShortPath(super().buildDir()).shortPath
-
     def fetch(self):
         if isinstance(self, GitSource):
             utils.system(["git", "clean", "-xdf"], cwd=self.sourceDir())
