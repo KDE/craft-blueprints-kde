@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         # reduce windows debug lvl to prevent out of memory during linking
         self.patchToApply["5.13.2"] = [("qtwebengine-5.13.2-20191124.diff", 1)]
         self.patchToApply["5.14.0"] = [("harfbuzz-2.6.1-gcc-9.patch", 1)] # https://gitweb.gentoo.org/repo/gentoo.git/plain/media-libs/harfbuzz/files/harfbuzz-2.6.1-gcc-9.patch?id=5e2c1c13fa388533d075554da87d3641019aa739
+        self.patchToApply["5.14.1"] = [("harfbuzz-2.6.1-gcc-9.patch", 1)] # https://gitweb.gentoo.org/repo/gentoo.git/plain/media-libs/harfbuzz/files/harfbuzz-2.6.1-gcc-9.patch?id=5e2c1c13fa388533d075554da87d3641019aa739
         self.patchToApply["5.14.1"] = [("qtwebengine-5.14.1-20200227.diff", 1)]
 
     def setDependencies(self):
