@@ -4,6 +4,9 @@ from Package.MSBuildPackageBase import *
 from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+
     def setTargets( self ):
         for ver in ["1.8.2"]:
             self.targets[ ver] = f"https://github.com/breakfastquay/rubberband/archive/v{ver}.tar.gz"
