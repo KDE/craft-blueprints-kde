@@ -1,0 +1,10 @@
+--- QtAV-1.13.0/qml/SGVideoNode.cpp	2020-03-07 21:00:32.370891932 +0100
++++ QtAV-1.13.0.fixed/qml/SGVideoNode.cpp	2020-03-07 21:16:27.800020011 +0100
+@@ -26,6 +26,7 @@
+ #include <QtCore/QScopedPointer>
+ #include <QtGui/QOpenGLFunctions>
+ #include <QtQuick/QSGMaterialShader>
++#include <QtQuick/QSGMaterial>
+ 
+ // all in QSGRenderThread
+ namespace QtAV {
