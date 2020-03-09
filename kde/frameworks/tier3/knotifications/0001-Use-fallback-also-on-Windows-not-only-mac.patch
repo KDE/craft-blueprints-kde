@@ -1,0 +1,95 @@
+From 1b93a366da682f360267068d46891f2530c32f2d Mon Sep 17 00:00:00 2001
+From: Hannah von Reth <hannah.vonreth@owncloud.com>
+Date: Sat, 7 Mar 2020 17:15:38 +0100
+Subject: [PATCH] Use fallback also on Windows not only mac
+
+Reviewers: broulik, bcooksley, jjazeix, cullmann
+
+Reviewed By: bcooksley, jjazeix, cullmann
+
+Subscribers: kde-frameworks-devel
+
+Tags: #frameworks
+
+Differential Revision: https://phabricator.kde.org/D27893
+---
+ src/kstatusnotifieritem.cpp | 48 +++++++++++++++++--------------------
+ 1 file changed, 22 insertions(+), 26 deletions(-)
+
+diff --git a/src/kstatusnotifieritem.cpp b/src/kstatusnotifieritem.cpp
+index fa9e4d1..98f5242 100644
+--- a/src/kstatusnotifieritem.cpp
++++ b/src/kstatusnotifieritem.cpp
+@@ -448,11 +448,10 @@ void KStatusNotifierItem::setToolTipSubTitle(const QString &subTitle)
+     }
+ 
+     d->toolTipSubTitle = subTitle;
+-#ifdef Q_OS_MACOS
+-    setTrayToolTip(d->systemTrayIcon, d->toolTipTitle, subTitle);
+-#endif
+ #ifdef QT_DBUS_LIB
+     emit d->statusNotifierItemDBus->NewToolTip();
++#else
++    setTrayToolTip(d->systemTrayIcon, d->toolTipTitle, subTitle);
+ #endif
+ }
+ 
+@@ -615,35 +614,32 @@ bool KStatusNotifierItem::standardActionsEnabled() const
+ 
+ void KStatusNotifierItem::showMessage(const QString &title, const QString &message, const QString &icon, int timeout)
+ {
+-#ifdef Q_OS_MACOS
+-    if (d->systemTrayIcon) {
+-        // Growl is not needed anymore for QSystemTrayIcon::showMessage() since OS X 10.8
+-        d->systemTrayIcon->showMessage(title, message, QSystemTrayIcon::Information, timeout);
+-    } else
+-#endif
+-    {
+ #ifdef QT_DBUS_LIB
+-        if (!d->notificationsClient) {
+-            d->notificationsClient = new org::freedesktop::Notifications(QStringLiteral("org.freedesktop.Notifications"), QStringLiteral("/org/freedesktop/Notifications"),
+-                                                                         QDBusConnection::sessionBus());
+-        }
++    if (!d->notificationsClient) {
++        d->notificationsClient = new org::freedesktop::Notifications(QStringLiteral("org.freedesktop.Notifications"), QStringLiteral("/org/freedesktop/Notifications"),
++                                                                     QDBusConnection::sessionBus());
++    }
+ 
+-        uint id = 0;
+-        QVariantMap hints;
++    uint id = 0;
++    QVariantMap hints;
+ 
+-        QString desktopFileName = QGuiApplication::desktopFileName();
+-        if (!desktopFileName.isEmpty()) {
+-            // handle apps which set the desktopFileName property with filename suffix,
+-            // due to unclear API dox (https://bugreports.qt.io/browse/QTBUG-75521)
+-            if (desktopFileName.endsWith(QLatin1String(".desktop"))) {
+-                desktopFileName.chop(8);
+-            }
+-            hints.insert(QStringLiteral("desktop-entry"), desktopFileName);
++    QString desktopFileName = QGuiApplication::desktopFileName();
++    if (!desktopFileName.isEmpty()) {
++        // handle apps which set the desktopFileName property with filename suffix,
++        // due to unclear API dox (https://bugreports.qt.io/browse/QTBUG-75521)
++        if (desktopFileName.endsWith(QLatin1String(".desktop"))) {
++            desktopFileName.chop(8);
+         }
++        hints.insert(QStringLiteral("desktop-entry"), desktopFileName);
++    }
+ 
+-        d->notificationsClient->Notify(d->title, id, icon, title, message, QStringList(), hints, timeout);
+-#endif
++    d->notificationsClient->Notify(d->title, id, icon, title, message, QStringList(), hints, timeout);
++#else
++    if (d->systemTrayIcon) {
++        // Growl is not needed anymore for QSystemTrayIcon::showMessage() since OS X 10.8
++        d->systemTrayIcon->showMessage(title, message, QSystemTrayIcon::Information, timeout);
+     }
++#endif
+ }
+ 
+ QString KStatusNotifierItem::title() const
+-- 
+2.21.1 (Apple Git-122.3)
+
