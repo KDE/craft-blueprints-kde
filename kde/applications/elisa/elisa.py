@@ -55,7 +55,7 @@ class Package( CMakePackageBase ):
         self.defines["executable"] = "bin\\elisa.exe"
 
         self.defines["icon"] = os.path.join(self.packageDir(), "elisa.ico")
-        self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "150-apps-elisa.png")
+        self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "44-apps-elisa.png")
         self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "44-apps-elisa.png")
 
         self.defines["mimetypes"] = ["audio/mpeg", "audio/mp4"]
