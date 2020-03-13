@@ -95,7 +95,7 @@ class PackageAutoTools(AutoToolsPackageBase):
             f"-U default_inc_excludes_dot " \
             f"-D usethreads"
 
-        if OsDetection.isFreeBSD():
+        if CraftCore.compiler.isFreeBSD:
             self.subinfo.options.make.supportsMultijob = False
 
         cflags = self.shell.environment["CFLAGS"]
