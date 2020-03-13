@@ -21,6 +21,9 @@ class subinfo( info.infoclass ):
             ("0004-fix-enqueue-from-FileBrowserView-with-Qt-5.14.patch", 1),
             ("0001-disable-playlist-animations-to-fix-display-corruptio.patch", 1),
         ]
+        self.patchToApply["19.12.3"] = [
+            ("0001-avoid-binding-loop-on-the-height-being-linked-to-its.patch", 1),
+        ]
 
     def setDependencies( self ):
         self.runtimeDependencies["virtual/base"] = None

@@ -1,0 +1,26 @@
+From 1a1854cc2b12f1068b182b33045f03f279ca4fc6 Mon Sep 17 00:00:00 2001
+From: Matthieu Gallien <matthieu_gallien@yahoo.fr>
+Date: Wed, 11 Mar 2020 22:22:01 +0100
+Subject: [PATCH] avoid binding loop on the height being linked to its parent
+ height
+
+---
+ src/qml/MediaPlayListView.qml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/qml/MediaPlayListView.qml b/src/qml/MediaPlayListView.qml
+index c8d4d876..1b95f7c0 100644
+--- a/src/qml/MediaPlayListView.qml
++++ b/src/qml/MediaPlayListView.qml
+@@ -226,7 +226,7 @@ FocusScope {
+             Item {
+                 id: emptyVisible
+                 visible: elisa.mediaPlayList ? elisa.mediaPlayList.tracksCount === 0 : true
+-                Layout.preferredHeight: (emptyPlaylistText.height-emptyImage.height-emptyLabel0.height-emptyLabel1.height)/2
++                Layout.fillHeight: true
+             }
+ 
+             Image {
+-- 
+2.25.1
+
