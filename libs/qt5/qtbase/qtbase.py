@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_GenericDataLocation_mac.patch", 1),
                     ("qstandardpaths-extra-dirs.patch", 1),
+                    ("fix-harfbuzz.diff", 1),
                 ]
             elif qtVer >= CraftVersion("5.12.7"):
                 self.patchToApply[ver] = [
