@@ -33,7 +33,7 @@ class Package(CMakePackageBase):
         # -DBUILD_TESTSETS=OFF -DENABLE_PARALLEL_TESTS=OFF -DENABLE_UNIT_TESTS=OFF
         self.subinfo.options.configure.args = f"-DHDF5_DIR={hdf5dir} -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF"
         if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.args += " -DCMAKE_CXX_FLAGS='-DH5_BUILT_AS_DYNAMIC_LIB'"
+            self.subinfo.options.configure.args += f" -DCMAKE_CXX_FLAGS='-DH5_BUILT_AS_DYNAMIC_LIB' -DPACKAGE_VERSION={self.subinfo.buildTarget}"
 
     def createPackage(self):
         return TypePackager.createPackage(self)
