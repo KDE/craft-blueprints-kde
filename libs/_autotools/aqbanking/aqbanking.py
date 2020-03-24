@@ -64,14 +64,10 @@ class Package(AutoToolsPackageBase):
                         if craftRoot.endswith("/"):
                             craftRoot = craftRoot[:-1]
                         cmakeFileContents[i] = cmakeFileContents[i].replace(m.group('root'), craftRoot)
-
-                    m2 = re.search("libaqbanking.so", cmakeFileContents[i])
-                    if m2 is not None:
-                        cmakeFileContents[i] = cmakeFileContents[i].replace("lib/libaqbanking.so", "bin/libaqbanking-35.dll")
                 elif CraftCore.compiler.isMacOS:
-                    m2 = re.search("libaqbanking.so", cmakeFileContents[i])
+                    m2 = re.search("(libaqbanking.so.(\d*))", cmakeFileContents[i])
                     if m2 is not None:
-                        cmakeFileContents[i] = cmakeFileContents[i].replace("libaqbanking.so", "libaqbanking.35.dylib")
+                        cmakeFileContents[i] = cmakeFileContents[i].replace(m2.group(1), "libaqbanking.%s.dylib" % m2.group(2))
             with open(cmake, "wt") as f:
                 f.write(''.join(cmakeFileContents))
         return AutoToolsPackageBase.postInstall(self)
