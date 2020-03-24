@@ -1,10 +1,11 @@
 diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' gwenhywfar-4.20.0.orig/configure gwenhywfar-4.20.0/configure
---- gwenhywfar-4.20.0.orig/configure	2018-02-23 16:35:36.000000000 +0100
-+++ gwenhywfar-4.20.0/configure	2018-05-03 22:34:10.000000000 +0200
-@@ -22522,43 +22522,16 @@
-     am_have_qt_makefile=`mktemp`
-     # http://qt-project.org/doc/qt-5/qmake-variable-reference.html#qt
-     cat > $am_have_qt_pro << EOF
+--- gwenhywfar-4.20.0.orig/configure	2020-03-23 16:35:36.000000000 +0500
++++ gwenhywfar-4.20.0/configure	2020-03-23 17:34:10.000000000 +0500
+@@ -23148,43 +23148,16 @@
+ win32 {
+     CONFIG -= debug_and_release
+     CONFIG += release
+ }
 -qtHaveModule(axcontainer):       QT += axcontainer
 -qtHaveModule(axserver):          QT += axserver
 -qtHaveModule(concurrent):        QT += concurrent
