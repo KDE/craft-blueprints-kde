@@ -32,7 +32,7 @@ from Package.VirtualPackageBase import VirtualPackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["3.4"]:
-            self.targets[ver] = "http://www.lysator.liu.se/~nisse/archive/nettle-%s.tar.gz" % ver
+            self.targets[ver] = "https://ftp.gnu.org/gnu/nettle/nettle-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "nettle-%s" % ver
 
         self.targetDigests['3.4'] = (['ae7a42df026550b85daca8389b6a60ba6313b0567f374392e54918588a411e94'], CraftHash.HashAlgorithm.SHA256)
