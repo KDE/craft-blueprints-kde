@@ -29,7 +29,7 @@ from CraftOS.osutils import OsUtils
 class subinfo(info.infoclass):
     def setTargets(self):
         self.targets["6.1.2"] = "https://www.aquamaniac.de/rdm/attachments/download/269/aqbanking-6.1.2.tar.gz"
-        self.targetDigests["6.1.2"] = (['f94c9197302fe73344261a779f8fa4d9'], CraftHash.HashAlgorithm.MD5)
+        self.targetDigests["6.1.2"] = (['0b54c70a8ab1bd5537d8b26d05a9e44db0600b64d8cbb63c34018dee11f67190'], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["6.1.2"] = "aqbanking-6.1.2"
         self.defaultTarget = "6.1.2"
 
