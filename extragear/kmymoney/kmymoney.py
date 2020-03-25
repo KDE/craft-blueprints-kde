@@ -83,6 +83,8 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(self.packageDir(), "kmymoney.ico")
 
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
 
         self.ignoredPackages.append("binary/mysql")
 
