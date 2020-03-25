@@ -32,7 +32,6 @@ class subinfo(info.infoclass):
         self.targetDigests["6.1.2"] = (['f94c9197302fe73344261a779f8fa4d9'], CraftHash.HashAlgorithm.MD5)
         self.targetInstSrc["6.1.2"] = "aqbanking-6.1.2"
         self.defaultTarget = "6.1.2"
-        self.patchLevel["6.1.2"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
