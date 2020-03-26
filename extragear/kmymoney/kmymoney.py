@@ -59,7 +59,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/sqlite"] = None
         self.runtimeDependencies["libs/libofx"] = None
         self.runtimeDependencies["libs/libical"] = None
-        self.runtimeDependencies["libs/sqlcipher"] = None
+        # codesign fails on tcl framework, which is a dependency for sqlcipher
+        if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/sqlcipher"] = None
         if not CraftCore.compiler.isMSVC():
             self.runtimeDependencies["libs/aqbanking"] = None
         self.runtimeDependencies["libs/gettext"] = None
