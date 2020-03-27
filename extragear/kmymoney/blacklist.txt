@@ -90,3 +90,7 @@ bin/dbus-env\.bat
 
 # strip most executables
 bin/(?!(kmymoney|sqlcipher|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
+
+# build dependencies
+lib/tcl8.6/.*
+
