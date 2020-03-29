@@ -40,6 +40,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kinit"] = None
         self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
         self.runtimeDependencies["libs/rttr"] = None
