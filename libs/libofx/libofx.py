@@ -35,6 +35,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMSVC():
             self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-2.diff", 1)]
             self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-3.diff", 1)]
+            self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-5.diff", 1)]
 
         if CraftCore.compiler.isMSVC() or CraftCore.compiler.isMinGW():
             self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-4.diff", 1)]

@@ -1,0 +1,68 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' '-x*\.o' -x '*\.pyc' libofx-0.9.13.orig/CMakeLists.txt libofx-0.9.13/CMakeLists.txt
+--- libofx-0.9.13.orig/CMakeLists.txt	2020-03-29 09:57:21.000000000 +0200
++++ libofx-0.9.13/CMakeLists.txt	2020-03-29 12:37:47.960040600 +0200
+@@ -2,7 +2,7 @@
+ 
+ set (VERSION_MAJOR 0)
+ set (VERSION_MINOR 9)
+-set (VERSION_PATH 13)
++set (VERSION_PATCH 13)
+ 
+ cmake_minimum_required(VERSION 2.6)
+ 
+@@ -90,9 +90,12 @@
+ add_executable(ofxdump ${ofxdump_SRCS})
+ target_link_libraries(ofxdump ofx)
+ 
++configure_file("libofx.pc.in" "${CMAKE_CURRENT_BINARY_DIR}/libofx.pc")
++
+ install(TARGETS ofx ofxdump RUNTIME DESTINATION bin ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
+ install(FILES inc/libofx.h DESTINATION include/libofx)
+ install(FILES dtd/opensp.dcl DESTINATION ${CMAKE_PREFIX_PATH}/share/libofx/dtd)
+ install(FILES dtd/ofx160.dtd DESTINATION ${CMAKE_PREFIX_PATH}/share/libofx/dtd)
+ install(FILES dtd/ofx201.dtd DESTINATION ${CMAKE_PREFIX_PATH}/share/libofx/dtd)
+ install(FILES dtd/ofc.dtd DESTINATION ${CMAKE_PREFIX_PATH}/share/libofx/dtd)
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libofx.pc DESTINATION ${CMAKE_PREFIX_PATH}/lib/pkgconfig)
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' '-x*\.o' -x '*\.pyc' libofx-0.9.13.orig/libofx.pc libofx-0.9.13/libofx.pc
+--- libofx-0.9.13.orig/libofx.pc	2018-05-02 21:41:27.000000000 +0200
++++ libofx-0.9.13/libofx.pc	1970-01-01 01:00:00.000000000 +0100
+@@ -1,16 +0,0 @@
+-# libofx pkg-config source file
+-
+-prefix=/home/cs/usr
+-exec_prefix=${prefix}
+-libdir=${exec_prefix}/lib
+-includedir=${prefix}/include
+-
+-Name: libofx
+-Description: libofx is a library for processing Open Financial eXchange (OFX) data
+-Version: 0.9.13
+-Requires:
+-Conflicts:
+-#Libs: -L${libdir} -L/usr/lib -losp -lofx
+-#Cflags: -I${includedir} -I/usr/include/OpenSP 
+-Libs: -L${libdir} -lofx
+-Cflags: -I${includedir}
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' '-x*\.o' -x '*\.pyc' libofx-0.9.13.orig/libofx.pc.in libofx-0.9.13/libofx.pc.in
+--- libofx-0.9.13.orig/libofx.pc.in	2016-09-10 10:01:22.000000000 +0200
++++ libofx-0.9.13/libofx.pc.in	2020-03-29 12:41:14.784918600 +0200
+@@ -1,16 +1,11 @@
+ # libofx pkg-config source file
+ 
+-prefix=@prefix@
+-exec_prefix=@exec_prefix@
+-libdir=@libdir@
+-includedir=@includedir@
+-
+ Name: libofx
+ Description: libofx is a library for processing Open Financial eXchange (OFX) data
+-Version: @VERSION@
++Version: @VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@
+ Requires:
+ Conflicts:
+ #Libs: -L${libdir} @OPENSPLIBS@ -lofx
+ #Cflags: -I${includedir} -I@OPENSPINCLUDES@ 
+-Libs: -L${libdir} -lofx
+-Cflags: -I${includedir}
++Libs: @CMAKE_INSTALL_PREFIX@/lib/libofx.lib @OPENSP_LIBRARIES@ @ICONV_LIBRARIES@
++Cflags: -I@CMAKE_INSTALL_PREFIX@/include
