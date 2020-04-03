@@ -62,9 +62,10 @@ class Package(CMakePackageBase):
         #self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "150-apps-okular.png")
         #self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "44-apps-okular.png")
 
-        # TODO
-        #self.defines["registry_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate" "" "Edit with Kate"\n"""
-        #                                """WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate\\command" "" '"$INSTDIR\\bin\\kate.exe" "%V"'\n""")
+        self.defines["registry_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\.lml" "" "LabPlot2"\n"""
+                                        """WriteRegStr SHCTX "Software\\Classes\\LabPlot2" "" "MyView"\n"""
+                                        """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\DefaultIcon" "" "$INSTDIR\\labplot2\\application-x-labplot2.ico,0"\n"""
+                                        """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell\\open\\command" "" '"$INSTDIR\\labplot2\\labplot2.exe" "%1"'\n""")
 
         self.defines["mimetypes"] = ["application/x-labplot2"]
         self.defines["file_types"] = [".lml"]
