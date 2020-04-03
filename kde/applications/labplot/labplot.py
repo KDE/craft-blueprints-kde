@@ -65,7 +65,7 @@ class Package(CMakePackageBase):
         self.defines["registry_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\.lml" "" "LabPlot2"\n"""
             """WriteRegStr SHCTX "Software\\Classes\\LabPlot2" "" "LabPlot2 project"\n"""
             """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\DefaultIcon" "" "$INSTDIR\\bin\\data\\labplot2\\application-x-labplot2.ico"\n"""
-            """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell" "" "open"\n""")
+            """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell" "" "open"\n"""
             """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell\\open\\command" "" '"$INSTDIR\\bin\\labplot2.exe" "%1"'\n"""
             """System::Call "shell32.dll::SHChangeNotify(i,i,i,i) (0x08000000, 0, 0, 0)"\n""")
 
