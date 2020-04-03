@@ -64,8 +64,8 @@ class Package(CMakePackageBase):
 
         self.defines["registry_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\.lml" "" "LabPlot2"\n"""
                                         """WriteRegStr SHCTX "Software\\Classes\\LabPlot2" "" "MyView"\n"""
-                                        """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\DefaultIcon" "" "$INSTDIR\\labplot2\\application-x-labplot2.ico,0"\n"""
-                                        """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell\\open\\command" "" '"$INSTDIR\\labplot2\\labplot2.exe" "%1"'\n""")
+                                        """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\DefaultIcon" "" "$INSTDIR\\bin\\data\\labplot2\\application-x-labplot2.ico,0"\n"""
+                                        """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell\\open\\command" "" '"$INSTDIR\\bin\\labplot2.exe" "%1"'\n""")
 
         self.defines["mimetypes"] = ["application/x-labplot2"]
         self.defines["file_types"] = [".lml"]
