@@ -34,18 +34,18 @@ class subinfo(info.infoclass):
             self.targetDigestUrls[ver] = ([f'{baseUrl}openssl-{ver}.tar.gz.sha256'], CraftHash.HashAlgorithm.SHA256)
 
         # latest versions -> inside source/
-        for ver in ["1.0.2s", "1.1.1d"]:
+        for ver in ["1.0.2s", "1.1.1f"]:
             baseUrl = 'https://openssl.org/source/'
             addTarget(baseUrl, ver)
 
-        self.patchLevel["1.1.1d"] = 1
+        self.patchLevel["1.1.1f"] = 1
 
         self.description = "The OpenSSL runtime environment"
 
         #set the default config for openssl 1.1
-        self.options.configure.args = "shared no-zlib threads no-rc5 no-idea no-ssl3-method no-weak-ssl-ciphers no-heartbeats no-dynamic-engine"
+        self.options.configure.args = "shared no-zlib threads no-rc5 no-idea no-ssl3-method no-weak-ssl-ciphers no-heartbeats no-dynamic-engine --libdir=lib"
 
-        self.defaultTarget = '1.1.1d'
+        self.defaultTarget = '1.1.1f'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
