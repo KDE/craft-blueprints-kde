@@ -58,6 +58,19 @@ class Package(AutoToolsPackageBase):
         with utils.ScopedEnv(self._ffmpegEnv()):
             return super().make()
 
+    def install(self):
+        if not super().install():
+            return False
+
+        if OsUtils.isWin():
+            for file in ['avcodec', 'avdevice', 'avfilter', 'avformat', 'avresample', 'avutil', 'postproc', 'swresample', 'swscale']:
+                file += ".lib"
+                src = os.path.join(self.installDir(), 'bin', file)
+                if os.path.isfile(src):
+                    os.rename(src, os.path.join(self.installDir(), 'lib', file))
+
+        return True
+
     def _ffmpegEnv(self):
         if not CraftCore.compiler.isMSVC():
             return {}
