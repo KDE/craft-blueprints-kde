@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.patchToApply['1.13.0'] = [
             ("0001-Include-QSGMaterial.patch", 1),
             ("0002-Fix-install-prefix.patch", 1),
+            ("0003-Add-craft-search-paths.patch", 1),
         ]
 
     def setDependencies(self):
@@ -32,3 +33,10 @@ class Package(QMakePackageBase):
 
     def configureOptions(self, defines=""):
         return super().configureOptions(defines + ' "CONFIG += no-examples no-tests"')
+
+    def install(self, options=None):
+        if not super().install(options):
+            return False
+        if OsUtils.isWin():
+            return utils.system("sdk_install.bat", cwd=self.buildDir())
+        return True

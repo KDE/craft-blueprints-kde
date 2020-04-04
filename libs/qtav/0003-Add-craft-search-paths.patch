@@ -1,0 +1,11 @@
+diff -r -u QtAV-1.13.0/.qmake.conf QtAV-1.13.0-fixed/.qmake.conf
+--- QtAV-1.13.0/.qmake.conf	2020-04-03 21:58:14.028247283 +0200
++++ QtAV-1.13.0-fixed/.qmake.conf	2020-04-03 21:57:55.575096164 +0200
+@@ -12,3 +12,7 @@
+ android: CONFIG*=c++11
+ QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.8
+ QMAKE_IOS_DEPLOYMENT_TARGET = 6.0
++
++# Craft paths
++INCLUDEPATH += $$[QT_INSTALL_PREFIX]/include
++LIBS += -L$$[QT_INSTALL_PREFIX]/lib
