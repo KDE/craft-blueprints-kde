@@ -3,17 +3,38 @@
 # general
 .*\.pdb
 .*\.sym
+COPYING
+RELEASE
+USING_HDF5_CMake
+USING_HDF5_VS
 
 # unused libs and exe
 # If using qml you probably won't want to strip DirectX
 #bin/d3compiler_47\.dll
 bin/icuin\.dll
 bin/icuuc\.dll
+bin/poppler-cpp\.dll
+bin/AnalitzaPlot\.dll
+bin/AnalitzaWidgets\.dll
+bin/gio-2\.dll
+bin/glib-2\.dll
+bin/gmodule-2\.dll
+bin/gobject-2\.dll
+bin/gthread-2\.dll
+bin/hdf5_cpp\.dll
+bin/hdf5_hl_cpp\.dll
+bin/hdf5_tools\.dll
+bin/kcm_kio\.dll
+bin/kcm_webshortcuts\.dll
+bin/kdewin\.dll
+bin/kdewin-qt\.dll
+bin/kdewin\.dll
+bin/kdewin-qt\.dll
 
 # unused Qt/KF5 libs
-#bin/Qt5Concurrent\.dll
-#bin/Qt5OpenGL\.dll
-#bin/Qt5WinExtras\.dll
+bin/Qt5Concurrent\.dll
+bin/Qt5OpenGL\.dll
+bin/Qt5WinExtras\.dll
 #bin/.*KF5CalendarEvents\.dll
 #bin/.*KF5Declarative\.dll
 #bin/.*KF5DocTools\.dll
@@ -29,7 +50,9 @@ bin/icuuc\.dll
 lib/[^/]*\.dll
 
 # unused data
+bin/designer/.*
 bin/data/hunspell/.*
+#bin/data/locale/.*
 
 # we use a icontheme.rc on windows
 bin/data/icons/.*
