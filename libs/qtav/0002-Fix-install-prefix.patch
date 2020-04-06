@@ -1,6 +1,14 @@
---- QtAV-1.13.0.orig/deploy.pri	2019-07-11 02:58:59.000000000 +0200
-+++ QtAV-1.13.0/deploy.pri	2020-03-07 22:09:04.017438326 +0100
-@@ -4,7 +4,7 @@
+commit 039be0bcb41be4b2311d3d16c54ecfe519ed02ab
+Author: Mladen Milinkovic <maxrd2@smoothware.net>
+Date:   Mon Mar 9 11:58:11 2020 +0100
+
+    Fix make install with alernate root path
+
+diff --git a/deploy.pri b/deploy.pri
+index 3abbde99..0efa9ea4 100644
+--- a/deploy.pri
++++ b/deploy.pri
+@@ -4,7 +4,7 @@ INSTALL_PREFIX = /usr/local
  share.files = $$PROJECTROOT/qtc_packaging/common/changelog \
  			$$PROJECTROOT/qtc_packaging/common/copyright \
  			$$PROJECTROOT/qtc_packaging/common/README
@@ -9,7 +17,7 @@
  
  isEqual(TEMPLATE, app) {
  	unix:!symbian {
-@@ -12,22 +12,22 @@
+@@ -12,22 +12,22 @@ isEqual(TEMPLATE, app) {
  			DEFINES += CACHE_APPDIR
  			INSTALL_PREFIX = /opt/$${TARGET}
  			desktopfile.files = $$PROJECTROOT/qtc_packaging/debian_harmattan/$${TARGET}.desktop
@@ -38,9 +46,11 @@
  			#debian.files = $$PROJECTROOT/qtc_packaging/generic/control
  		}
  		INSTALLS += desktopfile icon
---- QtAV-1.13.0.orig/examples/QMLPlayer/qtquick2applicationviewer/qtquick2applicationviewer.pri	2019-07-11 02:58:59.000000000 +0200
-+++ QtAV-1.13.0/examples/QMLPlayer/qtquick2applicationviewer/qtquick2applicationviewer.pri	2020-03-07 22:09:17.683949493 +0100
-@@ -104,14 +104,14 @@
+diff --git a/examples/QMLPlayer/qtquick2applicationviewer/qtquick2applicationviewer.pri b/examples/QMLPlayer/qtquick2applicationviewer/qtquick2applicationviewer.pri
+index e5f7990f..47a18892 100644
+--- a/examples/QMLPlayer/qtquick2applicationviewer/qtquick2applicationviewer.pri
++++ b/examples/QMLPlayer/qtquick2applicationviewer/qtquick2applicationviewer.pri
+@@ -104,14 +104,14 @@ android-no-sdk {
  } else:unix {
      maemo5 {
          desktopfile.files = $${TARGET}.desktop
@@ -59,9 +69,11 @@
      } else { # Assumed to be a Desktop Unix
          copyCommand =
          for(deploymentfolder, DEPLOYMENTFOLDERS) {
---- QtAV-1.13.0.orig/src/libQtAV.pro	2019-07-11 02:58:59.000000000 +0200
-+++ QtAV-1.13.0/src/libQtAV.pro	2020-03-07 22:08:44.940988729 +0100
-@@ -621,7 +621,7 @@
+diff --git a/src/libQtAV.pro b/src/libQtAV.pro
+index 8e49668c..8361f628 100644
+--- a/src/libQtAV.pro
++++ b/src/libQtAV.pro
+@@ -621,7 +621,7 @@ mac {
  
  unix:!mac:!cross_compile {
  icon.files = $$PWD/$${TARGET}.svg

@@ -1,0 +1,15 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index db84dbf8..f2ff2970 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -218,6 +218,10 @@ if(HAVE_OPENGL)
+     find_package(OpenGL REQUIRED)
+     list(APPEND EXTRA_LIBS ${OPENGL_gl_LIBRARY})
+   endif()
++  if(WIN32 AND OPENGLES) # msys2
++    set(OPENGL 1)
++    set(HAVE_EGL 0)
++  endif()
+ endif()
+ 
+ file(GLOB SDK_HEADERS QtAV/*.h)

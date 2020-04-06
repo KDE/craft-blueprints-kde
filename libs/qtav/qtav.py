@@ -14,8 +14,8 @@ class subinfo(info.infoclass):
         self.displayName = "QtAV"
         self.patchToApply['1.13.0'] = [
             ("0001-Include-QSGMaterial.patch", 1),
-            ("0002-Fix-install-prefix.patch", 1),
-            ("0003-Add-craft-search-paths.patch", 1),
+            ("0004-cmake-fixes.patch", 1),
+            ("0005-cmake-fix-mingw-build.patch", 1),
         ]
 
     def setDependencies(self):
@@ -24,19 +24,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
 
 
-from Package.QMakePackageBase import *
+from Package.CMakePackageBase import *
 
 
-class Package(QMakePackageBase):
+class Package(CMakePackageBase):
     def __init__(self):
-        QMakePackageBase.__init__(self)
-
-    def configureOptions(self, defines=""):
-        return super().configureOptions(defines + ' "CONFIG += no-examples no-tests"')
-
-    def install(self, options=None):
-        if not super().install(options):
-            return False
-        if OsUtils.isWin():
-            return utils.system("sdk_install.bat", cwd=self.buildDir())
-        return True
+        CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args += ' -DBUILD_EXAMPLES=OFF -DBUILD_PLAYERS=OFF -DBUILD_TESTS=OFF'
