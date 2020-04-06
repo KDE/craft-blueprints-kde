@@ -14,7 +14,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = None
+        if CraftCore.compiler.isMinGW():    # MinGW has not qtwebengine, but we can fall back to kdewebkit
+            self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = None
+        else:
+            self.runtimeDependencies['libs/qt5/qtwebengine'] = None
         # not strictly runtimeDependencies, but should be included in the package
         self.runtimeDependencies["kde/applications/kate"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
