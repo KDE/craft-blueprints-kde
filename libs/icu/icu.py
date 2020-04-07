@@ -4,12 +4,18 @@ import info
 from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+    #def registerOptions(self):
+    #    self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
 
     def setTargets(self):
         self.svnTargets["master"] = "http://source.icu-project.org/repos/icu/icu/trunk"
         self.targetInstSrc["master"] = "source"
+
+        for ver in ["66.1"]:
+            major, minor = ver.split(".")
+            self.targets[ver] = f"https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/icu4c-{major}_{minor}-src.tgz"
+            self.targetInstSrc[ver] = os.path.join("icu", "source")
+        self.targetDigests["66.1"] = (['52a3f2209ab95559c1cf0a14f24338001f389615bf00e2585ef3dbc43ecf0a2e'], CraftHash.HashAlgorithm.SHA256)
 
         for ver in ["65.1"]:
             major, minor = ver.split(".")
