@@ -4,8 +4,8 @@ import info
 from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
-    #def registerOptions(self):
-    #    self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
 
     def setTargets(self):
         self.svnTargets["master"] = "http://source.icu-project.org/repos/icu/icu/trunk"
