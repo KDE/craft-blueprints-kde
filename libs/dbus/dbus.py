@@ -27,7 +27,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.8.4", "1.10.4", "1.11.4", "1.11.8", "1.11.14", "1.12.12"]:
+        for ver in ["1.8.4", "1.10.4", "1.11.4", "1.11.8", "1.11.14", "1.12.12", "1.12.16"]:
             self.targets[ver] = f"http://dbus.freedesktop.org/releases/dbus/dbus-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"dbus-{ver}"
             self.targetConfigurePath[ver] = "cmake"
