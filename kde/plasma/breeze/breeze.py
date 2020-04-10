@@ -5,6 +5,9 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        for ver in self.versionInfo.tarballs():
+            self.patchToApply[ver] = ('breeze-noWinDrag.diff', 0)
+
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/libfftw"] = None
