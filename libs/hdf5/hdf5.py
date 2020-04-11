@@ -17,8 +17,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/zlib"] = None
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF"
+        self.subinfo.options.configure.args = "-DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=ON"
