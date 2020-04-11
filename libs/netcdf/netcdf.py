@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
             ['6d740356399aac12290650325a05aec2fe92c1905df10761b2b0100994197725'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['4.7.3'] = (
             ['05d064a2d55147b83feff3747bea13deb77bef390cb562df4f9f9f1ce147840d'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests['4.7.3'] = (
+        self.targetDigests['4.7.4'] = (
             ['99930ad7b3c4c1a8e8831fb061cb02b2170fc8e5ccaeda733bd99c3b9d31666b'], CraftHash.HashAlgorithm.SHA256)
         self.description = 'A set of software libraries and self-describing, machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data'
         for ver in ["4.7.3", "4.7.4"]:
