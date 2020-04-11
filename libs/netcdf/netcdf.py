@@ -22,7 +22,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/hdf5"] = None
-        self.runtimeDependencies["libs/libcurl"] = None
+        # only required for DAP
+        #self.runtimeDependencies["libs/libcurl"] = None
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
@@ -33,7 +34,8 @@ class Package(CMakePackageBase):
 
         hdf5dir = os.path.join(CraftStandardDirs.craftRoot(), "cmake", "hdf5")
         # -DBUILD_TESTSETS=OFF -DENABLE_PARALLEL_TESTS=OFF -DENABLE_UNIT_TESTS=OFF
-        self.subinfo.options.configure.args = f"-DHDF5_DIR={hdf5dir} -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF"
+        # DAP needs static libcurl
+        self.subinfo.options.configure.args = f"-DHDF5_DIR={hdf5dir} -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DENABLE_DAP=OFF"
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += f" -DCMAKE_CXX_FLAGS='-DH5_BUILT_AS_DYNAMIC_LIB' -DPACKAGE_VERSION={self.subinfo.buildTarget}"
 
