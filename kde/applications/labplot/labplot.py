@@ -49,6 +49,9 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args += "-DENABLE_TESTS=OFF"
+        # cerf.h is not found when using libcerf from ports
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += " -DENABLE_LIBCERF=OFF"
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
