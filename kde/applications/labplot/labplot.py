@@ -56,6 +56,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("libs/dbus")
 
         self.defines["appname"] = "labplot2"
         self.defines["website"] = "https://labplot.kde.org/"

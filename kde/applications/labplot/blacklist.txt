@@ -30,6 +30,7 @@ bin/kdewin\.dll
 bin/kdewin-qt\.dll
 bin/kdewin\.dll
 bin/kdewin-qt\.dll
+libexec/.*
 
 # unused Qt/KF5 libs
 bin/Qt5Concurrent\.dll
@@ -53,6 +54,8 @@ lib/[^/]*\.dll
 bin/designer/.*
 bin/data/hunspell/.*
 #bin/data/locale/.*
+share/phonon4qt5/.*
+share/dbus-1/.*
 
 # we use a icontheme.rc on windows
 bin/data/icons/.*
