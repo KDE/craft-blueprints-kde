@@ -75,6 +75,18 @@ class Package(CMakePackageBase):
             """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell\\open\\command" "" '"$INSTDIR\\bin\\labplot2.exe" "%1"'\n"""
             """System::Call "shell32::SHChangeNotify(i,i,i,i) (0x08000000, 0x1000, 0, 0)"\n""")
 
+        # add option for desktop shortcut (see kdeconnect-kde.py)
+        self.defines["sections"] = r"""
+            Section "Desktop Shortcut"
+                    CreateShortCut "$DESKTOP\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
+            SectionEnd
+            """
+        self.defines["un_sections"] = r"""
+            Section "Un.Remove Shortcuts"
+                Delete "$DESKTOP\\@{productname}.lnk"
+            SectionEnd
+            """
+
         self.defines["mimetypes"] = ["application/x-labplot2"]
         self.defines["file_types"] = [".lml"]
 
