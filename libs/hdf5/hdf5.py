@@ -22,4 +22,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=ON -DHDF5_EXTERNALLY_CONFIGURED=ON"
+        self.subinfo.options.configure.args = "-DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DHDF5_ENABLE_Z_LIB_SUPPORT=ON"
