@@ -17,6 +17,8 @@ class subinfo(info.infoclass):
         self.description = 'A set of software libraries and self-describing, machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data'
         for ver in ["4.7.3", "4.7.4"]:
             self.patchToApply[ver] = [('netcdf-MSVC-install.diff', 1)]
+        if CraftCore.compiler.isMSVC():
+            self.patchToApply["4.7.4"] += [('netcdf-4.7.4-PACKAGE-VERSION.diff', 1)]
         self.defaultTarget = '4.7.4'
 
     def setDependencies(self):
