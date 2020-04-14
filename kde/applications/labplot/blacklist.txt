@@ -36,7 +36,6 @@ libexec/.*
 bin/Qt5Concurrent\.dll
 bin/Qt5OpenGL\.dll
 bin/Qt5WinExtras\.dll
-bin/KF5DBusAddons\.dll
 bin/KF5CalendarEvents\.dll
 bin/KF5Wallet\.dll
 bin/kwalletbackend5\.dll
