@@ -66,7 +66,9 @@ bin/data/dbus-1/.*
 share/.*
 
 # we use a icontheme.rc on windows
-bin/data/icons/.*
+# only icons for cantor backends
+bin/data/icons/(?!hicolor).*
+bin/data/icons/hicolor/(?!48x48).*
 
 # strip executables
 bin/(?!(labplot|cantor.*)).*\.exe
