@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.targetDigests['1.10.6'] = (
             ['5f9a3ee85db4ea1d3b1fa9159352aebc2af72732fc2f58c96a3f0768dba0e9aa'], CraftHash.HashAlgorithm.SHA256)
         self.description = 'A data model, library, and file format for storing and managing data'
+        self.patchLevel["1.10.6"] = 1
         self.defaultTarget = '1.10.6'
 
     def setDependencies(self):
