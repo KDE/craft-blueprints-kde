@@ -6,7 +6,7 @@ diff -ruNa netcdf-c-4.7.4.orig/libdispatch/derror.c netcdf-c-4.7.4/libdispatch/d
  /** @internal The version string for the library, used by
   * nc_inq_libvers(). */
 +#ifndef PACKAGE_VERSION
-+#define PACKAGE_VERSION 4.7.4
++#define PACKAGE_VERSION "4.7.4"
 +#endif
  static const char nc_libvers[] = PACKAGE_VERSION " of "__DATE__" "__TIME__" $";
  
