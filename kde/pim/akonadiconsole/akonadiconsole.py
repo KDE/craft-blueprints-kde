@@ -20,18 +20,18 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
-        self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
-        self.runtimeDependencies["kde/pim/calendarsupport"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
-        self.runtimeDependencies["kde/pim/kimap"] = None
-        self.runtimeDependencies["kde/pim/messagelib"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None
-        self.runtimeDependencies["kde/pim/libkleo"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None
+        self.runtimeDependencies["kde/pim/kmime"] = None
+
+        if not CraftCore.compiler.isWindows:
+            self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
+            self.runtimeDependencies["kde/pim/calendarsupport"] = None
+            self.runtimeDependencies["kde/pim/messagelib"] = None
 
 
 from Package.CMakePackageBase import *
