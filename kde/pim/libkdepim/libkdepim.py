@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         #   Error:
         #     ninja: error: 'Z:/CraftRoot/lib/libxapian.lib', needed by 'bin/KF5AkonadiSearchXapian.dll', missing and no known rule to make it
         #     Action: compile for kde/pim/akonadi-search:19.12.3 FAILED
-        self.options.dynamic.registerOption("useXapian", not CraftCore.compiler.isWindows)
+        self.options.dynamic.registerOption("useAkonadiSearch", not CraftCore.compiler.isWindows)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kldap"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kdesignerplugin"] = None
 
-        if self.options.dynamic.useXapian:
+        if self.options.dynamic.useAkonadiSearch:
             self.runtimeDependencies["kde/pim/akonadi-search"] = None
 
 
@@ -43,5 +43,5 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
-        if not self.subinfo.options.dynamic.useXapian:
+        if not self.subinfo.options.dynamic.useAkonadiSearch:
             self.subinfo.options.configure.args = "-DFORCE_DISABLE_AKONADI_SEARCH=ON "
