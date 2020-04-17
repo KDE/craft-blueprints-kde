@@ -7,6 +7,13 @@ class subinfo(info.infoclass):
 
         self.description = "Libkdepim library"
 
+    def registerOptions(self):
+        # FIXME: Xapian is currently broken on Windows, provides wrong CMake config files(?). Thus akonadi-search does not build.
+        #   Error:
+        #     ninja: error: 'Z:/CraftRoot/lib/libxapian.lib', needed by 'bin/KF5AkonadiSearchXapian.dll', missing and no known rule to make it
+        #     Action: compile for kde/pim/akonadi-search:19.12.3 FAILED
+        self.options.dynamic.registerOption("useXapian", not CraftCore.compiler.isWindows)
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -23,8 +30,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
         self.runtimeDependencies["kde/pim/kldap"] = None
-        self.runtimeDependencies["kde/pim/akonadi-search"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kdesignerplugin"] = None
+
+        if self.options.dynamic.useXapian:
+            self.runtimeDependencies["kde/pim/akonadi-search"] = None
 
 
 from Package.CMakePackageBase import *
@@ -33,3 +42,6 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+
+        if not self.subinfo.options.dynamic.useXapian:
+            self.subinfo.options.configure.args = "-DFORCE_DISABLE_AKONADI_SEARCH=ON "
