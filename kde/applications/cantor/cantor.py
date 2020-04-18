@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
 
         self.description = "Cantor"
         # master has several patches for Windows
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
             self.defaultTarget = 'master'
 
     def setDependencies(self):
