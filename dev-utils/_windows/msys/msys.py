@@ -48,7 +48,7 @@ class subinfo(info.infoclass):
             return out != b""
 
         # start and restart msys before first use
-        if not (shell.execute(".", "echo", "Firstrun") and
+        if not (shell.execute(".", "echo", "Init update") and
                 stopProcesses() and
                 shell.execute(".", "pacman-key", "--init") and
                 shell.execute(".", "pacman-key", "--populate")):
