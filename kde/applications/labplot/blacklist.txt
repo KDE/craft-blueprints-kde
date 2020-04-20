@@ -39,12 +39,12 @@ bin/Qt5WinExtras\.dll
 bin/KF5CalendarEvents\.dll
 bin/KF5Wallet\.dll
 bin/kwalletbackend5\.dll
-#bin/.*KF5Declarative\.dll
-#bin/.*KF5DocTools\.dll
-#bin/.*KF5GlobalAccelPrivate\.dll
-#bin/.*KF5KioGui\.dll
-#bin/.*KF5Notifications\.dll
-#bin/.*KF5Package\.dll
+bin/KF5Declarative\.dll
+bin/KF5DocTools\.dll
+bin/KF5GlobalAccelPrivate\.dll
+bin/KF5KioGui\.dll
+bin/KF5Notifications\.dll
+bin/KF5Package\.dll
 
 #QML and QtQuick
 # If using qml you probably won't want to strip DirectX
@@ -57,12 +57,28 @@ bin/QtWinExtras/.*
 bin/KF5QuickAddons\.dll
 bin/Qt5Quick.*
 # Qt5Qml.so needed by cantorpart.dll
-#bin/Qt5Qml.*
+bin/Qt5QmlModels\.dll
+bin/Qt5QmlWorkerScript\.dll
 
 # unused data
+bin/QtTest/.*
+bin/QtWinExtras/.*
+bin/bearer/.*
 bin/designer/.*
-bin/data/hunspell/.*
+bin/kauth/.*
+bin/scenegraph/.*
+bin/texttospeech/.*
+bin/data/aclocal/.*
+bin/data/common-lisp/.*
 bin/data/dbus-1/.*
+bin/data/hunspell/.*
+bin/data/icu/.*
+bin/data/info/.*
+bin/data/katepart5/.*
+bin/data/kdevappwizard/.*
+bin/data/kf5/kmoretools/.*
+bin/data/knotifications5/.*
+bin/data/libgpg-error/.*
 #bin/data/locale/.*
 share/.*
 
