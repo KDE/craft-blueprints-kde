@@ -55,8 +55,9 @@ bin/QtQuick/.*
 bin/QtQuick2/.*
 bin/QtWinExtras/.*
 bin/KF5QuickAddons\.dll
-bin/Qt5Qml.*
 bin/Qt5Quick.*
+# Qt5Qml.so needed by cantorpart.dll
+#bin/Qt5Qml.*
 
 # unused data
 bin/designer/.*
