@@ -92,5 +92,7 @@ bin/dbus-env\.bat
 bin/(?!(kmymoney|sqlcipher|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
 
 # build dependencies
+lib/tcl8/.*
 lib/tcl8.6/.*
-
+lib/libtcl.*
+bin/tclsh.*
