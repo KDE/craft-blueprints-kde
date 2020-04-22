@@ -90,12 +90,11 @@ class Package(CMakePackageBase):
             SectionEnd
             """
 
-        self.defines["mimetypes"] = ["application/x-labplot2"]
+        if isinstance(self, AppxPackager):
+            self.defines["display_name"] = "LabPlot"
+        else:
+            self.defines["mimetypes"] = ["application/x-labplot2"]
         self.defines["file_types"] = [".lml"]
 
-        if isinstance(self, AppxPackager):
-              self.defines["display_name"] = "LabPlot"
-
-        #return super().createPackage()
         return TypePackager.createPackage(self)
 
