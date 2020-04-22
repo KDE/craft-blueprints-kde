@@ -101,5 +101,9 @@ class Package(CMakePackageBase):
                 os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
                 return False
 
+            if not utils.copyFile(os.path.join(archiveDir, "Applications", "KDE", "kdeconnect-handler.app", "Contents", "MacOS", "kdeconnect-handler"),
+                os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
+                return False
+
         return utils.mergeTree(os.path.join(archiveDir, "lib/qca-qt5"),
             pluginPath if CraftCore.compiler.isMacOS else binPath)
