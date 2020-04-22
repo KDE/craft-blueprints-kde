@@ -1,11 +1,29 @@
---- cmake.config.h.in	2018-05-24 14:03:22.000000000 +0200
-+++ cmake.config.h.in	2019-02-18 14:35:29.545430800 +0100
+--- cmake.config.h.in	2018-05-24 05:03:22.000000000 -0700
++++ cmake.config.h.in	2020-04-22 14:02:58.361548500 -0700
+@@ -38,7 +38,7 @@
+ /* #undef FFTW_DEBUG */
+ 
+ /* Define to enable the use of alloca(). */
+-#define FFTW_ENABLE_ALLOCA 1
++#cmakedefine FFTW_ENABLE_ALLOCA 1
+ 
+ /* Define to compile in long-double precision. */
+ #cmakedefine FFTW_LDOUBLE 1
+@@ -369,7 +369,7 @@
+ #define VERSION "@FFTW_VERSION@"
+ 
+ /* Use common Windows Fortran mangling styles for the Fortran interfaces. */
+-/* #undef WINDOWS_F77_MANGLING */
++#cmakedefine WINDOWS_F77_MANGLING 1
+ 
+ /* Include g77-compatible wrappers in addition to any other Fortran wrappers.
+    */
 @@ -377,7 +377,7 @@
  
  /* Use our own aligned malloc routine; mainly helpful for Windows systems
     lacking aligned allocation system-library routines. */
 -/* #undef WITH_OUR_MALLOC */
-+#cmakedefine WITH_OUR_MALLOC
++#cmakedefine WITH_OUR_MALLOC 1
  
  /* Use low-precision timers, making planner very slow */
  /* #undef WITH_SLOW_TIMER */
