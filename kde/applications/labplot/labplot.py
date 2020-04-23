@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         for ver in ['2.5.0', '2.7.0']:
             self.targetInstSrc[ver] = 'labplot-%s' % ver
 
-        self.defaultTarget = 'master'
+        self.defaultTarget = '2.7.0'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
