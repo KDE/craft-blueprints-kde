@@ -69,26 +69,36 @@ class Package(CMakePackageBase):
         #self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "150-apps-okular.png")
         #self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "44-apps-okular.png")
 
-        # SHChangeNotify(SHCNE_ASSOCCHANGED,SHCNF_FLUSH,0,0)
-        # SHCNE_ASSOCCHANGED = 0x08000000, SHCNF_IDLIST = 0, SHCNF_FLUSH = 0x1000, SHCNF_FLUSHNOWAIT = 0x2000
-        self.defines["registry_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\.lml" "" "LabPlot2"\n"""
-            """WriteRegStr SHCTX "Software\\Classes\\LabPlot2" "" "LabPlot2 project"\n"""
-            """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\DefaultIcon" "" "$INSTDIR\\bin\\data\\labplot2\\application-x-labplot2.ico"\n"""
-            """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell" "" "open"\n"""
-            """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell\\open\\command" "" '"$INSTDIR\\bin\\labplot2.exe" "%1"'\n"""
-            """System::Call "shell32::SHChangeNotify(i,i,i,i) (0x08000000, 0x1000, 0, 0)"\n""")
+        # see NullsoftInstaller.nsi and NullsoftInstallerPackager.py
+        if isinstance(self, NullsoftInstallerPackager):
+            # register application and .lml file type
+            self.defines["registry_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\.lml" "" "LabPlot2"\n"""
+                """WriteRegStr SHCTX "Software\\Classes\\LabPlot2" "" "LabPlot2 project"\n"""
+                """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\DefaultIcon" "" "$INSTDIR\\bin\\data\\labplot2\\application-x-labplot2.ico"\n"""
+                """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell" "" "open"\n"""
+                """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell\\open\\command" "" '"$INSTDIR\\bin\\labplot2.exe" "%1"'\n""")
 
-        # add option for desktop shortcut (see kdeconnect-kde.py)
-        self.defines["sections"] = r"""
-            Section "Desktop Shortcut"
-                    CreateShortCut "$DESKTOP\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
-            SectionEnd
-            """
-        self.defines["un_sections"] = r"""
-            Section "Un.Remove Shortcuts"
-                Delete "$DESKTOP\\@{productname}.lnk"
-            SectionEnd
-            """
+            # remove old version if exists
+            self.defines["preInstallHook"] = r"""
+                Exec "$INSTDIR\unins000.exe"
+                """
+
+            # add option for desktop shortcut (see kdeconnect-kde.py) and update file associations
+            # SHChangeNotify(SHCNE_ASSOCCHANGED,SHCNF_FLUSH,0,0)
+            # SHCNE_ASSOCCHANGED = 0x08000000, SHCNF_IDLIST = 0, SHCNF_FLUSH = 0x1000, SHCNF_FLUSHNOWAIT = 0x2000
+            self.defines["sections"] = r"""
+                Section "Desktop Shortcut"
+                        CreateShortCut "$DESKTOP\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
+                SectionEnd
+                Section "Update new .lml file type"
+                        System::Call "shell32::SHChangeNotify(i,i,i,i) (0x08000000, 0x1000, 0, 0)"
+                SectionEnd
+                """
+            self.defines["un_sections"] = r"""
+                Section "Un.Remove Shortcuts"
+                    Delete "$DESKTOP\\@{productname}.lnk"
+                SectionEnd
+                """
 
         if isinstance(self, AppxPackager):
             self.defines["display_name"] = "LabPlot"
