@@ -4,7 +4,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = "https://github.com/wrobelda/grantlee.git"
+        self.svnTargets['master'] = "https://github.com/steveire/grantlee.git"
         self.defaultTarget = 'master'
 
     def setDependencies(self):
