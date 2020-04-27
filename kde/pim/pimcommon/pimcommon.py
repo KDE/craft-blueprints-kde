@@ -7,6 +7,9 @@ class subinfo(info.infoclass):
 
         self.description = "PimCommon library"
 
+    def registerOptions(self):
+        self.options.dynamic.registerOption("useDesignerPlugin", True)
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -27,7 +30,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kdesignerplugin"] = None
+        if self.options.dynamic.useDesignerPlugin:
+            self.runtimeDependencies["kde/frameworks/tier3/kdesignerplugin"] = None
 
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
@@ -46,3 +50,6 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+
+        if not self.subinfo.options.dynamic.useDesignerPlugin:
+            self.subinfo.options.configure.args = "-DBUILD_DESIGNERPLUGIN=OFF "
