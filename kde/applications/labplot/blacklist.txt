@@ -42,7 +42,6 @@ bin/kwalletbackend5\.dll
 bin/KF5Declarative\.dll
 bin/KF5DocTools\.dll
 bin/KF5GlobalAccelPrivate\.dll
-bin/KF5KioGui\.dll
 bin/KF5Notifications\.dll
 bin/KF5Package\.dll
 
