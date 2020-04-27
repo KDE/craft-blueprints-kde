@@ -1,0 +1,36 @@
+From 9c9c0c26a754b264304476389b642923f7416325 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Dawid=20Wro=CC=81bel?= <me@dawidwrobel.com>
+Date: Sun, 26 Apr 2020 15:42:33 -0400
+Subject: [PATCH] Don't use dot in folder name to prevent macOS issues
+
+Grantlee5_MAJOR_MINOR_VERSION_STRING uses a dot between major
+and minor component, which results in the lib/ subfolder
+having the same name. This in turn causes an issue when bundling
+grantlee with any software under macOS.
+
+See following for reference:
+https://bugs.kde.org/show_bug.cgi?id=420351
+https://developer.apple.com/library/archive/technotes/tn2206/_index.html#//apple_ref/doc/uid/DTS40007919-CH1-TNTAG201
+
+This commit implements a  proposed workaround replacing
+ '.' (dot) with '_'.
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 20edcdc..5d04d0c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -74,7 +74,7 @@ set(CMAKE_AUTOMOC ON)
+ 
+ set(Grantlee5_MIN_PLUGIN_VERSION 0)
+ 
+-set(Grantlee5_MAJOR_MINOR_VERSION_STRING "${Grantlee5_VERSION_MAJOR}.${Grantlee5_VERSION_MINOR}" )
++set(Grantlee5_MAJOR_MINOR_VERSION_STRING "${Grantlee5_VERSION_MAJOR}_${Grantlee5_VERSION_MINOR}" )
+ 
+ set (LIB_SUFFIX "" CACHE STRING "Define suffix of library directory name (eg. '64')")
+ 
+-- 
+2.26.0
+
