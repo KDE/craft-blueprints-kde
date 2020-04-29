@@ -28,6 +28,8 @@ class subinfo(info.infoclass):
                                         ("akonadi-18.12.2-errorstring.diff", 1),
                                         ("akonadi-19.04.1-shorter-sockets.diff", 1)] # macos temp path are so long that if a user has a long nick it bypass the limited socket file path length of 104chars.
 
+        self.patchToApply["20.04.0"] = [("0001-Windows-Handle-QLocalSocket-behavior-gracefully.patch", 1)]
+
         self.description = "A storage service for PIM data and meta data"
 
     def registerOptions(self):
