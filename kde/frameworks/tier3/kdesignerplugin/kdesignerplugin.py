@@ -18,8 +18,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kplotting"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = None
 
 
 from Package.CMakePackageBase import *
