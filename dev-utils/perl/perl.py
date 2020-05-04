@@ -111,6 +111,18 @@ class PackageAutoTools(AutoToolsPackageBase):
         return self.shell.execute(self.buildDir(), os.path.join(self.sourceDir(), "Configure"),
                                   self.subinfo.options.configure.args)
 
+    def install(self):
+        if not super().install():
+            return False
+        def makeWriatable(root):
+            with os.scandir(root) as scan:
+                for f in scan:
+                    utils.makeWritable(f.path)
+                    if f.is_dir():
+                        makeWriatable(f.path)
+        makeWriatable(self.installDir())
+        return True
+
     def postInstall(self):
         hardCoded = [os.path.join(self.imageDir(), x) for x in ["bin/pod2man"]]
         return self.patchInstallPrefix(hardCoded, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())
