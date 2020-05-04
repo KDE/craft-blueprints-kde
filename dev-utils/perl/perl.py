@@ -71,7 +71,16 @@ class PackageMSVC(MakeFilePackageBase):
 
     def install(self):
         with utils.ScopedEnv(self._globEnv()):
-            return super().install()
+            if not super().install():
+                return False
+        def makeWriatable(root):
+            with os.scandir(root) as scan:
+                for f in scan:
+                    utils.makeWritable(f.path)
+                    if f.is_dir():
+                        makeWriatable(f.path)
+        makeWriatable(self.installDir())
+        return True
 
     def postInstall(self):
         # in difference to the defaultePrefix replace, we replace the installDir with the installPrefix
