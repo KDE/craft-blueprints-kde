@@ -4,18 +4,14 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
+        self.versionInfo.setDefaultValues()
         self.description = 'a library for real time computer vision'
 
-        # 4.1.2 and later are all on Github
-        for ver in ['4.1.2', '4.2.0', '4.3.0']:
-            self.targets[ver] = 'https://github.com/opencv/opencv/archive/' + ver + '.tar.gz'
-            self.targetInstSrc[ver] = 'opencv-' + ver
         self.patchToApply['4.3.0'] = [('opencv-pkgconfig-win-install.patch', 1)]
 
         self.targetDigests['4.1.2'] = (['385dd0a9c25e67ef0dd60e022d2a2d7b17e2f36819cf3cb46aa8cdff5c5282c9'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['4.2.0'] = (['9ccb2192d7e8c03c58fee07051364d94ed7599363f3b0dce1c5e6cc11c1bb0ec'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['4.3.0'] = (['68bc40cbf47fdb8ee73dfaf0d9c6494cd095cf6294d99de445ab64cf853d278a'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '4.3.0'
 
         self.options.configure.args = (
                 # build only modules needed by digikam & kdenlive
@@ -65,11 +61,12 @@ class subinfo(info.infoclass):
         # self.runtimeDependencies["libs/webp"] = None
         # self.runtimeDependencies["libs/ffmpeg"] = None
         # self.runtimeDependencies["libs/qt5/qtbase"] = None
+        # self.runtimeDependencies["libs/lapack"] = None
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.contrib = CraftPackageObject.get('libs/opencv-contrib').instance
+        self.contrib = CraftPackageObject.get('libs/opencv/opencv_contrib').instance
         self.subinfo.options.configure.args += ' -DOPENCV_EXTRA_MODULES_PATH="' \
             + OsUtils.toUnixPath(self.contrib.sourceDir()) + '/modules"'
 
