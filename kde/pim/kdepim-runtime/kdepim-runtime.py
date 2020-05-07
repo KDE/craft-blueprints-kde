@@ -41,6 +41,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtwebengine"] = None
         self.runtimeDependencies["libs/libkolabxml"] = None
         self.runtimeDependencies["libs/libkolabxml"] = None
+        self.runtimeDependencies["kdesupport/qca"] = None
 
 
 from Package.CMakePackageBase import *
