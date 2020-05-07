@@ -29,6 +29,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "git://anongit.kde.org/ruqola"
         self.defaultTarget = "master"
+        self.patchLevel["master"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -50,6 +51,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
 
 
 from Package.CMakePackageBase import *
