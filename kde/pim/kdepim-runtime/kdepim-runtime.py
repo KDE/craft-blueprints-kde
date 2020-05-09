@@ -39,8 +39,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/cyrus-sasl"] = None
         self.runtimeDependencies["libs/qt5/qtwebengine"] = None
         self.runtimeDependencies["libs/libkolabxml"] = None
-        self.runtimeDependencies["libs/libkolabxml"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
+        self.runtimeDependencies["kde/pim/libkdepim"] = None
+        self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
+        self.runtimeDependencies["kde/pim/libkdepim"] = None
 
 
 from Package.CMakePackageBase import *
