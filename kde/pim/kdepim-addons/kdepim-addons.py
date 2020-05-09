@@ -34,6 +34,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
         self.runtimeDependencies["kde/pim/akonadi-import-wizard"] = None
         self.runtimeDependencies["kde/pim/mailimporter"] = None
+        self.runtimeDependencies["kde/pim/kpkpass"] = None
 
 
 from Package.CMakePackageBase import *
