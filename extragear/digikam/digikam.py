@@ -64,7 +64,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtsvg"] = None
         self.runtimeDependencies["libs/qt5/qtimageformats"] = None
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
-        self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+
+        if CraftCore.compiler.isMinGW():
+            self.runtimeDependencies["libs/qt5/qtwebkit"] = None
+        else:
+            self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+
         self.runtimeDependencies['kde/frameworks/tier1/kconfig'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kxmlgui'] = None
         self.runtimeDependencies['kde/frameworks/tier1/ki18n'] = None
@@ -82,7 +87,33 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
-        if OsUtils.isWin():
+        if CraftCore.compiler.isMSVC():
+            self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
+            self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
+
+        if CraftCore.compiler.isMinGW():
+            self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=ON"
+            self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
+
+        if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=OFF"
