@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.targetDigests['6.18.0'] = (['9ea6775300b9f997460f5d6adde1ea41e525ecfd30a70b987e13800e4c387ddb'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['6.20.0'] = (['ab211e27c06c0688f9cbe2d74dc0623624ef75ea4f94eea915cdc313196be2dd'], CraftHash.HashAlgorithm.SHA256)
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
-        self.patchLevel['master'] = 20200410
+        self.patchLevel['master'] = 20200430
         self.defaultTarget = "master"
 
     def setDependencies( self ):
@@ -29,6 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libsdl2"] = None
         self.runtimeDependencies["libs/vidstab"] = None
         self.runtimeDependencies["libs/rubberband"] = None
+        self.runtimeDependencies["libs/opencv"] = None
         # self.runtimeDependencies["libs/jack"] = None
         # self.runtimeDependencies["libs/ladspa-sdk"] = None
         # self.runtimeDependencies["libs/ladspa-cmt"] = None
@@ -41,7 +42,7 @@ class Package(AutoToolsPackageBase):
         self.platform = ""
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.useShadowBuild = False
-        self.subinfo.options.configure.args = " --enable-gpl --enable-gpl3 --enable-sdl2 --disable-sdl --disable-rtaudio --disable-decklink --disable-gtk2"
+        self.subinfo.options.configure.args = " --enable-gpl --enable-gpl3 --enable-opencv --enable-sdl2 --disable-sdl --disable-rtaudio --disable-decklink --disable-gtk2"
         if CraftCore.compiler.isWindows:
             prefix = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
             includedir = prefix+'/include/qt5'
