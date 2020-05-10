@@ -7,7 +7,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = 'a library for real time computer vision'
 
-        self.patchToApply['4.3.0'] = [('opencv-pkgconfig-win-install.patch', 1)]
+        self.patchToApply['4.3.0'] = [
+                ('opencv-pkgconfig-win-install.patch', 1),
+                ('OpenCVInstallLayout.cmake.patch', 0)]
 
         self.targetDigests['4.1.2'] = (['385dd0a9c25e67ef0dd60e022d2a2d7b17e2f36819cf3cb46aa8cdff5c5282c9'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['4.2.0'] = (['9ccb2192d7e8c03c58fee07051364d94ed7599363f3b0dce1c5e6cc11c1bb0ec'], CraftHash.HashAlgorithm.SHA256)
@@ -44,10 +46,9 @@ class subinfo(info.infoclass):
                 ' -DWITH_QUICKTIME=OFF -DWITH_TBB=OFF -DWITH_TIFF=OFF -DWITH_UNICAP=OFF'
                 ' -DWITH_VA_INTEL=OFF -DWITH_VFW=OFF -DWITH_VIDEOINPUT=OFF'
                 ' -DWITH_VTK=OFF -DWITH_WEBP=OFF -DWITH_WIN32UI=OFF -DWITH_XINE=OFF'
-                # MLT finds OpenCV through pkg-config
+                # find OpenCV through cmake or pkg-config
                 ' -DOPENCV_GENERATE_PKGCONFIG=ON'
-                # Avoid x64/mingw prefix on windows
-                ' -DOPENCV_INSTALL_BINARIES_PREFIX=""'
+                ' -DOPENCV_SKIP_CMAKE_ROOT_CONFIG=ON'
                 # Work on old machines
                 ' -DCPU_BASELINE=SSE2 -DCPU_DISPATCH=SSE2'
                 )
