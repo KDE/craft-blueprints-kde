@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/unreleased/kpublictransport"] = None
+        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
 
 from Package.CMakePackageBase import *
 
