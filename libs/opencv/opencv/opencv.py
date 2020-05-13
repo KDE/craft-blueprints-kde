@@ -51,6 +51,8 @@ class subinfo(info.infoclass):
                 ' -DOPENCV_SKIP_CMAKE_ROOT_CONFIG=ON'
                 # Work on old machines
                 ' -DCPU_BASELINE=SSE2 -DCPU_DISPATCH=SSE2'
+                # its broken on msvc
+                ' -DWITH_OPENJPEG=OFF'
                 )
 
     def setDependencies(self):
