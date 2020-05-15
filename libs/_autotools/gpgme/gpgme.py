@@ -72,7 +72,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.args += " --disable-gpg-test"
 
     def configure(self):
-        if not CraftCore.compiler.isLinux and self.subinfo.options.dynamic.enableCPP:
+        if not (CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD) and self.subinfo.options.dynamic.enableCPP:
             # The configure script does not honnor the env var is PKG_CONFIG is not installed / env var not set
             # This is problematic especially on macOS, let manually fill the env var to make configure happy finding Qt
             PKG_CONFIG = ":"
@@ -103,7 +103,7 @@ class Package(AutoToolsPackageBase):
                 f" GPGME_QTTEST_CFLAGS='{GPGME_QTTEST_CFLAGS}'"
                 f" GPGME_QTTEST_LIBS='{GPGME_QTTEST_LIBS}'")
 
-        if CraftCore.compiler.isLinux and self.subinfo.options.dynamic.enableCPP:
+        if (CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD) and self.subinfo.options.dynamic.enableCPP:
             # In some environments, for unknown reasons, autohell won't try to look for or use pkg-config
             # This leads to lots of things breaking - like finding Qt!
             # Therefore on Linux systems we always tell it where to find pkg-config so it doesn't get the chance to fail
