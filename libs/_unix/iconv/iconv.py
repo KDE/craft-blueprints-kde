@@ -5,6 +5,9 @@ from Package.AutoToolsPackageBase import *
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+
     def setTargets(self):
         for ver in ['1.15']:
             self.targets[ver] = 'https://ftp.gnu.org/pub/gnu/libiconv/libiconv-%s.tar.gz' % ver
