@@ -198,6 +198,8 @@ class QtPackage(Qt5CorePackageBase):
                 else:
                     command += " -no-dbus "
                 if self.subinfo.options.isActive("libs/icu"):
+                    icuIncDir = os.path.join(CraftCore.standardDirs.craftRoot(), "include")
+                    command += f" ICU_INCDIR=\"{icuIncDir}\""
                     command += " -icu "
                 else:
                     command += " -no-icu "
