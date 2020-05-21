@@ -9,18 +9,6 @@ class subinfo( info.infoclass ):
         self.displayName = "Elisa"
         self.description = "the Elisa music player"
 
-        self.patchToApply["19.12.0"] = [
-            ("0001-use-global-menu-only-on-linux-due-to-behavior-differ.patch", 1),
-            ("0002-ensure-that-the-metadata-dialog-has-a-title-and-stan.patch", 1),
-            ("0003-add-back-missing-icons-for-windows-task-bar-integrat.patch", 1),
-        ]
-        self.patchToApply["19.12.1"] = [
-            ("0001-remove-code-duplication-by-moving-signal-to-base-cla.patch", 1),
-            ("0002-fix-problems-with-wrong-type-passed-from-qml-to-c.patch", 1),
-            ("0003-fix-enqueue-not-working-for-views-that-display-list-.patch", 1),
-            ("0004-fix-enqueue-from-FileBrowserView-with-Qt-5.14.patch", 1),
-            ("0001-disable-playlist-animations-to-fix-display-corruptio.patch", 1),
-        ]
         self.patchToApply["19.12.3"] = [
             ("0001-avoid-binding-loop-on-the-height-being-linked-to-its.patch", 1),
         ]
