@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.targetDigests['6.18.0'] = (['9ea6775300b9f997460f5d6adde1ea41e525ecfd30a70b987e13800e4c387ddb'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['6.20.0'] = (['ab211e27c06c0688f9cbe2d74dc0623624ef75ea4f94eea915cdc313196be2dd'], CraftHash.HashAlgorithm.SHA256)
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
-        self.patchLevel['master'] = 20200430
+        self.patchLevel['master'] = 20200519
         self.defaultTarget = "master"
 
     def setDependencies( self ):
