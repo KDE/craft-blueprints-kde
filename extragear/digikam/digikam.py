@@ -46,6 +46,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["binary/mysql"] = None
         self.runtimeDependencies['libs/x265'] = None
         self.runtimeDependencies['libs/tiff'] = None
+        self.runtimeDependencies['libs/boost/boost-system'] = 'default'
 #        self.runtimeDependencies['libs/boost'] = None # do not force boost deps (see: https://phabricator.kde.org/T12071#212690)
         self.runtimeDependencies['libs/expat'] = None
         self.runtimeDependencies['libs/ffmpeg'] = None
