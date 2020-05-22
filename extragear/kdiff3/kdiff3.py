@@ -27,6 +27,9 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
     def createPackage(self):
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+        
         self.defines["executable"] = "bin\\kdiff3.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kdiff3.ico")
 
