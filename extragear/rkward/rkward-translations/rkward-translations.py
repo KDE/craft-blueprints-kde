@@ -4,7 +4,7 @@ from CraftOS.osutils import OsUtils
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/scratch/tfry/rkward-po-export'
+        self.svnTargets['master'] = 'https://invent.kde.org/tfry/rkward-po-export.git'
         self.defaultTarget = 'master'
 
     def setDependencies(self):
