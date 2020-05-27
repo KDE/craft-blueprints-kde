@@ -11,11 +11,12 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "http://source.icu-project.org/repos/icu/icu/trunk"
         self.targetInstSrc["master"] = "source"
 
-        for ver in ["66.1"]:
+        for ver in ["66.1", "67.1"]:
             major, minor = ver.split(".")
             self.targets[ver] = f"https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/icu4c-{major}_{minor}-src.tgz"
             self.targetInstSrc[ver] = os.path.join("icu", "source")
         self.targetDigests["66.1"] = (['52a3f2209ab95559c1cf0a14f24338001f389615bf00e2585ef3dbc43ecf0a2e'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["67.1"] = (['94a80cd6f251a53bd2a997f6f1b5ac6653fe791dfab66e1eb0227740fb86d5dc'], CraftHash.HashAlgorithm.SHA256)
 
         for ver in ["65.1"]:
             major, minor = ver.split(".")
