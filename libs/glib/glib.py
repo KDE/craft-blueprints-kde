@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
                 self.targetInstSrc[ver] = f"glib-glib-{ver}"
             else:
                 majorMinorStr = '.'.join(ver.split('.')[0:2])
-                self.targets[ver] = f"https://ftp.gnome.org/pub/gnome/sources/glib/{majorMinorStr}/glib-{ver}.tar.xz"
+                self.targets[ver] = f"https://download.gnome.org/sources/glib/{majorMinorStr}/glib-{ver}.tar.xz"
                 self.targetInstSrc[ver] = f"glib-{ver}"
 
         if OsUtils.isWin():
