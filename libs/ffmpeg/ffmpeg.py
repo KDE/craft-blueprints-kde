@@ -38,6 +38,8 @@ class Package(AutoToolsPackageBase):
         self.platform = ""
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.configure.autoreconf = False
+        # with msvc it does not support shadowbuilds
+        self.subinfo.options.useShadowBuild = not CraftCore.compiler.isMSVC()
 
         self.subinfo.options.configure.args = "--enable-shared --disable-debug --disable-doc --enable-gpl " \
                                               "--enable-version3 --enable-avresample --enable-libmp3lame "
