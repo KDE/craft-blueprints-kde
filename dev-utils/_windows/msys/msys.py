@@ -54,9 +54,13 @@ class subinfo(info.infoclass):
             return False
 
         try:
-            while queryForUpdate():
-                if not (shell.execute(".", "pacman", f"-Su --noconfirm {overwrite} --ask 20") and
-                        stopProcesses()):
+            # max 10 tries
+            for _ in range(10):
+                if not queryForUpdate():
+                    break
+                # might return 1 on core updates...
+                shell.execute(".", "pacman", f"-Su --noconfirm {overwrite} --ask 20")
+                if not stopProcesses():
                     return False
         except Exception as e:
             CraftCore.log.error(e, exc_info=e)
