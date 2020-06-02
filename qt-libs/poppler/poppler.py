@@ -35,6 +35,7 @@ class subinfo(info.infoclass):
         ver = "0.85.0";
         self.defaultTarget = ver
         self.targets[ver] = f"https://poppler.freedesktop.org/poppler-{ver}.tar.xz"
+        self.patchToApply["0.85.0"] = [("poppler-0.85.0-20200602.diff", 1)]
         self.targetInstSrc[ver] = f"poppler-{ver}"
         self.targetDigests[ver] = (['2bc875eb323002ae6b287e09980473518e2b2ed6b5b7d2e1089e36a6cd00d94b'], CraftHash.HashAlgorithm.SHA256)
 
@@ -59,8 +60,5 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-
-        self.subinfo.options.package.packageName = "poppler"
-
         # we use -DRUN_GPERF_IF_PRESENT=OFF to avoid running in gperf issues on windows during linking
         self.subinfo.options.configure.args = "-DENABLE_XPDF_HEADERS=ON -DENABLE_ZLIB=ON -DENABLE_LIBCURL=ON -DENABLE_UTILS=OFF -DENABLE_LIBOPENJPEG=openjpeg2 -DENABLE_GLIB=OFF -DRUN_GPERF_IF_PRESENT=OFF"

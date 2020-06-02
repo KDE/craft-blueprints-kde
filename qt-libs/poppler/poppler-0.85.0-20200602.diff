@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user poppler-0.85.0.orig/CMakeLists.txt poppler-0.85.0/CMakeLists.txt
+--- poppler-0.85.0.orig/CMakeLists.txt	2020-01-29 23:26:58.000000000 +0100
++++ poppler-0.85.0/CMakeLists.txt	2020-06-02 12:14:08.000000000 +0200
+@@ -453,7 +453,7 @@
+     poppler/CurlCachedFile.cc
+     poppler/CurlPDFDocBuilder.cc
+   )
+-  set(poppler_LIBS ${poppler_LIBS} ${CURL_LIBRARIES})
++  set(poppler_LIBS ${poppler_LIBS} CURL::libcurl)
+ endif()
+ if (ENABLE_NSS3)
+   set(poppler_SRCS ${poppler_SRCS}
