@@ -73,6 +73,14 @@ class Package(CMakePackageBase):
                 """
         elif isinstance(self, AppxPackager):
             self.defines["startup_task"] = r"bin/@{appname}.exe"
+
+            self.defines["additional_capabilities"] = r"""
+            <uap7:Capability Name="globalMediaControl" />
+            """
+            self.defines["additional_xmlns"] = r"""
+            xmlns:uap7="http://schemas.microsoft.com/appx/manifest/uap/windows10/7"
+            """
+
             self.defines["shortcuts"] = [{"name" : self.subinfo.displayName , "target" : f"bin/{self.defines['appname']}{CraftCore.compiler.executableSuffix}", "description" : self.subinfo.description}]
             self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "Square150x150Logo.scale-100.png")
             self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "Square44x44Logo.scale-100.png")
