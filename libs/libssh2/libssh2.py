@@ -6,12 +6,13 @@ from Package.AutoToolsPackageBase import AutoToolsPackageBase
 class subinfo(info.infoclass):
     def setTargets( self ):
         self.svnTargets['master'] = 'https://github.com/libssh2/libssh2.git'
-        for ver in ["1.8.0"]:
+        for ver in ["1.8.0", "1.9.0"]:
             self.targets[ver] = f"https://www.libssh2.org/download/libssh2-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libssh2-{ver}"
         self.targetDigests["1.8.0"] = (['39f34e2f6835f4b992cafe8625073a88e5a28ba78f83e8099610a7b3af4676d4'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.9.0"] = (['d5fb8bd563305fd1074dda90bd053fb2d29fc4bce048d182f96eaa466dfadafd'], CraftHash.HashAlgorithm.SHA256)
         self.patchLevel["1.8.0"] = 6
-        self.defaultTarget = '1.8.0'
+        self.defaultTarget = '1.9.0'
 
     def setDependencies( self ):
         self.buildDependencies['virtual/base'] = 'default'
