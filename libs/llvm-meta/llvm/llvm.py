@@ -17,7 +17,11 @@ class subinfo(info.infoclass):
             self.patchLevel["8.0.0"] += 1
         self.patchToApply["6.0.1"] = [("llvm-6.0.1-20181019.diff", 1)]
         self.patchToApply["7.0.1"] = [("llvm-7.0.1-20190118.diff", 1), ("llvm-7.0.1-20190102.diff", 1)]
-        self.patchToApply["9.0.0"] = [("fix_libxml.diff", 1)]
+        if not CraftCore.compiler.isWindows:
+            # don't just link against xml2 but use cmake logic...
+            # don't apply this at Windows as it is used there for configurtion files...
+            self.patchToApply["9.0.0"] = [("fix_libxml.diff", 1)]
+            self.patchToApply["9.0.1"] = [("fix_libxml.diff", 1)]
         if not CraftCore.compiler.isMacOS:
             self.patchToApply["8.0.0"] = [("llvm-8.0.0-20190411.diff", 1)]
 
