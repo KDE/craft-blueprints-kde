@@ -21,6 +21,10 @@ class subinfo(info.infoclass):
         self.patchToApply["5.14.0"] = [("harfbuzz-2.6.1-gcc-9.patch", 1)] # https://gitweb.gentoo.org/repo/gentoo.git/plain/media-libs/harfbuzz/files/harfbuzz-2.6.1-gcc-9.patch?id=5e2c1c13fa388533d075554da87d3641019aa739
         self.patchToApply["5.14.1"] = [("harfbuzz-2.6.1-gcc-9.patch", 1), # https://gitweb.gentoo.org/repo/gentoo.git/plain/media-libs/harfbuzz/files/harfbuzz-2.6.1-gcc-9.patch?id=5e2c1c13fa388533d075554da87d3641019aa739
                                        ("qtwebengine-5.14.1-20200227.diff", 1)]
+        self.patchToApply["5.15.0"] = [
+                (".qt-5.15.0", 1)
+        ]
+
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
