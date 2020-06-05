@@ -1,0 +1,13 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user libssh2-1.9.0.orig/configure.ac libssh2-1.9.0/configure.ac
+--- libssh2-1.9.0.orig/configure.ac	2019-03-26 14:08:54.000000000 +0100
++++ libssh2-1.9.0/configure.ac	2020-06-05 10:26:51.767739100 +0200
+@@ -33,8 +33,7 @@
+ AC_CANONICAL_HOST
+ case "$host" in
+     *-mingw*)
+-    CFLAGS="$CFLAGS -DLIBSSH2_WIN32"
+-    LIBS="$LIBS -lws2_32"
++    CFLAGS="$CFLAGS -DLIBSSH2_WIN32 -lws2_32"
+     ;;
+ 	*-cygwin)
+ 	CFLAGS="$CFLAGS -DLIBSSH2_WIN32"

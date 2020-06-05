@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"libssh2-{ver}"
         self.targetDigests["1.8.0"] = (['39f34e2f6835f4b992cafe8625073a88e5a28ba78f83e8099610a7b3af4676d4'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.9.0"] = (['d5fb8bd563305fd1074dda90bd053fb2d29fc4bce048d182f96eaa466dfadafd'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["1.9.0"] = [("libssh2-1.9.0-20200605.diff", 1)]
         self.patchLevel["1.8.0"] = 6
         self.defaultTarget = '1.9.0'
 
