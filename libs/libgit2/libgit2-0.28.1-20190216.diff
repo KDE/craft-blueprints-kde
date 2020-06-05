@@ -62,5 +62,3 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' libgit2-0.28.1
  ENDIF()
  ADD_FEATURE_INFO(iconv GIT_USE_ICONV "iconv encoding conversion support")
  
-C:\CraftRoot\dev-utils\bin\diff.exe: libgit2-0.28.1.orig/tests/resources/status: Invalid argument
-C:\CraftRoot\dev-utils\bin\diff.exe: libgit2-0.28.1/tests/resources/status: Invalid argument

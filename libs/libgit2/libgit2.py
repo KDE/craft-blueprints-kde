@@ -10,7 +10,8 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://github.com/libgit2/libgit2/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"libgit2-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libgit2-{ver}"
-        self.patchToApply["0.28.1"] = [ ("libgit2-0.28.1-20190216.diff", 1)]
+        self.patchToApply["0.28.1"] = [("libgit2-0.28.1-20190216.diff", 1)]
+        self.patchToApply["1.0.1"] = [("libgit2-0.28.1-20190216.diff", 1)]
         self.targetDigests["0.28.1"] = (['0ca11048795b0d6338f2e57717370208c2c97ad66c6d5eac0c97a8827d13936b'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.0.1"] = (['1775427a6098f441ddbaa5bd4e9b8a043c7401e450ed761e69a415530fea81d2'], CraftHash.HashAlgorithm.SHA256)
         self.patchLevel["0.28.1"] = 3
