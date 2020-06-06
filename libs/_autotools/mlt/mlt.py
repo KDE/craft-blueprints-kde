@@ -42,7 +42,9 @@ class Package(AutoToolsPackageBase):
         self.platform = ""
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.useShadowBuild = False
-        self.subinfo.options.configure.cxxflags += "-std=c++11"
+        self.subinfo.options.configure.cxxflags += " -std=c++11"
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.ldflags += " -liconv"
         self.subinfo.options.configure.args = " --enable-gpl --enable-gpl3 --enable-opencv --enable-sdl2 --disable-sdl --disable-rtaudio --disable-decklink --disable-gtk2"
         if CraftCore.compiler.isWindows:
             prefix = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
