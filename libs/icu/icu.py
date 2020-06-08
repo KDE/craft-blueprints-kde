@@ -39,7 +39,7 @@ class subinfo(info.infoclass):
         self.patchToApply["63.1"] += [("icu-63.1-20181212.diff", 1),
                                      ("icu-63.1-20181215.diff", 2), # backport https://github.com/unicode-org/icu/pull/228
                                      ]
-        self.defaultTarget = "65.1"
+        self.defaultTarget = "67.1"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
