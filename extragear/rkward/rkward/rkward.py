@@ -20,7 +20,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies['libs/qt5/qtwebengine'] = None
         # not strictly runtimeDependencies, but should be included in the package for plugins and extra functionality
         self.runtimeDependencies["kde/applications/kate"] = None
-        self.runtimeDependencies["extragear/kbibtex"] = None
+        if not OsUtils.isMac():
+            # kbibtex does not properly build on mac, yet, and is optional
+            self.runtimeDependencies["extragear/kbibtex"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
 
 from Package.CMakePackageBase import *
