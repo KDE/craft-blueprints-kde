@@ -54,7 +54,7 @@ class subinfo(info.infoclass):
 
         self.description = "Freedesktop message bus system (daemon and clients)"
         self.webpage = "http://www.freedesktop.org/wiki/Software/dbus/"
-        self.defaultTarget = "1.12.12"
+        self.defaultTarget = "1.13.14"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
