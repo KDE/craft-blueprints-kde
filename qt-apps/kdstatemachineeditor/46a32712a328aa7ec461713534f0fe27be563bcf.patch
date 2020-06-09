@@ -1,0 +1,22 @@
+From 46a32712a328aa7ec461713534f0fe27be563bcf Mon Sep 17 00:00:00 2001
+From: Christophe Giboudeaux <christophe@krop.fr>
+Date: Fri, 3 Apr 2020 11:43:58 +0200
+Subject: [PATCH] Fix build with Qt 5.15
+
+Fixes #21
+---
+ src/core/tests/test_layoutinformation.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/core/tests/test_layoutinformation.cpp b/src/core/tests/test_layoutinformation.cpp
+index 27cea38..3ee8569 100644
+--- a/src/core/tests/test_layoutinformation.cpp
++++ b/src/core/tests/test_layoutinformation.cpp
+@@ -28,6 +28,7 @@
+ #include "transition.h"
+ 
+ #include <QDebug>
++#include <QPainterPath>
+ #include <QtTest>
+ 
+ using namespace KDSME;
