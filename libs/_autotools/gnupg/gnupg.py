@@ -29,14 +29,15 @@ import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets( self ):
-        for ver in ["2.2.12"]:
+        for ver in ["2.2.12", "2.2.20"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"gnupg-{ver}"
 
         self.patchToApply["2.2.12"] = [("gnupg-2.2.12-20190209.diff", 1)]
-        self.targetDigests["2.2.12"] =  (['db030f8b4c98640e91300d36d516f1f4f8fe09514a94ea9fc7411ee1a34082cb'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.2.12"] = (['db030f8b4c98640e91300d36d516f1f4f8fe09514a94ea9fc7411ee1a34082cb'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.2.20"] = (['04a7c9d48b74c399168ee8270e548588ddbe52218c337703d7f06373d326ca30'], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "2.2.12"
+        self.defaultTarget = "2.2.20"
 
 
     def setDependencies( self ):
@@ -53,5 +54,6 @@ from Package.AutoToolsPackageBase import *
 class Package(AutoToolsPackageBase):
     def __init__( self, **args ):
         AutoToolsPackageBase.__init__( self )
+        self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += " --disable-doc "
 
