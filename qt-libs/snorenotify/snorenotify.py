@@ -16,8 +16,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["dev-utils/snoretoast"] = None
 
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/snorenotify'
-        self.svnTargets['0.7'] = 'git://anongit.kde.org/snorenotify|0.7'
+        self.svnTargets['master'] = 'https://invent.kde.org/libraries/snorenotify.git'
+        self.svnTargets['0.7'] = 'https://invent.kde.org/libraries/snorenotify.git|0.7'
+        self.targetUpdatedRepoUrl["master"] = ("git://anongit.kde.org/snorenotify", "https://invent.kde.org/libraries/snorenotify.git")
+        self.targetUpdatedRepoUrl["0.7"] = ("git://anongit.kde.org/snorenotify", "https://invent.kde.org/libraries/snorenotify.git")
         for ver in ['0.6.0', '0.7.0']:
             self.targets[ver] = "http://download.kde.org/stable/snorenotify/%s/src/snorenotify-%s.tar.xz" % (ver, ver)
             self.targetInstSrc[ver] = "snorenotify-%s" % ver
