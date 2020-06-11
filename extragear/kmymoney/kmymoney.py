@@ -30,7 +30,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "a personal finance manager for KDE"
         self.displayName = "KMyMoney"
-        self.defaultTarget = '5.0'
+        self.defaultTarget = '5.1'
 
     def setDependencies(self):
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
