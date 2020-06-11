@@ -86,7 +86,7 @@ class Package(CMakePackageBase):
                                      "application/vnd.intu.qfx",
                                      "application/x-qfx",
                                      "application/x-qif",
-                                     "text/csv]
+                                     "text/csv"]
         self.defines["file_types"] = [".kmy",
                                       ".ofx",
                                       ".qfx",
