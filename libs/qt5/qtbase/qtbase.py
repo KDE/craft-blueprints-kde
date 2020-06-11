@@ -152,6 +152,7 @@ class QtPackage(Qt5CorePackageBase):
             command += f"-headerdir {os.path.join(CraftStandardDirs.craftRoot(), 'include', 'qt5')} "
             command += "-qt-libpng "
             command += "-qt-libjpeg "
+            command += "-qt-doubleconversion "
 
             command += "-mp "
 
