@@ -118,6 +118,7 @@ class PackageAutotools(AutoToolsPackageBase):
             "--disable-dependency-tracking "
             "--disable-static "
             "--disable-doxygen-docs "
+            "--disable-xml-docs "
             "--enable-verbose-mode "
             "--without-x "
             "--disable-tests "
