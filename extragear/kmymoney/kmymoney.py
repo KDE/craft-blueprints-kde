@@ -79,8 +79,19 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
-        self.defines["executable"] = "bin\\kmymoney.exe"
+        self.defines["executable"] = "bin\\kmymoney.exe"                       # Windows-only, mac is handled implicitly
         self.defines["icon"] = os.path.join(self.packageDir(), "kmymoney.ico")
+        self.defines["mimetypes"] = ["application/x-kmymoney",
+                                     "application/x-ofx",
+                                     "application/vnd.intu.qfx",
+                                     "application/x-qfx",
+                                     "application/x-qif",
+                                     "text/csv]
+        self.defines["file_types"] = [".kmy",
+                                      ".ofx",
+                                      ".qfx",
+                                      ".qif",
+                                      ".csv"]
 
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         if CraftCore.compiler.isMacOS:
