@@ -1,0 +1,38 @@
+From a82b949adc1619ad44da002a207073b019865f4b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ji=C5=99=C3=AD=20Pale=C4=8Dek?= <jpalecek@web.de>
+Date: Thu, 11 Jun 2020 00:27:12 +0200
+Subject: [PATCH] Don't use execvpe
+
+ Since the path of the executables we run from KCrash is absolute, we
+ can use execve instead of execvpe, which isn't available on FreeBSD.
+---
+ src/kcrash.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/kcrash.cpp b/src/kcrash.cpp
+index 3f395b9..6a4f745 100644
+--- a/src/kcrash.cpp
++++ b/src/kcrash.cpp
+@@ -676,9 +676,9 @@ void KCrash::startProcess(int argc, const char *argv[], bool waitAndExit)
+     }
+ }
+ 
++extern "C" char **environ;
+ static pid_t startDirectly(const char *argv[])
+ {
+-    extern char **environ;
+     char** environ_end;
+     for(environ_end = environ; *environ_end; ++environ_end) {}
+ 
+@@ -707,7 +707,7 @@ static pid_t startDirectly(const char *argv[])
+ #ifndef Q_OS_OSX
+         closeAllFDs(); // We are in the child now. Close FDs unconditionally.
+ #endif
+-        execvpe(argv[0], const_cast< char ** >(argv), const_cast<char**> (environ_data.data()));
++        execve(argv[0], const_cast< char ** >(argv), const_cast<char**> (environ_data.data()));
+         fprintf(stderr, "KCrash failed to exec(), errno = %d\n", errno);
+         _exit(253);
+     default:
+-- 
+2.27.0
+

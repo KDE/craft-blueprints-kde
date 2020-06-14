@@ -4,6 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["5.71.0"] = [("00a71a12f33dd423c395aeaeaddb709cd434296f.patch", 1), ("a82b949adc1619ad44da002a207073b019865f4b.patch", 1)]
 
         self.description = "KCrash"
 
