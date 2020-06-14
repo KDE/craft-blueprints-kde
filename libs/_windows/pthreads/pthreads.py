@@ -1,7 +1,11 @@
 import info
+import CraftCore
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.compiler =  CraftCore.compiler.Compiler.CL
+
     def setTargets(self):
         for ver in ['2.8.0', '2.9.1']:
             ver2 = ver.replace('.', '-')
@@ -24,17 +28,7 @@ from Package.CMakePackageBase import *
 from Package.VirtualPackageBase import *
 
 
-class PthreadsPackage(CMakePackageBase):
+class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args = " -DBUILD_TESTS=OFF"
-
-
-if CraftCore.compiler.isMSVC() or CraftCore.compiler.isIntel():
-    class Package(PthreadsPackage):
-        def __init__(self):
-            PthreadsPackage.__init__(self)
-else:
-    class Package(VirtualPackageBase):
-        def __init__(self):
-            VirtualPackageBase.__init__(self)
