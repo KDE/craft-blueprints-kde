@@ -31,7 +31,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "3"
 
     def registerOptions(self):
-        self.options.dynamic.registerOption("usePowershellCore", False)
+        self.options.dynamic.registerOption("usePowershellCore", True)
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/kshimgen"] = None
