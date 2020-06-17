@@ -39,7 +39,7 @@ class subinfo(info.infoclass):
 from Package.BinaryPackageBase import *
 
 
-class WinPackage(BinaryPackageBase):
+class Package(BinaryPackageBase):
     def __init__(self):
         BinaryPackageBase.__init__(self)
         self.subinfo.options.package.disableBinaryCache = True
@@ -47,33 +47,41 @@ class WinPackage(BinaryPackageBase):
 
     @property
     def powershell(self):
-        if not self.subinfo.options.dynamic.usePowershellCore:
-            return CraftCore.cache.findApplication("powershell")
-        else:
-            return CraftCore.cache.findApplication("pwsh")
+        pwsh = None
+        # prefer pwsh if installed
+        if self.subinfo.options.dynamic.usePowershellCore:
+            pwsh = CraftCore.cache.findApplication("pwsh")
+        return pwsh or CraftCore.cache.findApplication("powershell")
+
+    @property
+    def windowsTerminal(self):
+        wt = Path(os.environ["APPDATA"]).parent / "Local/Microsoft/WindowsApps/wt.exe"
+        # its a symlink/junction path.exists() crashes
+        if os.path.lexists(wt):
+            return wt
+        return None
 
     def install(self):
-        return utils.createShim(os.path.join(self.installDir(), "bin", "craftenv.exe"),
-                                self.powershell,
-                                ["-NoExit", "-ExecutionPolicy", "ByPass", "-Command", os.path.join(CraftCore.standardDirs.craftBin(), "..", "craftenv.ps1")],
-                                useAbsolutePath=True)
+        command = ["-NoExit", "-ExecutionPolicy", "ByPass", "-Command", Path(CraftCore.standardDirs.craftBin()).parent / "craftenv.ps1"]
+        out = Path(self.installDir()) / "bin/craftenv.exe"
+        wt = self.windowsTerminal
+        # Windows allows only one shortcut to the same exe in one dir -> so use a shim
+        if not wt:
+            return utils.createShim(out, self.powershell, command, useAbsolutePath=True)
+        else:
+            return utils.createShim(out, wt, ["new-tab", self.powershell] + command, useAbsolutePath=True, guiApp=True)
+
 
     def postQmerge(self):
-        utils.installShortcut(f"Craft {os.path.basename(CraftCore.standardDirs.craftRoot())}",
-                              os.path.join(CraftCore.standardDirs.craftRoot(), "bin", "craftenv.exe"),
-                              os.path.join(CraftCore.standardDirs.craftBin(), ".."),
-                              os.path.join(CraftCore.standardDirs.craftBin(), "data", "icons", "craft.ico"),
-                              f"Craft installed to: {os.path.dirname(CraftCore.standardDirs.craftRoot())}")
+        utils.installShortcut(f"Craft {Path(CraftCore.standardDirs.craftRoot()).name}",
+                              Path(CraftCore.standardDirs.craftRoot()) / "bin/craftenv.exe",
+                              Path(CraftCore.standardDirs.craftBin()).parent,
+                              Path(CraftCore.standardDirs.craftBin()) / "data/icons/craft.ico",
+                              f"Craft installed to: {Path(CraftCore.standardDirs.craftRoot()).name}")
         return True
 
     def unmerge(self):
-        shortcutPath = Path(os.environ["APPDATA"]) / f"Microsoft/Windows/Start Menu/Programs/Craft/Craft {os.path.basename(CraftCore.standardDirs.craftRoot())}.lnk"
+        shortcutPath = Path(os.environ["APPDATA"]) / f"Microsoft/Windows/Start Menu/Programs/Craft/Craft {Path(CraftCore.standardDirs.craftRoot()).name}.lnk"
         if os.path.exists(shortcutPath):
             utils.deleteFile(shortcutPath)
         return super().unmerge()
-
-from Package.MaybeVirtualPackageBase import *
-
-class Package(MaybeVirtualPackageBase):
-    def __init__(self):
-        MaybeVirtualPackageBase.__init__(self, OsUtils.isWin(), classA=WinPackage)
