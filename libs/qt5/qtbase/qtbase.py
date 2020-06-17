@@ -31,6 +31,10 @@ class subinfo(info.infoclass):
                     ("qstandardpaths-extra-dirs.patch", 1),
                     ("fix-harfbuzz.diff", 1),
                 ]
+            elif qtVer >= CraftVersion("5.12.9"):
+                self.patchToApply[ver] = [
+                    (".qt-5.12.9", 1)
+                ]
             elif qtVer >= CraftVersion("5.12.7"):
                 self.patchToApply[ver] = [
                     ("8a3fde00bf53d99e9e4853e8ab97b0e1bcf74915.patch", 1), # https://github.com/qt/qtbase/commit/8a3fde00bf53d99e9e4853e8ab97b0e1bcf74915

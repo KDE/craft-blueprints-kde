@@ -1,0 +1,10 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' qtbase-everywhere-src-5.13.1.orig/mkspecs/common/clang-mac.conf qtbase-everywhere-src-5.13.1/mkspecs/common/clang-mac.conf
+--- qtbase-everywhere-src-5.13.1.orig/mkspecs/common/clang-mac.conf	2019-08-31 10:29:31.000000000 +0200
++++ qtbase-everywhere-src-5.13.1/mkspecs/common/clang-mac.conf	2019-11-04 11:42:02.000000000 +0100
+@@ -9,5 +9,6 @@
+ QMAKE_CXXFLAGS += -stdlib=libc++
+ QMAKE_LFLAGS   += -stdlib=libc++
+ QMAKE_AR_LTCG  = libtool -static -o
++QMAKE_LFLAGS_LTCG += -Wl,-object_path_lto,lto.o
+ 
+ QMAKE_CFLAGS_APPLICATION_EXTENSION  = -fapplication-extension
