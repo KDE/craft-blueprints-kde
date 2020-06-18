@@ -3,10 +3,10 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/kpeoplevcard.git'
+        self.svnTargets['master'] = 'https://invent.kde.org/pim/kpeoplevcard.git'
         self.defaultTarget = 'master'
 
-        self.description = "TODO"
+        self.description = "Expose VCard contacts to KPeople"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
