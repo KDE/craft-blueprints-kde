@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"dbus-{ver}"
             self.targetConfigurePath[ver] = "cmake"
 
-        for ver in ["1.13.14"]:
+        for ver in ["1.13.14","1.13.16"]:
             self.targets[ver] = f"http://dbus.freedesktop.org/releases/dbus/dbus-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"dbus-{ver}"
 
@@ -51,10 +51,11 @@ class subinfo(info.infoclass):
         self.targetDigests['1.11.14'] = (['55cfc7fdd2cccb2fce1f75d2132ad4801b5ed6699fc2ce79ed993574adf90c80'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.12.12'] = (['9546f226011a1e5d9d77245fe5549ef25af4694053189d624d0d6ac127ecf5f8'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.13.14'] = (['96068550cfd465d042a334bc8737504fbee6e7b6c677abe113272900bb57b8ff'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['1.13.16'] = (['f56b0aa015d0cd13e235225484f411e3c587a0f852c12da03852a324dd1cafb3'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Freedesktop message bus system (daemon and clients)"
         self.webpage = "http://www.freedesktop.org/wiki/Software/dbus/"
-        self.defaultTarget = "1.13.14"
+        self.defaultTarget = "1.13.16"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
