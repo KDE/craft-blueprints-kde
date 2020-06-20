@@ -1,0 +1,71 @@
+From 365c4c2229eec6d7cd936e83e14c0ca14e2d63b0 Mon Sep 17 00:00:00 2001
+From: Hannah von Reth <vonreth@kde.org>
+Date: Sat, 20 Jun 2020 16:13:03 +0200
+Subject: [PATCH] Copy files rather than broken symlinks
+
+This fixes installation on Windows.
+An alternative solution would have been to dynamically create the symlinks
+in the install step, on Linux, and to copy them on Windows.
+
+01:05:07.444  CMake Error at src/desktoptheme/breeze-dark/cmake_install.cmake:43 (file):
+01:05:07.444    file INSTALL cannot read symlink
+01:05:07.444    "C:/_/acd4f350/plasma-framework-5.71.0/src/desktoptheme/breeze-dark/widgets/plasmoidheading.svgz"
+01:05:07.444    to duplicate at
+01:05:07.444    "C:/Craft/BC/windows-mingw_64-gcc/build/kde/frameworks/tier3/plasma-framework/image-RelWithDebInfo-5.71.0/Craft/BC/windows-mingw_64-gcc/bin/data/plasma/desktoptheme/breeze-dark/widgets/plasmoidheading.svgz":
+01:05:07.444    No such file or directory.
+01:05:07.444  Call Stack (most recent call first):
+01:05:07.444    src/desktoptheme/cmake_install.cmake:40 (include)
+01:05:07.444    src/cmake_install.cmake:41 (include)
+01:05:07.444    cmake_install.cmake:109 (include)
+---
+ src/desktoptheme/breeze-dark/CMakeLists.txt                | 2 +-
+ src/desktoptheme/breeze-dark/widgets/plasmoidheading.svgz  | 1 -
+ src/desktoptheme/breeze-light/CMakeLists.txt               | 2 +-
+ src/desktoptheme/breeze-light/widgets/plasmoidheading.svgz | 1 -
+ 4 files changed, 2 insertions(+), 4 deletions(-)
+ delete mode 120000 src/desktoptheme/breeze-dark/widgets/plasmoidheading.svgz
+ delete mode 120000 src/desktoptheme/breeze-light/widgets/plasmoidheading.svgz
+
+diff --git a/src/desktoptheme/breeze-dark/CMakeLists.txt b/src/desktoptheme/breeze-dark/CMakeLists.txt
+index 13a448a01..1e111f426 100644
+--- a/src/desktoptheme/breeze-dark/CMakeLists.txt
++++ b/src/desktoptheme/breeze-dark/CMakeLists.txt
+@@ -9,6 +9,6 @@ install(
+     DESTINATION ${PLASMA_DATA_INSTALL_DIR}/desktoptheme/breeze-dark
+ )
+ install(
+-    DIRECTORY widgets
++    FILES ${PROJECT_BINARY_DIR}/src/desktoptheme/breeze/default.gzipped/widgets/plasmoidheading.svgz
+     DESTINATION ${PLASMA_DATA_INSTALL_DIR}/desktoptheme/breeze-dark
+ )
+diff --git a/src/desktoptheme/breeze-dark/widgets/plasmoidheading.svgz b/src/desktoptheme/breeze-dark/widgets/plasmoidheading.svgz
+deleted file mode 120000
+index b20bf0773..000000000
+--- a/src/desktoptheme/breeze-dark/widgets/plasmoidheading.svgz
++++ /dev/null
+@@ -1 +0,0 @@
+-../../default/widgets/plasmoidheading.svgz
+\ No newline at end of file
+diff --git a/src/desktoptheme/breeze-light/CMakeLists.txt b/src/desktoptheme/breeze-light/CMakeLists.txt
+index 9bb996a80..1cea93b37 100644
+--- a/src/desktoptheme/breeze-light/CMakeLists.txt
++++ b/src/desktoptheme/breeze-light/CMakeLists.txt
+@@ -9,6 +9,6 @@ install(
+     DESTINATION ${PLASMA_DATA_INSTALL_DIR}/desktoptheme/breeze-light
+ )
+ install(
+-    DIRECTORY widgets
++    FILES ${PROJECT_BINARY_DIR}/src/desktoptheme/breeze/default.gzipped/widgets/plasmoidheading.svgz
+     DESTINATION ${PLASMA_DATA_INSTALL_DIR}/desktoptheme/breeze-light
+ )
+diff --git a/src/desktoptheme/breeze-light/widgets/plasmoidheading.svgz b/src/desktoptheme/breeze-light/widgets/plasmoidheading.svgz
+deleted file mode 120000
+index b20bf0773..000000000
+--- a/src/desktoptheme/breeze-light/widgets/plasmoidheading.svgz
++++ /dev/null
+@@ -1 +0,0 @@
+-../../default/widgets/plasmoidheading.svgz
+\ No newline at end of file
+-- 
+2.26.2.windows.1
+
