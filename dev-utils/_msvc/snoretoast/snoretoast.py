@@ -3,7 +3,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/snoretoast|master'
+        self.svnTargets["master"] = "https://invent.kde.org/libraries/snoretoast.git"
+        self.targetUpdatedRepoUrl["master"] = ("git://anongit.kde.org/snoretoast", "https://invent.kde.org/libraries/snoretoast.git")
         for ver in ["0.5.2", "0.6.0", "0.7.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/snoretoast/{ver}/src/snoretoast-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"snoretoast-{ver}"
