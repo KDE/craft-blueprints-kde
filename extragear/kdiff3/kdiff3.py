@@ -5,7 +5,6 @@ from CraftOS.osutils import OsUtils
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.defaultTarget = "master"
 
         self.description = "Compares and merges 2 or 3 files or directories"
 
