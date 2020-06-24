@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         # self.runtimeDependencies["libs/qtquick1"] = None
 
     def setTargets(self):
-        self.svnTargets["master"] = "git://anongit.kde.org/phonon"
+        self.svnTargets["master"] = "https://anongit.kde.org/phonon"
         for ver in ["4.10.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/phonon/{ver}/phonon-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/phonon/{ver}/phonon-{ver}.tar.xz.sha256"

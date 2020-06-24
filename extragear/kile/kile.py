@@ -4,8 +4,8 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/kile'
-        self.svnTargets['gitStable-2.1'] = 'git://anongit.kde.org/kile|2.1|'
+        self.svnTargets['master'] = 'https://anongit.kde.org/kile'
+        self.svnTargets['gitStable-2.1'] = 'https://anongit.kde.org/kile|2.1|'
         for ver in ['2.1.1', '2.9.92', '2.9.93']:
             self.targets[ver] = 'http://downloads.sourceforge.net/kile/kile-' + ver + '.tar.bz2'
             self.targetInstSrc[ver] = 'kile-' + ver

@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/skrooge|master'
+        self.svnTargets['master'] = 'https://anongit.kde.org/skrooge|master'
         for ver in ['2.10.5']:
             self.targets[ver] = 'https://download.kde.org/stable/skrooge/skrooge-' + ver + '.tar.xz'
             self.targetInstSrc[ver] = 'skrooge-%s' % ver

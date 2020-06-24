@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/kpublictransport.git'
+        self.svnTargets['master'] = 'https://anongit.kde.org/kpublictransport.git'
         self.defaultTarget = 'master'
 
         self.description = "Library for accessing public transport data"

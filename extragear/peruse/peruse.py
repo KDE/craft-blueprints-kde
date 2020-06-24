@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/peruse|master'
+        self.svnTargets['master'] = 'https://anongit.kde.org/peruse|master'
         self.defaultTarget = 'master'
         self.description = "Peruse Comic Book Viewer and Creator"
         self.webpage = "http://peruse.kde.org"

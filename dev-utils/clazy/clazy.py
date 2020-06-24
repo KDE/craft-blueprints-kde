@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/llvm-meta/clang"] = None
 
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/clazy'
+        self.svnTargets['master'] = 'https://anongit.kde.org/clazy'
         for ver in ["1.3", "1.4", "1.5", "1.6"]:
             self.targets[ver] = f"https://download.kde.org/stable/clazy/{ver}/src/clazy-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/clazy/{ver}/src/clazy-{ver}.tar.xz.sha256"

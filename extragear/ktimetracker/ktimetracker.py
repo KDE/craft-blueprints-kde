@@ -4,7 +4,7 @@ from CraftOS.osutils import OsUtils
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/ktimetracker|master'
+        self.svnTargets['master'] = 'https://anongit.kde.org/ktimetracker|master'
         self.defaultTarget = 'master'
 
         for ver in ['5.0.0', '5.0.1']:

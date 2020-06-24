@@ -5,7 +5,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/amarok.git'
+        self.svnTargets['master'] = 'https://anongit.kde.org/amarok.git'
 
         ver = '2.9.0'
         self.defaultTarget = ver

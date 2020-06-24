@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/cyrus-sasl"] = None
 
     def setTargets(self):
-        self.svnTargets["master"] = "git://anongit.kde.org/qca.git"
+        self.svnTargets["master"] = "https://anongit.kde.org/qca.git"
         self.patchLevel["master"] = 4
 
         for ver in ['2.2.0']:

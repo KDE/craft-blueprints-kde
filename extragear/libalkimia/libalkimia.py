@@ -28,7 +28,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/alkimia|master'
+        self.svnTargets['master'] = 'https://anongit.kde.org/alkimia|master'
         for ver in ['7.0.1', '7.0.2']:
           self.targets[ver] = 'http://download.kde.org/download.php?url=stable/alkimia/' + ver + '/alkimia-' + ver + '.tar.xz'
           self.targetInstSrc[ver] = 'alkimia-' + ver

@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libbzip2"] = None
 
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/kdewin-installer'
+        self.svnTargets['master'] = 'https://anongit.kde.org/kdewin-installer'
         self.defaultTarget = 'master'
 
 

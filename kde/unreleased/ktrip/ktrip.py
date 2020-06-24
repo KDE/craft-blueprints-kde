@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/ktrip.git'
+        self.svnTargets['master'] = 'https://anongit.kde.org/ktrip.git'
         self.defaultTarget = 'master'
 
         self.description = "TODO"

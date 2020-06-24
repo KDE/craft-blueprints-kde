@@ -4,8 +4,8 @@ from CraftOS.osutils import OsUtils
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'git://anongit.kde.org/atcore|master'
-        self.svnTargets['1.0'] = 'git://anongit.kde.org/atcore|1.0'
+        self.svnTargets['master'] = 'https://anongit.kde.org/atcore|master'
+        self.svnTargets['1.0'] = 'https://anongit.kde.org/atcore|1.0'
         self.defaultTarget = '1.0'
 
         self.displayName = "AtCoreTest"

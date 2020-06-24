@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
 
             self.patchToApply[ver] = [("qtdbus-lib-macos.diff", 1)] # Add patch for link error of QtDBus on macOS
 
-        self.svnTargets["master"] = "git://anongit.kde.org/phonon-vlc"
+        self.svnTargets["master"] = "https://anongit.kde.org/phonon-vlc"
 
         self.description = "the vlc based phonon multimedia backend"
         self.defaultTarget = "0.10.0"

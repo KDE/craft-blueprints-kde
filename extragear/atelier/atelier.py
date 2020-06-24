@@ -5,7 +5,7 @@ from CraftOS.osutils import OsUtils
 
 class subinfo( info.infoclass ):
     def setTargets( self ):
-        self.svnTargets[ 'master' ] = 'git://anongit.kde.org/atelier|master'
+        self.svnTargets[ 'master' ] = 'https://anongit.kde.org/atelier|master'
         self.defaultTarget = 'master'
         self.description = 'Atelier Printer Host'
         self.webpage = "https://atelier.kde.org"
