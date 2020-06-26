@@ -69,7 +69,7 @@ class Package(CMakePackageBase):
                                         """WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate\\command" "" '"$INSTDIR\\bin\\kate.exe" "%V"'\n""")
 
         self.defines["mimetypes"] = ["text/plain", "text/html", "text/xml", "text/css", "text/csv", "application/json", "application/xml", "application/javascript"]
-        self.defines["file_types"] = [".ini", ".conf", ".cpp", ".hpp", ".py", ".yaml", ".toml", ".log"]
+        self.defines["file_types"] = [".ini", ".conf", ".cfg", ".cpp", ".hpp", ".py", ".yaml", ".toml", ".log"]
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
