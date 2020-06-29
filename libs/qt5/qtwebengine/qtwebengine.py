@@ -7,6 +7,9 @@ class subinfo(info.infoclass):
         # only supports msvc17+
         if CraftCore.compiler.isMSVC() and CraftCore.compiler.getInternalVersion() < 15:
             self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
+        elif CraftCore.compiler.isMinGW():
+            self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
+
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -100,4 +103,4 @@ class QtPackage(Qt5CorePackageBase):
 
 class Package(Qt5CoreSdkPackageBase):
     def __init__(self):
-        Qt5CoreSdkPackageBase.__init__(self, classA=QtPackage, condition=not CraftCore.compiler.isMinGW())
+        Qt5CoreSdkPackageBase.__init__(self, classA=QtPackage)
