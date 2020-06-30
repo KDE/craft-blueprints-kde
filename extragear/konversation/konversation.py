@@ -5,8 +5,10 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["1.7"] = "https://anongit.kde.org/konversation|1.7"
-        self.svnTargets["master"] = "https://anongit.kde.org/konversation|master"
+        self.svnTargets["1.7"] = "https://invent.kde.org/network/konversation.git|1.7"
+        self.svnTargets["master"] = "https://invent.kde.org/network/konversation.git"
+        self.targetUpdatedRepoUrl["1.7"] = ("https://anongit.kde.org/konversation", "https://invent.kde.org/network/konversation.git|1.7")
+        self.targetUpdatedRepoUrl["master"] = ("https://anongit.kde.org/konversation", "https://invent.kde.org/network/konversation.git")
         for ver in ["1.7.4", "1.7.5"]:
             self.targets[ver] = "http://download.kde.org/stable/konversation/%s/src/konversation-%s.tar.xz" % (ver, ver)
             self.targetInstSrc[ver] = "konversation-%s" % ver
