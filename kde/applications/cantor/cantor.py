@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         # master has several patches for Windows
         if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
             self.defaultTarget = 'master'
+            self.patchLevel["master"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
