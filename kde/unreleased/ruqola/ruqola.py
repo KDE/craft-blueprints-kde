@@ -27,7 +27,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "https://anongit.kde.org/ruqola"
+        self.svnTargets["master"] = "https://invent.kde.org/network/ruqola.git"
         self.defaultTarget = "master"
         self.patchLevel["master"] = 1
 
