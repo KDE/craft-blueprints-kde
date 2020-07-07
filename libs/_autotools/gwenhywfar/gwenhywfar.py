@@ -28,15 +28,15 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["5.2.0"] = "https://www.aquamaniac.de/rdm/attachments/download/317/gwenhywfar-5.2.0.tar.gz"
-        self.targetDigests["5.2.0"] = (['ed8e1f81aa32c8c387cccb9d40390db31632be55bc41bd30bc27e3e45d4d2766'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["5.2.0"] = "gwenhywfar-5.2.0"
+        self.targets["5.3.0"] = "https://www.aquamaniac.de/rdm/attachments/download/319/gwenhywfar-5.3.0.tar.gz"
+        self.targetDigests["5.3.0"] = (['3aec5982f5e136761863f4b6b12bbb4cd26b8ffb5f7553b58a48f72b6a4344a9'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["5.3.0"] = "gwenhywfar-5.3.0"
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["5.2.0"] = [("gwenhywfar-4.19.0-20180218.diff", 1)]
+            self.patchToApply["5.3.0"] = [("gwenhywfar-4.19.0-20180218.diff", 1)]
         elif CraftCore.compiler.isMacOS:
-            self.patchToApply["5.2.0"] = [("gwenhywfar-4.20.0-20180503.diff", 1)]
-        self.defaultTarget = "5.2.0"
-        self.patchLevel["5.2.0"] = 3
+            self.patchToApply["5.3.0"] = [("gwenhywfar-4.20.0-20180503.diff", 1)]
+        self.defaultTarget = "5.3.0"
+        self.patchLevel["5.3.0"] = 3
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
