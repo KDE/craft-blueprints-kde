@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://invent.kde.org/graphics/kdiagram.git"
-        self.targetUpdatedRepoUrl["master"] = ("https://(anongit.kde).org/kdiagram", "https://invent.kde.org/graphics/kdiagram.git")
+        self.targetUpdatedRepoUrl["master"] = ("https://anongit.kde.org/kdiagram", "https://invent.kde.org/graphics/kdiagram.git")
         self.defaultTarget = "master"
         # otherwise undefined KGantt::Constraint while building tests
         if CraftCore.compiler.isMacOS:
