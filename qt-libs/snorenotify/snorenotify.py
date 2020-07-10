@@ -18,8 +18,8 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'https://invent.kde.org/libraries/snorenotify.git'
         self.svnTargets['0.7'] = 'https://invent.kde.org/libraries/snorenotify.git|0.7'
-        self.targetUpdatedRepoUrl["master"] = ("git://anongit.kde.org/snorenotify", "https://invent.kde.org/libraries/snorenotify.git")
-        self.targetUpdatedRepoUrl["0.7"] = ("git://anongit.kde.org/snorenotify", "https://invent.kde.org/libraries/snorenotify.git")
+        self.targetUpdatedRepoUrl["master"] = ("https://(anongit.kde).org/snorenotify", "https://invent.kde.org/libraries/snorenotify.git")
+        self.targetUpdatedRepoUrl["0.7"] = ("https://(anongit.kde).org/snorenotify", "https://invent.kde.org/libraries/snorenotify.git")
         for ver in ['0.6.0', '0.7.0']:
             self.targets[ver] = "http://download.kde.org/stable/snorenotify/%s/src/snorenotify-%s.tar.xz" % (ver, ver)
             self.targetInstSrc[ver] = "snorenotify-%s" % ver

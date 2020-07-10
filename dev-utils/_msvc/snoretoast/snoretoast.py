@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         self.webpage = "https://invent.kde.org/libraries/snoretoast"
 
         self.svnTargets["master"] = "https://invent.kde.org/libraries/snoretoast.git"
-        self.targetUpdatedRepoUrl["master"] = ("git://anongit.kde.org/snoretoast", "https://invent.kde.org/libraries/snoretoast.git")
+        self.targetUpdatedRepoUrl["master"] = ("https://(anongit.kde).org/snoretoast", "https://invent.kde.org/libraries/snoretoast.git")
         self.defaultTarget = "0.7.0"
 
         for ver in ["0.5.2", "0.6.0", "0.7.0"]:
