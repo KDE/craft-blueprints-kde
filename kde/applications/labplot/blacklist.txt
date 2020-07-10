@@ -43,7 +43,6 @@ bin/KF5Declarative\.dll
 bin/KF5DocTools\.dll
 bin/KF5GlobalAccelPrivate\.dll
 bin/KF5Notifications\.dll
-bin/KF5Package\.dll
 
 #QML and QtQuick
 # If using qml you probably won't want to strip DirectX
