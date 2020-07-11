@@ -4,8 +4,12 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['kbibtex/0.9'] = 'https://anongit.kde.org/kbibtex|kbibtex/0.9'
-        self.svnTargets['master'] = 'https://anongit.kde.org/kbibtex|master'
+        self.svnTargets['kbibtex/0.9'] = 'https://invent.kde.org/office/kbibtex.git|kbibtex/0.9'
+        self.targetUpdatedRepoUrl['kbibtex/0.9'] = ('https://anongit.kde.org/kbibtex|kbibtex/0.9', 'https://invent.kde.org/office/kbibtex.git|kbibtex/0.9')
+        self.svnTargets['kbibtex/0.10'] = 'https://invent.kde.org/office/kbibtex.git|kbibtex/0.10'
+        self.targetUpdatedRepoUrl['kbibtex/0.10'] = ('https://anongit.kde.org/kbibtex|kbibtex/0.10', 'https://invent.kde.org/office/kbibtex.git|kbibtex/0.10')
+        self.svnTargets['master'] = 'https://invent.kde.org/office/kbibtex.git|master'
+        self.targetUpdatedRepoUrl['master'] = ('https://anongit.kde.org/kbibtex|master', 'https://invent.kde.org/office/kbibtex.git|master')
         self.defaultTarget = 'master'
 
         self.description = "An editor for bibliographies used with LaTeX"
