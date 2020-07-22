@@ -11,6 +11,8 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("buildDoc", True)
         self.options.dynamic.registerOption("libInfix", "")
         self.options.dynamic.registerOption("useLtcg", False)
+        self.options.dynamic.registerOption("withMysql", self.options.isActive("binary/mysql"))
+        self.options.dynamic.registerOption("withDBus", self.options.isActive("libs/dbus"))
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -118,8 +120,10 @@ class subinfo(info.infoclass):
                 self.runtimeDependencies["libs/openssl"] = None
             else:
                 self.runtimeDependencies["libs/openssl"] = "1.1"
-            self.runtimeDependencies["libs/dbus"] = None
-            self.runtimeDependencies["binary/mysql"] = None
+            if self.options.dynamic.withDBus:
+                self.runtimeDependencies["libs/dbus"] = None
+            if self.options.dynamic.withMysql:
+                self.runtimeDependencies["binary/mysql"] = None
             self.runtimeDependencies["libs/icu"] = None
             self.runtimeDependencies["libs/zlib"] = None
 
@@ -199,9 +203,11 @@ class QtPackage(Qt5CorePackageBase):
                             command += f" OPENSSL_LIBS=\"-llibssl -llibcrypto\" "
                         else:
                             command += f" OPENSSL_LIBS=\"-lssl -lcrypto\" "
-                if self.subinfo.options.isActive("binary/mysql"):
+                if self.subinfo.options.dynamic.withMysql:
                     command += " -sql-mysql "
-                if self.subinfo.options.isActive("libs/dbus"):
+                else:
+                    command += " -no-sql-mysql "
+                if self.subinfo.options.dynamic.withDBus:
                     command += " -qdbus -dbus-runtime -I \"%s\" -I \"%s\" " % (
                         os.path.join(CraftStandardDirs.craftRoot(), "include", "dbus-1.0"),
                         os.path.join(CraftStandardDirs.craftRoot(), "lib", "dbus-1.0", "include"))
