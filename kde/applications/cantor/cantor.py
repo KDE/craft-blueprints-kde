@@ -6,10 +6,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "Cantor"
-        # master has several patches for Windows
-        if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
-            self.defaultTarget = 'master'
-            self.patchLevel["master"] = 1
+        # use special version when needed
+        #if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
+        #    self.defaultTarget = 'master'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
