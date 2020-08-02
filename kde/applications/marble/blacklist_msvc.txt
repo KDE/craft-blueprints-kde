@@ -1,5 +1,4 @@
 # blacklist
-bin\\data
 
 # unneeded stuff from bin\
-bin\\marble\.exe
+bin\\(?!(msg*|test*|r*|mysql*)).*\.exe
