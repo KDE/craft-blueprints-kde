@@ -1,0 +1,5 @@
+# blacklist
+bin\\data
+
+# unneeded stuff from bin\
+bin\\marble\.exe
