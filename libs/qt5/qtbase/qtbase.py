@@ -11,8 +11,8 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("buildDoc", True)
         self.options.dynamic.registerOption("libInfix", "")
         self.options.dynamic.registerOption("useLtcg", False)
-        self.options.dynamic.registerOption("withMysql", self.options.isActive("binary/mysql"))
-        self.options.dynamic.registerOption("withDBus", self.options.isActive("libs/dbus"))
+        self.options.dynamic.registerOption("withMysql", True)
+        self.options.dynamic.registerOption("withDBus", True)
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
