@@ -1,0 +1,2 @@
+share/p11-kit
+bin/p11-kit
