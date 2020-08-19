@@ -49,6 +49,8 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
         self.defines["executable"] = r"bin\okular.exe"
         self.defines["mimetypes"] = ["application/pdf"]
         self.defines["file_types"] = [".pdf", ".mobi", ".epub", ".tiff", ".djvu"]
