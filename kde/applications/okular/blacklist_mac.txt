@@ -1,2 +1,4 @@
+share/p11-kit
+bin/p11-kit
 .*PlugIns/kf5/org\.kde\.kwindowsystem\.platforms.*
 .*PlugIns/org\.kde\.kdecoration2.*
