@@ -33,7 +33,7 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         #Only attempt to install shell extention in standalone mode 
         if not isinstance(self, AppxPackager):
-            self.self.defines["registry_hook"]=("""!define DIFF_EXT6\n4_CLSID "{34471FFB-4002-438b-8952-E4588D0C0FE9}"\n
+            self.defines["registry_hook"]=("""!define DIFF_EXT_CLSID "{34471FFB-4002-438b-8952-E4588D0C0FE9}"\n
                 StrCpy $DIFF_EXT_DLL "kdiff3ext.dll"\n
                 StrCpy $DIFF_EXT_ID "diff-ext-for-kdiff3"\n
                 \n
