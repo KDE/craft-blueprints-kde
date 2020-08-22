@@ -31,28 +31,26 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(self.packageDir(), "kdiff3.ico")
 
         self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("libs/dbus")
         #Only attempt to install shell extention in standalone mode 
-        if not isinstance(self, AppxPackager):
-            self.defines["registry_hook"]=("""!define DIFF_EXT_CLSID "{34471FFB-4002-438b-8952-E4588D0C0FE9}"\n
-                StrCpy $DIFF_EXT_DLL "kdiff3ext.dll"\n
-                StrCpy $DIFF_EXT_ID "diff-ext-for-kdiff3"\n
-                \n
-                WriteRegStr SHCTX "Software\Classes\CLSID\$DIFF_EXT_CLSID" "" "$DIFF_EXT_ID"\n
-                WriteRegStr SHCTX "Software\Classes\CLSID\$DIFF_EXT_CLSID\InProcServer32" "" "$INSTDIR\bin\$DIFF_EXT_DLL"\n
-                WriteRegStr SHCTX "Software\Classes\CLSID\$DIFF_EXT_CLSID\InProcServer32" "ThreadingModel" "Apartment"\n
-                WriteRegStr SHCTX "Software\Classes\*\shellex\ContextMenuHandlers\$DIFF_EXT_ID" "" "$DIFF_EXT_CLSID"\n
-                WriteRegStr SHCTX "Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved" "$DIFF_EXT_CLSID" "$DIFF_EXT_ID"\n
-                WriteRegStr SHCTX "Software\Classes\Folder\shellex\ContextMenuHandlers\$DIFF_EXT_ID" "" "$DIFF_EXT_CLSID"\n
-                WriteRegStr SHCTX "Software\Classes\Directory\shellex\ContextMenuHandlers\$DIFF_EXT_ID" "" "$DIFF_EXT_CLSID"\n
-                \n
-                WriteRegStr HKCU  "Software\KDiff3\diff-ext" "" ""\n
-                WriteRegStr SHCTX "Software\KDiff3\diff-ext" "InstallDir" "$INSTDIR"\n
-                WriteRegStr SHCTX "Software\KDiff3\diff-ext" "diffcommand" "$INSTDIR\kdiff3.exe"\n
+        if 0 and not isinstance(self, AppxPackager):
+            self.defines["registry_hook"]=("""                
+                WriteRegStr SHCTX "Software\Classes\CLSID\{34471FFB-4002-438b-8952-E4588D0C0FE9}" "" "kdiff3ext"
+                WriteRegStr SHCTX "Software\Classes\CLSID\{34471FFB-4002-438b-8952-E4588D0C0FE9}\InProcServer32" "" "$INSTDIR\bin\kdiff3ext.dll"
+                WriteRegStr SHCTX "Software\Classes\CLSID\{34471FFB-4002-438b-8952-E4588D0C0FE9}\InProcServer32" "ThreadingModel" "Apartment"
+                WriteRegStr SHCTX "Software\Classes\*\shellex\ContextMenuHandlers\kdiff3ext" "" "{34471FFB-4002-438b-8952-E4588D0C0FE9}"
+                WriteRegStr SHCTX "Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved" "{34471FFB-4002-438b-8952-E4588D0C0FE9}" "kdiff3ext"
+                WriteRegStr SHCTX "Software\Classes\Folder\shellex\ContextMenuHandlers\kdiff3ext" "" "{34471FFB-4002-438b-8952-E4588D0C0FE9}"
+                WriteRegStr SHCTX "Software\Classes\Directory\shellex\ContextMenuHandlers\kdiff3ext" "" "{34471FFB-4002-438b-8952-E4588D0C0FE9}"
+                
+                WriteRegStr HKCU  "Software\KDiff3\diff-ext" "" ""
+                WriteRegStr SHCTX "Software\KDiff3\diff-ext" "InstallDir" "$INSTDIR"
+                WriteRegStr SHCTX "Software\KDiff3\diff-ext" "diffcommand" "$INSTDIR\kdiff3.exe"
             """)
         
         # remove old version if it exists may not work for pre-1.8 due to changes in the build system
-        self.defines["preInstallHook"] = r"""
-                Exec "$INSTDIR\Uninstall.exe"
-                """
+        #self.defines["preInstallHook"] = r"""
+        #        Exec "$INSTDIR\Uninstall.exe"
+        #        """
 
         return TypePackager.createPackage(self)
