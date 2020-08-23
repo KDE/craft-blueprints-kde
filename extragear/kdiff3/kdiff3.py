@@ -5,7 +5,8 @@ from CraftOS.osutils import OsUtils
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-
+        #Warning: Craft by default takes the display name to also be the product name. 
+        self.displayName = 'KDiff3'
         self.description = "Compares and merges 2 or 3 files or directories"
 
     def setDependencies(self):
@@ -27,30 +28,60 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
         
-        self.defines["executable"] = "bin\\kdiff3.exe"
+        self.defines["executable"] = r"bin\kdiff3.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kdiff3.ico")
-
+        #self.defines["display_name"] = r"KDiff3"
+        
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
         #Only attempt to install shell extention in standalone mode 
-        if 0 and not isinstance(self, AppxPackager):
-            self.defines["registry_hook"]=("""                
-                WriteRegStr SHCTX "Software\Classes\CLSID\{34471FFB-4002-438b-8952-E4588D0C0FE9}" "" "kdiff3ext"
-                WriteRegStr SHCTX "Software\Classes\CLSID\{34471FFB-4002-438b-8952-E4588D0C0FE9}\InProcServer32" "" "$INSTDIR\bin\kdiff3ext.dll"
-                WriteRegStr SHCTX "Software\Classes\CLSID\{34471FFB-4002-438b-8952-E4588D0C0FE9}\InProcServer32" "ThreadingModel" "Apartment"
-                WriteRegStr SHCTX "Software\Classes\*\shellex\ContextMenuHandlers\kdiff3ext" "" "{34471FFB-4002-438b-8952-E4588D0C0FE9}"
-                WriteRegStr SHCTX "Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved" "{34471FFB-4002-438b-8952-E4588D0C0FE9}" "kdiff3ext"
-                WriteRegStr SHCTX "Software\Classes\Folder\shellex\ContextMenuHandlers\kdiff3ext" "" "{34471FFB-4002-438b-8952-E4588D0C0FE9}"
-                WriteRegStr SHCTX "Software\Classes\Directory\shellex\ContextMenuHandlers\kdiff3ext" "" "{34471FFB-4002-438b-8952-E4588D0C0FE9}"
-                
-                WriteRegStr HKCU  "Software\KDiff3\diff-ext" "" ""
-                WriteRegStr SHCTX "Software\KDiff3\diff-ext" "InstallDir" "$INSTDIR"
-                WriteRegStr SHCTX "Software\KDiff3\diff-ext" "diffcommand" "$INSTDIR\kdiff3.exe"
+        if not isinstance(self, AppxPackager):
+            #Windows app store has special requirements for the version format let craft deal with that.
+            if self.subinfo.buildTarget == "1.8":
+                self.defines["version"] = "1.8.4"
+            
+            self.defines["registry_hook"]=(r"""
+    !define DIFF_EXT_CLSID "{34471FFB-4002-438b-8952-E4588D0C0FE9}"
+    !define DIFF_EXT_ID "Diff-ext for KDiff3"
+    !define DIFF_EXT_DLL "kdiff3ext.dll"
+    
+    SetRegView 64
+    WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}" "" "${DIFF_EXT_ID}"
+    WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}\InProcServer32" "" "$INSTDIR\bin\${DIFF_EXT_DLL}"
+    WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}\InProcServer32" "ThreadingModel" "Apartment"
+    WriteRegStr SHCTX "Software\Classes\*\shellex\ContextMenuHandlers\${DIFF_EXT_ID}" "" "${DIFF_EXT_CLSID}"
+    WriteRegStr SHCTX "Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved" "${DIFF_EXT_CLSID}" "${DIFF_EXT_ID}"
+    WriteRegStr SHCTX "Software\Classes\Folder\shellex\ContextMenuHandlers\${DIFF_EXT_ID}" "" "${DIFF_EXT_CLSID}"
+    WriteRegStr SHCTX "Software\Classes\Directory\shellex\ContextMenuHandlers\${DIFF_EXT_ID}" "" "${DIFF_EXT_CLSID}"
+    SetRegView 32
+
+    WriteRegStr HKCU  "${regkey}\diff-ext" "" ""
+    WriteRegStr HKCU "${regkey}\diff-ext" "InstallDir" "$INSTDIR\bin"
+    WriteRegStr HKCU "${regkey}\diff-ext" "diffcommand" "$INSTDIR\bin\kdiff3.exe"
             """)
-        
-        # remove old version if it exists may not work for pre-1.8 due to changes in the build system
-        #self.defines["preInstallHook"] = r"""
-        #        Exec "$INSTDIR\Uninstall.exe"
-        #        """
+            self.defines["un_sections"] = r"""
+                    Section "Un.Cleanup Regsistry"
+                        SetRegView 64
+                        DeleteRegKey SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}"
+                        DeleteRegKey SHCTX "Software\Classes\*\shellex\ContextMenuHandlers\${DIFF_EXT_ID}"
+                        DeleteRegKey SHCTX "Software\Classes\Folder\shellex\ContextMenuHandlers\${DIFF_EXT_ID}"
+                        DeleteRegKey SHCTX "Software\Classes\Directory\shellex\ContextMenuHandlers\${DIFF_EXT_ID}"
+                        DeleteRegValue SHCTX "Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved" "${DIFF_EXT_CLSID}"
+                        SetRegView 32
+                        ;remove old diff-ext settings
+                        DeleteRegKey HKCU  "Software\KDiff3"
+                        ;Maybe left behind due to a bug in previous installers.
+                        DeleteRegKey SHCTX  "Software\KDE\KDiff3"
+                        DeleteRegKey /ifempty SHCTX  "Software\KDE\"
+                    SectionEnd
+                    """
+        else:
+            self.defines["un_sections"] = r"""
+            Section "Un.Cleanup Regsistry"
+                ;Maybe left behind due to a bug in previous installers.
+                DeleteRegKey SHCTX  "Software\KDE\KDiff3"
+                DeleteRegKey /ifempty SHCTX  "Software\KDE\"
+            SectionEnd
+            """
 
         return TypePackager.createPackage(self)
