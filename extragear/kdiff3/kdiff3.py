@@ -37,8 +37,8 @@ class Package(CMakePackageBase):
         #Only attempt to install shell extention in standalone mode 
         if not isinstance(self, AppxPackager):
             #Windows app store has special requirements for the version format let craft deal with that.
-            if self.subinfo.buildTarget == "1.8":
-                self.defines["version"] = "1.8.4"
+            #if self.subinfo.buildTarget == "1.8":
+            #    self.defines["version"] = "1.8.4"
             
             self.defines["registry_hook"]=(r"""
     !define DIFF_EXT_CLSID "{34471FFB-4002-438b-8952-E4588D0C0FE9}"
