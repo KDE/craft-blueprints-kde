@@ -7,15 +7,13 @@ class subinfo(info.infoclass):
         self.displayName = "Kaidan"
 
         self.svnTargets['master'] = 'https://anongit.kde.org/kaidan.git'
-        for ver in ["0.4.1", "0.5.0"]:
-            self.targets[ver] = f"https://download.kde.org/stable/kaidan/{ver}/kaidan-{ver}.tar.xz"
+        for ver in ["0.6.0"]:
+            self.targets[ver] = f"https://download.kde.org/unstable/kaidan/{ver}/kaidan-{ver}.tar.xz"
             self.archiveNames[ver] = f"kaidan-v{ver}.tar.xz"
             self.targetInstSrc[ver] = f"kaidan-{ver}"
-        self.targetDigests['0.4.1'] = (
-            ['a9660e2b9c9d9ac6802f7de9a8e1d29a6d552beffcafca27231682bf1038e03c'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests['0.5.0'] = (
-            ['0f1d267d9c6001a26056789aa521bd5b0e36eea39dff95d4f33dbcd3e5257247'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '0.5.0'
+        self.targetDigests['0.6.0'] = (
+            ['7b9008b9fcb5ff2de47ac40eaf64c97a5652e756f0eb32306f6ad1320ce52ee7'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = '0.6.0'
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
