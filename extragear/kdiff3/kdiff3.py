@@ -77,9 +77,9 @@ class Package(CMakePackageBase):
         else:
 	        #Windows app store has special requirements for the version format.
             if self.buildNumber():
-                self.defined["version"] = "1.84." + str(self.buildNumber()) + ".0"
+                self.defines["version"] = "1.84." + str(self.buildNumber()) + ".0"
             else:
-                self.defined["version"] = "1.84.0.0"
+                self.defines["version"] = "1.84.0.0"
             
             self.defines["un_sections"] = r"""
             Section "Un.Cleanup Regsistry"
