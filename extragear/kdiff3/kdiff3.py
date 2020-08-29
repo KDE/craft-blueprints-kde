@@ -36,9 +36,8 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("libs/dbus")
         #Only attempt to install shell extention in standalone mode 
         if not isinstance(self, AppxPackager):
-            #Windows app store has special requirements for the version format let craft deal with that.
-            #if self.subinfo.buildTarget == "1.8":
-            #    self.defines["version"] = "1.8.4"
+            if self.subinfo.buildTarget == "1.8":
+                self.defines["version"] = "1.8.4"
             
             self.defines["registry_hook"]=(r"""
     !define DIFF_EXT_CLSID "{34471FFB-4002-438b-8952-E4588D0C0FE9}"
@@ -76,6 +75,12 @@ class Package(CMakePackageBase):
                     SectionEnd
                     """
         else:
+	        #Windows app store has special requirements for the version format.
+            if self.buildNumber():
+                self.defined["version"] = "1.84." + str(self.buildNumber()) + ".0"
+            else:
+                self.defined["version"] = "1.84.0.0"
+            
             self.defines["un_sections"] = r"""
             Section "Un.Cleanup Regsistry"
                 ;Maybe left behind due to a bug in previous installers.
