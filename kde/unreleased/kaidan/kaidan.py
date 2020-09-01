@@ -35,6 +35,9 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'excludelist_mac.txt'))
+
         self.defines["executable"] = r"bin\kaidan.exe"
 
         return TypePackager.createPackage(self)

@@ -1,0 +1,2 @@
+.*PlugIns/kf5/org\.kde\.kwindowsystem\.platforms.*
+.*PlugIns/org\.kde\.kdecoration2.*
