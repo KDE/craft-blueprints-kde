@@ -7,11 +7,12 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.description = 'Minimalistic plugin API for video effects, plugins collection'
         self.webpage = 'http://frei0r.dyne.org/'
-        for ver in ['1.6.1']:
+        for ver in ['1.6.1', '1.7.0']:
             self.targets[ ver ] = f"https://github.com/dyne/frei0r/archive/v{ver}.tar.gz"
             self.targetInstSrc[ ver ] = f"frei0r-{ver}"
         self.targetDigests['1.6.1'] = (['dae0ca623c83173788ce4fc74cb67ac7e50cf33a4412ee3d33bed284da1a8437'], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel['master'] = 1
+        self.targetDigests['1.7.0'] = (['6f7cf95ea2257687cc31db0ed9c9bc0eec152e953d515f346eabec048ed2b29d'], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel['master'] = 2
 
         self.svnTargets['master'] = 'https://github.com/dyne/frei0r.git'
         self.defaultTarget = 'master'
@@ -19,7 +20,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/gavl"] = None
-        #self.runtimeDependencies["libs/opencv"] = None
+        self.runtimeDependencies["libs/opencv/opencv"] = None
         #self.runtimeDependencies["libs/cairo"] = None
 
 from Package.CMakePackageBase import *
