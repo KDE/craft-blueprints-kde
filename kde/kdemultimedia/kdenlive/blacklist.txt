@@ -1,8 +1,10 @@
 # blacklist
 bin/data/(?!(applications|color-schemes|config.kcfg|dbus-1|icon|k|locale|metainfo)).*
-bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt)).*\.exe
-plugins/styles/qwindowsvistastyle.dll
+share/(?!(applications|color-schemes|config.kcfg|dbus-1|icon|k|locale|metainfo|mlt|ffmpeg|charsets)).*
+bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt))[^.]*(\.exe|\.sh)?
 etc/(?!(xdg)).*
-lib/(?!(mlt|frei0r-1|ladspa)).*
+lib/(?!(mlt|frei0r-1|ladspa|.*\.so.*|.*kioslave)).*
 qml/(QtWinExtras|QtTest)
-share/(?!(mlt|ffmpeg|charsets)).*
+sbin/.*
+libexec/.*
+plugins/styles/qwindowsvistastyle.dll

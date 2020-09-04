@@ -46,6 +46,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/plasma/breeze"] = None
         # if CraftCore.compiler.isWindows:
         #     self.runtimeDependencies["libs/drmingw"] = None
+        if CraftCore.compiler.isUnix:
+            self.runtimeDependencies["kde/plasma/drkonqi"] = None
 
 
 from Package.CMakePackageBase import *
@@ -61,12 +63,22 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.ignoredPackages.append("binary/mysql")
 
+        self.defines["appname"] = "kdenlive"
         self.defines["icon"] = os.path.join(self.sourceDir(), "data", "icons", "kdenlive.ico")
         self.defines["icon_png"] = os.path.join(self.sourceDir(), "data", "icons", "128-apps-kdenlive.png")
         self.defines["shortcuts"] = [{"name" : "Kdenlive", "target":"bin/kdenlive.exe", "description" : self.subinfo.description}]
         self.defines["mimetypes"] = ["application/x-kdenlive"]
         self.defines["file_types"] = [".kdenlive"]
-
+        self.defines["runenv"] = [
+                'KDE_FORK_SLAVES=1',
+                'MLT_REPOSITORY=$DIR/lib/mlt/',
+                'MLT_DATA=$DIR/share/mlt/',
+                'MLT_ROOT_DIR=$DIR/',
+                'LADSPA_PATH=$DIR/lib/ladspa',
+                'FREI0R_PATH=$DIR/lib/frei0r-1',
+                'MLT_PROFILES_PATH=$DIR/share/mlt/profiles/',
+                'MLT_PRESETS_PATH=$DIR/share/mlt/presets/',
+                'SDL_AUDIODRIVER=pulseaudio']
         return TypePackager.createPackage(self)
 
     def postInstall(self):
