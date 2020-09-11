@@ -22,6 +22,8 @@ class subinfo(info.infoclass):
         if not OsUtils.isMac():
             # kbibtex does not properly build on mac, yet, and is optional
             self.runtimeDependencies["extragear/kbibtex"] = None
+            # pandoc is not packaged for mac, yet
+            self.runtimeDependencies["binary/pandoc"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
 
 from Package.CMakePackageBase import *
