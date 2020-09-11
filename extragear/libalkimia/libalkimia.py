@@ -29,11 +29,12 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'https://anongit.kde.org/alkimia|master'
-        for ver in ['7.0.1', '7.0.2']:
-          self.targets[ver] = 'http://download.kde.org/download.php?url=stable/alkimia/' + ver + '/alkimia-' + ver + '.tar.xz'
-          self.targetInstSrc[ver] = 'alkimia-' + ver
+        for ver in ['7.0.1', '7.0.2', "8.0.1", "8.0.2", "8.0.3"]:
+          self.targets[ver] = f"https://download.kde.org/stable/alkimia/{ver}/alkimia-{ver}.tar.xz"
+          self.targetDigestUrls[ver] = f"https://download.kde.org/stable/alkimia/{ver}/alkimia-{ver}.tar.xz.sha256"
+          self.targetInstSrc[ver] = f"alkimia-{ver}"
 
-        self.defaultTarget = '7.0.2'
+        self.defaultTarget = '8.0.3'
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
@@ -53,3 +54,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+
+    def package(self):
+        self.defines['apppath'] = "Applications/KDE/onlinequoteseditor5.app"
+        return super().package()
