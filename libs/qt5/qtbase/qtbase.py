@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("buildDoc", True)
         self.options.dynamic.registerOption("libInfix", "")
         self.options.dynamic.registerOption("useLtcg", False)
-        self.options.dynamic.registerOption("withMysql", True)
+        self.options.dynamic.registerOption("withMysql", not CraftCore.compiler.isMacOS)
         self.options.dynamic.registerOption("withDBus", True)
 
     def setTargets(self):
