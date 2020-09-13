@@ -50,7 +50,7 @@ class Package(CMakePackageBase):
                 def del_rw(action, name, exc):
                     os.chmod(name, 0o770)
                     os.remove(name)
-                shutil.rmtree(badpath, onerror=del_rw)
+                shutil.rmtree(self.checkoutDir(), onerror=del_rw)
         # Temporary fix end
 
         if not CMakePackageBase.fetch(self):
