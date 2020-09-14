@@ -8,16 +8,14 @@ class subinfo(info.infoclass):
         self.webpage = "https://labplot.kde.org/"
         self.displayName = "LabPlot2"
 
-        for ver in ['2.5.0', '2.6.0', '2.7.0']:
+        for ver in ['2.5.0', '2.6.0', '2.7.0', '2.8.0']:
             self.targets[ver] = 'http://download.kde.org/stable/labplot/%s/labplot-%s.tar.xz' % (ver, ver)
-        for ver in ['2.8.beta']:
-            self.targets[ver] = 'http://download.kde.org/stable/labplot/2.8.0/labplot-%s.tar.xz' % ver
         for ver in ['2.6.0']:
             self.targetInstSrc[ver] = 'labplot-2.6'
-        for ver in ['2.5.0', '2.7.0', '2.8.beta']:
+        for ver in ['2.5.0', '2.7.0', '2.8.0']:
             self.targetInstSrc[ver] = 'labplot-%s' % ver
 
-        self.defaultTarget = '2.8.beta'
+        self.defaultTarget = '2.8.0'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
