@@ -44,13 +44,11 @@ class Package(CMakePackageBase):
 
     def fetch(self):
         # Temporary fix for failure to fetch after checkout directory has been changed September 2020. Remove end of 2020 or so.
-        for badpath in [os.path.join(self.checkoutDir(), "rkward", ".git"), os.path.join(self.checkoutDir(), "rkward-translations")]:
-            if os.path.exists(badpath):
-                os.chmod(badpath, 0o770)
-                def del_rw(action, name, exc):
-                    os.chmod(name, 0o770)
-                    os.remove(name)
-                shutil.rmtree(self.checkoutDir(), onerror=del_rw)
+        if os.path.exists(self.checkoutDir()) and not os.path.exists(os.path.join(self.checkoutDir(), ".git")):
+            def del_rw(action, name, exc):
+                os.chmod(name, 0o770)
+                os.remove(name)
+            shutil.rmtree(self.checkoutDir(), onerror=del_rw)
         # Temporary fix end
 
         if not CMakePackageBase.fetch(self):
