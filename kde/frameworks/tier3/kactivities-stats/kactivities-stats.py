@@ -5,6 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "A library for accessing the usage data collected by the activities system"
+        self.patchToApply["5.74.0"] = [("kactivities-stats-5.74.0-20200914.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
