@@ -22,8 +22,8 @@ class subinfo(info.infoclass):
         if not OsUtils.isMac():
             # kbibtex does not properly build on mac, yet, and is optional
             self.runtimeDependencies["extragear/kbibtex"] = None
-            # pandoc is not packaged for mac, yet
-            self.runtimeDependencies["binary/pandoc"] = None
+        # optional, but should be in the package
+        self.runtimeDependencies["binary/pandoc"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
 
 from Package.CMakePackageBase import *
@@ -43,14 +43,6 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args = " -DR_EXECUTABLE=" + os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "R.framework", "Resources", "R")
 
     def fetch(self):
-        # Temporary fix for failure to fetch after checkout directory has been changed September 2020. Remove end of 2020 or so.
-        if os.path.exists(self.checkoutDir()) and not os.path.exists(os.path.join(self.checkoutDir(), ".git")):
-            def del_rw(action, name, exc):
-                os.chmod(name, 0o770)
-                os.remove(name)
-            shutil.rmtree(self.checkoutDir(), onerror=del_rw)
-        # Temporary fix end
-
         if not CMakePackageBase.fetch(self):
             return False
         if self.subinfo.hasSvnTarget:
