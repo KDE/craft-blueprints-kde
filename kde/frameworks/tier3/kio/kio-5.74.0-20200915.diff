@@ -1,0 +1,14 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user kio-5.74.0.orig/tests/kioslavetest.cpp kio-5.74.0/tests/kioslavetest.cpp
+--- kio-5.74.0.orig/tests/kioslavetest.cpp	2020-09-11 12:13:17.000000000 +0200
++++ kio-5.74.0/tests/kioslavetest.cpp	2020-09-15 10:20:50.864726700 +0200
+@@ -25,6 +25,10 @@
+ #include <kio/copyjob.h>
+ #include <kio/deletejob.h>
+ #include <kprotocolinfo.h>
++
++// QT_STAT_LNK on Windows
++#include "kioglobal_p.h"
++
+ #include <QTimer>
+ #include <QCommandLineParser>
+ #include <QCommandLineOption>
