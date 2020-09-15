@@ -45,8 +45,10 @@ class subinfo(info.infoclass):
         self.patchToApply["1.12.12"] = [("dbus-1.11.4-20160903.diff", 1),
                                         ("dbus-fix_data_dir.diff", 1),
                                         ("dbus-1.12.12-launchd.diff", 1)]
+        self.patchToApply["1.13.18"] = [("dbus-1.13.18-20200915.diff", 1)]
         self.patchLevel["1.11.14"] = 2
         self.patchLevel["1.12.12"] = 2
+        self.patchLevel["1.13.18"] = 1
 
         self.targetDigests['1.11.14'] = (['55cfc7fdd2cccb2fce1f75d2132ad4801b5ed6699fc2ce79ed993574adf90c80'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.12.12'] = (['9546f226011a1e5d9d77245fe5549ef25af4694053189d624d0d6ac127ecf5f8'], CraftHash.HashAlgorithm.SHA256)
