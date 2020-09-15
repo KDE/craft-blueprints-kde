@@ -30,6 +30,7 @@ class subinfo(info.infoclass):
 
         self.patchLevel["20.04.0"] = 1
         self.patchToApply["20.04.0"] = [("0001-Windows-Handle-QLocalSocket-behavior-gracefully.patch", 1)]
+        self.patchToApply["20.08.1"] = [("0001-Never-assume-clang-flags-based-on-the-version.patch", 1)]
 
         self.description = "A storage service for PIM data and meta data"
 
