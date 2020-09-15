@@ -55,6 +55,6 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
-    def package(self):
+    def createPackage(self):
         self.defines['apppath'] = "Applications/KDE/onlinequoteseditor5.app"
-        return super().package()
+        return super().createPackage()
