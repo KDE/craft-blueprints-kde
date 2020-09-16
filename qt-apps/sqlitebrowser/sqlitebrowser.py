@@ -26,4 +26,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DUSE_QT5=ON"
+        if CraftCore.compiler.isMacOS:
+            # make sure to use our sqlite header and not the apple one...
+            self.subinfo.options.configure.args = f"-DCMAKE_CXX_FLAGS=\"-isystem {CraftCore.standardDirs.craftRoot()}/include\""
