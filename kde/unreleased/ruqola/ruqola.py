@@ -66,5 +66,6 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
         self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|dbus|snoretoast)).*")
         self.defines["shortcuts"] = [{"name" : "Ruqola", "target":"bin/ruqola.exe", "description" : self.subinfo.description}]
+        self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "widget", "appIcons.ico")
         self.ignoredPackages.append("binary/mysql")
         return super().createPackage()
