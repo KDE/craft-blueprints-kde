@@ -64,4 +64,10 @@ class Package(CMakePackageBase):
     def createPackage(self):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+        neededApps = ["ruqola", "update-mime-database", "kioslave", "snoretoast"]
+        if not CraftCore.compiler.isWindows:
+            neededApps += "dbus"
+        self.addExecutableFilter(f"bin/(?!({neededApps.join('|')})).*")
+        self.defines["shortcuts"] = [{"name" : "Ruqola", "target":"bin/ruqola.exe", "description" : self.subinfo.description}]
+
         return super().createPackage()
