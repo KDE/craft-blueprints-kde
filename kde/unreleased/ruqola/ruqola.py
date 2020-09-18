@@ -64,7 +64,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
-        self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|snoretoast)).*")
+        self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|dbus|snoretoast)).*")
         self.defines["shortcuts"] = [{"name" : "Ruqola", "target":"bin/ruqola.exe", "description" : self.subinfo.description}]
         self.ignoredPackages.append("binary/mysql")
         return super().createPackage()
