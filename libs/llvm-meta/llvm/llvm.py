@@ -30,7 +30,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/boost/boost-bjam"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["libs/libxml2"] = None
-        self.buildDependencies["dev-utils/python3"] = None
+        self.buildDependencies["dev-utils/python2"] = None
 
 
 from Package.CMakePackageBase import *
@@ -40,9 +40,10 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.supportsClang = False
+        python2 = CraftCore.cache.findApplication("python2")
         self.subinfo.options.configure.args += " -DLLVM_BUILD_TESTS=OFF  -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_GO_TESTS=OFF"
         self.subinfo.options.configure.args += " -DLLVM_TARGETS_TO_BUILD='host'"
-        self.subinfo.options.configure.args += " -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_EH=ON -DLLVM_INCLUDE_DOCS=OFF -DLLVM_INSTALL_UTILS=ON -DLLVM_OPTIMIZED_TABLEGEN=ON -DLLVM_TARGETS_TO_BUILD=all"
+        self.subinfo.options.configure.args += f" -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_EH=ON -DLLVM_INCLUDE_DOCS=OFF -DLLVM_INSTALL_UTILS=ON -DLLVM_OPTIMIZED_TABLEGEN=ON -DLLVM_TARGETS_TO_BUILD=all -DPYTHON_EXECUTABLE='{python2}'"
         # allow gcc < 5
         self.subinfo.options.configure.args += " -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=ON"
 
