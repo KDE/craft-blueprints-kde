@@ -40,10 +40,10 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.supportsClang = False
-        python2 = CraftCore.cache.findApplication("python2")
-        self.subinfo.options.configure.args += " -DLLVM_BUILD_TESTS=OFF  -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_GO_TESTS=OFF"
-        self.subinfo.options.configure.args += " -DLLVM_TARGETS_TO_BUILD='host'"
-        self.subinfo.options.configure.args += f" -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_EH=ON -DLLVM_INCLUDE_DOCS=OFF -DLLVM_INSTALL_UTILS=ON -DLLVM_OPTIMIZED_TABLEGEN=ON -DLLVM_TARGETS_TO_BUILD=all -DPYTHON_EXECUTABLE='{python2}'"
+        self.subinfo.options.configure.args += (" -DLLVM_BUILD_TESTS=OFF  -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_GO_TESTS=OFF"
+                                                " -DLLVM_TARGETS_TO_BUILD='host'"
+                                                " -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_EH=ON -DLLVM_INCLUDE_DOCS=OFF -DLLVM_INSTALL_UTILS=ON"
+                                                " -DLLVM_OPTIMIZED_TABLEGEN=ON -DLLVM_TARGETS_TO_BUILD=all")
         # allow gcc < 5
         self.subinfo.options.configure.args += " -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=ON"
 
@@ -89,6 +89,11 @@ class Package(CMakePackageBase):
             if not p.unpack(noop=False):
                 return False
         return True
+
+    def configure(self):
+        python2 = CraftCore.cache.findApplication("python2")
+        self.subinfo.options.configure.args += f" -DPYTHON_EXECUTABLE='{python2}'"
+        return super().configure()
 
     def install(self):
         if not CMakePackageBase.install(self):
