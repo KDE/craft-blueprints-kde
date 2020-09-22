@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
             # don't apply this at Windows as it is used there for configurtion files...
             self.patchToApply["9.0.0"] = [("fix_libxml.diff", 1)]
             self.patchToApply["9.0.1"] = [("fix_libxml.diff", 1)]
+            self.patchToApply["10.0.1"] = [("fix_libxml.diff", 1)]
         if not CraftCore.compiler.isMacOS:
             self.patchToApply["8.0.0"] = [("llvm-8.0.0-20190411.diff", 1)]
 
@@ -30,7 +31,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/boost/boost-bjam"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["libs/libxml2"] = None
-        self.buildDependencies["dev-utils/python2"] = None
+        self.buildDependencies["dev-utils/python3"] = None
 
 
 from Package.CMakePackageBase import *
@@ -89,11 +90,6 @@ class Package(CMakePackageBase):
             if not p.unpack(noop=False):
                 return False
         return True
-
-    def configure(self):
-        python2 = CraftCore.cache.findApplication("python2")
-        self.subinfo.options.configure.args += f" -DPYTHON_EXECUTABLE='{python2}'"
-        return super().configure()
 
     def install(self):
         if not CMakePackageBase.install(self):
