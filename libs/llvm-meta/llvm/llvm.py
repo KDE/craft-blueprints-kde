@@ -19,7 +19,8 @@ class subinfo(info.infoclass):
         self.patchToApply["7.0.1"] = [("llvm-7.0.1-20190118.diff", 1), ("llvm-7.0.1-20190102.diff", 1)]
         self.patchToApply["10.0.1"] = [("0004-fix-dr-1734.patch", 1),  # https://github.com/microsoft/vcpkg/blob/8054263f15c8400d6df5fff55fae97394e187368/ports/llvm/0003-fix-vs2019-v16.6.patch
                                                                       # https://raw.githubusercontent.com/microsoft/vcpkg/8054263f15c8400d6df5fff55fae97394e187368/ports/llvm/0004-fix-dr-1734.patch
-                                                                      ]
+                                       ("D78450.diff", 1) # https://reviews.llvm.org/D78450
+				      ]
         if CraftCore.compiler.isLinux:
             # don't just link against xml2 but use cmake logic...
             # don't apply this at Windows as it is used there for configurtion files...
