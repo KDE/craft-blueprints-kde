@@ -68,7 +68,9 @@ class subinfo(info.infoclass):
         if not (shell.execute(".", "pacman", f"-S base-devel msys/binutils --noconfirm {overwrite} --needed") and
                 stopProcesses()):
             return False
-        return utils.system("autorebase.bat", cwd=msysDir)
+        # rebase: Too many DLLs for available address space: Cannot allocate memory => ignore return code ATM
+        utils.system("autorebase.bat", cwd=msysDir)
+        return True
 
 
 from Package.BinaryPackageBase import *
