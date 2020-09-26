@@ -6,7 +6,7 @@ class subinfo(info.infoclass):
         self.targets['1.0.0'] = 'https://download.kde.org/stable/kuserfeedback/kuserfeedback-1.0.0.tar.xz'
         self.targetDigests['1.0.0'] = (
             ['5a2f53ebb4b99a280757ca32bd9b686a7764a726e7e4d8bafee33acbb44b9db7'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['1.0.0'] = 'kuserFeedback'
+        self.targetInstSrc['1.0.0'] = 'kuserfeedback-1.0.0'
         self.defaultTarget = '1.0.0'
 
         self.description = "KUserFeedback"
