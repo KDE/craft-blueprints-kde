@@ -25,7 +25,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
@@ -41,6 +40,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
         if OsUtils.isUnix():
             self.runtimeDependencies["kde/applications/konsole"] = None
+
+        # KUserFeedback yet not an official tier1 framework
+        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
         self.runtimeDependencies["kde/plasma/breeze"] = None
