@@ -42,7 +42,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/applications/konsole"] = None
 
         # KUserFeedback yet not an official tier1 framework
-        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        # doesn't build yet
+        # self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
         self.runtimeDependencies["kde/plasma/breeze"] = None
