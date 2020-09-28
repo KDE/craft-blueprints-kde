@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         self.webpage = "https://tellico-project.org/"
         if CraftCore.compiler.isWindows:
             self.patchToApply["3.3.2"] = [("tellico-3.3.2-dbus.diff", 1)]
+            self.patchToApply["3.3.3"] = [("tellico-3.3.2-dbus.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -51,10 +52,8 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["appname"] = "tellico"
         self.defines["website"] = "https://tellico-project.org/"
-        self.defines["shortcuts"] = [{"name" : self.subinfo.displayName, "target":"bin\\tellico.exe"},
-                                     {"name": "KDEInit", "target" :              "bin\\kdeinit5.exe"}]
+        self.defines["shortcuts"] = [{"name" : self.subinfo.displayName, "target":"bin\\tellico.exe"}]
         self.defines["license"] = os.path.join(self.sourceDir(), "COPYING")
-        self.defines["mimetypes"] = ["pplication/x-tellico"]
         self.defines["file_types"] = [".tc"]
         self.defines["icon"] = os.path.join(self.packageDir(), "tellico.ico")
         self.ignoredPackages.append("binary/mysql")
