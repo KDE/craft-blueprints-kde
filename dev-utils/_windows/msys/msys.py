@@ -86,7 +86,7 @@ class MsysPackage(BinaryPackageBase):
     def postQmerge(self):
         return self.subinfo.updateMsys()
 
-class VirtualPackage(VirtualPackageBase):
+class UpdatePackage(VirtualPackageBase):
     def __init__(self):
         VirtualPackageBase.__init__(self)
 
@@ -96,15 +96,13 @@ class VirtualPackage(VirtualPackageBase):
         return self.subinfo.msysInstallShim(self.imageDir()) and self.subinfo.updateMsys()
 
     def qmerge(self):
-        if self.package.isInstalled:
-            return True
-        return super().qmerge()
+        return super().qmerge(dbOnly=True)
 
 class Package(MaybeVirtualPackageBase):
     def __init__(self):
         useExternalMsys = ("Paths", "Msys") not in CraftCore.settings
         self.skipCondition = useExternalMsys and not CraftPackageObject.get("dev-utils/msys").isInstalled
-        MaybeVirtualPackageBase.__init__(self, condition=self.skipCondition, classA=MsysPackage, classB=VirtualPackage)
+        MaybeVirtualPackageBase.__init__(self, condition=self.skipCondition, classA=MsysPackage, classB=UpdatePackage)
         if not useExternalMsys:
             # override the install method
             def install():
