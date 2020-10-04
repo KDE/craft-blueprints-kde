@@ -13,9 +13,9 @@ class subinfo(info.infoclass):
     def setTargets(self):
         # NOTE on choice of versions: 3.4.4 = earliest official build with R_GE_version 12
         #                             3.3.3 = last official build to work with MacOS < 10.11
-        for version in ['3.4.4', '3.3.3']:
+        for version in ['4.0.2', '3.4.4.', '3.3.3']:
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-' + version + '.pkg'
-        self.defaultTarget = '3.4.4'
+        self.defaultTarget = '4.0.2'
 
 
 from Package.BinaryPackageBase import *
@@ -43,7 +43,7 @@ class Package(BinaryPackageBase):
             utils.system('pkgutil --expand ' + os.path.join(CraftCore.standardDirs.downloadDir(), "archives", self.package.path, filename) + " " + pkgextractdir)
             utils.cleanDirectory(cpioextractdir)
             os.chdir(cpioextractdir)
-            utils.system('cat ' + pkgextractdir + '/r.pkg/Payload | gzip -dc | cpio -i')
+            utils.system('cat ' + pkgextractdir + '/R-fw.pkg/Payload | gzip -dc | cpio -i')
 
         return True
 
@@ -54,6 +54,9 @@ class Package(BinaryPackageBase):
         utils.cleanDirectory(dstdir)
         utils.copyDir(srcdir, dstdir)
 
+        # Unfortunately, since R 4.0, the following no longer results in a (semi-)functional R installation.
+        # However, it is good eough for building rkward against it, and the rkward package already assumes a
+        # separate user installation of R.
         r_wrapper_rel = os.path.join('R.framework', 'Resources' , 'R')
         r_wrapper = os.path.join(dstdir, r_wrapper_rel)
         # make R run from relative path
