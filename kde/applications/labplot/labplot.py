@@ -42,6 +42,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
+        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
 
 from Package.CMakePackageBase import *
