@@ -1,0 +1,75 @@
+--- /dev/null	2020-10-08 00:22:55.000000000 -0700
++++ CMakeLists.txt	2020-10-07 14:37:22.084239900 -0700
+@@ -0,0 +1,72 @@
++project(jack)
++set(JACK_VERSION 1.9.14)
++cmake_minimum_required(VERSION 3.10)
++include(GNUInstallDirs)
++if(WIN32)
++    set(OS_src
++        windows/JackMMCSS.cpp
++        windows/JackWinMutex.cpp
++        windows/JackWinNamedPipe.cpp
++        windows/JackWinNamedPipeClientChannel.cpp
++        windows/JackWinProcessSync.cpp
++        windows/JackWinSemaphore.cpp
++        windows/JackWinServerLaunch.cpp
++        windows/JackWinThread.cpp
++        windows/JackWinTime.c
++        windows/libjack.rc
++        )
++endif()
++add_library(jack SHARED
++    common/JackAPI.cpp
++    common/JackActivationCount.cpp
++    common/JackAudioPort.cpp
++    common/JackClient.cpp
++    common/JackConnectionManager.cpp
++    common/JackDebugClient.cpp
++    common/JackEngineControl.cpp
++    common/JackEngineProfiling.cpp
++    common/JackError.cpp
++    common/JackException.cpp
++    common/JackFrameTimer.cpp
++    common/JackGenericClientChannel.cpp
++    common/JackGlobals.cpp
++    common/JackGraphManager.cpp
++    common/JackLibAPI.cpp
++    common/JackLibClient.cpp
++    common/JackMetadata.cpp
++    common/JackMessageBuffer.cpp
++    common/JackMidiAPI.cpp
++    common/JackMidiPort.cpp
++    common/JackPort.cpp
++    common/JackPortType.cpp
++    common/JackShmMem.cpp
++    common/JackTools.cpp
++    common/JackTransportEngine.cpp
++    common/ringbuffer.c
++    common/shm.c
++    ${OS_src}
++    )
++target_compile_definitions(jack PRIVATE "ADDON_DIR=\"${CMAKE_INSTALL_LIBDIR}/jack\"")
++target_include_directories(jack PRIVATE common common/jack)
++if(WIN32)
++    target_include_directories(jack PRIVATE windows)
++    find_package(PkgConfig REQUIRED)
++    pkg_check_modules(tre REQUIRED IMPORTED_TARGET tre)
++    target_link_libraries(jack PUBLIC PkgConfig::tre)
++    target_link_libraries(jack PRIVATE winmm psapi)
++    target_include_directories(jack PRIVATE ${tre_INCLUDEDIR}/tre)
++    install(TARGETS jack LIBRARY DESTINATION ${CMAKE_INSTALL_BINDIR})
++    install(TARGETS jack ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
++else()
++    install(TARGETS jack DESTINATION ${CMAKE_INSTALL_LIBDIR})
++endif()
++install()
++file(GLOB jack_h common/jack/*.h)
++install(FILES ${jack_h} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/jack)
++
++set(PREFIX ${CMAKE_INSTALL_PREFIX})
++set(LIBDIR ${CMAKE_INSTALL_FULL_LIBDIR})
++set(INCLUDEDIR ${CMAKE_INSTALL_FULL_INCLUDEDIR})
++set(SERVERLIB jackserver)
++configure_file(jack.pc.in jack.pc @ONLY)
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jack.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
