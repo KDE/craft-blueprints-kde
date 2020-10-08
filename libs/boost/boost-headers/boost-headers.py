@@ -39,6 +39,8 @@ class Package(BoostPackageBase):
         return True
 
     def install(self):
+        if not super().install():
+            return False
         shutil.copytree(os.path.join(self.sourceDir(), 'boost'),
                         os.path.join(self.imageDir(), 'include', 'boost'))  # disable autolinking
         f = open(os.path.join(self.imageDir(), 'include', 'boost', 'config', 'user.hpp'), 'a')
