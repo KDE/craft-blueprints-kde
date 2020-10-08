@@ -39,6 +39,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/indiclient"] = None
         self.runtimeDependencies["libs/libraw"] = None
         self.runtimeDependencies["libs/gsl"] = None
+        self.runtimeDependencies["libs/stellarsolver"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
         # Install proper theme
