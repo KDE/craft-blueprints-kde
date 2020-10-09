@@ -43,7 +43,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kdesupport/grantlee"] = None
         self.runtimeDependencies["libs/libxslt"] = None
-        self.patchLevel["20.04.0"] = 1
 
 
 from Package.CMakePackageBase import *
