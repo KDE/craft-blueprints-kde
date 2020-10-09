@@ -7,8 +7,8 @@ class subinfo(info.infoclass):
         self.svnTargets['master'] = 'https://github.com/jackaudio/jack2'
         for ver in ['1.9.14']:
             self.targets[ver] = f"https://github.com/jackaudio/jack2/archive/v{ver}.tar.gz"
-            self.targetInstSrc[ver] = "jack2-" + ver
-            self.patchToApply[ver] = ('libjack-windows-cmake.patch', 0)
+            self.targetInstSrc[ver] = "jack2-" + ver + '/common'
+            self.patchToApply[ver] = ('jack2-cmake.patch', 1)
         self.targetDigests['1.9.14'] = (['a20a32366780c0061fd58fbb5f09e514ea9b7ce6e53b080a44b11a558a83217c'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = '1.9.14'
 
