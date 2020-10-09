@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
             self.patchToApply[ver] = [('netcdf-MSVC-install.diff', 1)]
         if CraftCore.compiler.isMSVC():
             self.patchToApply["4.7.4"] += [('netcdf-4.7.4-PACKAGE-VERSION.diff', 1)]
+            self.patchToApply["4.7.4"] += [('netcdf-4.7.4-uchar.diff', 1)]
         self.defaultTarget = '4.7.4'
 
     def setDependencies(self):
@@ -40,7 +41,7 @@ class Package(CMakePackageBase):
         # DAP needs static libcurl
         self.subinfo.options.configure.args = f"-DHDF5_DIR={hdf5dir} -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DENABLE_DAP=OFF"
         if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.args += f" -DCMAKE_C_FLAGS=\"/D_WIN32 /DWIN32 /D_WINDOWS\" -DPACKAGE_VERSION={self.subinfo.buildTarget}"
+            self.subinfo.options.configure.args += f" -DCMAKE_C_FLAGS=\"/D_WIN32\" -DPACKAGE_VERSION={self.subinfo.buildTarget}"
 
     def createPackage(self):
         return TypePackager.createPackage(self)
