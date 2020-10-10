@@ -90,7 +90,7 @@
 +    install(TARGETS jack DESTINATION ${CMAKE_INSTALL_LIBDIR})
 +endif()
 +# DEVELOPMENT HEADERS
-+file(GLOB jack_h common/jack/*.h)
++file(GLOB jack_h jack/*.h)
 +install(FILES ${jack_h} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/jack)
 +# PKGCONFIG FILE VARIABLES
 +set(PREFIX ${CMAKE_INSTALL_PREFIX})
