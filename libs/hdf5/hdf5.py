@@ -15,6 +15,8 @@ class subinfo(info.infoclass):
         self.targetDigests['1.10.7'] = (
             ['7a1a0a54371275ce2dfc5cd093775bb025c365846512961e7e5ceaecb437ef15'], CraftHash.HashAlgorithm.SHA256)
         self.description = 'A data model, library, and file format for storing and managing data'
+
+        self.patchToApply['1.10.7'] = [('hdf5-1.10.7-file-locking.diff', 1)]
         self.defaultTarget = '1.10.7'
 
     def setDependencies(self):
