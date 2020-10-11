@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ ver ] = "mlt-" + ver
         self.targetDigests['6.20.0'] = (['ab211e27c06c0688f9cbe2d74dc0623624ef75ea4f94eea915cdc313196be2dd'], CraftHash.HashAlgorithm.SHA256)
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
-        self.patchLevel['master'] = 20200924
+        self.patchLevel['master'] = 20201011
         self.defaultTarget = "master"
 
     def setDependencies( self ):
@@ -33,10 +33,21 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ladspa-cmt"] = None
         #self.runtimeDependencies["libs/ladspa-swh"] = None
 
-from Package.CMakePackageBase import *
+from Package.AutoToolsPackageBase import *
 
-class Package(CMakePackageBase):
+class Package(AutoToolsPackageBase):
     def __init__( self, **args ):
-        CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = f"-DCMAKE_C_FLAGS=\"-isystem {CraftCore.standardDirs.craftRoot()}/include\""
-
+        AutoToolsPackageBase.__init__( self )
+        self.platform = ""
+        self.subinfo.options.configure.noDataRootDir = True
+        self.subinfo.options.useShadowBuild = False
+        self.subinfo.options.configure.cxxflags += " -std=c++11"
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.ldflags += " -liconv"
+        self.subinfo.options.configure.args = " --enable-gpl --enable-gpl3 --enable-opencv --enable-sdl2 --disable-sdl --disable-rtaudio --disable-decklink --disable-gtk2"
+        if CraftCore.compiler.isWindows:
+            prefix = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
+            includedir = prefix+'/include/qt5'
+            libdir = prefix+'/lib'
+            self.subinfo.options.configure.args += \
+                f" --target-os=MinGW --qt-libdir='{libdir}' --qt-includedir='{includedir}' --disable-windeploy "
