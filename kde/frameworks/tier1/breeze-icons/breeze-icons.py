@@ -4,6 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["5.75.0"] = [("6324f834e991ace73a07503877420c7ec44e49c1.patch", 1)]
 
         self.description = "Breeze icon theme."
 
