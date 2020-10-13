@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         platform = CraftCore.compiler.platform.name.lower()
-        ext = "tgz"
+        ext = "tar.gz"
         if CraftCore.compiler.isMacOS:
             platform = "Darwin"
         if CraftCore.compiler.isWindows:
