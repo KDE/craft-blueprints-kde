@@ -27,4 +27,4 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         root = CraftCore.standardDirs.craftRoot()
         craftLibDir = os.path.join(root,  'lib')
-        self.subinfo.options.configure.args = "-DCMAKE_INSTALL_PREFIX=" + root + " -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_MACOSX_RPATH=1 -DCMAKE_INSTALL_RPATH=" + craftLibDir
+        self.subinfo.options.configure.args += f" -DCMAKE_MACOSX_RPATH=1 -DCMAKE_INSTALL_RPATH={craftLibDir}"
