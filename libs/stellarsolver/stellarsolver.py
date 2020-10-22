@@ -5,10 +5,9 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = 'StellarSolver Sextractor and Astrometry.net based Library'
-        self.svnTargets['Latest'] = "https://github.com/rlancaste/stellarsolver.git"
-        self.targetInstSrc['Latest'] = ""
+        self.svnTargets['master'] = "https://github.com/rlancaste/stellarsolver.git"
 
-        self.defaultTarget = 'Latest'
+        self.defaultTarget = 'master'
     
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
@@ -19,9 +18,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = "default"
         self.runtimeDependencies["boost-regex"] = "default"
         self.runtimeDependencies["libs/wcslib"] = "default"
-
-
-
 
 from Package.CMakePackageBase import *
 
