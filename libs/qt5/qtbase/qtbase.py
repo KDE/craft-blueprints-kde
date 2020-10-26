@@ -129,7 +129,7 @@ class subinfo(info.infoclass):
                 self.runtimeDependencies["binary/mysql"] = None
             self.runtimeDependencies["libs/icu"] = None
             self.runtimeDependencies["libs/zlib"] = None
-
+            self.runtimeDependencies["libs/libzstd"] = None
 
 class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
