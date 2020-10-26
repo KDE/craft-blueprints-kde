@@ -115,6 +115,7 @@ class subinfo(info.infoclass):
         if CraftCore.settings.getboolean("Packager", "UseCache") and not CraftCore.settings.getboolean("QtSDK", "Enabled", False):
             self.buildDependencies["dev-utils/qtbinpatcher"] = None
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["dev-utils/pkg-config"] = None
         self.buildDependencies["dev-utils/perl"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
         if not self.options.buildStatic:
@@ -160,6 +161,7 @@ class QtPackage(Qt5CorePackageBase):
             if self.subinfo.options.dynamic.libInfix:
                 command += f"-qtlibinfix {self.subinfo.options.dynamic.libInfix} "
             command += f"-headerdir {os.path.join(CraftStandardDirs.craftRoot(), 'include', 'qt5')} "
+            command += "-pkg-config "
             command += "-qt-libpng "
             command += "-qt-libjpeg "
             command += "-qt-doubleconversion "
