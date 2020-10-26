@@ -130,6 +130,10 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/icu"] = None
             self.runtimeDependencies["libs/zlib"] = None
             self.runtimeDependencies["libs/libzstd"] = None
+            self.runtimeDependencies["libs/libpng"] = None1
+            self.runtimeDependencies["libs/libjpeg-turbo"] = None
+            self.runtimeDependencies["libs/sqlite"] = None
+            self.runtimeDependencies["libs/pcre2"] = None
 
 class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
@@ -162,8 +166,24 @@ class QtPackage(Qt5CorePackageBase):
                 command += f"-qtlibinfix {self.subinfo.options.dynamic.libInfix} "
             command += f"-headerdir {os.path.join(CraftStandardDirs.craftRoot(), 'include', 'qt5')} "
             command += "-pkg-config "
-            command += "-qt-libpng "
-            command += "-qt-libjpeg "
+
+            if self.subinfo.options.isActive("libs/libpng"):
+                command += "-system-libpng "
+            else:
+                command += "-qt-libpng "
+            if self.subinfo.options.isActive("libs/libjpeg-turbo"):
+                command += "-system-libjpeg "
+            else:
+                command += "-qt-libjpeg "
+            if self.subinfo.options.isActive("libs/sqlite"):
+                command += "-system-sqlite "
+            if self.subinfo.options.isActive("libs/pcre2"):
+                command += "-system-pcre "
+            if self.subinfo.options.isActive("libs/zlib"):
+                command += " -system-zlib "
+                if CraftCore.compiler.isMSVC():
+                    command += " ZLIB_LIBS=zlib.lib "
+
             command += "-qt-doubleconversion "
 
             command += "-mp "
@@ -223,10 +243,6 @@ class QtPackage(Qt5CorePackageBase):
                     command += " -icu "
                 else:
                     command += " -no-icu "
-                if self.subinfo.options.isActive("libs/zlib"):
-                    command += " -system-zlib "
-                    if CraftCore.compiler.isMSVC():
-                        command += " ZLIB_LIBS=zlib.lib "
             else:
                 command += " -static -static-runtime "
 
