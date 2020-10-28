@@ -115,7 +115,7 @@ class subinfo(info.infoclass):
         if CraftCore.settings.getboolean("Packager", "UseCache") and not CraftCore.settings.getboolean("QtSDK", "Enabled", False):
             self.buildDependencies["dev-utils/qtbinpatcher"] = None
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkg-config"] = None
         self.buildDependencies["dev-utils/perl"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
         if not self.options.buildStatic:
