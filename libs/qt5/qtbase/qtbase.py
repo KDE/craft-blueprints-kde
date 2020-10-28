@@ -130,7 +130,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/icu"] = None
             self.runtimeDependencies["libs/zlib"] = None
             self.runtimeDependencies["libs/libzstd"] = None
-            self.runtimeDependencies["libs/libpng"] = None1
+            self.runtimeDependencies["libs/libpng"] = None
             self.runtimeDependencies["libs/libjpeg-turbo"] = None
             self.runtimeDependencies["libs/sqlite"] = None
             self.runtimeDependencies["libs/pcre2"] = None
