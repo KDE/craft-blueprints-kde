@@ -30,6 +30,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kpeople"] = None
         self.runtimeDependencies["kde/pim/kpeoplevcard"] = None
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
+        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
+        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
 
 class Package(CMakePackageBase):
     def __init__(self):
