@@ -259,6 +259,8 @@ class QtPackage(Qt5CorePackageBase):
 
             if CraftCore.compiler.isLinux:
                 command += """-R "../lib" """
+            elif CraftCore.compiler.isMacOS:
+                command += f"""-R "{CraftCore.standardDirs.craftRoot()}/lib" """
 
             if CraftCore.compiler.isMinGW() and self.qtVer < "5.10":
                 command += """ "QMAKE_CXXFLAGS += -Wa,-mbig-obj" """
