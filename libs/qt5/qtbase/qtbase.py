@@ -134,6 +134,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libjpeg-turbo"] = None
             self.runtimeDependencies["libs/sqlite"] = None
             self.runtimeDependencies["libs/pcre2"] = None
+            if CraftCore.compiler.isUnix:
+                self.runtimeDependencies["libs/glib"] = None
+
 
 class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
