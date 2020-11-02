@@ -309,8 +309,6 @@ class QtPackage(Qt5CorePackageBase):
         envs = Qt5CoreBuildSystem._qtCoreEnv(self)
         envs["PATH"] = os.pathsep.join([os.path.join(self.buildDir(), "bin"), os.environ["PATH"]])
         envs["QMAKESPEC"] = None
-        if CraftCore.compiler.isMacOS:
-            envs["DYLD_LIBRARY_PATH"] = os.pathsep.join([os.path.join(self.buildDir(), "lib"), os.environ["DYLD_LIBRARY_PATH"]])
         return utils.ScopedEnv(envs)
 
 
