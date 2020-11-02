@@ -11,7 +11,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtnetworkauth"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
@@ -38,7 +40,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kdesupport/grantlee"] = None
         self.runtimeDependencies["libs/cyrus-sasl"] = None
         self.runtimeDependencies["libs/qt5/qtwebengine"] = None
-        self.runtimeDependencies["libs/libkolabxml"] = None
+        #self.runtimeDependencies["libs/libkolabxml"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None

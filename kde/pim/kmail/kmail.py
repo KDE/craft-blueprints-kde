@@ -43,6 +43,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kmailtransport"] = None
         self.runtimeDependencies["kde/pim/messagelib"] = None
         self.runtimeDependencies["kde/pim/ktnef"] = None
+        self.runtimeDependencies["kde/pim/kontactinterface"] = None
+        self.runtimeDependencies["kde/pim/libksieve"] = None
+        self.runtimeDependencies["kde/pim/mailcommon"] = None
         self.runtimeDependencies["libs/qt5/qtwebengine"] = None
 
 

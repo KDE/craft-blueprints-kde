@@ -23,7 +23,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-calendar"] = None
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["kde/pim/pimcommon"] = None
-        self.runtimeDependencies["kde/pim/kdepim-apps-libs"] = None
 
 
 from Package.CMakePackageBase import *
