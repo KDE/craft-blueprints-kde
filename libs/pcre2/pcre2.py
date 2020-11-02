@@ -8,7 +8,9 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://ftp.pcre.org/pub/pcre/pcre2-{ver}.tar.gz"
             self.targetInstSrc[ver] = 'pcre2-' + ver
 
+        self.patchToApply["10.35"] = [("pcre2-10.35-20201102.diff", 1)]
         self.targetDigests["10.35"] = (['8fdcef8c8f4cd735169dd0225fd010487970c1bcadd49e9b90e26c7250a33dc9'], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["10.35"] = 1
 
         self.description = "Perl-Compatible Regular Expressions (version2)"
         self.defaultTarget = '10.35'
