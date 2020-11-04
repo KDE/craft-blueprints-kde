@@ -29,4 +29,4 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.supportsCCACHE = False
-        self.subinfo.options.configure.args = "-DPNG_TESTS=OFF -DPNG_STATIC=OFF -DPNG_NO_STDIO=OFF"
+        self.subinfo.options.configure.args += ["-DPNG_TESTS=OFF", "-DPNG_STATIC=OFF", "-DPNG_NO_STDIO=OFF"]
