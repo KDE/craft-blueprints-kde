@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("useLtcg", False)
         self.options.dynamic.registerOption("withMysql", not CraftCore.compiler.isMacOS)
         self.options.dynamic.registerOption("withDBus", True)
+        self.options.dynamic.registerOption("withGlib", not CraftCore.compiler.isWindows)
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -134,7 +135,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libjpeg-turbo"] = None
             self.runtimeDependencies["libs/sqlite"] = None
             self.runtimeDependencies["libs/pcre2"] = None
-            if CraftCore.compiler.isUnix:
+            if CraftCore.compiler.isUnix and self.options.dynamic.withGlib:
                 self.runtimeDependencies["libs/glib"] = None
 
 
@@ -246,6 +247,8 @@ class QtPackage(Qt5CorePackageBase):
                     command += " -icu "
                 else:
                     command += " -no-icu "
+                if not self.options.dynamic.withGlib:
+                    command += " -no-glib "
             else:
                 command += " -static -static-runtime "
 
