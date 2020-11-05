@@ -22,8 +22,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/pimcommon"] = None
         self.runtimeDependencies["kde/pim/grantleetheme"] = None
         self.runtimeDependencies["kde/pim/akonadi-search"] = None
-        self.runtimeDependencies["libs/gpgme"] = None
-        self.runtimeDependencies["libs/gpgmepp"] = None
+        self.runtimeDependencies["libs/gpgme/gpgme"] = None
+        self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
 
 
 from Package.CMakePackageBase import *
