@@ -247,7 +247,7 @@ class QtPackage(Qt5CorePackageBase):
                     command += " -icu "
                 else:
                     command += " -no-icu "
-                if not self.options.dynamic.withGlib:
+                if not self.subinfo.options.dynamic.withGlib:
                     command += " -no-glib "
             else:
                 command += " -static -static-runtime "
