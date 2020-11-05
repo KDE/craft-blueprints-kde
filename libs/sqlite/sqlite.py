@@ -42,7 +42,7 @@ class subinfo(info.infoclass):
         self.targetDigests["3.31.1"] = (['f3c79bc9f4162d0b06fa9fe09ee6ccd23bb99ce310b792c5145f87fbcc30efca'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "a library providing a self-contained, serverless, zero-configuration, transactional SQL database engine"
-        self.patchLevel["3.30.1"] = 2
+        self.patchLevel["3.30.1"] = 3
         self.defaultTarget = "3.31.1"
 
     def setDependencies(self):
