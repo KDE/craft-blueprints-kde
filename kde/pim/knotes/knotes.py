@@ -20,7 +20,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kontactinterface"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kde/pim/grantleetheme"] = None
-        self.runtimeDependencies["kde/pim/kdepim-apps-libs"] = None
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
