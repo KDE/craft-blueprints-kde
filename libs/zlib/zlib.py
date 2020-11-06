@@ -12,9 +12,10 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isWindows:
             self.patchToApply['1.2.11'] = [("zlib-1.2.11-20180203.diff", 1),
-                                           ("zlib-1.2.11-20190509.diff", 1)  # its a cmake define, don't change it
+                                           ("zlib-1.2.11-20190509.diff", 1),  # its a cmake define, don't change it
+                                           ("zlib-1.2.11-20201106.diff", 1)
                                            ]
-        self.patchLevel["1.2.11"] = 2
+        self.patchLevel["1.2.11"] = 3
         self.targetDigests['1.2.11'] = (['c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = 'The zlib compression and decompression library'
