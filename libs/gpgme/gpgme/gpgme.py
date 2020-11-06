@@ -79,8 +79,6 @@ if not CraftCore.compiler.isMSVC():
 else:
     class subinfo(info.infoclass):
         def setTargets(self):
-            # TODO: won't work for now
-            self.versionInfo.setDefaultValues()
             self.versionInfo.setDefaultValuesFromFile("../../_msvc/version.ini" )
             self.addCachedAutotoolsBuild()
 
