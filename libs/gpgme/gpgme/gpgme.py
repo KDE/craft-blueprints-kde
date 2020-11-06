@@ -47,9 +47,6 @@ if not CraftCore.compiler.isMSVC():
                 self.patchToApply["1.11.1"] += [("gpgme-1.1.11-20180620.diff", 1)]
 
             self.patchLevel["1.11.1"] = 5
-            self.patchLevel["1.14.0"] = 1
-
-            self.description = "GnuPG cryptography support library (runtime)"
             
         def setDependencies( self ):
             self.buildDependencies["dev-utils/msys"] = None
