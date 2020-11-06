@@ -11,12 +11,12 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "https://anongit.kde.org/phonon"
-        for ver in ["4.10.1"]:
+        for ver in ["4.10.1", "4.11.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/phonon/{ver}/phonon-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/phonon/{ver}/phonon-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"phonon-{ver}"
         self.description = "a Qt based multimedia framework"
-        self.defaultTarget = "4.10.1"
+        self.defaultTarget = "4.11.1"
 
         self.patchToApply["4.10.1"] = [
             ("phonon-4.10.1-macos-rpath.diff", 1), # fix rpath lokup issue during build
