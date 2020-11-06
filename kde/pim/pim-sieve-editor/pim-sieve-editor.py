@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libksieve"] = None
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
 
 from Package.CMakePackageBase import *
