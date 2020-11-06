@@ -47,6 +47,7 @@ if not CraftCore.compiler.isMSVC():
                 self.patchToApply["1.11.1"] += [("gpgme-1.1.11-20180620.diff", 1)]
 
             self.patchLevel["1.11.1"] = 5
+            self.patchLevel["1.14.0"] = 1
 
             self.description = "GnuPG cryptography support library (runtime)"
             
@@ -61,6 +62,13 @@ if not CraftCore.compiler.isMSVC():
         def __init__( self, **args ):
             AutoToolsPackageBase.__init__( self )
             self.subinfo.options.configure.args += ["--enable-languages=no", "--disable-gpg-test"]
+
+        def install(self):
+            if not super().install():
+                return False
+            if CraftCore.compiler.isWindows:
+                return utils.mergeTree(self.installDir() / "libexec", self.installDir() / "bin")
+            return True
 
         def postInstall(self):
             badFiles = [os.path.join(self.installDir(), "bin", "gpgme-config")]
