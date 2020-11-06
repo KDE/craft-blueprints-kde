@@ -40,6 +40,13 @@ class Package(AutoToolsPackageBase):
                 return False
         return super().configure()
 
+    def install(self):
+        if not super().install():
+            return False
+        if CraftCore.compiler.isMSVC():
+            return utils.moveFile(self.installDir() / "lib/xapian.dll.lib", self.installDir() / "lib/libxapian.lib")
+        return True
+
     def postInstall(self):
         return (self.patchInstallPrefix([os.path.join(self.installDir(), "lib" , "cmake", "xapian", "xapian-config.cmake")],
                                         OsUtils.toMSysPath(self.subinfo.buildPrefix),
