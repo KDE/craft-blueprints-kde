@@ -29,12 +29,13 @@ import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets( self ):
-        for ver in ["1.9.0", "1.11.1"]:
+        for ver in ["1.9.0", "1.11.1", "1.14.0"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"gpgme-{ver}"
 
         self.targetDigests["1.9.0"] = (["1b29fedb8bfad775e70eafac5b0590621683b2d9869db994568e6401f4034ceb"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.11.1"] = (["2d1b111774d2e3dd26dcd7c251819ce4ef774ec5e566251eb9308fa7542fbd6f"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.14.0"] = (['cef1f710a6b0d28f5b44242713ad373702d1466dcbe512eb4e754d7f35cd4307'], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["1.9.0"] = [("gpgme-1.9.0-20170801.diff", 1)]
         self.patchToApply["1.11.1"] = [("gpgme-1.1.11-20170801.diff", 1),
                                        ("qt Respect --disable-gpg-test for tests.patch", 1),
@@ -46,11 +47,8 @@ class subinfo(info.infoclass):
 
         self.patchLevel["1.11.1"] = 4
 
-    def registerOptions(self):
-        self.options.dynamic.registerOption("enableCPP", True)
-
         self.description = "GnuPG cryptography support library (runtime)"
-        self.defaultTarget = "1.11.1"
+        self.defaultTarget = "1.14.0"
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/msys"] = None
