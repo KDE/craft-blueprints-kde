@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kross"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
         self.runtimeDependencies["kde/pim/kldap"] = None
