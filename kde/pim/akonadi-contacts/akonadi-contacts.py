@@ -24,8 +24,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/grantleetheme"] = None
-        self.runtimeDependencies["kde/pim/libkleo"] = None
-        self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
+        if CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["kde/pim/libkleo"] = None
+            self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
 
 
 from Package.CMakePackageBase import *
