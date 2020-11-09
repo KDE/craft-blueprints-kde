@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/zxing-cpp"] = None
 
 
 from Package.CMakePackageBase import *
