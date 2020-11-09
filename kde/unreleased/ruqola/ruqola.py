@@ -37,8 +37,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtwebsockets"] = None
         self.runtimeDependencies["libs/qt5/qtnetworkauth"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt5/qtspeech"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
