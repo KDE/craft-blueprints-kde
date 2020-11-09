@@ -41,6 +41,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kcalutils"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
         self.runtimeDependencies["kde/pim/kmailtransport"] = None
+        self.runtimeDependencies["kde/pim/kmail-account-wizard"] = None
         self.runtimeDependencies["kde/pim/messagelib"] = None
         self.runtimeDependencies["kde/pim/ktnef"] = None
         self.runtimeDependencies["kde/pim/kontactinterface"] = None
