@@ -35,8 +35,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-import-wizard"] = None
         self.runtimeDependencies["kde/pim/mailimporter"] = None
         self.runtimeDependencies["kde/pim/kpkpass"] = None
-        #Disable kitinerary as it doesn't build yet on MSVC
-        #self.runtimeDependencies["kde/pim/kitinerary"] = None
+        self.runtimeDependencies["kde/pim/kitinerary"] = None
 
 
 from Package.CMakePackageBase import *
