@@ -72,9 +72,9 @@ class Package(CMakePackageBase):
         self.defines["shortcuts"] = [{"name" : "LabPlot2", "target" : "bin/labplot2.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\labplot2.ico" }]
         self.defines["icon"] = os.path.join(self.packageDir(), "labplot2.ico")
         if self.buildTarget == "master" or self.buildTarget >= CraftVersion("2.8.1"):
-            self.defines["icon_png"] = os.path.join(self.packageDir(), "icons", "150-apps-labplot2.png")
-            self.defines["icon_png_44"] = os.path.join(self.packageDir(), "icons", "44-apps-labplot2.png")
-            self.defines["icon_png_310"] = os.path.join(self.packageDir(), "icons", "310-apps-labplot2.png")
+            self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-labplot2.png")
+            self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-labplot2.png")
+            self.defines["icon_png_310"] = os.path.join(self.sourceDir(), "icons", "310-apps-labplot2.png")
 
         # see NullsoftInstaller.nsi and NullsoftInstallerPackager.py
         if isinstance(self, NullsoftInstallerPackager):
