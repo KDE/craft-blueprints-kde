@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
             ['9154b5456904e47bd4c38462d57e4b7897bfb20cb2bc2e8c958453e40e73c8b2'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.1.0'] = (
             ['283574a817a6efdb38e4f0480fb7697e9b1f90b55d6b16e92e1a2d2af9c43506'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["1.1.0"] = [("zxing-cpp-1.1.0-20201112.diff", 1)]
         self.defaultTarget = '1.1.0'
 
 
