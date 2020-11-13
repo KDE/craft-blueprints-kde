@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user gpgme-1.14.0.orig/lang/cpp/src/CMakeLists.txt gpgme-1.14.0/lang/cpp/src/CMakeLists.txt
+--- gpgme-1.14.0.orig/lang/cpp/src/CMakeLists.txt	2020-11-13 21:40:08.794713618 +0100
++++ gpgme-1.14.0/lang/cpp/src/CMakeLists.txt	2020-11-13 21:39:47.254521735 +0100
+@@ -104,7 +104,7 @@
+ set(resolved_includedir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
+ set(resolved_libdir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+ set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
+-set(libsuffix  ".dll")
++set(libsuffix ${CMAKE_SHARED_LIBRARY_SUFFIX})
+ 
+ if (WIN32)
+     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfig-w32.cmake.in.in
