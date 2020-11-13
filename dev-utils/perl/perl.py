@@ -50,7 +50,7 @@ class PackageMSVC(MakeFilePackageBase):
         if CraftCore.compiler.isMinGW():
             config["CCHOME"] = os.path.join(CraftCore.standardDirs.craftRoot(), "mingw64")
             config["SHELL"] = os.environ["COMSPEC"]
-            config["CRAFT_CFLAGS"] = f"\"{os.environ.get('CFLAGS', '')} -I'{root}/include' -L'{root}/lib'\""
+            config["CRAFT_CFLAGS"] = f"{os.environ.get('CFLAGS', '')} -I'{root}/include' -L'{root}/lib'"
         elif CraftCore.compiler.isX86():
             config["PROCESSOR_ARCHITECTURE"] = CraftCore.compiler.architecture
 
