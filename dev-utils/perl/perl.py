@@ -55,8 +55,8 @@ class PackageMSVC(MakeFilePackageBase):
             config["PROCESSOR_ARCHITECTURE"] = CraftCore.compiler.architecture
 
 
-        self.subinfo.options.make.args += " ".join(["{0}={1}".format(x, y) for x, y in config.items()])
-        self.subinfo.options.install.args = f"{self.subinfo.options.make.args} installbare"
+        self.subinfo.options.make.args += ["{0}={1}".format(x, y) for x, y in config.items()]
+        self.subinfo.options.install.args += ["installbare"]
 
 
     def _globEnv(self):
