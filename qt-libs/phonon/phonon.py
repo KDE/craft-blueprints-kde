@@ -35,9 +35,11 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += " -DPHONON_NO_DBUS=ON "
 
     def postInstall(self):
-        libDir = os.path.join(self.installDir(), "lib")
-        if not os.path.isdir(libDir):
-            libDir = os.path.join(self.installDir(), "lib64")
+        libDir = self.installDir() / "lib"
+        if not libDir.is_dir():
+            libDir = self.installDir() / "lib64"
+        if (libDir / "x86_64-linux-gnu").is_dir():
+            libDir = libDir / "x86_64-linux-gnu"
         brokenFiles = [ os.path.join(libDir, "cmake", "phonon4qt5", "Phonon4Qt5Config.cmake"),
                         os.path.join(self.installDir(), "mkspecs", "modules", "qt_phonon4qt5.pri") ]
         return self.patchInstallPrefix(brokenFiles, OsUtils.toUnixPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))
