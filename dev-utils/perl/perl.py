@@ -97,12 +97,13 @@ class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         # https://metacpan.org/pod/distribution/perl/INSTALL
-        self.subinfo.options.install.args = "install.perl"
-        self.subinfo.options.configure.args = f"-des -D 'prefix={self.installPrefix()}' " \
-            f"-D mksymlinks  " \
-            f"-D userelocatableinc " \
-            f"-U default_inc_excludes_dot " \
-            f"-D usethreads"
+        self.subinfo.options.install.args = Arguments(["install.perl"])
+        self.subinfo.options.configure.args = Arguments(["-des",
+            "-D", f"prefix={self.installPrefix()}",
+            "-D", "mksymlinks",
+            "-D", "userelocatableinc",
+            "-U", "default_inc_excludes_dot",
+            "-D", "usethreads"])
 
         if CraftCore.compiler.isFreeBSD:
             self.subinfo.options.make.supportsMultijob = False
@@ -112,12 +113,12 @@ class PackageAutoTools(AutoToolsPackageBase):
         if CraftCore.compiler.isGCC() and not CraftCore.compiler.isNative() and CraftCore.compiler.isX86():
             cflags += " -m32"
             ldflags += " -m32"
-            self.subinfo.options.configure.args += " -Alddlflags='-m32 -shared' -Uuse64bitint -Uuse64bitall"
-        self.subinfo.options.configure.args += f" -Accflags='{cflags}' -Aldflags='{ldflags}' "
+            self.subinfo.options.configure.args += ["-Alddlflags=-m32 -shared", "-Uuse64bitint -Uuse64bitall"]
+        self.subinfo.options.configure.args += ["-A", f"ccflags={cflags}", "-A", f"ldflags={ldflags}"]
 
     def configure(self):
         self.enterBuildDir()
-        return self.shell.execute(self.buildDir(), os.path.join(self.sourceDir(), "Configure"),
+        return self.shell.execute(self.buildDir(), self.sourceDir() / "Configure",
                                   self.subinfo.options.configure.args)
 
     def install(self):
