@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/mailimporter"] = None
         self.runtimeDependencies["kde/pim/pimcommon"] = None
         self.runtimeDependencies["kde/pim/messagelib"] = None
-        self.runtimeDependencies["kde/pim/libkdepim"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
 
 from Package.CMakePackageBase import *
