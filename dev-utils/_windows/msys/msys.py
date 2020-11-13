@@ -33,16 +33,16 @@ class subinfo(info.infoclass):
         useOverwrite = CraftCore.cache.checkCommandOutputFor(os.path.join(msysDir, "usr/bin", "pacman.exe"), "--overwrite", "-Sh")
 
         # force was replace by overwrite
-        overwrite = "--overwrite='*'" if useOverwrite else "--force"
+        overwrite = Arguments(["--overwrite='*'" if useOverwrite else "--force"])
 
         def stopProcesses():
             return OsUtils.killProcess("*", msysDir)
 
         def queryForUpdate():
             out = io.BytesIO()
-            if not shell.execute(".", "pacman", f"-Sy --noconfirm {overwrite}"):
+            if not shell.execute(".", "pacman", Arguments(["-Sy", "--noconfirm", overwrite])):
                 raise Exception()
-            shell.execute(".", "pacman", "-Qu --noconfirm", stdout=out, stderr=subprocess.PIPE)
+            shell.execute(".", "pacman", ["-Qu", "--noconfirm"], stdout=out, stderr=subprocess.PIPE)
             out = out.getvalue()
             return out != b""
 
@@ -59,13 +59,13 @@ class subinfo(info.infoclass):
                 if not queryForUpdate():
                     break
                 # might return 1 on core updates...
-                shell.execute(".", "pacman", f"-Su --noconfirm {overwrite} --ask 20")
+                shell.execute(".", "pacman", Arguments(["-Su", "--noconfirm", overwrite, "--ask", "20"]))
                 if not stopProcesses():
                     return False
         except Exception as e:
             CraftCore.log.error(e, exc_info=e)
             return False
-        if not (shell.execute(".", "pacman", f"-S base-devel msys/binutils --noconfirm {overwrite} --needed") and
+        if not (shell.execute(".", "pacman", Arguments(["-S", "base-devel", "msys/binutils", "--noconfirm", overwrite, "--needed"])) and
                 stopProcesses()):
             return False
         # rebase: Too many DLLs for available address space: Cannot allocate memory => ignore return code ATM
