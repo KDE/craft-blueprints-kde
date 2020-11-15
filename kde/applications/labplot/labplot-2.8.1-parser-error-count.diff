@@ -1,0 +1,11 @@
+diff -ruNa labplot-2.8.1.orig/src/backend/gsl/parser.y labplot-2.8.1/src/backend/gsl/parser.y
+--- labplot-2.8.1.orig/src/backend/gsl/parser.y 2020-11-11 08:06:19.000000000 +0100
++++ labplot-2.8.1/src/backend/gsl/parser.y      2020-11-15 15:07:13.859571926 +0100
+@@ -298,6 +298,7 @@
+ 
+        /* parameter for yylex */
+        res = NAN;      /* default value */
++       yynerrs = 0;    /* reset error count */
+        yyparse(&p);
+ 
+        pdebug("PARSER: parse() DONE (result = %g, errors = %d)\n*******************************\n", res, parse_errors());

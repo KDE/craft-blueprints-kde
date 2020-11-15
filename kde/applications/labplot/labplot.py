@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         for ver in ['2.5.0', '2.7.0', '2.8.0', '2.8.1']:
             self.targetInstSrc[ver] = 'labplot-%s' % ver
 
+        self.patchToApply['2.8.1'] = [('labplot-2.8.1-parser-error-count.diff', 1)]
         self.defaultTarget = '2.8.1'
 
     def setDependencies(self):
