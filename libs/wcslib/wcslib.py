@@ -3,12 +3,15 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.1'] = 'http://indilib.org/jdownloads/kstars/wcslib-515.tar.bz2'
-
-        self.defaultTarget = '0.1'
+        self.versionInfo.setDefaultValues()
+        self.description = 'World Coordinate System Library'
+        for ver in ['7.3.1']:
+            self.targets[ver] = 'http://indilib.org/jdownloads/wcslib/wcslib-%s.tar.gz' % ver
+            self.targetInstSrc[ver] = 'wcslib-%s' % ver
+        self.defaultTarget = '7.3.1'
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/cfitsio"] = None
 
 
 from Package.CMakePackageBase import *
