@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
         self.patchToApply["5.65.0"] = [("kio-5.65.0-20191219.diff", 1), ("kio-5.65.0-20200112.diff", 1)]
         self.patchLevel["5.62.0"] = 1
         self.patchToApply["5.74.0"] = [("kio-5.74.0-20200915.diff", 1)]
+        self.patchToApply["5.75.0"] = [("kio-5.75.0-20201116.diff", 1)]
 
         self.description = "Network transparent access to files and data"
 
