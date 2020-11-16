@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         self.targetDigests['1.11.1'] = (['2d1b111774d2e3dd26dcd7c251819ce4ef774ec5e566251eb9308fa7542fbd6f'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.14.0"] = (['cef1f710a6b0d28f5b44242713ad373702d1466dcbe512eb4e754d7f35cd4307'], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply['1.11.1'] = ("gpgme-1.11.1-20201101.diff", 1)
-        self.patchToApply['1.14.0'] = [("gpgme-1.14.0-20201106.diff", 1), ("gpgmepp-1.14.0-20201106.diff", 1), ("gpgmepp-1.14.0-20201113.diff", 1)]
+        self.patchToApply['1.14.0'] = [("gpgme-1.14.0-20201106.diff", 1), ("gpgmepp-1.14.0-20201106.diff", 1), ("gpgmepp-1.14.0-20201113.diff", 1), ("gpgmepp-1.14.0-20201116.diff", 1)]
 
 
     def setDependencies(self):
