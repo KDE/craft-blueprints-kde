@@ -55,9 +55,9 @@ from Package.CMakePackageBase import *
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        openSPIncludeDir = CraftStandardDirs.craftRoot() + "/include/OpenSP"
-        openSPLibDir = CraftStandardDirs.craftRoot() + "/lib"
-        self.subinfo.options.configure.args = "--enable-shared --disable-static --with-opensp-includes=" + openSPIncludeDir + " --with-opensp-libs=" + openSPLibDir
+        openSPIncludeDir = CraftStandardDirs.craftRoot() / "include/OpenSP"
+        openSPLibDir = CraftStandardDirs.craftRoot() / "lib"
+        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", f"--with-opensp-includes={openSPIncludeDir}", f"--with-opensp-libs={openSPLibDir}"]
 
 if CraftCore.compiler.isMacOS:
     class Package(PackageAutotools):
