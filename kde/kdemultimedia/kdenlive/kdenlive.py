@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.buildDependencies["libs/rttr"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
@@ -42,7 +43,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
-        self.runtimeDependencies["libs/rttr"] = None
+        self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         # if CraftCore.compiler.isWindows:
         #     self.runtimeDependencies["libs/drmingw"] = None
