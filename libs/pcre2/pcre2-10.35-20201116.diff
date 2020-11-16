@@ -1,0 +1,97 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user pcre2-10.35.orig/CMakeLists.txt pcre2-10.35/CMakeLists.txt
+--- pcre2-10.35.orig/CMakeLists.txt	2020-11-16 10:49:20.741691000 +0100
++++ pcre2-10.35/CMakeLists.txt	2020-11-16 10:46:50.482659500 +0100
+@@ -112,9 +112,10 @@
+ set(CMAKE_MACOSX_RPATH ON)
+ # needed to make sure to not link debug libs
+ # against release libs and vice versa
+-IF(WIN32)
+-  SET(CMAKE_DEBUG_POSTFIX "d")
+-ENDIF(WIN32)
++
++if (CMAKE_BUILD_TYPE STREQUAL "Debug")
++    set(PCRE2_DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
++endif()
+ 
+ # external packages
+ FIND_PACKAGE( BZip2 )
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user pcre2-10.35.orig/libpcre2-16.pc.in pcre2-10.35/libpcre2-16.pc.in
+--- pcre2-10.35.orig/libpcre2-16.pc.in	2020-11-16 10:49:20.742691000 +0100
++++ pcre2-10.35/libpcre2-16.pc.in	2020-11-16 10:46:58.837830700 +0100
+@@ -8,6 +8,6 @@
+ Name: libpcre2-16
+ Description: PCRE2 - Perl compatible regular expressions C library (2nd API) with 16 bit character support
+ Version: @PACKAGE_VERSION@
+-Libs: -L${libdir} -lpcre2-16@CMAKE_DEBUG_POSTFIX@
++Libs: -L${libdir} -lpcre2-16@PCRE2_DEBUG_POSTFIX@
+ Libs.private: @PTHREAD_CFLAGS@ @PTHREAD_LIBS@
+ Cflags: -I${includedir} @PCRE2_STATIC_CFLAG@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user pcre2-10.35.orig/libpcre2-32.pc.in pcre2-10.35/libpcre2-32.pc.in
+--- pcre2-10.35.orig/libpcre2-32.pc.in	2020-11-16 10:49:20.743691500 +0100
++++ pcre2-10.35/libpcre2-32.pc.in	2020-11-16 10:47:29.011245700 +0100
+@@ -8,6 +8,6 @@
+ Name: libpcre2-32
+ Description: PCRE2 - Perl compatible regular expressions C library (2nd API) with 32 bit character support
+ Version: @PACKAGE_VERSION@
+-Libs: -L${libdir} -lpcre2-32@CMAKE_DEBUG_POSTFIX@
++Libs: -L${libdir} -lpcre2-32@PCRE2_DEBUG_POSTFIX@
+ Libs.private: @PTHREAD_CFLAGS@ @PTHREAD_LIBS@
+ Cflags: -I${includedir} @PCRE2_STATIC_CFLAG@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user pcre2-10.35.orig/libpcre2-8.pc.in pcre2-10.35/libpcre2-8.pc.in
+--- pcre2-10.35.orig/libpcre2-8.pc.in	2020-11-16 10:49:20.744691900 +0100
++++ pcre2-10.35/libpcre2-8.pc.in	2020-11-16 10:47:17.658420300 +0100
+@@ -8,6 +8,6 @@
+ Name: libpcre2-8
+ Description: PCRE2 - Perl compatible regular expressions C library (2nd API) with 8 bit character support
+ Version: @PACKAGE_VERSION@
+-Libs: -L${libdir} -lpcre2-8@CMAKE_DEBUG_POSTFIX@
++Libs: -L${libdir} -lpcre2-8@PCRE2_DEBUG_POSTFIX@
+ Libs.private: @PTHREAD_CFLAGS@ @PTHREAD_LIBS@
+ Cflags: -I${includedir} @PCRE2_STATIC_CFLAG@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user pcre2-10.35.orig/libpcre2-posix.pc.in pcre2-10.35/libpcre2-posix.pc.in
+--- pcre2-10.35.orig/libpcre2-posix.pc.in	2020-11-16 10:49:20.744691900 +0100
++++ pcre2-10.35/libpcre2-posix.pc.in	2020-11-16 10:49:09.240614300 +0100
+@@ -8,6 +8,6 @@
+ Name: libpcre2-posix
+ Description: Posix compatible interface to libpcre2-8
+ Version: @PACKAGE_VERSION@
+-Libs: -L${libdir} -lpcre2-posix@CMAKE_DEBUG_POSTFIX@
++Libs: -L${libdir} -lpcre2-posix@PCRE2_DEBUG_POSTFIX@
+ Cflags: -I${includedir} @PCRE2_STATIC_CFLAG@
+ Requires.private: libpcre2-8
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user pcre2-10.35.orig/pcre2-config.in pcre2-10.35/pcre2-config.in
+--- pcre2-10.35.orig/pcre2-config.in	2016-11-22 10:54:06.000000000 +0100
++++ pcre2-10.35/pcre2-config.in	2020-11-16 10:48:38.435826200 +0100
+@@ -86,28 +86,28 @@
+       ;;
+     --libs-posix)
+       if test @enable_pcre2_8@ = yes ; then
+-        echo $libS$libR -lpcre2-posix -lpcre2-8
++        echo $libS$libR -lpcre2-posix@PCRE2_DEBUG_POSTFIX@ -lpcre2-8@PCRE2_DEBUG_POSTFIX@
+       else
+         echo "${usage}" 1>&2
+       fi
+       ;;
+     --libs8)
+       if test @enable_pcre2_8@ = yes ; then
+-        echo $libS$libR -lpcre2-8
++        echo $libS$libR -lpcre2-8@PCRE2_DEBUG_POSTFIX@
+       else
+         echo "${usage}" 1>&2
+       fi
+       ;;
+     --libs16)
+       if test @enable_pcre2_16@ = yes ; then
+-        echo $libS$libR -lpcre2-16
++        echo $libS$libR -lpcre2-16@PCRE2_DEBUG_POSTFIX@
+       else
+         echo "${usage}" 1>&2
+       fi
+       ;;
+     --libs32)
+       if test @enable_pcre2_32@ = yes ; then
+-        echo $libS$libR -lpcre2-32
++        echo $libS$libR -lpcre2-32@PCRE2_DEBUG_POSTFIX@
+       else
+         echo "${usage}" 1>&2
+       fi
