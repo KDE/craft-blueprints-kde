@@ -70,8 +70,7 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.contrib = CraftPackageObject.get('libs/opencv/opencv_contrib').instance
-        self.subinfo.options.configure.args += ' -DOPENCV_EXTRA_MODULES_PATH="' \
-            + OsUtils.toUnixPath(self.contrib.sourceDir()) + '/modules"'
+        self.subinfo.options.configure.args = [f"-DOPENCV_EXTRA_MODULES_PATH={OsUtils.toUnixPath(self.contrib.sourceDir() / 'modules')}"]
 
     def fetch(self):
         return CMakePackageBase.fetch(self) and self.contrib.fetch(noop=False)
