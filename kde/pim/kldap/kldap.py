@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["libs/cyrus-sasl"] = None
         self.runtimeDependencies["libs/openldap"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
 
 from Package.CMakePackageBase import *
