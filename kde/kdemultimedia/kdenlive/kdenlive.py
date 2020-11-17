@@ -8,8 +8,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["libs/rttr"] = None
-        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/rttr"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
@@ -59,7 +58,8 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.whitelist_file.append(os.path.join(self.packageDir(), 'include.list'))
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
         self.ignoredPackages.append("libs/llvm-meta")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.ignoredPackages.append("binary/mysql")
