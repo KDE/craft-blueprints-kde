@@ -10,10 +10,11 @@ class subinfo(info.infoclass):
         self.targetInstSrc["5.2.0"] = "grantlee-5.2.0"
         self.defaultTarget = "5.2.0"
 
+        self.patchToApply['5.2.0'] = []
         if CraftCore.compiler.isMacOS:
-            self.patchToApply['5.2.0'] = [("0001-Don-t-use-dot-in-folder-name-to-prevent-macOS-issues.patch", 1)]
-        self.patchToApply["5.2.0"] = [("grantlee-5.2.0-20201117.diff", 1)]
-        self.patchLevel["5.2.0"] = 1
+            self.patchToApply['5.2.0'] += [("0001-Don-t-use-dot-in-folder-name-to-prevent-macOS-issues.patch", 1)]
+        self.patchToApply["5.2.0"] += [("grantlee-5.2.0-20201117.diff", 1)]
+        self.patchLevel["5.2.0"] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
