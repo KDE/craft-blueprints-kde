@@ -47,6 +47,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kontactinterface"] = None
         self.runtimeDependencies["kde/pim/incidenceeditor"] = None
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
 
 
 from Package.CMakePackageBase import *

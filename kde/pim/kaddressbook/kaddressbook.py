@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gpgme/gpgme"] = None
         self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
 
 
 from Package.CMakePackageBase import *
