@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isMSVC():
             self.patchToApply["4.1"] = [("ffmpeg-4.1-20190507.diff", 1)]
+            self.patchToApply["4.2"] = [("ffmpeg-4.1-20190507.diff", 1)]
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
