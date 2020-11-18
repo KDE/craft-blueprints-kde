@@ -6,7 +6,7 @@ index 00000000..d45aa065
 @@ -0,0 +1,70 @@
 +cmake_minimum_required(VERSION 3.16)
 +
-+set(FULL_VERSION "1.11.1")
++set(FULL_VERSION "1.14.0")
 +
 +string(REGEX MATCH "^[0-9]+.[0-9]+.[0-9]+" cmake_compat_version ${FULL_VERSION})
 +project(gpgme VERSION ${cmake_compat_version})
