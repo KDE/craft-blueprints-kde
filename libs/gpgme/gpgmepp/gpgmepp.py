@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
                                         ("gpgmepp-1.14.0-20201113.diff", 1),
                                         ("gpgmepp-1.14.0-20201116.diff", 1),
                                         ("gpgmepp-1.14.0-20201117.diff", 1),
-                                        ("gpgmepp-1.14.0-20201118.diff", 1)]]
+                                        ("gpgmepp-1.14.0-20201118.diff", 1)]
         self.patchLevel["1.14.0"] = 2
 
     def setDependencies(self):
