@@ -9,6 +9,8 @@ class subinfo( info.infoclass ):
 
         self.targetDigests['1.8.2'] = (['c8064cae7558144b13ef0eb87093412380efa16c4ee30ad12ecb54886a524c07'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.8.7'] = (['03b70f028299561b7034b8966d7dd77ef16ed139c43440925fe8782561974748'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["1.8.7"] = [("gcrypt-1.8.7-20201109.diff", 1)]
+        self.patchLevel["1.8.7"] = 1
         self.description = " General purpose crypto library based on the code used in GnuPG."
         self.defaultTarget = "1.8.7"
 
