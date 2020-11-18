@@ -56,7 +56,7 @@ class PackageMSVC(MakeFilePackageBase):
 
 
         self.subinfo.options.make.args += ["{0}={1}".format(x, y) for x, y in config.items()]
-        self.subinfo.options.install.args += ["installbare"]
+        self.subinfo.options.install.args += self.subinfo.options.make.args + ["installbare"]
 
 
     def _globEnv(self):
