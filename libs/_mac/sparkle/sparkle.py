@@ -36,4 +36,8 @@ class Package(MakeFilePackageBase):
         for f in files:
             if not utils.copyDir(src / f, dest / f):
                 return False
-        return CodeSign.signMacApp(dest / "Sparkle.framework/Versions/A/Resources/AutoUpdate.app")
+        return (
+            CodeSign.signMacApp(dest / "Sparkle.framework/Versions/A/Resources/AutoUpdate.app") and
+            CodeSign.signMacApp(dest / "Sparkle.framework/Versions/A/Resources/AutoUpdate.app/Contents/MacOS/Autoupdate") and
+            CodeSign.signMacApp(dest / "Sparkle.framework/Versions/A/Resources/AutoUpdate.app/Contents/MacOS/fileop")
+        )
