@@ -1,0 +1,12 @@
+diff --git a/Configurations/ConfigCommon.xcconfig b/Configurations/ConfigCommon.xcconfig
+index 959b212b..c3b59e3a 100644
+--- a/Configurations/ConfigCommon.xcconfig
++++ b/Configurations/ConfigCommon.xcconfig
+@@ -39,6 +39,7 @@ GCC_NO_COMMON_BLOCKS = YES;
+ COMBINE_HIDPI_IMAGES = NO;
+ 
+ // Enable warnings
++CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO
+ CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+ CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES
+ CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES

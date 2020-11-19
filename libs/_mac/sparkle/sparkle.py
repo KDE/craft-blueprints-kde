@@ -6,6 +6,7 @@ class subinfo(info.infoclass):
         self.svnTargets['master'] = "[git]https://github.com/sparkle-project/Sparkle.git"
         for ver in ["1.22.0", "1.24.0"]:
             self.svnTargets[ver] = f"[git]https://github.com/sparkle-project/Sparkle.git||{ver}"
+        self.patchToApply["1.24.0"] = [("sparkle-20201119.patch", 1)]
         self.description = "A software update framework for macOS"
         self.webpage = "https://sparkle-project.org"
         self.defaultTarget = '1.24.0'
@@ -36,8 +37,12 @@ class Package(MakeFilePackageBase):
         for f in files:
             if not utils.copyDir(src / f, dest / f):
                 return False
+        return True
+
+    def postInstall(self):
+        dest = Path(self.imageDir()) / "lib"
         return (
-            CodeSign.signMacApp(dest / "Sparkle.framework/Versions/A/Resources/AutoUpdate.app") and
             CodeSign.signMacApp(dest / "Sparkle.framework/Versions/A/Resources/AutoUpdate.app/Contents/MacOS/Autoupdate") and
-            CodeSign.signMacApp(dest / "Sparkle.framework/Versions/A/Resources/AutoUpdate.app/Contents/MacOS/fileop")
+            CodeSign.signMacApp(dest / "Sparkle.framework/Versions/A/Resources/AutoUpdate.app/Contents/MacOS/fileop") and
+            CodeSign.signMacApp(dest / "Sparkle.framework/Versions/A/Resources/AutoUpdate.app")
         )
