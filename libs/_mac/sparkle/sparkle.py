@@ -22,7 +22,7 @@ class Package(MakeFilePackageBase):
         MakeFilePackageBase.__init__(self)
         self.subinfo.options.fetch.checkoutSubmodules = True
         self.subinfo.options.make.supportsMultijob = False
-        self.subinfo.options.make.args += f" release BUILDDIR='{self.buildDir()}'"
+        self.subinfo.options.make.args += ["release", f"BUILDDIR={self.buildDir()}"]
 
     def fetch(self):
         if isinstance(self, GitSource):
@@ -33,7 +33,7 @@ class Package(MakeFilePackageBase):
     def make(self):
         """implements the make step for Makefile projects"""
         self.enterSourceDir() # we need to call the make file in the src dir...
-        return utils.system(" ".join([self.makeProgram, self.makeOptions(self.subinfo.options.make.args)]))
+        return utils.system(Arguments([self.makeProgram, self.makeOptions(self.subinfo.options.make.args)]))
 
     def install(self):
         self.cleanImage()
