@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'http://downloads.sourceforge.net/libpng/libpng-' + ver + '.tar.gz'
             self.targetInstSrc[ver] = 'libpng-' + ver
 
-        self.patchToApply["1.6.37"] = [("libpng-1.6.37-20190911.diff", 1), ("libpng-1.6.37-20201106.diff", 1), ("libpng-1.6.37-20201116.diff", 1)]
+        self.patchToApply["1.6.37"] = [("libpng-1.6.37-20190911.diff", 1), ("libpng-1.6.37-20201106.diff", 1), ("libpng-1.6.37-20201116.diff", 1), ("libpng-1.6.37-20201123.diff", 1)]
         self.targetDigests['1.4.4'] = '245490b22086a6aff8964b7d32383a17814d8ebf'
         self.targetDigests['1.5.14'] = '67f20d69564a4a50204cb924deab029f11ad2d3c'
         self.targetDigests['1.6.6'] = '609c355beef7c16ec85c4580eabd62efe75383af'
@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.targetDigests['1.6.27'] = (['c9d164ec247f426a525a7b89936694aefbc91fb7a50182b198898b8fc91174b4'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.6.37'] = (['daeb2620d829575513e35fecc83f0d3791a620b9b93d800b763542ece9390fb4'], CraftHash.HashAlgorithm.SHA256)
 
-        self.patchLevel['1.6.37'] = 2
+        self.patchLevel['1.6.37'] = 3
         self.description = 'A library to display png images'
         self.defaultTarget = '1.6.37'
 
