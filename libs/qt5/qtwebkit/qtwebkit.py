@@ -30,9 +30,9 @@ class subinfo(info.infoclass):
             self.patchToApply[ver] = self.patchToApply["5.212"]
 
         # replace tarbals by git branches
-        branchRegEx = re.compile(r"\d\.\d+\.\d+")
+        branchRegEx = re.compile(r"(\d\.\d+)\.\d+")
         for ver in self.versionInfo.tarballs():
-            branch = branchRegEx.findall(ver)[0][:-2]
+            branch = branchRegEx.findall(ver)[0]
             del self.targets[ver]
             if ver in self.targetInstSrc:
                 del self.targetInstSrc[ver]
