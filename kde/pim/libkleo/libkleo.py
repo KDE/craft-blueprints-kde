@@ -7,13 +7,14 @@ class subinfo(info.infoclass):
 
         self.description = "Crypto library"
 
-        self.patchToApply['20.08.3'] = []
         self.patchToApply['master'] = []
         if CraftCore.compiler.isMSVC():
-            self.patchToApply['20.08.3'] += [("libkleo-fix-compile-msvc-20201124.diff", 1)]
             self.patchToApply['master'] += [("libkleo-fix-compile-msvc-20201124.diff", 1)]
-        self.patchLevel["20.08.3"] = 1
         self.patchLevel["master"] = 1
+
+        if self.defaultTarget == "20.08.3": # temporary hack, use a working version instead
+            CraftCore.log.info("Overwriting default target for package libkleo to master")
+            self.defaultTarget = "master" # Set to 20.12 once released to get something stable
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
