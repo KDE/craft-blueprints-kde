@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
 
         self.patchToApply['master'] = []
         if CraftCore.compiler.isMSVC():
+            self.patchToApply['20.08.3'] += [("libkleo-fix-compile-msvc-20201124.diff", 1)]
             self.patchToApply['master'] += [("libkleo-fix-compile-msvc-20201124.diff", 1)]
         self.patchLevel["master"] = 1
 
