@@ -1,0 +1,12 @@
+diff --git a/src/utils/gnupg-registry.c b/src/utils/gnupg-registry.c
+index e4571d5..20b26ff 100644
+--- a/src/utils/gnupg-registry.c
++++ b/src/utils/gnupg-registry.c
+@@ -11,7 +11,6 @@
+ #ifdef _WIN32
+ 
+ #include <windows.h>
+-#include <unistd.h>
+ 
+ #include <shlobj.h>
+ #ifndef CSIDL_APPDATA

@@ -7,6 +7,11 @@ class subinfo(info.infoclass):
 
         self.description = "Crypto library"
 
+        self.patchToApply['master'] = []
+        if CraftCore.compiler.isMSVC():
+            self.patchToApply['master'] += [("libkleo-fix-compile-msvc-20201124.diff", 1)]
+        self.patchLevel["master"] = 1
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
