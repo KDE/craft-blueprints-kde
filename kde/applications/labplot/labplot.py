@@ -54,8 +54,10 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args += "-DENABLE_TESTS=OFF"
-        # cerf.h is not found when using libcerf from ports
         if CraftCore.compiler.isMacOS:
+            # readstat fails with ninja
+            self.supportsNinja = False
+            # cerf.h is not found when using libcerf from ports
             self.subinfo.options.configure.args += " -DENABLE_LIBCERF=OFF"
 
     def createPackage(self):
