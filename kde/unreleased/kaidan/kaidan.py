@@ -26,6 +26,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/qxmpp"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
 
 from Package.CMakePackageBase import *
 
