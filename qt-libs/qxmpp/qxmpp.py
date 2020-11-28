@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://github.com/qxmpp-project/qxmpp/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"qxmpp-v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"qxmpp-{ver}"
+            self.patchToApply[ver] = [("0001-Install-dll-to-bindir-on-windows.patch", 1)]
         self.targetDigests['0.9.3'] = (
             ['13f5162a1df720702c6ae15a476a4cb8ea3e57d861a992c4de9147909765e6de'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.0.0'] = (

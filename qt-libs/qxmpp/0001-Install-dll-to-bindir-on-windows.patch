@@ -1,0 +1,33 @@
+From 0a74113be5c50fa09d88953d2fcc37ad12d21de1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jonah=20Br=C3=BCchert?= <jbb.prv@gmx.de>
+Date: Sat, 28 Nov 2020 02:25:00 +0100
+Subject: [PATCH] Install dll to bindir on windows
+
+---
+ src/CMakeLists.txt | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index e35e2c57..b29d8267 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -244,9 +244,15 @@ if(WITH_GSTREAMER)
+     )
+ endif()
+ 
++if(WIN32)
++    set(QXMPP_LIB_DIR "${CMAKE_INSTALL_BINDIR}")
++else()
++    set(QXMPP_LIB_DIR "${CMAKE_INSTALL_LIBDIR}")
++endif()
++
+ install(
+     TARGETS qxmpp
+-    DESTINATION "${CMAKE_INSTALL_LIBDIR}"
++    DESTINATION "${QXMPP_LIB_DIR}"
+     EXPORT QXmppTarget
+ )
+ 
+-- 
+2.29.1.windows.1
+
