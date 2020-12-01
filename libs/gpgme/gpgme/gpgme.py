@@ -45,7 +45,6 @@ if not CraftCore.compiler.isMSVC():
                                         ]
             if CraftCore.compiler.isWindows:
                 self.patchToApply["1.11.1"] += [("gpgme-1.1.11-20180620.diff", 1)]
-            self.patchToApply["1.14.0"] = [("gpgmepp-portable-types.patch", 1)]
 
             self.patchLevel["1.11.1"] = 5
             self.patchLevel["1.14.0"] = 1
