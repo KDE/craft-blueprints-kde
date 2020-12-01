@@ -37,5 +37,6 @@ class Package(CMakePackageBase):
                 return True
             self.compile = warn
             self.install = warn
+            self.createPackage = warn
 
 
