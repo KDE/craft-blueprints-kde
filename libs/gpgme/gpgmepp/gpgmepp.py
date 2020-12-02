@@ -36,7 +36,7 @@ class Package(CMakePackageBase):
                 CraftCore.log.warning("Skipping build on windows, *everything is broken*, if you are adventurous try:\n\t'craft --set version=cmake libs/gpgme'")
                 return True
             self.compile = warn
-            self.install = warn
+            self.install = lambda : utils.createDir(self.imageDir())
             self.createPackage = warn
 
 
