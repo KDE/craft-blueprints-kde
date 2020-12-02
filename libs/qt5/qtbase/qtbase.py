@@ -34,6 +34,10 @@ class subinfo(info.infoclass):
                     ("qstandardpaths-extra-dirs.patch", 1),
                     ("fix-harfbuzz.diff", 1),
                 ]
+            elif qtVer >= CraftVersion("5.12.10"):
+                self.patchToApply[ver] = [
+                    (".qt-5.12.10", 1)
+                ]
             elif qtVer >= CraftVersion("5.12.9"):
                 self.patchToApply[ver] = [
                     (".qt-5.12.9", 1)
@@ -108,8 +112,9 @@ class subinfo(info.infoclass):
         self.patchLevel["5.12.1"] = 2
         self.patchLevel["5.12.3"] = 1
         self.patchLevel["5.12.9"] = 1
+        self.patchLevel["5.12.10"] = 1
         self.patchLevel["5.15.0"] = 4
-        self.patchLevel["5.15.1"] = 3
+        self.patchLevel["5.15.1"] = 4
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):
