@@ -50,3 +50,16 @@ class Package(CMakePackageBase):
 
             pythonPath = CraftCore.settings.get("Paths", "PYTHON")
             self.subinfo.options.configure.args += f" -DPYTHONLIBS3_LIBRARY=\"{pythonPath}\libs\python38.lib\" -DPYTHONLIBS3_INCLUDE_DIR=\"{pythonPath}\include\""
+
+    def createPackage(self):
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        # Some plugin files brake codesigning on macOS, which is picky about file names
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+
+        self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("libs/dbus")
+
+        # see labplot.py for more
+ 
+        return TypePackager.createPackage(self)
