@@ -65,10 +65,10 @@ class Package(CMakePackageBase):
         self.defines["executable"] = "bin\\cantor.exe"
         self.defines["shortcuts"] = [{"name" : "Cantor", "target" : "bin/cantor.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\cantor.ico" }]
         self.defines["icon"] = os.path.join(self.packageDir(), "cantor.ico")
-#        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("20.12.X"):
-#            self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-cantor.png")
-#            self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-cantor.png")
-#            self.defines["icon_png_310"] = os.path.join(self.sourceDir(), "icons", "310-apps-cantor.png")
+        if self.buildTarget == "master":
+            self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-cantor.png")
+            self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-cantor.png")
+            self.defines["icon_png_310"] = os.path.join(self.sourceDir(), "icons", "310-apps-cantor.png")
 
         if isinstance(self, AppxPackager):
             self.defines["display_name"] = "Cantor"
