@@ -7,12 +7,6 @@ class subinfo(info.infoclass):
 
         self.description = "Crypto library"
 
-        self.patchToApply['master'] = []
-
-        if self.defaultTarget == "20.08.3": # temporary hack, use a working version instead
-            CraftCore.log.info("Overwriting default target for package libkleo to master")
-            self.defaultTarget = "master" # Set to 20.12 once released to get something stable
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

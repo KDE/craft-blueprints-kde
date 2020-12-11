@@ -6,8 +6,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.patchToApply["20.08.1"] = [("0001-Never-assume-clang-flags-based-on-the-version.patch", 1)]
-
         self.description = "A storage service for PIM data and meta data"
 
     def registerOptions(self):
