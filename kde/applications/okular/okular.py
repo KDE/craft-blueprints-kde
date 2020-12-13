@@ -7,9 +7,6 @@ class subinfo(info.infoclass):
         self.description = "KDE document viewer"
         self.displayName = "Okular"
 
-        for ver in ["master"] + self.versionInfo.tarballs():
-            self.patchToApply[ver] = [("breeze.patch", 1), ("okular-20.08.1-mingw.diff", 1)]
-
     def setDependencies(self):
         self.buildDependencies["libs/chm"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
