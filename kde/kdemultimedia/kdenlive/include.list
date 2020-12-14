@@ -24,6 +24,7 @@ bin/data/icon.*\.rcc
 bin/data/.*kdenlive.*
 bin/data/locale.*
 bin/data/metainfo.*
+bin/data/mime.*
 
 #unix
 share/applications.*
@@ -34,4 +35,5 @@ share/icon.*
 share/k.*
 share/locale.*
 share/metainfo.*
+share/mime.*
 
