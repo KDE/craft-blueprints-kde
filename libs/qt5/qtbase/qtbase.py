@@ -111,11 +111,11 @@ class QtPackage(Qt5CorePackageBase):
 
     def configure(self, unused1=None, unused2=""):
         # https://github.com/qt/qtbase/blob/5.14/mkspecs/common/macx.conf#L8
-        if CraftCore.compiler.isMacOS and self.qtVer >= "5.12":
-            if self.qtVer >= "5.12":
-                mac_required = "10.12"
-            elif self.qtVer >= "5.14":
+        if CraftCore.compiler.isMacOS:
+            if self.qtVer >= "5.14":
                 mac_required = "10.13"
+            elif self.qtVer >= "5.12":
+                mac_required = "10.12"
             if not CraftVersion(os.environ["MACOSX_DEPLOYMENT_TARGET"]) >= mac_required:
                 raise BlueprintException(f"Qt requires MACOSX_DEPLOYMENT_TARGET to be >= {mac_required}", self)
         with self.getQtBaseEnv():
