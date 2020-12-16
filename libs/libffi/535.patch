@@ -17,24 +17,6 @@ Subject: [PATCH 1/2] Add cmake configuration files
  create mode 100644 configure_platform.cmake
  create mode 100644 include/fficonfig.h.in
 
-diff --git a/.gitignore b/.gitignore
-index 5d396894..88e6437d 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -14,7 +14,7 @@ configure
- depcomp
- doc/libffi.info
- *~
--fficonfig.h.in
-+/fficonfig.h.in
- fficonfig.h
- include/ffi.h
- include/ffitarget.h
-@@ -36,3 +36,4 @@ build_*/
- darwin_*/
- src/arm/trampoline.S
- **/texinfo.tex
-+build/
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 new file mode 100644
 index 00000000..26cc2fdf

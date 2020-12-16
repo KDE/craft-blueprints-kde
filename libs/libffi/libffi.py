@@ -9,7 +9,9 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://github.com/libffi/libffi/releases/download/v{ver}/libffi-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libffi-{ver}"
         if not CraftCore.compiler.isGCCLike():
-            self.patchToApply["3.3"] = [("535.patch", 1)] # https://github.com/libffi/libffi/pull/535
+            self.patchToApply["3.3"] = [("535.patch", 1), # https://github.com/libffi/libffi/pull/535
+                                        ("libffi-3.3-20201216.diff",1)
+            ]
 
         self.defaultTarget = "3.3"
 
