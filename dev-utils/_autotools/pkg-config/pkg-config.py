@@ -27,7 +27,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.args += (f" --disable-static --enable-shared"
                                                 f" PKG_CONFIG=':'"
                                                 f" GLIB_LIBS='-L{root}/lib -lglib-2.0 -liconv -lintl'"
-                                                f" GLIB_CFLAGS='-I{root}/include/glib-2.0'")
+                                                f" GLIB_CFLAGS='-I{root}/include/glib-2.0 -I{root}/lib/glib-2.0/include'")
 
 
     def createPackage(self):
