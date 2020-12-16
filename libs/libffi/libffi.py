@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
             self.patchToApply["3.3"] = [("535.patch", 1), # https://github.com/libffi/libffi/pull/535
                                         ("libffi-3.3-20201216.diff",1)
             ]
-
+        self.patchLevel["3.3"] = 1
         self.defaultTarget = "3.3"
 
     def setDependencies(self):
