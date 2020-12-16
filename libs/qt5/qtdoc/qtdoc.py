@@ -44,7 +44,7 @@ class Package(Qt5CoreSdkPackageBase):
             if not os.path.exists(p.instance.buildDir()):
                 CraftCore.log.warning(f"Skip Building doc for {p.path}, {p.instance.buildDir()}, does not exist.")
                 continue
-            if not (utils.system(" ".join([self.makeProgram, args]), cwd=p.instance.buildDir()) and
+            if not (utils.system([self.makeProgram, args], cwd=p.instance.buildDir()) and
                     utils.globCopyDir(p.instance.buildDir(), self.buildDir(), [f"doc/*.qch"], linkOnly=False)):
                 return False
         return super().make()
