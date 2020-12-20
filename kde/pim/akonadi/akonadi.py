@@ -31,6 +31,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DUSE_UNITY_CMAKE_SUPPORT=ON "
         self.subinfo.options.configure.args = "-DDATABASE_BACKEND=SQLITE -DAKONADI_RUN_MYSQL_ISOLATED_TESTS=OFF -DBUILD_TESTING=OFF "
 
         if not self.subinfo.options.dynamic.useDesignerPlugin:
