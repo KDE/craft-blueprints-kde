@@ -47,6 +47,8 @@ class subinfo(info.infoclass):
                                         ("dbus-1.12.12-launchd.diff", 1)]
         self.patchLevel["1.11.14"] = 2
         self.patchLevel["1.12.12"] = 2
+        self.patchToApply["1.13.18"] = [("0001-cmake-make-support-for-traditional-activation-option.patch", 1)] # backport https://gitlab.freedesktop.org/dbus/dbus/-/merge_requests/159/diffs
+        self.patchLevel["1.13.18"] = 2
 
         self.targetDigests['1.11.14'] = (['55cfc7fdd2cccb2fce1f75d2132ad4801b5ed6699fc2ce79ed993574adf90c80'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.12.12'] = (['9546f226011a1e5d9d77245fe5549ef25af4694053189d624d0d6ac127ecf5f8'], CraftHash.HashAlgorithm.SHA256)
@@ -86,6 +88,7 @@ class PackageCMake(CMakePackageBase):
             # kde uses debugger output, so dbus should do too
             self.subinfo.options.configure.args += "-DDBUS_USE_OUTPUT_DEBUG_STRING=ON "
             self.subinfo.options.configure.args += "-DCMAKE_INSTALL_DATADIR:STRING=bin/data "
+            self.subinfo.options.configure.args += "-DENABLE_TRADITIONAL_ACTIVATION=ON "
             self.subinfo.options.configure.args += (
                 "-DDBUS_SESSION_BUS_LISTEN_ADDRESS:STRING=autolaunch:scope=*install-path "
                 "-DDBUS_SESSION_BUS_CONNECT_ADDRESS:STRING=autolaunch:scope=*install-path "

@@ -11,10 +11,10 @@ from Package.MaybeVirtualPackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         #as updates are applied with msys and not by craft don't ever change the name of the target, its a bad idea...
-        self.targets["base"] = f"https://github.com/msys2/msys2-installer/releases/download/2020-06-29/msys2-base-x86_64-20200629.tar.xz"
+        self.targets["base"] = "https://github.com/msys2/msys2-installer/releases/download/2020-11-09/msys2-base-x86_64-20201109.tar.xz"
+        self.targetDigests["base"] = (["ca10a72aa3df219fabeff117aa4b00c1ec700ea93c4febf4cfc03083f4b2cacb"],  CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["base"] = "msys64"
         self.targetInstallPath["base"] = "msys"
-        self.targetDigests["base"] =  (['44049b4a6a927f1a40f9d925df72764a8e6b2ae3bd62c8421f5a65c50c8eb9c4'], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "base"
 
@@ -33,16 +33,16 @@ class subinfo(info.infoclass):
         useOverwrite = CraftCore.cache.checkCommandOutputFor(os.path.join(msysDir, "usr/bin", "pacman.exe"), "--overwrite", "-Sh")
 
         # force was replace by overwrite
-        overwrite = "--overwrite='*'" if useOverwrite else "--force"
+        overwrite = Arguments(["--overwrite='*'" if useOverwrite else "--force"])
 
         def stopProcesses():
             return OsUtils.killProcess("*", msysDir)
 
         def queryForUpdate():
             out = io.BytesIO()
-            if not shell.execute(".", "pacman", f"-Sy --noconfirm {overwrite}"):
+            if not shell.execute(".", "pacman", Arguments(["-Sy", "--noconfirm", overwrite])):
                 raise Exception()
-            shell.execute(".", "pacman", "-Qu --noconfirm", stdout=out, stderr=subprocess.PIPE)
+            shell.execute(".", "pacman", ["-Qu", "--noconfirm"], stdout=out, stderr=subprocess.PIPE)
             out = out.getvalue()
             return out != b""
 
@@ -59,16 +59,18 @@ class subinfo(info.infoclass):
                 if not queryForUpdate():
                     break
                 # might return 1 on core updates...
-                shell.execute(".", "pacman", f"-Su --noconfirm {overwrite} --ask 20")
+                shell.execute(".", "pacman", Arguments(["-Su", "--noconfirm", overwrite, "--ask", "20"]))
                 if not stopProcesses():
                     return False
         except Exception as e:
             CraftCore.log.error(e, exc_info=e)
             return False
-        if not (shell.execute(".", "pacman", f"-S base-devel msys/binutils --noconfirm {overwrite} --needed") and
+        if not (shell.execute(".", "pacman", Arguments(["-S", "base-devel", "msys/binutils", "--noconfirm", overwrite, "--needed"])) and
                 stopProcesses()):
             return False
-        return utils.system("autorebase.bat", cwd=msysDir)
+        # rebase: Too many DLLs for available address space: Cannot allocate memory => ignore return code ATM
+        utils.system("autorebase.bat", cwd=msysDir)
+        return True
 
 
 from Package.BinaryPackageBase import *
@@ -84,7 +86,7 @@ class MsysPackage(BinaryPackageBase):
     def postQmerge(self):
         return self.subinfo.updateMsys()
 
-class VirtualPackage(VirtualPackageBase):
+class UpdatePackage(VirtualPackageBase):
     def __init__(self):
         VirtualPackageBase.__init__(self)
 
@@ -94,15 +96,13 @@ class VirtualPackage(VirtualPackageBase):
         return self.subinfo.msysInstallShim(self.imageDir()) and self.subinfo.updateMsys()
 
     def qmerge(self):
-        if self.package.isInstalled:
-            return True
-        return super().qmerge()
+        return super().qmerge(dbOnly=True)
 
 class Package(MaybeVirtualPackageBase):
     def __init__(self):
         useExternalMsys = ("Paths", "Msys") not in CraftCore.settings
         self.skipCondition = useExternalMsys and not CraftPackageObject.get("dev-utils/msys").isInstalled
-        MaybeVirtualPackageBase.__init__(self, condition=self.skipCondition, classA=MsysPackage, classB=VirtualPackage)
+        MaybeVirtualPackageBase.__init__(self, condition=self.skipCondition, classA=MsysPackage, classB=UpdatePackage)
         if not useExternalMsys:
             # override the install method
             def install():

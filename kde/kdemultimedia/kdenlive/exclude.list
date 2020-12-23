@@ -1,0 +1,17 @@
+# include only whitelist content
+bin/.*
+etc/.*
+lib/.*
+libexec/.*
+sbin/.*
+share/.*/
+
+qml/QtTest
+
+# windows
+bin/.*\.exe
+#bin/data/.*
+qml/QtWinExtras
+# broken style
+plugins/styles/qwindowsvistastyle.dll
+

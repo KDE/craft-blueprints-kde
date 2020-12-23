@@ -1,0 +1,15 @@
+--- src/gui/kwindowconfig.cpp.orig	2020-12-07 22:25:42.275003300 -0800
++++ src/gui/kwindowconfig.cpp	2020-12-07 22:27:42.529026600 -0800
+@@ -21,7 +21,12 @@
+     const auto screens = QGuiApplication::screens();
+     names.reserve(screens.length());
+     for (auto screen : screens) {
++#ifdef Q_OS_WIN
++	// QTBUG-74317
++        names << screen->serialNumber();
++#else
+         names << screen->name();
++#endif
+     }
+     return names.join(QLatin1Char(' '));
+ }

@@ -1,0 +1,121 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user gpgme-1.14.0.orig/lang/cpp/src/CMakeLists.txt gpgme-1.14.0/lang/cpp/src/CMakeLists.txt
+--- gpgme-1.14.0.orig/lang/cpp/src/CMakeLists.txt	2020-11-13 23:22:08.539509500 +0100
++++ gpgme-1.14.0/lang/cpp/src/CMakeLists.txt	2020-11-13 23:18:58.650237400 +0100
+@@ -77,6 +77,8 @@
+ add_definitions(-DBUILDING_GPGMEPP)
+ 
+ add_library(gpgmepp ${gpgmepp_SRCS})
++set_target_properties(gpgmepp PROPERTIES EXPORT_NAME Gpgmepp)
++
+ target_include_directories(gpgmepp
+     PRIVATE
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+@@ -86,6 +88,7 @@
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+     $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>
+     $<INSTALL_INTERFACE:${GPGME_INCLUDE_DIRS}>
++    $<INSTALL_INTERFACE:${GPGME_INCLUDE_DIRS}/gpgme++>
+ )
+ target_link_libraries(gpgmepp ${GPGME_LIBRARIES})
+ target_link_directories(gpgmepp PUBLIC ${GPGME_LIBRARY_DIRS})
+@@ -101,28 +104,22 @@
+ file(COPY ${gpgmepp_HEADERS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/gpgme++/)
+ file(COPY ${gpgmepp_interface_HEADERS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/gpgme++/interfaces)
+ 
+-set(resolved_includedir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
+-set(resolved_libdir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+-set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
+-set(libsuffix  ".dll")
+-
+-if (WIN32)
+-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfig-w32.cmake.in.in
+-                   ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake @ONLY)
+-else()
+-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfig.cmake.in.in
+-                   ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake @ONLY)
+-endif()
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfigVersion.cmake.in
+                ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfigVersion.cmake @ONLY)
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/gpgmepp_version.h.in
+                ${CMAKE_CURRENT_BINARY_DIR}/gpgmepp_version.h)
+ 
+ install(TARGETS gpgmepp
++        EXPORT Gpgmepp
+         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+ )
+ 
++install(EXPORT Gpgmepp
++    FILE GpgmeppConfig.cmake
++    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Gpgmepp
++    )
++
+ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/gpgme++
+         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gpgmepp_version.h
+@@ -130,6 +127,5 @@
+         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gpgme++)
+ 
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfigVersion.cmake
+-              ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake
+         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Gpgmepp
+ )
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user gpgme-1.14.0.orig/lang/qt/src/CMakeLists.txt gpgme-1.14.0/lang/qt/src/CMakeLists.txt
+--- gpgme-1.14.0.orig/lang/qt/src/CMakeLists.txt	2020-11-13 23:22:08.516509000 +0100
++++ gpgme-1.14.0/lang/qt/src/CMakeLists.txt	2020-11-13 23:18:33.912254800 +0100
+@@ -166,11 +166,13 @@
+ add_definitions(-DBUILDING_QGPGME)
+ 
+ add_library(qgpgme ${qgpgme_MOC} ${qgpgme_SRCS})
++set_target_properties(qgpgme PROPERTIES EXPORT_NAME QGpgme)
+ target_link_libraries(qgpgme PUBLIC gpgmepp ${GPGME_LIBRARIES} Qt5::Core)
+ target_include_directories(qgpgme
+     PUBLIC
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+     $<INSTALL_INTERFACE:${GPGME_INCLUDE_DIRS}>
++    $<INSTALL_INTERFACE:${GPGME_INCLUDE_DIRS}/qgpgme>
+     PRIVATE
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+     $<BUILD_INTERFACE:${GPGME_INCLUDE_DIRS}>
+@@ -182,29 +184,20 @@
+     VERSION "${MAJOR}.${LIBQGPGME_LT_AGE}.${LIBQGPGME_LT_REVISION}"
+     SOVERSION "${MAJOR}"
+ )
+-
+-set(resolved_includedir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
+-set(LIBASSUAN_LIBS "${CMAKE_INSTALL_PREFIX}/lib/assuan.lib;${CMAKE_INSTALL_PREFIX}/lib/gpg-error.lib")
+-set(resolved_libdir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+-set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
+-set(libsuffix  ".dll")
+-
+-if (WIN32)
+-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig-w32.cmake.in.in
+-                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
+-else()
+-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig.cmake.in.in
+-                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
+-endif()
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfigVersion.cmake.in
+                ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfigVersion.cmake @ONLY)
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qgpgme_version.h.in
+                ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h)
+ 
+ install(TARGETS qgpgme DESTINATION
++        EXPORT QGpgme
+         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+ )
++install(EXPORT QGpgme
++    FILE QGpgmeConfig.cmake
++    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/QGpgme
++    )
+ 
+ install(FILES ${qgpgme_HEADERS}
+               ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h
+@@ -213,6 +206,5 @@
+ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/QGpgME
+         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfigVersion.cmake
+-              ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake
+         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/QGpgme
+ )

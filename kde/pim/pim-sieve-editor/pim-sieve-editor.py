@@ -12,7 +12,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
@@ -23,6 +22,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libksieve"] = None
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
 
 from Package.CMakePackageBase import *
@@ -31,3 +32,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DUSE_UNITY_CMAKE_SUPPORT=ON "

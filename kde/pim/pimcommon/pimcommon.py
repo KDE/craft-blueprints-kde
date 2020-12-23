@@ -26,11 +26,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
+        self.runtimeDependencies["kde/pim/akonadi-search"] = None
         if self.options.dynamic.useDesignerPlugin:
             self.runtimeDependencies["kde/frameworks/tier3/kdesignerplugin"] = None
 
@@ -43,7 +43,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kdesupport/grantlee"] = None
         self.runtimeDependencies["libs/libxslt"] = None
-        self.patchLevel["20.04.0"] = 1
 
 
 from Package.CMakePackageBase import *
@@ -52,6 +51,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DUSE_UNITY_CMAKE_SUPPORT=ON "
 
         if not self.subinfo.options.dynamic.useDesignerPlugin:
             self.subinfo.options.configure.args = "-DBUILD_DESIGNERPLUGIN=OFF "

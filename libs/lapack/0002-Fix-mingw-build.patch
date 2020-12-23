@@ -1,0 +1,24 @@
+diff -u -r lapack-3.9.0/LAPACKE/src/lapacke_cgesvdq.c lapack-3.9.0_fixed/LAPACKE/src/lapacke_cgesvdq.c
+--- lapack-3.9.0/LAPACKE/src/lapacke_cgesvdq.c	2019-11-21 08:57:43.000000000 +0100
++++ lapack-3.9.0_fixed/LAPACKE/src/lapacke_cgesvdq.c	2020-04-03 20:57:33.763699314 +0200
+@@ -71,7 +71,7 @@
+         goto exit_level_0;
+     }
+     liwork = (lapack_int)iwork_query;
+-    lcwork = (lapack_int)cwork_query;
++    lcwork = LAPACK_C2INT(cwork_query);
+     lrwork = (lapack_int)rwork_query;
+     /* Allocate memory for work arrays */
+     iwork = (lapack_int*)LAPACKE_malloc( sizeof(lapack_int) * liwork );
+diff -u -r lapack-3.9.0/LAPACKE/src/lapacke_zgesvdq.c lapack-3.9.0_fixed/LAPACKE/src/lapacke_zgesvdq.c
+--- lapack-3.9.0/LAPACKE/src/lapacke_zgesvdq.c	2019-11-21 08:57:43.000000000 +0100
++++ lapack-3.9.0_fixed/LAPACKE/src/lapacke_zgesvdq.c	2020-04-03 20:57:33.763699314 +0200
+@@ -71,7 +71,7 @@
+         goto exit_level_0;
+     }
+     liwork = (lapack_int)iwork_query;
+-    lcwork = (lapack_int)cwork_query;
++    lcwork = LAPACK_C2INT(cwork_query);
+     lrwork = (lapack_int)rwork_query;
+     /* Allocate memory for work arrays */
+     iwork = (lapack_int*)LAPACKE_malloc( sizeof(lapack_int) * liwork );

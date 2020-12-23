@@ -1,0 +1,24 @@
+diff -w -r -u sphinxbase/src/libsphinxad/Makefile.am sphinxbase-fixed/src/libsphinxad/Makefile.am
+--- sphinxbase/src/libsphinxad/Makefile.am	2020-04-04 22:41:28.462747600 +0200
++++ sphinxbase-fixed/src/libsphinxad/Makefile.am	2020-04-04 22:41:36.767949100 +0200
+@@ -5,7 +5,7 @@
+ 
+ # Confusing libtool version info means:
+ #
+-libsphinxad_la_LDFLAGS = -version-info 3:0:0
++libsphinxad_la_LDFLAGS = -version-info 3:0:0 -no-undefined
+ 
+ libsphinxad_la_SOURCES = 
+ 
+diff -w -r -u sphinxbase/src/libsphinxbase/Makefile.am sphinxbase-fixed/src/libsphinxbase/Makefile.am
+--- sphinxbase/src/libsphinxbase/Makefile.am	2020-04-04 22:41:28.572116000 +0200
++++ sphinxbase-fixed/src/libsphinxbase/Makefile.am	2020-04-04 22:41:36.846087300 +0200
+@@ -4,7 +4,7 @@
+ 
+ libsphinxbase_la_SOURCES =
+ 
+-libsphinxbase_la_LDFLAGS = -version-info 3:0:0
++libsphinxbase_la_LDFLAGS = -version-info 3:0:0 -no-undefined
+ libsphinxbase_la_LIBADD = $(LTLIBICONV) \
+ 	util/libsphinxutil.la \
+ 	fe/libsphinxfe.la \

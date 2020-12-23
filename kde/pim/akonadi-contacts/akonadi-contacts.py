@@ -7,12 +7,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "Akonadi Contacts library"
-        self.patchToApply['17.04.0'] = [("akonadi-contacts-17.04.0-fix-compile.diff", 1)]
-        self.patchToApply['17.04.1'] = [("akonadi-contacts-17.04.1-fix-compile.diff", 1)]
-        self.patchToApply['17.04.2'] = [("akonadi-contacts-17.04.1-fix-compile.diff", 1)]
-        self.patchToApply['18.12.1'] = [("akonadi-contacts-18.12.1-20190124.diff", 1)]
-        self.patchToApply['19.12.3'] = [("0001-Revert-Fix-windows-build.patch", 1)]
-        self.patchToApply['20.04.0'] = [("0001-Revert-Fix-windows-build.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -29,6 +23,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
+        self.runtimeDependencies["kde/pim/grantleetheme"] = None
+        if CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["kde/pim/libkleo"] = None
+            self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
 
 
 from Package.CMakePackageBase import *
@@ -37,3 +35,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DUSE_UNITY_CMAKE_SUPPORT=ON "

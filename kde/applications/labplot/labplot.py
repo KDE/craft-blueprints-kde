@@ -8,30 +8,29 @@ class subinfo(info.infoclass):
         self.webpage = "https://labplot.kde.org/"
         self.displayName = "LabPlot2"
 
-        for ver in ['2.5.0', '2.6.0', '2.7.0']:
+        for ver in ['2.5.0', '2.6.0', '2.7.0', '2.8.0', '2.8.1']:
             self.targets[ver] = 'http://download.kde.org/stable/labplot/%s/labplot-%s.tar.xz' % (ver, ver)
-        for ver in ['2.8.beta']:
-            self.targets[ver] = 'http://download.kde.org/stable/labplot/2.8.0/labplot-%s.tar.xz' % ver
         for ver in ['2.6.0']:
             self.targetInstSrc[ver] = 'labplot-2.6'
-        for ver in ['2.5.0', '2.7.0', '2.8.beta']:
+        for ver in ['2.5.0', '2.7.0', '2.8.0', '2.8.1']:
             self.targetInstSrc[ver] = 'labplot-%s' % ver
 
-        self.defaultTarget = '2.8.beta'
+        self.patchToApply['2.8.1'] = [('labplot-2.8.1.diff', 1)]
+        self.defaultTarget = '2.8.1'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["dev-utils/png2ico"] = None
         self.runtimeDependencies["libs/gsl"] = None
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/liblz4"] = None
         self.runtimeDependencies["libs/hdf5"] = None
-        # netcdf disabled for MSVC until build on binary factory works
+        # netcdf disabled for MSVC until build is stable on binary factory
         if not CraftCore.compiler.isMSVC():
             self.runtimeDependencies["libs/netcdf"] = None
         self.runtimeDependencies["kde/applications/cantor"] = None
+        self.runtimeDependencies["qt-libs/qtmqtt"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
@@ -45,6 +44,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
+        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
 
 from Package.CMakePackageBase import *
@@ -54,8 +54,10 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args += "-DENABLE_TESTS=OFF"
-        # cerf.h is not found when using libcerf from ports
         if CraftCore.compiler.isMacOS:
+            # readstat fails with ninja
+            self.supportsNinja = False
+            # cerf.h is not found when using libcerf from ports
             self.subinfo.options.configure.args += " -DENABLE_LIBCERF=OFF"
 
     def createPackage(self):
@@ -72,8 +74,10 @@ class Package(CMakePackageBase):
         self.defines["executable"] = "bin\\labplot2.exe"
         self.defines["shortcuts"] = [{"name" : "LabPlot2", "target" : "bin/labplot2.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\labplot2.ico" }]
         self.defines["icon"] = os.path.join(self.packageDir(), "labplot2.ico")
-        #self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "150-apps-okular.png")
-        #self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "44-apps-okular.png")
+        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("2.8.1"):
+            self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-labplot2.png")
+            self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-labplot2.png")
+            self.defines["icon_png_310"] = os.path.join(self.sourceDir(), "icons", "310-apps-labplot2.png")
 
         # see NullsoftInstaller.nsi and NullsoftInstallerPackager.py
         if isinstance(self, NullsoftInstallerPackager):

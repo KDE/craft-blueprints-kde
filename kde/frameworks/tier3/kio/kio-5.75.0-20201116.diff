@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user kio-5.75.0.orig/src/core/CMakeLists.txt kio-5.75.0/src/core/CMakeLists.txt
+--- kio-5.75.0.orig/src/core/CMakeLists.txt	2020-10-04 20:47:53.000000000 +0200
++++ kio-5.75.0/src/core/CMakeLists.txt	2020-11-16 09:18:20.110000000 +0100
+@@ -213,7 +213,7 @@
+ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND Qt5Core_VERSION VERSION_GREATER 5.8.0)
+     add_custom_command(
+         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/moc_predefs.h
+-        COMMAND "${CMAKE_CXX_COMPILER}" "-dM" "-E" "-c" "${CMAKE_ROOT}/Modules/CMakeCXXCompilerABI.cpp" > ${CMAKE_CURRENT_BINARY_DIR}/moc_predefs.h
++        COMMAND "${CMAKE_CXX_COMPILER}" "${CMAKE_CXX_COMPILER_ARG1}" "-dM" "-E" "-c" "${CMAKE_ROOT}/Modules/CMakeCXXCompilerABI.cpp" > ${CMAKE_CURRENT_BINARY_DIR}/moc_predefs.h
+     )
+     set_property(TARGET KF5KIOCore APPEND PROPERTY AUTOMOC_MOC_OPTIONS --include ${CMAKE_CURRENT_BINARY_DIR}/moc_predefs.h)
+     set_property(TARGET KF5KIOCore APPEND PROPERTY AUTOGEN_TARGET_DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/moc_predefs.h)

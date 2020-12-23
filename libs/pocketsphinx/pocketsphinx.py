@@ -7,6 +7,9 @@ class subinfo(info.infoclass):
         self.description = "Lightweight speech recognition engine."
         self.webpage = "http://cmusphinx.sourceforge.net/"
         self.displayName = "PocketSphinx"
+        self.patchToApply['e40da77a85edbb5d79b92bf1dcb927d94e43e07d'] = [
+            ("0001-fix-static-lapack-link.patch", 1),
+        ]
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

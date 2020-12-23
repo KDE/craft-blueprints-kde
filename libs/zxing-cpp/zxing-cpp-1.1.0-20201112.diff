@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user zxing-cpp-1.1.0.orig/core/src/LogMatrix.h zxing-cpp-1.1.0/core/src/LogMatrix.h
+--- zxing-cpp-1.1.0.orig/core/src/LogMatrix.h	2020-07-31 10:56:35.000000000 +0200
++++ zxing-cpp-1.1.0/core/src/LogMatrix.h	2020-11-12 16:00:13.726901700 +0100
+@@ -19,6 +19,8 @@
+ #include "Matrix.h"
+ #include "Point.h"
+ 
++#include <string>
++
+ #include <cassert>
+ #include <cstdint>
+ #include <cstdio>

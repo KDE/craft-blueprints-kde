@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['2.2'] = 'https://anongit.kde.org/kdevelop-pg-qt|2.2'
+        self.svnTargets['2.2'] = 'https://invent.kde.org/kdevelop/kdevelop-pg-qt.git|2.2'
         self.defaultTarget = '2.2'
 
     def setDependencies(self):

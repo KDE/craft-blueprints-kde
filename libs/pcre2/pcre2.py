@@ -4,13 +4,16 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ['10.23']:
-            self.targets[ver] = 'ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre2-' + ver + '.tar.bz2'
+        for ver in ['10.35']:
+            self.targets[ver] = f"https://ftp.pcre.org/pub/pcre/pcre2-{ver}.tar.gz"
             self.targetInstSrc[ver] = 'pcre2-' + ver
-        self.patchToApply['10.23'] = [("pcre-8.10-20101125.diff", 1)]
+
+        self.patchToApply["10.35"] = [("pcre2-10.35-20201102.diff", 1), ("pcre2-10.35-20201106.diff", 1), ("pcre2-10.35-20201116.diff", 1), ("pcre2-10.35-20201117.diff", 1)]
+        self.targetDigests["10.35"] = (['8fdcef8c8f4cd735169dd0225fd010487970c1bcadd49e9b90e26c7250a33dc9'], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["10.35"] = 4
 
         self.description = "Perl-Compatible Regular Expressions (version2)"
-        self.defaultTarget = '10.23'
+        self.defaultTarget = '10.35'
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -21,9 +24,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-
-        defines = "-DBUILD_SHARED_LIBS=ON "
-        defines += "-DPCRE_SUPPORT_UNICODE_PROPERTIES=ON "
-        defines += "-DPCRE_SUPPORT_UTF8=ON "
-        defines += "-DPCRE_EBCDIC=OFF "
-        self.subinfo.options.configure.args = defines
+        self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=ON -DPCRE2_BUILD_PCRE2_16=ON -DPCRE2_BUILD_PCRE2_32=ON"

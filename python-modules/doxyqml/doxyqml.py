@@ -24,5 +24,5 @@ class Package(PipPackageBase):
         if OsUtils.isWin():
             utils.createShim(os.path.join(self.imageDir(), "bin", "doxyqml.exe"),
                             os.path.join(self.imageDir(), "dev-utils", "bin", "python3.exe"),
-                            args=os.path.join(CraftCore.settings.get("Paths", "Python"), "Scripts", "doxyqml"))
+                            args=[os.path.join(CraftCore.settings.get("Paths", "Python"), "Scripts", "doxyqml")])
         return PipBuildSystem.install(self)

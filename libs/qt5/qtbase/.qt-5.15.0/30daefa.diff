@@ -1,0 +1,33 @@
+From 30daefae4bfa598a8994324884edc972503d5876 Mon Sep 17 00:00:00 2001
+From: Tor Arne Vestbø <tor.arne.vestbo@qt.io>
+Date: Wed, 18 Nov 2020 14:46:42 +0100
+Subject: [PATCH] macOS: Propagate device-pixel-ratio of system tray icon
+
+When preparing a system tray icon on a system with a retina screen,
+we end up creating a full-height icon of height 44. If there's also
+a 1x screen available, macOS will scale down this image for us when
+presenting the icon on the 1 screen, but the downscale will fail to
+preserve the aspect ratio of the original image on Big Sur.
+
+Telling macOS which device-pixel-ratio the image has seems to fix
+this, and is the right thing to do in any case.
+
+Fixes: QTBUG-88600
+Change-Id: Ic31def94d073da1b256bbfcaf5905f92c169f43d
+Reviewed-by: Alexandru Croitor <alexandru.croitor@qt.io>
+(cherry picked from commit a6aaa2b7071b7666a807b450dc5738742f3cc9e0)
+Reviewed-by: Qt Cherry-pick Bot <cherrypick_bot@qt-project.org>
+---
+
+diff --git a/src/plugins/platforms/cocoa/qcocoasystemtrayicon.mm b/src/plugins/platforms/cocoa/qcocoasystemtrayicon.mm
+index 213df4e..8dc4050 100644
+--- a/src/plugins/platforms/cocoa/qcocoasystemtrayicon.mm
++++ b/src/plugins/platforms/cocoa/qcocoasystemtrayicon.mm
+@@ -203,6 +203,7 @@
+         r.moveCenter(fullHeightPixmap.rect().center());
+         p.drawPixmap(r, pixmap);
+     }
++    fullHeightPixmap.setDevicePixelRatio(devicePixelRatio);
+ 
+     auto *nsimage = [NSImage imageFromQImage:fullHeightPixmap.toImage()];
+     [nsimage setTemplate:icon.isMask()];

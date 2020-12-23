@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-calendar"] = None
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["kde/pim/pimcommon"] = None
-        self.runtimeDependencies["kde/pim/kdepim-apps-libs"] = None
+        self.runtimeDependencies["kde/pim/akonadi-notes"] = None
 
 
 from Package.CMakePackageBase import *
@@ -32,3 +32,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DUSE_UNITY_CMAKE_SUPPORT=ON "

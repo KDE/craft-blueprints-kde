@@ -1,0 +1,17 @@
+diff -Naur a/qtbase/src/plugins/styles/mac/qmacstyle_mac.mm b/qtbase/src/plugins/styles/mac/qmacstyle_mac.mm
+--- a/src/plugins/styles/mac/qmacstyle_mac.mm	2018-12-03 14:15:26.000000000 +0300
++++ b/src/plugins/styles/mac/qmacstyle_mac.mm	2018-12-15 01:31:29.000000000 +0300
+@@ -4213,11 +4213,12 @@
+                 const auto cw = QMacStylePrivate::CocoaControl(QMacStylePrivate::ProgressIndicator_Determinate, aquaSize);
+                 auto *pi = static_cast<NSProgressIndicator *>(d->cocoaControl(cw));
+                 d->drawNSViewInRect(pi, rect, p, ^(CGContextRef ctx, const CGRect &rect) {
++                    CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y);
+                     d->setupVerticalInvertedXform(ctx, reverse, vertical, rect);
+                     pi.minValue = pb->minimum;
+                     pi.maxValue = pb->maximum;
+                     pi.doubleValue = pb->progress;
+-                    [pi drawRect:rect];
++                    [pi drawRect:pi.bounds];
+                 });
+             }
+         }

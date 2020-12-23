@@ -41,9 +41,16 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kcalutils"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
         self.runtimeDependencies["kde/pim/kmailtransport"] = None
+        self.runtimeDependencies["kde/pim/kmail-account-wizard"] = None
         self.runtimeDependencies["kde/pim/messagelib"] = None
         self.runtimeDependencies["kde/pim/ktnef"] = None
+        self.runtimeDependencies["kde/pim/kontactinterface"] = None
+        self.runtimeDependencies["kde/pim/libksieve"] = None
+        self.runtimeDependencies["kde/pim/mailcommon"] = None
         self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
+        self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
 
 
 from Package.CMakePackageBase import *
@@ -52,3 +59,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DUSE_UNITY_CMAKE_SUPPORT=ON "

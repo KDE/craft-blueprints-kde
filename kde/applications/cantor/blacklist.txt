@@ -1,0 +1,73 @@
+# blacklist
+
+# general
+.*\.pdb
+.*\.sym
+
+# unused libs and exe
+bin/icuin\.dll
+bin/icuuc\.dll
+bin/poppler-cpp\.dll
+bin/AnalitzaPlot\.dll
+bin/AnalitzaWidgets\.dll
+bin/gio-2\.dll
+bin/glib-2\.dll
+bin/gmodule-2\.dll
+bin/gobject-2\.dll
+bin/gthread-2\.dll
+bin/kcm_kio\.dll
+bin/kcm_webshortcuts\.dll
+bin/kdewin\.dll
+bin/kdewin-qt\.dll
+bin/kdewin\.dll
+bin/kdewin-qt\.dll
+bin/phonon4qt5.*
+lib/.*
+libexec/.*
+
+# unused Qt/KF5 libs
+# TODO
+
+#QML and QtQuick
+# If using qml you probably won't want to strip DirectX
+bin/d3compiler_47\.dll
+bin/qmltooling/.*
+bin/QtQML/.*
+bin/QtQuick/.*
+bin/QtQuick2/.*
+bin/QtWinExtras/.*
+bin/KF5QuickAddons\.dll
+bin/Qt5Quick.*
+# Qt5Qml.so needed by cantorpart.dll
+bin/Qt5QmlModels\.dll
+bin/Qt5QmlWorkerScript\.dll
+
+# unused data
+bin/QtTest/.*
+bin/QtWinExtras/.*
+bin/bearer/.*
+bin/designer/.*
+bin/kauth/.*
+bin/scenegraph/.*
+bin/texttospeech/.*
+bin/data/aclocal/.*
+bin/data/common-lisp/.*
+bin/data/dbus-1/.*
+bin/data/hunspell/.*
+bin/data/icu/.*
+bin/data/info/.*
+bin/data/katepart5/.*
+bin/data/kdevappwizard/.*
+bin/data/kf5/kmoretools/.*
+bin/data/knotifications5/.*
+bin/data/libgpg-error/.*
+#bin/data/locale/.*
+share/.*
+
+# we use a icontheme.rc on windows
+# only icons for cantor backends
+bin/data/icons/(?!hicolor).*
+bin/data/icons/hicolor/(?!48x48).*
+
+# strip executables
+bin/(?!(cantor.*)).*\.exe

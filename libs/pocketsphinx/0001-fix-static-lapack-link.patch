@@ -1,0 +1,12 @@
+diff -w -r -u pocketsphinx/src/libpocketsphinx/Makefile.am pocketsphinx-fixed/src/libpocketsphinx/Makefile.am
+--- pocketsphinx/src/libpocketsphinx/Makefile.am	2020-04-04 22:53:22.058341700 +0200
++++ pocketsphinx-fixed/src/libpocketsphinx/Makefile.am	2020-04-04 22:53:38.836995900 +0200
+@@ -2,7 +2,7 @@
+ 
+ lib_LTLIBRARIES = libpocketsphinx.la
+ 
+-libpocketsphinx_la_LDFLAGS = -version-info 3:0:0 -lm
++libpocketsphinx_la_LDFLAGS = -version-info 3:0:0 -lm -no-undefined
+ 
+ libpocketsphinx_la_SOURCES =			\
+ 	acmod.c					\

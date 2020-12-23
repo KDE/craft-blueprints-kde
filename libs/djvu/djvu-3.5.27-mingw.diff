@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user djvulibre-3.5.27.orig/libdjvu/DjVuPalette.cpp djvulibre-3.5.27/libdjvu/DjVuPalette.cpp
+--- djvulibre-3.5.27.orig/libdjvu/DjVuPalette.cpp	2020-09-11 10:16:29.753865500 +0200
++++ djvulibre-3.5.27/libdjvu/DjVuPalette.cpp	2020-09-11 10:13:01.567886700 +0200
+@@ -98,7 +98,7 @@
+ umin(unsigned char a, unsigned char b) 
+ { return (a>b) ? b : a; }
+ 
+-#if !defined(__APPLE__) && (!defined(_MSC_VER) || _MSC_VER < 1600)
++#if !defined(__APPLE__) && (!defined(_MSC_VER) || _MSC_VER < 1600) && (!defined(__MINGW32__))
+ inline float 
+ fmin(float a, float b) 
+ { return (a>b) ? b : a; }

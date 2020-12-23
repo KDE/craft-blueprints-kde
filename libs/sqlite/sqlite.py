@@ -38,15 +38,15 @@ class subinfo(info.infoclass):
 
         self.targets["3.31.1"] = "https://sqlite.org/2020/sqlite-amalgamation-3310100.zip"
         self.targetInstSrc["3.31.1"] = "sqlite-amalgamation-3310100"
-        self.patchToApply["3.31.1"] = [ ("sqlite-3.26.0-20181216.diff", 1)]
+        self.patchToApply["3.31.1"] = [ ("sqlite-3.26.0-20181216.diff", 1), ("sqlite-3.31.1-20201026.diff", 1)]
         self.targetDigests["3.31.1"] = (['f3c79bc9f4162d0b06fa9fe09ee6ccd23bb99ce310b792c5145f87fbcc30efca'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "a library providing a self-contained, serverless, zero-configuration, transactional SQL database engine"
-        self.patchLevel["3.30.1"] = 1
+        self.patchLevel["3.30.1"] = 2
+        self.patchLevel["3.31.1"] = 1
         self.defaultTarget = "3.31.1"
 
     def setDependencies(self):
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["virtual/base"] = None
 
 

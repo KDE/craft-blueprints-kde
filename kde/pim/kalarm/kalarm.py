@@ -17,6 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kidletime"] = None
 
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
@@ -30,6 +31,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
 
+        self.runtimeDependencies["kde/pim/kalarmcal"] = None
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
@@ -40,6 +42,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["kde/pim/mailcommon"] = None
         self.runtimeDependencies["kde/pim/kmailtransport"] = None
+        self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
 
 
 from Package.CMakePackageBase import *
@@ -48,3 +51,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DUSE_UNITY_CMAKE_SUPPORT=ON "

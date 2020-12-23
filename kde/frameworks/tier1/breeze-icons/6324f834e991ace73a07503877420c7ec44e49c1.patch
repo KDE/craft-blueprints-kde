@@ -1,0 +1,28 @@
+From 6324f834e991ace73a07503877420c7ec44e49c1 Mon Sep 17 00:00:00 2001
+From: Noah Davis <noahadvs@gmail.com>
+Date: Tue, 6 Oct 2020 10:59:02 -0400
+Subject: [PATCH] Temporarily disable generating icons on Windows
+
+Windows CI broke and the sysadmins want a fix urgently.
+---
+ CMakeLists.txt | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2ab912fd..3f8d326b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -27,7 +27,9 @@ set(REQUIRED_QT_VERSION 5.12.0)
+ # Find Python 3
+ find_package (Python 3 COMPONENTS Interpreter)
+ 
+-if(Python_FOUND)
++# FIXME: This is a temporary solution to unbreak KDE's Windows CI.
++# Remove "NOT WIN32" when icon generation works on Windows.
++if(Python_FOUND AND NOT WIN32)
+     # Find lxml Python 3 module
+     exec_program(${Python_EXECUTABLE}
+         ARGS "-c \"import lxml; print(lxml.get_include())\""
+-- 
+GitLab
+

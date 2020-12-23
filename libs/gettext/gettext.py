@@ -6,11 +6,12 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ['0.19.8.1']:
+        for ver in ['0.19.8.1', '0.21']:
             self.targets[ver] = 'http://ftp.gnu.org/pub/gnu/gettext/gettext-%s.tar.gz' % ver
             self.targetInstSrc[ver] = "gettext-%s" % ver
         self.patchLevel['0.19.8.1'] = 1
         self.targetDigests['0.19.8.1'] = (['ff942af0e438ced4a8b0ea4b0b6e0d6d657157c5e2364de57baa279c1c125c43'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['0.21'] = (['c77d0da3102aec9c07f43671e60611ebff89a996ef159497ce8e59d075786b12'], CraftHash.HashAlgorithm.SHA256)
 
         #patch based on https://github.com/fanc999/gtk-msvc-projects/tree/master/gettext/0.19.8.1
         self.patchToApply['0.19.8.1'] = [("gettext-0.19.8.1-gtk-msvc-projects.diff", 1),
@@ -31,6 +32,8 @@ class subinfo(info.infoclass):
 
         self.description = "GNU internationalization (i18n)"
         self.defaultTarget = '0.19.8.1'
+        if CraftCore.compiler.isFreeBSD:
+            self.defaultTarget = '0.21'
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/automake"] = None

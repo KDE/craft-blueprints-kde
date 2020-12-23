@@ -5,10 +5,10 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         
         self.description = 'a desktop planetarium'
-        for ver in ['3.4.3']:
+        for ver in ['3.5.0']:
             self.targets[ver] = 'http://download.kde.org/stable/kstars/kstars-%s.tar.xz' % ver
             self.targetInstSrc[ver] = 'kstars-%s' % ver
-        self.defaultTarget = '3.4.3'
+        self.defaultTarget = '3.5.0'
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
@@ -39,6 +39,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/indiclient"] = None
         self.runtimeDependencies["libs/libraw"] = None
         self.runtimeDependencies["libs/gsl"] = None
+        self.runtimeDependencies["libs/stellarsolver"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
         # Install proper theme

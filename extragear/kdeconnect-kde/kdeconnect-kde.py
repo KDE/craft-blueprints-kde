@@ -30,6 +30,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kpeople"] = None
         self.runtimeDependencies["kde/pim/kpeoplevcard"] = None
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
+        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
+        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
 
 class Package(CMakePackageBase):
     def __init__(self):
@@ -57,8 +59,8 @@ class Package(CMakePackageBase):
                         !insertmacro SnoreShortcut "$SMPROGRAMS\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe" "@{AppUserModelID}"
                         CreateShortCut "$SMPROGRAMS\\Startup\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
                         CreateShortCut "$DESKTOP\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
-                        CreateShortCut "$SENDTO\\Send to remote device via @{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-handler.exe"  "" "$INSTDIR\\bin\\kdeconnect-handler.exe" 0
-                        CreateShortCut "$SENDTO\\Open on remote device via @{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-handler.exe"  "--open" "$INSTDIR\\bin\\kdeconnect-handler.exe" 0
+                        CreateShortCut "$SENDTO\\Send to remote device via @{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-handler.exe"  "" "$INSTDIR\\bin\\kdeconnect-indicator.exe" 0
+                        CreateShortCut "$SENDTO\\Open on remote device via @{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-handler.exe"  "--open" "$INSTDIR\\bin\\kdeconnect-indicator.exe" 0
                     !insertmacro MUI_STARTMENU_WRITE_END
                 SectionEnd
                 """

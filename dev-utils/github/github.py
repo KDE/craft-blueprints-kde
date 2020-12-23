@@ -12,7 +12,8 @@ class subinfo(info.infoclass):
             ext = "zip"
         for ver in ["2.14.2"]:
             self.targets[ver] = f"https://github.com/github/hub/releases/download/v{ver}/hub-{platform}-amd64-{ver}.{ext}"
-            self.targetInstSrc[ver] = f"hub-{platform}-amd64-{ver}"
+            if not CraftCore.compiler.isWindows:
+                self.targetInstSrc[ver] = f"hub-{platform}-amd64-{ver}"
             self.targetInstallPath[ver] = "dev-utils/github"
         self.defaultTarget = "2.14.2"
 

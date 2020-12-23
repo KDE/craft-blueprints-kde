@@ -1,0 +1,181 @@
+From 5b1870a5bd89934307aa730511c7da187ae4dc06 Mon Sep 17 00:00:00 2001
+From: Ralf Habacker <ralf.habacker@freenet.de>
+Date: Wed, 23 Sep 2020 16:32:54 +0200
+Subject: [PATCH] cmake: make support for traditional activation optional
+
+Traditional activation is enabled/disabled with the cmake configure
+parameter -DENABLE_TRADITIONAL_ACTIVATION, which is enabled by default.
+
+This was added to the Autotools build system as part of dbus/dbus!107
+but until now was not possible to disable when building with CMake.
+---
+ CMakeLists.txt                | 10 ++++++++++
+ bus/CMakeLists.txt            | 15 +++++++++------
+ cmake/config.h.cmake          |  1 +
+ dbus/CMakeLists.txt           |  6 +++++-
+ test/CMakeLists.txt           | 12 ++++++++----
+ test/name-test/CMakeLists.txt |  8 +++++---
+ 6 files changed, 38 insertions(+), 14 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index caef7384..d86b8ac4 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -138,6 +138,7 @@ option(DBUS_DISABLE_ASSERT "Disable assertion checking" OFF)
+ 
+ option(DBUS_ENABLE_STATS "enable bus daemon usage statistics" OFF)
+ option(DBUS_ENABLE_CONTAINERS "enable restricted servers for app-containers" OFF)
++option(ENABLE_TRADITIONAL_ACTIVATION "Enable traditional activation (without using systemd)" ON)
+ 
+ if(DBUS_LINUX)
+     add_auto_option(ENABLE_SYSTEMD "build with systemd at_console support" AUTO)
+@@ -177,6 +178,13 @@ if(DBUS_LINUX)
+     endif()
+ endif()
+ 
++if(NOT ENABLE_TRADITIONAL_ACTIVATION AND NOT (DBUS_LINUX AND DBUS_BUS_ENABLE_SYSTEMD))
++    message(WARNING "\
++Traditional activation and systemd activation are both disabled, so service \
++activation (automatically starting services that receive messages) will not work. \
++    ")
++endif()
++
+ if(WIN32)
+     set(FD_SETSIZE "8192" CACHE STRING "The maximum number of connections that can be handled at once")
+ endif()
+@@ -618,6 +626,7 @@ message("                                                                      "
+ message("        install prefix:           ${prefix}                           ")
+ message("        install exec_prefix:      ${exec_prefix}                      ")
+ message("        install libdir:           ${CMAKE_INSTALL_FULL_LIBDIR}        ")
++message("        install libexecdir:       ${CMAKE_INSTALL_FULL_LIBEXECDIR}    ")
+ message("        install bindir:           ${CMAKE_INSTALL_FULL_BINDIR}        ")
+ message("        install sysconfdir:       ${CMAKE_INSTALL_FULL_SYSCONFDIR}    ")
+ message("        install datadir:          ${CMAKE_INSTALL_FULL_DATADIR}       ")
+@@ -654,6 +663,7 @@ message("        Building kqueue support:  ${DBUS_BUS_ENABLE_KQUEUE}           "
+ message("        Building systemd support: ${DBUS_BUS_ENABLE_SYSTEMD}          ")
+ message("        systemd system install dir:${DBUS_SYSTEMD_SYSTEMUNITDIR}      ")
+ message("        systemd user install dir: ${DBUS_SYSTEMD_USERUNITDIR}         ")
++message("        Traditional activation:   ${ENABLE_TRADITIONAL_ACTIVATION}    ")
+ message("        Building Doxygen docs:    ${DBUS_ENABLE_DOXYGEN_DOCS}         ")
+ message("        Building Qt help docs:    ${DBUS_ENABLE_QTHELP_DOCS}          ")
+ message("        Building XML docs:        ${DBUS_ENABLE_XML_DOCS}             ")
+diff --git a/bus/CMakeLists.txt b/bus/CMakeLists.txt
+index a52c1bfb..26f07dd2 100644
+--- a/bus/CMakeLists.txt
++++ b/bus/CMakeLists.txt
+@@ -143,15 +143,18 @@ set(LAUNCH_HELPER_SOURCES
+ )
+ 
+ if(NOT WIN32)
++    # test-bus-system depends on this library
+     add_library(launch-helper-internal STATIC ${LAUNCH_HELPER_SOURCES})
+     target_link_libraries(launch-helper-internal ${DBUS_INTERNAL_LIBRARIES} ${EXPAT_LIBRARIES})
+ 
+-    add_executable(dbus-daemon-launch-helper activation-helper.c activation-helper-bin.c )
+-    target_link_libraries(dbus-daemon-launch-helper launch-helper-internal)
+-    install(TARGETS dbus-daemon-launch-helper RUNTIME DESTINATION ${CMAKE_INSTALL_LIBEXECDIR})
+-    # It is intended not to check here that uid is 0 - see https://gitlab.freedesktop.org/dbus/dbus/-/merge_requests/154#note_478876
+-    install(CODE "message(\"-- Note: Not installing \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBEXECDIR}/dbus-daemon-launch-helper binary setuid!\")")
+-    install(CODE "message(\"-- Note: You'll need to manually set permissions to 'root:${DBUS_USER}' and permissions '4750'\")")
++    if(ENABLE_TRADITIONAL_ACTIVATION)
++        add_executable(dbus-daemon-launch-helper activation-helper.c activation-helper-bin.c )
++        target_link_libraries(dbus-daemon-launch-helper launch-helper-internal)
++        install(TARGETS dbus-daemon-launch-helper RUNTIME DESTINATION ${CMAKE_INSTALL_LIBEXECDIR})
++        # It is intended not to check here that uid is 0 - see https://gitlab.freedesktop.org/dbus/dbus/-/merge_requests/154#note_478876
++        install(CODE "message(\"-- Note: Not installing \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBEXECDIR}/dbus-daemon-launch-helper binary setuid!\")")
++        install(CODE "message(\"-- Note: You'll need to manually set permissions to 'root:${DBUS_USER}' and permissions '4750'\")")
++    endif()
+ endif()
+ 
+ if(MSVC)
+diff --git a/cmake/config.h.cmake b/cmake/config.h.cmake
+index cbffcfa9..f45a8fb3 100644
+--- a/cmake/config.h.cmake
++++ b/cmake/config.h.cmake
+@@ -39,6 +39,7 @@
+ 
+ #cmakedefine DBUS_ENABLE_STATS
+ #cmakedefine DBUS_ENABLE_CONTAINERS
++#cmakedefine ENABLE_TRADITIONAL_ACTIVATION
+ 
+ #define TEST_LISTEN       "@TEST_LISTEN@"
+ 
+diff --git a/dbus/CMakeLists.txt b/dbus/CMakeLists.txt
+index 63070b69..a603a1aa 100644
+--- a/dbus/CMakeLists.txt
++++ b/dbus/CMakeLists.txt
+@@ -214,10 +214,14 @@ else(WIN32)
+         dbus-userdb.h
+     )
+     set(DBUS_UTIL_SOURCES ${DBUS_UTIL_SOURCES}
+-        dbus-spawn-unix.c
+         dbus-userdb-util.c
+         dbus-sysdeps-util-unix.c
+     )
++    if(ENABLE_TRADITIONAL_ACTIVATION)
++        set(DBUS_UTIL_SOURCES ${DBUS_UTIL_SOURCES}
++            dbus-spawn-unix.c
++        )
++    endif()
+ endif()
+ 
+ if(DBUS_HAVE_LINUX_EPOLL)
+diff --git a/test/CMakeLists.txt b/test/CMakeLists.txt
+index 00042000..20e75d85 100644
+--- a/test/CMakeLists.txt
++++ b/test/CMakeLists.txt
+@@ -81,10 +81,12 @@ add_test_executable(test-shell ${test-shell_SOURCES} ${DBUS_INTERNAL_LIBRARIES})
+ add_test_executable(test-printf internals/printf.c dbus-testutils)
+ add_helper_executable(test-privserver test-privserver.c dbus-testutils)
+ add_helper_executable(test-shell-service ${test-shell-service_SOURCES} dbus-testutils)
+-add_helper_executable(test-spawn ${test-spawn_SOURCES} ${DBUS_INTERNAL_LIBRARIES})
+-if(NOT WINCE)
++if(NOT WINCE AND ENABLE_TRADITIONAL_ACTIVATION)
+     add_test_executable(test-spawn-oom internals/spawn-oom.c dbus-testutils)
+ endif()
++if(ENABLE_TRADITIONAL_ACTIVATION)
++    add_helper_executable(test-spawn ${test-spawn_SOURCES} ${DBUS_INTERNAL_LIBRARIES})
++endif()
+ add_helper_executable(test-exit ${test-exit_SOURCES} ${DBUS_INTERNAL_LIBRARIES})
+ # the second argument of add_helper_executable() is a whitespace-separated
+ # list of source files and the third and subsequent arguments are libraries
+@@ -156,8 +158,10 @@ if(DBUS_ENABLE_EMBEDDED_TESTS)
+ 
+     if(NOT WIN32)
+         add_test_executable(test-bus-system bus/system.c launch-helper-internal dbus-testutils)
+-        add_test_executable(test-bus-launch-helper-oom bus/launch-helper-oom.c launch-helper-internal dbus-testutils)
+-        add_helper_executable(dbus-daemon-launch-helper-for-tests bus/launch-helper-for-tests.c launch-helper-internal)
++        if(ENABLE_TRADITIONAL_ACTIVATION)
++            add_test_executable(test-bus-launch-helper-oom bus/launch-helper-oom.c launch-helper-internal dbus-testutils)
++            add_helper_executable(dbus-daemon-launch-helper-for-tests bus/launch-helper-for-tests.c launch-helper-internal)
++        endif()
+     endif()
+ endif()
+ 
+diff --git a/test/name-test/CMakeLists.txt b/test/name-test/CMakeLists.txt
+index 7058d696..e7c62587 100644
+--- a/test/name-test/CMakeLists.txt
++++ b/test/name-test/CMakeLists.txt
+@@ -1,14 +1,16 @@
+ add_definitions(${DBUS_INTERNAL_CLIENT_DEFINITIONS})
+ 
+ add_helper_executable(test-autolaunch test-autolaunch.c dbus-testutils)
+-add_helper_executable(test-privserver-client test-privserver-client.c dbus-testutils)
+ 
+ add_session_test_executable(test-ids test-ids.c ${DBUS_INTERNAL_LIBRARIES})
+-if (ENABLE_TRADITIONAL_ACTIVATION)
++add_session_test_executable(test-pending-call-disconnected test-pending-call-disconnected.c ${DBUS_INTERNAL_LIBRARIES})
++
++if(ENABLE_TRADITIONAL_ACTIVATION)
+     add_session_test_executable(test-pending-call-dispatch test-pending-call-dispatch.c ${DBUS_INTERNAL_LIBRARIES})
+     add_session_test_executable(test-pending-call-timeout test-pending-call-timeout.c ${DBUS_INTERNAL_LIBRARIES})
+ endif()
+ add_session_test_executable(test-shutdown test-shutdown.c dbus-testutils)
+ if (ENABLE_TRADITIONAL_ACTIVATION)
+-   add_session_test_executable(test-thread-init test-threads-init.c ${DBUS_INTERNAL_LIBRARIES})
++    add_session_test_executable(test-privserver-client test-privserver-client.c dbus-testutils)
++    add_session_test_executable(test-thread-init test-threads-init.c ${DBUS_INTERNAL_LIBRARIES})
+ endif()
+-- 
+2.28.0.windows.1
+

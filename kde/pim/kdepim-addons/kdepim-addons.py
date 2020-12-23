@@ -35,6 +35,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-import-wizard"] = None
         self.runtimeDependencies["kde/pim/mailimporter"] = None
         self.runtimeDependencies["kde/pim/kpkpass"] = None
+        self.runtimeDependencies["kde/pim/kitinerary"] = None
 
 
 from Package.CMakePackageBase import *
@@ -43,3 +44,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DUSE_UNITY_CMAKE_SUPPORT=ON "

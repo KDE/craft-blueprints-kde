@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kontactinterface"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kde/pim/grantleetheme"] = None
-        self.runtimeDependencies["kde/pim/kdepim-apps-libs"] = None
+        self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
 
 
 from Package.CMakePackageBase import *
@@ -30,3 +30,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DUSE_UNITY_CMAKE_SUPPORT=ON "

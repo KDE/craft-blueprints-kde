@@ -180,7 +180,7 @@ class PackageMSVC(MSBuildPackageBase):
             utils.copyFile(os.path.join(self.sourceDir(), "sqlcipher.pc.in"), pkgConfigFile)
             with open(pkgConfigFile, "rt") as f:
                 content = f.read()
-            content = content.replace(r"@prefix@", CraftCore.standardDirs.craftRoot())
+            content = content.replace(r"@prefix@", str(CraftCore.standardDirs.craftRoot()))
             content = content.replace(r"@exec_prefix@", r"${prefix}/bin")
             content = content.replace(r"@libdir@", r"${prefix}/lib")
             content = content.replace(r"@includedir@", r"${prefix}/include")

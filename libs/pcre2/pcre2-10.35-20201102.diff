@@ -1,0 +1,11 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user pcre2-10.35.orig/CMakeLists.txt pcre2-10.35/CMakeLists.txt
+--- pcre2-10.35.orig/CMakeLists.txt	2020-05-09 17:43:10.000000000 +0200
++++ pcre2-10.35/CMakeLists.txt	2020-11-02 13:46:45.000000000 +0100
+@@ -109,6 +109,7 @@
+ LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+ 
+ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${PROJECT_SOURCE_DIR}/src")
++set(CMAKE_MACOSX_RPATH ON)
+ 
+ # external packages
+ FIND_PACKAGE( BZip2 )

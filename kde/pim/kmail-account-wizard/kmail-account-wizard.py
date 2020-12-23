@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kross"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
         self.runtimeDependencies["kde/pim/kldap"] = None
@@ -29,6 +30,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/kimap"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
 
 from Package.CMakePackageBase import *
@@ -37,3 +39,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DUSE_UNITY_CMAKE_SUPPORT=ON "

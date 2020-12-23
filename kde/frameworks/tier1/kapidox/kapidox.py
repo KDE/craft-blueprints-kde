@@ -29,10 +29,11 @@ class Package(CMakePackageBase):
     def install(self):
         if not CMakeBuildSystem.install(self):
             return False
-        binPath = os.path.join(self.imageDir(), "bin")
-        for script in ["depdiagram-generate", "depdiagram-generate-all", "depdiagram-prepare", "kapidox_generate"]:
-            if not utils.createShim(os.path.join(binPath, f"{script}.exe"),
-                                    os.path.join(self.imageDir(), "dev-utils", "bin", "python2.exe"),
-                                    args=os.path.join(CraftStandardDirs.craftRoot(), "Scripts", script)):
-                return False
+        if CraftCore.compiler.isWindows:
+            binPath = os.path.join(self.imageDir(), "bin")
+            for script in ["depdiagram-generate", "depdiagram-generate-all", "depdiagram-prepare", "kapidox_generate"]:
+                if not utils.createShim(os.path.join(binPath, f"{script}.exe"),
+                                        os.path.join(self.imageDir(), "dev-utils", "bin", "python3.exe"),
+                                        args=[os.path.join(CraftStandardDirs.craftRoot(), "Scripts", script)]):
+                    return False
         return True

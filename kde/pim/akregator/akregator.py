@@ -29,6 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/syndication"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/pimcommon"] = None
+        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
 
 from Package.CMakePackageBase import *
@@ -37,3 +38,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DUSE_UNITY_CMAKE_SUPPORT=ON "

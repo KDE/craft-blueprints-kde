@@ -4,11 +4,12 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = "[git]https://github.com/sparkle-project/Sparkle.git"
-        for ver in ["1.22.0"]:
+        for ver in ["1.22.0", "1.24.0"]:
             self.svnTargets[ver] = f"[git]https://github.com/sparkle-project/Sparkle.git||{ver}"
+        self.patchToApply["1.24.0"] = [("sparkle-20201119.patch", 1)]
         self.description = "A software update framework for macOS"
         self.webpage = "https://sparkle-project.org"
-        self.defaultTarget = '1.22.0'
+        self.defaultTarget = '1.24.0'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -21,19 +22,11 @@ class Package(MakeFilePackageBase):
     def __init__(self):
         MakeFilePackageBase.__init__(self)
         self.subinfo.options.fetch.checkoutSubmodules = True
-        self.subinfo.options.make.supportsMultijob = False
-        self.subinfo.options.make.args += f" release BUILDDIR='{self.buildDir()}'"
-
-    def fetch(self):
-        if isinstance(self, GitSource):
-            if os.path.exists(self.sourceDir()):
-                utils.system(["git", "clean", "-xdf"], cwd=self.sourceDir())
-        return super().fetch()
 
     def make(self):
-        """implements the make step for Makefile projects"""
-        self.enterSourceDir() # we need to call the make file in the src dir...
-        return utils.system(" ".join([self.makeProgram, self.makeOptions(self.subinfo.options.make.args)]))
+        self.cleanBuild()
+        self.enterBuildDir() # we need to call the make file in the src dir...
+        return utils.system(["xcodebuild", "-project", self.sourceDir() / "Sparkle.xcodeproj", "-scheme", "Sparkle", "-configuration", "Release", "-derivedDataPath", self.buildDir(), "build"])
 
     def install(self):
         self.cleanImage()
@@ -45,3 +38,11 @@ class Package(MakeFilePackageBase):
             if not utils.copyDir(src / f, dest / f):
                 return False
         return True
+
+    def postInstall(self):
+        dest = Path(self.imageDir()) / "lib"
+        return (
+            CodeSign.signMacApp(dest / "Sparkle.framework/Versions/A/Resources/AutoUpdate.app/Contents/MacOS/Autoupdate") and
+            CodeSign.signMacApp(dest / "Sparkle.framework/Versions/A/Resources/AutoUpdate.app/Contents/MacOS/fileop") and
+            CodeSign.signMacApp(dest / "Sparkle.framework/Versions/A/Resources/AutoUpdate.app")
+        )

@@ -37,8 +37,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtwebsockets"] = None
         self.runtimeDependencies["libs/qt5/qtnetworkauth"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt5/qtspeech"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
@@ -64,4 +62,8 @@ class Package(CMakePackageBase):
     def createPackage(self):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+        self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|dbus|snoretoast)).*")
+        self.defines["shortcuts"] = [{"name" : "Ruqola", "target":"bin/ruqola.exe", "description" : self.subinfo.description}]
+        self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "widget", "appIcons.ico")
+        self.ignoredPackages.append("binary/mysql")
         return super().createPackage()

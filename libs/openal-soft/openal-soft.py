@@ -20,10 +20,11 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += " -DALSOFT_EXAMPLES=OFF"
+        self.subinfo.options.configure.args += ["-DALSOFT_EXAMPLES=OFF"]
         # fix dsound.h search
+        # TODO: fix the find script ...
         if CraftCore.compiler.isMinGW():
             if CraftCore.compiler.isX64():
-                self.subinfo.options.configure.args += " -DCMAKE_SYSTEM_PREFIX_PATH=" + CraftCore.standardDirs.craftRoot() + "/mingw64/x86_64-w64-mingw32"
+                self.subinfo.options.configure.args += [f"-DCMAKE_SYSTEM_PREFIX_PATH={CraftCore.standardDirs.craftRoot()}/mingw64/x86_64-w64-mingw32"]
             else:
-                self.subinfo.options.configure.args += " -DCMAKE_SYSTEM_PREFIX_PATH=" + CraftCore.standardDirs.craftRoot() + "/mingw/i686-w64-mingw32"
+                self.subinfo.options.configure.args += [f"-DCMAKE_SYSTEM_PREFIX_PATH={CraftCore.standardDirs.craftRoot()}/mingw/i686-w64-mingw32"]

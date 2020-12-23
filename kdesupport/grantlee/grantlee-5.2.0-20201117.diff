@@ -1,0 +1,21 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user grantlee-5.2.0.orig/templates/lib/engine.cpp grantlee-5.2.0/templates/lib/engine.cpp
+--- grantlee-5.2.0.orig/templates/lib/engine.cpp	2019-12-18 20:57:28.000000000 +0100
++++ grantlee-5.2.0/templates/lib/engine.cpp	2020-11-17 17:55:22.134368100 +0100
+@@ -20,7 +20,7 @@
+ 
+ #include "engine.h"
+ #include "engine_p.h"
+-
++#include <QDebug>
+ #include "exception.h"
+ #include "grantlee_config_p.h"
+ #include "grantlee_version.h"
+@@ -350,6 +350,8 @@
+ #endif
+       m_libraries.insert(name, plugin);
+       return plugin;
++		} else {
++		qWarning() << "Librairie not found " << pluginPath;
+     }
+   }
+   return 0;

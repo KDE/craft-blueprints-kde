@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         self.displayName = "Okular"
 
         for ver in ["master"] + self.versionInfo.tarballs():
-            self.patchToApply[ver] = [("breeze.patch", 1)]
+            self.patchToApply[ver] = [("breeze.patch", 1), ("okular-20.08.1-mingw.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["libs/chm"] = None
@@ -49,6 +49,8 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
         self.defines["executable"] = r"bin\okular.exe"
         self.defines["mimetypes"] = ["application/pdf"]
         self.defines["file_types"] = [".pdf", ".mobi", ".epub", ".tiff", ".djvu"]

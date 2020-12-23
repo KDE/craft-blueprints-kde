@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
-        self.runtimeDependencies["libs/qtav"] = None
+        self.runtimeDependencies["libs/openal-soft"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None

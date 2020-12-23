@@ -1,0 +1,101 @@
+--- /dev/null	2020-10-06 09:04:43.186494854 +0200
++++ common/CMakeLists.txt	2020-10-09 10:18:28.017212643 +0200
+@@ -0,0 +1,98 @@
++project(jackclient)
++set(JACK_VERSION 1.9.14)
++cmake_minimum_required(VERSION 3.10)
++include(GNUInstallDirs)
++set(common_libsources
++    JackActivationCount.cpp
++    JackAPI.cpp
++    JackClient.cpp
++    JackConnectionManager.cpp
++    ringbuffer.c
++    JackError.cpp
++    JackException.cpp
++    JackFrameTimer.cpp
++    JackGraphManager.cpp
++    JackPort.cpp
++    JackPortType.cpp
++    JackAudioPort.cpp
++    JackMidiPort.cpp
++    JackMidiAPI.cpp
++    JackEngineControl.cpp
++    JackShmMem.cpp
++    JackGenericClientChannel.cpp
++    shm.c
++    JackGlobals.cpp
++    JackTransportEngine.cpp
++    JackTools.cpp
++    JackMessageBuffer.cpp
++    JackEngineProfiling.cpp)
++set(common_includes . jack)
++find_package(Threads)
++set(common_use Threads::Threads)
++set(client_libsources
++    JackLibClient.cpp
++    JackLibAPI.cpp
++    JackMetadata.cpp)
++if(UNIX)
++    list(APPEND common_libsources
++        JackDebugClient.cpp
++        timestamps.c
++        promiscuous.c
++        ../posix/JackPosixThread.cpp
++        ../posix/JackPosixProcessSync.cpp
++        ../posix/JackPosixMutex.cpp
++        ../posix/JackSocket.cpp)
++    list(APPEND client_libsources
++        ../posix/JackSocketClientChannel.cpp
++        ../posix/JackPosixServerLaunch.cpp)
++    if(NOT APPLE)
++        list(APPEND common_libsources
++            ../linux/JackLinuxFutex.cpp
++            ../linux/JackLinuxTime.c)
++        list(APPEND common_includes ../linux ../posix)
++        list(APPEND common_use dl)
++    else()
++        list(APPEND common_libsources
++            ../posix/JackPosixSemaphore.cpp
++            ../macosx/JackMachThread.mm
++            ../macosx/JackMachTime.c)
++        list(APPEND common_includes ../macosx ../macosx/RPC ../posix)
++        list(APPEND common_use CoreAudio Accelerate)
++    endif()
++elseif(WIN32)
++    list(APPEND common_libsources
++        ../windows/JackWinMutex.cpp
++        ../windows/JackWinProcessSync.cpp
++        ../windows/JackWinSemaphore.cpp
++        ../windows/JackWinThread.cpp
++        ../windows/JackWinTime.c)
++    find_package(PkgConfig REQUIRED)
++    pkg_check_modules(tre REQUIRED IMPORTED_TARGET tre)
++    list(APPEND common_includes ../windows ${tre_INCLUDEDIR}/tre)
++    list(APPEND common_use PkgConfig::tre psapi winmm)
++    list(APPEND client_libsources
++        ../windows/JackWinNamedPipe.cpp
++        ../windows/JackWinNamedPipeClientChannel.cpp
++        ../windows/JackWinServerLaunch.cpp
++        ../windows/JackMMCSS.cpp)
++endif()
++add_library(jack SHARED ${common_libsources} ${client_libsources})
++target_compile_definitions(jack PRIVATE "ADDON_DIR=\"${CMAKE_INSTALL_LIBDIR}/jack\"")
++target_include_directories(jack PRIVATE ${common_includes})
++target_link_libraries(jack PRIVATE ${common_use})
++if(WIN32)
++    install(TARGETS jack LIBRARY DESTINATION ${CMAKE_INSTALL_BINDIR})
++    install(TARGETS jack ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
++else()
++    install(TARGETS jack DESTINATION ${CMAKE_INSTALL_LIBDIR})
++endif()
++# DEVELOPMENT HEADERS
++file(GLOB jack_h jack/*.h)
++install(FILES ${jack_h} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/jack)
++# PKGCONFIG FILE VARIABLES
++set(PREFIX ${CMAKE_INSTALL_PREFIX})
++set(LIBDIR ${CMAKE_INSTALL_FULL_LIBDIR})
++set(INCLUDEDIR ${CMAKE_INSTALL_FULL_INCLUDEDIR})
++set(SERVERLIB jackserver)
++configure_file(../jack.pc.in jack.pc @ONLY)
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/jack.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)

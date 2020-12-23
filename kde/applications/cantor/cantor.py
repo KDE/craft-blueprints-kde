@@ -6,14 +6,10 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "Cantor"
-        # use master for recent fixes
-        if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
-            self.defaultTarget = 'master'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["dev-utils/png2ico"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         # R backend fails compiling with MSVC
@@ -54,3 +50,29 @@ class Package(CMakePackageBase):
 
             pythonPath = CraftCore.settings.get("Paths", "PYTHON")
             self.subinfo.options.configure.args += f" -DPYTHONLIBS3_LIBRARY=\"{pythonPath}\libs\python38.lib\" -DPYTHONLIBS3_INCLUDE_DIR=\"{pythonPath}\include\""
+
+    def createPackage(self):
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        # Some plugin files brake codesigning on macOS, which is picky about file names
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+
+        self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("libs/dbus")
+
+        self.defines["appname"] = "cantor"
+        self.defines["website"] = "https://cantor.kde.org/"
+        self.defines["executable"] = "bin\\cantor.exe"
+        self.defines["shortcuts"] = [{"name" : "Cantor", "target" : "bin/cantor.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\cantor.ico" }]
+        self.defines["icon"] = os.path.join(self.packageDir(), "cantor.ico")
+        if self.buildTarget == "master":
+            self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-cantor.png")
+            self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-cantor.png")
+            self.defines["icon_png_310"] = os.path.join(self.sourceDir(), "icons", "310-apps-cantor.png")
+
+        if isinstance(self, AppxPackager):
+            self.defines["display_name"] = "Cantor"
+
+        # see labplot.py for more
+ 
+        return TypePackager.createPackage(self)

@@ -17,11 +17,16 @@ class subinfo(info.infoclass):
             self.patchLevel["8.0.0"] += 1
         self.patchToApply["6.0.1"] = [("llvm-6.0.1-20181019.diff", 1)]
         self.patchToApply["7.0.1"] = [("llvm-7.0.1-20190118.diff", 1), ("llvm-7.0.1-20190102.diff", 1)]
+        self.patchToApply["10.0.1"] = [("0004-fix-dr-1734.patch", 1),  # https://github.com/microsoft/vcpkg/blob/8054263f15c8400d6df5fff55fae97394e187368/ports/llvm/0003-fix-vs2019-v16.6.patch
+                                                                      # https://raw.githubusercontent.com/microsoft/vcpkg/8054263f15c8400d6df5fff55fae97394e187368/ports/llvm/0004-fix-dr-1734.patch
+                                       ("D78450.diff", 1) # https://reviews.llvm.org/D78450
+				      ]
         if CraftCore.compiler.isLinux:
             # don't just link against xml2 but use cmake logic...
             # don't apply this at Windows as it is used there for configurtion files...
             self.patchToApply["9.0.0"] = [("fix_libxml.diff", 1)]
             self.patchToApply["9.0.1"] = [("fix_libxml.diff", 1)]
+            self.patchToApply["10.0.1"] = [("fix_libxml.diff", 1)]
         if not CraftCore.compiler.isMacOS:
             self.patchToApply["8.0.0"] = [("llvm-8.0.0-20190411.diff", 1)]
 
@@ -40,9 +45,13 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.supportsClang = False
-        self.subinfo.options.configure.args += " -DLLVM_BUILD_TESTS=OFF  -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_GO_TESTS=OFF"
-        self.subinfo.options.configure.args += " -DLLVM_TARGETS_TO_BUILD='host'"
-        self.subinfo.options.configure.args += " -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_EH=ON -DLLVM_INCLUDE_DOCS=OFF -DLLVM_INSTALL_UTILS=ON -DLLVM_OPTIMIZED_TABLEGEN=ON -DLLVM_TARGETS_TO_BUILD=all"
+        self.subinfo.options.configure.args += (" -DLLVM_BUILD_TESTS=OFF  -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_GO_TESTS=OFF"
+                                                " -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_BUILD_EXAMPLES=OFF"
+                                                " -DLLVM_TARGETS_TO_BUILD=X86"
+                                                " -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_EH=ON -DLLVM_INCLUDE_DOCS=OFF -DLLVM_INSTALL_UTILS=ON"
+                                                " -DLLVM_OPTIMIZED_TABLEGEN=ON"
+                                                # Limit the maximum number of concurrent link jobs to 1. This should fix low amount of memory issue for link.
+                                                " -DLLVM_PARALLEL_LINK_JOBS=1")
         # allow gcc < 5
         self.subinfo.options.configure.args += " -DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=ON"
 
