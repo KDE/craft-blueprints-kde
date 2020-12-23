@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtlocation"] = None
         self.runtimeDependencies["libs/qt5/qtsvg"] = None
         self.runtimeDependencies["libs/qt5/qtwebchannel"] = None
+        self.runtimeDependencies["libs/qt5/qtwebengine"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
         self.runtimeDependencies["qt-libs/phonon"] = None
         self.runtimeDependencies["libs/protobuf"] = None
@@ -34,6 +35,6 @@ class Package(CMakePackageBase):
         self.defines["shortcuts"] = [{"name" : "Marble", "target" : "bin\marble-qt.exe"}]
         self.defines["website"] = "https://marble.kde.org/"
 
-        self.addExecutableFilter(r"bin/(?!(marble-qt)).*")
+        self.addExecutableFilter(r"bin/(?!(marble-qt|QtWebEngineProcess)).*")
 
         return TypePackager.createPackage(self)
