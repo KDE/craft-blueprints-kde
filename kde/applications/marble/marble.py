@@ -24,8 +24,6 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args = "-DBUILD_MARBLE_TESTS=OFF -DWITH_KF5=OFF"
-        if CraftCore.compiler.isMSVC():
-            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_msvc.txt'))
 
     def createPackage(self):
         self.defines["productname"] = "Marble"
@@ -35,4 +33,7 @@ class Package(CMakePackageBase):
         self.defines["icon_png_44"] = os.path.join(self.packageDir(), "44-apps-marble.png")
         self.defines["shortcuts"] = [{"name" : "Marble", "target" : "bin\marble-qt.exe"}]
         self.defines["website"] = "https://marble.kde.org/"
+
+        self.addExecutableFilter(r"bin/(?!(marble-qt)).*")
+
         return TypePackager.createPackage(self)

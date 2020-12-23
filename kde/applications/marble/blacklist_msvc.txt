@@ -1,4 +1,0 @@
-# blacklist
-
-# unneeded stuff from bin\
-bin\\(?!(msg*|test*|r*|mysql*)).*\.exe
