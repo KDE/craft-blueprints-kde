@@ -31,7 +31,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
         self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
-
+        # KUserFeedback yet not an official tier1 framework
+        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
 from Package.CMakePackageBase import *
 
