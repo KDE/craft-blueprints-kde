@@ -42,7 +42,7 @@ class subinfo(info.infoclass):
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
         self.defaultTarget = '0.9.13'
-        self.patchLevel["0.9.13"] = 1
+        self.patchLevel["0.9.13"] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libopensp"] = None
