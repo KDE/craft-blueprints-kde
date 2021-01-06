@@ -12,10 +12,10 @@ class subinfo(info.infoclass):
         self.patchLevel["0.18.13"] = 1
         
         # 0.20.2
-        self.targets['0.20.2'] = "https://www.libraw.org/data/LibRaw-0.20.2.tar.gz"
+        self.targets['0.20.2'] = "https://www.indilib.org/jdownloads/libraw/LibRaw-0.20.2.tar.gz"
         self.archiveNames['0.20.2'] = "LibRaw-0.20.2.tar.gz"
         self.targetInstSrc['0.20.2'] = "LibRaw-0.20.2"        
-        self.targetDigests['0.20.2'] = (['dc1b486c2003435733043e4e05273477326e51c3ea554c6864a4eafaff1004a6'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['0.20.2'] = (['d5eba8cc57c4f6f6a1267de5967d2627f2bb27d12b9e89f65400fb76a22fc6f4'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "LibRaw is a library for reading RAW files obtained from digital photo cameras (CRW/CR2, NEF, RAF, DNG, and others)."
 
@@ -30,4 +30,3 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-
