@@ -32,10 +32,8 @@ bin/data/knotifications5/.*
 bin/data/kpackage/(?!kcms).*
 bin/data/kservices5/(?!kcm_elisa_local_file.desktop).*
 bin/data/kservicetypes5/.*
-bin/data/locale/.*
 bin/data/man/.*
 bin/data/metainfo/.*
-bin/data/mime/.*
 bin/data/xdg/.*
 bin/data/xml/.*
 
