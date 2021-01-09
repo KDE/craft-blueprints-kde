@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"kaidan-{ver}"
         self.targetDigests['0.6.0'] = (
             ['7b9008b9fcb5ff2de47ac40eaf64c97a5652e756f0eb32306f6ad1320ce52ee7'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '0.6.0'
+        self.defaultTarget = 'master'
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
