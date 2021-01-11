@@ -60,4 +60,4 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         # we use -DRUN_GPERF_IF_PRESENT=OFF to avoid running in gperf issues on windows during linking
-        self.subinfo.options.configure.args = "-DENABLE_XPDF_HEADERS=ON -DENABLE_ZLIB=ON -DENABLE_LIBCURL=ON -DENABLE_UTILS=OFF -DENABLE_LIBOPENJPEG=openjpeg2 -DENABLE_GLIB=OFF -DRUN_GPERF_IF_PRESENT=OFF"
+        self.subinfo.options.configure.args = "-DENABLE_XPDF_HEADERS=ON -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB=ON -DENABLE_LIBCURL=ON -DENABLE_UTILS=OFF -DENABLE_LIBOPENJPEG=openjpeg2 -DENABLE_GLIB=OFF -DRUN_GPERF_IF_PRESENT=OFF"
