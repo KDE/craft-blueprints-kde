@@ -31,14 +31,16 @@ class subinfo(info.infoclass):
         self.description = "PDF rendering library based on xpdf-3.0"
         self.svnTargets["master"] = "git://git.freedesktop.org/git/poppler/poppler"
 
-        for ver in ["0.85.0", "0.89.0"]:
+        for ver in ["0.85.0", "0.89.0", "21.01.0"]:
             self.targets[ver] = f"https://poppler.freedesktop.org/poppler-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"poppler-{ver}"
         self.targetDigests["0.85.0"] = (['2bc875eb323002ae6b287e09980473518e2b2ed6b5b7d2e1089e36a6cd00d94b'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.89.0"] = (['fba230364537782cc5d43b08d693ef69c36586286349683c7b127156a8ef9b5c'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["21.01.0"] = (['016dde34e5f868ea98a32ca99b643325a9682281500942b7113f4ec88d20e2f3'], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["0.85.0"] = [("poppler-0.85.0-20200602.diff", 1)]
         self.patchToApply["0.89.0"] = [("poppler-0.85.0-20200602.diff", 1)]
-        self.defaultTarget = "0.89.0"
+        self.patchToApply["21.01.0"] = [("poppler-0.85.0-20200602.diff", 1)]
+        self.defaultTarget = "21.01.0"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
