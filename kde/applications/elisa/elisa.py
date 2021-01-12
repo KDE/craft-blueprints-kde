@@ -9,10 +9,6 @@ class subinfo( info.infoclass ):
         self.displayName = "Elisa"
         self.description = "the Elisa music player"
 
-        self.patchToApply["19.12.3"] = [
-            ("0001-avoid-binding-loop-on-the-height-being-linked-to-its.patch", 1),
-        ]
-
     def setDependencies( self ):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
