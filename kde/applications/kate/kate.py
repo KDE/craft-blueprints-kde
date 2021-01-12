@@ -10,9 +10,6 @@ class subinfo(info.infoclass):
         self.description = "the KDE text editor"
         self.webpage = "https://kate-editor.org/"
 
-        for ver in ["master"] + self.versionInfo.tarballs():
-            self.patchToApply[ver] = [("bugs.patch", 1)]
-
     def registerOptions(self):
         self.options.dynamic.registerOption("fullPlasma", False)
 
