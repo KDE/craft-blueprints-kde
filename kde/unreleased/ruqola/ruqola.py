@@ -51,6 +51,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
 
+        # KUserFeedback yet not an official tier1 framework
+        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+
 
 from Package.CMakePackageBase import *
 
