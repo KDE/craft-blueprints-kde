@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
         #Warning: Craft by default takes the display name to also be the product name. 
         self.displayName = 'KDiff3'
         self.description = "Compares and merges 2 or 3 files or directories"
+        self.options.configure.args = " -DWITH_WAYLAND=OFF"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -79,12 +80,12 @@ class Package(CMakePackageBase):
             #Craft attempts to alter the second and third number so we have to adjust to craft's logic as well.
             self.defines["version"] = "1.0.85"
                         
-            self.defines["un_sections"] = r"""
-            Section "Un.Cleanup Regsistry"
-                ;Maybe left behind due to a bug in previous installers.
-                DeleteRegKey SHCTX  "Software\KDE\KDiff3"
-                DeleteRegKey /ifempty SHCTX  "Software\KDE\"
-            SectionEnd
-            """
+        self.defines["un_sections"] = r"""
+        Section "Un.Cleanup Regsistry"
+        ;Maybe left behind due to a bug in previous installers.
+        DeleteRegKey SHCTX  "Software\KDE\KDiff3"
+        DeleteRegKey /ifempty SHCTX  "Software\KDE\"
+        SectionEnd
+        """
 
         return TypePackager.createPackage(self)
