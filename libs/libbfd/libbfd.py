@@ -23,6 +23,9 @@ class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args = "--with-system-zlib "
+        if CraftCore.compiler.isMinGW():
+            self.subinfo.options.configure.autoreconf = False
+            self.subinfo.options.configure.autoreconf = False
 
 
 if CraftCore.compiler.isMinGW():
