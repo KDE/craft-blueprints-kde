@@ -1,0 +1,32 @@
+From d890fccf420fcec98b44e83a673ce340f84eaac5 Mon Sep 17 00:00:00 2001
+From: Volker Krause <vkrause@kde.org>
+Date: Sun, 3 Jan 2021 12:37:52 +0100
+Subject: [PATCH] Remove the usage of non-UTF-8 string literals
+
+MSVC is rejecting those with /utf-8, which is the default in ECM now, and
+will be the default with Qt6.
+---
+ autotests/rfc2047test.cpp | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/autotests/rfc2047test.cpp b/autotests/rfc2047test.cpp
+index ef280f2..e69f750 100644
+--- a/autotests/rfc2047test.cpp
++++ b/autotests/rfc2047test.cpp
+@@ -82,9 +82,11 @@ void RFC2047Test::testRFC2047decode_data()
+     QTest::newRow("illegal characters") << QByteArray("Subject: =?utf-8?Q?пиѿилл,=20=D0=B4=D0=BE=D0=B1=D1=80=D1=8B=D0=B9=20=D0=B4=D0=B5=D0=BD=D1=8C?=")
+                                         << QByteArray("UTF-8") << QByteArray("utf-8") << false
+                                         << QString::fromUtf8("Subject: пиѿилл, добрый день");
+-    QTest::newRow("illegal characters") << QByteArray("Subject: =?iso-8859-1?Q?������?=")
++    const auto iso88591Encoded = QByteArray::fromHex("D6C4DCF6E4FC"); // "ÖÄÜöäü" in ISO-8859-1 encoding - this is not valid UTF-8 though and thus rejected by MSVC in string literals
++    QTest::newRow("illegal characters") << QByteArray("Subject: =?iso-8859-1?Q?") + iso88591Encoded + "?="
+                                         << QByteArray("ISO-8859-1") << QByteArray("utf-8") << false
+-                                        << QString::fromLatin1("Subject: ������");
++                                        << QString::fromLatin1("Subject: " + iso88591Encoded);
++
+ 
+     QTest::newRow("small data") << QByteArray("=?iso-8859-1?Q?c?=")
+                                 << QByteArray("ISO-8859-1") << QByteArray("utf-8") << false
+-- 
+2.27.0
+
