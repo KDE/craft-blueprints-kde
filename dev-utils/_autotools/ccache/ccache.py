@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
             self.targetInstallPath[ver] = "dev-utils"
         self.targetDigests["4.0"] = (['ac97af86679028ebc8555c99318352588ff50f515fc3a7f8ed21a8ad367e3d45'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["4.1"] = (['cdeefb827b3eef3b42b5454858123881a4a90abbd46cc72cf8c20b3bd039deb7'], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["4.1"] = 1
 
         self.webpage = "https://ccache.dev/"
         self.defaultTarget = "4.1"
@@ -36,12 +37,7 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isGCC:
-            targets = ["gcc", "g++", "cpp", "c++"]
-        elif CraftCore.compiler.isClang:
-            targets = ["clang", "clang++"]
-        for t in targets:
-            arg = CraftCore.cache.findApplication(t)
-            if not utils.createShim(self.installDir() / "ccache/bin" / t, self.installDir() / f"bin/ccache{CraftCore.compiler.executableSuffix}", args=[arg]):
+        for t in [Path(os.environ["CXX"]), Path(os.environ["CC"])]:
+            if not utils.createShim(self.installDir() / "ccache/bin" / t.name, self.installDir() / f"bin/ccache{CraftCore.compiler.executableSuffix}", args=[t]):
                 return False
         return True
