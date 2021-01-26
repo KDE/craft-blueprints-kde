@@ -6,13 +6,11 @@ from Package.CMakePackageBase import CMakePackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["3.3"]:
-            self.targets[ver] = f"https://github.com/libffi/libffi/releases/download/v{ver}/libffi-{ver}.tar.gz"
+            self.targets[ver] = f"ftp://sourceware.org/pub/libffi/libffi-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libffi-{ver}"
-        if not CraftCore.compiler.isGCCLike():
-            self.patchToApply["3.3"] = [("535.patch", 1), # https://github.com/libffi/libffi/pull/535
-                                        ("libffi-3.3-20201216.diff",1)
-            ]
-        self.patchLevel["3.3"] = 1
+        self.targetDigests["3.3"] =  (['72fba7922703ddfa7a028d513ac15a85c8d54c8d67f55fa5a4802885dc652056'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["3.3"] = [("libffi-3.3-20210126.diff", 1)]
+        self.patchLevel["3.3"] = 2
         self.defaultTarget = "3.3"
 
     def setDependencies(self):
@@ -27,15 +25,16 @@ class PackageCMake(CMakePackageBase):
 from Package.AutoToolsPackageBase import *
 
 
-class PackageAutoTools(AutoToolsPackageBase):
+class Package(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]
+        self.shell.useMSVCCompatEnv = True
+        if CraftCore.compiler.isMSVC():
+            wrapper = self.shell.toNativePath(self.sourceDir() / "msvcc.sh")
+            self.subinfo.options.configure.args += [f"CC={wrapper} -m64", f"CXX={wrapper} -m64"]
+            self.subinfo.options.configure.args += ["--enable-static", "--disable-shared"]
+        else:
+            self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]
 
 
-if CraftCore.compiler.isGCCLike():
-    class Package(PackageAutoTools):
-        pass
-else:
-    class Package(PackageCMake):
-        pass
+
