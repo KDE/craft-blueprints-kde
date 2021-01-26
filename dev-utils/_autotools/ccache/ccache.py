@@ -4,7 +4,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = "https://github.com/jrosdahl/ccache.git"
+        self.svnTargets['master'] = "https://github.com/ccache/ccache.git"
         self.targetInstallPath["master"] = "dev-utils"
 
         for ver in ["4.0", "4.1"]:
