@@ -8,8 +8,7 @@ class subinfo(info.infoclass):
         self.displayName = "Tellico"
         self.webpage = "https://tellico-project.org/"
         if CraftCore.compiler.isWindows:
-            self.patchToApply["3.3.2"] = [("tellico-3.3.2-dbus.diff", 1)]
-            self.patchToApply["3.3.3"] = [("tellico-3.3.2-dbus.diff", 1)]
+            self.patchToApply["3.3.4"] = [("tellico-3.3.2-dbus.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
