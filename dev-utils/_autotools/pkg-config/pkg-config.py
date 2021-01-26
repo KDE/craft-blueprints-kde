@@ -7,7 +7,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/glib"] = None
 
     def setTargets(self):
         self.description = "pkg-config is a helper tool used when compiling applications and libraries"
@@ -24,10 +23,7 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
         root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
-        self.subinfo.options.configure.args += (f" --disable-static --enable-shared"
-                                                f" PKG_CONFIG=':'"
-                                                f" GLIB_LIBS='-L{root}/lib -lglib-2.0 -liconv -lintl'"
-                                                f" GLIB_CFLAGS='-I{root}/include/glib-2.0 -I{root}/lib/glib-2.0/include'")
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-internal-glib", "-with-libiconv=gnu", "PKG_CONFIG=:"]
 
 
     def createPackage(self):
