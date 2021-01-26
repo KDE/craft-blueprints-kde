@@ -7,9 +7,6 @@ class subinfo(info.infoclass):
             tarballUrl="http://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz",
             tarballDigestUrl="http://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz.sha1")
 
-        self.patchToApply["5.57.0"] = [("0001-Disable-broken-and-no-longer-needed-workaround-code-.patch", 1)]
-        self.patchToApply["5.58.0"] = [("0001-Disable-broken-and-no-longer-needed-workaround-code-.patch", 1)]
-        self.patchToApply["5.59.0"] = [("0001-Disable-broken-and-no-longer-needed-workaround-code-.patch", 1)]
         self.description = "KJS"
 
     def setDependencies(self):

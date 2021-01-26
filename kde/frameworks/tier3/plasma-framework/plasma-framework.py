@@ -4,7 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply["5.71.0"] = [("0001-Copy-files-rather-than-broken-symlinks.patch", 1)]
 
         self.description = "Plugin based UI runtime used to write primary user interfaces"
 

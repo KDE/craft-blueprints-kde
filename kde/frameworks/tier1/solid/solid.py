@@ -4,7 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply['5.57.0'] = [("D20691.diff", 1)]
 
         self.description = "Solid"
 

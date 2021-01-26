@@ -5,9 +5,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.patchToApply["5.55.0"] = [("kiconthemes-5.55.0-20190308.diff", 1)]
-        self.patchLevel["5.55.0"] = 2
-
         self.description = "Classes to improve the handling of icons"
 
     def setDependencies(self):

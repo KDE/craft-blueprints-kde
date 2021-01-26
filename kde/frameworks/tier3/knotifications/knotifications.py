@@ -4,11 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply['5.57.0'] = [("disabled-deprecated-before.patch", 1)]
-        self.patchToApply["5.67.0"] = [("0001-Make-kstatusnotifieritem-available-without-dbus.patch", 1), ("0001-Use-fallback-also-on-Windows-not-only-mac.patch", 1)]
-        self.patchToApply["5.68.0"] = self.patchToApply["5.67.0"]
-        self.patchLevel["5.67.0"] = 2
-
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
