@@ -57,10 +57,13 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
         self.subinfo.options.configure.args += f" --disable-default-make-check --disable-update-mimedb"
-        self.subinfo.options.configure.cflags = f"-I{root}/include/glib-2.0 -I{root}/include/libxml2"
+
+    def configure(self):
         if CraftCore.compiler.isMSVC():
+            # libxml has no proper .pc handle this manually
+            root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
+            self.subinfo.options.configure.cflags += " " +  CraftCore.cache.getCommandOutput("pkg-config", "--cflags glib-2.0")[1].strip()
             self.subinfo.options.configure.cflags += f" -I{root}/include/msvc"
             self.shell.useMSVCCompatEnv = True
             self.platform = ""
@@ -70,6 +73,7 @@ class Package(AutoToolsPackageBase):
                 self.subinfo.options.configure.ldflags += " -lkdewind"
             else:
                 self.subinfo.options.configure.ldflags += " -lkdewin"
+        return super().configure()
 
     def install(self):
         if not super().install():
