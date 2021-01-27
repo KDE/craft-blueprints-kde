@@ -37,5 +37,6 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["executable"] = r"bin\neochat.exe"
+        self.ignoredPackages.append("binary/mysql")
 
         return TypePackager.createPackage(self)
