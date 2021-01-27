@@ -6,7 +6,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "the KDE terminal emulator"
-        self.defaultTarget = 'master'
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
