@@ -24,11 +24,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/grantleetheme"] = None
-        if CraftCore.compiler.isMSVC():
-            # FIXME: Dependency on libkleo disabled right now, too broken
-            # Also see: https://invent.kde.org/pim/akonadi-contacts/-/commit/0d0ff2dedaf222879d346dd8159472526cf76d7d
-            #self.runtimeDependencies["kde/pim/libkleo"] = None
-            pass
+        # FIXME: Dependency on libkleo disabled right now, too broken
+        # Also see: https://invent.kde.org/pim/akonadi-contacts/-/commit/0d0ff2dedaf222879d346dd8159472526cf76d7d
+        if not CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["kde/pim/libkleo"] = None
 
 
 from Package.CMakePackageBase import *
