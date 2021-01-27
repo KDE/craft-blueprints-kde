@@ -37,5 +37,6 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["executable"] = r"bin\neochat.exe"
+        self.defines["icon"] = os.path.join(self.packageDir(), "neochat.ico")
 
         return TypePackager.createPackage(self)
