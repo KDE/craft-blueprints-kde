@@ -23,7 +23,9 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
         root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
-        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-internal-glib", "-with-libiconv=gnu", "PKG_CONFIG=:"]
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-internal-glib", "PKG_CONFIG=:"]
+        if not CraftCore.compiler.isMacOS():
+            self.subinfo.options.configure.args += ["-with-libiconv=gnu"]
 
 
     def createPackage(self):
