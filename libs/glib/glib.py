@@ -1,7 +1,5 @@
 import info
 
-from Package.MSBuildPackageBase import MSBuildPackageBase
-
 
 class subinfo(info.infoclass):
     def setTargets(self):
