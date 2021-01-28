@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.buildDependencies["libs/qt5/qttools"] = None
+        self.buildDependencies["libs/libsecret"] = None
 
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/frankosterfeld/qtkeychain.git'
