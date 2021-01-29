@@ -1,0 +1,23 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user fluidsynth-2.1.6.orig/src/gentables/CMakeLists.txt fluidsynth-2.1.6/src/gentables/CMakeLists.txt
+--- fluidsynth-2.1.6.orig/src/gentables/CMakeLists.txt	2021-01-03 20:55:48.000000000 +0100
++++ fluidsynth-2.1.6/src/gentables/CMakeLists.txt	2021-01-29 10:24:40.169784700 +0100
+@@ -1,19 +1,7 @@
+ cmake_minimum_required(VERSION 3.1)
+ 
+-# remove $CC from the current environment and by that force cmake to look for a (working) C compiler,
+-# which hopefully will be the host compiler
+-unset(ENV{CC})
+-
+-# also unset $CFLAGS to avoid passing any cross compilation flags to the host compiler
+-unset(ENV{CFLAGS})
+-
+-# linker flags as well
+-unset(ENV{LDFLAGS})
+-
+ project (gentables C)
+ 
+-set ( CMAKE_BUILD_TYPE Debug )
+-
+ # hardcode ".exe" as suffix to the binary, else in case of cross-platform cross-compiling the calling cmake will not know the suffix used here and fail to find the binary
+ set ( CMAKE_EXECUTABLE_SUFFIX ".exe" )
+ 
