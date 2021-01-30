@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         if not OsUtils.isWin():
             self.runtimeDependencies["kde/frameworks/tier4/frameworkintegration"] = None
+        if not OsUtils.isWin() and not OsUtils.isMac():
             self.runtimeDependencies["kde/plasma/kdecoration"] = None
 
 from Package.CMakePackageBase import *
@@ -30,3 +31,6 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         if OsUtils.isWin():
             self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_KF5FrameworkIntegration=ON -DWITH_DECORATIONS=OFF"
+
+        if OsUtils.isMac():
+            self.subinfo.options.configure.args += " -DWITH_DECORATIONS=OFF"
