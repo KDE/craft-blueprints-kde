@@ -4,6 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchLevel["5.20.5"] = 1
 
         for ver in self.versionInfo.tarballs():
             self.patchToApply[ver] = ('breeze-noWinDrag.diff', 0)
