@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
             if CraftCore.compiler.isMSVC():
                 self.targets[ver] = f"https://www.nasm.us/pub/nasm/releasebuilds/{ver}/win{CraftCore.compiler.bits}/nasm-{ver}-win{CraftCore.compiler.bits}.zip"
             else:
-                self.targets[ver] = f"https://www.nasm.us/pub/nasm/stable/nasm-{ver}.tar.bz2"
+                self.targets[ver] = f"https://www.nasm.us/pub/nasm/releasebuilds/{ver}/nasm-{ver}.tar.bz2"
 
             self.targetInstSrc[ver] = f"nasm-{ver}"
             if CraftCore.compiler.isMSVC():
