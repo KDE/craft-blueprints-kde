@@ -9,12 +9,12 @@ class subinfo(info.infoclass):
         self.webpage = "http://eigen.tuxfamily.org/"
 
         # just support one version
-        ver = "3.3.7"
+        ver = "3.3.9"
         self.defaultTarget = ver
-        self.targets[ver] = "http://bitbucket.org/eigen/eigen/get/%s.tar.bz2" % ver
-        self.archiveNames[ver] = "eigen-%s.tar.bz2" % ver
-        self.targetInstSrc[ver] = "eigen-eigen-323c052e1731"
-        self.targetDigests[ver] =  (['9f13cf90dedbe3e52a19f43000d71fdf72e986beb9a5436dddcd61ff9d77a3ce'], CraftHash.HashAlgorithm.SHA256)
+        self.targets[ver] = f"https://gitlab.com/libeigen/eigen/-/archive/{ver}/eigen-{ver}.tar.bz2"
+        self.archiveNames[ver] = f"eigen-{ver}.tar.bz2"
+        self.targetInstSrc[ver] = f"eigen-{ver}"
+        self.targetDigests[ver] =  (['0fa5cafe78f66d2b501b43016858070d52ba47bd9b1016b0165a7b8e04675677'], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
