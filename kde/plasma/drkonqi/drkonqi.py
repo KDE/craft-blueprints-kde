@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlrpcclient"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
-
+        self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
 
 from Package.CMakePackageBase import *
 
