@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies['libs/iconv'] = 'default'
         self.runtimeDependencies['libs/libssh2'] = 'default'
+        self.runtimeDependencies['libs/pcre'] = 'default'
         self.runtimeDependencies['libs/openssl'] = 'default'
 
 
