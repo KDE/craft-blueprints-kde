@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ ver ] = "mlt-" + ver
         self.targetDigests['6.20.0'] = (['ab211e27c06c0688f9cbe2d74dc0623624ef75ea4f94eea915cdc313196be2dd'], CraftHash.HashAlgorithm.SHA256)
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
-        self.patchLevel['master'] = 20201201
+        self.patchLevel['master'] = 20210203
         self.defaultTarget = "master"
 
     def setDependencies( self ):
