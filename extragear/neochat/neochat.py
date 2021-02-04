@@ -37,6 +37,8 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["executable"] = r"bin\neochat.exe"
+        self.addExecutableFilter(r"(bin|libexec)/(?!(neochat|update-mime-database|snoretoast)).*")
         self.ignoredPackages.append("binary/mysql")
-
-        return TypePackager.createPackage(self)
+        if not CraftCore.compiler.isLinux:
+            self.ignoredPackages.append("libs/dbus")
+        return super().createPackage()
