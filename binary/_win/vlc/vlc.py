@@ -14,7 +14,9 @@ class subinfo(info.infoclass):
             self.targetDigestUrls[ver] = f"http://download.videolan.org/pub/videolan/vlc/{ver}/win{CraftCore.compiler.bits}/vlc-{ver}-win{CraftCore.compiler.bits}.7z.sha256"
             self.patchToApply[ver] = [("vlc-2.1.5.diff", 1)]
         self.patchToApply["3.0.11"] += [("vlc-3.0.11-20201106.diff", 1)]
+        self.patchToApply["3.0.12"] += [("vlc-3.0.11-20201106.diff", 1)]
         self.patchLevel["3.0.11"] = 1
+        self.patchLevel["3.0.12"] = 1
         self.webpage = "https://www.videolan.org/"
         self.description = "an open-source multimedia framework"
 
