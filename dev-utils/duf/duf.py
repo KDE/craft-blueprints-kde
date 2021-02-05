@@ -10,11 +10,11 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isWindows:
             platform = "Windows"
             ext = "zip"
-        for ver in ["0.4.0", "0.5.0"]:
+        for ver in ["0.4.0", "0.5.0", "0.6.0"]:
             self.targets[ver] = f"https://github.com/muesli/duf/releases/download/v{ver}/duf_{ver}_{platform}_x86_64.{ext}"
             self.targetInstallPath[ver] = "dev-utils/duf"
             self.targetDigestUrls[ver] = (f"https://github.com/muesli/duf/releases/download/v{ver}/checksums.txt", CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "0.5.0"
+        self.defaultTarget = "0.6.0"
 
         self.description = "Disk Usage/Free Utility"
         self.webpage = "https://github.com/muesli/duf"
