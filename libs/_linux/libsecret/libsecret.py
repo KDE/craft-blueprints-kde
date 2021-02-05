@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/glib"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
+        self.runtimeDependencies["libs/libxslt"] = None
 
 from Package.MesonPackageBase import *
 
