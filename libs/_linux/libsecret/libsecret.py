@@ -23,5 +23,4 @@ from Package.MesonPackageBase import *
 class Package(MesonPackageBase):
     def __init__(self):
         MesonPackageBase.__init__(self)
-        self.subinfo.options.configure.args += ["-Dvapi=false", "-Dgtk_doc=false", "-Dintrospection=false"]
-        
+        self.subinfo.options.configure.args += ["-Dvapi=false", "-Dgtk_doc=false", "-Dintrospection=false", "-Dmanpage=false"]
