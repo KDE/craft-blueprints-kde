@@ -94,7 +94,7 @@ class PackageAutotools(AutoToolsPackageBase):
             cmakes = []
         return self.patchInstallPrefix(cmakes,
                                         OsUtils.toMSysPath(self.subinfo.buildPrefix)[:-1],
-                                        OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()[:-1]))
+                                        OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())[:-1])
 
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
