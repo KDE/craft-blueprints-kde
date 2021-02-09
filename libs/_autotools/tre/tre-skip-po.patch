@@ -1,0 +1,13 @@
+diff --git a/Makefile.am b/Makefile.am
+index 104b0a1..6f16e1a 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -6,7 +6,7 @@ else
+ agrep_dirs =
+ endif
+ 
+-SUBDIRS = lib $(agrep_dirs) tests utils po m4
++SUBDIRS = lib $(agrep_dirs) tests utils m4
+ 
+ EXTRA_DIST = \
+ 	LICENSE \
