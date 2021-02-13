@@ -7,7 +7,7 @@ qml/.*
 bin/data/icons/.*
 
 # kill qsvgengine, we use our KIconThemes engine with re-coloring
-bin/iconengines/qsvgicon.dll
+bin/iconengines/qsvgicon.*
 
 # remove plasma parts
 bin/data/wallpapers/.*
