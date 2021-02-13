@@ -5,8 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.patchToApply["5.78.0"] = [("svgiconengine.diff", 1)]
-        self.patchLevel["5.78.0"] = 1
+        self.patchToApply["5.79.0"] = [("svgiconengine.diff", 1)]
 
         self.description = "Classes to improve the handling of icons"
 
