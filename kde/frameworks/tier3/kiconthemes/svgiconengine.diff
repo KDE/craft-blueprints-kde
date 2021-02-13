@@ -1,0 +1,10 @@
+diff --git a/src/kiconengineplugin.json b/src/kiconengineplugin.json
+index bc09e41..a5b4228 100644
+--- a/src/kiconengineplugin.json
++++ b/src/kiconengineplugin.json
+@@ -1,4 +1,4 @@
+ {
+-    "Keys": [ "KIconEngine" ]
++    "Keys": [ "KIconEngine", "svg", "svgz", "svg.gz" ]
+ }
+ 
