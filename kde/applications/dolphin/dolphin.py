@@ -28,7 +28,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
-        self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
         self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
         # KUserFeedback yet not an official tier1 framework
