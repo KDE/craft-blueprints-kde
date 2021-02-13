@@ -37,8 +37,8 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("libs/dbus")
         #Only attempt to install shell extention in standalone mode 
         if not isinstance(self, AppxPackager):
-            if self.subinfo.buildTarget == "1.8":
-                self.defines["version"] = "1.8.5"
+            if self.subinfo.buildTarget == "1.9":
+                self.defines["version"] = "1.9.0"
             
             self.defines["registry_hook"]=(r"""
         !define DIFF_EXT_CLSID "{34471FFB-4002-438b-8952-E4588D0C0FE9}"
