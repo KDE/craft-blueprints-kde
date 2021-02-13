@@ -5,14 +5,12 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
+        self.versionInfo.setDefaultValues()
         self.svnTargets["1.7"] = "https://invent.kde.org/network/konversation.git|1.7"
-        self.svnTargets["master"] = "https://invent.kde.org/network/konversation.git"
         self.targetUpdatedRepoUrl["1.7"] = ("https://anongit.kde.org/konversation", "https://invent.kde.org/network/konversation.git|1.7")
-        self.targetUpdatedRepoUrl["master"] = ("https://anongit.kde.org/konversation", "https://invent.kde.org/network/konversation.git")
         for ver in ["1.7.4", "1.7.5"]:
             self.targets[ver] = "http://download.kde.org/stable/konversation/%s/src/konversation-%s.tar.xz" % (ver, ver)
             self.targetInstSrc[ver] = "konversation-%s" % ver
-        self.defaultTarget = "1.7.5"
 
         self.displayName = "Konversation"
         self.description = "a KDE based irc client"
@@ -26,9 +24,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kemoticons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kidletime"] = None
-        if self.buildTarget == "master":
-            self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
-            self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
