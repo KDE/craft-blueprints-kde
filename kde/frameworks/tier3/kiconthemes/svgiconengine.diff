@@ -8,3 +8,17 @@ index bc09e41..a5b4228 100644
 +    "Keys": [ "KIconEngine", "svg", "svgz", "svg.gz" ]
  }
  
+diff --git a/src/kiconloader.cpp b/src/kiconloader.cpp
+index ad37c94..e28467e 100644
+--- a/src/kiconloader.cpp
++++ b/src/kiconloader.cpp
+@@ -90,7 +90,8 @@ color:%6;\
+ static bool pathIsRelative(const QString &path)
+ {
+ #ifdef Q_OS_UNIX
+-    return (!path.isEmpty() && path[0] != QLatin1Char('/'));
++    // catch both /xxx/yyy and :/xxx/yyy for resources
++    return (!path.isEmpty() && path[0] != QLatin1Char('/') && path[0] != QLatin1Char(':'));
+ #else
+     return QDir::isRelativePath(path);
+ #endif
