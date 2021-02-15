@@ -1,9 +1,0 @@
---- rubberband.pc.old	2020-02-19 12:08:04.438106834 +0100
-+++ rubberband.pc.in	2020-02-19 12:08:29.653708155 +0100
-@@ -6,5 +6,5 @@
- Name: rubberband
- Version: 1.8.2
- Description: 
--Libs: -L${libdir} -lrubberband
-+Libs: -L${libdir} -lrubberband -lfftw3 -lsamplerate
- Cflags: -I${includedir} 

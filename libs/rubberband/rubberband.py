@@ -8,18 +8,13 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
 
     def setTargets( self ):
-        for ver in ["1.8.2"]:
+        for ver in ["1.9"]:
             self.targets[ ver] = f"https://github.com/breakfastquay/rubberband/archive/v{ver}.tar.gz"
             self.targetInstSrc[ ver ] = f"rubberband-{ver}"
-        self.targetDigests["1.8.2"] = (['0bb058710b476712480cf6b3e1c1178c6237e9e8e3c98092f00e31632a011d15'], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply['1.8.2'] = [("no-jni-to-install.patch", 0)]
-        if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
-            self.patchToApply['master'] = [("fftw3-linking.patch", 0), ("fftw-config-1.patch", 0), ("fftw-config-2.patch", 0)]
-        self.svnTargets['master'] = "https://github.com/breakfastquay/rubberband.git"
-
+        self.targetDigests["1.9"] = (['779e9a5e45f869618261b98b8d0c262fcbe066418a1c836fb85de47fbc1b29aa'], CraftHash.HashAlgorithm.SHA256)
         self.description = "An audio time-stretching and pitch-shifting library and utility program"
         self.webpage = "http://breakfastquay.com/rubberband/"
-        self.defaultTarget = "master"
+        self.defaultTarget = "1.9"
 
     def setDependencies( self ):
         self.runtimeDependencies["virtual/base"] = None
