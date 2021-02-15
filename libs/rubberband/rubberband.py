@@ -9,8 +9,9 @@ class subinfo(info.infoclass):
 
     def setTargets( self ):
         for ver in ["1.9"]:
-            self.targets[ ver] = f"https://github.com/breakfastquay/rubberband/archive/v{ver}.tar.gz"
-            self.targetInstSrc[ ver ] = f"rubberband-{ver}"
+            self.targets[ver] = f"https://github.com/breakfastquay/rubberband/archive/v{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"rubberband-{ver}"
+            self.patchToApply[ver] = ("fftw3-linking.patch", 0)
         self.targetDigests["1.9"] = (['779e9a5e45f869618261b98b8d0c262fcbe066418a1c836fb85de47fbc1b29aa'], CraftHash.HashAlgorithm.SHA256)
         self.description = "An audio time-stretching and pitch-shifting library and utility program"
         self.webpage = "http://breakfastquay.com/rubberband/"
