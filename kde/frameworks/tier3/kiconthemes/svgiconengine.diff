@@ -9,7 +9,7 @@ index bc09e41..a5b4228 100644
  }
  
 diff --git a/src/kiconloader.cpp b/src/kiconloader.cpp
-index ad37c94..e28467e 100644
+index ad37c94..87a454f 100644
 --- a/src/kiconloader.cpp
 +++ b/src/kiconloader.cpp
 @@ -90,7 +90,8 @@ color:%6;\
@@ -22,3 +22,53 @@ index ad37c94..e28467e 100644
  #else
      return QDir::isRelativePath(path);
  #endif
+@@ -393,6 +394,8 @@ public:
+     bool mCustomPalette = false;
+ };
+ 
++extern void initRCCIconTheme();
++
+ class KIconLoaderGlobalData : public QObject
+ {
+     Q_OBJECT
+@@ -400,6 +403,16 @@ class KIconLoaderGlobalData : public QObject
+ public:
+     KIconLoaderGlobalData()
+     {
++        // ensure we load rcc files for application bundles (+ setup their theme)
++        initRCCIconTheme();
++
++        // Set the icon theme fallback to breeze
++        // Most of our apps use "lots" of icons that most of the times
++        // are only available with breeze, we still honour the user icon
++        // theme but if the icon is not found there, we go to breeze
++        // since it's almost sure it'll be there
++        QIcon::setFallbackThemeName(QStringLiteral("breeze"));
++
+         const QStringList genericIconsFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("mime/generic-icons"));
+         //qCDebug(KICONTHEMES) << genericIconsFiles;
+         for (const QString &file : genericIconsFiles) {
+diff --git a/src/kicontheme.cpp b/src/kicontheme.cpp
+index e39ee64..c200c4d 100644
+--- a/src/kicontheme.cpp
++++ b/src/kicontheme.cpp
+@@ -57,19 +57,7 @@ void initRCCIconTheme()
+         }
+     }
+ }
+-Q_COREAPP_STARTUP_FUNCTION(initRCCIconTheme)
+ 
+-// Set the icon theme fallback to breeze
+-// Most of our apps use "lots" of icons that most of the times
+-// are only available with breeze, we still honour the user icon
+-// theme but if the icon is not found there, we go to breeze
+-// since it's almost sure it'll be there
+-static void setBreezeFallback()
+-{
+-    QIcon::setFallbackThemeName(QStringLiteral("breeze"));
+-}
+-
+-Q_COREAPP_STARTUP_FUNCTION(setBreezeFallback)
+ class KIconThemeDir;
+ class KIconThemePrivate
+ {
