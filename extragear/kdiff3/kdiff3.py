@@ -47,7 +47,7 @@ class Package(CMakePackageBase):
         
         SetRegView 64
         WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}" "" "${DIFF_EXT_ID}"
-        WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}\InProcServer32" "" "$INSTDIR\bin\kf5\${DIFF_EXT_DLL}"
+        WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}\InProcServer32" "" "$INSTDIR\bin\${DIFF_EXT_DLL}"
         WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}\InProcServer32" "ThreadingModel" "Apartment"
         WriteRegStr SHCTX "Software\Classes\*\shellex\ContextMenuHandlers\${DIFF_EXT_ID}" "" "${DIFF_EXT_CLSID}"
         WriteRegStr SHCTX "Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved" "${DIFF_EXT_CLSID}" "${DIFF_EXT_ID}"
@@ -78,7 +78,7 @@ class Package(CMakePackageBase):
         else:
 	        #Windows app store has special requirements for the version format
             #Craft attempts to alter the second and third number so we have to adjust to craft's logic as well.
-            self.defines["version"] = "1.0.85"
+            self.defines["version"] = "1.0.90"
                         
         self.defines["un_sections"] = r"""
         Section "Un.Cleanup Regsistry"
