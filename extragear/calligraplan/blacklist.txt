@@ -1,0 +1,81 @@
+# blacklist
+
+# general
+manifest\\.*
+.*\.exp
+.*\.pdb
+.*\.la
+.*\.nsis
+.*\.prl
+.*\.a
+
+# multiple docs
+doc\\.*
+share\\man\\.*
+share\\xml\\.*
+share\\locale\\.*
+man\\.*
+
+# don't ship any data potential created by running the app in situ before packaging
+data\\ib.*
+data\\mysql\\.*
+data\\performance\_schema\\.*
+data\\test\\.*
+
+# cmake stuff
+share\\apps\\cmake\\.*
+
+# common app stuff
+share\\apps\\ark\\.*
+share\\apps\\kgpg\\.*
+share\\kf5\\kdoctools\\.*
+share\\kf5\\kcharselect\\.*
+
+# Unused Qt modules
+qml\\QtWebChannel
+qml\\QtWebKit
+qml\\QtWinExtras
+qml\\QtTest
+
+# Unused Qt and KF5 libraries
+bin\\Qt5CLucene\.dll
+bin\\Qt5Designer\.dll
+bin\\Qt5DesignerComponents\.dll
+#bin\\Qt5Sql\.dll
+bin\\Qt5Test\.dll
+bin\\Qt5QuickTest\.dll
+
+# unrelated
+dev-utils\\.*
+share\\dbus-1\\services\\.*
+share\\pkgconfig\\.*
+share\\ECM\\.*
+share\\emoticons\\.*
+share\\kdeappwizard\\.*
+share\\kdevappwizard\\.*
+
+# not running a desktop, don't need the plasma desktop theme
+share\\plasma\\desktoptheme\\(?!(default)).*
+
+# cleanup breeze stuff
+share\\wallpapers\\.*
+share\\icons\\Breeze_Snow\\.*
+share\\icons\\breeze-dark\\.*
+
+# doubled qt dlls
+lib\\[^\\]*\.dll
+# more qt leftovers
+translations\\.*
+phrasebooks\\.*
+mkspecs\\.*
+
+# unneeded stuff from bin\
+bin\\qt\.conf
+bin\\syncqt\.pl
+
+# unneeded kio slaves
+lib\\plugins\\kf5\\kio\\(?!(file|thumbnail)).*
+plugins\\kf5\\kio\\(?!(file|thumbnail)).*
+
+# strip most executables
+bin\\(?!(calligra*|karbon|kbuildsycoca5|update-mime-database|kioslave|dbus*)).*\.exe
