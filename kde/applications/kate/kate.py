@@ -64,7 +64,7 @@ class Package(CMakePackageBase):
         self.defines["icon"] = self.buildDir() / "kate/ICONS_SOURCES.ico"
 
         # support new special windows icons, if there (>= 21.04)
-        if os.path.join(self.sourceDir(), "kate", "icons", "windows", "150-apps-kate.png").exists():
+        if os.path.isfile(os.path.join(self.sourceDir(), "kate", "icons", "windows", "150-apps-kate.png")):
             self.defines["icon_png"] = os.path.join(self.sourceDir(), "kate", "icons", "windows", "150-apps-kate.png")
             self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "kate", "icons", "windows", "44-apps-kate.png")
         else:
