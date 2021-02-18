@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
 
     def registerOptions(self):
         self.options.dynamic.registerOption("useBreezeDark", False)
-        self.options.dynamic.registerOption("useIconResource", OsUtils.isWin() or OsUtils.isMac())
+        self.options.dynamic.registerOption("useIconResource", True)
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
