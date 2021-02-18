@@ -62,8 +62,14 @@ class Package(CMakePackageBase):
 
         # kate icons
         self.defines["icon"] = self.buildDir() / "kate/ICONS_SOURCES.ico"
-        self.defines["icon_png"] = os.path.join(self.sourceDir(), "kate", "icons", "150-apps-kate.png")
-        self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "kate", "icons", "44-apps-kate.png")
+
+        # support new special windows icons, if there (>= 21.04)
+        if os.path.join(self.sourceDir(), "kate", "icons", "windows", "150-apps-kate.png").exists():
+            self.defines["icon_png"] = os.path.join(self.sourceDir(), "kate", "icons", "windows", "150-apps-kate.png")
+            self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "kate", "icons", "windows", "44-apps-kate.png")
+        else:
+            self.defines["icon_png"] = os.path.join(self.sourceDir(), "kate", "icons", "150-apps-kate.png")
+            self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "kate", "icons", "44-apps-kate.png")
 
         # this requires an 310x150 variant in addition!
         #self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "kate", "icons", "310-apps-kate.png")
