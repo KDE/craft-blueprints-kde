@@ -111,7 +111,6 @@ bin/data/kf5/kmoretools/.*
 bin/data/kservices5/.*
 bin/data/kservicetypes5/.*
 bin/data/hunspell/.*
-bin/data/mime/.*
 bin/designer/.*
 bin/kauth/.*
 lib/mecab/.*
