@@ -5,6 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Libre Video Editor, by KDE community"
+        self.patchToApply["20.12.3"] = [("v20.12.3-after-tag.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
