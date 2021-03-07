@@ -8,15 +8,16 @@ class subinfo(info.infoclass):
         self.descriptions = "audio meta-data library"
 
     def setTargets(self):
-        for ver in ["1.9.1", "1.11.1"]:
+        for ver in ["1.9.1", "1.11.1", "1.12"]:
             self.targets[ver] = f"https://taglib.github.io/releases/taglib-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"taglib-{ver}"
             self.patchLevel[ver] = 1
         self.targetDigests["1.9.1"] = "4fa426c453297e62c1d1eff64a46e76ed8bebb45"
         self.targetDigests["1.11.1"] = (['b6d1a5a610aae6ff39d93de5efd0fdc787aa9e9dc1e7026fa4c961b26563526b'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.12"] = (['7fccd07669a523b07a15bd24c8da1bbb92206cb19e9366c3692af3d79253b703'], CraftHash.HashAlgorithm.SHA256)
         self.description = "audio metadata library"
         self.webpage = "http://taglib.org/"
-        self.defaultTarget = "1.11.1"
+        self.defaultTarget = "1.12"
 
 
 from Package.CMakePackageBase import *
