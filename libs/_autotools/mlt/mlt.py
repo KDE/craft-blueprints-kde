@@ -27,8 +27,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libsdl2"] = None
         self.runtimeDependencies["libs/vidstab"] = None
         self.runtimeDependencies["libs/rubberband"] = None
-        self.runtimeDependencies["libs/opencv/opencv"] = None
         if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/opencv/opencv"] = None
             self.runtimeDependencies["libs/jack2"] = None
             self.buildDependencies["libs/ladspa-sdk"] = None
             self.runtimeDependencies["libs/ladspa-cmt"] = None
@@ -42,7 +42,7 @@ class Package(AutoToolsPackageBase):
         self.platform = ""
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.useShadowBuild = False
-        self.subinfo.options.configure.cxxflags += " -std=c++11"
+        self.subinfo.options.configure.cxxflags += " -std=c++17"
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.ldflags += " -liconv"
         self.subinfo.options.configure.args = " --enable-gpl --enable-gpl3 --enable-opencv --enable-sdl2 --disable-sdl --disable-rtaudio --disable-decklink --disable-gtk2"
@@ -52,3 +52,6 @@ class Package(AutoToolsPackageBase):
             libdir = prefix + '/lib'
             self.subinfo.options.configure.args += \
                 f" --target-os=MinGW --qt-libdir='{libdir}' --qt-includedir='{includedir}' --disable-windeploy "
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += " --disable-opencv "
+
