@@ -28,10 +28,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/vidstab"] = None
         self.runtimeDependencies["libs/rubberband"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
-        self.runtimeDependencies["libs/jack2"] = None
-        self.buildDependencies["libs/ladspa-sdk"] = None
-        self.runtimeDependencies["libs/ladspa-cmt"] = None
-        #self.runtimeDependencies["libs/ladspa-swh"] = None
+        if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/jack2"] = None
+            self.buildDependencies["libs/ladspa-sdk"] = None
+            self.runtimeDependencies["libs/ladspa-cmt"] = None
+            #self.runtimeDependencies["libs/ladspa-swh"] = None
 
 from Package.AutoToolsPackageBase import *
 
