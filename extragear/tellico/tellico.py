@@ -42,6 +42,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["libs/shared-mime-info"] = None 
+        # master (and 3.4) build against qtcharts and qtwebengine (MSVC)
+        if self.buildTarget == "master":
+            self.runtimeDependencies["libs/qt5/qtcharts"] = None
+            if not CraftCore.compiler.isMinGW():
+                self.runtimeDependencies['libs/qt5/qtwebengine'] = None
 
 class Package(CMakePackageBase):
     def __init__(self):
