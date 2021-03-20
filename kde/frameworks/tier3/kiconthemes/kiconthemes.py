@@ -6,7 +6,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.patchToApply["5.79.0"] = [("svgiconengine.diff", 1)]
-        self.patchLevel["5.79.0"] = 2
+        self.patchLevel["5.79.0"] = 3
 
         self.description = "Classes to improve the handling of icons"
 
