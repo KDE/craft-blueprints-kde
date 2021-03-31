@@ -25,7 +25,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
 
         self.runtimeDependencies["kde/pim/kmime"] = None
-        self.runtimeDependencies["kde/pim/kdav"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
         self.runtimeDependencies["kde/pim/akonadi-calendar"] = None
