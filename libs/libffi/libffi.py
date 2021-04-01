@@ -34,7 +34,8 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.args += [f"CC={wrapper} -m64", f"CXX={wrapper} -m64"]
             self.subinfo.options.configure.args += ["--enable-static", "--disable-shared"]
         else:
-            self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]
+            self.subinfo.options.configure.args += ["--enable-shared", "--disable-static",
+                                                    "--disable-multi-os-directory"]
 
 
 
