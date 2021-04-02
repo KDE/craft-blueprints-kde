@@ -41,7 +41,7 @@ class PackageMSys(AutoToolsPackageBase):
 
 
 
-if CraftCore.compiler.isGCCLike():
+if CraftCore.compiler.isGCCLike() and not CraftCore.compiler.isAndroid:
     class Package(PackageMSys):
         pass
 else:
