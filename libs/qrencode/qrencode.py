@@ -15,7 +15,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/libpng"] = None
         self.runtimeDependencies["libs/iconv"] = None
         self.runtimeDependencies["libs/zlib"] = None
 
