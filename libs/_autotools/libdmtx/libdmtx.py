@@ -6,7 +6,7 @@ class subinfo(info.infoclass):
 
         for ver in ["0.7.5"]:
             self.targets[ver] = f"https://github.com/dmtx/libdmtx/archive/v{ver}.zip"
-            self.archiveNames["0.7.5"] = f"libdmtx-{ver}"
+            self.archiveNames["0.7.5"] = f"libdmtx-{ver}.zip"
             self.targetInstSrc[ver] = f"libdmtx-{ver}"
 
         self.targetDigests["0.7.5"] = (['7c67be07bd5a952733bc47fa17cbb637e0ed8a2bbae78323b48961da0267a772'], CraftHash.HashAlgorithm.SHA256)
