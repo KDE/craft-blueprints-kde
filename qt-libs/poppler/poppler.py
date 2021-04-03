@@ -60,4 +60,16 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         # we use -DRUN_GPERF_IF_PRESENT=OFF to avoid running in gperf issues on windows during linking
-        self.subinfo.options.configure.args = "-DENABLE_XPDF_HEADERS=ON -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB=ON -DENABLE_LIBCURL=ON -DENABLE_UTILS=OFF -DENABLE_LIBOPENJPEG=openjpeg2 -DENABLE_GLIB=OFF -DRUN_GPERF_IF_PRESENT=OFF"
+        self.subinfo.options.configure.args = "-DENABLE_XPDF_HEADERS=ON -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB=ON -DENABLE_UTILS=OFF -DENABLE_GLIB=OFF -DRUN_GPERF_IF_PRESENT=OFF"
+
+        if not self.subinfo.options.isActive("libs/libjpeg-turbo"):
+            self.subinfo.options.configure.args += " -DENABLE_DCTDECODER=unmaintained"
+        if self.subinfo.options.isActive("libs/openjpeg"):
+            self.subinfo.options.configure.args += " -DENABLE_LIBOPENJPEG=openjpeg2"
+        else:
+            self.subinfo.options.configure.args += " -DENABLE_LIBOPENJPEG=unmaintained"
+        if self.subinfo.options.isActive("libs/libcurl"):
+            self.subinfo.options.configure.args += " -DENABLE_LIBCURL=ON"
+
+        if CraftCore.compiler.isAndroid:
+            self.subinfo.options.configure.args += " -DWITH_NSS3=OFF -DENABLE_CPP=OFF"
