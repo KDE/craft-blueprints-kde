@@ -40,6 +40,11 @@ class subinfo(info.infoclass):
         if CraftCore.settings.getboolean("CMake", "KDE_L10N_AUTO_TRANSLATIONS", False):
             self.buildDependencies["dev-utils/ruby"] = None
 
+        if CraftCore.compiler.isAndroid:
+            self.buildDependencies["python-modules/requests"] = None
+            self.buildDependencies["python-modules/pyxdg"] = None
+            self.buildDependencies["python-modules/pyyaml"] = None
+
 
 from Package.CMakePackageBase import *
 
