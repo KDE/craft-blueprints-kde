@@ -1,11 +1,12 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2019 Nicolas Fella <nicolas.fella@gmx.de>
+
 import info
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://anongit.kde.org/kpublictransport.git'
-        self.defaultTarget = 'master'
-
+        self.versionInfo.setDefaultValues()
         self.description = "Library for accessing public transport data"
 
     def setDependencies(self):
