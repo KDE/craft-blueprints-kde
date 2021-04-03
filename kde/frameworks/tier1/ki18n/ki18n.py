@@ -13,14 +13,16 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["libs/gettext"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/gettext"] = None
+        else:
+            self.buildDependencies["libs/libintl-lite"] = None
         self.buildDependencies["libs/qt5/qtdeclarative"] = None # only needed for unit tests
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         if CraftVersion(self.buildTarget) < CraftVersion("5.50.0"):
             self.runtimeDependencies["libs/qt5/qtscript"] = None
         else:
             self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
-        self.runtimeDependencies["libs/gettext"] = None
 
 
 from Package.CMakePackageBase import *
