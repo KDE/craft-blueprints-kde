@@ -75,22 +75,33 @@ class PackageCMake(CMakePackageBase):
         if not self.subinfo.opensslUseLegacyBuildSystem:
             self.subinfo.options.install.args = "install_sw"
 
+        self.env = {}
+        if CraftCore.compiler.isAndroid:
+            ndkToolchainPath = os.path.join(os.environ["ANDROID_NDK"], "toolchains/llvm/prebuilt", os.environ.get("ANDROID_NDK_HOST", "linux-x86_64"), "bin")
+            self.env["PATH"] = os.pathsep.join([ndkToolchainPath, os.environ["PATH"]])
+            self.subinfo.options.configure.args += f" android-{CraftCore.compiler.architecture} -D__ANDROID_API__={CraftCore.compiler.androidApiLevel()}"
+            self.subinfo.options.make.args += " SHLIB_VERSION_NUMBER= SHLIB_EXT=_1_1.so"
+            self.subinfo.options.install.args += " SHLIB_VERSION_NUMBER= SHLIB_EXT=_1_1.so"
+
     def configure( self, defines=""):
         if self.subinfo.opensslUseLegacyBuildSystem:
             return True
         else:
             self.enterBuildDir()
             prefix = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
-            return utils.system(["perl", os.path.join(self.sourceDir(), "Configure"), f"--prefix={prefix}"]
-                                + self.subinfo.options.configure.args.split(" ")
-                                + ["-FS",
-                                    f"-I{OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), 'include'))}",
-                                    "VC-WIN64A" if CraftCore.compiler.isX64() else "VC-WIN32"])
+            args = ["perl", os.path.join(self.sourceDir(), "Configure"), f"--prefix={prefix}"] + self.subinfo.options.configure.args.split(" ")
+            if not CraftCore.compiler.isAndroid:
+                args += ["-FS",
+                         f"-I{OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), 'include'))}",
+                         "VC-WIN64A" if CraftCore.compiler.isX64() else "VC-WIN32"]
+            with utils.ScopedEnv(self.env):
+                return utils.system(args)
 
 
     def compile(self):
         if not self.subinfo.opensslUseLegacyBuildSystem:
-            return super().compile()
+            with utils.ScopedEnv(self.env):
+                return super().compile()
         else:
             self.enterSourceDir()
             cmd = ""
@@ -207,7 +218,7 @@ class PackageMSys(AutoToolsPackageBase):
                             os.path.join(self.imageDir(), "lib", "ssleay32.dll.a"))
             return True
 
-if CraftCore.compiler.isGCCLike() and not CraftCore.compiler.isMSVC():
+if CraftCore.compiler.isGCCLike() and not CraftCore.compiler.isMSVC() and not CraftCore.compiler.isAndroid:
     class Package(PackageMSys):
         pass
 else:
