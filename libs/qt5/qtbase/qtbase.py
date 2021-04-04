@@ -174,8 +174,10 @@ class QtPackage(Qt5CorePackageBase):
                 command += "-debug "
             else:
                 command += "-release "
+            if self.buildType() == "MinSizeRel":
+                command += "-optimize-size "
 
-            if not CraftCore.compiler.isWindows and self.buildType() != "Release":
+            if not CraftCore.compiler.isWindows and self.buildType() != "Release" and self.buildType() != "MinSizeRel":
                 command += "-separate-debug-info "
 
             if self.buildType() == "RelWithDebInfo":
