@@ -130,12 +130,16 @@ class QtPackage(Qt5CorePackageBase):
             elif OsUtils.isUnix():
                 configure = os.path.join(self.sourceDir(), "configure")
 
-            command = f"{configure} -confirm-license -prefix {CraftStandardDirs.craftRoot()} -platform {self.platform} "
+            command = f"{configure} -confirm-license -prefix {CraftStandardDirs.craftRoot()} "
+            # auto-detect the host platform when cross-compiling
+            if not CraftCore.compiler.isAndroid:
+                command += f" -platform {self.platform} "
             command += "-opensource " if not self.subinfo.options.dynamic.buildCommercial else "-commercial "
             if self.subinfo.options.dynamic.libInfix:
                 command += f"-qtlibinfix {self.subinfo.options.dynamic.libInfix} "
             command += f"-headerdir {os.path.join(CraftStandardDirs.craftRoot(), 'include', 'qt5')} "
-            command += "-pkg-config "
+            if not CraftCore.compiler.isAndroid:
+                command += "-pkg-config "
 
             if self.subinfo.options.isActive("libs/libpng"):
                 command += "-system-libpng "
@@ -165,6 +169,9 @@ class QtPackage(Qt5CorePackageBase):
                 command += "-opengl dynamic "
                 command += "-plugin-sql-odbc "
 
+            if CraftCore.compiler.isAndroid:
+                command += f"-xplatform android-clang -android-abis {CraftCore.compiler.abi} "
+
             if self.subinfo.options.dynamic.useLtcg:
                 command += "-ltcg "
 
@@ -191,14 +198,17 @@ class QtPackage(Qt5CorePackageBase):
                 command += "-I \"%s\" -L \"%s\" " % (
                     os.path.join(CraftStandardDirs.craftRoot(), "include"), os.path.join(CraftStandardDirs.craftRoot(), "lib"))
                 if self.subinfo.options.isActive("libs/openssl"):
-                    command += " -openssl-linked "
-                    if self.qtVer >= CraftVersion("5.10"):
-                        opensslIncDir = os.path.join(CraftCore.standardDirs.craftRoot(), "include", "openssl")
-                        command += f" OPENSSL_INCDIR=\"{opensslIncDir}\""
-                        if CraftCore.compiler.isWindows:
-                            command += f" OPENSSL_LIBS=\"-llibssl -llibcrypto\" "
-                        else:
-                            command += f" OPENSSL_LIBS=\"-lssl -lcrypto\" "
+                    if not CraftCore.compiler.isAndroid:
+                        command += " -openssl-linked "
+                        if self.qtVer >= CraftVersion("5.10"):
+                            opensslIncDir = os.path.join(CraftCore.standardDirs.craftRoot(), "include", "openssl")
+                            command += f" OPENSSL_INCDIR=\"{opensslIncDir}\""
+                            if CraftCore.compiler.isWindows:
+                                command += f" OPENSSL_LIBS=\"-llibssl -llibcrypto\" "
+                            else:
+                                command += f" OPENSSL_LIBS=\"-lssl -lcrypto\" "
+                    else:
+                        command += " -openssl-runtime "
                 if self.subinfo.options.dynamic.withMysql:
                     command += " -sql-mysql "
                 else:
