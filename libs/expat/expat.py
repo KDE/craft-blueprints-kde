@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for ver in ['2.0.1', '2.1.0-beta3', '2.1.0']:
-            self.targets[ver] = 'http://downloads.sourceforge.net/sourceforge/expat/expat-' + ver + '.tar.gz'
+            self.targets[ver] = 'https://github.com/libexpat/libexpat/releases/download/R_{tag}/expat-{ver}.tar.gz'.format(tag=ver.replace('.', '_'), ver=ver)
             self.targetInstSrc[ver] = 'expat-' + ver
         self.targetInstSrc['2.1.0-beta3'] = 'expat-2012-03-11'
         self.patchToApply['2.0.1'] = ('expat-2.0.1-20100329.diff', 1)
