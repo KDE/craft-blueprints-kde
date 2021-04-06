@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.11.0"] = 2
 
     def registerOptions(self):
-        self.options.dynamic.registerOption("qdocThroughLLVM", True)
+        self.options.dynamic.registerOption("qdocThroughLLVM", False)
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
