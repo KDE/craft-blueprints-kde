@@ -49,8 +49,6 @@ class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args = "--enable-shared --disable-static --disable-doc-build "
-        # It's intended to fix "/bin/sh: @MKINSTALLDIRS@: No such file or directory" on MacOS
-        self.subinfo.options.configure.autoreconf = False
 
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.configure.noDataRootDir = True
