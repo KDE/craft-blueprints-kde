@@ -29,13 +29,14 @@ from Package.MSBuildPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["8-6-8"]:
+        for ver in ["8-6-8", "8-6-11"]:
             self.targets[ver] = f"https://github.com/tcltk/tcl/archive/core-{ver}.tar.gz"
             self.archiveNames[ver] = f"core-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"tcl-core-{ver}"
 
         self.targetDigests['8-6-8'] = (['5e9da63f535cee07bfbc6d9f12a657b1065911e473550dc74968025bc5a0e447'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "8-6-8"
+        self.targetDigests['8-6-11'] = (['fe8a9e554945252c0a33a8126921edf09aeb3cb26391085fe9bb9af074baae9d'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "8-6-11"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -46,7 +47,6 @@ class subinfo(info.infoclass):
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.configure.args += " --disable-static --enable-shared --enable-threads --enable-64bit "
 
