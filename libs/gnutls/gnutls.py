@@ -39,6 +39,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "3.5.17"
 
     def setDependencies(self):
+        self.buildDependencies["dev-utils/gtk-doc"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
         self.runtimeDependencies["libs/nettle"] = None
         self.runtimeDependencies["libs/libidn"] = None
