@@ -23,6 +23,5 @@ lib/fonts
 lib/gpg-error\.def
 
 #big dlls we don't use
-bin/libGLESv2\.dll
 bin/Qt5Designer\.dll
 bin/Qt5DesignerComponents\.dll
