@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
             self.buildDependencies["libs/gettext"] = None
 
 from Package.AutoToolsPackageBase import *
+import glob
 import shutil
 
 class Package(AutoToolsPackageBase):
@@ -30,4 +31,12 @@ class Package(AutoToolsPackageBase):
         # remove deprecated and unused XML copy of the JSON data
         xmlDir = os.path.join(self.installDir(), os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot()), "xml/iso-codes")
         shutil.rmtree(xmlDir, ignore_errors=True)
+
+        # remove symlinked catalogs, we don't use those and androiddeployqt adds copies for each of those
+        localeDir = os.path.join(self.installDir(), os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot()), "locale")
+        catalogs = glob.glob(os.path.join(localeDir, "**/*.mo"), recursive=True)
+        for catalog in catalogs:
+            if os.path.islink(catalog):
+                os.unlink(catalog)
+
         return True
