@@ -252,6 +252,7 @@ class QtPackage(Qt5CorePackageBase):
 
             command += "-nomake examples "
             command += "-nomake tests "
+            command += str(self.subinfo.options.configure.args) + " "
 
             if (CraftCore.compiler.isMSVC() and CraftCore.compiler.isClang()) or OsUtils.isUnix() or self.supportsCCACHE:
                 command += "-no-pch "
