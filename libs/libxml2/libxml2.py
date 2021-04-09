@@ -60,7 +60,11 @@ class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += " --disable-static --enable-shared --without-python "
+        self.subinfo.options.configure.args += " --without-python "
+        if self.subinfo.options.buildStatic:
+            self.subinfo.options.configure.args += "--enable-static=yes --enable-shared=no "
+        else:
+            self.subinfo.options.configure.args += "--enable-static=no --enable-shared=yes "
 
     def postInstall(self):
         hardCoded = [Path(self.imageDir()) / "bin/xml2-config" ]
