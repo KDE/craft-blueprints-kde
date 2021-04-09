@@ -7,15 +7,12 @@ class subinfo(info.infoclass):
         self.description = "Collection management software, free and simple"
         self.displayName = "Tellico"
         self.webpage = "https://tellico-project.org/"
-        if CraftCore.compiler.isWindows:
-            self.patchToApply["3.3.4"] = [("tellico-3.3.2-dbus.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["kde/plasma/drkonqi"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -23,7 +20,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kded"] = None
-        self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
@@ -43,10 +39,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["libs/shared-mime-info"] = None 
         # master (and 3.4) build against qtcharts and qtwebengine (MSVC)
-        if self.buildTarget == "master":
-            self.runtimeDependencies["libs/qt5/qtcharts"] = None
-            if not CraftCore.compiler.isMinGW():
-                self.runtimeDependencies['libs/qt5/qtwebengine'] = None
+        self.runtimeDependencies["libs/qt5/qtcharts"] = None
+        if not CraftCore.compiler.isMinGW():
+            self.runtimeDependencies['libs/qt5/qtwebengine'] = None
 
 class Package(CMakePackageBase):
     def __init__(self):
@@ -58,7 +53,7 @@ class Package(CMakePackageBase):
         self.defines["shortcuts"] = [{"name" : self.subinfo.displayName, "target":"bin\\tellico.exe"}]
         self.defines["license"] = os.path.join(self.sourceDir(), "COPYING")
         self.defines["file_types"] = [".tc"]
-        self.defines["icon"] = os.path.join(self.packageDir(), "tellico.ico")
+        self.defines["icon"] = self.buildDir() / "src/ICONS_SOURCES.ico"
         self.ignoredPackages.append("binary/mysql")
         
         #self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
