@@ -3,13 +3,13 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "x264 video coding library"
-        for ver in ['20180119-2245', '20180806-2245-stable']:
-            self.targets[ ver ] = f"https://download.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-{ver}.tar.bz2"
-            self.targetInstSrc[ ver ] = f"x264-snapshot-{ver}"
-        self.targetDigests['20180806-2245-stable'] = (['958e78e7563f0018285ebdbff563fb22db89b0abf3649d7e914abd9d50785fc6'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests['20180119-2245'] = (['c9162e612f989c8d97c7a6bb3924a04f43d14221dcc983c69fb9ab12613c3669'], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["20180119-2245"] = 1
-        self.defaultTarget = '20180119-2245'
+        git = {'20210211': 'b86ae3c66f51ac9eab5ab7ad09a9d62e67961b8a', # fails to build on centos7
+               '20180806': '0a84d986e7020f8344f00752e3600b9769cc1e85'} # last to build
+        for ver in git.keys():
+            self.targets[ver] = f"https://code.videolan.org/videolan/x264/-/archive/{git[ver]}/x264-{git[ver]}.tar.bz2"
+            self.targetInstSrc[ver] = f"x264-{git[ver]}"
+        self.targetDigests['20180806'] = (['e8f54662a5c4b0c4da91fd6e69b6a6f45b3292c1aee1279e8cfa916790407337'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = '20180806'
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/nasm"] = None
