@@ -3,21 +3,20 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets( self ):
-        for ver in ["3.4.1", "4.1", "4.2"]:
+        for ver in ['4.2', '4.4']:
             self.targets[ ver ] = f"https://ffmpeg.org/releases/ffmpeg-{ver}.tar.bz2"
             self.targetInstSrc[ ver ] = f"ffmpeg-{ver}"
         self.svnTargets['master'] = "https://git.ffmpeg.org/ffmpeg.git"
-        self.targetDigests["3.4.1"] = (['f3443e20154a590ab8a9eef7bc951e8731425efc75b44ff4bee31d8a7a574a2c'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["4.1"] = (['b684fb43244a5c4caae652af9022ed5d85ce15210835bce054a33fb26033a1a5'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["4.2"] = (['306bde5f411e9ee04352d1d3de41bd3de986e42e2af2a4c44052dce1ada26fb8'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.4"] = (['42093549751b582cf0f338a21a3664f52e0a9fbe0d238d3c992005e493607d0e'], CraftHash.HashAlgorithm.SHA256)
 
         if CraftCore.compiler.isMSVC():
-            self.patchToApply["4.1"] = [("ffmpeg-4.1-20190507.diff", 1)]
             self.patchToApply["4.2"] = [("ffmpeg-4.1-20190507.diff", 1)]
+            self.patchToApply["4.4"] = [("ffmpeg-4.1-20190507.diff", 1)]
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
-        self.defaultTarget = "4.2"
+        self.defaultTarget = "4.4"
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/msys"] = None
@@ -46,6 +45,8 @@ class Package(AutoToolsPackageBase):
 
         self.subinfo.options.configure.args = "--enable-shared --disable-debug --disable-doc --enable-gpl " \
                                               "--enable-version3 --enable-avresample --enable-libmp3lame "
+        if OsUtils.isWin():
+            self.subinfo.options.configure.args += " --enable-dxva2 "
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.cflags += " -FS"
             self.subinfo.options.configure.cxxflags += " -FS"
