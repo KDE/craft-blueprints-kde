@@ -36,6 +36,7 @@ class subinfo(info.infoclass):
         self.targets[ver] = f"https://poppler.freedesktop.org/poppler-{ver}.tar.xz"
         self.targetInstSrc[ver] = f"poppler-{ver}"
         self.targetDigests[ver] = (['5c14759c99891e6e472aced6d5f0ff1dacf85d80cd9026d365c55c653edf792c'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply[ver] = [("poppler-optional-manual-tests.diff", 1)]
         self.defaultTarget = ver
 
     def setDependencies(self):
@@ -60,7 +61,10 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         # we use -DRUN_GPERF_IF_PRESENT=OFF to avoid running in gperf issues on windows during linking
-        self.subinfo.options.configure.args = "-DENABLE_XPDF_HEADERS=ON -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB=ON -DENABLE_UTILS=OFF -DENABLE_GLIB=OFF -DRUN_GPERF_IF_PRESENT=OFF"
+        self.subinfo.options.configure.args += "-DENABLE_XPDF_HEADERS=ON -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB=ON -DENABLE_UTILS=OFF -DENABLE_GLIB=OFF -DRUN_GPERF_IF_PRESENT=OFF"
+
+        if not self.subinfo.options.dynamic.buildTests:
+            self.subinfo.options.configure.args += " -DBUILD_QT5_TESTS=OFF -DBUILD_QT6_TESTS=OFF -DBUILD_CPP_TESTS=OFF -DBUILD_MANUAL_TESTS=OFF "
 
         if not self.subinfo.options.isActive("libs/libjpeg-turbo"):
             self.subinfo.options.configure.args += " -DENABLE_DCTDECODER=unmaintained"
