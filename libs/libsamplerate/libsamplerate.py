@@ -6,13 +6,15 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.1.9'] = "http://www.mega-nerd.com/SRC/libsamplerate-0.1.9.tar.gz"
-        self.targetInstSrc['0.1.9'] = 'libsamplerate-0.1.9'
+        for v in ['0.1.9', '0.2.1']:
+            self.targets[v] = 'https://github.com/libsndfile/libsamplerate/archive/' + v + '.tar.gz'
+            self.targetInstSrc[v] = 'libsamplerate-' + v
+            if not CraftCore.compiler.isGCCLike():
+                self.patchToApply['v'] = ('libsamplerate-0.1.9-20180928.diff', 1)
         self.targetDigests['0.1.9'] = 'ed60f957a4ff87aa15cbb1f3dbd886fa7e5e9566'
-        if not CraftCore.compiler.isGCCLike():
-            self.patchToApply['0.1.9'] = ('libsamplerate-0.1.9-20180928.diff', 1)
+        self.targetDigests['0.2.1'] = (['c28dc9fd587f250114d35aab180e41551935e37c84e7641c31d225cda5eb5fab'], CraftHash.HashAlgorithm.SHA256)
         self.description = "an audio sample rate converter library"
-        self.defaultTarget = '0.1.9'
+        self.defaultTarget = '0.2.1'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
