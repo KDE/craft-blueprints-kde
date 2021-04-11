@@ -6,8 +6,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "KMime library"
-        self.patchToApply['17.04.0'] = [("001-fix_compile_under_windows.diff", 1)]
-        self.patchToApply['17.04.1'] = [("001-fix_compile_under_windows.diff", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
