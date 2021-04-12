@@ -71,7 +71,7 @@ class PackageCMake(CMakePackageBase):
         self.supportsNinja = False
         self.subinfo.options.make.supportsMultijob = False
         if not self.subinfo.opensslUseLegacyBuildSystem:
-            self.subinfo.options.install.args = "install_sw"
+            self.subinfo.options.install.args += ["install_sw"]
 
         self.env = {}
         if CraftCore.compiler.isAndroid:
@@ -79,7 +79,7 @@ class PackageCMake(CMakePackageBase):
             self.env["PATH"] = os.pathsep.join([ndkToolchainPath, os.environ["PATH"]])
             self.subinfo.options.configure.args += f" android-{CraftCore.compiler.architecture} -D__ANDROID_API__={CraftCore.compiler.androidApiLevel()}"
             self.subinfo.options.make.args += " SHLIB_VERSION_NUMBER= SHLIB_EXT=_1_1.so"
-            self.subinfo.options.install.args += " SHLIB_VERSION_NUMBER= SHLIB_EXT=_1_1.so"
+            self.subinfo.options.install.args += [ "SHLIB_VERSION_NUMBER=", "SHLIB_EXT=_1_1.so" ]
 
     def configure( self, defines=""):
         if self.subinfo.opensslUseLegacyBuildSystem:
