@@ -38,6 +38,7 @@ class subinfo(info.infoclass):
             ['005aee2fcdca252cee42271f7f90574dda64ca6505d9f8b86ae61abc2b426371'], CraftHash.HashAlgorithm.SHA256)
         self.description = "libjpeg-turbo is a JPEG image codec that uses SIMD instructions (MMX, SSE2, NEON, AltiVec) to accelerate baseline JPEG compression and decompression on x86, x86-64, ARM, and PowerPC systems"
         self.webpage = "http://libjpeg-turbo.virtualgl.org/"
+        self.patchLevel["2.0.6"] = 1
         self.defaultTarget = '2.0.6'
 
     def setDependencies(self):
