@@ -5,9 +5,9 @@ class subinfo(info.infoclass):
         for ver in ['2.9', '3.4']:
             self.targets[ver] = f"http://deb.debian.org/debian/pool/main/x/x265/x265_{ver}.orig.tar.gz"
             self.targetInstSrc[ver] = f"x265_{ver}/source"
+            self.patchToApply[ver] = [('mingw-no-pdb.patch', 1)]
         self.targetDigests['2.9'] = (['ebae687c84a39f54b995417c52a2fdde65a4e2e7ebac5730d251471304b91024'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['3.4'] = (['c2047f23a6b729e5c70280d23223cb61b57bfe4ad4e8f1471eeee2a61d148672'], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply['2.9'] = [('mingw-no-pdb.patch', 1)]
         self.description = "H.265/HEVC video stream encoder"
         self.defaultTarget = '3.4'
 
