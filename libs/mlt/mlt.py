@@ -4,15 +4,15 @@ class subinfo(info.infoclass):
     def setTargets( self ):
         self.description = "Open source multimedia framework"
         self.webpage = "https://www.mltframework.org"
-        for ver in ['6.26.0']:
+        for ver in ['6.26.1']:
             self.targets[ ver ] = f"https://github.com/mltframework/mlt/archive/v{ver}.tar.gz"
             self.targetInstSrc[ ver ] = "mlt-" + ver
-        self.targetDigests['6.26.0'] = (['06da1d4f82bcb18116ee9b0dd5252c080c181b91442cbe5783a2f3bdfd550f38'], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply['6.26.0'] = ("mlt-6.26.0-cmake-fix-win32.patch", 1)
+        self.targetDigests['6.26.1'] = (['8a484bbbf51f33e25312757531f3ad2ce20607149d20fcfcb40a3c1e60b20b4e'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply['6.26.1'] = ("mlt-6.26-cmake-fix-win32.patch", 1)
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.svnTargets["v7"] = "https://github.com/mltframework/mlt.git|v7"
         self.patchLevel['master'] = 20210410
-        self.defaultTarget = "6.26.0"
+        self.defaultTarget = "6.26.1"
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/pkg-config"] = None
