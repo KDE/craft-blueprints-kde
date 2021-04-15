@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ ver ] = "mlt-" + ver
         self.targetDigests['6.26.1'] = (['8a484bbbf51f33e25312757531f3ad2ce20607149d20fcfcb40a3c1e60b20b4e'], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply['6.26.1'] = ("mlt-6.26-cmake-fix-win32.patch", 1)
+        self.patchLevel['6.26.1'] = 1
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.svnTargets["v7"] = "https://github.com/mltframework/mlt.git|v7"
         self.patchLevel['master'] = 20210410

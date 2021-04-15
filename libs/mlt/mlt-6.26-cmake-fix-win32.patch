@@ -1,15 +1,15 @@
-From 083fe5cc1fb39ec2f09c0073bac48eb87d43d8df Mon Sep 17 00:00:00 2001
+From 0edd694e95bc5e606c597f6ecabb7d4a169d7bad Mon Sep 17 00:00:00 2001
 From: Vincent Pinon <vpinon@kde.org>
 Date: Mon, 12 Apr 2021 13:55:14 +0200
 Subject: [PATCH] fix win32 build
 
 ---
  src/framework/CMakeLists.txt       | 1 -
- src/mlt++/CMakeLists.txt           | 1 -
+ src/mlt++/CMakeLists.txt           | 3 +--
  src/modules/CMakeLists.txt         | 2 +-
  src/modules/core/CMakeLists.txt    | 1 +
  src/modules/rtaudio/CMakeLists.txt | 1 +
- 5 files changed, 3 insertions(+), 3 deletions(-)
+ 5 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/src/framework/CMakeLists.txt b/src/framework/CMakeLists.txt
 index 6b41d0a6..4fd9d7ee 100644
@@ -24,17 +24,19 @@ index 6b41d0a6..4fd9d7ee 100644
    target_link_libraries(mlt Iconv::Iconv)
    if(NODEPLOY)
 diff --git a/src/mlt++/CMakeLists.txt b/src/mlt++/CMakeLists.txt
-index 3d167ae9..68888486 100644
+index 3d167ae9..d0a75215 100644
 --- a/src/mlt++/CMakeLists.txt
 +++ b/src/mlt++/CMakeLists.txt
-@@ -37,7 +37,6 @@ set(MLTPP_SOVERSION "3")
+@@ -37,8 +37,7 @@ set(MLTPP_SOVERSION "3")
  set_target_properties(mlt++ PROPERTIES SOVERSION ${MLTPP_SOVERSION} VERSION ${MLT_VERSION})
  
  if(WIN32)
 -  set_target_properties(mlt++ PROPERTIES OUTPUT_NAME "mlt++-${MLTPP_SOVERSION}")
-   target_compile_definitions(mlt++ PUBLIC MLTPP_EXPORTS)
+-  target_compile_definitions(mlt++ PUBLIC MLTPP_EXPORTS)
++  target_compile_definitions(mlt++ PRIVATE MLTPP_EXPORTS)
  endif()
  
+ set(MLTPP_PUPLIC_HEADERS
 diff --git a/src/modules/CMakeLists.txt b/src/modules/CMakeLists.txt
 index 45e57803..dc8b206f 100644
 --- a/src/modules/CMakeLists.txt
