@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/python2"] = None
+        self.buildDependencies["dev-utils/gtk-doc"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/iconv"] = None
         self.runtimeDependencies["libs/gettext"] = None
