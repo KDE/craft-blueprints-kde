@@ -32,5 +32,8 @@ else:
     class Package(CMakePackageBase):
         def __init__(self):
             CMakePackageBase.__init__(self)
-            self.subinfo.options.configure.args = "-DBUILD_TESTS=ON -DBUILD_UTILS=OFF"
+            if self.subinfo.options.buildStatic:
+                self.subinfo.options.configure.args += ["-DBUILD_STATIC=ON", "-DBUILD_TESTS=ON", "-DBUILD_UTILS=ON"]
+            else:
+                self.subinfo.options.configure.args += ["-DBUILD_STATIC=OFF", "-DBUILD_TESTS=OFF", "-DBUILD_UTILS=OFF"]
 
