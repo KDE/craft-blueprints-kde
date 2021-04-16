@@ -6,6 +6,7 @@ from Package.AutoToolsPackageBase import *
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
+        self.buildDependencies["dev-utils/texinfo"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["dev-utils/m4"] = None
         self.buildDependencies["dev-utils/sed"] = None
