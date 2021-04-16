@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
     def msysInstallShim(self, installDir):
         return utils.createShim(os.path.join(installDir, "dev-utils", "bin", "msys.exe"),
                                 os.path.join(installDir, "dev-utils", "bin", "python3.exe"),
-                                args=[os.path.join(CraftStandardDirs.craftBin(), "shells.py")])
+                                args=[os.path.join(CraftStandardDirs.craftBin(), "shells.py")], useAbsolutePath=False)
 
     def updateMsys(self):
         msysDir = CraftCore.settings.get("Paths", "Msys", os.path.join(CraftStandardDirs.craftRoot(), "msys"))
@@ -65,7 +65,7 @@ class subinfo(info.infoclass):
         except Exception as e:
             CraftCore.log.error(e, exc_info=e)
             return False
-        if not (shell.execute(".", "pacman", Arguments(["-S", "base-devel", "msys/binutils", "--noconfirm", overwrite, "--needed"])) and
+        if not (shell.execute(".", "pacman", Arguments(["-S", "base-devel", "msys/binutils", "msys/autoconf-archive", "--noconfirm", overwrite, "--needed"])) and
                 stopProcesses()):
             return False
         # rebase: Too many DLLs for available address space: Cannot allocate memory => ignore return code ATM
