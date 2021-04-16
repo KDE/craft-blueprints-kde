@@ -31,7 +31,10 @@ class Package(AutoToolsPackageBase):
         self.shell.useMSVCCompatEnv = True
         if CraftCore.compiler.isMSVC():
             wrapper = self.shell.toNativePath(self.sourceDir() / "msvcc.sh")
-            self.subinfo.options.configure.args += [f"CC={wrapper} -m64", f"CXX={wrapper} -m64"]
+            arch = ""
+            if CraftCore.compiler.isX64():
+                arch = " -m64"
+            self.subinfo.options.configure.args += [f"CC={wrapper}{arch}", f"CXX={wrapper}{arch}"]
             self.subinfo.options.configure.args += ["--enable-static", "--disable-shared"]
         else:
             self.subinfo.options.configure.args += ["--enable-shared", "--disable-static",
