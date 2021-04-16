@@ -101,6 +101,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libjpeg-turbo"] = None
             self.runtimeDependencies["libs/sqlite"] = None
             self.runtimeDependencies["libs/pcre2"] = None
+            self.runtimeDependencies["libs/freetype"] = None
+            self.runtimeDependencies["libs/harfbuzz"] = None
             if CraftCore.compiler.isUnix and self.options.dynamic.withGlib:
                 self.runtimeDependencies["libs/glib"] = None
 
@@ -141,6 +143,15 @@ class QtPackage(Qt5CorePackageBase):
             if not CraftCore.compiler.isAndroid:
                 command += "-pkg-config "
 
+
+            if self.subinfo.options.isActive("libs/freetype"):
+                command += "-system-freetype "
+            else:
+                command += "-qt-freetype "
+            if self.subinfo.options.isActive("libs/harfbuzz"):
+                command += "-system-harfbuzz "
+            else:
+                command += "-qt-harfbuzz "
             if self.subinfo.options.isActive("libs/libpng"):
                 command += "-system-libpng "
             else:
