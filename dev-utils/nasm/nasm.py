@@ -40,6 +40,5 @@ else:
     class Package(AutoToolsPackageBase):
         def __init__(self):
             AutoToolsPackageBase.__init__(self)
-            if CraftCore.compiler.isWindows:
-                self.subinfo.options.configure.autoreconf = False
+            self.subinfo.options.configure.autoreconf = False
 
