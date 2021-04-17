@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kde/pim/libkleo"] = None
         self.runtimeDependencies["kde/pim/messagelib"] = None
-        self.runtimeDependencies["kde/pim/syndication"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/syndication"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/pimcommon"] = None
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
