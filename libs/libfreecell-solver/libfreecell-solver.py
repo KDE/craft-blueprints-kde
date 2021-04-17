@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["perl-modules/path-tiny"] = None
         self.buildDependencies["perl-modules/template"] = None
+        self.buildDependencies["dev-utils/gperf"] = None
         self.buildDependencies["dev-utils/python3"] = None
         self.buildDependencies["python-modules/random2"] = None
         self.buildDependencies["python-modules/six"] = None
