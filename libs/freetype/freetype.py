@@ -31,14 +31,14 @@ class subinfo(info.infoclass):
 class PackageCMake(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=ON"
+        self.subinfo.options.configure.args += ["-DFT_WITH_HARFBUZZ=OFF"]
 
 
 class PackageMSys(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += " --disable-static --enable-shared "
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-harfbuzz=off"]
 
 
 
