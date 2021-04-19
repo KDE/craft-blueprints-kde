@@ -11,9 +11,9 @@ class subinfo(info.infoclass):
         self.patchToApply['6.26.1'] = ("mlt-6.26-cmake-fix-win32.patch", 1)
         self.patchLevel['6.26.1'] = 1
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
-        self.svnTargets["v7"] = "https://github.com/mltframework/mlt.git|v7"
+        self.svnTargets["v6"] = "https://github.com/mltframework/mlt.git|v6"
         self.patchLevel['master'] = 20210410
-        self.defaultTarget = "6.26.1"
+        self.defaultTarget = "v6"
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/pkg-config"] = None
