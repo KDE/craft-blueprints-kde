@@ -2,6 +2,9 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Compiler.All
+
     def setTargets(self):
         for ver in ['1.1.0']:
             self.targets[ver] = 'https://github.com/georgmartius/vid.stab/archive/v' + ver + '.tar.gz'
