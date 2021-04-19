@@ -37,6 +37,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.1"
 
     def setDependencies(self):
+        self.buildDependencies["python-modules/itstool"] = None
+        self.buildDependencies["libs/xmlto"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/libxml2"] = None
