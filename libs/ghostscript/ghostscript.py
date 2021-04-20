@@ -102,15 +102,15 @@ class PackageMSys(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
         #self.subinfo.options.make.supportsMultijob = False
-        self.subinfo.options.configure.args += " --with-drivers=ALL --disable-cups" \
-                                               " --without-x --disable-contrib --enable-freetype" \
-                                               "  --with-jbig2dec --enable-openjpeg --disable-gtk --enable-fontconfig"
+        self.subinfo.options.configure.args += ["--with-drivers=ALL", "--disable-cups",
+                                               "--without-x", "--disable-contrib", "--enable-freetype",
+                                               "--with-jbig2dec", "--enable-openjpeg", "--disable-gtk", "--enable-fontconfig"]
 
         if not CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += " --with-system-libtiff"
+            self.subinfo.options.configure.args += ["--with-system-libtiff"]
 
-        self.subinfo.options.make.args = "so all"
-        self.subinfo.options.install.args = "install-so install"
+        self.subinfo.options.make.args += ["so", "all"]
+        self.subinfo.options.install.args += ["install-so", "install"]
         self.subinfo.options.useShadowBuild = False
 
     def unpack(self):
