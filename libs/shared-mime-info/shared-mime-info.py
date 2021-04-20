@@ -30,6 +30,12 @@ from Utils.PostInstallRoutines import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
+        for ver in ["1.9"]:
+            self.targets[ver] = f"http://freedesktop.org/~hadess/shared-mime-info-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
+        self.patchLevel["1.9"] = 3
+        self.targetDigests["1.9"] = (['5c0133ec4e228e41bdf52f726d271a2d821499c2ab97afd3aa3d6cf43efcdc83'], CraftHash.HashAlgorithm.SHA256)
+
         for ver in ["1.15"]:
             self.targets[ver] = f"https://gitlab.freedesktop.org/xdg/shared-mime-info/uploads/b27eb88e4155d8fccb8bb3cd12025d5b/shared-mime-info-1.15.tar.xz"
             self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
