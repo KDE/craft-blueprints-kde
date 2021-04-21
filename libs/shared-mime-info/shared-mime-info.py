@@ -26,14 +26,11 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.9", "1.15", "2.1"]:
-            self.targets[ver] = f"https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.1/shared-mime-info-{ver}.tar.bz2"
+        for ver in ["2.1"]:
+            self.targets[ver] = f"https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/{ver}/shared-mime-info-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
-        self.patchLevel["1.9"] = 3
-        self.targetDigests["1.9"] = (['5c0133ec4e228e41bdf52f726d271a2d821499c2ab97afd3aa3d6cf43efcdc83'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["1.15"] = (['f482b027437c99e53b81037a9843fccd549243fd52145d016e9c7174a4f5db90'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["2.1"] = (['37df6475da31a8b5fc63a54ba0770a3eefa0a708b778cb6366dccee96393cb60'], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply["2.1"] = [("shared-mime-info-2.1-20210421.diff", 1)]
+        self.patchToApply["2.1"] = [("shared-mime-info-2-skip_itstool_xmlto.patch", 1)]
 
         self.description = "The shared-mime-info package contains the core database of common types and the update-mime-database command used to extend it"
         self.webpage = "https://www.freedesktop.org/wiki/Software/shared-mime-info/"
