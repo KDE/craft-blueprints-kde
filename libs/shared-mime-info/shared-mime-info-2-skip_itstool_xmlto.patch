@@ -1,0 +1,27 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user shared-mime-info-2.1.orig/meson.build shared-mime-info-2.1/meson.build
+--- shared-mime-info-2.1.orig/meson.build	2020-12-31 20:12:16.000000000 +0100
++++ shared-mime-info-2.1/meson.build	2021-04-21 21:55:31.815700500 +0200
+@@ -20,9 +20,9 @@
+ ###############################################################################
+ # Find tools
+ 
+-itstool = find_program('itstool')
++#itstool = find_program('itstool')
+ xmllint = find_program('xmllint')
+-xmlto   = find_program('xmlto')
++#xmlto   = find_program('xmlto')
+ 
+ ###############################################################################
+ # Find xdgmime
+@@ -63,9 +63,9 @@
+ gio = dependency('gio-2.0', required: false)
+ 
+ subdir('po')
+-subdir('data')
++#subdir('data')
+ subdir('src')
+-subdir('tests')
++#subdir('tests')
+ 
+ configure_file(
+     input: 'shared-mime-info.pc.in',
