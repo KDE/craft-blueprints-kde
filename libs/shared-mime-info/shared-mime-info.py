@@ -22,72 +22,34 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-import shutil
 import info
-from Package.AutoToolsPackageBase import *
-from Utils.PostInstallRoutines import *
-
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.9"]:
-            self.targets[ver] = f"http://freedesktop.org/~hadess/shared-mime-info-{ver}.tar.xz"
+        for ver in ["1.9", "1.15", "2.1"]:
+            self.targets[ver] = f"https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.1/shared-mime-info-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
         self.patchLevel["1.9"] = 3
         self.targetDigests["1.9"] = (['5c0133ec4e228e41bdf52f726d271a2d821499c2ab97afd3aa3d6cf43efcdc83'], CraftHash.HashAlgorithm.SHA256)
-
-        for ver in ["1.15"]:
-            self.targets[ver] = f"https://gitlab.freedesktop.org/xdg/shared-mime-info/uploads/b27eb88e4155d8fccb8bb3cd12025d5b/shared-mime-info-1.15.tar.xz"
-            self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
         self.targetDigests["1.15"] = (['f482b027437c99e53b81037a9843fccd549243fd52145d016e9c7174a4f5db90'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.1"] = (['37df6475da31a8b5fc63a54ba0770a3eefa0a708b778cb6366dccee96393cb60'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["2.1"] = [("shared-mime-info-2.1-20210421.diff", 1)]
 
         self.description = "The shared-mime-info package contains the core database of common types and the update-mime-database command used to extend it"
         self.webpage = "https://www.freedesktop.org/wiki/Software/shared-mime-info/"
-        self.defaultTarget = "1.15"
+        self.defaultTarget = "2.1"
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/msys"] = None
-        self.buildDependencies["dev-utils/intltool"] = None
-        self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/glib"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblzma"] = None
-        if CraftCore.compiler.isMSVC():
-            self.runtimeDependencies["kdesupport/kdewin"] = None
+        
 
+from Package.MesonPackageBase import *
 
-class Package(AutoToolsPackageBase):
+class Package(MesonPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args += f" --disable-default-make-check --disable-update-mimedb"
-
-    def configure(self):
-        if CraftCore.compiler.isMSVC():
-            # libxml has no proper .pc handle this manually
-            root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
-            self.subinfo.options.configure.cflags += " " +  CraftCore.cache.getCommandOutput("pkg-config", "--cflags glib-2.0")[1].strip()
-            self.subinfo.options.configure.cflags += f" -I{root}/include/msvc"
-            self.shell.useMSVCCompatEnv = True
-            self.platform = ""
-            self.subinfo.options.configure.args += f" PKG_CONFIG=':' "
-            self.subinfo.options.configure.ldflags ="-lglib-2.0 -lgobject-2.0 -lgio-2.0 -lgthread-2.0 -llibxml2 -lintl -lzlib"
-            if self.buildType() == "Debug":
-                self.subinfo.options.configure.ldflags += " -lkdewind"
-            else:
-                self.subinfo.options.configure.ldflags += " -lkdewin"
-        return super().configure()
-
-    def install(self):
-        if not super().install():
-            return False
-        if CraftCore.compiler.isWindows:
-            manifest = os.path.join(self.packageDir(), "update-mime-database.exe.manifest")
-            executable = os.path.join(self.installDir(), "bin", "update-mime-database.exe")
-            utils.embedManifest(executable, manifest)
-        return True
-
-    def postQmerge(self):
-        return PostInstallRoutines.updateSharedMimeInfo(self)
+        MesonPackageBase.__init__(self)
