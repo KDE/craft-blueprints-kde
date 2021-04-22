@@ -1,13 +1,14 @@
-bin/dbus-daemon.*
-bin/ff.*
-bin/kdenlive.*
-bin/kioslave.*
-bin/melt.*
+bin/dbus-daemon.*(?!sym)
+bin/ff.*(?!sym)
+bin/kdenlive.*(?!sym)
+bin/kioslave.*(?!sym)
+bin/melt.*(?!sym)
 bin/.*\.dll
 
-lib/mlt.*
-lib/frei0r-1.*
-lib/ladspa.*
+lib/mlt/.*(?!sym)
+lib/frei0r-1/.*(?!sym)
+lib/ladspa/.*(?!sym)
+lib/.*\.so.*(?!sym)
 
 etc/xdg.*
 
