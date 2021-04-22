@@ -14,6 +14,8 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("withMysql", not CraftCore.compiler.isMacOS)
         self.options.dynamic.registerOption("withDBus", True)
         self.options.dynamic.registerOption("withGlib", not CraftCore.compiler.isWindows)
+        if CraftCore.compiler.isMinGW():
+            self.options.dynamic.registerOption("withDirectX", True)
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -122,10 +124,11 @@ class QtPackage(Qt5CorePackageBase):
             if not CraftVersion(os.environ["MACOSX_DEPLOYMENT_TARGET"]) >= mac_required:
                 raise BlueprintException(f"Qt requires MACOSX_DEPLOYMENT_TARGET to be >= {mac_required}", self)
         with self.getQtBaseEnv():
-            if CraftCore.compiler.isMinGW() and "DXSDK_DIR" not in os.environ:
+            if CraftCore.compiler.isMinGW() and self.subinfo.options.dynamic.withDirectX and "DXSDK_DIR" not in os.environ:
                 CraftCore.log.critical("Failed to detec a DirectX SDK")
                 CraftCore.log.critical(
                     "Please visite https://community.kde.org/Guidelines_and_HOWTOs/Build_from_source/Windows#Direct_X_SDK for instructions")
+                CraftCore.log.critical("Or you may set the blueprint option withDirectX=False to use only Desktop OpenGL (issue on Intel GPU)")
                 return False
             self.enterBuildDir()
             if OsUtils.isWin():
@@ -178,7 +181,10 @@ class QtPackage(Qt5CorePackageBase):
                 command += f"-macos-additional-datadirs \"{CraftCore.standardDirs.locations.data}\" "
 
             if OsUtils.isWin():
-                command += "-opengl dynamic "
+                if CraftCore.compiler.isMinGW() and self.subinfo.options.dynamic.withDirectX and "DXSDK_DIR" in os.environ:
+                    command += "-opengl dynamic "
+                else:
+                    command += "-opengl desktop "
                 command += "-plugin-sql-odbc "
 
             if CraftCore.compiler.isAndroid:
