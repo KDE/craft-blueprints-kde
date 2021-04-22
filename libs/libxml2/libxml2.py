@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
                 self.targetInstSrc[ver] = os.path.join(self.targetInstSrc[ver], 'win32')
         self.targetDigests['2.9.7'] = (['f63c5e7d30362ed28b38bfa1ac6313f9a80230720b7fb6c80575eeab3ff5900c'], CraftHash.HashAlgorithm.SHA256)
         self.description = "XML C parser and toolkit (runtime and applications)"
+        self.patchLevel["2.9.7"] = 1
         self.defaultTarget = '2.9.7'
 
     def setDependencies(self):
@@ -49,12 +50,19 @@ class PackageMSVC(MakeFilePackageBase):
                             f"iconv=yes"])
 
     def install(self):
-        if not MakeFilePackageBase.install(self):
+        if not super().install():
             return False
-        includedir = os.path.join(self.imageDir(), "include")
-        libxmldir = os.path.join(includedir, "libxml2")
-        utils.moveDir(os.path.join(libxmldir, "libxml"), includedir) #otherwise it isn't picked up by libxslt
-        return True
+        data = {"prefix" : CraftCore.standardDirs.craftRoot()}
+        return utils.configureFile(self.packageDir() / "libxml-2.0-msvc.pc", self.imageDir() / "lib/pkgconfig/libxml-2.0.pc", data)
+
+
+    def postInstall(self):
+        target = self.imageDir() / "include/libxml"
+        src = self.imageDir() / "include/libxml2//libxml"
+         #otherwise it isn't picked up by libxslt
+         # lets fix libxslt one day...
+        if not utils.createSymlink(src, target, targetIsDirectory=True):
+            return utils.copyDir(src, target)
 
 class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **args):
