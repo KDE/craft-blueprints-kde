@@ -61,8 +61,7 @@ class PackageMSVC(MakeFilePackageBase):
         src = self.imageDir() / "include/libxml2//libxml"
          #otherwise it isn't picked up by libxslt
          # lets fix libxslt one day...
-        if not utils.createSymlink(src, target, targetIsDirectory=True):
-            return utils.copyDir(src, target)
+        return utils.copyDir(src, target, linkOnly=True)
 
 class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **args):
