@@ -32,7 +32,6 @@ else:
     class Package(AutoToolsPackageBase):
         def __init__(self, **args):
             AutoToolsPackageBase.__init__(self)
-            if CraftCore.compiler.isMinGW():
-                # configure.ac:129: error: m4_undefine: undefined macro: backend
-                self.subinfo.options.configure.autoreconf = False
+            # configure.ac:129: error: m4_undefine: undefined macro: backend
+            self.subinfo.options.configure.autoreconf = False
             self.subinfo.options.configure.args = " --disable-static --enable-shared"
