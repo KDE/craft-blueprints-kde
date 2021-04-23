@@ -4,15 +4,15 @@ from Package.MakeFilePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ['2.9.7']:
-            self.targets[ver] = 'ftp://xmlsoft.org/libxml2/libxml2-' + ver + '.tar.gz'
-            self.targetInstSrc[ver] = 'libxml2-' + ver
+        for ver in ['2.9.7', '2.9.10']:
+            self.targets[ver] = f'https://gitlab.gnome.org/GNOME/libxml2/-/archive/v{ver}/libxml2-v{ver}.tar.bz2'
+            self.targetInstSrc[ver] = f'libxml2-v{ver}'
             if not CraftCore.compiler.isGCCLike():
                 self.targetInstSrc[ver] = os.path.join(self.targetInstSrc[ver], 'win32')
-        self.targetDigests['2.9.7'] = (['f63c5e7d30362ed28b38bfa1ac6313f9a80230720b7fb6c80575eeab3ff5900c'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['2.9.7'] = (['7cedf270ac25f61b21070f387f608d6203db11923a6c67679cc861f35290ba18'], CraftHash.HashAlgorithm.SHA256)
         self.description = "XML C parser and toolkit (runtime and applications)"
         self.patchLevel["2.9.7"] = 1
-        self.defaultTarget = '2.9.7'
+        self.defaultTarget = '2.9.10'
 
     def setDependencies(self):
         # autoreconf requires pkg-config, but as pkg-config needs xml2 we disabled this dependency
