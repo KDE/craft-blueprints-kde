@@ -239,7 +239,7 @@ class QtPackage(Qt5CorePackageBase):
                     command += " -no-icu "
                 if not self.subinfo.options.dynamic.withGlib:
                     command += " -no-glib "
-                if OsUtils.isUnix() and not CraftCore.compiler.isMacOS:
+                if OsUtils.isUnix() and not CraftCore.compiler.isMacOS and not CraftCore.compiler.isAndroid:
                     command += " -xcb "
             else:
                 command += " -static -static-runtime "
