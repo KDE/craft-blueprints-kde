@@ -4,8 +4,9 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-
         self.description = "Cantor"
+
+        self.patchToApply['21.04.0'] = [('cantor-21.04.0.diff', 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
