@@ -2,6 +2,11 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        if CraftCore.compiler.isMinGW():
+            # needs someone who cares
+            self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
+
     def setTargets(self):
         self.versionInfo.setDefaultValues(
             tarballUrl="http://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz",
