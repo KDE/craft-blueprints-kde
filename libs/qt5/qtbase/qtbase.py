@@ -181,10 +181,10 @@ class QtPackage(Qt5CorePackageBase):
                 command += f"-macos-additional-datadirs \"{CraftCore.standardDirs.locations.data}\" "
 
             if OsUtils.isWin():
-                if CraftCore.compiler.isMinGW() and self.subinfo.options.dynamic.withDirectX and "DXSDK_DIR" in os.environ:
-                    command += "-opengl dynamic "
-                else:
+                if CraftCore.compiler.isMinGW() and not self.subinfo.options.dynamic.withDirectX:
                     command += "-opengl desktop "
+                else:
+                    command += "-opengl dynamic "
                 command += "-plugin-sql-odbc "
 
             if CraftCore.compiler.isAndroid:
