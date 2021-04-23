@@ -1,0 +1,11 @@
+--- setup.py	2021-04-23 23:43:21.516280700 +0200
++++ setup.py	2021-04-23 23:48:33.608630700 +0200
+@@ -19,7 +19,7 @@
+ # Below ROOT, we expect to find include, include/libxml2, lib and bin.
+ # On *nix, it is not needed (but should not harm),
+ # on Windows, it is set by configure.js.
+-ROOT = r'/usr'
++ROOT = os.environ['KDEROOT']
+ 
+ # Thread-enabled libxml2
+ with_threads = 1
