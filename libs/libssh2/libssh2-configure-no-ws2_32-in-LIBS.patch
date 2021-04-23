@@ -1,0 +1,12 @@
+--- configure	2021-04-23 22:03:58.817132400 +0200
++++ configure	2021-04-23 22:04:22.741760900 +0200
+@@ -3229,8 +3229,7 @@
+ 
+ case "$host" in
+     *-mingw*)
+-    CFLAGS="$CFLAGS -DLIBSSH2_WIN32"
+-    LIBS="$LIBS -lws2_32"
++    CFLAGS="$CFLAGS -DLIBSSH2_WIN32 -lws2_32"
+     ;;
+ 	*-cygwin)
+ 	CFLAGS="$CFLAGS -DLIBSSH2_WIN32"
