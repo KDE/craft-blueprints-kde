@@ -148,7 +148,8 @@ class QtPackage(Qt5CorePackageBase):
                 command += "-pkg-config "
 
 
-            if self.subinfo.options.isActive("libs/freetype"):
+            # Android: androiddeployqt fails to deploy the Android QPA plugin correctly when depending against a system Freetype
+            if self.subinfo.options.isActive("libs/freetype") and not CraftCore.compiler.isAndroid:
                 command += "-system-freetype "
             else:
                 command += "-qt-freetype "
