@@ -48,9 +48,17 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/bin-base"] = None
 
 
+from Package.AutoToolsPackageBase import *
 from Package.CMakePackageBase import *
 
-class Package(CMakePackageBase):
-    def __init__(self, **args):
-        CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=OFF"
+if CraftCore.compiler.isGCCLike():
+    class Package(AutoToolsPackageBase):
+        def __init__(self, **args):
+            AutoToolsPackageBase.__init__(self)
+            self.subinfo.options.configure.autoreconfArgs += " -I m4"
+
+else:
+    class Package(CMakePackageBase):
+        def __init__(self, **args):
+            CMakePackageBase.__init__(self)
+            self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=OFF"
