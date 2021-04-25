@@ -5,10 +5,10 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         
         self.description = 'a desktop planetarium'
-        for ver in ['3.5.2']:
+        for ver in ['3.5.3']:
             self.targets[ver] = 'http://download.kde.org/stable/kstars/kstars-%s.tar.xz' % ver
             self.targetInstSrc[ver] = 'kstars-%s' % ver
-        self.defaultTarget = '3.5.2'
+        self.defaultTarget = '3.5.3'
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
