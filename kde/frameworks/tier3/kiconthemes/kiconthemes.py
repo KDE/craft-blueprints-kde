@@ -5,8 +5,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.patchToApply["5.79.0"] = [("svgiconengine.diff", 1)]
-        self.patchLevel["5.79.0"] = 3
+        # enforce iconengine plugin is there on mac and windows, on Linux this kills e.g. other Qt apps
+        if CraftCore.compiler.isMacOS or CraftCore.compiler.isWindows:
+            self.patchToApply["5.81.0"] = [("svgiconengine.diff", 1)]
+            self.patchLevel["5.81.0"] = 1
 
         self.description = "Classes to improve the handling of icons"
 
