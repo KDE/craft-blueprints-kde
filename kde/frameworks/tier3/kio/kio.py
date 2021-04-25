@@ -4,7 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply["5.75.0"] = [("kio-5.75.0-20201116.diff", 1)]
 
         self.description = "Network transparent access to files and data"
 
