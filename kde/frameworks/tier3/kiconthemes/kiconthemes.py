@@ -7,8 +7,9 @@ class subinfo(info.infoclass):
 
         # enforce iconengine plugin is there on mac and windows, on Linux this kills e.g. other Qt apps
         if CraftCore.compiler.isMacOS or CraftCore.compiler.isWindows:
-            self.patchToApply["5.81.0"] = [("svgiconengine.diff", 1)]
-            self.patchLevel["5.81.0"] = 1
+            for ver in ["master"] + self.versionInfo.tarballs():
+                self.patchToApply[ver] = [("svgiconengine.diff", 1)]
+                self.patchLevel[ver] = 1
 
         self.description = "Classes to improve the handling of icons"
 
