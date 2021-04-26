@@ -13,6 +13,8 @@ class subinfo(info.infoclass):
         self.patchLevel["6.0.0"] = 2
         self.patchLevel["7.0.1"] = 1
         self.patchLevel["8.0.0"] = 1
+        if CraftCore.compiler.isMinGW():
+            self.patchLevel["10.0.1"] = self.patchLevel.get("10.0.1", 0) + 1
         if CraftCore.compiler.isMacOS:
             self.patchLevel["8.0.0"] += 1
         self.patchToApply["6.0.1"] = [("llvm-6.0.1-20181019.diff", 1)]
