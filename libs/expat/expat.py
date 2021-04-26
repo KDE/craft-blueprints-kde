@@ -13,8 +13,9 @@ class subinfo(info.infoclass):
         self.patchToApply['2.1.0'] = ('expat-2.1.0-20130311.diff', 1)
         self.targetDigests['2.1.0'] = 'b08197d146930a5543a7b99e871cba3da614f6f0'
         self.targetDigests['2.2.10'] = (['bf42d1f52371d23684de36cc6d2f0f1acd02de264d1105bdc17792bbeb7e7ceb'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["2.2.10"] = [("expat-2.2.10-20210426.diff", 1)]
         self.description = "XML parser library written in C"
-        self.patchLevel["2.2.10"] = 1
+        self.patchLevel["2.2.10"] = 2
         self.defaultTarget = '2.2.10'
 
 
@@ -26,6 +27,6 @@ class Package(CMakePackageBase):
                                                "-DBUILD_examples=OFF",
                                                "-DBUILD_tools=OFF",
                                                "-DEXPAT_BUILD_PKGCONFIG=ON"]
-        self.subinfo.options.configure.testDefine = "-DBUILD_tests=ON  -DBUILD_examples=ON"
-        self.subinfo.options.configure.toolsDefine = "-DBUILD_tools=ON"  # available only from 2.1.0-beta3
-        self.subinfo.options.configure.staticArgs = "-DBUILD_shared=OFF"  # available only from 2.1.0-beta3
+        self.subinfo.options.configure.testDefine = ["-DBUILD_tests=ON", "-DBUILD_examples=ON"]
+        self.subinfo.options.configure.toolsDefine = ["-DBUILD_tools=ON"]  # available only from 2.1.0-beta3
+        self.subinfo.options.configure.staticArgs = ["-DBUILD_shared=OFF"]# available only from 2.1.0-beta3
