@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
             self.patchToApply["2.66.3"] = [("glib-2.66.3-20201204.diff", 1)]
         self.targetDigests["2.66.3"] = (['79f31365a99cb1cc9db028625635d1438890702acde9e2802eae0acebcf7b5b1'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["2.66.4"] = (['97df8670e32f9fd4f7392b0980e661dd625012015d58350da1e58e343f4af984'], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["2.66.4"] = 1
 
         self.defaultTarget = "2.66.4"
 
