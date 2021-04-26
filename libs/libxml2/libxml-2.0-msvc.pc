@@ -8,6 +8,6 @@ Name: libXML
 Version: 2.9.7
 Description: libXML library version2.
 Requires: zlib
-Libs: -L${libdir} -lxml2
-Libs.private: -L@{prefix}lib -L@{prefix}/lib -llzma -lws2_32 
+Libs: -L${libdir} -llibxml2
+Libs.private: -L@{prefix}/lib -llzma -lws2_32
 Cflags: -I${includedir}/libxml2 
