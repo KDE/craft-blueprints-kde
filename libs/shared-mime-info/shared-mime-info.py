@@ -57,9 +57,13 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
-        self.subinfo.options.configure.args += f" --disable-default-make-check --disable-update-mimedb"
-        if CraftCore.compiler.isMSVC():
+        self.subinfo.options.configure.args += ["--disable-default-make-check", "--disable-update-mimedb"]
+        if CraftCore.compiler.isMacOS:
+            #/Users/hannah/CraftRoot/build/libs/shared-mime-info/work/shared-mime-info-1.9/configure: line 4476: syntax error near unexpected token `0.35.0'
+            #/Users/hannah/CraftRoot/build/libs/shared-mime-info/work/shared-mime-info-1.9/configure: line 4476: `IT_PROG_INTLTOOL(0.35.0)'
+            self.subinfo.options.configure.autoreconf = False
+        elif CraftCore.compiler.isMSVC():
+            root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
             self.subinfo.options.configure.cflags += f" -I{root}/include/msvc"
             self.shell.useMSVCCompatEnv = True
             self.platform = ""
