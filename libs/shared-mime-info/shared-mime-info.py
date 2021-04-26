@@ -60,13 +60,10 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
         self.subinfo.options.configure.args += f" --disable-default-make-check --disable-update-mimedb"
-        self.subinfo.options.configure.cflags = f"-I{root}/include/glib-2.0 -I{root}/include/libxml2"
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.cflags += f" -I{root}/include/msvc"
             self.shell.useMSVCCompatEnv = True
             self.platform = ""
-            self.subinfo.options.configure.args += f" PKG_CONFIG=':' "
-            self.subinfo.options.configure.ldflags ="-lglib-2.0 -lgobject-2.0 -lgio-2.0 -lgthread-2.0 -llibxml2 -lintl -lzlib"
             if self.buildType() == "Debug":
                 self.subinfo.options.configure.ldflags += " -lkdewind"
             else:
