@@ -47,8 +47,10 @@ class subinfo(info.infoclass):
                                         ("dbus-1.12.12-launchd.diff", 1)]
         self.patchLevel["1.11.14"] = 2
         self.patchLevel["1.12.12"] = 2
-        self.patchToApply["1.13.18"] = [("0001-cmake-make-support-for-traditional-activation-option.patch", 1), # backport https://gitlab.freedesktop.org/dbus/dbus/-/merge_requests/159/diffs
-                                        ("0002-fix-macos-build.diff", 1)]
+        self.patchToApply["1.13.18"] = [("dbus-1.13.18-cmake-make-support-for-traditional-activation-option.diff", 1), # backport https://gitlab.freedesktop.org/dbus/dbus/-/merge_requests/159/diffs
+                                        ("0002-fix-macos-build.diff", 1),
+                                        ("dbus-1.13.18-20210426.diff", 1)# use the expat exported target
+                                        ]
         self.patchLevel["1.13.18"] = 3
 
         self.targetDigests['1.11.14'] = (['55cfc7fdd2cccb2fce1f75d2132ad4801b5ed6699fc2ce79ed993574adf90c80'], CraftHash.HashAlgorithm.SHA256)

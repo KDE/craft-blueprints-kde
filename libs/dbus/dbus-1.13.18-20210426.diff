@@ -1,0 +1,32 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user dbus-1.13.18.orig/bus/CMakeLists.txt dbus-1.13.18/bus/CMakeLists.txt
+--- dbus-1.13.18.orig/bus/CMakeLists.txt	2020-07-01 16:59:09.000000000 +0200
++++ dbus-1.13.18/bus/CMakeLists.txt	2021-04-26 20:33:03.745588200 +0200
+@@ -86,7 +86,6 @@
+ include_directories(
+     ${CMAKE_BINARY_DIR}
+     ${CMAKE_SOURCE_DIR}/..
+-    ${EXPAT_INCLUDE_DIR}
+ )
+ 
+ set(DBUS_DAEMON_SOURCES
+@@ -98,7 +97,7 @@
+ endif()
+ 
+ add_library(dbus-daemon-internal STATIC ${BUS_SOURCES})
+-target_link_libraries(dbus-daemon-internal ${DBUS_INTERNAL_LIBRARIES} ${EXPAT_LIBRARIES})
++target_link_libraries(dbus-daemon-internal ${DBUS_INTERNAL_LIBRARIES} expat::expat)
+ 
+ add_executable(dbus-daemon ${DBUS_DAEMON_SOURCES})
+ target_link_libraries(dbus-daemon dbus-daemon-internal)
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user dbus-1.13.18.orig/CMakeLists.txt dbus-1.13.18/CMakeLists.txt
+--- dbus-1.13.18.orig/CMakeLists.txt	2021-04-26 20:33:24.432354000 +0200
++++ dbus-1.13.18/CMakeLists.txt	2021-04-26 20:31:03.033812300 +0200
+@@ -189,7 +189,7 @@
+     set(FD_SETSIZE "8192" CACHE STRING "The maximum number of connections that can be handled at once")
+ endif()
+ 
+-find_package(EXPAT)
++find_package(EXPAT CONFIG REQUIRED)
+ find_package(X11)
+ find_package(GLib2)
+ if(GLIB2_FOUND)
