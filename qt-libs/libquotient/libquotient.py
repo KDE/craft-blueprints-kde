@@ -23,3 +23,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+        if CraftCore.compiler.isMSVC():
+            # LINK : fatal error LNK1104: cannot open file 'Quotient.lib
+            self.subinfo.options.dynamic.buildStatic = True
