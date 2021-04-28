@@ -5,6 +5,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        if CraftCore.compiler.isLinux:
+            self.patchToApply["5.81.0"] = [("fix-solid-compile.diff", 1)]
+            self.patchLevel["5.81.0"] = 1
+
         self.description = "Solid"
 
     def setDependencies(self):
