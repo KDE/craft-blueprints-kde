@@ -1,0 +1,19 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user clang-10.0.1.src.orig/tools/c-index-test/CMakeLists.txt clang-10.0.1.src/tools/c-index-test/CMakeLists.txt
+--- clang-10.0.1.src.orig/tools/c-index-test/CMakeLists.txt	2020-07-07 18:21:37.000000000 +0200
++++ clang-10.0.1.src/tools/c-index-test/CMakeLists.txt	2021-04-28 10:33:01.508602800 +0200
+@@ -39,13 +39,14 @@
+   LINKER_LANGUAGE CXX)
+ 
+ # If libxml2 is available, make it available for c-index-test.
++find_package(Iconv)
+ if (CLANG_HAVE_LIBXML)
+   if ((CMAKE_OSX_SYSROOT) AND (EXISTS ${CMAKE_OSX_SYSROOT}/${LIBXML2_INCLUDE_DIR}))
+     include_directories(SYSTEM ${CMAKE_OSX_SYSROOT}/${LIBXML2_INCLUDE_DIR})
+   else()
+     include_directories(SYSTEM ${LIBXML2_INCLUDE_DIR})
+   endif()
+-  target_link_libraries(c-index-test PRIVATE ${LIBXML2_LIBRARIES})
++  target_link_libraries(c-index-test PRIVATE ${LIBXML2_LIBRARIES} Iconv::Iconv)
+ endif()
+ 
+ if (NOT LLVM_INSTALL_TOOLCHAIN_ONLY)
