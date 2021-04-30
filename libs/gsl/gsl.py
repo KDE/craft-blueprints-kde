@@ -26,4 +26,6 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += " -DGSL_DISABLE_TESTS=1 "
+        self.subinfo.options.configure.args += " -DGSL_DISABLE_TESTS=ON "
+        if CraftCore.compiler.isMSVC():
+            self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=OFF "
