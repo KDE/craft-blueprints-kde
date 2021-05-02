@@ -8,6 +8,8 @@ class subinfo( info.infoclass ):
 
         self.displayName = "Elisa"
         self.description = "the Elisa music player"
+        self.defaultTarget = 'release/21.04'
+
 
     def setDependencies( self ):
         self.runtimeDependencies["virtual/base"] = None
