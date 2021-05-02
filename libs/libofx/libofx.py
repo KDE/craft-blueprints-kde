@@ -68,3 +68,6 @@ else:
         def __init__(self):
             # we use subinfo for now too
             CMakePackageBase.__init__(self)
+            if CraftCore.compiler.isMSVC():
+                # LINK : fatal error LNK1104: cannot open file 'libofx.lib'
+                self.subinfo.options.dynamic.buildStatic = True
