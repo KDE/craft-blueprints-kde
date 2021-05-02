@@ -5,6 +5,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        # try to patch out windows segfaults
+        self.patchToApply["5.81.0"] = [("vimode.diff", 1)]
+        self.patchLevel["5.81.0"] = 1
+
         self.description = "KTextEditor provides an advanced embeddable text editor"
 
     def setDependencies(self):
