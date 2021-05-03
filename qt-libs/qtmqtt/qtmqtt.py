@@ -2,8 +2,6 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
-
         for ver in ['5.12.9','5.13.2','5.14.0','5.14.1','5.14.2','5.15.0','5.15.1', '5.15.2']:
             self.svnTargets[ver] = f"https://github.com/qt/qtmqtt|{ver}"
 
