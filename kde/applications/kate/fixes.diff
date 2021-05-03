@@ -1,0 +1,147 @@
+diff --git a/addons/lspclient/lspclientpluginview.cpp b/addons/lspclient/lspclientpluginview.cpp
+index 72c2be719..626464572 100644
+--- a/addons/lspclient/lspclientpluginview.cpp
++++ b/addons/lspclient/lspclientpluginview.cpp
+@@ -258,6 +258,7 @@ public:
+                 }
+             }
+         }
++        w.clear();
+     }
+ 
+     void setRangeAndWidget(const KTextEditor::Range &r, QWidget *wid)
+@@ -268,7 +269,7 @@ public:
+ 
+     bool isValid() const
+     {
+-        return w != nullptr;
++        return !w.isNull();
+     }
+ 
+ private:
+@@ -284,7 +285,7 @@ private:
+     }
+ 
+ private:
+-    QWidget *w = nullptr;
++    QPointer<QWidget> w;
+     QHash<KTextEditor::Document *, KTextEditor::MovingRange *> ranges;
+     KTextEditor::Range range;
+ };
+diff --git a/addons/lspclient/lsptooltip.cpp b/addons/lspclient/lsptooltip.cpp
+index fd089c30d..08e6c53ff 100644
+--- a/addons/lspclient/lsptooltip.cpp
++++ b/addons/lspclient/lsptooltip.cpp
+@@ -39,7 +39,7 @@ public:
+         QString htext = text;
+         // we have to do this to handle soft line
+         htext.replace(QLatin1Char('\n'), QStringLiteral("  \n"));
+-        setMarkdown(htext);
++        setMarkdown(htext.toHtmlEscaped());
+         resizeTip(text);
+     }
+ 
+diff --git a/addons/project/gitwidget.cpp b/addons/project/gitwidget.cpp
+index 67885465a..c61f8432f 100644
+--- a/addons/project/gitwidget.cpp
++++ b/addons/project/gitwidget.cpp
+@@ -262,7 +262,14 @@ void GitWidget::setDotGitPath()
+     git.start(QProcess::ReadOnly);
+     if (git.waitForStarted() && git.waitForFinished(-1)) {
+         if (git.exitStatus() != QProcess::NormalExit || git.exitCode() != 0) {
+-            sendMessage(i18n("Failed to find .git directory, things may not work correctly: %1", QString::fromUtf8(git.readAllStandardError())), true);
++            const QString error = QString::fromUtf8(git.readAllStandardError());
++
++            /**
++             * Do this on next even loop iteration because we may be in the constructor of pluginView
++             */
++            QTimer::singleShot(1, this, [this, error] {
++                sendMessage(i18n("Failed to find .git directory, things may not work correctly: %1", error), false);
++            });
+             m_gitPath = m_project->baseDir();
+             return;
+         }
+@@ -299,8 +306,9 @@ QProcess *GitWidget::gitp()
+     auto git = new QProcess(this);
+     git->setProgram(QStringLiteral("git"));
+     git->setWorkingDirectory(m_gitPath);
+-    connect(git, &QProcess::errorOccurred, this, [this, git](QProcess::ProcessError) {
+-        sendMessage(git->errorString(), true);
++    connect(git, &QProcess::errorOccurred, this, [this, git](QProcess::ProcessError pe) {
++        // git program missing is not an error
++        sendMessage(git->errorString(), pe != QProcess::FailedToStart);
+         git->deleteLater();
+     });
+     return git;
+diff --git a/addons/project/kateprojectview.cpp b/addons/project/kateprojectview.cpp
+index 174077bca..f588d19e9 100644
+--- a/addons/project/kateprojectview.cpp
++++ b/addons/project/kateprojectview.cpp
+@@ -72,26 +72,14 @@ KateProjectView::KateProjectView(KateProjectPluginView *pluginView, KateProject
+     /**
+      * Setup git checkout stuff
+      */
+-    m_branchBtn->setHidden(true);
+     connect(m_branchBtn, &QPushButton::clicked, this, [this, mainWindow] {
+         BranchCheckoutDialog bd(mainWindow->window(), m_pluginView, m_project->baseDir());
+         bd.openDialog();
+     });
+ 
+-    connect(m_project, &KateProject::modelChanged, this, [this] {
+-        if (GitUtils::isGitRepo(m_project->baseDir())) {
+-            m_branchBtn->setHidden(false);
+-            m_branchBtn->setText(GitUtils::getCurrentBranchName(m_project->baseDir()));
+-            if (m_branchChangedWatcher.files().isEmpty()) {
+-                m_branchChangedWatcher.addPath(m_project->baseDir() + QStringLiteral("/.git/HEAD"));
+-            }
+-        } else {
+-            if (!m_branchChangedWatcher.files().isEmpty()) {
+-                m_branchChangedWatcher.removePaths(m_branchChangedWatcher.files());
+-            }
+-            m_branchBtn->setHidden(true);
+-        }
+-    });
++    checkAndRefreshGit();
++
++    connect(m_project, &KateProject::modelChanged, this, &KateProjectView::checkAndRefreshGit);
+     connect(&m_branchChangedWatcher, &QFileSystemWatcher::fileChanged, this, [this] {
+         m_project->reload(true);
+     });
+@@ -159,3 +147,19 @@ void KateProjectView::showFileGitHistory(const QString &file)
+     m_stackWidget->addWidget(fhs);
+     m_stackWidget->setCurrentWidget(fhs);
+ }
++
++void KateProjectView::checkAndRefreshGit()
++{
++    if (GitUtils::isGitRepo(m_project->baseDir())) {
++        m_branchBtn->setHidden(false);
++        m_branchBtn->setText(GitUtils::getCurrentBranchName(m_project->baseDir()));
++        if (m_branchChangedWatcher.files().isEmpty()) {
++            m_branchChangedWatcher.addPath(m_project->baseDir() + QStringLiteral("/.git/HEAD"));
++        }
++    } else {
++        if (!m_branchChangedWatcher.files().isEmpty()) {
++            m_branchChangedWatcher.removePaths(m_branchChangedWatcher.files());
++        }
++        m_branchBtn->setHidden(true);
++    }
++}
+diff --git a/addons/project/kateprojectview.h b/addons/project/kateprojectview.h
+index 3c1cd3966..4e98c56b2 100644
+--- a/addons/project/kateprojectview.h
++++ b/addons/project/kateprojectview.h
+@@ -73,6 +73,13 @@ private Q_SLOTS:
+ 
+     void showFileGitHistory(const QString &file);
+ 
++    /**
++     * On project model change, check if project
++     * is a git repo and then show/hide the branch
++     * button accordingly
++     */
++    void checkAndRefreshGit();
++
+ private:
+     /**
+      * our plugin view

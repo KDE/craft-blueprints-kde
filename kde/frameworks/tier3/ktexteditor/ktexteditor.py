@@ -7,7 +7,9 @@ class subinfo(info.infoclass):
 
         # try to patch out windows segfaults
         self.patchToApply["5.81.0"] = [("vimode.diff", 1)]
+        self.patchToApply["5.82.0"] = [("vimode.diff", 1)]
         self.patchLevel["5.81.0"] = 1
+        self.patchLevel["5.82.0"] = 1
 
         self.description = "KTextEditor provides an advanced embeddable text editor"
 
