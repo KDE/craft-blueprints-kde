@@ -181,6 +181,9 @@ class QtPackage(Qt5CorePackageBase):
             if CraftCore.compiler.isMacOS:
                 command += f"-macos-additional-datadirs \"{CraftCore.standardDirs.locations.data}\" "
 
+            if CraftCore.compiler.isFreeBSD:
+                command += "-no-libudev -no-evdev "
+
             if OsUtils.isWin():
                 if CraftCore.compiler.isMinGW() and not self.subinfo.options.dynamic.withDirectX:
                     command += "-opengl desktop "
