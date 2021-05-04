@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/libssh"] = None
+        self.runtimeDependencies["libs/openexr"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kactivities"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
