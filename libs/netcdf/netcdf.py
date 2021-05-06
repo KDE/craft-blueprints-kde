@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
                 self.patchToApply[ver] += [('netcdf-4.7.4-missing-defines.diff', 1)]
         for ver in ["4.8.0"]:
             if CraftCore.compiler.isMSVC():
-                self.patchToApply[ver] += [('netcdf-4.8.0-missing-include.diff', 1)]
+                self.patchToApply[ver] += [('netcdf-4.8.0-missing-defines.diff', 1)]
         self.defaultTarget = '4.8.0'
 
     def setDependencies(self):

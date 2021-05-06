@@ -24,3 +24,29 @@ diff -ruNa netcdf-c-4.8.0.orig/libdispatch/dcrc64.c netcdf-c-4.8.0/libdispatch/d
  /* The include of pthread.h below can be commented out in order to not use the
     pthread library for table initialization.  In that case, the initialization
     will not be thread-safe.  That's fine, so long as it can be assured that
+diff -ruNa netcdf-c-4.8.0.orig/libsrc/ncx.h netcdf-c-4.8.0/libsrc/ncx.h
+--- netcdf-c-4.8.0.orig/libsrc/ncx.h	2021-03-30 22:23:10.000000000 +0200
++++ netcdf-c-4.8.0/libsrc/ncx.h	2021-05-06 20:03:07.984680723 +0200
+@@ -171,6 +171,22 @@
+ typedef signed char schar;
+ #endif
+ 
++#ifndef uchar
++typedef unsigned char uchar;
++#endif
++#ifndef ushort
++typedef unsigned short ushort;
++#endif
++#ifndef uint
++typedef unsigned int uint;
++#endif
++#ifndef longlong
++typedef long long longlong;
++#endif
++#ifndef ulonglong
++typedef unsigned long long ulonglong;
++#endif
++
+ /*
+  * Primitive numeric conversion functions.
+  * The `put' functions convert from native internal
