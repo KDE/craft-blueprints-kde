@@ -9,3 +9,18 @@ diff -ruNa netcdf-c-4.8.0.orig/include/nclog.h netcdf-c-4.8.0/include/nclog.h
  #include "ncexternl.h"
  
  #define NCENVLOGGING "NCLOGGING"
+diff -ruNa netcdf-c-4.8.0.orig/libdispatch/dcrc64.c netcdf-c-4.8.0/libdispatch/dcrc64.c
+--- netcdf-c-4.8.0.orig/libdispatch/dcrc64.c	2021-03-30 22:23:10.000000000 +0200
++++ netcdf-c-4.8.0/libdispatch/dcrc64.c	2021-05-06 10:39:26.559599521 +0200
+@@ -44,6 +44,11 @@
+ 
+ #include "ncexternl.h"
+ 
++#ifndef uint64
++#include <stdint.h>
++typedef uint64_t uint64;
++#endif
++
+ /* The include of pthread.h below can be commented out in order to not use the
+    pthread library for table initialization.  In that case, the initialization
+    will not be thread-safe.  That's fine, so long as it can be assured that
