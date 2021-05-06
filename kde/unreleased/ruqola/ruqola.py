@@ -38,6 +38,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtwebsockets"] = None
         self.runtimeDependencies["libs/qt5/qtnetworkauth"] = None
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
+        self.runtimeDependencies["libs/qt5/qtimageformats"] = None
         self.runtimeDependencies["libs/qt5/qtspeech"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
