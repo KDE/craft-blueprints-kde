@@ -18,8 +18,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        # TODO: iconv
+        self.runtimeDependencies["libs/iconv"] = None
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
+        self.subinfo.options.configure.args = " --disable-shared"
