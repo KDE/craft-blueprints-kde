@@ -52,15 +52,18 @@ diff -ruNa netcdf-c-4.8.0.orig/libsrc/ncx.h netcdf-c-4.8.0/libsrc/ncx.h
   * The `put' functions convert from native internal
 diff -ruNa netcdf-c-4.8.0.orig/libsrc/putget.m4 netcdf-c-4.8.0/libsrc/putget.m4
 --- netcdf-c-4.8.0.orig/libsrc/putget.m4	2021-03-30 22:23:10.000000000 +0200
-+++ netcdf-c-4.8.0/libsrc/putget.m4	2021-05-07 17:30:26.824724555 +0200
-@@ -111,6 +111,10 @@
++++ netcdf-c-4.8.0/libsrc/putget.m4	2021-05-07 19:46:38.979059470 +0200
+@@ -111,13 +111,7 @@
  NCFILL(char, char, X_SIZEOF_CHAR, NC_FILL_CHAR)
  NCFILL(short, short, X_SIZEOF_SHORT, NC_FILL_SHORT)
  
-+#ifndef SIZEOF_INT
-+#define SIZEOF_INT 4
-+#endif
-+
- #if (SIZEOF_INT >= X_SIZEOF_INT)
+-#if (SIZEOF_INT >= X_SIZEOF_INT)
  NCFILL(int, int, X_SIZEOF_INT, NC_FILL_INT)
- #elif SIZEOF_LONG == X_SIZEOF_INT
+-#elif SIZEOF_LONG == X_SIZEOF_INT
+-NCFILL(long, int, X_SIZEOF_INT, NC_FILL_INT)
+-#else
+-#error "NC_fill_int implementation"
+-#endif
+ 
+ NCFILL(float, float, X_SIZEOF_FLOAT, NC_FILL_FLOAT)
+ NCFILL(double, double, X_SIZEOF_DOUBLE, NC_FILL_DOUBLE)
