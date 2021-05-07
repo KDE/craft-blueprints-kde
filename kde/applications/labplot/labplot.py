@@ -45,6 +45,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
         if self.buildTarget == "master":
             self.runtimeDependencies["libs/matio"] = None
+            self.runtimeDependencies["libs/readstat"] = None
 
 
 from Package.CMakePackageBase import *
