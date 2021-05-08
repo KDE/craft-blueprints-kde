@@ -26,7 +26,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/liblz4"] = None
         self.runtimeDependencies["libs/hdf5"] = None
-        self.runtimeDependencies["libs/netcdf"] = None
+        # netcdf disabled for MSVC until build is stable on Binary Factory
+        if not CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["libs/netcdf"] = None
         self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["qt-libs/qtmqtt"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
