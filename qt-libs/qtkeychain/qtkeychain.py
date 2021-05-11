@@ -9,6 +9,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.buildDependencies["libs/qt5/qttools"] = None
         self.buildDependencies["libs/libsecret"] = None
+        if CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
 
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/frankosterfeld/qtkeychain.git'
