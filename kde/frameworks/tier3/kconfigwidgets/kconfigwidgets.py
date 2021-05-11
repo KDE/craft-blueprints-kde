@@ -26,7 +26,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
-        self.buildDependencies["libs/gettext"] = None
 
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
