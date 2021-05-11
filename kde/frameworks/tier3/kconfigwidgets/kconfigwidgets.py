@@ -10,7 +10,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -19,6 +18,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.buildDependencies["libs/gettext"] = None
+
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
+
 
 from Package.CMakePackageBase import *
 
