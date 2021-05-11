@@ -11,7 +11,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
