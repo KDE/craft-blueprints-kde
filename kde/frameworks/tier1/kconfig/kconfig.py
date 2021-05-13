@@ -4,9 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply["5.76.0"] = [("fix-windows-screen-config-destroys-file.patch", 0)]
-        self.patchLevel["5.76.0"] = 1
-
         self.description = "KConfig"
 
     def setDependencies(self):
