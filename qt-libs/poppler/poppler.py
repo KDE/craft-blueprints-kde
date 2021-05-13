@@ -41,6 +41,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["libs/boost/boost-headers"] = None
         self.runtimeDependencies["data/poppler-data"] = None
         self.runtimeDependencies["libs/freetype"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
