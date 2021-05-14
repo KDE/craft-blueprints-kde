@@ -52,7 +52,8 @@ bin/QtQML/.*
 bin/QtQuick/.*
 bin/QtQuick2/.*
 bin/QtWinExtras/.*
-bin/KF5QuickAddons\.dll
+# needed on macOS
+#bin/KF5QuickAddons\.dll
 bin/Qt5Quick.*
 # Qt5Qml.so needed by cantorpart.dll
 bin/Qt5QmlModels\.dll
