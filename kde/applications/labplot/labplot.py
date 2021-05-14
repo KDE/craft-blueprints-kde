@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gsl"] = None
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/libfftw"] = None
+        self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblz4"] = None
         self.runtimeDependencies["libs/hdf5"] = None
         # netcdf disabled for MSVC until build is stable on Binary Factory
