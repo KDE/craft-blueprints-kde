@@ -67,6 +67,7 @@ class Package( CMakePackageBase ):
         CMakePackageBase.buildTests = False
 
     def createPackage(self):
+        self.defines["appname"] = "calligragemini"
         self.defines["icon"] = os.path.join(self.sourceDir(), "gemini", "calligragemini.ico")
         self.defines["shortcuts"] = [{"name" : self.subinfo.displayName, "target":"bin/calligragemini.exe"},
                                      {"name" : "Calligra Sheets", "target" : "bin/calligrasheets.exe"},
