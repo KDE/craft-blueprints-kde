@@ -50,6 +50,54 @@ diff -ruNa netcdf-c-4.8.0.orig/libsrc/ncx.h netcdf-c-4.8.0/libsrc/ncx.h
  /*
   * Primitive numeric conversion functions.
   * The `put' functions convert from native internal
+diff -ruNa netcdf-c-4.8.0.orig/libsrc/ncx.m4 netcdf-c-4.8.0/libsrc/ncx.m4
+--- netcdf-c-4.8.0.orig/libsrc/ncx.m4	2021-03-30 22:23:10.000000000 +0200
++++ netcdf-c-4.8.0/libsrc/ncx.m4	2021-05-15 20:26:27.584582493 +0200
+@@ -179,7 +179,7 @@
+ #ifdef  SIZEOF_UNSIGNED_CHAR
+ #define SIZEOF_UCHAR SIZEOF_UNSIGNED_CHAR
+ #else
+-#error "unknown SIZEOF_UCHAR"
++#define SIZEOF_UCHAR 1
+ #endif
+ #endif
+ 
+@@ -189,7 +189,7 @@
+ #elif defined(SIZEOF_UNSIGNED_SHORT)
+ #define SIZEOF_USHORT SIZEOF_UNSIGNED_SHORT
+ #else
+-#error "unknown SIZEOF_USHORT"
++#define SIZEOF_USHORT 2
+ #endif
+ #endif
+ 
+@@ -197,7 +197,7 @@
+ #ifdef  SIZEOF_UNSIGNED_INT
+ #define SIZEOF_UINT SIZEOF_UNSIGNED_INT
+ #else
+-#error "unknown SIZEOF_UINT"
++#define SIZEOF_UINT 4
+ #endif
+ #endif
+ 
+@@ -223,7 +223,7 @@
+ #ifdef  SIZEOF_UNSIGNED_LONG_LONG
+ #define SIZEOF_ULONGLONG SIZEOF_UNSIGNED_LONG_LONG
+ #else
+-#error "unknown SIZEOF_ULONGLONG"
++#define SIZEOF_ULONGLONG SIZEOF_INT64
+ #endif
+ #endif
+ 
+@@ -233,7 +233,7 @@
+ #elif defined(SIZEOF_ULONGLONG)
+ #define SIZEOF_UINT64 SIZEOF_ULONGLONG
+ #else
+-#error "unknown SIZEOF_UINT64"
++#define SIZEOF_UINT64 SIZEOF_INT64
+ #endif
+ #endif
+ 
 diff -ruNa netcdf-c-4.8.0.orig/libsrc/putget.c netcdf-c-4.8.0/libsrc/putget.c
 --- netcdf-c-4.8.0.orig/libsrc/putget.c	2021-03-30 22:23:10.000000000 +0200
 +++ netcdf-c-4.8.0/libsrc/putget.c	2021-05-13 13:44:25.728611481 +0200
