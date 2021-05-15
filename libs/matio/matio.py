@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
             ['21809177e55839e7c94dada744ee55c1dea7d757ddaab89605776d50122fb065'], CraftHash.HashAlgorithm.SHA256)
         self.description = 'A library for reading and writing binary MATLAB MAT files'
 
-       for ver in ["1.5.21"]:
+        for ver in ["1.5.21"]:
             if CraftCore.compiler.isMacOS:
                 self.patchToApply[ver] = [('matio-macOS-linker.diff', 1)]
 
