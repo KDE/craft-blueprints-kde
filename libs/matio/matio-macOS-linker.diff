@@ -1,12 +1,14 @@
 diff -ruNa matio-1.5.21.orig/cmake/src.cmake matio-1.5.21/cmake/src.cmake
 --- matio-1.5.21.orig/cmake/src.cmake	2021-03-25 19:53:24.000000000 +0100
-+++ matio-1.5.21/cmake/src.cmake	2021-05-14 21:42:06.974050468 +0200
-@@ -37,7 +37,7 @@
++++ matio-1.5.21/cmake/src.cmake	2021-05-16 16:34:30.062452478 +0200
+@@ -37,8 +37,8 @@
  endif()
  
  if(NOT MSVC)
 -    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined")
+-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--retain-symbols-file,${PROJECT_SOURCE_DIR}/src/matio.sym")
 +    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-undefined,error")
-     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--retain-symbols-file,${PROJECT_SOURCE_DIR}/src/matio.sym")
++#    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--retain-symbols-file,${PROJECT_SOURCE_DIR}/src/matio.sym")
  endif()
  
+ if(MATIO_SHARED)
