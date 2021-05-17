@@ -26,8 +26,77 @@ diff -ruNa netcdf-c-4.8.0.orig/libdispatch/dcrc64.c netcdf-c-4.8.0/libdispatch/d
     will not be thread-safe.  That's fine, so long as it can be assured that
 diff -ruNa netcdf-c-4.8.0.orig/libsrc/ncx.h netcdf-c-4.8.0/libsrc/ncx.h
 --- netcdf-c-4.8.0.orig/libsrc/ncx.h	2021-03-30 22:23:10.000000000 +0200
-+++ netcdf-c-4.8.0/libsrc/ncx.h	2021-05-06 20:03:07.984680723 +0200
-@@ -171,6 +171,22 @@
++++ netcdf-c-4.8.0/libsrc/ncx.h	2021-05-17 20:10:44.719218286 +0200
+@@ -78,6 +78,68 @@
+ #define X_SIZEOF_INT64		8
+ #define X_SIZEOF_UINT64		8
+ 
++#ifndef SIZEOF_UCHAR
++#ifdef  SIZEOF_UNSIGNED_CHAR
++#define SIZEOF_UCHAR SIZEOF_UNSIGNED_CHAR
++#else
++#define SIZEOF_UCHAR 1
++#endif
++#endif
++
++#ifndef SIZEOF_USHORT
++#ifdef  SIZEOF_UNSIGNED_SHORT_INT
++#define SIZEOF_USHORT SIZEOF_UNSIGNED_SHORT_INT
++#elif defined(SIZEOF_UNSIGNED_SHORT)
++#define SIZEOF_USHORT SIZEOF_UNSIGNED_SHORT
++#else
++#define SIZEOF_USHORT 2
++#endif
++#endif
++
++#ifndef SIZEOF_UINT
++#ifdef  SIZEOF_UNSIGNED_INT
++#define SIZEOF_UINT SIZEOF_UNSIGNED_INT
++#else
++#define SIZEOF_UINT 4
++#endif
++#endif
++
++#ifndef SIZEOF_LONGLONG
++#ifdef  SIZEOF_LONG_LONG
++#define SIZEOF_LONGLONG SIZEOF_LONG_LONG
++#else
++#define SIZEOF_LONGLONG 8
++#endif
++#endif
++
++#ifndef SIZEOF_INT64
++#ifdef  SIZEOF_LONG_LONG
++#define SIZEOF_INT64 SIZEOF_LONG_LONG
++#elif defined(SIZEOF_LONGLONG)
++#define SIZEOF_INT64 SIZEOF_LONGLONG
++#else
++#define SIZEOF_INT64 8
++#endif
++#endif
++
++#ifndef SIZEOF_ULONGLONG
++#ifdef  SIZEOF_UNSIGNED_LONG_LONG
++#define SIZEOF_ULONGLONG SIZEOF_UNSIGNED_LONG_LONG
++#else
++#define SIZEOF_ULONGLONG SIZEOF_INT64
++#endif
++#endif
++
++#ifndef SIZEOF_UINT64
++#ifdef  SIZEOF_UNSIGNED_LONG_LONG
++#define SIZEOF_UINT64 SIZEOF_UNSIGNED_LONG_LONG
++#elif defined(SIZEOF_ULONGLONG)
++#define SIZEOF_UINT64 SIZEOF_ULONGLONG
++#else
++#define SIZEOF_UINT64 SIZEOF_INT64
++#endif
++#endif
++
+ /*
+  * For now, netcdf is limited to 32 bit sizes,
+  * If compiled with support for "large files", then
+@@ -171,6 +233,22 @@
  typedef signed char schar;
  #endif
  
@@ -52,49 +121,13 @@ diff -ruNa netcdf-c-4.8.0.orig/libsrc/ncx.h netcdf-c-4.8.0/libsrc/ncx.h
   * The `put' functions convert from native internal
 diff -ruNa netcdf-c-4.8.0.orig/libsrc/ncx.m4 netcdf-c-4.8.0/libsrc/ncx.m4
 --- netcdf-c-4.8.0.orig/libsrc/ncx.m4	2021-03-30 22:23:10.000000000 +0200
-+++ netcdf-c-4.8.0/libsrc/ncx.m4	2021-05-15 20:26:27.584582493 +0200
++++ netcdf-c-4.8.0/libsrc/ncx.m4	2021-05-17 20:11:11.991062366 +0200
 @@ -179,7 +179,7 @@
  #ifdef  SIZEOF_UNSIGNED_CHAR
  #define SIZEOF_UCHAR SIZEOF_UNSIGNED_CHAR
  #else
 -#error "unknown SIZEOF_UCHAR"
-+#define SIZEOF_UCHAR 1
- #endif
- #endif
- 
-@@ -189,7 +189,7 @@
- #elif defined(SIZEOF_UNSIGNED_SHORT)
- #define SIZEOF_USHORT SIZEOF_UNSIGNED_SHORT
- #else
--#error "unknown SIZEOF_USHORT"
-+#define SIZEOF_USHORT 2
- #endif
- #endif
- 
-@@ -197,7 +197,7 @@
- #ifdef  SIZEOF_UNSIGNED_INT
- #define SIZEOF_UINT SIZEOF_UNSIGNED_INT
- #else
--#error "unknown SIZEOF_UINT"
-+#define SIZEOF_UINT 4
- #endif
- #endif
- 
-@@ -223,7 +223,7 @@
- #ifdef  SIZEOF_UNSIGNED_LONG_LONG
- #define SIZEOF_ULONGLONG SIZEOF_UNSIGNED_LONG_LONG
- #else
--#error "unknown SIZEOF_ULONGLONG"
-+#define SIZEOF_ULONGLONG SIZEOF_INT64
- #endif
- #endif
- 
-@@ -233,7 +233,7 @@
- #elif defined(SIZEOF_ULONGLONG)
- #define SIZEOF_UINT64 SIZEOF_ULONGLONG
- #else
--#error "unknown SIZEOF_UINT64"
-+#define SIZEOF_UINT64 SIZEOF_INT64
++#error:  "unknown SIZEOF_UCHAR"
  #endif
  #endif
  
