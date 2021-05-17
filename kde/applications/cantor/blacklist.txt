@@ -22,7 +22,8 @@ bin/kdewin-qt\.dll
 bin/kdewin\.dll
 bin/kdewin-qt\.dll
 bin/phonon4qt5.*
-lib/.*
+# used on macOS?
+#lib/.*
 libexec/.*
 
 # unused Qt/KF5 libs
