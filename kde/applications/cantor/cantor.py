@@ -14,7 +14,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         # R backend fails compiling with MSVC
-        if not CraftCore.compiler.isMSVC():
+        # libR.dylib fails packaging on macOS (lapack.so)
+        if not CraftCore.compiler.isMSVC() and not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["binary/r-base"] = None
         # we use Crafts python
         #self.runtimeDependencies["dev-utils/python3"] = None
