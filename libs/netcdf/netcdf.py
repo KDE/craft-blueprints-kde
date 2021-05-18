@@ -31,6 +31,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["libs/hdf5"] = None
+        self.runtimeDependencies["libs/libzip"] = None
         # only required for DAP
         #self.runtimeDependencies["libs/libcurl"] = None
 
