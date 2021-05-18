@@ -26,8 +26,8 @@ diff -ruNa netcdf-c-4.8.0.orig/libdispatch/dcrc64.c netcdf-c-4.8.0/libdispatch/d
     will not be thread-safe.  That's fine, so long as it can be assured that
 diff -ruNa netcdf-c-4.8.0.orig/libsrc/ncx.h netcdf-c-4.8.0/libsrc/ncx.h
 --- netcdf-c-4.8.0.orig/libsrc/ncx.h	2021-03-30 22:23:10.000000000 +0200
-+++ netcdf-c-4.8.0/libsrc/ncx.h	2021-05-17 20:10:44.719218286 +0200
-@@ -78,6 +78,68 @@
++++ netcdf-c-4.8.0/libsrc/ncx.h	2021-05-18 20:08:09.988593307 +0200
+@@ -78,6 +78,76 @@
  #define X_SIZEOF_INT64		8
  #define X_SIZEOF_UINT64		8
  
@@ -93,10 +93,18 @@ diff -ruNa netcdf-c-4.8.0.orig/libsrc/ncx.h netcdf-c-4.8.0/libsrc/ncx.h
 +#endif
 +#endif
 +
++#ifndef SIZEOF_FLOAT
++#define SIZEOF_FLOAT 4
++#endif
++
++#ifndef SIZEOF_DOUBLE
++#define SIZEOF_DOUBLE 8
++#endif
++
  /*
   * For now, netcdf is limited to 32 bit sizes,
   * If compiled with support for "large files", then
-@@ -171,6 +233,22 @@
+@@ -171,6 +241,22 @@
  typedef signed char schar;
  #endif
  
