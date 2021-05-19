@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"x264-{git[ver]}"
         self.targetDigests['20180806'] = (['e8f54662a5c4b0c4da91fd6e69b6a6f45b3292c1aee1279e8cfa916790407337'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = '20210211'
+        self.patchToApply["20210211"] = [("shebang-fix.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/nasm"] = None
