@@ -1,0 +1,12 @@
+diff -Nrub -x *~ -x *\.rej -x *\.orig -x *\.o -x *\.pyc -x CMakeLists.txt.user libvpx-1.9.0.orig/build/make/configure.sh libvpx-1.9.0/build/make/configure.sh
+--- libvpx-1.9.0.orig/build/make/configure.sh	2020-07-30 23:59:15.000000000 +0400
++++ libvpx-1.9.0/build/make/configure.sh	2021-05-19 22:00:05.974519000 +0300
+@@ -731,7 +731,7 @@
+ 
+ process_common_toolchain() {
+   if [ -z "$toolchain" ]; then
+-    gcctarget="${CHOST:-$(gcc -dumpmachine 2> /dev/null)}"
++    gcctarget="${CHOST:-$(${CC} -dumpmachine 2> /dev/null)}"
+     # detect tgt_isa
+     case "$gcctarget" in
+       aarch64*)
