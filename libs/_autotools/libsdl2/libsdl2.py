@@ -23,3 +23,5 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args = " --disable-static --enable-threads --enable-directx --enable-libsamplerate "
+        if CraftCore.compiler.isFreeBSD:
+            self.subinfo.options.configure.args += " --enable-video-wayland --disable-wayland-shared "
