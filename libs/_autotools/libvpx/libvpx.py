@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         self.targetDigests['1.9.0'] = (['d279c10e4b9316bf11a570ba16c3d55791e1ad6faa4404c67422eb631782c80a'], CraftHash.HashAlgorithm.SHA256)
         self.description = "VP8 and VP9 video codec"
         self.defaultTarget = '1.9.0'
-        self.patchToApply["1.9.0"] = ("detect-clang.diff", 1)
+        self.patchToApply["1.9.0"] = [("detect-clang.diff", 1)]
         if CraftCore.compiler.isFreeBSD:
             self.patchToApply["1.9.0"] += [("dont-check-for-diff.diff", 1)]
 
