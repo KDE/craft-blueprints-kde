@@ -6,9 +6,11 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['1.9.0'] = "https://github.com/indilib/indi.git||stable-1.9.0"
+        #self.svnTargets['1.9.0'] = "https://github.com/indilib/indi.git||stable-1.9.0"
+        #self.defaultTarget = '1.9.0'
+        self.svnTargets['master'] = "https://github.com/indilib/indi.git"
+        self.defaultTarget = 'master'
         self.description = 'INDI Library'
-        self.defaultTarget = '1.9.0'
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/grep"] = None
