@@ -28,11 +28,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/liblz4"] = None
         self.runtimeDependencies["libs/hdf5"] = None
         # netcdf disabled for MSVC until build is stable on Binary Factory
-#       if not CraftCore.compiler.isMSVC():
-        # netcdf links to libzip if installed
-        # make sure that zip.dll is included
-        self.runtimeDependencies["libs/libzip"] = None
-        self.runtimeDependencies["libs/netcdf"] = None
+        # netcdf links to libzip if installed; make sure that zip.dll is included
+        if not CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["libs/libzip"] = None
+            self.runtimeDependencies["libs/netcdf"] = None
 
         self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["qt-libs/qtmqtt"] = None
