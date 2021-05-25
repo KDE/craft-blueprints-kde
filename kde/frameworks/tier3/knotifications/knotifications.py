@@ -4,6 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchLevel["5.82.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
