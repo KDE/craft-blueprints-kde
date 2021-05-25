@@ -3,10 +3,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://anongit.kde.org/ktrip.git'
-        self.defaultTarget = 'master'
-
-        self.description = "TODO"
+        self.versionInfo.setDefaultValues()
+        self.description = "Public transport assistant"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
