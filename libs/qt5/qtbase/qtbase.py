@@ -29,6 +29,10 @@ class subinfo(info.infoclass):
                     (".qt-5.15.0", 1),
                     ("mkspecs-bsd.diff", 1)
                 ]
+            elif qtVer >= CraftVersion("5.12.11"):
+                self.patchToApply[ver] = [
+                    (".qt-5.12.11", 1)
+                ]
             elif qtVer >= CraftVersion("5.12.10"):
                 self.patchToApply[ver] = [
                     (".qt-5.12.10", 1)
