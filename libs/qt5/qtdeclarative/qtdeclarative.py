@@ -6,6 +6,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.patchToApply["5.12.0"] = [(".qt-5.12.0", 1)]
         self.versionInfo.setDefaultValues()
+        self.patchLevel["5.15.2"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
