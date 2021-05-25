@@ -7,6 +7,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "KDE OSM Indoor Map"
         self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/libraries/kosmindoormap.git")
+        self.patchLevel["21.04.1"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
