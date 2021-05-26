@@ -4,7 +4,10 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'https://anongit.kde.org/kirigami-addons.git'
-        self.defaultTarget = 'master'
+        self.defaultTarget = '0.2'
+
+        self.targets["0.2"] = "https://download.kde.org/unstable/kirigami-addons/0.2/kirigami-addons-0.2.tar.xz"
+        self.targetDigestUrls["0.2"] = "https://download.kde.org/unstable/kirigami-addons/0.2/kirigami-addons-0.2.tar.xz.sha256"
 
         self.description = "Addons for the Kirigami Framework"
 
