@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
+        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/utilities/ktrip.git")
         self.description = "Public transport assistant"
 
     def setDependencies(self):
