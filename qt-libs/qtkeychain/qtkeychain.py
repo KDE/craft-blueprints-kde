@@ -23,7 +23,8 @@ class subinfo(info.infoclass):
 
         self.patchToApply["0.10.0"] = [("0001-Don-t-use-absolute-path-to-frameworks.patch", 1)]
         self.patchLevel["0.10.0"] = 1
-        self.patchToApply["0.12.0"] = [("qtkeychain-0.12.0-20210128.diff", 1)]
+        self.patchToApply["0.12.0"] = [("qtkeychain-0.12.0-20210128.diff", 1), ("0001-Don-t-find-QtDBus-on-Android.patch", 1), ("0001-Make-QtAndroidExtras-dependency-private.patch", 1)]
+        self.patchLevel["0.12.0"] = 2
 
         self.defaultTarget = '0.12.0'
 
