@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
 
         self.targets["0.2"] = "https://download.kde.org/unstable/kirigami-addons/0.2/kirigami-addons-0.2.tar.xz"
         self.targetDigestUrls["0.2"] = "https://download.kde.org/unstable/kirigami-addons/0.2/kirigami-addons-0.2.tar.xz.sha256"
+        self.targetInstSrc["0.2"] = "kirigami-addons-0.2"
 
         self.description = "Addons for the Kirigami Framework"
 
