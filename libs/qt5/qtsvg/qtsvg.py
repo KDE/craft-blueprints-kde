@@ -5,7 +5,9 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchLevel["5.15.2"] = 1
+        self.patchLevel["5.15.2"] = 2
+        if CraftCore.compiler.isAndroid:
+            self.patchToApply["5.15.2"] = [ ("optional-widget-dependency.diff", 1) ]
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
