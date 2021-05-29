@@ -53,8 +53,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['libs/gpgme'] = 'default'
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
-        # can be removed with alkimia release 8.1.x
-        self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["binary/mysql"] = None
