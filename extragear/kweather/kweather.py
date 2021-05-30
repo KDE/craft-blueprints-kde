@@ -1,6 +1,8 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2021 Tobias Fella <fella@posteo.de>
+
 import info
 from Package.CMakePackageBase import *
-
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -10,7 +12,7 @@ class subinfo(info.infoclass):
 
         for ver in ["0.4"]:
             self.targets[ver] = f"https://download.kde.org/unstable/kweather/{ver}/kweather-{ver}.tar.xz"
-            self.targetInstSrc[ver] = 'kweather-%s' % ver
+            self.targetInstSrc[ver] = f"kweather-{ver}"
 
         self.defaultTarget = "0.4"
         self.targetDigests["0.4"] = (['e2847139663eecba36b27c6e050b80235ec9fa1c82e8530b36c8f0d67e14c32c'], CraftHash.HashAlgorithm.SHA256)
@@ -26,6 +28,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kquickcharts"] = None
+        self.runtimeDependencies["kde/libs/kweathercore"] = None
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
