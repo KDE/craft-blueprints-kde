@@ -1,0 +1,50 @@
+From 4236240733b6404f5a79cba9e6294af8f0d203aa Mon Sep 17 00:00:00 2001
+From: Tobias Fella <fella@posteo.de>
+Date: Sun, 30 May 2021 18:40:06 +0200
+Subject: [PATCH] Add CMake option to not build the plasmoid
+
+---
+ CMakeLists.txt     | 6 +++++-
+ src/CMakeLists.txt | 2 +-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c192430..713b4ed 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -14,6 +14,8 @@ set(KF5_MIN_VERSION "5.82.0")
+ set(CMAKE_CXX_STANDARD 17)
+ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ 
++option(BUILD_PLASMOID "Build the weather plasmoid" ON)
++
+ include(FeatureSummary)
+ 
+ find_package(ECM ${KF5_MIN_VERSION} REQUIRED)
+@@ -48,7 +50,9 @@ find_package(KF5 0.3.0 REQUIRED COMPONENTS KWeatherCore)
+ 
+ if (ANDROID)
+    find_package(OpenSSL REQUIRED)
+-else()
++endif()
++
++if (NOT ANDROID AND BUILD_PLASMOID)
+    find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Plasma)
+ endif()
+ 
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index ceec3d3..f406049 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -96,7 +96,7 @@ if (ANDROID)
+     )
+ endif()
+ 
+-if (UNIX AND (NOT ANDROID))
++if (NOT ANDROID AND BUILD_PLASMOID)
+     add_subdirectory(plasmoid)
+ endif()
+ install(TARGETS kweather ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
+-- 
+2.31.1
+
