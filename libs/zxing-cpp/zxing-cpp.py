@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/nu-book/zxing-cpp.git'
-        for ver in ["1.0.7", "1.0.8", "1.1.0", "1.1.1"]:
+        for ver in ["1.0.7", "1.0.8", "1.1.0", "1.1.1", "1.2.0"]:
             self.targets[ver] = f"https://github.com/nu-book/zxing-cpp/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"zxing-cpp-v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"zxing-cpp-{ver}"
@@ -22,7 +22,9 @@ class subinfo(info.infoclass):
         self.patchToApply["1.1.0"] = [("zxing-cpp-1.1.0-20201112.diff", 1)]
         self.targetDigests['1.1.1'] = (
             ['e595b3fa2ec320beb0b28f6af56b1141853257c2611686685639cebb3b248c86'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '1.1.1'
+        self.targetDigests['1.2.0'] = (
+            ['653d9e44195d86cf64a36af9ff3a1978ec5599df3882439fefa56e7064f55e8a'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = '1.2.0'
 
 
 class Package(CMakePackageBase):
