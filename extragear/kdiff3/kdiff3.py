@@ -8,12 +8,11 @@ class subinfo(info.infoclass):
         #Warning: Craft by default takes the display name to also be the product name. 
         self.displayName = 'KDiff3'
         self.description = "Compares and merges 2 or 3 files or directories"
-        self.options.configure.args = " -DWITH_WAYLAND=OFF"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["libs/boost/boost-headers"] = None
+        self.buildDependencies["libs/boost/boost-headers"] = '1.71'
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
