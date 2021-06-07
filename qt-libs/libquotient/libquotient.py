@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
             self.archiveNames[ver] = 'libQuotient-%s.tar.gz' % ver
             self.targetInstSrc[ver] = 'libQuotient-%s' % ver
 
-        self.targetDigests['0.6.7'] = (['7f7c56ef5f775d38a0bd9f112f2fb7473d42d1e886d17e84d4be1afda146999658eea8691c38071fd87aec7ece52b97bc837cc98452cc698cf152003474193f2'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['0.6.7'] = (['29143c56efb24525d168281fdb751531d69529f05e7e7d1b1121a1d64a504510'], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = '0.6.7'
         self.description = "A Qt5 library to write cross-platform clients for Matrix"
