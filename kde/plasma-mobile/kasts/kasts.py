@@ -3,9 +3,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "https://invent.kde.org/plasma-mobile/kasts.git"
-        self.defaultTarget = "master"
-
+        self.versionInfo.setDefaultValues()
         self.displayName = "Kasts"
         self.description = "Podcast player"
 

@@ -1,22 +1,14 @@
-# SPDX-FileCopyrightText: 2021 Tobias Fella <fella@posteo.de>
 # SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2021 Tobias Fella <fella@posteo.de>
 
 import info
 from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "https://invent.kde.org/utilities/keysmith.git"
-        self.defaultTarget = "master"
-
-        for ver in ["0.2"]:
-            self.targets[ver] = f"https://download.kde.org/stable/keysmith/{ver}/keysmith-v{ver}.tar.gz"
-            self.targetInstSrc[ver] = f"keysmith-v{ver}"
-
-        self.defaultTarget = "0.2"
-
-        self.displayName = "Keysmith"
-        self.description = "OTP client for Plasma Mobile and Desktop"
+        self.versionInfo.setDefaultValues()
+        self.displayName = "KWeather"
+        self.description = "Weather Forecasts"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -25,8 +17,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
-        self.runtimeDependencies["libs/libsodium"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kquickcharts"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
+        self.runtimeDependencies["kde/libs/kweathercore"] = None
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
@@ -35,10 +30,11 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = " -DBUILD_PLASMOID=OFF"
 
     def createPackage(self):
-        self.defines["executable"] = r"bin\keysmith.exe"
-        self.addExecutableFilter(r"(bin|libexec)/(?!(keysmith|update-mime-database)).*")
+        self.defines["executable"] = r"bin\kweather.exe"
+        self.addExecutableFilter(r"(bin|libexec)/(?!(alligator|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")

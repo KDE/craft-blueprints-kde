@@ -10,13 +10,13 @@ class subinfo(info.infoclass):
         self.description = "Library to facilitate retrieval of weather information including forecasts and alerts"
         self.svnTargets["master"] = "https://invent.kde.org/libraries/kweathercore"
 
-        for ver in ["21.05"]:
-            self.targets[ver] = f"https://invent.kde.org/libraries/kweathercore/-/archive/v{ver}/kweathercore-v{ver}.tar.gz"
-            self.targetInstSrc[ver] = f"kweathercore-v{ver}"
+        for ver in ["0.3"]:
+            self.targets[ver] = f"https://download.kde.org/stable/kweathercore/{ver}/kweathercore-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"kweathercore-{ver}"
 
-        self.targetDigests["21.05"] = (['f599f93d30eaa9e49c76aacef2c9b9d92cc0aa4a0cbf946c459530b149972fe1'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.3"] = (['bb36ff6c677be15062c3b2bfa7ef1b93746c77dcfa2cd469fd504e97a372218c'], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "21.05"
+        self.defaultTarget = "0.3"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
