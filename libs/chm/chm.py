@@ -5,6 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.targets['0.40'] = 'http://www.jedrea.com/chmlib/chmlib-0.40.tar.bz2'
         self.patchToApply['0.40'] = ('chm-cmake.diff', 0)
+        self.patchLevel['0.40'] = 1
         self.targetInstSrc['0.40'] = 'chmlib-0.40'
         self.targetDigests['0.40'] = '5231d7531e8808420d7f89fd1e4fdbac1ed7a167'
         self.description = "a library for dealing with Microsoft ITSS/CHM format files"
