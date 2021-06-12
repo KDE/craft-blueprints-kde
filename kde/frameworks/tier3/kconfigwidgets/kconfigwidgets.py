@@ -5,6 +5,12 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+       # add auto-theme switch support to Windows applications when Default colorscheme is set
+        if CraftCore.compiler.isWindows:
+            for ver in ["master"] + self.versionInfo.tarballs():
+                self.patchToApply[ver] = [("auto_switch_win.diff", 1)]
+                self.patchLevel[ver] = 1
+
         self.description = "Extra widgets for easier configuration support"
 
     def setDependencies(self):
