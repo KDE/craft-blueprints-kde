@@ -33,6 +33,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = '5.1'
 
     def setDependencies(self):
+        self.buildDependencies["dev-utils/python3"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
