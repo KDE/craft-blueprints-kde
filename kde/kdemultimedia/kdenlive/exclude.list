@@ -1,4 +1,3 @@
-bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt))[^.]*(\.exe|\.sh)?
 lib/(?!(mlt|frei0r-1|ladspa|.*\.so.*|.*kioslave)).*
 etc/(?!(xdg)).*
 share/(?!(applications|color-schemes|config.kcfg|dbus-1|icon|k|locale|metainfo|mime|charsets|ffmpeg|mlt)).*
@@ -7,3 +6,9 @@ qml/(QtWinExtras|QtTest)
 sbin/.*
 libexec/.*
 plugins/styles/qwindowsvistastyle.dll
+# we use a icontheme.rc on windows
+bin/data/icons/.*
+# kill qsvgengine, we use our KIconThemes engine with re-coloring
+bin/iconengines/qsvgicon.*
+# *.debug are removed, *.sym (old builds?) not
+.*\.sym
