@@ -1,17 +1,9 @@
-# include only whitelist content
-bin/.*
-etc/.*
-lib/.*
-libexec/.*
+bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt))[^.]*(\.exe|\.sh)?
+lib/(?!(mlt|frei0r-1|ladspa|.*\.so.*|.*kioslave)).*
+etc/(?!(xdg)).*
+share/(?!(applications|color-schemes|config.kcfg|dbus-1|icon|k|locale|metainfo|mime|charsets|ffmpeg|mlt)).*
+bin/data/(?!(applications|color-schemes|config.kcfg|dbus-1|icon|k|locale|metainfo|mime)).*
+qml/(QtWinExtras|QtTest)
 sbin/.*
-share/.*/
-
-qml/QtTest
-
-# windows
-bin/.*\.exe
-#bin/data/.*
-qml/QtWinExtras
-# broken style
+libexec/.*
 plugins/styles/qwindowsvistastyle.dll
-

@@ -60,7 +60,6 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
-        self.whitelist_file.append(os.path.join(self.packageDir(), 'include.list'))
         self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
         self.ignoredPackages.append("libs/llvm-meta")
         self.ignoredPackages.append("data/hunspell-dictionaries")
