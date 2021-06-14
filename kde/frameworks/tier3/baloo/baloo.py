@@ -2,6 +2,10 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # would need somone who cares
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
