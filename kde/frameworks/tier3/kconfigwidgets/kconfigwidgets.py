@@ -11,6 +11,9 @@ class subinfo(info.infoclass):
                 self.patchToApply[ver] = [("auto_switch_win.diff", 1)]
                 self.patchLevel[ver] = 1
 
+            self.patchToApply["5.82.0"] = [("auto_switch_win_backported.diff", 1)]
+            self.patchLevel["5.82.0"] = 1
+
         self.description = "Extra widgets for easier configuration support"
 
     def setDependencies(self):
