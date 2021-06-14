@@ -36,13 +36,13 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
-        self.addExecutableFilter(r"bin/(?!(kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioslave|SnoreToast).*)")
+        self.addExecutableFilter(r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioslave|SnoreToast).*)")
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
 
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
-        self.defines["appname"] = "kdeconnect-indicator"
+        self.defines["appname"] = "kdeconnect-app"
         self.defines["AppUserModelID"] = "kdeconnect.daemon"
 
         if isinstance(self, NullsoftInstallerPackager):
@@ -53,8 +53,8 @@ class Package(CMakePackageBase):
                 Section "@{productname}"
                     SectionIn 1
                     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-                        !insertmacro SnoreShortcut "$SMPROGRAMS\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe" "@{AppUserModelID}"
-                        CreateShortCut "$SMPROGRAMS\\Startup\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
+                        !insertmacro SnoreShortcut "$SMPROGRAMS\\@{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-indicator.exe" "@{AppUserModelID}"
+                        CreateShortCut "$SMPROGRAMS\\Startup\\@{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-indicator.exe"
                         CreateShortCut "$DESKTOP\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
                         CreateShortCut "$SENDTO\\Send to remote device via @{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-handler.exe"  "" "$INSTDIR\\bin\\kdeconnect-indicator.exe" 0
                         CreateShortCut "$SENDTO\\Open on remote device via @{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-handler.exe"  "--open" "$INSTDIR\\bin\\kdeconnect-indicator.exe" 0
@@ -71,7 +71,7 @@ class Package(CMakePackageBase):
                 SectionEnd
                 """
         elif isinstance(self, AppxPackager):
-            self.defines["startup_task"] = r"bin/@{appname}.exe"
+            self.defines["startup_task"] = r"bin/kdeconnect-indicator.exe"
 
             self.defines["additional_capabilities"] = r"""
             <uap7:Capability Name="globalMediaControl" />
