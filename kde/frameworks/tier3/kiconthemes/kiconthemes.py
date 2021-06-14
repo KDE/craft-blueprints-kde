@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+        #self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
 
 
 from Package.CMakePackageBase import *

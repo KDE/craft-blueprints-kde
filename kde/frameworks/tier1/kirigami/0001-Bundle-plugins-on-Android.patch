@@ -1,0 +1,86 @@
+From 77879e52e5db10ef0379da4101f0ae3957594752 Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Mon, 14 Jun 2021 20:28:24 +0200
+Subject: [PATCH] Bundle plugins on Android
+
+---
+ src/CMakeLists.txt                        |  7 ++++++
+ src/KF5Kirigami2-android-dependencies.xml |  9 ++++++++
+ src/libkirigami/platformtheme.cpp         | 28 ++++++++++++++---------
+ 3 files changed, 33 insertions(+), 11 deletions(-)
+ create mode 100644 src/KF5Kirigami2-android-dependencies.xml
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index bb14e287..01be720a 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -136,3 +136,10 @@ else()
+ endif()
+ 
+ install(TARGETS kirigamiplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kirigami.2)
++
++if (ANDROID)
++    install(FILES KF5Kirigami2-android-dependencies.xml
++        DESTINATION ${KDE_INSTALL_LIBDIR}
++        RENAME KF5Kirigami2_${CMAKE_ANDROID_ARCH_ABI}-android-dependencies.xml
++    )
++endif()
+diff --git a/src/KF5Kirigami2-android-dependencies.xml b/src/KF5Kirigami2-android-dependencies.xml
+new file mode 100644
+index 00000000..c494299d
+--- /dev/null
++++ b/src/KF5Kirigami2-android-dependencies.xml
+@@ -0,0 +1,9 @@
++<rules>
++    <dependencies>
++        <lib name="KF5Kirigami2">
++            <depends>
++                <bundled file="plugins/kf5/kirigami" />
++            </depends>
++        </lib>
++    </dependencies>
++</rules>
+diff --git a/src/libkirigami/platformtheme.cpp b/src/libkirigami/platformtheme.cpp
+index 3a44e769..5b4cb175 100644
+--- a/src/libkirigami/platformtheme.cpp
++++ b/src/libkirigami/platformtheme.cpp
+@@ -857,19 +857,25 @@ PlatformTheme *PlatformTheme::qmlAttachedProperties(QObject *object)
+ #else
+         const auto libraryPaths = QCoreApplication::libraryPaths();
+         for (const QString &path : libraryPaths) {
+-            QDir dir(path + QStringLiteral("/kf5/kirigami"));
++            QDir dir(path /* + QStringLiteral("/kf5/kirigami")*/);
+             const auto fileNames = dir.entryList(QDir::Files);
++
+             for (const QString &fileName : fileNames) {
+-                // TODO: env variable?
+-                if (!QQuickStyle::name().isEmpty() && fileName.startsWith(QQuickStyle::name())) {
+-                    QPluginLoader loader(dir.absoluteFilePath(fileName));
+-                    QObject *plugin = loader.instance();
+-                    // TODO: load actually a factory as plugin
+-
+-                    KirigamiPluginFactory *factory = qobject_cast<KirigamiPluginFactory *>(plugin);
+-                    if (factory) {
+-                        PlatformThemePrivate::s_pluginFactory = factory;
+-                        return factory->createPlatformTheme(object);
++                if (fileName.startsWith(QStringLiteral("libplugins_kf5_kirigami_")) && QLibrary::isLibrary(fileName)) {
++                    // TODO: env variable?
++                    if (!QQuickStyle::name().isEmpty() && fileName.contains(QQuickStyle::name())) {
++                        QPluginLoader loader(dir.absoluteFilePath(fileName));
++                        qDebug() << loader.metaData();
++                        QObject *plugin = loader.instance();
++
++                        qDebug() << loader.errorString();
++                        // TODO: load actually a factory as plugin
++
++                        KirigamiPluginFactory *factory = qobject_cast<KirigamiPluginFactory *>(plugin);
++                        if (factory) {
++                            PlatformThemePrivate::s_pluginFactory = factory;
++                            return factory->createPlatformTheme(object);
++                        }
+                     }
+                 }
+             }
+-- 
+2.32.0
+

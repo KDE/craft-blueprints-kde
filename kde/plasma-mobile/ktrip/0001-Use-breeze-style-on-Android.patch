@@ -1,0 +1,83 @@
+From d8fc3de762665dca3effc02c1595edff6ddd2073 Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Mon, 14 Jun 2021 17:53:42 +0200
+Subject: [PATCH] Use breeze style on Android
+
+---
+ CMakeLists.txt     | 2 +-
+ src/CMakeLists.txt | 5 +++--
+ src/main.cpp       | 5 ++++-
+ 3 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 152da9b..098f13d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -31,7 +31,7 @@ ecm_setup_version(${PROJECT_VERSION}
+ )
+ 
+ find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2)
+-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS CoreAddons I18n ItemModels Config Contacts)
++find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS CoreAddons I18n ItemModels Config Contacts IconThemes)
+ 
+ if (ANDROID)
+     # runtime dependencies are build-time dependencies on Android
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index d02b82e..812b25e 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -14,13 +14,14 @@ if (ANDROID)
+ endif()
+ 
+ add_executable(ktrip ${ktrip_SRCS})
+-target_link_libraries(ktrip PRIVATE Qt::Qml Qt::Gui KF5::CoreAddons KF5::I18n KF5::ConfigGui KF5::Contacts KPublicTransport)
++target_link_libraries(ktrip PRIVATE Qt::Qml Qt::Gui Qt::QuickControls2 KF5::CoreAddons KF5::I18n KF5::ConfigGui KF5::Contacts KPublicTransport)
+ target_include_directories(ktrip PRIVATE ${CMAKE_BINARY_DIR})
+ 
+ if (ANDROID)
+     target_link_libraries(ktrip PRIVATE
+         KF5::Kirigami2
+         KF5::ItemModels
++        KF5::IconThemes
+         Qt::Svg
+         OpenSSL::SSL
+         Qt::AndroidExtras
+@@ -40,7 +41,7 @@ if (ANDROID)
+         configure
+     )
+ else()
+-    target_link_libraries(ktrip PRIVATE Qt::Widgets Qt::QuickControls2)
++    target_link_libraries(ktrip PRIVATE Qt::Widgets)
+ endif()
+ 
+ install(FILES org.kde.ktrip.svg DESTINATION ${KDE_INSTALL_FULL_ICONDIR}/hicolor/scalable/apps)
+diff --git a/src/main.cpp b/src/main.cpp
+index 5fa8b62..a9749d8 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -23,8 +23,8 @@
+ #include <QGuiApplication>
+ #else
+ #include <QApplication>
+-#include <QQuickStyle>
+ #endif
++#include <QQuickStyle>
+ 
+ #include <KAboutData>
+ #include <KLocalizedContext>
+@@ -37,9 +37,12 @@ Q_DECL_EXPORT
+ #endif
+ int main(int argc, char *argv[])
+ {
++    qputenv("QT_DEBUG_PLUGINS", "1");
+     QCommandLineParser parser;
+ #ifdef Q_OS_ANDROID
+     QGuiApplication app(argc, argv);
++    QQuickStyle::setStyle(QStringLiteral("org.kde.breeze"));
++    qDebug() << "trying breeze";
+ #else
+     QApplication app(argc, argv);
+     // Default to org.kde.desktop style unless the user forces another style
+-- 
+2.32.0
+
