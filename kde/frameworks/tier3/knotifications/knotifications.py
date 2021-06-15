@@ -6,6 +6,11 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.patchLevel["5.82.0"] = 1
 
+        # add backported patch for 5.83.0 to allow inline-replies on Windows Notifications
+        if CraftCore.compiler.isWindows:
+            self.patchToApply["5.83.0"] = [("inline_reply_win_backported.diff", 1)]
+            self.patchLevel["5.83.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
