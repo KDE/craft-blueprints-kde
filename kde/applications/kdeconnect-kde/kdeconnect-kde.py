@@ -42,7 +42,7 @@ class Package(CMakePackageBase):
 
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
-        self.defines["appname"] = "kdeconnect-app"
+        self.defines["appname"] = "kdeconnect-indicator"
         self.defines["AppUserModelID"] = "kdeconnect.daemon"
 
         if isinstance(self, NullsoftInstallerPackager):
@@ -53,11 +53,11 @@ class Package(CMakePackageBase):
                 Section "@{productname}"
                     SectionIn 1
                     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-                        !insertmacro SnoreShortcut "$SMPROGRAMS\\@{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-indicator.exe" "@{AppUserModelID}"
-                        CreateShortCut "$SMPROGRAMS\\Startup\\@{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-indicator.exe"
-                        CreateShortCut "$DESKTOP\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
-                        CreateShortCut "$SENDTO\\Send to remote device via @{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-handler.exe"  "" "$INSTDIR\\bin\\kdeconnect-indicator.exe" 0
-                        CreateShortCut "$SENDTO\\Open on remote device via @{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-handler.exe"  "--open" "$INSTDIR\\bin\\kdeconnect-indicator.exe" 0
+                        !insertmacro SnoreShortcut "$SMPROGRAMS\\@{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-app.exe" "@{AppUserModelID}"
+                        CreateShortCut "$SMPROGRAMS\\Startup\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
+                        CreateShortCut "$DESKTOP\\@{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-app.exe"
+                        CreateShortCut "$SENDTO\\Send to remote device via @{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-handler.exe"  "" "$INSTDIR\\bin\\@{appname}.exe" 0
+                        CreateShortCut "$SENDTO\\Open on remote device via @{productname}.lnk" "$INSTDIR\\bin\\kdeconnect-handler.exe"  "--open" "$INSTDIR\\bin\\@{appname}.exe" 0
                     !insertmacro MUI_STARTMENU_WRITE_END
                 SectionEnd
                 """
@@ -71,7 +71,7 @@ class Package(CMakePackageBase):
                 SectionEnd
                 """
         elif isinstance(self, AppxPackager):
-            self.defines["startup_task"] = r"bin/kdeconnect-indicator.exe"
+            self.defines["startup_task"] = r"bin/@{appname}.exe"
 
             self.defines["additional_capabilities"] = r"""
             <uap7:Capability Name="globalMediaControl" />
