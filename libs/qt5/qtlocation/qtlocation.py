@@ -13,6 +13,8 @@ class subinfo(info.infoclass):
         # bug: https://bugreports.qt.io/browse/QTBUG-69512
         self.patchToApply["5.11.2"] = [("qt5location-fix-build-failure-due-to-GCC-5.x-bug-in-implicit-casts.diff", 1)]
         self.patchToApply["5.12.0"] = [("qt5location-fix-build-failure-due-to-GCC-5.x-bug-in-implicit-casts.diff", 1)]
+        if CraftCore.compiler.isFreeBSD:
+            self.patchToApply["5.15.2"] = [("freebsd-compat.diff", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
