@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/syndication"] = None
 
 
 from Package.CMakePackageBase import *
