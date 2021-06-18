@@ -1,5 +1,7 @@
 import info
 from Package.CMakePackageBase import *
+from Packager.AppxPackager import AppxPackager
+from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
 
 
 class subinfo(info.infoclass):
