@@ -49,6 +49,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
         if self.buildTarget == "master":
             self.runtimeDependencies["libs/matio"] = None
             self.runtimeDependencies["libs/readstat"] = None
