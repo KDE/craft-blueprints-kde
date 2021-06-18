@@ -34,7 +34,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["executable"] = r"bin\kweather.exe"
-        self.addExecutableFilter(r"(bin|libexec)/(?!(alligator|update-mime-database)).*")
+        self.addExecutableFilter(r"(bin|libexec)/(?!(kweather|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
