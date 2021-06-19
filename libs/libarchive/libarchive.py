@@ -6,8 +6,9 @@ class subinfo(info.infoclass):
         for v in ['3.3.1', '3.3.2', '3.4.3']:
             self.targets[v] = 'https://github.com/libarchive/libarchive/archive/v' + v + '.tar.gz'
             self.targetInstSrc[v] = 'libarchive-' + v
-        self.patchToApply['3.3.1'] = ("libarchive-no-fatal-warnings-in-debug-mode.diff", 1)
-        self.patchLevel["3.3.1"] = 1
+            self.patchToApply[v] = ("libarchive-no-fatal-warnings-in-debug-mode.diff", 1)
+            self.patchLevel[v] = 2
+
         self.targetDigests['3.4.3'] = (['19556c1c67aacdff547fd719729630444dbc7161c63eca661a310676a022bb01'], CraftHash.HashAlgorithm.SHA256)
         self.description = "C library and command-line tools for reading and writing tar, cpio, zip, ISO, and other archive formats"
         self.defaultTarget = '3.4.3'
