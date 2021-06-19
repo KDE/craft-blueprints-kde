@@ -31,13 +31,16 @@
 +find_package_handle_standard_args(DL REQUIRED_VARS DL_LIBRARY DL_INCLUDE_DIR)
 --- /dev/null	2019-02-16 22:46:10.000000000 +0100
 +++ CMakeLists.txt	2019-02-16 22:40:03.084999900 +0100
-@@ -0,0 +1,22 @@
+@@ -0,0 +1,25 @@
 +cmake_minimum_required (VERSION 2.6)
 +project (ladspa-sdk)
 +set (VERSION 1.15)
 +set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 +find_package(Dl REQUIRED)
 +include_directories(${DL_INCLUDE_DIR})
++if(WIN32)
++     add_definitions(-D_USE_MATH_DEFINES)
++endif()
 +link_libraries(m)
 +include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 +add_library(amp MODULE plugins/amp.c)
