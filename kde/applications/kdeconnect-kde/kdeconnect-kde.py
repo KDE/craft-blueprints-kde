@@ -82,7 +82,7 @@ class Package(CMakePackageBase):
             xmlns:uap7="http://schemas.microsoft.com/appx/manifest/uap/windows10/7"
             """
 
-            self.defines["shortcuts"] = [{"name" : self.subinfo.displayName , "target" : f"bin/{self.defines['appname']}{CraftCore.compiler.executableSuffix}", "description" : self.subinfo.description}]
+            self.defines["shortcuts"] = [{"name" : self.subinfo.displayName , "target" : f"bin/kdeconnect-app{CraftCore.compiler.executableSuffix}", "description" : self.subinfo.description}]
             self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "Square150x150Logo.scale-100.png")
             self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "Square44x44Logo.scale-100.png")
             self.defines["icon_png_310x150"] = os.path.join(self.packageDir(), ".assets", "Wide310x150Logo.scale-100.png")
