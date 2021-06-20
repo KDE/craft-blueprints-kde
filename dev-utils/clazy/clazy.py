@@ -6,6 +6,7 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.setDefault("buildType", "Release")
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS # needs GNU readlink that we ATM don't have on macOS
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
