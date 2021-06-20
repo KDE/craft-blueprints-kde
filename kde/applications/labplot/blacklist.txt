@@ -45,21 +45,6 @@ bin/KF5DocTools\.dll
 bin/KF5GlobalAccelPrivate\.dll
 bin/KF5Notifications\.dll
 
-#QML and QtQuick
-# If using qml you probably won't want to strip DirectX
-bin/d3compiler_47\.dll
-bin/qmltooling/.*
-bin/QtQML/.*
-bin/QtQuick/.*
-bin/QtQuick2/.*
-bin/QtWinExtras/.*
-# needed?
-# bin/KF5QuickAddons\.dll
-bin/Qt5Quick.*
-# Qt5Qml.so needed by cantorpart.dll
-bin/Qt5QmlModels\.dll
-bin/Qt5QmlWorkerScript\.dll
-
 # unused data
 bin/QtTest/.*
 bin/QtWinExtras/.*
