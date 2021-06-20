@@ -3,7 +3,7 @@ import info
 class subinfo(info.infoclass):
 
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Compiler.All
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Platforms.NotMacOS
 
     def setTargets( self ):
         self.description = "Open source multimedia framework"
