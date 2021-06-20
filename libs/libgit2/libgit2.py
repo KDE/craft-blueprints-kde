@@ -18,7 +18,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies['dev-utils/pkg-config'] = 'default'
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies['libs/iconv'] = 'default'
         self.runtimeDependencies['libs/libssh2'] = 'default'
         self.runtimeDependencies['libs/pcre2'] = 'default'
         self.runtimeDependencies['libs/openssl'] = 'default'
@@ -29,4 +28,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += "-DUSE_ICONV=ON -DBUILD_CLAR=OFF"
+        self.subinfo.options.configure.args += "-DBUILD_CLAR=OFF"
