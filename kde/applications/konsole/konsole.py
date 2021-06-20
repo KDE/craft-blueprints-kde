@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kpty"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
 
 
 from Package.CMakePackageBase import *
