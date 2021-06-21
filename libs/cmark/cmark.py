@@ -6,12 +6,12 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/commonmark/cmark'
 
-        for ver in ['0.29.0']:
-            self.targets[ver] = "https://github.com/commonmark/cmark/archive/%s.tar.gz" % ver
-            self.archiveNames[ver] = 'cmark-%s.tar.gz' % ver
-            self.targetInstSrc[ver] = 'cmark-%s' % ver
+        # use latest stable version
+        self.defaultTarget = '0.30.0'
+        self.targets[self.defaultTarget] = "https://github.com/commonmark/cmark/archive/%s.tar.gz" % self.defaultTarget
+        self.archiveNames[self.defaultTarget] = 'cmark-%s.tar.gz' % self.defaultTarget
+        self.targetInstSrc[self.defaultTarget] = 'cmark-%s' % self.defaultTarget
 
-        self.defaultTarget = '0.29.0'
         self.description = "CommonMark parsing and rendering library and program in C"
 
     def setDependencies(self):
