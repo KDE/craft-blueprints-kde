@@ -33,6 +33,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/sonnet"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["qt-libs/phonon"] = None
 
