@@ -11,6 +11,8 @@ class subinfo(info.infoclass):
         self.targets[self.defaultTarget] = "https://github.com/commonmark/cmark/archive/%s.tar.gz" % self.defaultTarget
         self.archiveNames[self.defaultTarget] = 'cmark-%s.tar.gz' % self.defaultTarget
         self.targetInstSrc[self.defaultTarget] = 'cmark-%s' % self.defaultTarget
+        self.patchToApply[self.defaultTarget] = ('cmark.diff', 0)
+        self.patchLevel[self.defaultTarget] = 1
 
         self.description = "CommonMark parsing and rendering library and program in C"
 
