@@ -1,0 +1,25 @@
+From 333251fadff9726e743aa06c764d5fe68a85891c Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Tue, 22 Jun 2021 23:19:14 +0200
+Subject: [PATCH] Use qqc2-breeze-style on Android
+
+---
+ src/app/main.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/app/main.cpp b/src/app/main.cpp
+index 24a5359..39bcc24 100644
+--- a/src/app/main.cpp
++++ b/src/app/main.cpp
+@@ -196,7 +196,7 @@ int main(int argc, char **argv)
+     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+ #ifdef Q_OS_ANDROID
+     QGuiApplication app(argc, argv);
+-    QQuickStyle::setStyle(QStringLiteral("Material"));
++    QQuickStyle::setStyle(QStringLiteral("org.kde.breeze"));
+ #else
+     QApplication app(argc, argv); // for native file dialogs
+ 
+-- 
+2.32.0
+

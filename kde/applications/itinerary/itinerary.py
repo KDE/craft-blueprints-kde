@@ -8,6 +8,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/pim/itinerary.git")
         self.description = "Digital travel assistant app"
 
+        self.patchToApply['21.04.2'] = [('0001-Use-qqc2-breeze-style-on-Android.patch', 1)]
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
