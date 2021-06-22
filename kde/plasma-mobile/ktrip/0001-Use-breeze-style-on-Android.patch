@@ -1,32 +1,18 @@
-From d8fc3de762665dca3effc02c1595edff6ddd2073 Mon Sep 17 00:00:00 2001
+From 2510aa3f68ab71ac0d4b63f99b526852cadfc6ab Mon Sep 17 00:00:00 2001
 From: Nicolas Fella <nicolas.fella@gmx.de>
 Date: Mon, 14 Jun 2021 17:53:42 +0200
-Subject: [PATCH] Use breeze style on Android
+Subject: [PATCH 12/12] Use breeze style on Android
 
 ---
- CMakeLists.txt     | 2 +-
- src/CMakeLists.txt | 5 +++--
+ src/CMakeLists.txt | 4 ++--
  src/main.cpp       | 5 ++++-
- 3 files changed, 8 insertions(+), 4 deletions(-)
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 152da9b..098f13d 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -31,7 +31,7 @@ ecm_setup_version(${PROJECT_VERSION}
- )
- 
- find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2)
--find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS CoreAddons I18n ItemModels Config Contacts)
-+find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS CoreAddons I18n ItemModels Config Contacts IconThemes)
- 
- if (ANDROID)
-     # runtime dependencies are build-time dependencies on Android
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index d02b82e..812b25e 100644
+index d02b82e..007be91 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -14,13 +14,14 @@ if (ANDROID)
+@@ -14,7 +14,7 @@ if (ANDROID)
  endif()
  
  add_executable(ktrip ${ktrip_SRCS})
@@ -35,14 +21,7 @@ index d02b82e..812b25e 100644
  target_include_directories(ktrip PRIVATE ${CMAKE_BINARY_DIR})
  
  if (ANDROID)
-     target_link_libraries(ktrip PRIVATE
-         KF5::Kirigami2
-         KF5::ItemModels
-+        KF5::IconThemes
-         Qt::Svg
-         OpenSSL::SSL
-         Qt::AndroidExtras
-@@ -40,7 +41,7 @@ if (ANDROID)
+@@ -40,7 +40,7 @@ if (ANDROID)
          configure
      )
  else()

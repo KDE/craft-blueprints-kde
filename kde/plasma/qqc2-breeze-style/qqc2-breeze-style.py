@@ -17,7 +17,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kquickcharts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
 from Package.CMakePackageBase import *
 
