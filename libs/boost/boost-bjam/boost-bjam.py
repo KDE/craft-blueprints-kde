@@ -23,8 +23,10 @@ class Package(BoostPackageBase):
 
     def install(self):
         src = CraftPackageObject.get('libs/boost/boost-headers').instance.sourceDir()
+
+        # we rename b2 => bjam for compatibility ATM
         return utils.copyFile(
-            os.path.join(src, f"bjam{CraftCore.compiler.executableSuffix}"),
+            os.path.join(src, f"b2{CraftCore.compiler.executableSuffix}"),
             os.path.join(self.imageDir(), "bin", f"bjam{CraftCore.compiler.executableSuffix}"), linkOnly=False)
 
     def make(self):
