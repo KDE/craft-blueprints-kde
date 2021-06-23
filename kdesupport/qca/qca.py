@@ -9,17 +9,15 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/cyrus-sasl"] = None
 
     def setTargets(self):
-        self.svnTargets["master"] = "https://anongit.kde.org/qca.git"
-        self.patchLevel["master"] = 4
-
-        for ver in ['2.2.0']:
-            self.targets[ver] = f"https://download.kde.org/stable/qca/{ver}/qca-{ver}.tar.xz"
-            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/qca/{ver}/qca-{ver}.tar.xz.sha256"
-            self.targetInstSrc[ver] = f"qca-{ver}"
-
         self.description = "Qt Cryptographic Architecture (QCA)"
-        self.defaultTarget = "2.2.0"
 
+        self.svnTargets["master"] = "https://anongit.kde.org/qca.git"
+
+        # latest stable version
+        self.defaultTarget = "2.3.3"
+        self.targets[self.defaultTarget] = f"https://download.kde.org/stable/qca/{self.defaultTarget}/qca-{self.defaultTarget}.tar.xz"
+        self.targetDigestUrls[self.defaultTarget] = f"https://download.kde.org/stable/qca/{self.defaultTarget}/qca-{self.defaultTarget}.tar.xz.sha256"
+        self.targetInstSrc[self.defaultTarget] = f"qca-{self.defaultTarget}"
 
 from Package.CMakePackageBase import *
 
