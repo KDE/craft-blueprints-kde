@@ -26,16 +26,13 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "git://git.libssh.org/projects/libssh.git"
-        for ver in ["0.8.5", "0.9.4", "0.9.5"]:
-            self.targets[ver] = f"https://www.libssh.org/files/{ver[:3]}/libssh-{ver}.tar.xz"
-            self.targetInstSrc[ver] = f"libssh-{ver}"
-        self.targetDigests["0.8.5"] = (['07d2c431240fc88f6b06bcb36ae267f9afeedce2e32f6c42f8844b205ab5a335'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["0.9.4"] = (['150897a569852ac05aac831dc417a7ba8e610c86ca2e0154a99c6ade2486226b'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["0.9.5"] = (['acffef2da98e761fc1fd9c4fddde0f3af60ab44c4f5af05cd1b2d60a3fa08718'], CraftHash.HashAlgorithm.SHA256)
-
         self.description = "a working SSH implementation by the mean of a library"
+        self.svnTargets["master"] = "git://git.libssh.org/projects/libssh.git"
+
         self.defaultTarget = "0.9.5"
+        self.targets[self.defaultTarget] = f"https://www.libssh.org/files/{self.defaultTarget[:3]}/libssh-{self.defaultTarget}.tar.xz"
+        self.targetInstSrc[self.defaultTarget] = f"libssh-{self.defaultTarget}"
+        self.targetDigests[self.defaultTarget] = (['acffef2da98e761fc1fd9c4fddde0f3af60ab44c4f5af05cd1b2d60a3fa08718'], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
