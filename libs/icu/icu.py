@@ -8,44 +8,16 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
 
     def setTargets(self):
-        self.svnTargets["master"] = "http://source.icu-project.org/repos/icu/icu/trunk"
-        self.targetInstSrc["master"] = "source"
-
-        for ver in ["66.1", "67.1"]:
-            major, minor = ver.split(".")
-            self.targets[ver] = f"https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/icu4c-{major}_{minor}-src.tgz"
-            self.targetInstSrc[ver] = os.path.join("icu", "source")
-        self.targetDigests["66.1"] = (['52a3f2209ab95559c1cf0a14f24338001f389615bf00e2585ef3dbc43ecf0a2e'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["67.1"] = (['94a80cd6f251a53bd2a997f6f1b5ac6653fe791dfab66e1eb0227740fb86d5dc'], CraftHash.HashAlgorithm.SHA256)
-
-        for ver in ["65.1"]:
-            major, minor = ver.split(".")
-            self.targets[ver] = f"https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/icu4c-{major}_{minor}-src.tgz"
-            self.targetDigestUrls[ver] = ([f"https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/SHASUM512.txt"], CraftHash.HashAlgorithm.SHA512)
-            self.targetInstSrc[ver] = os.path.join("icu", "source")
-
-        for ver in ["62.1", "63.1"]:
-            ver2 = ver.replace(".", "_")
-            self.targets[ver] = f"http://download.icu-project.org/files/icu4c/{ver}/icu4c-{ver2}-src.tgz"
-            if CraftVersion(ver) < "63.1":
-                self.targetDigestUrls[ver] = ([f"https://ssl.icu-project.org/files/icu4c/{ver}/icu4c-src-{ver2}.md5"], CraftHash.HashAlgorithm.MD5)
-            else:
-                self.targetDigestUrls[ver] = ([f"https://ssl.icu-project.org/files/icu4c/{ver}/SHASUM512.txt"], CraftHash.HashAlgorithm.SHA512)
-            if CraftVersion(ver) == "63.1":
-                self.targets[ver] = f"https://files.kde.org/craft/sources/libs/icu/icu4c-{ver2}-src.tgz"
-                self.targetDigestUrls[ver] = ([f"https://files.kde.org/craft/sources/libs/icu/SHASUM512.txt"], CraftHash.HashAlgorithm.SHA512)
-            self.targetInstSrc[ver] = os.path.join("icu", "source")
-            self.patchToApply[ver] = [("icu-msys.diff", 2)]
-        self.patchToApply["63.1"] += [("icu-63.1-20181212.diff", 1),
-                                     ("icu-63.1-20181215.diff", 2), # backport https://github.com/unicode-org/icu/pull/228
-                                     ]
-        self.defaultTarget = "67.1"
+        self.defaultTarget = "69.1"
+        major, minor = self.defaultTarget.split(".")
+        self.targets[self.defaultTarget] = f"https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/icu4c-{major}_{minor}-src.tgz"
+        self.targetInstSrc[self.defaultTarget] = os.path.join("icu", "source")
+        self.targetDigests[self.defaultTarget] = (['4cba7b7acd1d3c42c44bb0c14be6637098c7faf2b330ce876bc5f3b915d09745'], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.buildDependencies["dev-utils/msys"] = None
-
 
 class Package(AutoToolsPackageBase):
     def __init__(self):
