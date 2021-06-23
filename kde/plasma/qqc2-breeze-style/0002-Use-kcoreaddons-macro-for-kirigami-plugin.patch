@@ -1,0 +1,48 @@
+From cc4f4134f5f28534a0e4bbe2ff553f91937a267f Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Tue, 22 Jun 2021 23:10:15 +0200
+Subject: [PATCH 2/3] Use kcoreaddons macro for kirigami plugin
+
+the macro has some special handling for deploying to Android
+---
+ CMakeLists.txt                                    | 2 +-
+ kirigami-plasmadesktop-integration/CMakeLists.txt | 6 +-----
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0859143..6d624d3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -42,7 +42,7 @@ if (NOT ANDROID)
+     find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS DBus)
+ endif()
+ 
+-find_package(KF5 ${KF5_DEP_VERSION} REQUIRED COMPONENTS GuiAddons Config Kirigami2)
++find_package(KF5 ${KF5_DEP_VERSION} REQUIRED COMPONENTS GuiAddons Config Kirigami2 CoreAddons)
+ 
+ # IconThemes and ConfigWidgets are optional
+ find_package(KF5IconThemes ${KF5_DEP_VERSION})
+diff --git a/kirigami-plasmadesktop-integration/CMakeLists.txt b/kirigami-plasmadesktop-integration/CMakeLists.txt
+index 227b42d..8a256fd 100644
+--- a/kirigami-plasmadesktop-integration/CMakeLists.txt
++++ b/kirigami-plasmadesktop-integration/CMakeLists.txt
+@@ -5,8 +5,7 @@ set(org.kde.breeze_SRCS
+     kirigamiplasmafactory.cpp
+ )
+ 
+-
+-add_library(org.kde.breeze MODULE ${org.kde.breeze_SRCS})
++kcoreaddons_add_plugin(org.kde.breeze SOURCES ${org.kde.breeze_SRCS} INSTALL_NAMESPACE "kf5/kirigami" JSON kirigamiplasmaintegration.json)
+ 
+ target_link_libraries(org.kde.breeze
+     PUBLIC
+@@ -23,6 +22,3 @@ target_link_libraries(org.kde.breeze
+ if(NOT ANDROID)
+     target_link_libraries(org.kde.breeze PRIVATE Qt::DBus)
+ endif()
+-
+-install(TARGETS org.kde.breeze DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/kirigami)
+-
+-- 
+2.32.0
+

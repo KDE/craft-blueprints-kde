@@ -6,18 +6,21 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         for ver in self.versionInfo.tarballs():
-            self.patchToApply[ver] = [('0001-Build-without-QtDBus-on-Android.patch', 1)]
+            self.patchToApply[ver] = [('0001-Build-without-QtDBus-on-Android.patch', 1), ('0002-Use-kcoreaddons-macro-for-kirigami-plugin.patch', 1), ('0003-Build-without-KIconThemes-on-Android.patch', 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kquickcharts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
 from Package.CMakePackageBase import *
 
