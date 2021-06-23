@@ -4,7 +4,10 @@ import info
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.options.dynamic.setDefault("buildType", "Release")
+        # on Windows ATM compile errors in release build
+        if not CraftCore.compiler.isWindows:
+            self.options.dynamic.setDefault("buildType", "Release")
+
         # only supports msvc17+
         if CraftCore.compiler.isMSVC() and CraftCore.compiler.getInternalVersion() < 15:
             self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
