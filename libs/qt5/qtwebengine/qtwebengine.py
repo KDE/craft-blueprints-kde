@@ -33,7 +33,8 @@ class subinfo(info.infoclass):
         ]
 
         self.patchToApply["5.15.2"] = [("qtwebengine-5.15.2-disable-fatal-warnings.patch", 1),
-                                        ("qtwebengine-5.15.2_p20210406-icu69.patch", 1)]
+                                        ("qtwebengine-5.15.2_p20210406-icu69.patch", 1),
+                                        ("qtwebengine-5.15.2-Fix_build_ith_msvc2019_16.8.0.diff")]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
