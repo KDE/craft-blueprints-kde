@@ -8,10 +8,10 @@ Change-Id: I3554ceec0437801b4861f68edd504d01fc01cf93
 Reviewed-by: Allan Sandfeld Jensen <allan.jensen@qt.io>
 ---
 
-diff --git a/chromium/third_party/angle/src/common/mathutil.cpp b/chromium/third_party/angle/src/common/mathutil.cpp
+diff --git a/src/3rdparty/chromium/third_party/angle/src/common/mathutil.cpp b/chromium/third_party/angle/src/common/mathutil.cpp
 index 306cde1..d4f1034 100644
---- a/chromium/third_party/angle/src/common/mathutil.cpp
-+++ b/chromium/third_party/angle/src/common/mathutil.cpp
+--- a/src/3rdparty/chromium/third_party/angle/src/common/mathutil.cpp
++++ b/src/3rdparty/chromium/third_party/angle/src/common/mathutil.cpp
 @@ -72,11 +72,11 @@
      const RGB9E5Data *inputData = reinterpret_cast<const RGB9E5Data *>(&input);
  
@@ -27,10 +27,10 @@ index 306cde1..d4f1034 100644
  }
  
  }  // namespace gl
-diff --git a/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h b/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h
+diff --git a/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h b/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h
 index 78c316e..136c796 100644
---- a/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h
-+++ b/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h
+--- a/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h
++++ b/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h
 @@ -130,7 +130,7 @@
    // https://en.wikipedia.org/wiki/CIELAB_color_space#Forward_transformation.
    FloatPoint3D toXYZ(const FloatPoint3D& lab) const {
@@ -40,10 +40,10 @@ index 78c316e..136c796 100644
      };
  
      FloatPoint3D v = {clamp(lab.X(), 0.0f, 100.0f),
-diff --git a/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h b/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h
+diff --git a/src/3rdparty/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h b/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h
 index 02363d0..8860287 100644
---- a/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h
-+++ b/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h
+--- a/src/3rdparty/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h
++++ b/src/3rdparty/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h
 @@ -198,6 +198,20 @@
      return *this;
    }
