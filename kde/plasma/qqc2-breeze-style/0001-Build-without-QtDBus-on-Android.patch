@@ -1,62 +1,37 @@
-From b7b93a03f9c05b0eb0f165257c32a987a8a4b632 Mon Sep 17 00:00:00 2001
+From 81ab65d2dbd3a6a670fbf4ac3036d1330288bcfc Mon Sep 17 00:00:00 2001
 From: Nicolas Fella <nicolas.fella@gmx.de>
 Date: Tue, 15 Jun 2021 01:28:54 +0200
-Subject: [PATCH] Build without QtDBus on Android
+Subject: [PATCH 1/3] Build without QtDBus on Android
 
 DBus does not really exist on Android and that part of the code doesn't make sense there anyway
 ---
- CMakeLists.txt                                 | 12 ++++++++----
- .../CMakeLists.txt                             | 10 ++++------
- .../plasmadesktoptheme.cpp                     | 18 ++++++++++++++++--
- 3 files changed, 28 insertions(+), 12 deletions(-)
+ CMakeLists.txt                                            | 6 +++++-
+ kirigami-plasmadesktop-integration/CMakeLists.txt         | 5 ++++-
+ kirigami-plasmadesktop-integration/plasmadesktoptheme.cpp | 7 ++++++-
+ 3 files changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index c0bed30..5ff39c2 100644
+index c0bed30..0859143 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -36,12 +36,16 @@ include(KDEClangFormat)
+@@ -36,7 +36,11 @@ include(KDEClangFormat)
  include(KDEGitCommitHooks)
  
  #TODO: Clean up dependencies. I was experimenting.
 -find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE COMPONENTS Core Gui Qml Quick QuickControls2 QuickTemplates2 DBus)
 +find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE COMPONENTS Core Gui Qml Quick QuickControls2 QuickTemplates2)
- 
--find_package(KF5 ${KF5_DEP_VERSION} REQUIRED COMPONENTS GuiAddons Config Kirigami2)
++
 +if (NOT ANDROID)
 +    find_package(Qt5 ${REQUIRED_QT_VERSION} REQUIRED COMPONENTS DBus)
-+    find_package(KF5IconThemes ${KF5_DEP_VERSION})
 +endif()
-+
-+find_package(KF5 ${KF5_DEP_VERSION} REQUIRED COMPONENTS GuiAddons Config Kirigami2 CoreAddons)
  
- # IconThemes and ConfigWidgets are optional
--find_package(KF5IconThemes ${KF5_DEP_VERSION})
- find_package(KF5ConfigWidgets ${KF5_DEP_VERSION})
- 
- if (NOT APPLE AND NOT WIN32)
-@@ -95,7 +99,7 @@ add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x054900)
- 
- add_subdirectory(style)
- 
--if (KF5IconThemes_FOUND AND KF5WidgetsAddons_FOUND)
-+if ((KF5IconThemes_FOUND OR ANDROID) AND KF5WidgetsAddons_FOUND)
- add_subdirectory(kirigami-plasmadesktop-integration)
- endif(KF5IconThemes_FOUND AND KF5WidgetsAddons_FOUND)
+ find_package(KF5 ${KF5_DEP_VERSION} REQUIRED COMPONENTS GuiAddons Config Kirigami2)
  
 diff --git a/kirigami-plasmadesktop-integration/CMakeLists.txt b/kirigami-plasmadesktop-integration/CMakeLists.txt
-index c5a5145..7c378e9 100644
+index c5a5145..227b42d 100644
 --- a/kirigami-plasmadesktop-integration/CMakeLists.txt
 +++ b/kirigami-plasmadesktop-integration/CMakeLists.txt
-@@ -5,21 +5,19 @@ set(org.kde.breeze_SRCS
-     kirigamiplasmafactory.cpp
- )
- 
--
--add_library(org.kde.breeze MODULE ${org.kde.breeze_SRCS})
-+kcoreaddons_add_plugin(org.kde.breeze SOURCES ${org.kde.breeze_SRCS} INSTALL_NAMESPACE "kf5/kirigami")
- 
- target_link_libraries(org.kde.breeze
-     PUBLIC
+@@ -13,7 +13,6 @@ target_link_libraries(org.kde.breeze
          Qt::Core
          KF5::Kirigami2
      PRIVATE
@@ -64,49 +39,40 @@ index c5a5145..7c378e9 100644
          Qt::Qml
          Qt::Quick
          KF5::GuiAddons
-         KF5::ConfigWidgets
--        KF5::IconThemes
+@@ -21,5 +20,9 @@ target_link_libraries(org.kde.breeze
+         KF5::IconThemes
  )
  
--install(TARGETS org.kde.breeze DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/kirigami)
--
 +if(NOT ANDROID)
-+    target_link_libraries(org.kde.breeze PRIVATE Qt::DBus KF5::IconThemes)
++    target_link_libraries(org.kde.breeze PRIVATE Qt::DBus)
 +endif()
++
+ install(TARGETS org.kde.breeze DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/kirigami)
+ 
 diff --git a/kirigami-plasmadesktop-integration/plasmadesktoptheme.cpp b/kirigami-plasmadesktop-integration/plasmadesktoptheme.cpp
-index 2881281..0010f18 100644
+index 2881281..bfc7f43 100644
 --- a/kirigami-plasmadesktop-integration/plasmadesktoptheme.cpp
 +++ b/kirigami-plasmadesktop-integration/plasmadesktoptheme.cpp
-@@ -9,8 +9,6 @@
- #include <KColorScheme>
+@@ -10,7 +10,6 @@
  #include <KColorUtils>
  #include <KConfigGroup>
--#include <KIconLoader>
+ #include <KIconLoader>
 -#include <QDBusConnection>
  #include <QDebug>
  #include <QGuiApplication>
  #include <QPalette>
-@@ -19,6 +17,11 @@
+@@ -19,6 +18,10 @@
  #include <QQuickRenderControl>
  #include <QQuickWindow>
  
 +#ifndef Q_OS_ANDROID
 +#include <QDBusConnection>
-+
-+#include <KIconLoader>
++#endif
 +
  class IconLoaderSingleton
  {
  public:
-@@ -28,6 +31,7 @@ public:
- };
- 
- Q_GLOBAL_STATIC(IconLoaderSingleton, privateIconLoaderSelf)
-+#endif
- 
- class StyleSingleton : public QObject
- {
-@@ -46,6 +50,7 @@ public:
+@@ -46,6 +49,7 @@ public:
      {
          connect(qGuiApp, &QGuiApplication::paletteChanged, this, &StyleSingleton::refresh);
  
@@ -114,7 +80,7 @@ index 2881281..0010f18 100644
          // Use DBus in order to listen for kdeglobals changes directly, as the
          // QApplication doesn't expose the font variants we're looking for,
          // namely smallFont.
-@@ -55,6 +60,7 @@ public:
+@@ -55,6 +59,7 @@ public:
                                                QStringLiteral("notifyChange"),
                                                this,
                                                SLOT(notifyWatchersConfigurationChange()));
@@ -122,36 +88,6 @@ index 2881281..0010f18 100644
  
          connect(qGuiApp, &QGuiApplication::fontDatabaseChanged, this, &StyleSingleton::notifyWatchersConfigurationChange);
  
-@@ -199,7 +205,10 @@ PlasmaDesktopTheme::PlasmaDesktopTheme(QObject *parent)
-     // TODO: MOVE THIS SOMEWHERE ELSE
-     m_lowPowerHardware = QByteArrayList{"1", "true"}.contains(qgetenv("KIRIGAMI_LOWPOWER_HARDWARE").toLower());
- 
-+    // We don't use KIconLoader on Android so we don't support recoloring there
-+#ifndef Q_OS_ANDROID
-     setSupportsIconColoring(true);
-+#endif
- 
-     auto parentItem = qobject_cast<QQuickItem *>(parent);
-     if (parentItem) {
-@@ -266,6 +275,7 @@ void PlasmaDesktopTheme::syncFont()
- 
- QIcon PlasmaDesktopTheme::iconFromTheme(const QString &name, const QColor &customColor)
- {
-+#ifndef Q_OS_ANDROID
-     QPalette pal = palette();
-     if (customColor != Qt::transparent) {
-         for (auto state : {QPalette::Active, QPalette::Inactive, QPalette::Disabled}) {
-@@ -276,6 +286,10 @@ QIcon PlasmaDesktopTheme::iconFromTheme(const QString &name, const QColor &custo
-     privateIconLoaderSelf->self.setCustomPalette(pal);
- 
-     return KDE::icon(name, &privateIconLoaderSelf->self);
-+#else
-+    // On Android we don't want to use the KIconThemes-based loader since that appears to be broken
-+    return QIcon::fromTheme(name);
-+#endif
- }
- 
- void PlasmaDesktopTheme::syncColors()
 -- 
 2.32.0
 
