@@ -32,6 +32,9 @@ class Package(AutoToolsPackageBase):
 
     def make(self):
         utils.createDir(Path(self.buildDir()) / "data/out/tmp/")
+        f = open(Path(self.buildDir()) / "data/out/tmp/dirs.timestamp", "w")
+        f.write("timestamp")
+        f.close()
         return super().make()
 
     def install(self):
