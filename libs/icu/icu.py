@@ -8,11 +8,11 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
 
     def setTargets(self):
-        self.defaultTarget = "69.1"
+        self.defaultTarget = "67.1"
         major, minor = self.defaultTarget.split(".")
         self.targets[self.defaultTarget] = f"https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/icu4c-{major}_{minor}-src.tgz"
         self.targetInstSrc[self.defaultTarget] = os.path.join("icu", "source")
-        self.targetDigests[self.defaultTarget] = (['4cba7b7acd1d3c42c44bb0c14be6637098c7faf2b330ce876bc5f3b915d09745'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[self.defaultTarget] = (['94a80cd6f251a53bd2a997f6f1b5ac6653fe791dfab66e1eb0227740fb86d5dc'], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
