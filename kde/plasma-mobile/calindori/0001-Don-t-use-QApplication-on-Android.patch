@@ -1,0 +1,66 @@
+From 67c251f46a10e2030da10449a4dbf22040121446 Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Thu, 24 Jun 2021 13:31:34 +0200
+Subject: [PATCH] Don't use QApplication on Android
+
+---
+ src/main.cpp | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/src/main.cpp b/src/main.cpp
+index faed288..132718b 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -4,8 +4,6 @@
+  * SPDX-License-Identifier: GPL-3.0-or-later
+  */
+ 
+-#include <QApplication>
+-#include <QGuiApplication>
+ #include <QDir>
+ #include <QDebug>
+ #include <QQmlApplicationEngine>
+@@ -13,6 +11,13 @@
+ #include <QUrl>
+ #include <QVariant>
+ #include <QWindow>
++
++#ifdef Q_OS_ANDROID
++#include <QGuiApplication>
++#else
++#include <QApplication>
++#endif
++
+ #include <KAboutData>
+ #include <KLocalizedContext>
+ #include <KLocalizedString>
+@@ -49,7 +54,11 @@ void handleArgument(DataHandler *dataHandler, const QStringList &args)
+ Q_DECL_EXPORT int main(int argc, char *argv[])
+ {
+     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
++#ifdef Q_OS_ANDROID
++    QGuiApplication app(argc, argv);
++#else
+     QApplication app(argc, argv);
++#endif
+     KLocalizedString::setApplicationDomain("calindori");
+ 
+     KAboutData aboutData(QStringLiteral("calindori"), i18n("Calindori"), QStringLiteral(CALINDORI_VERSION_STRING), i18nc("@title", "Calendar application"), KAboutLicense::GPL_V3, i18nc("@info:credit", "(c) 2018-2021 The Calindori Team"));
+@@ -74,10 +83,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
+     KDBusService service(KDBusService::Unique);
+ #endif
+ 
+-    QApplication::setApplicationName(aboutData.componentName());
+-    QApplication::setApplicationDisplayName(aboutData.displayName());
+-    QApplication::setOrganizationDomain(aboutData.organizationDomain());
+-    QApplication::setApplicationVersion(aboutData.version());
++    QGuiApplication::setApplicationName(aboutData.componentName());
++    QGuiApplication::setApplicationDisplayName(aboutData.displayName());
++    QGuiApplication::setOrganizationDomain(aboutData.organizationDomain());
++    QGuiApplication::setApplicationVersion(aboutData.version());
+ 
+     qmlRegisterType<CalindoriConfig>("org.kde.calindori", 0, 1, "CalindoriConfig");
+     qmlRegisterType<LocalCalendar>("org.kde.calindori", 0, 1, "LocalCalendar");
+-- 
+2.32.0
+
