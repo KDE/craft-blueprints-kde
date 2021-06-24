@@ -18,6 +18,8 @@ class subinfo(info.infoclass):
 
         self.defaultTarget = "0.3"
 
+        self.patchToApply["0.3"] = [("0001-Fix-compilation-on-android.patch", 1)]
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
