@@ -6,6 +6,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/utilities/ktrip.git")
         self.description = "Public transport assistant"
 
+        self.patchToApply["21.06"] = [("0001-Use-qqc2-breeze-style-on-Android.patch", 1)]
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
