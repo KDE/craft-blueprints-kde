@@ -30,3 +30,7 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         # the cmake config is not relocatable
         self.subinfo.options.package.disableBinaryCache = True
+
+        # tests fail to build with missing openssl header
+        self.subinfo.options.configure.args = "-DBUILD_TESTS=OFF "
+
