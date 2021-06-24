@@ -78,6 +78,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DFETCH_TRANSLATIONS=ON"
 
     def createPackage(self):
         self.defines["executable"] = "bin\\kmymoney.exe"                       # Windows-only, mac is handled implicitly
