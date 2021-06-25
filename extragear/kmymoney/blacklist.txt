@@ -25,6 +25,7 @@ share/kf5/kdoctools/.*
 bin/data/aclocal/.*
 bin/data/applications/.*
 bin/data/common-lisp/.*
+bin/data/gtk-doc/.*
 bin/data/hunspell/.*
 bin/data/dbus-1/.*
 bin/data/emoticons/.*
