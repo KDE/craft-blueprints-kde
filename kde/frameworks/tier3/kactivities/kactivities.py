@@ -14,11 +14,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["libs/boost/boost-headers"] = None
 
-        # those are only needed for building the activity manager daemon
-
-
-# self.runtimeDependencies['libs/boost-range'] = 'default'
-#        self.runtimeDependencies['libs/boost-containers'] = 'default'
 
 from Package.CMakePackageBase import *
 
