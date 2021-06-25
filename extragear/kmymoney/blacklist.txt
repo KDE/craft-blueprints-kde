@@ -15,6 +15,9 @@ share/xml/.*
 # cmake stuff
 share/apps/cmake/.*
 
+# not running a desktop, don't need the plasma desktop theme
+share\\plasma\\desktoptheme\\(?!(default)).*
+
 # common app stuff
 share/apps/ark/.*
 share/apps/kgpg/.*
