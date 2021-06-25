@@ -9,17 +9,17 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
 
-        for ver in ["0.27.1"]:
-            self.targets[ver] = f"https://github.com/Exiv2/exiv2/archive/{ver}.tar.gz"
-            self.archiveNames[ver] = f"exiv2-{ver}.tar.gz"
+        for ver in ["0.27.5"]:
+            self.targets[ver] = f"https://github.com/Exiv2/exiv2/archive/refs/tags/v{ver}.tar.gz"
+            self.archiveNames[ver] = f"v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"exiv2-{ver}"
 
-        self.targetDigests["0.27.1"] = (['1b3766b2c203ce213a4195de14d61694017ec1a69d15d4575bccecef130990fe'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.27.5"] = (['1da1721f84809e4d37b3f106adb18b70b1b0441c860746ce6812bb3df184ed6c'], CraftHash.HashAlgorithm.SHA256)
 
         self.svnTargets['master'] = 'https://github.com/Exiv2/exiv2.git'
 
         self.description = "an image metadata library"
-        self.defaultTarget = '0.27.1'
+        self.defaultTarget = '0.27.5'
 
     def setDependencies(self):
         self.runtimeDependencies["libs/iconv"] = None
