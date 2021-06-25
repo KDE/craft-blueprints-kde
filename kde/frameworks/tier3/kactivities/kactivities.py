@@ -10,8 +10,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["libs/boost/boost-headers"] = None
 
         # those are only needed for building the activity manager daemon
