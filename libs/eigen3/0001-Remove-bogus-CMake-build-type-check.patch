@@ -1,0 +1,32 @@
+From a26d8d6f0fe891e97968121e2787536b999678ec Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Fri, 25 Jun 2021 15:55:16 +0200
+Subject: [PATCH] Remove bogus CMake build type check
+
+It prevents building with MinSizeRel, which is a valid build type
+---
+ CMakeLists.txt | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index dbb9bcf22..68fd34dfd 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -19,14 +19,6 @@ if (NOT CMAKE_BUILD_TYPE)
+   set(CMAKE_BUILD_TYPE "Release")
+ endif()
+ 
+-string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_tolower)
+-if(    NOT cmake_build_type_tolower STREQUAL "debug"
+-   AND NOT cmake_build_type_tolower STREQUAL "release"
+-   AND NOT cmake_build_type_tolower STREQUAL "relwithdebinfo")
+-  message(FATAL_ERROR "Unknown build type \"${CMAKE_BUILD_TYPE}\". Allowed values are Debug, Release, RelWithDebInfo (case-insensitive).")
+-endif()
+-
+-
+ #############################################################################
+ # retrieve version infomation                                               #
+ #############################################################################
+-- 
+2.32.0
+
