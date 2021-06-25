@@ -11,7 +11,6 @@ manifest/.*
 doc/.*
 share/man/.*
 share/xml/.*
-share/locale/.*
 
 # cmake stuff
 share/apps/cmake/.*
