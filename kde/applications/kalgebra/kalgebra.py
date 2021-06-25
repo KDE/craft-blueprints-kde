@@ -7,6 +7,8 @@ class subinfo(info.infoclass):
 
         self.description = "KAlgebra"
 
+        self.patchToApply["21.04.2"] = [("0001-Remove-minSdk-from-AndroidManifest.patch", 1)]
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

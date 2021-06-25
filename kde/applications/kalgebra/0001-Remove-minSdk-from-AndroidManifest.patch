@@ -1,0 +1,24 @@
+From 8ccd6271092ab8b418870099089593828b7fc302 Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Fri, 25 Jun 2021 16:04:14 +0200
+Subject: [PATCH] Remove minSdk from AndroidManifest
+
+Android doesn't like this any more
+---
+ android/AndroidManifest.xml | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/android/AndroidManifest.xml b/android/AndroidManifest.xml
+index 5226d84..fb4dcb4 100644
+--- a/android/AndroidManifest.xml
++++ b/android/AndroidManifest.xml
+@@ -30,6 +30,5 @@
+             <!--  Messages maps -->
+         </activity>
+     </application>
+-    <uses-sdk android:minSdkVersion="21" />
+     <supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" android:smallScreens="true"/>
+ </manifest>
+-- 
+2.32.0
+
