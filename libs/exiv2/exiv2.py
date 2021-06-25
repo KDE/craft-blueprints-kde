@@ -57,5 +57,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMinGW() and self.buildTarget == "0.27.0a":
             # https://github.com/Exiv2/exiv2/issues/421
             self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=OFF"
+        if CraftCore.compiler.isAndroid:
+            self.subinfo.options.configure.args += " -DCMAKE_POSITION_INDEPENDENT_CODE=On -DEXIV2_BUILD_EXIV2_COMMAND=Off"
         else:
             self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=ON"
