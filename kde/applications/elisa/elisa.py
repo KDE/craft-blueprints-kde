@@ -32,6 +32,8 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
 
+        self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
+
 from Package.CMakePackageBase import *
 
 class Package( CMakePackageBase ):
