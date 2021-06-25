@@ -18,6 +18,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/applications/analitza"] = None
 
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+
 
 from Package.CMakePackageBase import *
 
