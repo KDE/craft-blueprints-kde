@@ -32,7 +32,6 @@ bin/data/knotifications5/.*
 bin/data/kservices5/useragentstrings/.*
 bin/data/kservices5/searchproviders/.*
 bin/data/libgpg-error/.*
-bin/data/locale/.*
 bin/data/mime/packages/(?!(x-kmymoney)).*
 bin/data/xdg/.*
 
