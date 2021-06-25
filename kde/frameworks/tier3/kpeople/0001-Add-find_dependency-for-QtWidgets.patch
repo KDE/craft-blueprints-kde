@@ -1,0 +1,25 @@
+From b793989613b6ce93f8671c5b86fa9f8982dcb893 Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Fri, 25 Jun 2021 14:33:29 +0200
+Subject: [PATCH] Add find_dependency for QtWidgets
+
+We have a public dep on QtWidgets, reflect that in the config file
+---
+ KF5PeopleConfig.cmake.in | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/KF5PeopleConfig.cmake.in b/KF5PeopleConfig.cmake.in
+index b63a5df..3a04970 100644
+--- a/KF5PeopleConfig.cmake.in
++++ b/KF5PeopleConfig.cmake.in
+@@ -2,6 +2,7 @@
+ 
+ include(CMakeFindDependencyMacro)
+ find_dependency(Qt5Core @REQUIRED_QT_VERSION@)
++find_dependency(Qt5Widgets @REQUIRED_QT_VERSION@)
+ 
+ include("${CMAKE_CURRENT_LIST_DIR}/KPeopleTargets.cmake")
+ @PACKAGE_INCLUDE_QCHTARGETS@
+-- 
+2.32.0
+
