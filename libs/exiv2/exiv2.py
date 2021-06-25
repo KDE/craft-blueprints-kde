@@ -38,7 +38,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/iconv"] = None
-        self.runtimeDependencies["libs/gettext"] = None
+        #self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/expat"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/libcurl"] = None
