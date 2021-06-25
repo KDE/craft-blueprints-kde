@@ -14,7 +14,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
 
         self.buildDependencies["libs/eigen3"] = None
-        self.runtimeDependencies["libs/glew"] = None
+
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/glew"] = None
 
 
 from Package.CMakePackageBase import *
