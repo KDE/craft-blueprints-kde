@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/lcms2"] = None
         self.runtimeDependencies["libs/lmdb"] = None
         self.runtimeDependencies["kde/libs/libkdcraw"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kactivities"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
         self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
         self.runtimeDependencies["qt-libs/phonon"] = None
 

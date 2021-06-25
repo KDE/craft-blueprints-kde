@@ -40,7 +40,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['kde/frameworks/tier2/kdoctools'] = 'default'
         self.runtimeDependencies['kde/frameworks/tier2/kcompletion'] = 'default'
         self.runtimeDependencies['kde/frameworks/tier2/kjobwidgets'] = 'default'
-        self.runtimeDependencies['kde/frameworks/tier3/kactivities'] = 'default'
+        self.runtimeDependencies['kde/frameworks/tier2/kactivities'] = 'default'
         self.runtimeDependencies['kde/frameworks/tier3/kconfigwidgets'] = 'default'
         self.runtimeDependencies['kde/frameworks/tier3/kiconthemes'] = 'default'
         self.runtimeDependencies['kde/frameworks/tier3/kcmutils'] = 'default'
