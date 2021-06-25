@@ -9,12 +9,18 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://invent.kde.org/libraries/snoretoast.git"
         self.targetUpdatedRepoUrl["master"] = ("https://anongit.kde.org/snoretoast", "https://invent.kde.org/libraries/snoretoast.git")
-        self.defaultTarget = "0.7.0"
 
         for ver in ["0.5.2", "0.6.0", "0.7.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/snoretoast/{ver}/src/snoretoast-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/snoretoast/{ver}/src/snoretoast-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"snoretoast-{ver}"
+
+        for ver in ["0.8.0"]:
+            self.targets[ver] = f"https://invent.kde.org/libraries/snoretoast/-/archive/v{ver}/snoretoast-v{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"snoretoast-v{ver}"
+        self.targetDigests["0.8.0"] = (['3d77ae76dd47929c088b3bbf4bd4fa2984dfa3c8c4c959ad4a5a427002a2ab64'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "0.8.0"
+
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
