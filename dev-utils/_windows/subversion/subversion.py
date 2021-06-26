@@ -22,9 +22,7 @@ class Package(BinaryPackageBase):
     def __init__(self):
         BinaryPackageBase.__init__(self)
 
-    def unpack(self):
-        if not BinaryPackageBase.unpack(self):
+    def install(self):
+        if not super().install():
             return False
-        utils.copyFile(os.path.join(self.packageDir(), "svn.bat"),
-                       os.path.join(self.rootdir, "dev-utils", "bin", "svn.bat"))
-        return True
+        return utils.createShim(self.imageDir() / "bin/svn.exe", self.installDir() / "bin/svn.exe")
