@@ -74,6 +74,12 @@ class PackageMinGW(AutoToolsPackageBase):
             self.subinfo.options.configure.args += "--enable-static=no --enable-shared=yes "
 
     def postInstall(self):
+        # remove API docs here as there is no build option for that
+        baseDir = os.path.join(self.installDir(), os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot()))
+        shutil.rmtree(os.path.join(baseDir, "doc"), ignore_errors=True)
+        shutil.rmtree(os.path.join(baseDir, "gtk-doc"), ignore_errors=True)
+        shutil.rmtree(os.path.join(baseDir, "man"), ignore_errors=True)
+
         hardCoded = [Path(self.imageDir()) / "bin/xml2-config" ]
         return self.patchInstallPrefix(hardCoded, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())
 
