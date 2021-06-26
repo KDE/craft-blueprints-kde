@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
         self.targetInstSrc[ver] = f"libgit2-{ver}"
         self.targetDigests[ver] = (['41a6d5d740fd608674c7db8685685f45535323e73e784062cf000a633d420d1e'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = ver
+        self.patchLevel[self.defaultTarget] = 1
 
     def setDependencies(self):
         self.buildDependencies['dev-utils/pkg-config'] = 'default'
@@ -28,4 +29,6 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += "-DBUILD_CLAR=OFF"
+
+        # ensure the more recent PCRE2 is used, per default it will pick up PCRE1 if found otherwise
+        self.subinfo.options.configure.args += "-DBUILD_CLAR=OFF -DREGEX_BACKEND=pcre2"
