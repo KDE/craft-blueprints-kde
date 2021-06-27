@@ -30,3 +30,11 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.args = "--enable-static=yes --enable-shared=no"
         else:
             self.subinfo.options.configure.args = "--enable-static=no --enable-shared=yes"
+
+    def install(self):
+        if not super().install():
+            return False
+        # remove API docs here as there is no build option for that
+        baseDir = os.path.join(self.installDir(), os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot()))
+        shutil.rmtree(os.path.join(baseDir, "man"), ignore_errors=True)
+        return True

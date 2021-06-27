@@ -23,3 +23,11 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args = "-DWITH_TOOLS=OFF -DBUILD_TESTING=OFF"
+
+    def install(self):
+        if not super().install():
+            return False
+        # remove API docs here as there is no build option for that
+        baseDir = os.path.join(self.installDir(), os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot()))
+        shutil.rmtree(os.path.join(baseDir, "man"), ignore_errors=True)
+        return True
