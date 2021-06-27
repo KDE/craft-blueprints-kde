@@ -41,7 +41,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        if self.buildTarget != "master":
+            self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kactivities"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
