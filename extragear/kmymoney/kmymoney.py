@@ -83,19 +83,6 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args = "-DFETCH_TRANSLATIONS=ON"
 
-    def _getEnv(self):
-        if CraftCore.compiler.isWindows:
-            svnBinPath = os.path.join(CraftCore.standardDirs.craftRoot(), "dev-utils", "svn", "bin")
-            return {'PATH': f"{svnBinPath};{os.environ['PATH']}"}
-
-    def configure(self, configureDefines=""):
-        with utils.ScopedEnv(self._getEnv()):
-            return super().configure()
-
-    def make(self):
-        with utils.ScopedEnv(self._getEnv()):
-            return super().make()
-
     def createPackage(self):
         self.defines["executable"] = "bin\\kmymoney.exe"                       # Windows-only, mac is handled implicitly
         self.defines["icon"] = os.path.join(self.packageDir(), "kmymoney.ico")
