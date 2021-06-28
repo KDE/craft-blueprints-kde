@@ -19,25 +19,25 @@ share/apps/cmake/.*
 share\\plasma\\desktoptheme\\(?!(default)).*
 
 # common app stuff
-share/apps/ark/.*
-share/apps/kgpg/.*
-share/kf5/kdoctools/.*
-bin/data/aclocal/.*
-bin/data/applications/.*
-bin/data/common-lisp/.*
-bin/data/gtk-doc/.*
-bin/data/hunspell/.*
-bin/data/dbus-1/.*
-bin/data/emoticons/.*
-bin/data/info/.*
-bin/data/kdevappwizard/.*
-bin/data/kf5/(?!(libkholidays)).*
-bin/data/knotifications5/.*
-bin/data/kservices5/useragentstrings/.*
-bin/data/kservices5/searchproviders/.*
-bin/data/libgpg-error/.*
-bin/data/mime/packages/(?!(x-kmymoney)).*
-bin/data/xdg/.*
+(bin/data|share)/apps/ark/.*
+(bin/data|share)/apps/kgpg/.*
+(bin/data|share)/kf5/kdoctools/.*
+(bin/data|share)/aclocal/.*
+(bin/data|share)/applications/.*
+(bin/data|share)/common-lisp/.*
+(bin/data|share)/gtk-doc/.*
+(bin/data|share)/hunspell/.*
+(bin/data|share)/dbus-1/.*
+(bin/data|share)/emoticons/.*
+(bin/data|share)/info/.*
+(bin/data|share)/kdevappwizard/.*
+(bin/data|share)/kf5/(?!(libkholidays)).*
+(bin/data|share)/knotifications5/.*
+(bin/data|share)/kservices5/useragentstrings/.*
+(bin/data|share)/kservices5/searchproviders/.*
+(bin/data|share)/libgpg-error/.*
+(bin/data|share)/mime/packages/(?!(x-kmymoney)).*
+(bin/data|share)/xdg/.*
 
 
 # Unused Qt modules
