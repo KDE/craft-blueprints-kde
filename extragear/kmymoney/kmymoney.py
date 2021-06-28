@@ -33,6 +33,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = '5.1'
 
     def setDependencies(self):
+        if CraftCore.compiler.isWindows:
+            self.buildDependencies["dev-utils/subversion"] = None
         self.buildDependencies["dev-utils/python3"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
