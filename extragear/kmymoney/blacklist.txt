@@ -9,6 +9,7 @@ manifest/.*
 
 # multiple docs
 doc/.*
+html/man.*/.*
 share/man/.*
 share/xml/.*
 
