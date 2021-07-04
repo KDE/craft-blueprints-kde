@@ -1,9 +1,9 @@
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index b41901f..863bf30 100644
+index e475aec..be0608e 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -22,6 +22,13 @@ target_sources(KF5ConfigWidgets PRIVATE
-
+@@ -23,6 +23,13 @@ target_sources(KF5ConfigWidgets PRIVATE
+ 
    kconfigwidgets.qrc
  )
 +
@@ -16,7 +16,7 @@ index b41901f..863bf30 100644
  ecm_qt_declare_logging_category(KF5ConfigWidgets
      HEADER kconfigwidgets_debug.h
      IDENTIFIER KCONFIG_WIDGETS_LOG
-@@ -55,6 +62,11 @@ target_link_libraries(KF5ConfigWidgets
+@@ -56,6 +63,11 @@ target_link_libraries(KF5ConfigWidgets
      KF5::GuiAddons # KColorScheme uses KColorUtils
      KF5::I18n # For action and widget texts
  )
@@ -29,16 +29,19 @@ index b41901f..863bf30 100644
    target_link_libraries(KF5ConfigWidgets PUBLIC KF5::Auth) # KCModule uses KAuth::Action TODO KF6 Change to KF5::AuthCore
  else()
 diff --git a/src/kcolorschememanager.cpp b/src/kcolorschememanager.cpp
-index ca0004b..e8c5fd5 100644
+index 4ceb2ab..6b66d18 100644
 --- a/src/kcolorschememanager.cpp
 +++ b/src/kcolorschememanager.cpp
-@@ -24,15 +24,21 @@
+@@ -24,15 +24,24 @@
  #include <QStyle>
-
+ 
  constexpr int defaultSchemeRow = 0;
 +static bool s_overrideAutoSwitch = false;
 +static QString autoColorSchemePath;
-
++#ifdef Q_OS_WIN
++WindowsMessagesNotifier KColorSchemeManagerPrivate::m_windowsMessagesNotifier = WindowsMessagesNotifier();
++#endif
+ 
 -static void activateScheme(const QString &colorSchemePath)
 +static void activateScheme(const QString &colorSchemePath, bool overrideAutoSwitch = true)
  {
@@ -55,7 +58,7 @@ index ca0004b..e8c5fd5 100644
      } else {
          qApp->setPalette(KColorScheme::createApplicationPalette(KSharedConfig::openConfig(colorSchemePath)));
      }
-@@ -72,6 +78,9 @@ static QIcon createPreview(const QString &path)
+@@ -72,12 +81,25 @@ QIcon KColorSchemeManagerPrivate::createPreview(const QString &path)
  KColorSchemeManagerPrivate::KColorSchemeManagerPrivate()
      : model(new KColorSchemeModel())
  {
@@ -63,9 +66,8 @@ index ca0004b..e8c5fd5 100644
 +    QAbstractEventDispatcher::instance()->installNativeEventFilter(&m_windowsMessagesNotifier);
 +#endif
  }
-
- KColorSchemeModel::KColorSchemeModel(QObject *parent)
-@@ -152,6 +161,16 @@ KColorSchemeManager::KColorSchemeManager(QObject *parent)
+ 
+ KColorSchemeManager::KColorSchemeManager(QObject *parent)
      : QObject(parent)
      , d(new KColorSchemeManagerPrivate)
  {
@@ -80,37 +82,38 @@ index ca0004b..e8c5fd5 100644
 +    d->getWindowsMessagesNotifier().handleWMSettingChange();
 +#endif
  }
-
+ 
  KColorSchemeManager::~KColorSchemeManager()
 diff --git a/src/kcolorschememanager_p.h b/src/kcolorschememanager_p.h
-index 4df51b2..b7a28b4 100644
+index 88cd016..f7c73e3 100644
 --- a/src/kcolorschememanager_p.h
 +++ b/src/kcolorschememanager_p.h
-@@ -12,6 +12,10 @@
- #include <QIcon>
+@@ -11,6 +11,9 @@
  #include <memory>
-
+ 
+ #include "kcolorschememodel.h"
 +#ifdef Q_OS_WIN
 +#include "windowsmessagesnotifier.h"
 +#endif
-+
- struct KColorSchemeModelData {
-     QString name;
-     QString path;
-@@ -38,6 +42,14 @@ public:
-     KColorSchemeManagerPrivate();
-
+ 
+ class KColorSchemeManagerPrivate
+ {
+@@ -20,6 +23,16 @@ public:
      std::unique_ptr<KColorSchemeModel> model;
-+#ifdef Q_OS_WIN
-+    WindowsMessagesNotifier m_windowsMessagesNotifier;
-+    QString m_lightColorScheme = QStringLiteral("Breeze"), m_darkColorScheme = QStringLiteral("Breeze Dark");
+ 
+     static QIcon createPreview(const QString &path);
 +
++#ifdef Q_OS_WIN
++    static WindowsMessagesNotifier m_windowsMessagesNotifier;
 +    WindowsMessagesNotifier &getWindowsMessagesNotifier() {return m_windowsMessagesNotifier;}
 +    const QString& getLightColorScheme() {return m_lightColorScheme;}
 +    const QString& getDarkColorScheme() {return m_darkColorScheme;}
++
++private:
++    QString m_lightColorScheme = QStringLiteral("Breeze"), m_darkColorScheme = QStringLiteral("Breeze Dark");
 +#endif
  };
-
+ 
  #endif
 diff --git a/src/windowsmessagesnotifier.cpp b/src/windowsmessagesnotifier.cpp
 new file mode 100644

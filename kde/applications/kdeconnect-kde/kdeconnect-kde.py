@@ -46,6 +46,7 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
         self.defines["appname"] = "kdeconnect-indicator"
         self.defines["AppUserModelID"] = "kdeconnect.daemon"
+        self.defines["executable"] = r"bin/kdeconnect-app.exe"
 
         if isinstance(self, NullsoftInstallerPackager):
             self.defines["nsis_include"] = f"!include {self.packageDir()}\\SnoreNotify.nsh"
@@ -81,6 +82,9 @@ class Package(CMakePackageBase):
             self.defines["additional_xmlns"] = r"""
             xmlns:uap7="http://schemas.microsoft.com/appx/manifest/uap/windows10/7"
             """
+
+            self.defines["alias_executable"] = r"bin/kdeconnect-cli.exe"
+            self.defines["alias"] = r"kdeconnect-cli"
 
             self.defines["shortcuts"] = [{"name" : self.subinfo.displayName , "target" : f"bin/kdeconnect-app{CraftCore.compiler.executableSuffix}", "description" : self.subinfo.description}]
             self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "Square150x150Logo.scale-100.png")
