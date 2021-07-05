@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.svnTargets["v6"] = "https://github.com/mltframework/mlt.git|v6"
         self.patchLevel['v6'] = 20210425
-        self.defaultTarget = "master"
+        self.defaultTarget = "v6"
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/pkg-config"] = None
