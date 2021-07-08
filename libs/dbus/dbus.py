@@ -26,6 +26,9 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+
     def setTargets(self):
         for ver in ["1.11.14", "1.12.12", "1.12.16"]:
             self.targets[ver] = f"http://dbus.freedesktop.org/releases/dbus/dbus-{ver}.tar.gz"
