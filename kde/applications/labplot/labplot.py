@@ -32,6 +32,8 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isMSVC():
             self.runtimeDependencies["libs/libzip"] = None
             self.runtimeDependencies["libs/netcdf"] = None
+        # python backend needs python38.dll
+        self.runtimeDependencies["binary/python-libs"] = None
 
         self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["qt-libs/qtmqtt"] = None
