@@ -66,6 +66,7 @@ bin/data/knotifications5/.*
 bin/data/libgpg-error/.*
 #bin/data/locale/.*
 share/.*
+html/.*
 
 # we use a icontheme.rc on windows
 # only icons for cantor backends
