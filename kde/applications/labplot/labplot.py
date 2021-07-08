@@ -68,6 +68,11 @@ class Package(CMakePackageBase):
             # cerf.h is not found when using libcerf from ports
             self.subinfo.options.configure.args += " -DENABLE_LIBCERF=OFF"
 
+    def install(self):
+        pythonPath = CraftCore.settings.get("Paths", "PYTHON")
+        utils.copyFile(os.path.join(pythonPath, r"python38.dll"), os.path.join(self.imageDir(), "bin", "python38.dll"), linkOnly=False)
+        return super().install()
+
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         # Some plugin files brake codesigning on macOS, which is picky about file names
