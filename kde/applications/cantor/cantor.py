@@ -19,9 +19,6 @@ class subinfo(info.infoclass):
         # libR.dylib fails packaging on macOS (lapack.so)
         if not CraftCore.compiler.isMSVC() and not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["binary/r-base"] = None
-        # we use Crafts python
-        #self.runtimeDependencies["dev-utils/python3"] = None
-        #self.runtimeDependencies["binary/python-libs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
