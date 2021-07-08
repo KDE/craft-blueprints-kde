@@ -33,6 +33,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libzip"] = None
             self.runtimeDependencies["libs/netcdf"] = None
         # python backend needs python38.dll
+        self.runtimeDependencies["dev-utils/python3"] = None
         self.runtimeDependencies["binary/python-libs"] = None
 
         self.runtimeDependencies["kde/applications/cantor"] = None
