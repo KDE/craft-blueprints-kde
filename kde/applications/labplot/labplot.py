@@ -69,9 +69,11 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += " -DENABLE_LIBCERF=OFF"
 
     def install(self):
-        pythonPath = CraftCore.settings.get("Paths", "PYTHON")
-        utils.copyFile(os.path.join(pythonPath, r"python38.dll"), os.path.join(self.imageDir(), "bin", "python38.dll"), linkOnly=False)
-        return super().install()
+        result = super().install()
+        if CraftCore.compiler.isWindows:
+            pythonPath = CraftCore.settings.get("Paths", "PYTHON")
+            utils.copyFile(os.path.join(pythonPath, "python38.dll"), os.path.join(self.imageDir(), "bin", "python38.dll"), linkOnly=False)
+        return result
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
