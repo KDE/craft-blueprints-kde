@@ -14,8 +14,12 @@ bin/icuuc\.dll
 bin/poppler-cpp\.dll
 bin/AnalitzaPlot\.dll
 bin/AnalitzaWidgets\.dll
-bin/gio-2\.dll
-bin/glib-2\.dll
+bin/gio-2*
+# needed by Kalgebra backend
+#bin/git2\.dll
+# ?
+#bin/glew32.dll
+bin/glib-2*
 bin/gmodule-2\.dll
 bin/gobject-2\.dll
 bin/gthread-2\.dll
@@ -28,6 +32,7 @@ bin/kdewin\.dll
 bin/kdewin-qt\.dll
 bin/kdewin\.dll
 bin/kdewin-qt\.dll
+bin/libgcrypt.*
 bin/phonon4qt5.*
 # used on macOS?
 #lib/.*
@@ -35,15 +40,22 @@ libexec/.*
 
 # unused Qt/KF5 libs
 bin/Qt5Concurrent\.dll
+bin/Qt5Multimedia\.dll
 bin/Qt5OpenGL\.dll
 bin/Qt5WinExtras\.dll
+# needed by Kalgebra backend
+#bin/Qt5XmlPatterns\.dll
 bin/KF5CalendarEvents\.dll
 bin/KF5Wallet\.dll
 bin/kwalletbackend5\.dll
+#bin/KF5Attica\.dll
 bin/KF5Declarative\.dll
 bin/KF5DocTools\.dll
 bin/KF5GlobalAccelPrivate\.dll
 bin/KF5Notifications\.dll
+bin/KF5Syndication\.dll
+# needed by Kalgebra backend
+#bin/KF5TextEditor\.dll
 
 # unused data
 bin/QtTest/.*
