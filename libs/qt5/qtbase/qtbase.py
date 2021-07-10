@@ -8,12 +8,12 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.registerOption("buildCommercial", False)
         self.options.dynamic.registerOption("buildReleaseAndDebug", False)
-        self.options.dynamic.registerOption("buildDoc", True)
+        self.options.dynamic.registerOption("buildDoc", not CraftCore.compiler.isAndroid)
         self.options.dynamic.registerOption("libInfix", "")
         self.options.dynamic.registerOption("useLtcg", False)
-        self.options.dynamic.registerOption("withMysql", not CraftCore.compiler.isMacOS)
-        self.options.dynamic.registerOption("withDBus", True)
-        self.options.dynamic.registerOption("withGlib", not CraftCore.compiler.isWindows)
+        self.options.dynamic.registerOption("withMysql", not CraftCore.compiler.isMacOS and not CraftCore.compiler.isAndroid)
+        self.options.dynamic.registerOption("withDBus", not CraftCore.compiler.isAndroid)
+        self.options.dynamic.registerOption("withGlib", not CraftCore.compiler.isWindows and not CraftCore.compiler.isAndroid)
         if CraftCore.compiler.isMinGW():
             self.options.dynamic.registerOption("withDirectX", True)
 
