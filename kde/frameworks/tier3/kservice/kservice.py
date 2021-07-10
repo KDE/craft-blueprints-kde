@@ -13,10 +13,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
+            self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+            self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
 
 
 from Package.CMakePackageBase import *
