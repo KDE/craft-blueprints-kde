@@ -28,6 +28,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kitinerary"] = None
         self.runtimeDependencies["kde/pim/kpkpass"] = None
 
+        if self.buildTarget == "master":
+            self.runtimeDependencies["kde/unreleased/khealthcertificate"] = None
+
 from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
