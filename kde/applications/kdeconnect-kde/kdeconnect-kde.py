@@ -86,6 +86,7 @@ class Package(CMakePackageBase):
             self.defines["alias_executable"] = r"bin/kdeconnect-cli.exe"
             self.defines["alias"] = r"kdeconnect-cli"
 
+            self.defines["file_types"] = ["*", ".txt"]
             self.defines["shortcuts"] = [{"name" : self.subinfo.displayName , "target" : f"bin/kdeconnect-app{CraftCore.compiler.executableSuffix}", "description" : self.subinfo.description}]
             self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "Square150x150Logo.scale-100.png")
             self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "Square44x44Logo.scale-100.png")
