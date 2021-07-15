@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "Vakzination"
         self.description = "Manage your health certificates"
-        self.svnTargets["master"] = "https://invent.kde.org/plasma-mobile/khealthcertificate"
+        self.svnTargets["master"] = "https://invent.kde.org/plasma-mobile/vakzination"
 
         self.defaultTarget = "master"
 
