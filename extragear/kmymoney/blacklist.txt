@@ -37,7 +37,6 @@ share\\plasma\\desktoptheme\\(?!(default)).*
 (bin/data|share)/kservices5/useragentstrings/.*
 (bin/data|share)/kservices5/searchproviders/.*
 (bin/data|share)/libgpg-error/.*
-(bin/data|share)/mime/packages/(?!(x-kmymoney)).*
 (bin/data|share)/xdg/.*
 
 
