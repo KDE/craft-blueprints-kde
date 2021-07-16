@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtremoteobjects"] = None
+        self.runtimeDependencies["libs/qt5/qtscxml"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
 
 
