@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt5/qtremoteobjects"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
 
 
