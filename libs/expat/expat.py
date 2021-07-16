@@ -27,7 +27,7 @@ class Package(CMakePackageBase):
                                                "-DBUILD_examples=OFF",
                                                "-DBUILD_tools=OFF",
                                                "-DEXPAT_BUILD_PKGCONFIG=ON",
-                                               "-EXPAT_BUILD_DOCS=OFF"]
+                                               "-DEXPAT_BUILD_DOCS=OFF"]
         self.subinfo.options.configure.testDefine = ["-DBUILD_tests=ON", "-DBUILD_examples=ON"]
         self.subinfo.options.configure.toolsDefine = ["-DBUILD_tools=ON"]  # available only from 2.1.0-beta3
         self.subinfo.options.configure.staticArgs = ["-DBUILD_shared=OFF"]# available only from 2.1.0-beta3
