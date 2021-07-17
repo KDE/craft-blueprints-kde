@@ -16,8 +16,6 @@ from Package.Qt5CorePackageBase import *
 class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
-        print("aaa", type(self.subinfo.options.dynamic.featureArguments))
-        print("hmmm", self.subinfo.options.dynamic.featureArguments)
 
 
 class Package(Qt5CoreSdkPackageBase):
