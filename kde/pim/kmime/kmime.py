@@ -4,6 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["21.04.3"] = [("kmime-21.04.3-20210717.diff", 1)]
 
         self.description = "KMime library"
 
