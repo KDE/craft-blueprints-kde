@@ -22,7 +22,7 @@ class Package(BoostPackageBase):
         BoostPackageBase.__init__(self)
 
     def install(self):
-        src = CraftPackageObject.get('libs/boost/boost-headers').instance.sourceDir()
+        src = CraftPackageObject.get('libs/boost/boost-headers').instance.sourceDir() / "tools/build/src/engine"
 
         # we rename b2 => bjam for compatibility ATM
         return utils.copyFile(
@@ -30,26 +30,18 @@ class Package(BoostPackageBase):
             os.path.join(self.imageDir(), "bin", f"bjam{CraftCore.compiler.executableSuffix}"), linkOnly=False)
 
     def make(self):
+        src = CraftPackageObject.get('libs/boost/boost-headers').instance.sourceDir() / "tools/build/src/engine"
+        if CraftCore.compiler.isClang():
+            toolset = "clang"
+        elif CraftCore.compiler.isMinGW():
+            toolset = "mingw"
+        elif CraftCore.compiler.isGCC():
+            toolset = "gcc"
+        elif CraftCore.compiler.isMSVC():
+            platform = str(CraftCore.compiler.getMsvcPlatformToolset())
+            toolset =  f"vc{platform[:2]}"
         if OsUtils.isUnix():
-            cmd = "./bootstrap.sh  --with-toolset="
-            if CraftCore.compiler.isClang():
-                cmd += "clang"
-            elif CraftCore.compiler.isGCC():
-                cmd += "gcc"
+            cmd = [ src / "build.sh", f"--with-toolset={toolset}"]
         else:
-            cmd = "bootstrap.bat "
-            if CraftCore.compiler.isClang():
-                cmd += "clang"
-            elif CraftCore.compiler.isMinGW():
-                cmd += "gcc"
-            elif CraftCore.compiler.isMSVC():
-                platform = str(CraftCore.compiler.getMsvcPlatformToolset())
-                cmd += f"vc{platform[:2]}"
-        src = CraftPackageObject.get('libs/boost/boost-headers').instance.sourceDir()
-        if not utils.system(cmd, cwd=src):
-            log = os.path.join(src, "bootstrap.log")
-            if os.path.exists(log):
-                with open(log, "rt") as txt:
-                    CraftCore.log.info(txt.read())
-            return False
-        return True
+            cmd = [ src/ "build.bat", toolset]
+        return utils.system(cmd, cwd=src)
