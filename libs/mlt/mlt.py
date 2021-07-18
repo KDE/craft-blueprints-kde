@@ -14,10 +14,10 @@ class subinfo(info.infoclass):
         self.targetDigests['6.26.1'] = (['8a484bbbf51f33e25312757531f3ad2ce20607149d20fcfcb40a3c1e60b20b4e'], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply['6.26.1'] = ("mlt-6.26-cmake-fix-win32.patch", 1)
         self.patchLevel['6.26.1'] = 1
-        self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.svnTargets["v6"] = "https://github.com/mltframework/mlt.git|v6"
         self.patchLevel['v6'] = 20210425
-        self.defaultTarget = "v6"
+        self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
+        self.defaultTarget = "master"
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/pkg-config"] = None
@@ -47,5 +47,5 @@ class Package(CMakePackageBase):
     def __init__( self, **args ):
         CMakePackageBase.__init__(self)
         CMakePackageBase.buildTests = False
-        self.subinfo.options.configure.args += " -DMOD_DECKLINK=OFF "
+        self.subinfo.options.configure.args += " -DMOD_DECKLINK=OFF -DWINDOWS_DEPLOY=OFF "
 
