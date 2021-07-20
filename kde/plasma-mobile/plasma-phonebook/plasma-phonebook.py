@@ -8,8 +8,6 @@ class subinfo(info.infoclass):
         self.displayName = "Plasma Phonebook"
         self.description = "Phonebook for Plasma Mobile"
 
-        self.patchToApply["21.06"] = [("0001-Link-against-QtWidgets.patch", 1), ("0001-Remove-minSdk-from-AndroidManifest.patch", 1)]
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None

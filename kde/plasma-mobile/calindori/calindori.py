@@ -8,8 +8,6 @@ class subinfo(info.infoclass):
         self.displayName = "Calindori"
         self.description = "Calendar for Plasma Mobile"
 
-        self.patchToApply["21.06"] = [("0001-Don-t-use-QApplication-on-Android.patch", 1)]
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
