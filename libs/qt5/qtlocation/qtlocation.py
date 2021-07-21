@@ -3,6 +3,9 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.registerOption("enableProprietaryPlugins", False)
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "The Qt Location API helps you create viable mapping solutions" \
@@ -26,6 +29,9 @@ from Package.Qt5CorePackageBase import *
 class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
+        if not self.subinfo.options.dynamic.enableProprietaryPlugins:
+            self.subinfo.options.dynamic.featureArguments += ["-no-feature-geoservices_esri", "-no-feature-geoservices_mapbox",
+                                                              "-no-feature-geoservices_mapboxgl", "-no-feature-geoservices_here"]
 
 
 class Package(Qt5CoreSdkPackageBase):
