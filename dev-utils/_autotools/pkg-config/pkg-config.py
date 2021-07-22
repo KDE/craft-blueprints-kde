@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/iconv"] = None
 
     def setTargets(self):
         self.description = "pkg-config is a helper tool used when compiling applications and libraries"
