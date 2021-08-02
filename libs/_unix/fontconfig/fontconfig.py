@@ -17,6 +17,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.13.1"
 
     def setDependencies(self):
+        self.buildDependencies["dev-utils/gperf"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/freetype"] = None
         self.runtimeDependencies["libs/gettext"] = None
