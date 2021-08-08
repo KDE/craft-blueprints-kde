@@ -10,7 +10,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
         self.runtimeDependencies["libs/qt5/qtsvg"] = None
         self.runtimeDependencies["libs/d3dcompiler"] = None
 

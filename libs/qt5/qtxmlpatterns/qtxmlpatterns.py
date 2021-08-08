@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
 
 
 from Package.Qt5CorePackageBase import *
