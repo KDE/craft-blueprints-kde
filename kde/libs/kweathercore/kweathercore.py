@@ -10,15 +10,13 @@ class subinfo(info.infoclass):
         self.description = "Library to facilitate retrieval of weather information including forecasts and alerts"
         self.svnTargets["master"] = "https://invent.kde.org/libraries/kweathercore"
 
-        for ver in ["0.3"]:
+        for ver in ["0.4"]:
             self.targets[ver] = f"https://download.kde.org/stable/kweathercore/{ver}/kweathercore-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"kweathercore-{ver}"
 
-        self.targetDigests["0.3"] = (['bb36ff6c677be15062c3b2bfa7ef1b93746c77dcfa2cd469fd504e97a372218c'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.4"] = (['47aa124c045d159572d2a8a589f8fc77ee7aedcf7a0c7256a5e3f6f42bb9b195'], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "0.3"
-
-        self.patchToApply["0.3"] = [("0001-Fix-compilation-on-android.patch", 1)]
+        self.defaultTarget = "0.4"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
