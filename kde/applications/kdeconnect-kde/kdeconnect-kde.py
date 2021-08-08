@@ -81,6 +81,18 @@ class Package(CMakePackageBase):
             """
             self.defines["additional_xmlns"] = r"""
             xmlns:uap7="http://schemas.microsoft.com/appx/manifest/uap/windows10/7"
+            xmlns:desktop2="http://schemas.microsoft.com/appx/manifest/desktop/windows10/2"
+            """
+
+            self.defines["additional_desktop_extensions"] = r"""
+            <desktop2:Extension Category="windows.firewallRules">
+            <desktop2:FirewallRules Executable="bin/kdeconnectd.exe">
+                <desktop2:Rule Direction="in" IPProtocol="TCP" LocalPortMax="1764" LocalPortMin="1714" Profile="all"/>
+                <desktop2:Rule Direction="in" IPProtocol="UDP" LocalPortMax="1764" LocalPortMin="1714" Profile="all"/>
+                <desktop2:Rule Direction="out" IPProtocol="TCP" LocalPortMax="1764" LocalPortMin="1714" Profile="all"/>
+                <desktop2:Rule Direction="out" IPProtocol="UDP" LocalPortMax="1764" LocalPortMin="1714" Profile="all"/>
+            </desktop2:FirewallRules>
+            </desktop2:Extension>
             """
 
             self.defines["alias_executable"] = r"bin/kdeconnect-cli.exe"
