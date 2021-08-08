@@ -1,0 +1,22 @@
+commit c39efe3ff6e4b02dd1f7798f16a0849e2169292a
+Author: Volker Krause <vkrause@kde.org>
+Date:   Sun Aug 8 10:56:06 2021 +0200
+
+    Fix shared build on Android
+    
+    The ld version script is not generated on Android, so also don't try to
+    use it there.
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 42ff0f902..9c46fec15 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -536,7 +536,7 @@ if(PNG_SHARED)
+   endif()
+   target_link_libraries(png ${ZLIB_LIBRARIES} ${M_LIBRARY})
+ 
+-  if(UNIX AND AWK)
++  if(UNIX AND AWK AND NOT ANDROID)
+     if(HAVE_LD_VERSION_SCRIPT)
+       set_target_properties(png PROPERTIES
+                             LINK_FLAGS "-Wl,--version-script='${CMAKE_CURRENT_BINARY_DIR}/libpng.vers'")
