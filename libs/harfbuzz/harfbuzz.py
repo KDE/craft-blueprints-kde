@@ -12,9 +12,10 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/freetype"] = None
-        self.runtimeDependencies["libs/glib"] = None
         self.buildDependencies["libs/icu"] = None
-        self.buildDependencies["libs/cairo"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/glib"] = None
+            self.buildDependencies["libs/cairo"] = None
 
 from Package.CMakePackageBase import *
 
