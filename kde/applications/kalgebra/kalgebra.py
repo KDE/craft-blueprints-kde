@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
 
         self.description = "KAlgebra"
 
-        self.patchToApply["21.04.2"] = [("0001-Remove-minSdk-from-AndroidManifest.patch", 1)]
+        self.patchToApply["21.04.3"] = [("0001-Remove-minSdk-from-AndroidManifest.patch", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
