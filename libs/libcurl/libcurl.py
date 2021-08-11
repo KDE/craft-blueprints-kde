@@ -6,7 +6,7 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = "https://github.com/bagder/curl.git"
-        for ver in ['7.20.0', '7.28.1', '7.32.0', '7.46.0', '7.54.0', '7.61.0']:
+        for ver in ['7.20.0', '7.28.1', '7.32.0', '7.46.0', '7.54.0', '7.61.0', '7.78.0']:
             self.targets[ver] = 'https://curl.haxx.se/download/curl-' + ver + '.tar.bz2'
             self.targetInstSrc[ver] = 'curl-' + ver
         self.patchToApply['7.20.0'] = ("7.20.0.diff", 1)
@@ -16,14 +16,19 @@ class subinfo(info.infoclass):
                                        ("curl-7.28.1-installlocation.diff", 1)]
         self.patchToApply['7.46.0'] = [("curl-7.46.0-20151208.diff", 1)]
         self.patchToApply['7.61.0'] = [("libcurl-7.61.0-20180816.diff", 1)]
+        self.patchToApply['7.78.0'] = [("libcurl-7.61.0-20180816.diff", 1)]
         self.targetDigests['7.28.1'] = 'b5aff1afc4e40fcb78db7a5e27214e0035756f3d'
         self.targetDigests['7.32.0'] = 'f6989fca0dac0c35628523436fc17869972d4251'
         self.targetDigests['7.46.0'] = '96fbe5abe8ecfb923e4ab0a579b3d6be43ef0e96'
         self.targetDigests['7.54.0'] = (['f50ebaf43c507fa7cc32be4b8108fa8bbd0f5022e90794388f3c7694a302ff06'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['7.61.0'] = (['5f6f336921cf5b84de56afbd08dfb70adeef2303751ffb3e570c936c6d656c9c'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['7.78.0'] = (['98530b317dc95ccb324bbe4f834f07bb642fbc393b794ddf3434f246a71ea44a'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "a free and easy-to-use client-side URL transfer library"
-        self.defaultTarget = '7.61.0'
+        if CraftCore.compiler.isAndroid:
+            self.defaultTarget = '7.78.0'
+        else:
+            self.defaultTarget = '7.61.0'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
