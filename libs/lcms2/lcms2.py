@@ -28,6 +28,15 @@ if not CraftCore.compiler.isWindows:
     class Package(AutoToolsPackageBase):
         def __init__(self):
             AutoToolsPackageBase.__init__(self)
+
+        def configure(self):
+            if CraftCore.compiler.isAndroid:
+                env = {}
+                env['LDFLAGS'] = '-lm'
+                with utils.ScopedEnv(env):
+                    return super().configure()
+            else:
+                return super().configure()
 else:
     class Package(CMakePackageBase):
         def __init__(self):
