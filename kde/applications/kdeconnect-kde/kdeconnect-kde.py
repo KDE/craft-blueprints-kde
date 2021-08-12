@@ -84,7 +84,7 @@ class Package(CMakePackageBase):
             xmlns:desktop2="http://schemas.microsoft.com/appx/manifest/desktop/windows10/2"
             """
 
-            self.defines["additional_desktop_extensions"] = r"""
+            self.defines["desktop_extensions"] = r"""
             <desktop2:Extension Category="windows.firewallRules">
             <desktop2:FirewallRules Executable="bin/kdeconnectd.exe">
                 <desktop2:Rule Direction="in" IPProtocol="TCP" LocalPortMax="1764" LocalPortMin="1714" Profile="all"/>
