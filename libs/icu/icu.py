@@ -6,7 +6,7 @@ from Package.AutoToolsPackageBase import *
 class subinfo(info.infoclass):
     def registerOptions(self):
         # TODO support for cross-compiling to Android not implemented here yet
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS and CraftCore.compiler.Platforms.NotAndroid
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS & CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
         self.defaultTarget = "67.1"
