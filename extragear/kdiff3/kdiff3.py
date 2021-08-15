@@ -37,7 +37,7 @@ class Package(CMakePackageBase):
         #Only attempt to install shell extention in standalone mode 
         if not isinstance(self, AppxPackager):
             if self.subinfo.buildTarget == "1.9":
-                self.defines["version"] = "1.9.0"
+                self.defines["version"] = "1.9.3"
             
             self.defines["registry_hook"]=(r"""
         !define DIFF_EXT_CLSID "{34471FFB-4002-438b-8952-E4588D0C0FE9}"
@@ -77,7 +77,7 @@ class Package(CMakePackageBase):
         else:
 	        #Windows app store has special requirements for the version format
             #Craft attempts to alter the second and third number so we have to adjust to craft's logic as well.
-            self.defines["version"] = "1.0.90"
+            self.defines["version"] = "1.0.93"
                         
         self.defines["un_sections"] = r"""
         Section "Un.Cleanup Regsistry"
