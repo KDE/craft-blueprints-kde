@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.targetInstSrc[ver] = f"libgit2-{ver}"
         self.targetDigests[ver] = (['41a6d5d740fd608674c7db8685685f45535323e73e784062cf000a633d420d1e'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = ver
-        self.patchToApply['1.1.0'] = f"libgit2-pcre2-debugsuffix.diff"
+        self.patchToApply['1.1.0'] = [("libgit2-pcre2-debugsuffix.diff", 1)]
         self.patchLevel[self.defaultTarget] = 1
 
     def setDependencies(self):
