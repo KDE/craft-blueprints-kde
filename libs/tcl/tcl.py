@@ -35,7 +35,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"tcl-core-{ver}"
 
         self.targetDigests['8-6-8'] = (['5e9da63f535cee07bfbc6d9f12a657b1065911e473550dc74968025bc5a0e447'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests['8-6-11'] = (['fe8a9e554945252c0a33a8126921edf09aeb3cb26391085fe9bb9af074baae9d'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['8-6-11'] = (['3b49ef3316bda17c1e004f0ea1aa5ba8fb3292329e923e7043147f99739b3241'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "8-6-11"
 
     def setDependencies(self):
