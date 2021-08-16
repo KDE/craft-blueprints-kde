@@ -1,0 +1,19 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user lensfun-0.3.2.orig/cmake/modules/FindGLIB2.cmake lensfun-0.3.2/cmake/modules/FindGLIB2.cmake
+--- lensfun-0.3.2.orig/cmake/modules/FindGLIB2.cmake	2015-11-15 18:07:26.000000000 +0100
++++ lensfun-0.3.2/cmake/modules/FindGLIB2.cmake	2021-08-16 11:35:10.925695400 +0200
+@@ -1,12 +1,10 @@
+-IF (NOT MSVC)
+-    INCLUDE(FindPkgConfig)
+-    PKG_SEARCH_MODULE( GLIB2 REQUIRED glib-2.0 )
+-    IF(WIN32 AND NOT BUILD_STATIC)
++INCLUDE(FindPkgConfig)
++PKG_SEARCH_MODULE( GLIB2 REQUIRED glib-2.0 )
++IF(WIN32 AND NOT BUILD_STATIC)
+         FIND_FILE(GLIB2_DLL 
+                 NAMES glib-2.dll glib-2-vs9.dll libglib-2.0-0.dll
+                 PATHS "${GLIB2_LIBRARY_DIRS}/../bin"
+                 NO_SYSTEM_ENVIRONMENT_PATH)
+-    ENDIF()
+ ENDIF()
+ 
+ IF (NOT GLIB2_FOUND OR NOT PKG_CONFIG_FOUND)

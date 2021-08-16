@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.targetDigests['0.3.2'] = '1d978b15aa7304d66a4931fa37ca9f8f89396c16'
 
         self.patchToApply['0.2.6'] = ('lensfun-0.2.6.diff', 1)
-        self.patchToApply["0.3.2"] = [('lensfun-0.3.2.patch', 1), ("lensfun-0.3.2-20200226.diff", 1)]
+        self.patchToApply["0.3.2"] = [('lensfun-0.3.2.patch', 1), ("lensfun-0.3.2-20200226.diff", 1), ("lensfun-0.3.2-20210816.diff", 1)]
 
     def setBuildOptions(self):
         info.infoclass.setBuildOptions(self)
