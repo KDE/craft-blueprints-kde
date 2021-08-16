@@ -11,9 +11,12 @@ class subinfo(info.infoclass):
         self.targets[self.defaultTarget] = "https://github.com/commonmark/cmark/archive/%s.tar.gz" % self.defaultTarget
         self.archiveNames[self.defaultTarget] = 'cmark-%s.tar.gz' % self.defaultTarget
         self.targetInstSrc[self.defaultTarget] = 'cmark-%s' % self.defaultTarget
-        self.patchToApply[self.defaultTarget] = ('cmark.diff', 1)
+
+        # fix clash of bin artifacts and lib artifacs
+        self.patchToApply[self.defaultTarget] = ('cmark-0.30.1-20210816.diff', 1)
         self.patchLevel[self.defaultTarget] = 1
 
+        self.targetDigests["0.30.1"] =  (['9609506bd7473e769452488ef981eb53f082011b1ec6c9b6c73ed57062e25ee6'], CraftHash.HashAlgorithm.SHA256)
         self.description = "CommonMark parsing and rendering library and program in C"
 
     def setDependencies(self):

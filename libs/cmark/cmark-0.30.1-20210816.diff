@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user cmark-0.30.1.orig/src/CMakeLists.txt cmark-0.30.1/src/CMakeLists.txt
+--- cmark-0.30.1.orig/src/CMakeLists.txt	2021-07-17 03:45:36.000000000 +0200
++++ cmark-0.30.1/src/CMakeLists.txt	2021-08-16 08:25:23.337341800 +0200
+@@ -55,7 +55,7 @@
+ add_executable(${PROGRAM} ${PROGRAM_SOURCES})
+ cmark_add_compile_options(${PROGRAM})
+ set_target_properties(${PROGRAM} PROPERTIES
+-  OUTPUT_NAME "cmark")
++  RUNTIME_OUTPUT_NAME "cmark")
+ 
+ if (CMARK_STATIC)
+   target_link_libraries(${PROGRAM} ${STATICLIBRARY})
