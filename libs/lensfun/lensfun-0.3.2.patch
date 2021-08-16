@@ -1,7 +1,7 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index ceac8fcb..5de53dc2 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
+diff --git i/CMakeLists.txt w/CMakeLists.txt
+index ceac8fc..5de53dc 100644
+--- i/CMakeLists.txt
++++ w/CMakeLists.txt
 @@ -162,13 +162,13 @@ IF(BUILD_DOC)
    ADD_SUBDIRECTORY(docs)
  ENDIF()
@@ -23,10 +23,10 @@ index ceac8fcb..5de53dc2 100644
  
  # print some information
  MESSAGE(STATUS "-------------------------------------------------------------------------------------")
-diff --git a/apps/CMakeLists.txt b/apps/CMakeLists.txt
-index 70c77fd9..870e7a1d 100644
---- a/apps/CMakeLists.txt
-+++ b/apps/CMakeLists.txt
+diff --git i/apps/CMakeLists.txt w/apps/CMakeLists.txt
+index 70c77fd..870e7a1 100644
+--- i/apps/CMakeLists.txt
++++ w/apps/CMakeLists.txt
 @@ -21,7 +21,7 @@ ENDIF(INSTALL_HELPER_SCRIPTS)
  
  # Inspired by http://bloerg.net/2012/11/10/cmake-and-distutils.html
@@ -36,10 +36,10 @@ index 70c77fd9..870e7a1d 100644
  IF(PYTHON)
      SET(SETUP_PY_IN "${CMAKE_CURRENT_SOURCE_DIR}/setup.py.in")
      SET(SETUP_PY    "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
-diff --git a/cmake/modules/FindGLIB2.cmake b/cmake/modules/FindGLIB2.cmake
-index 7c39093f..9f8be71b 100644
---- a/cmake/modules/FindGLIB2.cmake
-+++ b/cmake/modules/FindGLIB2.cmake
+diff --git i/cmake/modules/FindGLIB2.cmake w/cmake/modules/FindGLIB2.cmake
+index 7c39093..086504d 100644
+--- i/cmake/modules/FindGLIB2.cmake
++++ w/cmake/modules/FindGLIB2.cmake
 @@ -19,7 +19,8 @@ IF (NOT GLIB2_FOUND OR NOT PKG_CONFIG_FOUND)
            /opt/local/lib
            ${GLIB2_BASE_DIR}/lib
@@ -50,7 +50,7 @@ index 7c39093f..9f8be71b 100644
      )
  
  
-@@ -30,6 +31,7 @@ IF (NOT GLIB2_FOUND OR NOT PKG_CONFIG_FOUND)
+@@ -30,17 +31,21 @@ IF (NOT GLIB2_FOUND OR NOT PKG_CONFIG_FOUND)
              /usr/include
              /opt/local/include
              ${GLIB2_BASE_DIR}/include
@@ -58,7 +58,12 @@ index 7c39093f..9f8be71b 100644
          PATH_SUFFIXES gtk-2.0 glib-2.0 glib20 
      )
  
-@@ -41,6 +43,8 @@ IF (NOT GLIB2_FOUND OR NOT PKG_CONFIG_FOUND)
+     FIND_LIBRARY(GLIB2_LIBRARIES
+         NAMES  glib-2.0 glib20 glib
++               glib-2.0d glib20d glibd
+         PATHS  
+             /usr/local/lib
+             /usr/lib
              /usr/lib64
              /opt/local/lib
              ${GLIB2_BASE_DIR}/lib
@@ -67,3 +72,11 @@ index 7c39093f..9f8be71b 100644
      )
      
      IF(GLIB2_GLIB2CONFIG_INCLUDE_PATH AND GLIB2_INCLUDE_DIRS AND GLIB2_LIBRARIES)
+@@ -56,6 +61,7 @@ IF (NOT GLIB2_FOUND OR NOT PKG_CONFIG_FOUND)
+     IF(WIN32 AND NOT BUILD_STATIC)
+         FIND_FILE(GLIB2_DLL 
+                 NAMES glib-2.dll glib-2-vs9.dll libglib-2.0-0.dll
++                      glib-2d.dll glib-2-vs9d.dll libglib-2.0-0d.dll
+                 PATHS "${GLIB2_BASE_DIR}/bin"
+                 NO_SYSTEM_ENVIRONMENT_PATH)
+     ENDIF()    

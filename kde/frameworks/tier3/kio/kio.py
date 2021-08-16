@@ -17,8 +17,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
@@ -30,7 +28,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
+            self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
 
 
 from Package.CMakePackageBase import *
