@@ -1,0 +1,2 @@
+# ensure python speech to text are packaged
+bin/data/kdenlive/scripts/*.py
