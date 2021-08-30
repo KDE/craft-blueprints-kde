@@ -63,7 +63,8 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
-        self.addExecutableFilter(r"bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt|update-mime-database|checkvosk)).*")
+        self.whitelist_file.append(os.path.join(self.packageDir(), 'include.list'))
+        self.addExecutableFilter(r"bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt|update-mime-database)).*")
         self.ignoredPackages.append("libs/llvm-meta")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.ignoredPackages.append("binary/mysql")
