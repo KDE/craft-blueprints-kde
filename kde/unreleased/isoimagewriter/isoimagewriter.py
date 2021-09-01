@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.svnTargets['master'] = 'https://invent.kde.org/faridb/isoimagewriter.git'
+        self.svnTargets['master'] = 'https://invent.kde.org/utilities/isoimagewriter.git'
         self.defaultTarget = "master"
 
         self.displayName = "KDE ISO Image Writer"
