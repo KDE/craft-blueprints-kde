@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = 'libQuotient-%s' % ver
 
         self.targetDigests['0.6.7'] = (['29143c56efb24525d168281fdb751531d69529f05e7e7d1b1121a1d64a504510'], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel['0.6.7'] = 1
 
         self.defaultTarget = '0.6.7'
         self.description = "A Qt5 library to write cross-platform clients for Matrix"
