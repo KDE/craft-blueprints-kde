@@ -5,10 +5,10 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setDependencies(self):
+        self.buildDependencies["libs/qt5/qttools"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.buildDependencies["libs/qt5/qttools"] = None
-        self.buildDependencies["libs/libsecret"] = None
+        self.runtimeDependencies["libs/libsecret"] = None
         if CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
 

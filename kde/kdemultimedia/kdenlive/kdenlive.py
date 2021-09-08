@@ -18,7 +18,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
@@ -44,6 +43,7 @@ class subinfo(info.infoclass):
         if self.buildTarget == "master" or self.buildTarget >= CraftVersion("21.07.70"):
             self.runtimeDependencies["libs/mlt"] = "master"
         else:
+            self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
             self.runtimeDependencies["libs/mlt"] = "v6"
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if not CraftCore.compiler.isMacOS:
@@ -60,10 +60,12 @@ from Utils import GetFiles
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("21.11.70"):
+            self.subinfo.options.configure.args += " -DNODBUS=ON"
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
-        self.addExecutableFilter(r"bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt|update-mime-database)).*")
+        self.addExecutableFilter(r"bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt|update-mime-database|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm-meta")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.ignoredPackages.append("binary/mysql")
