@@ -1,4 +1,4 @@
-lib/(?!(mlt|frei0r-1|ladspa|.*\.so.*|.*kioslave)).*
+# lib/(?!(mlt|frei0r-1|ladspa|.*\.so.*|.*kioslave|.*\.dylib|.*\.framework)).*
 etc/(?!(xdg)).*
 share/(?!(applications|color-schemes|config.kcfg|dbus-1|icon|k|locale|metainfo|mime|charsets|ffmpeg|mlt)).*
 bin/data/(?!(applications|color-schemes|config.kcfg|dbus-1|icon|k|locale|metainfo|mime)).*
@@ -10,5 +10,6 @@ plugins/styles/qwindowsvistastyle.dll
 bin/data/icons/.*
 # kill qsvgengine, we use our KIconThemes engine with re-coloring
 bin/iconengines/qsvgicon.*
-# *.debug are removed, *.sym (old builds?) not
-.*\.sym
+
+.*PlugIns/kf5/org\.kde\.kwindowsystem\.platforms.*
+.*PlugIns/org\.kde\.kdecoration2.*

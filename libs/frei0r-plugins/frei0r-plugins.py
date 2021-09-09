@@ -28,3 +28,11 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+
+    def install(self):
+        if not super().install():
+            return False
+        if CraftCore.compiler.isMacOS:
+            return utils.mergeTree(self.installDir()/"lib", self.installDir()/"plugins")
+        return True
+

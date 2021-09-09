@@ -64,7 +64,8 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += " -DNODBUS=ON"
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
+        if not CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
         self.addExecutableFilter(r"bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt|update-mime-database|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm-meta")
         self.ignoredPackages.append("data/hunspell-dictionaries")

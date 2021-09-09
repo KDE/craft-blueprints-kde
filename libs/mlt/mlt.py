@@ -3,7 +3,7 @@ import info
 class subinfo(info.infoclass):
 
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Platforms.NotMacOS
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Platforms.All
 
     def setTargets( self ):
         self.description = "Open source multimedia framework"
@@ -34,12 +34,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/frei0r-plugins"] = None
         self.runtimeDependencies["libs/libsdl2"] = None
         self.runtimeDependencies["libs/vidstab"] = None
+        self.buildDependencies["libs/ladspa-sdk"] = None
+        self.runtimeDependencies["libs/ladspa-cmt"] = None
+        self.runtimeDependencies["libs/opencv/opencv"] = None
         if not CraftCore.compiler.isMacOS:
-            self.buildDependencies["libs/ladspa-sdk"] = None
             self.runtimeDependencies["libs/jack2"] = None
-            self.runtimeDependencies["libs/ladspa-cmt"] = None
             self.runtimeDependencies["libs/rubberband"] = None
-            self.runtimeDependencies["libs/opencv/opencv"] = None
             #self.runtimeDependencies["libs/ladspa-swh"] = None
 
 from Package.CMakePackageBase import *
@@ -49,4 +49,11 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         CMakePackageBase.buildTests = False
         self.subinfo.options.configure.args += " -DMOD_DECKLINK=OFF -DWINDOWS_DEPLOY=OFF -DMOD_OPENCV=ON "
+
+    def install(self):
+        if not super().install():
+            return False
+        if CraftCore.compiler.isMacOS:
+            return utils.mergeTree(self.installDir()/"lib/mlt", self.installDir()/"plugins/mlt")
+        return True
 
