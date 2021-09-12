@@ -27,22 +27,22 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.9.13'] = "http://downloads.sourceforge.net/project/libofx/libofx/libofx-0.9.13.tar.gz"
-        self.targetDigests['0.9.13'] = (['57eaf97cddbaf82c24f26b8f5cf8b2fbfd4969c74500a2c9acc9082b83bcc0e4'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['0.9.13'] = "libofx-0.9.13"
-        self.patchToApply['0.9.13'] = [("libofx-0.9.13-20180505-1.diff", 1)]
-        self.patchToApply['0.9.13'] += [("libofx-0.9.12-20180412.diff", 1)]
+        self.targets['0.10.2'] = "https://github.com/libofx/libofx/releases/download/0.10.2/libofx-0.10.2.tar.gz"
+        self.targetDigests['0.10.2'] = (['7164fbe6c570867296f38f46f9def62ea993e46f2a67a9af1771d8edb877eb18'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc['0.10.2'] = "libofx-0.10.2"
+        self.patchToApply['0.10.2'] = [("libofx-0.9.13-20180505-1.diff", 1)]
+        self.patchToApply['0.10.2'] += [("libofx-0.9.12-20180412.diff", 1)]
         if CraftCore.compiler.isMSVC():
-            self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-2.diff", 1)]
-            self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-3.diff", 1)]
-            self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-5.diff", 1)]
+            self.patchToApply['0.10.2'] += [("libofx-0.9.13-20180505-2.diff", 1)]
+            self.patchToApply['0.10.2'] += [("libofx-0.9.13-20180505-3.diff", 1)]
+            self.patchToApply['0.10.2'] += [("libofx-0.9.13-20180505-5.diff", 1)]
 
         if CraftCore.compiler.isMSVC() or CraftCore.compiler.isMinGW():
-            self.patchToApply['0.9.13'] += [("libofx-0.9.13-20180505-4.diff", 1)]
+            self.patchToApply['0.10.2'] += [("libofx-0.9.13-20180505-4.diff", 1)]
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
-        self.defaultTarget = '0.9.13'
-        self.patchLevel["0.9.13"] = 2
+        self.defaultTarget = '0.10.2'
+        self.patchLevel["0.10.2"] = 0
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libopensp"] = None
