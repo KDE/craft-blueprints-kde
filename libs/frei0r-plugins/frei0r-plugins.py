@@ -33,6 +33,6 @@ class Package(CMakePackageBase):
         if not super().install():
             return False
         if CraftCore.compiler.isMacOS:
-            return utils.mergeTree(self.installDir()/"lib", self.installDir()/"plugins")
+            return utils.mergeTree(self.installDir()/"lib/frei0r-1", self.installDir()/"plugins/frei0r-1")
         return True
 
