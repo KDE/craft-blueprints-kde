@@ -71,6 +71,8 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("libs/llvm-meta")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.ignoredPackages.append("binary/mysql")
+        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("21.11.70"):
+            self.ignoredPackages.append("libs/dbus")
 
         self.defines["appname"] = "kdenlive"
         self.defines["icon"] = os.path.join(self.sourceDir(), "data", "icons", "kdenlive.ico")
