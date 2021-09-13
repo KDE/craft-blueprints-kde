@@ -28,7 +28,7 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["5.7.1"] = "https://www.aquamaniac.de/rdm/attachments/download/319/gwenhywfar-5.7.1.tar.gz"
+        self.targets["5.7.1"] = "https://www.aquamaniac.de/rdm/attachments/download/377/gwenhywfar-5.7.1.tar.gz"
         self.targetDigests["5.7.1"] = (['6b169663f3708c567717273bdd8e3b48b871f31ce73759d594dad7e9cc3114d1'], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["5.7.1"] = "gwenhywfar-5.7.1"
         if CraftCore.compiler.isMinGW():
