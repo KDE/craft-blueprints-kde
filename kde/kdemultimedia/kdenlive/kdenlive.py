@@ -90,7 +90,7 @@ class Package(CMakePackageBase):
                 'MLT_PROFILES_PATH=$DIR/share/mlt/profiles/',
                 'MLT_PRESETS_PATH=$DIR/share/mlt/presets/',
                 'SDL_AUDIODRIVER=pulseaudio']
-        return TypePackager.createPackage(self)
+        return super().createPackage()
 
     def postInstall(self):
         if CraftCore.compiler.isWindows:
