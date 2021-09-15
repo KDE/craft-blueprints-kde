@@ -38,5 +38,5 @@ class Package(CMakePackageBase):
 
 
     def createPackage(self):
-        self.addExecutableFilter(r"bin/(?!(konsole|update-mime-database|kioslave)).*")
+        self.addExecutableFilter(r"(bin|libexec)/(?!(konsole|update-mime-database|kioslave)).*")
         return super().createPackage()
