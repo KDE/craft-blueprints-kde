@@ -67,12 +67,13 @@ class Package(CMakePackageBase):
     def createPackage(self):
         if not CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
-        self.addExecutableFilter(r"bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt|update-mime-database|data/kdenlive)).*")
+        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("21.11.70"):
+            self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioslave|melt|update-mime-database|data/kdenlive)).*")
+        else:
+            self.addExecutableFilter(r"bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt|update-mime-database|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm-meta")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.ignoredPackages.append("binary/mysql")
-        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("21.11.70"):
-            self.ignoredPackages.append("libs/dbus")
 
         self.defines["appname"] = "kdenlive"
         self.defines["icon"] = os.path.join(self.sourceDir(), "data", "icons", "kdenlive.ico")
