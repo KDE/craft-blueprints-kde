@@ -8,35 +8,37 @@ class subinfo(info.infoclass):
         self.displayName = "Okular"
 
     def setDependencies(self):
-        self.buildDependencies["libs/chm"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/tiff"] = None
-        self.runtimeDependencies["libs/djvu"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/freetype"] = None
-        self.runtimeDependencies["libs/ebook-tools"] = None
-        self.buildDependencies["libs/libspectre"] = None
-        self.runtimeDependencies["libs/ghostscript"] = None
-        self.runtimeDependencies["kde/applications/libkexiv2"] = None
-        self.runtimeDependencies["kde/kdegraphics/kdegraphics-mobipocket"] = None
+        self.runtimeDependencies["qt-libs/phonon"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kjs"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
         self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.buildDependencies["libs/chm"] = None
+            self.buildDependencies["libs/libspectre"] = None
+            self.runtimeDependencies["libs/djvu"] = None
+            self.runtimeDependencies["libs/ebook-tools"] = None
+            self.runtimeDependencies["libs/ghostscript"] = None
+            self.runtimeDependencies["kde/applications/libkexiv2"] = None
+            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+            self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kjs"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
+            self.runtimeDependencies["kde/kdegraphics/kdegraphics-mobipocket"] = None
 
-        # try to use Breeze style as Windows style has severe issues for e.g. scaling
-        self.runtimeDependencies["kde/plasma/breeze"] = None
+            # try to use Breeze style as Windows style has severe issues for e.g. scaling
+            self.runtimeDependencies["kde/plasma/breeze"] = None
 
 from Package.CMakePackageBase import *
 
@@ -44,6 +46,8 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        if CraftCore.compiler.isAndroid:
+            self.subinfo.options.configure.args += " -DOKULAR_UI=mobile"
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
