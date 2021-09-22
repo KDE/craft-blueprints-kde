@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "a library for real time computer vision"
 
-        for v in ['4.3.0', '4.5.3']:
+        for v in ['4.3.0', '4.5.1', '4.5.3']:
             self.patchToApply[v] = [
                 ("opencv-pkgconfig-win-install.patch", 1),
                 ("OpenCVInstallLayout.cmake.patch", 0)]

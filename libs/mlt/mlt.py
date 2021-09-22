@@ -36,8 +36,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/vidstab"] = None
         self.buildDependencies["libs/ladspa-sdk"] = None
         self.runtimeDependencies["libs/ladspa-cmt"] = None
-        self.runtimeDependencies["libs/opencv/opencv_contrib"] = "4.5.3"
-        self.runtimeDependencies["libs/opencv/opencv"] = "4.5.3"
+        self.runtimeDependencies["libs/opencv/opencv_contrib"] = None
+        self.runtimeDependencies["libs/opencv/opencv"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/jack2"] = None
             self.runtimeDependencies["libs/rubberband"] = None
