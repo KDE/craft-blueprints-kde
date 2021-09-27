@@ -98,7 +98,7 @@ class Package(CMakePackageBase):
             self.schemeDir = os.path.join(self.installDir(), 'bin', 'data', 'color-schemes')
         else:
             self.schemeDir = os.path.join(self.installDir(), 'share', 'color-schemes')
-        for scheme in ['Breeze', 'BreezeDark', 'BreezeHighContrast', 'BreezeLight']:
+        for scheme in ['BreezeClassic', 'BreezeDark', 'BreezeLight']:
             GetFiles.getFile('https://invent.kde.org/plasma/breeze/-/raw/master/colors/'+scheme+'.colors', self.schemeDir)
         for scheme in ['RustedBronze']:
             GetFiles.getFile('https://raw.githubusercontent.com/Bartoloni/RustedBronze/master/'+scheme+'.colors', self.schemeDir)
