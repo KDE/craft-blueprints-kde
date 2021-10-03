@@ -22,6 +22,8 @@ class subinfo(info.infoclass):
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/pkg-config"] = None
+        if CraftCore.compiler.isLinux:
+            self.runtimeDependencies["libs/libasound2"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/qt5/qtsvg"] = None
@@ -36,6 +38,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/vidstab"] = None
         self.buildDependencies["libs/ladspa-sdk"] = None
         self.runtimeDependencies["libs/ladspa-cmt"] = None
+        self.runtimeDependencies["libs/ladspa-rnnoise"] = None
         self.runtimeDependencies["libs/opencv/opencv_contrib"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
         if not CraftCore.compiler.isMacOS:
