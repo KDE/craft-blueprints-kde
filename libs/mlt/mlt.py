@@ -52,7 +52,7 @@ class Package(CMakePackageBase):
     def __init__( self, **args ):
         CMakePackageBase.__init__(self)
         CMakePackageBase.buildTests = False
-        self.subinfo.options.configure.args += " -DMOD_DECKLINK=OFF -DWINDOWS_DEPLOY=OFF -DMOD_OPENCV=ON "
+        self.subinfo.options.configure.args += " -DMOD_DECKLINK=OFF -DWINDOWS_DEPLOY=OFF -DMOD_OPENCV=ON -DRELOCATABLE=ON "
 
     def install(self):
         if not super().install():
