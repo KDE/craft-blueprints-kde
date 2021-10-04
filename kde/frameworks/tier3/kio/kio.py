@@ -4,6 +4,8 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        # if CraftCore.compiler.isLinux:
+        #     self.patchToApply["5.86.0"] = [("0001-Allow-building-on-Linux-without-libmount-blkid.patch", 1)]
 
         self.description = "Network transparent access to files and data"
 
@@ -28,6 +30,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kded"] = None
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
@@ -41,5 +44,13 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args += f" -DKIO_ASSERT_SLAVE_STATES={'ON' if self.buildType() == 'Debug' else 'OFF'}"
+        self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_KF5DocTools=ON "
         if OsUtils.isWin() or OsUtils.isMac():
             self.subinfo.options.configure.args += " -DKIO_FORK_SLAVES=ON "
+
+    def configure(self):
+        cfg = CMakePackageBase.configure(self)
+        if not cfg and CraftCore.compiler.isLinux:
+            CraftCore.log.info("You may need to install libmount-dev(el) and blkid-dev(el) on builder")
+        return cfg
+
