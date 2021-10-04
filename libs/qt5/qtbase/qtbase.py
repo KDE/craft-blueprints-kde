@@ -257,7 +257,7 @@ class QtPackage(Qt5CorePackageBase):
                 if not self.subinfo.options.dynamic.withGlib:
                     command += " -no-glib "
                 if OsUtils.isUnix() and not CraftCore.compiler.isMacOS and not CraftCore.compiler.isAndroid:
-                    command += " -xcb "
+                    command += " -xcb -xcb-xlib "
             else:
                 command += " -static -static-runtime "
 
@@ -278,7 +278,16 @@ class QtPackage(Qt5CorePackageBase):
             if CraftCore.compiler.isMinGW() and self.qtVer < "5.10":
                 command += """ "QMAKE_CXXFLAGS += -Wa,-mbig-obj" """
 
-            return utils.system(command)
+            cfg = utils.system(command)
+            if not cfg and CraftCore.compiler.isLinux:
+                CraftCore.log.info("""
+# Before sourcing craftenv.sh, ensure PKG_CONFIG_PATH includes xcb.pc, gl.pc etc
+export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/share/pkgconfig
+# Install build dependencies on builder:
+sudo yum-builddep qt5-qtbase
+sudo apt build-dep qt5-default
+""")
+            return cfg
 
 
     def make(self):
