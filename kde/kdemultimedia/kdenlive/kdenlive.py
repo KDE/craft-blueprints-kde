@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
+        self.runtimeDependencies["libs/qt5/qtspeech"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
@@ -83,13 +84,14 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".kdenlive"]
         self.defines["runenv"] = [
                 'KDE_FORK_SLAVES=1',
-                'MLT_REPOSITORY=$DIR/lib/mlt/',
-                'MLT_DATA=$DIR/share/mlt/',
-                'MLT_ROOT_DIR=$DIR/',
-                'LADSPA_PATH=$DIR/lib/ladspa',
-                'FREI0R_PATH=$DIR/lib/frei0r-1',
-                'MLT_PROFILES_PATH=$DIR/share/mlt/profiles/',
-                'MLT_PRESETS_PATH=$DIR/share/mlt/presets/',
+                'DIR=$(dirname "$0")',
+                'MLT_REPOSITORY=$DIR/usr/lib/mlt-7/',
+                'MLT_DATA=$DIR/usr/share/mlt-7/',
+                'MLT_ROOT_DIR=$DIR/usr/',
+                'LADSPA_PATH=$DIR/usr/lib/ladspa',
+                'FREI0R_PATH=$DIR/usr/lib/frei0r-1',
+                'MLT_PROFILES_PATH=$DIR/usr/share/mlt-7/profiles/',
+                'MLT_PRESETS_PATH=$DIR/usr/share/mlt-7/presets/',
                 'SDL_AUDIODRIVER=pulseaudio']
         return super().createPackage()
 
