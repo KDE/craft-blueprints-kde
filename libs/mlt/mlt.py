@@ -17,34 +17,35 @@ class subinfo(info.infoclass):
         self.svnTargets["v6"] = "https://github.com/mltframework/mlt.git|v6"
         self.patchLevel['v6'] = 20210425
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
-        self.patchLevel['master'] = 20210926
+        self.patchLevel['master'] = 20211006
         self.defaultTarget = "master"
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/pkg-config"] = None
-        if CraftCore.compiler.isLinux:
-            self.runtimeDependencies["libs/libasound2"] = None
+        self.buildDependencies["libs/ladspa-sdk"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/qt5/qtsvg"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/libsamplerate"] = None
-        # self.runtimeDependencies["libs/exiv2"] = None
 
+        if CraftCore.compiler.isLinux:
+            self.runtimeDependencies["libs/libasound2"] = None
+            self.runtimeDependencies["libs/libexif"] = None
+            self.runtimeDependencies["libs/ladspa-swh"] = None
+            self.runtimeDependencies["libs/movit"] = None
         if OsUtils.isWin():
             self.runtimeDependencies["libs/dlfcn-win32"] = None
+        if not CraftCore.compiler.isMacOS:
+            # self.runtimeDependencies["libs/jack2"] = None
+            self.runtimeDependencies["libs/rubberband"] = None
         self.runtimeDependencies["libs/frei0r-plugins"] = None
         self.runtimeDependencies["libs/libsdl2"] = None
         self.runtimeDependencies["libs/vidstab"] = None
-        self.buildDependencies["libs/ladspa-sdk"] = None
         self.runtimeDependencies["libs/ladspa-cmt"] = None
         self.runtimeDependencies["libs/ladspa-rnnoise"] = None
         self.runtimeDependencies["libs/opencv/opencv_contrib"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
-        if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["libs/jack2"] = None
-            self.runtimeDependencies["libs/rubberband"] = None
-            #self.runtimeDependencies["libs/ladspa-swh"] = None
 
 from Package.CMakePackageBase import *
 

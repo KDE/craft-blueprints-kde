@@ -1,0 +1,16 @@
+--- CMakeLists.txt	2021-10-06 22:03:17.435169585 +0200
++++ CMakeLists.txt	2021-10-06 22:05:29.753507282 +0200
+@@ -391,11 +391,11 @@
+       )
+ endif()
+ set(CMAKEPACKAGE_INSTALL_DIR
+-    "${CMAKE_INSTALL_DATADIR}/eigen3/cmake"
++    "${CMAKE_INSTALL_LIBDIR}/cmake/eigen3"
+     CACHE STRING "The directory relative to CMAKE_PREFIX_PATH where Eigen3Config.cmake is installed"
+     )
+ set(PKGCONFIG_INSTALL_DIR
+-    "${CMAKE_INSTALL_DATADIR}/pkgconfig"
++    "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
+     CACHE STRING "The directory relative to CMAKE_PREFIX_PATH where eigen3.pc is installed"
+     )
+ 
