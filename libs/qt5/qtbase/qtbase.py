@@ -85,7 +85,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.12.11"] = 1
         self.patchLevel["5.15.0"] = 4
         self.patchLevel["5.15.1"] = 4
-        self.patchLevel["5.15.2"] = 4
+        self.patchLevel["5.15.2"] = 5
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):

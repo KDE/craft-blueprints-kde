@@ -9,16 +9,7 @@
              ]
          },
          "x11sm": {
-@@ -589,7 +589,7 @@
-             "headers": "xcb/xcb.h",
-             "sources": [
-                 { "type": "pkgConfig", "args": "xcb >= 1.11" },
--                "-lxcb"
-+                { "libs": "-lxcb" }
-             ]
-         },
-         "xcb_icccm": {
-@@ -694,12 +694,12 @@
+@@ -694,7 +694,7 @@
          "xcb_xlib": {
              "label": "XCB Xlib",
              "test": {
@@ -27,12 +18,6 @@
              },
              "headers": "X11/Xlib-xcb.h",
              "sources": [
-                 { "type": "pkgConfig", "args": "x11-xcb" },
--                "-lX11-xcb"
-+                "-lX11-xcb -lX11 -lxcb"
-             ],
-             "use": "xcb xlib"
-         },
 @@ -725,7 +725,7 @@
              "label": "XCB GLX",
              "test": {
@@ -42,12 +27,3 @@
                      "xcb_generic_error_t *error = 0;",
                      "xcb_glx_query_version_cookie_t xglx_query_cookie = xcb_glx_query_version(",
                      "        connection, XCB_GLX_MAJOR_VERSION, XCB_GLX_MINOR_VERSION);",
-@@ -735,7 +735,7 @@
-             "headers": "xcb/glx.h",
-             "sources": [
-                 { "type": "pkgConfig", "args": "xcb-glx" },
--                "-lxcb-glx"
-+                "-lxcb -lxcb-glx"
-             ],
-             "use": "xcb"
-         },
