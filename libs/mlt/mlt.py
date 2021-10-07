@@ -46,6 +46,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ladspa-rnnoise"] = None
         self.runtimeDependencies["libs/opencv/opencv_contrib"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
+        self.runtimeDependencies["libs/sox"] = None
+        self.runtimeDependencies["libs/ladspa-tap"] = None
 
 from Package.CMakePackageBase import *
 
