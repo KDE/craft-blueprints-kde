@@ -29,8 +29,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/ebook-tools"] = None
             self.runtimeDependencies["libs/ghostscript"] = None
             self.runtimeDependencies["kde/applications/libkexiv2"] = None
-            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
+            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+            self.runtimeDependencies["kde/frameworks/tier2/kpty"] = None
             self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kjs"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
