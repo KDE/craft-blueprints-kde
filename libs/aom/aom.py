@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         ver = "3.1.3"
         self.defaultTarget = ver
         self.targets[ver] = f"https://aomedia.googlesource.com/aom.git/+archive/v{ver}.tar.gz"
-        self.targetDigests[ver] =  (['b524316c7e32f79ea66f1c059908fa86297906c6e161e8c7cc4ca65a13cbc8ae'], CraftHash.HashAlgorithm.SHA256)
+        # self.targetDigests[ver] =  (['non-reproducible archive :-('], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/cmake"] = None
