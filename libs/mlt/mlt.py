@@ -34,8 +34,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libexif"] = None
             self.runtimeDependencies["libs/ladspa-swh"] = None
             self.runtimeDependencies["libs/movit"] = None
-            self.runtimeDependencies["libs/sox"] = None
-            self.runtimeDependencies["libs/ladspa-tap"] = None
         if OsUtils.isWin():
             self.runtimeDependencies["libs/dlfcn-win32"] = None
         if not CraftCore.compiler.isMacOS:
@@ -46,6 +44,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/vidstab"] = None
         self.runtimeDependencies["libs/ladspa-cmt"] = None
         self.runtimeDependencies["libs/ladspa-rnnoise"] = None
+        self.runtimeDependencies["libs/ladspa-tap"] = None
+        self.runtimeDependencies["libs/sox"] = None
         self.runtimeDependencies["libs/opencv/opencv_contrib"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
 
