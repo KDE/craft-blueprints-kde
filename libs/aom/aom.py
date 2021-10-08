@@ -19,4 +19,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=ON"
+        self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=ON -DENABLE_DOCS=OFF"
