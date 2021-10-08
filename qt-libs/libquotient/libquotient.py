@@ -6,14 +6,14 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/quotient-im/libQuotient.git'
 
-        for ver in ['0.6.10']:
+        for ver in ['0.6.11']:
             self.targets[ver] = 'https://github.com/quotient-im/libQuotient/archive/%s.tar.gz' % ver
             self.archiveNames[ver] = 'libQuotient-%s.tar.gz' % ver
             self.targetInstSrc[ver] = 'libQuotient-%s' % ver
 
-        self.targetDigests['0.6.10'] = (['2b6011bfec72a5b3125622f97fcc0a807e6771c91a8c73d1979f6c5e811b7b2d'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['0.6.11'] = (['12b15d1296e630477d5e8f4d32c821dc724b3c5b99d15d383417ba7d88f03c46'], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = '0.6.10'
+        self.defaultTarget = '0.6.11'
         self.description = "A Qt5 library to write cross-platform clients for Matrix"
 
     def setDependencies(self):
