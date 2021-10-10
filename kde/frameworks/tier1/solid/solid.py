@@ -6,11 +6,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         if CraftCore.compiler.isLinux:
-            self.patchToApply["5.81.0"] = [("fix-solid-compile.diff", 1)]
             self.patchToApply["5.82.0"] = [("fix-solid-compile.diff", 1)]
             self.patchToApply["5.83.0"] = [("fix-solid-compile.diff", 1)]
             self.patchToApply["5.86.0"] = [("fix-solid-compile.diff", 1)]
-            self.patchLevel["5.81.0"] = 1
 
         self.description = "Solid"
 
