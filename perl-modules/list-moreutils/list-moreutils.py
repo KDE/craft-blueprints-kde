@@ -6,6 +6,7 @@ from Package.PerlPackageBase import *
 class subinfo(info.infoclass):
     def setDependencies( self ):
         self.runtimeDependencies["dev-utils/perl"] = None
+        self.runtimeDependencies["perl-modules/exporter-tiny"] = None
 
     def setTargets(self):
         for ver in ["0.428"]:
