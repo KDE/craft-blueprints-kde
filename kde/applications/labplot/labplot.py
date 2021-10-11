@@ -51,6 +51,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if self.buildTarget == "master":
+            self.runtimeDependencies["qt-libs/poppler"] = None
             self.runtimeDependencies["libs/matio"] = None
             self.runtimeDependencies["libs/readstat"] = None
 
