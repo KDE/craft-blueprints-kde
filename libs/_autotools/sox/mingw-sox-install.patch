@@ -1,0 +1,46 @@
+diff -ru a/Makefile.am b/Makefile.am
+--- a/Makefile.am	2021-10-08 14:56:49.232300100 +0200
++++ b/Makefile.am	2021-10-08 15:06:27.656125600 +0200
+@@ -115,16 +115,6 @@
+ DISTCLEANFILES = $(DOCHTML) $(DOCPDF)
+ MAINTAINERCLEANFILES = $(DOCTXT)
+ 
+-install-data-hook:
+-	cd $(DESTDIR)$(mandir)/man1 && $(RM) play.1 && $(LN_S) sox.1 play.1
+-	cd $(DESTDIR)$(mandir)/man1 && $(RM) rec.1 && $(LN_S) sox.1 rec.1
+-	cd $(DESTDIR)$(mandir)/man7 && $(RM) soxeffect.7 && $(LN_S) ../man1/sox.1 soxeffect.7
+-
+-uninstall-hook:
+-	$(RM) $(DESTDIR)$(mandir)/man1/play.1
+-	$(RM) $(DESTDIR)$(mandir)/man1/rec.1
+-	$(RM) $(DESTDIR)$(mandir)/man7/soxeffect.7
+-
+ # Automatically update libtool script if it gets out-of-date
+ libtool: $(LIBTOOL_DEPS)
+ 	$(SHELL) ./config.status --recheck
+diff -ru a/src/Makefile.am b/src/Makefile.am
+--- a/src/Makefile.am	2021-10-08 14:56:51.341551600 +0200
++++ b/src/Makefile.am	2021-10-08 15:06:44.413322500 +0200
+@@ -152,22 +152,6 @@
+ 		test -f sox$(EXEEXT) && ( $(RM) $@ && $(LN_S) sox$(EXEEXT) $@ ) || $(LN_S) sox $@; \
+ 	fi
+ 
+-install-exec-hook:
+-	if test "$(PLAYRECLINKS)" = "yes"; then	\
+-		cd $(DESTDIR)$(bindir); $(RM) play$(EXEEXT) rec$(EXEEXT); $(LN_S) sox$(EXEEXT) play$(EXEEXT); $(LN_S) sox$(EXEEXT) rec$(EXEEXT); \
+-	fi
+-	if test "$(SYMLINKS)" = "yes"; then	\
+-		cd $(DESTDIR)$(bindir); $(RM) soxi$(EXEEXT); $(LN_S) sox$(EXEEXT) soxi$(EXEEXT); \
+-	fi
+-
+-uninstall-hook:
+-	if test "$(PLAYRECLINKS)" = "yes"; then	\
+-		cd $(DESTDIR)$(bindir); $(RM) play$(EXTEXT) rec$(EXEEXT); \
+-	fi
+-	if test "$(SYMLINKS)" = "yes"; then	\
+-		cd $(DESTDIR)$(bindir); $(RM) soxi$(EXEEXT); \
+-	fi
+-
+ clean-local:
+ 	$(RM) play$(EXEEXT) rec$(EXEEXT) soxi$(EXEEXT)
+ 	$(RM) sox_sample_test$(EXEEXT)

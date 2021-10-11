@@ -61,7 +61,7 @@ class Package(CMakePackageBase):
                 "-DWITH_PVAPI=OFF",
                 "-DWITH_QT_OPENGL=OFF", "-DWITH_QT=OFF",
                 "-DWITH_QUICKTIME=OFF", "-DWITH_TBB=OFF", "-DWITH_TIFF=OFF", "-DWITH_UNICAP=OFF",
-                "-DWITH_VA_INTEL=OFF", "-DWITH_VFW=OFF", "-DWITH_VIDEOINPUT=OFF",
+                "-DWITH_VA=OFF", "-DWITH_VA_INTEL=OFF", "-DWITH_VFW=OFF", "-DWITH_VIDEOINPUT=OFF",
                 "-DWITH_VTK=OFF", "-DWITH_WEBP=OFF", "-DWITH_WIN32UI=OFF", "-DWITH_XINE=OFF",
                 # find OpenCV through cmake or pkg-config
                 "-DOPENCV_GENERATE_PKGCONFIG=ON",
