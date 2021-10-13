@@ -31,12 +31,13 @@ from Package.VirtualPackageBase import VirtualPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["3.5.17"]:
-            self.targets[ver] = "ftp://ftp.gnutls.org/gcrypt/gnutls/v3.5/gnutls-%s.tar.xz" % ver
+        for ver in ["3.7.2"]:
+            self.targets[ver] = "ftp://ftp.gnutls.org/gcrypt/gnutls/v3.7/gnutls-%s.tar.xz" % ver
             self.targetInstSrc[ver] = "gnutls-%s" % ver
-        self.targetDigests['3.5.17'] = (['86b142afef587c118d63f72ccf307f3321dbc40357aae528202b65d913d20919'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['3.7.2'] = (['86b142afef587c118d63f72ccf307f3321dbc40357aae528202b65d913d20919'], CraftHash.HashAlgorithm.SHA256)
         self.description = "A library which provides a secure layer over a reliable transport layer"
-        self.defaultTarget = "3.5.17"
+        self.webpage = "https://www.gnutls.org/"
+        self.defaultTarget = "3.7.2"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gtk-doc"] = None
