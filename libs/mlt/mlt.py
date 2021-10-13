@@ -39,13 +39,13 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isMacOS:
             # self.runtimeDependencies["libs/jack2"] = None
             self.runtimeDependencies["libs/rubberband"] = None
+            self.runtimeDependencies["libs/sox"] = None
         self.runtimeDependencies["libs/frei0r-plugins"] = None
         self.runtimeDependencies["libs/libsdl2"] = None
         self.runtimeDependencies["libs/vidstab"] = None
         self.runtimeDependencies["libs/ladspa-cmt"] = None
         self.runtimeDependencies["libs/ladspa-rnnoise"] = None
         self.runtimeDependencies["libs/ladspa-tap"] = None
-        self.runtimeDependencies["libs/sox"] = None
         self.runtimeDependencies["libs/opencv/opencv_contrib"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
 
