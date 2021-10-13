@@ -7,18 +7,14 @@ class subinfo(info.infoclass):
         self.svnTargets['master'] = "https://github.com/ccache/ccache.git"
         self.targetInstallPath["master"] = "dev-utils"
 
-        for ver in ["4.0", "4.1", "4.2", "4.2.1"]:
+        for ver in ["4.4.2"]:
             self.targets[ver] = f"https://github.com/ccache/ccache/releases/download/v{ver}/ccache-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"ccache-{ver}"
             self.targetInstallPath[ver] = "dev-utils"
-        self.targetDigests["4.0"] = (['ac97af86679028ebc8555c99318352588ff50f515fc3a7f8ed21a8ad367e3d45'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["4.1"] = (['cdeefb827b3eef3b42b5454858123881a4a90abbd46cc72cf8c20b3bd039deb7'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["4.2"] = (['dbf139ff32031b54cb47f2d7983269f328df14b5a427882f89f7721e5c411b7e'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["4.2.1"] = (['320d2b17d2f76393e5d4bb28c8dee5ca783248e9cd23dff0654694d60f8a4b62'], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["4.1"] = 1
+        self.targetDigests["4.4.2"] = (['357a2ac55497b39ad6885c14b00cda6cf21d1851c6290f4288e62972665de417'], CraftHash.HashAlgorithm.SHA256)
 
         self.webpage = "https://ccache.dev/"
-        self.defaultTarget = "4.2.1"
+        self.defaultTarget = "4.4.2"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -33,8 +29,7 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.supportsCCACHE = False
-        if CraftCore.compiler.isMinGW:
-            self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-fno-asynchronous-unwind-tables"]
+        self.subinfo.options.configure.args += ["-DREDIS_STORAGE_BACKEND=OFF"]
 
     def install(self):
         if not super().install():
