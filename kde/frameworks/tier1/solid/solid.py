@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
             self.patchToApply["5.82.0"] = [("fix-solid-compile.diff", 1)]
             self.patchToApply["5.83.0"] = [("fix-solid-compile.diff", 1)]
             self.patchToApply["5.86.0"] = [("fix-solid-compile.diff", 1)]
+            self.patchToApply["5.87.0"] = [("fix-solid-compile.diff", 1)]
 
         self.description = "Solid"
 
