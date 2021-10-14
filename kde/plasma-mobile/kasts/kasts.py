@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier2/syndication"] = None
         if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
