@@ -9,6 +9,8 @@ class subinfo( info.infoclass ):
         self.displayName = "Elisa"
         self.description = "the Elisa music player"
 
+        self.patchToApply["21.08.2"] = [("0001-Remove-min-Android-SDK-version-from-Manifest.patch", 1)]
+
     def setDependencies( self ):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
