@@ -1,0 +1,46 @@
+From b1eccea1d81a3295e3fff3ac81dd1d66a23274fc Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Wed, 13 Oct 2021 23:45:22 +0200
+Subject: [PATCH] Disable QDBus integration by default on Windows/Mac/Android
+
+These platforms generally don't have (Qt)DBus so building the support often makes no sense
+
+However in some cases it can make sense to have it so keep the ability to turn it on
+---
+ .github/workflows/build.yml | 2 +-
+ CMakeLists.txt              | 6 +++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/.github/workflows/build.yml b/.github/workflows/build.yml
+index 67b652c..00603e2 100644
+--- a/.github/workflows/build.yml
++++ b/.github/workflows/build.yml
+@@ -50,7 +50,7 @@ jobs:
+       working-directory: ${{github.workspace}}/build
+       run: |
+         QT_VERSION_MAJOR=$(echo ${{ matrix.qt_version }} | cut -d'.' -f1)
+-        ARGS="-DCMAKE_BUILD_TYPE=$BULD_TYPE -DUSE_QT_VERSION=$QT_VERSION_MAJOR"
++        ARGS="-DCMAKE_BUILD_TYPE=$BULD_TYPE -DUSE_QT_VERSION=$QT_VERSION_MAJOR -DQCORO_WITH_DBUS=ON"
+         # Don't enable ASAN on Qt5 MSVC build: it crashes due to some false-positive issue outside of QCoro
+         if [[ "${{ matrix.compiler }}" != "msvc" || "${QT_VERSION_MAJOR}" != "5" ]]; then
+           ARGS="${ARGS} -DQCORO_ENABLE_ASAN=ON"
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index bc3eb8d..e11a4ad 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -22,7 +22,11 @@ add_feature_info(Examples QCORO_BUILD_EXAMPLES "Build examples")
+ option(QCORO_ENABLE_ASAN "Build with AddressSanitizer" OFF)
+ add_feature_info(Asan QCORO_ENABLE_ASAN "Build with AddressSanitizer")
+ 
+-option(QCORO_WITH_QTDBUS "Build QtDBus support" ON)
++if(WIN32 OR APPLE OR ANDROID)
++    option(QCORO_WITH_QTDBUS "Build QtDBus support" OFF)
++else()
++    option(QCORO_WITH_QTDBUS "Build QtDBus support" ON)
++endif()
+ add_feature_info(QtDBus QCORO_WITH_QTDBUS "Build QtDBus support")
+ option(QCORO_WITH_QTNETWORK "Build QtNetwork support" ON)
+ add_feature_info(QtNetwork QCORO_WITH_QTNETWORK "Build QtNetwork support")
+-- 
+2.33.0
+

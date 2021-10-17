@@ -13,6 +13,8 @@ class subinfo(info.infoclass):
 
         self.targetDigests['0.2.0'] = (['daae3ffd9a470e13e8ad7c98cdc58714ea9f08593b8367ffc56c4edc2e52de74'], CraftHash.HashAlgorithm.SHA256)
 
+        self.patchToApply["0.2.0"] = [("0001-Disable-QDBus-integration-by-default-on-Windows-Mac-.patch", 1)]
+
         self.defaultTarget = '0.2.0'
         self.description = "C++ Coroutines for Qt"
 
