@@ -10,7 +10,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtsvg"] = None
-        self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
 
 
 from Package.Qt5CorePackageBase import *
