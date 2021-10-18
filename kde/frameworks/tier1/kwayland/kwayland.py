@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["kde/libs/plasma-wayland-protocols"] = None
 
 
 from Package.CMakePackageBase import *
