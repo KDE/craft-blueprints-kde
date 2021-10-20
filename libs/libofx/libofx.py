@@ -27,22 +27,18 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.10.2'] = "https://github.com/libofx/libofx/releases/download/0.10.2/libofx-0.10.2.tar.gz"
-        self.targetDigests['0.10.2'] = (['7164fbe6c570867296f38f46f9def62ea993e46f2a67a9af1771d8edb877eb18'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['0.10.2'] = "libofx-0.10.2"
-        self.patchToApply['0.10.2'] = [("libofx-0.9.13-20180505-1.diff", 1)]
-        self.patchToApply['0.10.2'] += [("libofx-0.9.12-20180412.diff", 1)]
-        if CraftCore.compiler.isMSVC():
-            self.patchToApply['0.10.2'] += [("libofx-0.9.13-20180505-2.diff", 1)]
-            self.patchToApply['0.10.2'] += [("libofx-0.9.13-20180505-3.diff", 1)]
-            self.patchToApply['0.10.2'] += [("libofx-0.9.13-20180505-5.diff", 1)]
+        self.targets['0.10.3'] = "https://downloads.sourceforge.net/project/libofx/libofx/libofx-0.10.3.tar.gz"
+        self.targetDigests['0.10.3'] = (['7b5f21989afdd9cf63ab4a2df4ca398782f24fda2e2411f88188e00ab49e3069'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc['0.10.3'] = "libofx-0.10.3"
 
-        if CraftCore.compiler.isMSVC() or CraftCore.compiler.isMinGW():
-            self.patchToApply['0.10.2'] += [("libofx-0.9.13-20180505-4.diff", 1)]
+        if CraftCore.compiler.isMSVC():
+            self.patchToApply['0.10.3'] = [("msvc.diff", 1)]                                        # https://github.com/libofx/libofx/pull/47
+            self.patchToApply['0.10.3'] += [("getopt.diff", 1)]                                     # https://github.com/libofx/libofx/pull/50
+            self.patchToApply['0.10.3'] += [("revert-correct-casting-of-iconv-inbuf-arg.patch", 1)] # https://github.com/libofx/libofx/issues/51
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
-        self.defaultTarget = '0.10.2'
-        self.patchLevel["0.10.2"] = 0
+        self.defaultTarget = '0.10.3'
+        self.patchLevel["0.10.3"] = 0
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libopensp"] = None
@@ -50,24 +46,22 @@ class subinfo(info.infoclass):
 
 
 from Package.AutoToolsPackageBase import *
-from Package.CMakePackageBase import *
 
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        openSPIncludeDir = CraftStandardDirs.craftRoot() / "include/OpenSP"
-        openSPLibDir = CraftStandardDirs.craftRoot() / "lib"
+        self.shell.useMSVCCompatEnv = True
+        openSPIncludeDir = OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), "include/OpenSP"))
+        openSPLibDir = OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), "lib"))
         self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", f"--with-opensp-includes={openSPIncludeDir}", f"--with-opensp-libs={openSPLibDir}"]
 
-if CraftCore.compiler.isMacOS:
-    class Package(PackageAutotools):
-        def __init__(self):
-            PackageAutotools.__init__(self)
-else:
-    class Package(CMakePackageBase):
-        def __init__(self):
-            # we use subinfo for now too
-            CMakePackageBase.__init__(self)
-            if CraftCore.compiler.isMSVC():
-                # LINK : fatal error LNK1104: cannot open file 'libofx.lib'
-                self.subinfo.options.dynamic.buildStatic = True
+class Package(PackageAutotools):
+    def __init__(self):
+        PackageAutotools.__init__(self)
+
+    def install(self):
+        if not super().install():
+            return False
+        if CraftCore.compiler.isMSVC():
+            return utils.moveFile(self.installDir() / "lib/ofx.dll.lib", self.installDir() / "lib/ofx.lib")
+        return True
