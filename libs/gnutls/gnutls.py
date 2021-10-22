@@ -59,9 +59,11 @@ class PackageAutoTools(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = not CraftCore.compiler.isWindows
         # 2018-02-11: without --enable-openssl-compatibility xmlmerge.exe from gwenhywfar doesn't display any console output and in effect doesn't allow compilation of aqbanking
         # 2018-02-11: --enable-nls is probably needed on the same ground as above
-        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", "--with-zlib", "--enable-cxx",
+        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", "--enable-cxx",
                                                 "--enable-nls", "--disable-gtk-doc", "--enable-local-libopts",
-                                                "--enable-libopts-install", "--disable-tests", "--enable-openssl-compatibility"]
+                                                "--enable-libopts-install", "--disable-tests",
+                                                "--disable-doc",
+                                                "--enable-openssl-compatibility"]
         if not self.subinfo.options.isActive('libs/p11kit'):
             self.subinfo.options.configure.args += ["--without-p11-kit"]
 
