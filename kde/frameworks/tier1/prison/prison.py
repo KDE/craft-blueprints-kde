@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qrencode"] = None
         self.runtimeDependencies["libs/libdmtx"] = None
+        self.runtimeDependencies["libs/zxing-cpp"] = None
 
 
 from Package.CMakePackageBase import *
