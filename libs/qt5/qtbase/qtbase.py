@@ -23,13 +23,8 @@ class subinfo(info.infoclass):
             qtVer = CraftVersion(ver)
             if ver == "dev":
                 self.patchToApply[ver] = []
-            if qtVer >= "5.15.0":
-                self.patchToApply[ver] = [
-                    (".qt-5.15.0", 1),
-                    ("mkspecs-bsd.diff", 1)
-                ]
-                if qtVer >= "5.15.2":
-                    self.patchToApply[ver] += [(".qt-5.15.2", 1)]
+            if qtVer >= "5.15.2":
+                self.patchToApply[ver] = [(".qt-5.15.2", 1)]
             elif qtVer >= CraftVersion("5.12.11"):
                 self.patchToApply[ver] = [
                     (".qt-5.12.11", 1)
@@ -83,8 +78,6 @@ class subinfo(info.infoclass):
         self.patchLevel["5.12.9"] = 1
         self.patchLevel["5.12.10"] = 2
         self.patchLevel["5.12.11"] = 1
-        self.patchLevel["5.15.0"] = 4
-        self.patchLevel["5.15.1"] = 4
         self.patchLevel["5.15.2"] = 5
         self.description = "a cross-platform application framework"
 
