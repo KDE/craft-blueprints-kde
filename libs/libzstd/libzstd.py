@@ -3,15 +3,14 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = "https://github.com/facebook/zstd.git"
-        for ver in ["1.4.5"]:
+        for ver in ["1.5.0"]:
             self.targets[ver] = f"https://github.com/facebook/zstd/releases/download/v{ver}/zstd-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"zstd-{ver}"
             self.targetConfigurePath[ver] = "build/cmake"
-        # install the dll
-        self.patchToApply["1.4.5"] = [("libzstd-1.4.5-20201026.diff", 1)]
-        self.targetDigests[ver] =  (['98e91c7c6bf162bf90e4e70fdbc41a8188b9fa8de5ad840c401198014406ce9e'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["1.5.0"] = [("libzstd-1.5.0-20211104.diff", 1)] # install .pc
+        self.targetDigests["1.5.0"] =  (['5194fbfa781fcf45b98c5e849651aa7b3b0a008c6b72d4a0db760f3002291e94'], CraftHash.HashAlgorithm.SHA256)
         self.description = 'Fast real-time compression algorithm '
-        self.defaultTarget = '1.4.5'
+        self.defaultTarget = '1.5.0'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -19,3 +18,5 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args += ["-DZSTD_LEGACY_SUPPORT=ON", "-DZSTD_MULTITHREAD_SUPPORT=ON",
+                                                "-DZSTD_BUILD_TESTS=OFF", "-DZSTD_BUILD_CONTRIB=OFF"]
