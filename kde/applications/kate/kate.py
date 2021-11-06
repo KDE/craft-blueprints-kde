@@ -6,10 +6,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        # backport a few fixes before store update
-        self.patchToApply["21.04.0"] = [("fixes.diff", 1)]
-        self.patchLevel["21.04.0"] = 1
-
         self.displayName = "Kate"
         self.description = "the KDE text editor"
         self.webpage = "https://kate-editor.org/"

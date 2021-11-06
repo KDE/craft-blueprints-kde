@@ -6,8 +6,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "Cantor"
 
-        self.patchToApply['21.04.0'] = [('cantor-21.04.0.diff', 1)]
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
