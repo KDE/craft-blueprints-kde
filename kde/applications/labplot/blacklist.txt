@@ -78,6 +78,7 @@ bin/data/kf5/kmoretools/.*
 bin/data/knotifications5/.*
 bin/data/libgpg-error/.*
 #bin/data/locale/.*
+bin/data/translations/qtwebengine_locales/.*
 share/.*
 html/.*
 
