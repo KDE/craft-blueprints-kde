@@ -10,8 +10,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
-        if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies['libs/qt5/qtwebengine'] = None
+        self.runtimeDependencies['libs/qt5/qtwebengine'] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         # R backend fails compiling with MSVC
         # libR.dylib fails packaging on macOS (lapack.so)
