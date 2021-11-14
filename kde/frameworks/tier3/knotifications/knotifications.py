@@ -4,7 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchLevel["5.82.0"] = 1
 
         # add backported patch for 5.83.0 to allow inline-replies on Windows Notifications
         if CraftCore.compiler.isWindows:
