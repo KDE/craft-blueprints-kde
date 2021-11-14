@@ -41,11 +41,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kinit"] = None
         self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
-        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("21.07.70"):
-            self.runtimeDependencies["libs/mlt"] = "master"
-        else:
-            self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
-            self.runtimeDependencies["libs/mlt"] = "v6"
+        self.runtimeDependencies["libs/mlt"] = "master"
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
