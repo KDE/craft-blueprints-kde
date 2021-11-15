@@ -1,0 +1,52 @@
+commit acd7ce51e9bdc2785348de894d27e8f7e90ac6df
+Author: Jeff Preshing <filter-github@preshing.com>
+Date:   Wed Jun 12 20:10:18 2019 -0400
+
+    Fix CMake & MSVC builds
+
+diff --git a/cmake/config.h.in b/cmake/config.h.in
+index e08220d..e630934 100644
+--- a/cmake/config.h.in
++++ b/cmake/config.h.in
+@@ -74,4 +74,6 @@
+ 
+ #define TABSTOP @TABSTOP@
+ 
++#define DESTRUCTOR
++
+ #endif /* _CONFIG_D */
+diff --git a/msvc/Makefile b/msvc/Makefile
+index a9207c1..3dca5b5 100644
+--- a/msvc/Makefile
++++ b/msvc/Makefile
+@@ -34,7 +34,7 @@ version.obj: version.c VERSION config.h
+ 	$(CC) $(CFLAGS) -DBRANCH="" -DVERSION=\"$(VERSION)\" /c version.c
+ 
+ mkdio.h: mkdio.h.in
+-	powershell.exe -Command "(gc mkdio.h.in) -replace '@DWORD@', 'unsigned long' | Out-File mkdio.h"
++	powershell.exe -Command "(gc mkdio.h.in) -replace '@DWORD@', 'unsigned long' -replace '@SCALAR_HEADER_INCLUDE@', '' | Out-File mkdio.h"
+ 
+ mkdio.obj: mkdio.h
+ 
+@@ -49,8 +49,8 @@ mktags: mktags.obj
+ blocktags: mktags
+ 	.\mktags.exe > blocktags
+ 
+-mkd2html:  mkd2html.obj $(MKDLIB) mkdio.h gethopt.h gethopt.obj
+-	$(CC) $(CFLAGS) $(LFLAGS) mkd2html.obj gethopt.obj $(MKDLIB)
++mkd2html:  mkd2html.obj $(MKDLIB) mkdio.h gethopt.h gethopt.obj notspecial.obj
++	$(CC) $(CFLAGS) $(LFLAGS) mkd2html.obj gethopt.obj notspecial.obj $(MKDLIB)
+ 
+ markdown: main.obj $(COMMON) $(MKDLIB)
+ 	$(CC) $(CFLAGS) $(LFLAGS) /Femarkdown main.obj $(COMMON) $(MKDLIB)
+diff --git a/msvc/config.h.vc b/msvc/config.h.vc
+index 1455489..7207449 100644
+--- a/msvc/config.h.vc
++++ b/msvc/config.h.vc
+@@ -72,4 +72,6 @@
+ #define TABSTOP 8
+ #define HAVE_MALLOC_H    0
+ 
++#define DESTRUCTOR
++
+ #endif /* __AC_MARKDOWN_D */
