@@ -4,8 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ['2.4.28', '2.4.33', '2.4.36', '2.4.45']:
-            self.targets[ver] = ('ftp://ftp.openldap.org/pub/OpenLDAP/'
-                                 'openldap-release/openldap-' + ver + '.tgz')
+            self.targets[ver] = ('https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-' + ver + '.tgz')
             self.targetInstSrc[ver] = 'openldap-' + ver
         self.patchToApply['2.4.28'] = [('openldap-2.4.28-20120212.diff', 1)]
         self.patchToApply['2.4.33'] = [('openldap-2.4.33-20130124.diff', 1)]

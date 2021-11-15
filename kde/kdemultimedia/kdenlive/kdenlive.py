@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
+        self.runtimeDependencies["libs/qt5/qtspeech"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
@@ -40,11 +41,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kinit"] = None
         self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
-        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("21.07.70"):
-            self.runtimeDependencies["libs/mlt"] = "master"
-        else:
-            self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
-            self.runtimeDependencies["libs/mlt"] = "v6"
+        self.runtimeDependencies["libs/mlt"] = "master"
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
@@ -60,12 +57,17 @@ from Utils import GetFiles
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_KF5FileMetaData=ON"
         if self.buildTarget == "master" or self.buildTarget >= CraftVersion("21.11.70"):
             self.subinfo.options.configure.args += " -DNODBUS=ON"
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
-        self.addExecutableFilter(r"bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt|update-mime-database|data/kdenlive)).*")
+        if not CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
+        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("21.11.70"):
+            self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioslave|melt|update-mime-database|data/kdenlive)).*")
+        else:
+            self.addExecutableFilter(r"bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt|update-mime-database|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm-meta")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.ignoredPackages.append("binary/mysql")
@@ -78,22 +80,23 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".kdenlive"]
         self.defines["runenv"] = [
                 'KDE_FORK_SLAVES=1',
-                'MLT_REPOSITORY=$DIR/lib/mlt/',
-                'MLT_DATA=$DIR/share/mlt/',
-                'MLT_ROOT_DIR=$DIR/',
-                'LADSPA_PATH=$DIR/lib/ladspa',
-                'FREI0R_PATH=$DIR/lib/frei0r-1',
-                'MLT_PROFILES_PATH=$DIR/share/mlt/profiles/',
-                'MLT_PRESETS_PATH=$DIR/share/mlt/presets/',
+                'DIR=$(dirname "$0")',
+                'MLT_REPOSITORY=$DIR/usr/lib/mlt-7/',
+                'MLT_DATA=$DIR/usr/share/mlt-7/',
+                'MLT_ROOT_DIR=$DIR/usr/',
+                'LADSPA_PATH=$DIR/usr/lib/ladspa',
+                'FREI0R_PATH=$DIR/usr/lib/frei0r-1',
+                'MLT_PROFILES_PATH=$DIR/usr/share/mlt-7/profiles/',
+                'MLT_PRESETS_PATH=$DIR/usr/share/mlt-7/presets/',
                 'SDL_AUDIODRIVER=pulseaudio']
-        return TypePackager.createPackage(self)
+        return super().createPackage()
 
     def postInstall(self):
         if CraftCore.compiler.isWindows:
             self.schemeDir = os.path.join(self.installDir(), 'bin', 'data', 'color-schemes')
         else:
             self.schemeDir = os.path.join(self.installDir(), 'share', 'color-schemes')
-        for scheme in ['Breeze', 'BreezeDark', 'BreezeHighContrast', 'BreezeLight']:
+        for scheme in ['BreezeClassic', 'BreezeDark', 'BreezeLight']:
             GetFiles.getFile('https://invent.kde.org/plasma/breeze/-/raw/master/colors/'+scheme+'.colors', self.schemeDir)
         for scheme in ['RustedBronze']:
             GetFiles.getFile('https://raw.githubusercontent.com/Bartoloni/RustedBronze/master/'+scheme+'.colors', self.schemeDir)

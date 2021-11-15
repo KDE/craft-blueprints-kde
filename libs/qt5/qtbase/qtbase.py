@@ -23,13 +23,8 @@ class subinfo(info.infoclass):
             qtVer = CraftVersion(ver)
             if ver == "dev":
                 self.patchToApply[ver] = []
-            if qtVer >= "5.15.0":
-                self.patchToApply[ver] = [
-                    (".qt-5.15.0", 1),
-                    ("mkspecs-bsd.diff", 1)
-                ]
-                if qtVer >= "5.15.2":
-                    self.patchToApply[ver] += [(".qt-5.15.2", 1)]
+            if qtVer >= "5.15.2":
+                self.patchToApply[ver] = [(".qt-5.15.2", 1)]
             elif qtVer >= CraftVersion("5.12.11"):
                 self.patchToApply[ver] = [
                     (".qt-5.12.11", 1)
@@ -83,9 +78,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.12.9"] = 1
         self.patchLevel["5.12.10"] = 2
         self.patchLevel["5.12.11"] = 1
-        self.patchLevel["5.15.0"] = 4
-        self.patchLevel["5.15.1"] = 4
-        self.patchLevel["5.15.2"] = 4
+        self.patchLevel["5.15.2"] = 6
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):
@@ -257,7 +250,7 @@ class QtPackage(Qt5CorePackageBase):
                 if not self.subinfo.options.dynamic.withGlib:
                     command += " -no-glib "
                 if OsUtils.isUnix() and not CraftCore.compiler.isMacOS and not CraftCore.compiler.isAndroid:
-                    command += " -xcb "
+                    command += " -xcb -xcb-xlib "
             else:
                 command += " -static -static-runtime "
 
@@ -278,7 +271,16 @@ class QtPackage(Qt5CorePackageBase):
             if CraftCore.compiler.isMinGW() and self.qtVer < "5.10":
                 command += """ "QMAKE_CXXFLAGS += -Wa,-mbig-obj" """
 
-            return utils.system(command)
+            cfg = utils.system(command)
+            if not cfg and CraftCore.compiler.isLinux:
+                CraftCore.log.info("""
+# Before sourcing craftenv.sh, ensure PKG_CONFIG_PATH includes xcb.pc, gl.pc etc
+export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/share/pkgconfig
+# Install build dependencies on builder:
+sudo yum-builddep qt5-qtbase
+sudo apt build-dep qt5-default
+""")
+            return cfg
 
 
     def make(self):

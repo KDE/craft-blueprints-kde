@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "a library for real time computer vision"
 
-        for v in ['4.3.0', '4.5.1']:
+        for v in ['4.3.0', '4.5.1', '4.5.3']:
             self.patchToApply[v] = [
                 ("opencv-pkgconfig-win-install.patch", 1),
                 ("OpenCVInstallLayout.cmake.patch", 0)]
@@ -61,7 +61,7 @@ class Package(CMakePackageBase):
                 "-DWITH_PVAPI=OFF",
                 "-DWITH_QT_OPENGL=OFF", "-DWITH_QT=OFF",
                 "-DWITH_QUICKTIME=OFF", "-DWITH_TBB=OFF", "-DWITH_TIFF=OFF", "-DWITH_UNICAP=OFF",
-                "-DWITH_VA_INTEL=OFF", "-DWITH_VFW=OFF", "-DWITH_VIDEOINPUT=OFF",
+                "-DWITH_VA=OFF", "-DWITH_VA_INTEL=OFF", "-DWITH_VFW=OFF", "-DWITH_VIDEOINPUT=OFF",
                 "-DWITH_VTK=OFF", "-DWITH_WEBP=OFF", "-DWITH_WIN32UI=OFF", "-DWITH_XINE=OFF",
                 # find OpenCV through cmake or pkg-config
                 "-DOPENCV_GENERATE_PKGCONFIG=ON",

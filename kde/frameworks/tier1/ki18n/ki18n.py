@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
             self.buildDependencies["libs/libintl-lite"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["data/iso-codes"] = None
 
 from Package.CMakePackageBase import *
 

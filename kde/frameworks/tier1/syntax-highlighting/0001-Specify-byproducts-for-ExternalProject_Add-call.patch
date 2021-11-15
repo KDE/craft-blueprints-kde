@@ -1,0 +1,25 @@
+From 13d90c5635dd3b70877ed6444a903977a99b76b9 Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Sun, 17 Oct 2021 11:38:00 +0200
+Subject: [PATCH] Specify byproducts for ExternalProject_Add call
+
+This is required for Ninja to pick up the correct depedency relation. Otherwise native_katehighlightingindexer won't be built before it's needed when cross-compiling and using Ninja
+---
+ src/indexer/CMakeLists.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/indexer/CMakeLists.txt b/src/indexer/CMakeLists.txt
+index 4a84696a..9f1c8d0f 100644
+--- a/src/indexer/CMakeLists.txt
++++ b/src/indexer/CMakeLists.txt
+@@ -20,6 +20,7 @@ elseif(CMAKE_CROSSCOMPILING)
+                             -DECM_DIR=${ECM_DIR} -DCMAKE_PREFIX_PATH=${NATIVE_PREFIX}
+                             -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}
+                         INSTALL_COMMAND ""
++                        BUILD_BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/native_katehighlightingindexer-prefix/src/native_katehighlightingindexer-build/bin/katehighlightingindexer
+                     )
+     add_executable(katehighlightingindexer IMPORTED GLOBAL)
+     add_dependencies(katehighlightingindexer native_katehighlightingindexer)
+-- 
+2.33.0
+

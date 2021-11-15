@@ -1,0 +1,27 @@
+From 3eaca584015ab0190d16cd2a5eb7ddde26bbd693 Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Thu, 14 Oct 2021 17:13:55 +0200
+Subject: [PATCH] Remove min Android SDK version from Manifest
+
+It must not be defined there
+
+(cherry picked from commit ce301cbc6bb7fe5f889ae620b0c39aa8bf76da1e)
+---
+ data/AndroidManifest.xml | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/data/AndroidManifest.xml b/data/AndroidManifest.xml
+index efa57ef1..a3c061f1 100644
+--- a/data/AndroidManifest.xml
++++ b/data/AndroidManifest.xml
+@@ -66,7 +66,6 @@
+         </service>
+     </application>
+ 
+-    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="30"/>
+     <supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" android:smallScreens="true"/>
+ 
+     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+-- 
+2.33.0
+

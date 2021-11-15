@@ -1,0 +1,22 @@
+From 8553b7fa67ce49bbaee4d996787185564dcd8665 Mon Sep 17 00:00:00 2001
+From: Vincent Pinon <vincent.pinon@asygn.com>
+Date: Fri, 1 Oct 2021 21:44:52 +0200
+Subject: [PATCH] install ladspa in lib
+
+---
+ src/ladspa_plugin/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/ladspa_plugin/CMakeLists.txt b/src/ladspa_plugin/CMakeLists.txt
+index 2e1b3e7..043edbc 100644
+--- a/src/ladspa_plugin/CMakeLists.txt
++++ b/src/ladspa_plugin/CMakeLists.txt
+@@ -40,4 +40,4 @@ set_target_properties(${LADSPA_TARGET} PROPERTIES
+ install(TARGETS ${LADSPA_TARGET}
+         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/ladspa
+         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}/ladspa
+-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/ladspa)
++        RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}/ladspa)
+-- 
+2.33.0
+

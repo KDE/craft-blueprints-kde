@@ -31,12 +31,14 @@ from Package.VirtualPackageBase import VirtualPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["3.5.17"]:
-            self.targets[ver] = "ftp://ftp.gnutls.org/gcrypt/gnutls/v3.5/gnutls-%s.tar.xz" % ver
+        for ver in ["3.7.2"]:
+            self.targets[ver] = "ftp://ftp.gnutls.org/gcrypt/gnutls/v3.7/gnutls-%s.tar.xz" % ver
             self.targetInstSrc[ver] = "gnutls-%s" % ver
-        self.targetDigests['3.5.17'] = (['86b142afef587c118d63f72ccf307f3321dbc40357aae528202b65d913d20919'], CraftHash.HashAlgorithm.SHA256)
+
+        self.targetDigests['3.7.2'] = (['646e6c5a9a185faa4cea796d378a1ba8e1148dbb197ca6605f95986a25af2752'], CraftHash.HashAlgorithm.SHA256)
         self.description = "A library which provides a secure layer over a reliable transport layer"
-        self.defaultTarget = "3.5.17"
+        self.webpage = "https://www.gnutls.org/"
+        self.defaultTarget = "3.7.2"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gtk-doc"] = None
@@ -53,9 +55,17 @@ class subinfo(info.infoclass):
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
+        # gtk-doc is missing
+        self.subinfo.options.configure.autoreconf = not CraftCore.compiler.isWindows
         # 2018-02-11: without --enable-openssl-compatibility xmlmerge.exe from gwenhywfar doesn't display any console output and in effect doesn't allow compilation of aqbanking
         # 2018-02-11: --enable-nls is probably needed on the same ground as above
-        self.subinfo.options.configure.args = "--enable-shared --disable-static --with-zlib --enable-cxx --enable-nls --disable-gtk-doc --enable-local-libopts --enable-libopts-install --disable-tests --enable-openssl-compatibility "
+        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", "--enable-cxx",
+                                                "--enable-nls", "--disable-gtk-doc", "--enable-local-libopts",
+                                                "--enable-libopts-install", "--disable-tests",
+                                                "--disable-doc",
+                                                "--enable-openssl-compatibility"]
+        if not self.subinfo.options.isActive('libs/p11kit'):
+            self.subinfo.options.configure.args += ["--without-p11-kit"]
 
 if not CraftCore.compiler.isMSVC():
     class Package(PackageAutoTools):

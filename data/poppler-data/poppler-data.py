@@ -7,11 +7,11 @@ class subinfo(info.infoclass):
         self.svnTargets['master'] = "git://git.freedesktop.org/git/poppler/poppler-data"
 
         # use poppler data matching the latest poppler release used in poppler.py
-        v = '0.4.10'
+        v = '0.4.11'
         self.defaultTarget = v
         self.targets[v] = 'https://poppler.freedesktop.org/poppler-data-' + v + '.tar.gz'
         self.targetInstSrc[v] = 'poppler-data-' + v
-        self.targetDigests[v] = (['6e2fcef66ec8c44625f94292ccf8af9f1d918b410d5aa69c274ce67387967b30'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[v] = (['2cec05cd1bb03af98a8b06a1e22f6e6e1a65b1e2f3816cb3069bb0874825f08c'], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

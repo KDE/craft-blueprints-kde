@@ -31,14 +31,15 @@ from Package.VirtualPackageBase import VirtualPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["3.4"]:
+        for ver in ["3.4", "3.7.3"]:
             self.targets[ver] = "https://ftp.gnu.org/gnu/nettle/nettle-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "nettle-%s" % ver
 
         self.targetDigests['3.4'] = (['ae7a42df026550b85daca8389b6a60ba6313b0567f374392e54918588a411e94'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['3.7.3'] =  (['661f5eb03f048a3b924c3a8ad2515d4068e40f67e774e8a26827658007e3bcf0'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "A low-level cryptographic library"
-        self.defaultTarget = "3.4"
+        self.defaultTarget = "3.7.3"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libgmp"] = None

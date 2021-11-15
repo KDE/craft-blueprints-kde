@@ -7,6 +7,7 @@ class subinfo(info.infoclass):
         for ver in ['7.3.1']:
             self.targets[ver] = 'http://indilib.org/jdownloads/wcslib/wcslib-%s.tar.gz' % ver
             self.targetInstSrc[ver] = 'wcslib-%s' % ver
+        self.patchLevel['7.3.1'] = 1
         self.defaultTarget = '7.3.1'
 
     def setDependencies(self):

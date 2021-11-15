@@ -27,6 +27,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kinit"] = None
+
 
 
 from Package.CMakePackageBase import *
@@ -35,3 +37,8 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+
+
+    def createPackage(self):
+        self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(konsole|update-mime-database|kioslave|kdeinit5)).*")
+        return super().createPackage()

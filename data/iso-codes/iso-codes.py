@@ -39,4 +39,11 @@ class Package(AutoToolsPackageBase):
             if os.path.islink(catalog):
                 os.unlink(catalog)
 
+        # put pkgconfig files into the right location on Windows
+        if CraftCore.compiler.isWindows:
+            pkgConfigSrc = os.path.join(self.installDir(), os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot()), 'pkgconfig', 'iso-codes.pc')
+            pkgConfigDest = os.path.join(self.installDir(), 'lib', 'pkgconfig')
+            os.makedirs(pkgConfigDest)
+            os.rename(pkgConfigSrc, os.path.join(pkgConfigDest, 'iso-codes.pc'))
+
         return True

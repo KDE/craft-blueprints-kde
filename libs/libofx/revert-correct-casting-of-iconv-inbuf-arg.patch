@@ -1,0 +1,34 @@
+From f140d8f403a0b196c3036f0e79b0b09ca752c79c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Dawid=20Wro=CC=81bel?= <me@dawidwrobel.com>
+Date: Wed, 20 Oct 2021 14:18:18 +0200
+Subject: [PATCH] Revert "Correct casting of iconv inbuf arg."
+
+This reverts commit 9023c0f8b7744baebb28e2ff9b9e6e54ed0a4d33.
+---
+ lib/ofx_preproc.cpp | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/lib/ofx_preproc.cpp b/lib/ofx_preproc.cpp
+index e465497..80c3a56 100644
+--- a/lib/ofx_preproc.cpp
++++ b/lib/ofx_preproc.cpp
+@@ -307,10 +307,14 @@ int ofx_proc_file(LibofxContextPtr ctx, const char * p_filename)
+             size_t outbytesleft = inbytesleft * 2 - 1;
+             char * iconv_buffer = (char*) malloc (inbytesleft * 2);
+             memset(iconv_buffer, 0, inbytesleft * 2);
+-            const char* inchar = s_buffer.c_str();
++#if defined(_WIN32) || defined(__sun) || defined(__NetBSD__)
++            const char * inchar = (const char *)s_buffer.c_str();
++#else
++            char * inchar = (char *)s_buffer.c_str();
++#endif
+             char * outchar = iconv_buffer;
+             int iconv_retval = iconv (conversion_descriptor,
+-                                      const_cast<char**>(&inchar), &inbytesleft,
++                                      &inchar, &inbytesleft,
+                                       &outchar, &outbytesleft);
+             if (iconv_retval == -1)
+             {
+-- 
+2.33.0
+

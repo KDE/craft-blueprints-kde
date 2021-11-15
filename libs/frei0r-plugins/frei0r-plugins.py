@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ ver ] = f"frei0r-{ver}"
         self.targetDigests['1.6.1'] = (['dae0ca623c83173788ce4fc74cb67ac7e50cf33a4412ee3d33bed284da1a8437'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.7.0'] = (['6f7cf95ea2257687cc31db0ed9c9bc0eec152e953d515f346eabec048ed2b29d'], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel['master'] = 20201005
+        self.patchLevel['master'] = 20211011
 
         self.svnTargets['master'] = 'https://github.com/dyne/frei0r.git'
         self.defaultTarget = 'master'
@@ -28,3 +28,11 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+
+    def install(self):
+        if not super().install():
+            return False
+        if CraftCore.compiler.isMacOS:
+            return utils.mergeTree(self.installDir()/"lib/frei0r-1", self.installDir()/"plugins/frei0r-1")
+        return True
+

@@ -59,7 +59,7 @@ class PackageAutotools(AutoToolsPackageBase):
             self.subinfo.options.configure.cxxflags += "-fpermissive "
         return super().configure()
 
-if CraftCore.compiler.isMacOS:
+if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
     class Package(PackageAutotools):
         def __init__(self):
             PackageAutotools.__init__(self)

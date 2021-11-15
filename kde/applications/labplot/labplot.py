@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = 'labplot-%s' % ver
 
         #self.patchToApply['2.8.1'] = [('labplot-2.8.1.diff', 1)]
+        self.patchLevel['2.8.2'] = 1
         self.defaultTarget = '2.8.2'
 
     def setDependencies(self):
@@ -32,6 +33,8 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isMSVC():
             self.runtimeDependencies["libs/libzip"] = None
             self.runtimeDependencies["libs/netcdf"] = None
+        # required by macOS?
+        self.runtimeDependencies['libs/expat'] = None
 
         self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["qt-libs/qtmqtt"] = None
@@ -51,6 +54,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if self.buildTarget == "master":
+            self.runtimeDependencies["qt-libs/poppler"] = None
             self.runtimeDependencies["libs/matio"] = None
             self.runtimeDependencies["libs/readstat"] = None
 

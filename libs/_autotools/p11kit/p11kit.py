@@ -6,13 +6,17 @@ from Package.VirtualPackageBase import *
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # it currently fails to link
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows
+
     def setTargets(self):
-        for ver in ["0.23.22"]:
+        for ver in ["0.23.22", "0.24.0"]:
             self.targets[ver] = f"https://github.com/p11-glue/p11-kit/releases/download/{ver}/p11-kit-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"p11-kit-{ver}"
-        self.targetDigests["0.23.9"] = (['e1c1649c335107a8d33cf3762eb7f57b2d0681f0c7d8353627293a58d6b4db63'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.24.0"] = (['81e6140584f635e4e956a1b93a32239acf3811ff5b2d3a5c6094e94e99d2c685'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.23.22"] = (['8a8f40153dd5a3f8e7c03e641f8db400133fb2a6a9ab2aee1b6d0cb0495ec6b6'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "0.23.22"
+        self.defaultTarget = "0.24.0"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
