@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
         if not CraftCore.compiler.isAndroid:
             self.buildDependencies["libs/chm"] = None
+            self.buildDependencies["libs/discount"] = None
             self.buildDependencies["libs/libspectre"] = None
             self.runtimeDependencies["libs/djvu"] = None
             self.runtimeDependencies["libs/ebook-tools"] = None
