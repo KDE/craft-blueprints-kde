@@ -32,10 +32,10 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "git://git.freedesktop.org/git/poppler/poppler"
 
         # always try to use latest libpoppler with all security fixes
-        ver = "21.06.1"
+        ver = "21.11.0"
         self.targets[ver] = f"https://poppler.freedesktop.org/poppler-{ver}.tar.xz"
         self.targetInstSrc[ver] = f"poppler-{ver}"
-        self.targetDigests[ver] = (['86b09e5a02de40081a3916ef8711c5128eaf4b1fc59d5f87d0ec66f04f595db4'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[ver] = (['31b76b5cac0a48612fdd154c02d9eca01fd38fb8eaa77c1196840ecdeb53a584'], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply[ver] = [("poppler-optional-manual-tests.diff", 1)]
         self.defaultTarget = ver
 
