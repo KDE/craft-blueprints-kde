@@ -5,6 +5,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["5.88.0"] = [("prison-5.88.0-20211115.diff", 1)]
 
         self.description = "Qt 5 addon providing a barcode api to produce QRCode barcodes and DataMatrix barcodes."
 
