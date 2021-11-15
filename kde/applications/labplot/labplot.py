@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = 'labplot-%s' % ver
 
         #self.patchToApply['2.8.1'] = [('labplot-2.8.1.diff', 1)]
+        self.patchLevel['2.8.2'] = 1
         self.defaultTarget = '2.8.2'
 
     def setDependencies(self):
