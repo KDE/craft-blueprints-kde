@@ -14,7 +14,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
-        self.runtimeDependencies["libs/qt5/qtwebengine"] = None
 
 
 from Package.CMakePackageBase import *
