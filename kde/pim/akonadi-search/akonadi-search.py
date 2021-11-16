@@ -6,6 +6,9 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        self.patchToApply["21.08.3"] = ('0001-Convert-test-file-to-UTF-8.patch', 1)
+        self.patchLevel["21.08.3"] = 1
+
         self.description = "Akonadi Search Agent"
 
     def setDependencies(self):
