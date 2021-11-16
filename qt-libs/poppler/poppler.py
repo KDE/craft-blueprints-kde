@@ -57,6 +57,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["data/poppler-data"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
 
+    def registerOptions(self):
+        if CraftCore.compiler.isAndroid:
+            # Poppler doesn't support MinSizeRel
+            self.options.dynamic.setDefault("buildType", "Release")
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
