@@ -1,0 +1,22 @@
+commit 196e858cee5de51f22830e03af2a038c1c42302b
+Author: Nicolas Fella <nicolas.fella@gmx.de>
+Date:   Tue Dec 31 01:14:49 2019 +0100
+
+    Don't try to install markdown when building lib only
+
+diff --git a/cmake/CMakeLists.txt b/cmake/CMakeLists.txt
+index 31e6984..a9df796 100644
+--- a/cmake/CMakeLists.txt
++++ b/cmake/CMakeLists.txt
+@@ -192,7 +192,10 @@ if(${PROJECT_NAME}_MAKE_INSTALL)
+     target_include_directories(libmarkdown INTERFACE
+       $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+     )
+-    set(_TARGETS libmarkdown markdown)
++    set(_TARGETS libmarkdown)
++    if(NOT ${PROJECT_NAME}_ONLY_LIBRARY)
++        list(APPEND _TARGETS markdown)
++    endif()
+     if(${PROJECT_NAME}_INSTALL_SAMPLES)
+         list(APPEND _TARGETS mkd2html makepage)
+     endif()

@@ -44,7 +44,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtimageformats"] = None
         self.runtimeDependencies["libs/qt5/qtspeech"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
@@ -68,10 +67,12 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
         self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|dbus|snoretoast)).*")
         self.defines["shortcuts"] = [{"name" : "Ruqola", "target":"bin/ruqola.exe", "description" : self.subinfo.description}]
         self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "widget", "appIcons.ico")
         self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

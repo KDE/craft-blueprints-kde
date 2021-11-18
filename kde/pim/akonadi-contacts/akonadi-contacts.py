@@ -10,7 +10,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["libs/qt5/qtwebengine"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/frameworks/tier1/prison"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None

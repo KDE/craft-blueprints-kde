@@ -14,7 +14,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None
-        self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/pim/kcalutils"] = None
 
 
 from Package.CMakePackageBase import *
