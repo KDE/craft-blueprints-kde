@@ -59,7 +59,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
-        self.runtimeDependencies["binary/mysql"] = None
         self.runtimeDependencies["libs/sqlite"] = None
         self.runtimeDependencies["libs/libofx"] = None
         self.runtimeDependencies["libs/libical"] = None

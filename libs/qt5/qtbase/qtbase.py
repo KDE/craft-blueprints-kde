@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("buildReleaseAndDebug", False)
         self.options.dynamic.registerOption("libInfix", "")
         self.options.dynamic.registerOption("useLtcg", False)
-        self.options.dynamic.registerOption("withMysql", not CraftCore.compiler.isMacOS and not CraftCore.compiler.isAndroid)
+        self.options.dynamic.registerOption("withMysql", False)
         self.options.dynamic.registerOption("withDBus", not CraftCore.compiler.isAndroid)
         self.options.dynamic.registerOption("withGlib", not CraftCore.compiler.isWindows and not CraftCore.compiler.isAndroid)
         if CraftCore.compiler.isMinGW():

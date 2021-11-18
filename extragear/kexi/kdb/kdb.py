@@ -12,7 +12,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/sqlite"] = None
-        self.runtimeDependencies["binary/mysql"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
 
 from Package.CMakePackageBase import *

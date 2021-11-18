@@ -43,7 +43,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
         self.runtimeDependencies["libs/sqlite"] = None
-        self.runtimeDependencies["binary/mysql"] = None
         self.runtimeDependencies['libs/x265'] = None
         self.runtimeDependencies['libs/tiff'] = None
         self.runtimeDependencies['libs/boost/boost-system'] = 'default'

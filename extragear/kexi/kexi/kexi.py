@@ -15,7 +15,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/glib"] = None # mdb
         self.runtimeDependencies["libs/sqlite"] = None # migration
-        self.runtimeDependencies["binary/mysql"] = None # migration
         #TODO self.runtimeDependencies["binary/postgresql"] = None # migration
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtwebkit"] = None
