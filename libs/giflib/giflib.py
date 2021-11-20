@@ -4,17 +4,15 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ['4.1.6', '5.0.4', '5.0.5']:
-            self.targets[ver] = 'http://downloads.sourceforge.net/sourceforge/giflib/giflib-' + ver + '.tar.bz2'
+        for ver in ["5.2.1"]:
+            self.targets[ver] = 'http://downloads.sourceforge.net/sourceforge/giflib/giflib-' + ver + '.tar.gz'
             self.targetInstSrc[ver] = 'giflib-' + ver
-        self.targetDigests['5.0.4'] = 'af3fdf84e2b9ac5c18e7102835a92e2066c7c9f1'
-        self.targetDigests['5.0.5'] = '926fecbcef1c5b1ca9d17257d15a197b8b35e405'
-        self.patchToApply['4.1.6'] = ("giflib-4.1.6-20100327.diff", 1)
-        self.patchToApply['5.0.4'] = [("giflib-5.0.4-20130202.diff", 1)]
-        self.patchToApply['5.0.5'] = [("giflib-5.0.5-20130916.diff", 1)]
+        self.targetDigests['5.2.1'] = (['31da5562f44c5f15d63340a09a4fd62b48c45620cd302f77a6d9acf0077879bd'], CraftHash.HashAlgorithm.SHA256)
+        # patches are from https://github.com/microsoft/vcpkg/tree/master/ports/giflib
+        self.patchToApply['5.2.1'] = [("fix-compile-error.patch", 1), ("disable-GifDrawBoxedText8x8-win32.patch", 1), ("msvc-guard-unistd-h.patch", 1), ("giflib-5.2.1-20211120.diff", 1)]
 
         self.description = "GIF file manipulation library (utilities and docs)"
-        self.defaultTarget = '5.0.5'
+        self.defaultTarget = '5.2.1'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -24,5 +22,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.package.packageName = 'giflib'
-        self.subinfo.options.configure.args = "-DBUILD_utils=OFF"
+        self.subinfo.options.configure.args += ["-DBUILD_utils=OFF", f"-DGIFLIB_EXPORTS={self.packageDir()}/exports.def"]
