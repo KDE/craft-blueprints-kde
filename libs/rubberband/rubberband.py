@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args += " --disable-programs  --disable-vamp --disable-ladspa"
+        self.subinfo.options.configure.args += ["--disable-programs", "--disable-vamp", "--disable-ladspa"]
 
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
@@ -35,6 +35,10 @@ class PackageMSVC(MSBuildPackageBase):
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "rubberband.sln")
         self.msbuildTargets = ["rubberband-dll"]
 
+    def install(self):
+        if not MSBuildPackageBase.install(self, installHeaders=False):
+            return True
+        return utils.copyDir(self.sourceDir() /  "rubberband", self.installDir() / "include/rubberband")
 
 if CraftCore.compiler.isGCCLike():
     class Package(PackageAutoTools):
