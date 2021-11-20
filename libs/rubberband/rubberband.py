@@ -24,7 +24,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libsamplerate"] = None
         self.runtimeDependencies["libs/libsndfile"] = None
 
-
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
