@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.9"] = (['779e9a5e45f869618261b98b8d0c262fcbe066418a1c836fb85de47fbc1b29aa'], CraftHash.HashAlgorithm.SHA256)
         self.description = "An audio time-stretching and pitch-shifting library and utility program"
         self.webpage = "http://breakfastquay.com/rubberband/"
+        self.patchLevel["1.9"] = 1
         self.defaultTarget = "1.9"
 
     def setDependencies( self ):
