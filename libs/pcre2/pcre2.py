@@ -5,7 +5,7 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ['10.35']:
-            self.targets[ver] = f"https://ftp.pcre.org/pub/pcre/pcre2-{ver}.tar.gz"
+            self.targets[ver] = f"https://download.sourceforge.net/pcre/pcre2-{ver}.tar.gz"
             self.targetInstSrc[ver] = 'pcre2-' + ver
 
         self.patchToApply["10.35"] = [("pcre2-10.35-20201102.diff", 1), ("pcre2-10.35-20201106.diff", 1), ("pcre2-10.35-20201116.diff", 1), ("pcre2-10.35-20201117.diff", 1)]
