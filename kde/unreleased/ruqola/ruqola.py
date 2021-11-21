@@ -58,6 +58,8 @@ class subinfo(info.infoclass):
         # KUserFeedback yet not an official tier1 framework
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
+        self.runtimeDependencies["kde/frameworks/tier1/kidletime"] = None
+
 
 from Package.CMakePackageBase import *
 
