@@ -41,6 +41,8 @@ class subinfo(info.infoclass):
 
             # try to use Breeze style as Windows style has severe issues for e.g. scaling
             self.runtimeDependencies["kde/plasma/breeze"] = None
+        else:
+            self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
 
 from Package.CMakePackageBase import *
 
