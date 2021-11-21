@@ -25,3 +25,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DQCORO_BUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF"
