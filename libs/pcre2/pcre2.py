@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
 
         self.patchToApply["10.37"] = [("pcre2-10.37-20211120.diff", 1)]
         self.targetDigests["10.37"] = (['04e214c0c40a97b8a5c2b4ae88a3aa8a93e6f2e45c6b3534ddac351f26548577'], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["10.37"] = 1
+        self.patchLevel["10.37"] = 2
 
         self.description = "Perl-Compatible Regular Expressions (version2)"
         self.defaultTarget = '10.37'
