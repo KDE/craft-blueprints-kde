@@ -152,7 +152,7 @@ class PackageAutotools(AutoToolsPackageBase):
 
     def postQmerge(self):
         if CraftCore.compiler.isMacOS:
-            return utils.system(["launchctl", "load", os.path.join(CraftCore.standardDirs.craftRoot(), 'Library', 'LaunchAgents', 'org.freedesktop.dbus-session.plist')])
+            utils.system(["launchctl", "load", os.path.join(CraftCore.standardDirs.craftRoot(), 'Library', 'LaunchAgents', 'org.freedesktop.dbus-session.plist')])
         return True
 
 
