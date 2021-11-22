@@ -76,4 +76,4 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("kde/frameworks/kdesignerplugin")
         self.ignoredPackages.append("kde/frameworks/kemoticons")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()
