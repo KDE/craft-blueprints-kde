@@ -65,7 +65,7 @@ class QtPackage(Qt5CorePackageBase):
              "--webengine-jumbo-build=4"]
 
     def fetch(self):
-        if isinstance(self, GitSource):
+        if isinstance(self, GitSource) and self.sourceDir().exists():
             utils.system(["git", "clean", "-xdf"], cwd=self.sourceDir())
         return super().fetch()
 
