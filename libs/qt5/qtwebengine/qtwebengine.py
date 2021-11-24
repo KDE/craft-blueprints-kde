@@ -5,10 +5,10 @@ import info
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.setDefault("buildType", "Release")
-        #if CraftCore.compiler.isLinux:
-        self.options.dynamic.setDefault("featureArguments", ["--webengine-pulseaudio=no", "--webengine-ffmpeg=system", "--webengine-icu=system",
-                # default is 8 and can fail https://bugreports.qt.io/browse/QTBUG-88657
-                "--webengine-jumbo-build=4"])
+        if CraftCore.compiler.isLinux:
+            self.options.dynamic.setDefault("featureArguments", ["--webengine-pulseaudio=no", "--webengine-ffmpeg=system", "--webengine-icu=system",
+                    # default is 8 and can fail https://bugreports.qt.io/browse/QTBUG-88657
+                    "--webengine-jumbo-build=4"])
 
         # fails to build on new versions on mac
         # https://trac.macports.org/ticket/63725
