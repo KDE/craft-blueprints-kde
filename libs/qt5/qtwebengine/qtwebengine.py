@@ -37,8 +37,6 @@ class subinfo(info.infoclass):
                 (".qt-5.15.2", 1)
         ]
         
-        self.defaultTarget = "kde/5.15"
-
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
