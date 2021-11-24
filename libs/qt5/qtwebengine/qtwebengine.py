@@ -5,6 +5,11 @@ import info
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.setDefault("buildType", "Release")
+        #if CraftCore.compiler.isLinux:
+        self.options.dynamic.setDefault("featureArguments", ["--webengine-pulseaudio=no", "--webengine-ffmpeg=system", "--webengine-icu=system",
+                # default is 8 and can fail https://bugreports.qt.io/browse/QTBUG-88657
+                "--webengine-jumbo-build=4"])
+
         # fails to build on new versions on mac
         # https://trac.macports.org/ticket/63725
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
@@ -31,6 +36,8 @@ class subinfo(info.infoclass):
         self.patchToApply["5.15.2"] = [
                 (".qt-5.15.2", 1)
         ]
+        
+        self.defaultTarget = "kde/5.15"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
@@ -62,10 +69,6 @@ class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
         self.subinfo.options.fetch.checkoutSubmodules = True
-        if CraftCore.compiler.isLinux:
-            self.subinfo.options.configure.args += ["--", "--webengine-pulseaudio=no", "--webengine-ffmpeg=system", "--webengine-icu=system",
-            # default is 8 and can fail https://bugreports.qt.io/browse/QTBUG-88657
-             "--webengine-jumbo-build=4"]
 
     def fetch(self):
         if isinstance(self, GitSource) and self.sourceDir().exists():
