@@ -5,6 +5,9 @@ import info
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.setDefault("buildType", "Release")
+        # fails to build on new versions on mac
+        # https://trac.macports.org/ticket/63725
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
         # only supports msvc17+
         if CraftCore.compiler.isMSVC() and CraftCore.compiler.getInternalVersion() < 15:
             self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
