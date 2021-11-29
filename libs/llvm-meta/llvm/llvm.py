@@ -95,7 +95,7 @@ class Package(CMakePackageBase):
             return False
         # move the src so we can place unwind next to it, like in the monorepo
         # this modularisation went so wrong
-        if not utils.moveFile(self.sourceDir(), self.sourceDir() / "../tmp/") or  not utils.moveFile(self.sourceDir() / "../tmp", self.sourceDir() / "llvm"):
+        if not utils.mergeTree(self.sourceDir(), self.sourceDir() / "../tmp") or  not utils.moveFile(self.sourceDir() / "../tmp", self.sourceDir() / "llvm"):
             return False
         for p in self.subPackages:
             if not p.unpack(noop=False):
