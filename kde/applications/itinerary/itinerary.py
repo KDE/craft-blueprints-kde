@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/prison"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kunitconversion"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/libs/kosmindoormap"] = None
         self.runtimeDependencies["kde/libs/kpublictransport"] = None
