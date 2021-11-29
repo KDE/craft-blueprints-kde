@@ -5,7 +5,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         if CraftCore.compiler.isWindows:
-            self.patchToApply["10.0.1"] = [("clang-10.0.1-20210428.diff", 1)]
+            self.patchToApply["13.0.0"] = [("clang-10.0.1-20210428.diff", 1)]
         self.versionInfo.setDefaultValues()
 
     def setDependencies(self):

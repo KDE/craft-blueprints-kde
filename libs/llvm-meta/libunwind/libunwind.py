@@ -4,7 +4,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
+        self.versionInfo.setDefaultValues(packageName="libunwind", gitUrl="[git]https://git.llvm.org/git/libunwind.git")
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
