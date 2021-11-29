@@ -41,6 +41,9 @@ class subinfo(info.infoclass):
 
             # try to use Breeze style as Windows style has severe issues for e.g. scaling
             self.runtimeDependencies["kde/plasma/breeze"] = None
+        else:
+            self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
+            self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
 
 from Package.CMakePackageBase import *
 
@@ -74,4 +77,4 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("kde/frameworks/kdesignerplugin")
         self.ignoredPackages.append("kde/frameworks/kemoticons")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

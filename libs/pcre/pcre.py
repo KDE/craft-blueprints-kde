@@ -29,5 +29,5 @@ class Package(CMakePackageBase):
         defines += "-DPCRE_SUPPORT_UTF8=ON "
         defines += "-DPCRE_EBCDIC=OFF "
         if CraftCore.compiler.isAndroid:
-            defines += "-DHAVE_STRTOQ=FALSE "
+            defines += "-DHAVE_STRTOQ=FALSE -DPCRE_BUILD_PCREGREP=FALSE -DPCRE_BUILD_TEST=FALSE"
         self.subinfo.options.configure.args = defines
