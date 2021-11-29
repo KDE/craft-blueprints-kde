@@ -31,35 +31,30 @@ from Package.BinaryPackageBase import *
 
 if not CraftCore.compiler.isMSVC():
     class subinfo(info.infoclass):
+        def registerOptions(self):
+            self.options.dynamic.registerOption("enableCPP", False)
+
         def setTargets( self ):
             self.versionInfo.setDefaultValues()
-            
-            self.targetDigests["1.9.0"] = (["1b29fedb8bfad775e70eafac5b0590621683b2d9869db994568e6401f4034ceb"], CraftHash.HashAlgorithm.SHA256)
-            self.targetDigests["1.11.1"] = (["2d1b111774d2e3dd26dcd7c251819ce4ef774ec5e566251eb9308fa7542fbd6f"], CraftHash.HashAlgorithm.SHA256)
-            self.targetDigests["1.14.0"] = (['cef1f710a6b0d28f5b44242713ad373702d1466dcbe512eb4e754d7f35cd4307'], CraftHash.HashAlgorithm.SHA256)
-            self.patchToApply["1.9.0"] = [("gpgme-1.9.0-20170801.diff", 1)]
-            self.patchToApply["1.11.1"] = [("gpgme-1.1.11-20170801.diff", 1),
-                                        ("qt Respect --disable-gpg-test for tests.patch", 1),
-                                        ("gpgme-1.11.1-20180820.diff", 1),# disable the documentation (crashes on x86)
-                                        ("gpgme-1.11.1-20180920.diff", 1),# fix qgpgme config
-                                        ]
-            if CraftCore.compiler.isWindows:
-                self.patchToApply["1.11.1"] += [("gpgme-1.1.11-20180620.diff", 1)]
-
-            self.patchLevel["1.11.1"] = 5
-            self.patchLevel["1.14.0"] = 2
+            self.targetDigests["1.16.0"] = (['6c8cc4aedb10d5d4c905894ba1d850544619ee765606ac43df7405865de29ed0'], CraftHash.HashAlgorithm.SHA256)
             
         def setDependencies( self ):
             self.buildDependencies["dev-utils/msys"] = None
             self.runtimeDependencies["virtual/base"] = None
             self.runtimeDependencies["libs/gpg-error"] = None
             self.runtimeDependencies["libs/assuan2"] = None
+            if self.options.dynamic.enableCPP:
+                self.runtimeDependencies["libs/qt5/qtbase"] = None
 
 
     class Package(AutoToolsPackageBase):
         def __init__( self, **args ):
             AutoToolsPackageBase.__init__( self )
-            self.subinfo.options.configure.args += ["--enable-languages=no", "--disable-gpg-test"]
+            self.subinfo.options.configure.args += ["--disable-gpg-test"]
+            if not self.subinfo.options.dynamic.enableCPP:
+                self.subinfo.options.configure.args += ["--enable-languages=no"]
+            else:
+                self.subinfo.options.configure.args += ["--enable-languages=cpp,qt"]
 
         def install(self):
             if not super().install():
