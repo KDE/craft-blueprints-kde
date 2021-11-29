@@ -19,3 +19,12 @@ class Package(MesonPackageBase):
     def __init__(self):
         MesonPackageBase.__init__(self)
 
+    def install(self):
+        if not super().install():
+            return False
+        pkgConfigSrc = self.installDir() /  os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot()) / 'pkgconfig/wayland-protocols.pc'
+        print(pkgConfigSrc)
+        pkgConfigDest = self.installDir() / 'lib/pkgconfig/iso-codes.pc'
+        if pkgConfigSrc.exists():
+            return utils.createDir(pkgConfigDest.parent) and utils.moveFile(pkgConfigSrc, pkgConfigDest)
+        return True
