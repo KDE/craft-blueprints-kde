@@ -11,7 +11,10 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'http://www.mpir.org/mpir-' + ver + '.tar.bz2'
             self.targetInstSrc[ver] = "mpir-" + ver
         self.targetDigests['3.0.0'] = (['52f63459cf3f9478859de29e00357f004050ead70b45913f2c2269d9708675bb'], CraftHash.HashAlgorithm.SHA256)
+        # https://github.com/wbhart/mpir/pull/292
+        self.patchToApply["3.0.0"] = [("292.diff", 1)]
         self.targetInstSrc['3.0.0'] = 'mpir-3.0.0'
+
 
         self.description = "Library for arbitrary precision integer arithmetic derived from version 4.2.1 of gmp"
         self.defaultTarget = '3.0.0'
@@ -35,7 +38,8 @@ class PackageAutotools(AutoToolsPackageBase):
         if CraftCore.compiler.isX86():
             abi = "ABI=32"
             self.platform = ""
-        self.subinfo.options.configure.args = "--enable-shared --disable-static --enable-gmpcompat --enable-cxx " + abi
+        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static",
+                                                 "--enable-gmpcompat", "--enable-cxx", abi]
 
 
 class PackageMSVC(MSBuildPackageBase):
