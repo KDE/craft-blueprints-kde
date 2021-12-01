@@ -57,11 +57,13 @@ bin/KF5Notifications\.dll
 #bin/KF5TextEditor\.dll
 #bin/KF5Syndication\.dll
 # only needed by Cantor itself
-bin/QtWebengine.*
+bin/Qt5Web.*
+bin/qtwebengine.*
 
 # unused data
 bin/QtTest/.*
 bin/QtWinExtras/.*
+bin/QtWebEngine/.*
 bin/bearer/.*
 bin/designer/.*
 bin/kauth/.*
