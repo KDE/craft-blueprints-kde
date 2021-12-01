@@ -44,8 +44,6 @@ bin/Qt5Concurrent\.dll
 bin/Qt5Multimedia\.dll
 bin/Qt5OpenGL\.dll
 bin/Qt5WinExtras\.dll
-# needed by Kalgebra backend
-#bin/Qt5XmlPatterns\.dll
 bin/KF5CalendarEvents\.dll
 bin/KF5Wallet\.dll
 bin/kwalletbackend5\.dll
@@ -54,10 +52,12 @@ bin/KF5Declarative\.dll
 bin/KF5DocTools\.dll
 bin/KF5GlobalAccelPrivate\.dll
 bin/KF5Notifications\.dll
-# needed by Cantor
-#bin/KF5Syndication\.dll
-# needed by Kalgebra backend
+# needed by Cantor backends
+#bin/Qt5XmlPatterns\.dll
 #bin/KF5TextEditor\.dll
+#bin/KF5Syndication\.dll
+# only needed by Cantor itself
+bin/QtWebengine.*
 
 # unused data
 bin/QtTest/.*
