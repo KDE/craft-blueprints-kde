@@ -82,9 +82,7 @@ class Package(CMakePackageBase):
         # Some plugin files brake codesigning on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
-
-        self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("libs/dbus")
+        self.addExecutableFilter(r"bin/(?!(labplot)).*")
 
         self.defines["appname"] = "labplot2"
         self.defines["website"] = "https://labplot.kde.org/"
@@ -133,5 +131,7 @@ class Package(CMakePackageBase):
             self.defines["mimetypes"] = ["application/x-labplot2"]
         self.defines["file_types"] = [".lml"]
 
+        self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("libs/dbus")
         return TypePackager.createPackage(self)
 

@@ -80,15 +80,14 @@ bin/data/kdevappwizard/.*
 bin/data/kf5/kmoretools/.*
 bin/data/knotifications5/.*
 bin/data/libgpg-error/.*
+# needed for translations
 #bin/data/locale/.*
 bin/data/translations/qtwebengine_locales/.*
-share/.*
 html/.*
+# required on macOS
+#share/.*
 
 # we use a icontheme.rc on windows
 # only icons for cantor backends
 bin/data/icons/(?!hicolor).*
 bin/data/icons/hicolor/(?!48x48).*
-
-# strip executables
-bin/(?!(labplot|cantor.*)).*\.exe

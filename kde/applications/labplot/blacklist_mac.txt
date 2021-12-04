@@ -1,4 +1,1 @@
 .*PlugIns/kf5/org\.kde\.kwindowsystem\.platforms.*
-
-# strip executables
-bin/(?!(labplot|cantor.*)).*

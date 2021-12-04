@@ -48,8 +48,10 @@ bin/data/kdevappwizard/.*
 bin/data/kf5/kmoretools/.*
 bin/data/knotifications5/.*
 bin/data/libgpg-error/.*
+# used for translations
 #bin/data/locale/.*
-share/.*
+# needed on macOS
+#share/.*
 
 # we use a icontheme.rc on windows
 # only icons for cantor backends
