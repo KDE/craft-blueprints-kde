@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.description = 'A data model, library, and file format for storing and managing data'
 
         self.patchToApply['1.10.7'] = [('hdf5-1.10.7-file-locking.diff', 1)]
-        self.defaultTarget = '1.10.6'
+        self.defaultTarget = '1.10.8'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
