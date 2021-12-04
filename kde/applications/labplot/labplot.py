@@ -26,8 +26,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/zlib"] = None
-        if CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["libs/webp"] = None
         self.runtimeDependencies["libs/liblz4"] = None
         self.runtimeDependencies["libs/hdf5"] = None
         # netcdf disabled for MSVC until build is stable on Binary Factory
