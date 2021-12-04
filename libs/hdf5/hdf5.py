@@ -4,7 +4,7 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = "[git]https://bitbucket.hdfgroup.org/scm/hdffv/hdf5.git"
-        for ver in ["1.10.5", "1.10.6", "1.10.7"]:
+        for ver in ["1.10.5", "1.10.6", "1.10.7", "1.10.8"]:
             self.targets[ver] = f"https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-{ver}/src/hdf5-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"hdf5-{ver}"
             self.archiveNames[ver] = f"hdf5-{ver}.tar.gz"
@@ -14,6 +14,8 @@ class subinfo(info.infoclass):
             ['5f9a3ee85db4ea1d3b1fa9159352aebc2af72732fc2f58c96a3f0768dba0e9aa'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['1.10.7'] = (
             ['7a1a0a54371275ce2dfc5cd093775bb025c365846512961e7e5ceaecb437ef15'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['1.10.8'] = (
+            ['d341b80d380dd763753a0ebe22915e11e87aac4e44a084a850646ff934d19c80'], CraftHash.HashAlgorithm.SHA256)
         self.description = 'A data model, library, and file format for storing and managing data'
 
         self.patchToApply['1.10.7'] = [('hdf5-1.10.7-file-locking.diff', 1)]
