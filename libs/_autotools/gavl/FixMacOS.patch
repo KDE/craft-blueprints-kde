@@ -1,0 +1,28 @@
+diff --git a/configure.ac b/configure1.ac
+index 07e1854..6104345 100644
+--- a/configure.ac
++++ b/configure1.ac
+@@ -159,23 +159,6 @@ LIBS=$RT_LIBS
+ 
+ AC_MSG_CHECKING(for CLOCK_MONOTONIC)
+ 
+-AC_TRY_COMPILE([
+-  #include <time.h>
+-  #include <errno.h>
+-],[
+-  struct timespec tp;
+-  clock_gettime(CLOCK_MONOTONIC, &tp);
+-  ],
+-  [
+-    # program could be run
+-    AC_MSG_RESULT(yes)
+-    HAVE_CLOCK_MONOTONIC="true"
+-
+-  ],
+-    # program could not be run
+-    AC_MSG_RESULT(no)
+-)
+-
+ if test "x$HAVE_CLOCK_MONOTONIC" = "xtrue"; then
+   AC_DEFINE([HAVE_CLOCK_MONOTONIC])
+ fi
