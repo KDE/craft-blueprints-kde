@@ -64,7 +64,7 @@ class PackageAutoTools(AutoToolsPackageBase):
                                                 "--enable-libopts-install", "--disable-tests",
                                                 "--disable-doc",
                                                 "--enable-openssl-compatibility"]
-        if not self.subinfo.options.isActive('libs/p11kit'):
+        if not self.subinfo.options.isActive('libs/p11kit') or CraftCore.compiler.isWindows: #TODO Remove platform check in the future. See issue #3
             self.subinfo.options.configure.args += ["--without-p11-kit"]
 
 if not CraftCore.compiler.isMSVC():
