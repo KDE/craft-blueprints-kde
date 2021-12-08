@@ -82,10 +82,10 @@ bin/data/knotifications5/.*
 bin/data/libgpg-error/.*
 # needed for translations
 #bin/data/locale/.*
-bin/data/translations/qtwebengine_locales/.*
+translations/qtwebengine_locales/.*
 html/.*
-# required on macOS
-#share/.*
+# required on macOS?
+share/.*
 
 # we use a icontheme.rc on windows
 # only icons for cantor backends
