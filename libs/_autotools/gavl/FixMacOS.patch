@@ -1,4 +1,4 @@
-diff --git a/configure.ac b/configure1.ac
+diff --git a/configure.ac b/configure.ac
 index 07e1854..6104345 100644
 --- a/configure.ac
 +++ b/configure.ac
