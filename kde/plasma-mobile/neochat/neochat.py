@@ -4,8 +4,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "https://invent.kde.org/network/neochat.git"
-        self.defaultTarget = "master"
+        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/network/neochat.git")
 
         self.displayName = "NeoChat"
         self.description = "A client for matrix, the decentralized communication protocol."
