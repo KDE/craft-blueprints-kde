@@ -16,7 +16,10 @@ class subinfo(info.infoclass):
 
         self.description = "Low level library, upon which multimedia APIs can be built"
         self.webpage = "https://gmerlin.sourceforge.net"
-        self.defaultTarget = 'master'
+        if CraftCore.compiler.isMacOS:
+            self.defaultTarget = 'master'
+        else:
+            self.defaultTarget = '1.4.0'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
