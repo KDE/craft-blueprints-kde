@@ -1,7 +1,7 @@
 diff --git a/configure.ac b/configure1.ac
 index 07e1854..6104345 100644
 --- a/configure.ac
-+++ b/configure1.ac
++++ b/configure.ac
 @@ -159,23 +159,6 @@ LIBS=$RT_LIBS
  
  AC_MSG_CHECKING(for CLOCK_MONOTONIC)
