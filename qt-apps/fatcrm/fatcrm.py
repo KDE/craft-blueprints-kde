@@ -7,7 +7,13 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/KDAB/FatCRM.git"
-        self.defaultTarget = "master"
+
+        self.targets["2.4.0"] = "https://github.com/KDAB/FatCRM/releases/download/v2.4.0/fatcrm-2.4.0.tar.gz"
+        self.archiveNames["2.4.0"] = "fatcrm-2.4.0.tar.gz"
+        self.targetInstSrc["2.4.0"] = "fatcrm-2.4.0"
+        self.targetDigests["2.4.0"] = (['ff3d5d84e137ac820de4f95ef14f6cf5e5ad40adee02eadb5082cb104de582ee'], CraftHash.HashAlgorithm.SHA256)
+
+        self.defaultTarget = "2.4.0"
 
         self.description = "Desktop Application for SugarCRM"
         self.webpage = "http://www.kdab.com/"
