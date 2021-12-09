@@ -6,9 +6,8 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
+        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/pim/khealthcertificate.git")
         self.displayName = "KHealthCertificate"
-        self.description = "Library to parse health certificates"
-        self.svnTargets["master"] = "https://invent.kde.org/pim/khealthcertificate"
 
         self.defaultTarget = "master"
 
