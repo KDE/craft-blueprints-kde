@@ -3,11 +3,9 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
+        self.versionInfo.setDefaultValues()
         self.displayName = "Vakzination"
         self.description = "Manage your health certificates"
-        self.svnTargets["master"] = "https://invent.kde.org/plasma-mobile/vakzination"
-
-        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
