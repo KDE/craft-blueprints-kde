@@ -11,6 +11,9 @@ class subinfo(info.infoclass):
             self.archiveNames[ver] = 'libQuotient-%s.tar.gz' % ver
             self.targetInstSrc[ver] = 'libQuotient-%s' % ver
 
+        self.patchToApply['0.6.11'] = [('0001-Use-GNUInstallDirs-also-on-Windows.patch', 1)]
+        self.patchLevel['0.6.11'] = 1
+
         self.targetDigests['0.6.11'] = (['12b15d1296e630477d5e8f4d32c821dc724b3c5b99d15d383417ba7d88f03c46'], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = '0.6.11'
