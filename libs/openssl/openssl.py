@@ -160,6 +160,7 @@ class PackageCMake(CMakePackageBase):
         baseDir = os.path.join(self.installDir(), os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot()))
         shutil.rmtree(os.path.join(baseDir, "doc"), ignore_errors=True)
         shutil.rmtree(os.path.join(baseDir, "man"), ignore_errors=True)
+        shutil.rmtree(os.path.join(baseDir, "html"), ignore_errors=True)
         return True
 
 from Package.AutoToolsPackageBase import *
