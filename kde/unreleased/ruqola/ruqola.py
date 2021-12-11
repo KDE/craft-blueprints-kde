@@ -28,12 +28,11 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
 
-        self.targets['1.5.2'] = 'https://download.kde.org/stable/ruqola/ruqola-1.5.2.tar.xz'
-        self.targetDigests['1.5.2'] = (['43193f65976eba7de9c70e08144b89a0f186b9035a98bfcd94fdd90ca6493294'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['1.5.2'] = 'ruqola-1.5.2'
+        self.targets['1.6.0'] = 'https://download.kde.org/stable/ruqola/ruqola-1.6.0.tar.xz'
+        self.targetDigests['1.6.0'] = (['70886a8a1e611fb8a20288a8ff8ef5dd9a3a00d4776bb096d38d9e89a6607210'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc['1.6.0'] = 'ruqola-1.6.0'
         self.svnTargets["master"] = "https://invent.kde.org/network/ruqola.git"
-        self.defaultTarget = "1.5.2"
-        self.patchLevel["master"] = 1
+        self.defaultTarget = "1.6.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
