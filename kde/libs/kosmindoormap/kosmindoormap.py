@@ -15,6 +15,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["kde/libs/kopeninghours"] = None
         self.runtimeDependencies["kde/libs/kpublictransport"] = None
+        # needed for the app
+        self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
+        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+        self.runtimeDependencies["libs/qt5/qtsvg"] = None
+        self.runtimeDependencies["libs/openssl"] = None
 
 
 from Package.CMakePackageBase import *
@@ -22,4 +27,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
- 
+        self.subinfo.options.configure.args += " -DBUILD_STANDALONE_APP=ON"
