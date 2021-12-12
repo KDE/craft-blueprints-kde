@@ -22,5 +22,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        # there is a standalone APK in here, but that's not built by default
-        self.androidApkTargets = None
+ 
