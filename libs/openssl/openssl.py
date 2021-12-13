@@ -157,11 +157,10 @@ class PackageCMake(CMakePackageBase):
 
     def postInstall(self):
         # remove API docs here as there is no build option for that
-        baseDir = os.path.join(self.installDir(), os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot()))
-        shutil.rmtree(os.path.join(baseDir, "doc"), ignore_errors=True)
-        shutil.rmtree(os.path.join(baseDir, "man"), ignore_errors=True)
-        shutil.rmtree(os.path.join(baseDir, "html"), ignore_errors=True)
-        return True
+        baseDir = self.installDir() /  os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot())
+        return (utils.rmtree(baseDir / "doc") and
+            utils.rmtree(baseDir / "man") and
+            utils.rmtree(self.installDir() / "html"))
 
 from Package.AutoToolsPackageBase import *
 
