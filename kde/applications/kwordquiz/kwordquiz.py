@@ -23,7 +23,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
         self.runtimeDependencies["kde/applications/libkeduvocdocument"] = None
 
 
