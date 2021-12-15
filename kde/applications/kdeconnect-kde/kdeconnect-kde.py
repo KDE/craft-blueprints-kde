@@ -11,6 +11,8 @@ class subinfo(info.infoclass):
         self.description = "KDE Connect adds communication between KDE and your smartphone"
         self.displayName = "KDE Connect"
 
+        self.patchToApply["21.12.0"] = [("0001-Disable-Battery-plugin-on-Windows.patch", 1)]
+
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None

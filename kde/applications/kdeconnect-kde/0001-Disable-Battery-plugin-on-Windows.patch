@@ -1,0 +1,50 @@
+From 817b105a38a93187a777ff51cb43a890501739f1 Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Wed, 15 Dec 2021 19:12:35 +0100
+Subject: [PATCH] Disable Battery plugin on Windows
+
+It's causing severe issues
+
+https://bugs.kde.org/show_bug.cgi\?id\=444612
+(cherry picked from commit dc34cfb66c9a13d96bd3f755dee90d76d40e3ec7)
+---
+ plugins/CMakeLists.txt | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/plugins/CMakeLists.txt b/plugins/CMakeLists.txt
+index 048b16c3..ab85242c 100644
+--- a/plugins/CMakeLists.txt
++++ b/plugins/CMakeLists.txt
+@@ -1,7 +1,6 @@
+ add_definitions(-DTRANSLATION_DOMAIN=\"kdeconnect-plugins\")
+ 
+ add_subdirectory(ping)
+-add_subdirectory(battery)
+ add_subdirectory(connectivity-report)
+ add_subdirectory(remotecommands)
+ add_subdirectory(remotecontrol)
+@@ -9,6 +8,12 @@ add_subdirectory(remotesystemvolume)
+ add_subdirectory(clipboard)
+ add_subdirectory(runcommand)
+ 
++
++if(NOT WIN32)
++    # https://bugs.kde.org/show_bug.cgi?id=444612
++    add_subdirectory(battery)
++endif()
++
+ if(NOT WIN32 AND NOT APPLE)
+     add_subdirectory(bigscreen)
+ endif()
+@@ -35,7 +40,7 @@ if(NOT SAILFISHOS)
+     if(NOT WIN32)
+         add_subdirectory(sendnotifications)
+     endif()
+-    
++
+     if(NOT APPLE)
+         add_subdirectory(sftp)
+     endif()
+-- 
+2.34.1
+
