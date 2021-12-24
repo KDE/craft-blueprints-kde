@@ -80,7 +80,10 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DFETCH_TRANSLATIONS=ON"
+        self.subinfo.options.configure.args += "-DFETCH_TRANSLATIONS=ON"
+        
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += "-DENABLE_WOOB=OFF"
 
     def createPackage(self):
         self.defines["executable"] = "bin\\kmymoney.exe"                       # Windows-only, mac is handled implicitly
