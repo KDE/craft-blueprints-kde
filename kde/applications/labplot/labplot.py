@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.description = "Interactive graphing and analysis of scientific data"
+        self.description = "A FREE, open-source and cross-platform Data Visualization and Analysis software accessible to everyone"
         self.webpage = "https://labplot.kde.org/"
         self.displayName = "LabPlot2"
 
