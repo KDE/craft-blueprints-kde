@@ -60,7 +60,8 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_KF5FileMetaData=ON"
         if self.buildTarget == "master" or self.buildTarget >= CraftVersion("21.11.70"):
             self.subinfo.options.configure.args += " -DNODBUS=ON"
-
+        if self.buildTarget == "master":
+            self.subinfo.options.configure.args += " -DRELEASE_BUILD=OFF"
     def createPackage(self):
         if not CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
