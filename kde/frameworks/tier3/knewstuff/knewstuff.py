@@ -7,6 +7,8 @@ class subinfo(info.infoclass):
 
         self.description = "Support for downloading application assets from the network"
 
+        self.patchToApply["5.89.0"] = ('FixWindowsTargets.patch', 1)
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -16,6 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies['kde/frameworks/tier1/kirigami'] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None

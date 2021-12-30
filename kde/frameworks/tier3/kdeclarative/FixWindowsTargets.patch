@@ -1,0 +1,121 @@
+diff --git a/src/qmlcontrols/draganddrop/CMakeLists.txt b/src/qmlcontrols/draganddrop/CMakeLists.txt
+index cd30162..4056d5a 100644
+--- a/src/qmlcontrols/draganddrop/CMakeLists.txt
++++ b/src/qmlcontrols/draganddrop/CMakeLists.txt
+@@ -23,6 +23,10 @@ target_link_libraries(draganddropplugin
+         Qt5::Gui
+ )
+ 
++if(WIN32 AND BUILD_SHARED_LIBS)
++    set_target_properties(draganddropplugin PROPERTIES PREFIX "")
++endif()
++
+ install(TARGETS draganddropplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/draganddrop)
+ 
+ install(FILES qmldir DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/draganddrop)
+diff --git a/src/qmlcontrols/kcmcontrols/CMakeLists.txt b/src/qmlcontrols/kcmcontrols/CMakeLists.txt
+index c1adea5..88f6e86 100644
+--- a/src/qmlcontrols/kcmcontrols/CMakeLists.txt
++++ b/src/qmlcontrols/kcmcontrols/CMakeLists.txt
+@@ -21,6 +21,11 @@ target_link_libraries(kcmcontrolsplugin
+         KF5::ConfigCore
+ )
+ 
++if(WIN32 AND BUILD_SHARED_LIBS)
++    set_target_properties(kcmcontrolsplugin PROPERTIES PREFIX "")
++endif()
++
++
+ install(TARGETS kcmcontrolsplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kcm)
+ 
+ install(DIRECTORY qml/ DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kcm)
+diff --git a/src/qmlcontrols/kconfig/CMakeLists.txt b/src/qmlcontrols/kconfig/CMakeLists.txt
+index 334d7ba..a005f09 100644
+--- a/src/qmlcontrols/kconfig/CMakeLists.txt
++++ b/src/qmlcontrols/kconfig/CMakeLists.txt
+@@ -14,6 +14,10 @@ target_link_libraries(kconfigplugin
+         KF5::ConfigCore
+ )
+ 
++if(WIN32 AND BUILD_SHARED_LIBS)
++    set_target_properties(kconfigplugin PROPERTIES PREFIX "")
++endif()
++
+ install(TARGETS kconfigplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kconfig)
+ 
+ install(FILES qmldir DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kconfig)
+diff --git a/src/qmlcontrols/kcoreaddons/CMakeLists.txt b/src/qmlcontrols/kcoreaddons/CMakeLists.txt
+index 393ed76..f7d05de 100644
+--- a/src/qmlcontrols/kcoreaddons/CMakeLists.txt
++++ b/src/qmlcontrols/kcoreaddons/CMakeLists.txt
+@@ -18,6 +18,10 @@ target_link_libraries(kcoreaddonsplugin
+         KF5::CoreAddons
+ )
+ 
++if(WIN32 AND BUILD_SHARED_LIBS)
++    set_target_properties(kcoreaddonsplugin PROPERTIES PREFIX "")
++endif()
++
+ install(TARGETS kcoreaddonsplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kcoreaddons)
+ 
+ install(FILES qmldir DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kcoreaddons)
+diff --git a/src/qmlcontrols/kioplugin/CMakeLists.txt b/src/qmlcontrols/kioplugin/CMakeLists.txt
+index 2059487..37b4a96 100644
+--- a/src/qmlcontrols/kioplugin/CMakeLists.txt
++++ b/src/qmlcontrols/kioplugin/CMakeLists.txt
+@@ -15,6 +15,10 @@ target_link_libraries(kio
+         KF5::Notifications
+ )
+ 
++if(WIN32 AND BUILD_SHARED_LIBS)
++    set_target_properties(kio PROPERTIES PREFIX "")
++endif()
++
+ install(TARGETS kio DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kio)
+ 
+ install(FILES qmldir DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kio)
+diff --git a/src/qmlcontrols/kquickcontrols/private/CMakeLists.txt b/src/qmlcontrols/kquickcontrols/private/CMakeLists.txt
+index ec75cc4..8243c09 100644
+--- a/src/qmlcontrols/kquickcontrols/private/CMakeLists.txt
++++ b/src/qmlcontrols/kquickcontrols/private/CMakeLists.txt
+@@ -24,6 +24,10 @@ target_link_libraries(kquickcontrolsprivateplugin
+         KF5::GlobalAccel
+         )
+ 
++if(WIN32 AND BUILD_SHARED_LIBS)
++    set_target_properties(kquickcontrolsprivateplugin PROPERTIES PREFIX "")
++endif()
++
+ install(TARGETS kquickcontrolsprivateplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/private/kquickcontrols)
+ 
+ install(FILES qmldir DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/private/kquickcontrols)
+diff --git a/src/qmlcontrols/kquickcontrolsaddons/CMakeLists.txt b/src/qmlcontrols/kquickcontrolsaddons/CMakeLists.txt
+index e4e7dc3..22f84dd 100644
+--- a/src/qmlcontrols/kquickcontrolsaddons/CMakeLists.txt
++++ b/src/qmlcontrols/kquickcontrolsaddons/CMakeLists.txt
+@@ -47,6 +47,10 @@ if (HAVE_EPOXY)
+     target_link_libraries(kquickcontrolsaddonsplugin epoxy::epoxy)
+ endif()
+ 
++if(WIN32 AND BUILD_SHARED_LIBS)
++    set_target_properties(kquickcontrolsaddonsplugin PROPERTIES PREFIX "")
++endif()
++
+ install(TARGETS kquickcontrolsaddonsplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kquickcontrolsaddons)
+ 
+ install(FILES qmldir DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kquickcontrolsaddons)
+diff --git a/src/qmlcontrols/kwindowsystemplugin/CMakeLists.txt b/src/qmlcontrols/kwindowsystemplugin/CMakeLists.txt
+index cb9ea69..6738700 100644
+--- a/src/qmlcontrols/kwindowsystemplugin/CMakeLists.txt
++++ b/src/qmlcontrols/kwindowsystemplugin/CMakeLists.txt
+@@ -15,6 +15,10 @@ target_link_libraries(kwindowsystem
+         KF5::WindowSystem
+ )
+ 
++if(WIN32 AND BUILD_SHARED_LIBS)
++    set_target_properties(kwindowsystem PROPERTIES PREFIX "")
++endif()
++
+ install(TARGETS kwindowsystem DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kwindowsystem)
+ 
+ install(FILES qmldir DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kwindowsystem)
