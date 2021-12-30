@@ -28,10 +28,10 @@ from CraftOS.osutils import OsUtils
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["6.3.1"] = "https://www.aquamaniac.de/rdm/attachments/download/379/aqbanking-6.3.1.tar.gz"
-        self.targetDigests["6.3.1"] = (['c4989897ad14acf62e5c84161649fc1070c0f21d66c6f007f468f4b9024e0036'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["6.3.1"] = "aqbanking-6.3.1"
-        self.defaultTarget = "6.3.1"
+        self.targets["6.4.1"] = "https://www.aquamaniac.de/rdm/attachments/download/400/aqbanking-6.4.1.tar.gz"
+        self.targetDigests["6.4.1"] = (['79adeaf05e99b5aa0d31c3eac3db37a56bb375f537b3f106a9acfcf844dadd77'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["6.4.1"] = "aqbanking-6.4.1"
+        self.defaultTarget = "6.4.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
