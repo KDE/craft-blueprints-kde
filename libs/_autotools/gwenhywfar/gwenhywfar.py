@@ -28,15 +28,13 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["5.7.1"] = "https://www.aquamaniac.de/rdm/attachments/download/377/gwenhywfar-5.7.1.tar.gz"
-        self.targetDigests["5.7.1"] = (['6b169663f3708c567717273bdd8e3b48b871f31ce73759d594dad7e9cc3114d1'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["5.7.1"] = "gwenhywfar-5.7.1"
+        self.targets["5.8.1"] = "https://www.aquamaniac.de/rdm/attachments/download/402/gwenhywfar-5.8.1.tar.gz"
+        self.targetDigests["5.8.1"] = (['05397618b9cae0197a181835f67e19ba09652cf30e2c9d1fbb98f3f34dbf4e1f'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["5.8.1"] = "gwenhywfar-5.8.1"
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["5.7.1"] = [("gwenhywfar-4.19.0-20180218.diff", 1)]
-        elif CraftCore.compiler.isMacOS:
-            self.patchToApply["5.7.1"] = [("gwenhywfar-4.20.0-20180503.diff", 1)]
-        self.defaultTarget = "5.7.1"
-        self.patchLevel["5.7.1"] = 0
+            self.patchToApply["5.8.1"] = [("gwenhywfar-4.19.0-20180218.diff", 1)]
+        self.defaultTarget = "5.8.1"
+        self.patchLevel["5.8.1"] = 0
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
