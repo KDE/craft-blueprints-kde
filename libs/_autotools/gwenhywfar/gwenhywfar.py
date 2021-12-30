@@ -31,11 +31,11 @@ class subinfo(info.infoclass):
         self.targets["5.8.1"] = "https://www.aquamaniac.de/rdm/attachments/download/402/gwenhywfar-5.8.1.tar.gz"
         self.targetDigests["5.8.1"] = (['05397618b9cae0197a181835f67e19ba09652cf30e2c9d1fbb98f3f34dbf4e1f'], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["5.8.1"] = "gwenhywfar-5.8.1"
-        self.patchToApply["5.8.1"] = [("gwenhywfar-5.8.1-20211230.diff", 1)]
+        self.patchToApply["5.8.1"] = [("gwenhywfar-5.8.1-20211230.diff", 0)]
         if CraftCore.compiler.isMinGW():
             self.patchToApply["5.8.1"] += [("gwenhywfar-4.19.0-20180218.diff", 1)]
         self.defaultTarget = "5.8.1"
-        self.patchLevel["5.8.1"] = 1
+        self.patchLevel["5.8.1"] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
