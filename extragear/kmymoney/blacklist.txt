@@ -24,7 +24,6 @@ share\\plasma\\desktoptheme\\(?!(default)).*
 (bin/data|share)/apps/kgpg/.*
 (bin/data|share)/kf5/kdoctools/.*
 (bin/data|share)/aclocal/.*
-(bin/data|share)/applications/.*
 (bin/data|share)/common-lisp/.*
 (bin/data|share)/gtk-doc/.*
 (bin/data|share)/hunspell/.*
