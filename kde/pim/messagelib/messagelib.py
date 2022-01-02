@@ -41,7 +41,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/qt5/qtwebengine"] = None
-        self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
+        self.runtimeDependencies["libs/gpgme"] = None
 
 
 from Package.CMakePackageBase import *
