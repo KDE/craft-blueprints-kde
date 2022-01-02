@@ -31,6 +31,7 @@ class subinfo(info.infoclass):
         self.targets["6.4.1"] = "https://www.aquamaniac.de/rdm/attachments/download/400/aqbanking-6.4.1.tar.gz"
         self.targetDigests["6.4.1"] = (['79adeaf05e99b5aa0d31c3eac3db37a56bb375f537b3f106a9acfcf844dadd77'], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["6.4.1"] = "aqbanking-6.4.1"
+        self.patchLevel["6.4.1"] = 1
         self.defaultTarget = "6.4.1"
 
     def setDependencies(self):
@@ -43,6 +44,11 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args += " --disable-static --enable-shared "
+        # For appImage builds the --enable-local-install is needed so that
+        # the appImage is searched for aqbanking plugins
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.args += " --enable-local-install"
+
         # this prevents "cannot find the library libaqhbci.la or unhandled argument libaqhbci.la"
         self.subinfo.options.make.supportsMultijob = False
 

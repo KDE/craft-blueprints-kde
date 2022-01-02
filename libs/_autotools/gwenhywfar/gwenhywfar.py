@@ -34,8 +34,8 @@ class subinfo(info.infoclass):
         self.patchToApply["5.8.1"] = [("gwenhywfar-5.8.1-20211230.diff", 0)]
         if CraftCore.compiler.isMinGW():
             self.patchToApply["5.8.1"] += [("gwenhywfar-4.19.0-20180218.diff", 1)]
+        self.patchLevel["5.8.1"] = 3
         self.defaultTarget = "5.8.1"
-        self.patchLevel["5.8.1"] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -51,6 +51,10 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args += " --disable-static --enable-shared --disable-binreloc --with-guis='qt5 cpp'"
+        # For appImage builds the --enable-local-install is needed so that
+        # the appImage is searched for gwenhywfar plugins
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.args += " --enable-local-install"
 
         # Disable autoreconf. Otherwise following errors prevent configuring:
         # configure.ac:618: warning: macro 'AM_PATH_LIBGCRYPT' not found in library
