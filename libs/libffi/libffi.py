@@ -1,7 +1,6 @@
 import info
 
-from Package.CMakePackageBase import CMakePackageBase
-
+from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -16,13 +15,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/msys"] = None
-
-
-class PackageCMake(CMakePackageBase):
-    def __init__(self, **args):
-        CMakePackageBase.__init__(self)
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):
