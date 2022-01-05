@@ -81,10 +81,7 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args += "-DFETCH_TRANSLATIONS=ON"
-
-        if CraftCore.compiler.isLinux:
-            self.subinfo.options.configure.args += "-DIS_APPIMAGE=ON -DBUILD_TESTING=OFF"
-
+        
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += "-DENABLE_WOOB=OFF"
 
