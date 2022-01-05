@@ -89,6 +89,9 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += "-DENABLE_WOOB=OFF"
 
     def createPackage(self):
+        # set env variables for AppImage run environment
+        self.defines["runenv"] = [
+                'LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH']
         self.defines["executable"] = "bin\\kmymoney.exe"                       # Windows-only, mac is handled implicitly
         self.defines["icon"] = os.path.join(self.packageDir(), "kmymoney.ico")
         self.defines["mimetypes"] = ["application/x-kmymoney",
