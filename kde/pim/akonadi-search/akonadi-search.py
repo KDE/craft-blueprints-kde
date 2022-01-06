@@ -8,9 +8,6 @@ class subinfo(info.infoclass):
 
         self.description = "Akonadi Search Agent"
 
-        self.patchToApply["21.08.3"] = ('0001-Convert-test-file-to-UTF-8.patch', 1)
-        self.patchLevel["21.08.3"] = 1
-
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/xapian-core"] = None
