@@ -18,3 +18,5 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args = "-DBUILD_SHARED_LIBS=OFF"
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += "-DUSE_CURL=OFF"
