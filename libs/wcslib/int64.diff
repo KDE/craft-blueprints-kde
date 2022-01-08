@@ -1,0 +1,10 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' wcslib-7.7.orig/wcsconfig.h wcslib-7.7/wcsconfig.h
+LibRaw-0.18.13.orig/cmake/data/libraw.lsm.cmake
+--- wcslib-7.7.orig/wcsconfig.h	2020-11-15 16:55:37.000000000 -0500
++++ wcslib-7.7/wcsconfig.h	2022-01-01 17:01:42.000000000 -0500
+@@ -15,4 +15,4 @@
+ #define WCSLIB_VERSION "7.3.1"
+ 
+ /* 64-bit integer data type. */
+-#define WCSLIB_INT64 __int64
++#define WCSLIB_INT64 __int64_t
