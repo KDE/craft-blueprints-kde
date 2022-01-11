@@ -25,6 +25,7 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__( self )
         prefix = str(self.shell.toNativePath(CraftCore.standardDirs.craftRoot()))
        	self.subinfo.options.useShadowBuild = False
+        self.subinfo.options.package.disableBinaryCache = True #This was necessary since it kept using the other recipe's binary cache
         self.subinfo.options.configure.args += " --disable-dependency-tracking" \
         " --without-ssl" \
         " --prefix=" + prefix
