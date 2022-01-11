@@ -27,5 +27,5 @@ class Package(AutoToolsPackageBase):
        	self.subinfo.options.useShadowBuild = False
         self.subinfo.options.package.disableBinaryCache = True #This was necessary since it kept using the other recipe's binary cache
         self.subinfo.options.configure.args += " --disable-dependency-tracking" \
-        " --without-ssl" \
+        " --with-openssl" \
         " --prefix=" + prefix
