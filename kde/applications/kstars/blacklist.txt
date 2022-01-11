@@ -164,9 +164,7 @@ plugins/kcm_trash.so
 share/knotifications5/kstars.notifyrc
 share/knotifications5/proxyscout.notifyrc
 share/knotifications5/kwalletd.notifyrc
-bin/xplanet
-bin/dbus-send
-bin/dbus-daemon
+bin/.*
 lib/libphonon4qt5.4.dylib
 lib/libphonon4qt5experimental.4.dylib
 

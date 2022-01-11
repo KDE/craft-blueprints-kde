@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libnova"] = None
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/_mac/libusb"] = None
+        self.runtimeDependencies["libs/_mac/libcurl"] = None
         self.runtimeDependencies["libs/gsl"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/libfftw"] = None

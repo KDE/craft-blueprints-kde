@@ -48,7 +48,7 @@ class Package(CMakePackageBase):
                 # Note: The following code is to correct hard coded links to homebrew
                 # The links are often caused by different camera manufacturer's binary libraries, not built by us.
                 if path == "/usr/local/lib/libusb-1.0.0.dylib" or path == "/usr/local/opt/libusb/lib/libusb-1.0.0.dylib" or path == "@loader_path/libusb-1.0.0.dylib":
-                    utils.system(["install_name_tool", "-change", path, os.path.join("@rpath/libusb.dylib"), library])
+                    utils.system(["install_name_tool", "-change", path, os.path.join("@rpath/libusb-1.0.dylib"), library])
             if library.endswith(".dylib"):
                 utils.system(["install_name_tool", "-id", os.path.join("@rpath", os.path.basename(library)), library])
             utils.system(["install_name_tool", "-add_rpath", craftLibDir, library])
