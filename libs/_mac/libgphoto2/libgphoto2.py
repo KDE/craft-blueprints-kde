@@ -22,15 +22,15 @@ from Package.AutoToolsPackageBase import *
 
 class Package(AutoToolsPackageBase):
     def fixLibraryFolder(self, folder):
-        root = str(CraftCore.standardDirs.craftRoot())
-        craftLibDir = os.path.join(root,  'lib')
+        craftLibDir = os.path.join(CraftCore.standardDirs.craftRoot(),  'lib')
         for library in utils.filterDirectoryContent(str(folder)):
             for path in utils.getLibraryDeps(str(library)):
                 if path.startswith(craftLibDir):
                     utils.system(["install_name_tool", "-change", path, os.path.join("@rpath", os.path.basename(path)), library])
             if library.endswith(".dylib"):
-                utils.system(["install_name_tool", "-id", os.path.join("@rpath", os.path.basename(path)), library])
+                utils.system(["install_name_tool", "-id", os.path.join("@rpath", os.path.basename(library)), library])
             utils.system(["install_name_tool", "-add_rpath", craftLibDir, library])
+
 
     def __init__( self, **args ):
         AutoToolsPackageBase.__init__( self )
