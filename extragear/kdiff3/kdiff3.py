@@ -37,7 +37,7 @@ class Package(CMakePackageBase):
         #Only attempt to install shell extention in standalone mode 
         if not isinstance(self, AppxPackager):
             if self.subinfo.buildTarget == "1.9":
-                self.defines["version"] = "1.9.3"
+                self.defines["version"] = "1.9.4"
             
             self.defines["registry_hook"]=(r"""
         !define DIFF_EXT_CLSID "{34471FFB-4002-438b-8952-E4588D0C0FE9}"
