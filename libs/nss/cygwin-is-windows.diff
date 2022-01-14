@@ -1,0 +1,12 @@
+diff -rub a/nss/coreconf/check_cc.py b/nss/coreconf/check_cc.py
+--- a/nss/coreconf/check_cc.py	2022-01-06 12:38:58.000000000 +0100
++++ b/nss/coreconf/check_cc.py	2022-01-11 16:01:43.108140200 +0100
+@@ -5,7 +5,7 @@
+ import sys
+ 
+ def main():
+-    if sys.platform == 'win32' or len(sys.argv) < 2:
++    if sys.platform == 'win32' or sys.platform == 'cygwin' or len(sys.argv) < 2:
+         print(0)
+     else:
+         cc = os.environ.get('CC', 'cc')
