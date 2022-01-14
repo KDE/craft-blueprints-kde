@@ -56,6 +56,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/fontconfig"] = None
         self.runtimeDependencies["data/poppler-data"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/nss"] = None
 
     def registerOptions(self):
         if CraftCore.compiler.isAndroid:
