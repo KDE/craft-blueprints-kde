@@ -25,6 +25,8 @@ class subinfo(info.infoclass):
                 self.patchToApply[ver] = []
             if qtVer >= "5.15.2":
                 self.patchToApply[ver] = [(".qt-5.15.2", 1)]
+                if CraftCore.compiler.isMinGW():
+                    self.patchToApply[ver] += [("mingw11_5152.diff", 1)]
             elif qtVer >= CraftVersion("5.12.11"):
                 self.patchToApply[ver] = [
                     (".qt-5.12.11", 1)
