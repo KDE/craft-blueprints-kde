@@ -4,6 +4,7 @@ import CraftOS
 import info
 from Package.AutoToolsPackageBase import *
 from Package.MakeFilePackageBase import *
+from Blueprints.CraftVersion import *
 
 
 class subinfo(info.infoclass):
@@ -13,17 +14,16 @@ class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["5.28.1"]:
             self.targets[ver] = f"https://www.cpan.org/src/5.0/perl-{ver}.tar.gz"
-            if CraftCore.compiler.isWindows:
-                self.targetInstSrc[ver] = f"perl-{ver}/win32"
-            else:
-                self.targetInstSrc[ver] = f"perl-{ver}"
+            self.targetInstSrc[ver] = f"perl-{ver}"
 
         if CraftCore.compiler.isWindows:
             # With msvc2015+ and Windows 10 1803 perlglob is broken. for that reason we provide a precompiled version
             # https://developercommunity.visualstudio.com/content/problem/245615/first-file-name-in-command-line-wildcard-expansion.html
             self.patchToApply["5.28.1"] = [("perl-5.28.0-20181129.diff", 1),
-                                           ("perl-5.28.1-20181229.diff", 2)
+                                           ("perl-5.28.1-20181229.diff", 1)
                                            ]
+            if CraftCore.compiler.isMinGW() and CraftVersion(CraftCore.compiler.getVersion()) > CraftVersion("11.0.0"):
+                self.patchToApply["5.28.1"] += [("mingw11.diff", 1)]
         else:
             #https://github.com/Perl/perl5/pull/17946/files
             self.patchToApply["5.28.1"] = [("17946.diff", 1)]
@@ -70,12 +70,17 @@ class PackageMSVC(MakeFilePackageBase):
 
     def make(self):
         with utils.ScopedEnv(self._globEnv()):
-            return super().make()
+            os.chdir(self.sourceDir() / 'win32')
+            return utils.system(Arguments([self.makeProgram, self.makeOptions(self.subinfo.options.make.args)]))
 
     def install(self):
         with utils.ScopedEnv(self._globEnv()):
-            if not super().install():
+            if not BuildSystemBase.install(self):
                 return False
+
+            os.chdir(self.sourceDir() / 'win32')
+            return utils.system(Arguments([self.makeProgram, self.makeOptions(self.subinfo.options.install.args), f"DESTDIR={self.installDir()}"]))
+
         def makeWriatable(root):
             with os.scandir(root) as scan:
                 for f in scan:

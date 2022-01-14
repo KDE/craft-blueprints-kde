@@ -1,6 +1,6 @@
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' perl-5.28.0\win32.orig/GNUmakefile perl-5.28.0\GNUmakefile
---- perl-5.28.0\win32.orig/GNUmakefile	2018-05-25 07:04:45.000000000 +0200
-+++ perl-5.28.0\GNUmakefile	2018-11-29 14:18:22.276441200 +0100
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' a/win32/GNUmakefile b/win32/GNUmakefile
+--- a/win32/GNUmakefile	2018-05-25 07:04:45.000000000 +0200
++++ b/win32/GNUmakefile	2018-11-29 14:18:22.276441200 +0100
 @@ -47,7 +47,7 @@
  # newly built perl.
  #
@@ -27,9 +27,9 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' perl-5.28.0\wi
  
  #
  # uncomment exactly one of the following
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' perl-5.28.0\win32.orig/Makefile perl-5.28.0\Makefile
---- perl-5.28.0\win32.orig/Makefile	2018-05-21 15:22:09.000000000 +0200
-+++ perl-5.28.0\Makefile	2018-11-29 14:19:04.072459300 +0100
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' a/win32/Makefile b/win32/Makefile
+--- a/win32/Makefile	2018-05-21 15:22:09.000000000 +0200
++++ b/win32/Makefile	2018-11-29 14:19:04.072459300 +0100
 @@ -21,13 +21,13 @@
  # newly built perl.
  #
