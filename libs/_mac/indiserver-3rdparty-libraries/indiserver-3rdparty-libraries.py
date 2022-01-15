@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/libnova"] = None
         self.runtimeDependencies["libs/cfitsio"] = None
+        self.runtimeDependencies["libs/libcurl"] = None
         self.runtimeDependencies["libs/_mac/libgphoto2"] = None
         self.runtimeDependencies["libs/_mac/libftdi"] = None
         self.runtimeDependencies["libs/_mac/libdc1394"] = None
