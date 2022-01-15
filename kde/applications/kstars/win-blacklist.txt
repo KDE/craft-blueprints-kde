@@ -1,0 +1,137 @@
+# blacklist
+
+# general
+manifest/.*
+.*\.cmake
+.*\.exp
+.*\.pdb
+.*\.pc
+.*\.la
+.*\.lib
+.*\.nsis
+.*\.prl
+.*\.a
+.*\.def
+.*\.h
+.*\.hpp
+.*\.c
+.*\.cpp
+include/.*
+lib/cmake/.*
+share/ECM/.*
+
+# multiple docs
+bin/data/man/.*
+doc/.*
+share/man/.*
+man/.*
+share/xml/.*
+share/locale/.*
+
+# docbook stuff
+bin/data/kf5/kdoctools/.*
+bin/data/xml/.*
+
+# other documentation (we prefer the online documentation atm)
+bin/data/doc/.*
+share/doc/.*
+
+# cmake stuff
+share/apps/cmake/.*
+
+# unrelated
+dev-utils/.*
+share/dbus-1/services/.*
+share/pkgconfig/.*
+
+# cleanup breeze stuff
+share/wallpapers/.*
+share/icons/Breeze_Snow/.*
+# We do not need this, we need share/icons/breeze-dark-icons.rcc and share/icons/breeze-icons.rcc
+bin/data/icontheme.rcc
+
+# cut the big oxygen icons: this can lead to errors though if used!!!!
+share/icons/oxygen/64x64/.*
+share/icons/oxygen/128x128/.*
+share/icons/oxygen/256x256/.*
+
+# doubled qt dlls
+lib/[^/]*\.dll
+# more qt leftovers
+translations/.*
+phrasebooks/.*
+mkspecs/.*
+
+# unneeded stuff from bin\
+bin/qt\.conf
+bin/syncqt\.pl
+bin/moc.*
+bin/qdoc.*
+bin/assistant.*
+bin/designer.*
+bin/fixqt4headers\.pl
+bin/lconvert.*
+bin/linguist.*
+bin/lrelease.*
+bin/lupdate.*
+bin/pixeltool.*
+bin/qcollectiongenerator.*
+bin/qdbus.*
+bin/qdbuscpp2xml.*
+bin/qdbusviewer.*
+bin/qdbusxml2cpp.*
+bin/qdoc.*
+bin/qhelpconverter.*
+bin/qhelpgenerator.*
+bin/qlalr.*
+bin/qmake.*
+bin/qml.*
+bin/qmlcachegen.*
+bin/qmleasing.*
+bin/qmlimportscanner.*
+bin/qmllint.*
+bin/qmlmin.*
+bin/qmlplugindump.*
+bin/qmlprofiler.*
+bin/qmlscene.*
+bin/qmltestrunner.*
+bin/qtattributionsscanner.*
+bin/qtdiag.*
+bin/qtpaths.*
+bin/qtplugininfo.*
+bin/rcc.*
+bin/uic.*
+bin/xmlpatterns.*
+bin/xmlpatternsvalidator.*
+bin/qvkgen.*
+bin/windeployqt.*
+
+# Useless stuff
+bin/data/kf5/kmoretools/.*
+bin/data/kservices5/.*
+bin/data/kservicetypes5/.*
+bin/data/hunspell/.*
+bin/designer/.*
+bin/kauth/.*
+lib/mecab/.*
+lib/plugin/.*
+share/(?!(dbus).*)
+
+# Only keep bare minimum from VLC plugins to play Ogg and WAV files
+bin/plugins/\b(?!(access|access_output|audio_output|audio_filter|codec).*).*
+bin/plugins/access/\b(?!(libfilesystem).*).*
+bin/plugins/access_output/\b(?!(libaccess_output_file).*).*
+bin/plugins/audio_filter/\b(?!(libaudio_format).*).*
+bin/plugins/codec/\b(?!(libavcodec).*).*
+bin/lua/.*
+bin/skins/.*
+
+# Unused Qt modules
+qml/QtMultimedia/.*
+qml/QtWebChannel/.*
+qml/QtWebKit/.*
+qml/QtWinExtras/.*
+qml/QtTest/.*
+
+# strip most executables
+bin/(?!(kstars|kbuildsycoca5|update-mime-database|kio|dbus|klauncher|kinit)).*\.exe

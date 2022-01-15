@@ -66,7 +66,10 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/llvm-meta")
-        self.blacklist_file = ["blacklist.txt"]
+        if CraftCore.compiler.isWindows:
+            self.blacklist_file = ["win-blacklist.txt"]
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file = ["mac-blacklist.txt"]
         self.subinfo.options.configure.args += "-DBUILD_DOC=OFF"
 
     def make(self):
