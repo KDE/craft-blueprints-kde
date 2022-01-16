@@ -1,0 +1,327 @@
+From 95124a2ac007719c23f875bf377ca00feef34ff7 Mon Sep 17 00:00:00 2001
+From: Harald Sitter <sitter@kde.org>
+Date: Mon, 11 Oct 2021 15:56:18 +0200
+Subject: [PATCH] Draft: klibexec helper to resolve libexec path relative
+
+replaces https://invent.kde.org/frameworks/kio/-/merge_requests/596
+
+super unsure about the API. it's probably a safe bet that we want the
+caller to supply the relative path but I'd like it to be as convenient
+as possible. in particular I'd like callers to let us take care of the
+exectuable finding so that we can move all the path concerns out of the
+other frameworks and programs
+
+windows support entirely untested, only written following the microsoft
+API docs
+---
+ autotests/CMakeLists.txt         |  1 +
+ autotests/klibexectest.cpp       | 52 +++++++++++++++++++++
+ src/lib/CMakeLists.txt           | 24 ++++++++++
+ src/lib/util/config-util.h.cmake |  2 +
+ src/lib/util/klibexec.cpp        | 79 ++++++++++++++++++++++++++++++++
+ src/lib/util/klibexec.h          | 70 ++++++++++++++++++++++++++++
+ 6 files changed, 228 insertions(+)
+ create mode 100644 autotests/klibexectest.cpp
+ create mode 100644 src/lib/util/klibexec.cpp
+ create mode 100644 src/lib/util/klibexec.h
+
+diff --git a/autotests/CMakeLists.txt b/autotests/CMakeLists.txt
+index 791db1cf..3a121585 100644
+--- a/autotests/CMakeLists.txt
++++ b/autotests/CMakeLists.txt
+@@ -93,6 +93,7 @@ ecm_add_tests(
+     knetworkmountstestnoconfig.cpp
+     knetworkmountstestpaths.cpp
+     knetworkmountsteststatic.cpp
++    klibexectest.cpp
+     ${autotests_OPTIONAL_SRCS}
+     LINK_LIBRARIES Qt${QT_MAJOR_VERSION}::Test KF5::CoreAddons autotests_static
+ )
+diff --git a/autotests/klibexectest.cpp b/autotests/klibexectest.cpp
+new file mode 100644
+index 00000000..6b18f3c7
+--- /dev/null
++++ b/autotests/klibexectest.cpp
+@@ -0,0 +1,52 @@
++/*
++    SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
++    SPDX-FileCopyrightText: 2021 Harald Sitter <sitter@kde.org>
++*/
++
++#include <QObject>
++#include <QTest>
++
++#include <KLibexec>
++
++class KLibexecTest : public QObject
++{
++    Q_OBJECT
++
++    const QString m_relative = QStringLiteral("fakeexec/kf5");
++    const QString m_fixtureName =
++#ifdef Q_OS_WIN
++        QStringLiteral("klibexectest-fixture-binary.exe");
++#else
++        QStringLiteral("klibexectest-fixture-binary");
++#endif
++    QString m_fixtureDir;
++    QString m_fixturePath;
++
++private Q_SLOTS:
++    void initTestCase()
++    {
++        m_fixtureDir = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator() + m_relative);
++        m_fixturePath = QDir::cleanPath(m_fixtureDir + QDir::separator() + m_fixtureName);
++        QVERIFY(QDir().mkpath(m_fixtureDir));
++        QFile fixture(m_fixturePath);
++        QVERIFY(fixture.open(QFile::ReadWrite));
++        fixture.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
++    }
++
++    void testPath()
++    {
++        QCOMPARE(KLibexec::path(m_relative), m_fixtureDir);
++    }
++
++    void testKDEFrameworksPaths()
++    {
++        auto paths = KLibexec::kdeFrameworksPaths(m_relative);
++        QVERIFY(paths.contains(QCoreApplication::applicationDirPath()));
++        QVERIFY(paths.contains(m_fixtureDir));
++        // not exhaustive verification
++    }
++};
++
++QTEST_MAIN(KLibexecTest)
++
++#include "klibexectest.moc"
+diff --git a/src/lib/CMakeLists.txt b/src/lib/CMakeLists.txt
+index a9a939e7..a959f9f3 100644
+--- a/src/lib/CMakeLists.txt
++++ b/src/lib/CMakeLists.txt
+@@ -6,6 +6,23 @@ configure_file(caching/config-caching.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config
+ include(CheckSymbolExists)
+ check_symbol_exists("getgrouplist" "grp.h" HAVE_GETGROUPLIST)
+ 
++if(UNIX)
++    function(check_dladdr) # use a function to scope the variables!
++        set(CMAKE_REQUIRED_FLAGS ${DLADDR_LINK_FLAGS})
++        set(CMAKE_REQUIRED_LIBRARIES ${DLADDR_LINK_LIBRARIES})
++        check_symbol_exists("dladdr" "dlfcn.h" HAVE_DLADDR)
++        set(HAVE_DLADDR ${HAVE_DLADDR} PARENT_SCOPE)
++    endfunction()
++
++    if(CMAKE_SYSTEM_NAME MATCHES "Linux") # on linux dladdr isn't part of libc, on freebsd and osx it is
++        set(DLADDR_LINK_FLAGS "-D_GNU_SOURCE")
++        set(DLADDR_LINK_LIBRARIES "dl")
++    endif()
++    check_dladdr()
++
++    add_feature_info(dladdr ${HAVE_DLADDR} "Can resolve shared library paths and by extension libexec paths at runtime using dladdr() API")
++endif()
++
+ set (KDE4_DEFAULT_HOME ".kde${_KDE4_DEFAULT_HOME_POSTFIX}" CACHE STRING "The default KDE home directory" )
+ set (ACCOUNTS_SERVICE_ICON_DIR "/var/lib/AccountsService/icons" CACHE STRING "Accounts Services icon storage directory")
+ 
+@@ -108,6 +125,7 @@ target_sources(KF5CoreAddons PRIVATE
+     util/kosrelease.cpp
+     util/kprocesslist.cpp
+     util/kshell.cpp
++    util/klibexec.cpp
+ )
+ 
+ 
+@@ -189,6 +207,11 @@ if (HAVE_PROCSTAT)
+     target_link_libraries(KF5CoreAddons PRIVATE Procstat::Procstat)
+ endif()
+ 
++if(HAVE_DLADDR)
++    set_source_files_properties(SOURCE util/klibexec.cpp PROPERTIES COMPILE_FLAGS "${DLADDR_LINK_FLAGS}") # ensure _GNU_SOURCE on Linux
++    target_link_libraries(KF5CoreAddons PRIVATE ${DLADDR_LINK_LIBRARIES})
++endif()
++
+ target_include_directories(KF5CoreAddons INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KCoreAddons>" )
+ 
+ target_compile_definitions(KF5CoreAddons INTERFACE "$<INSTALL_INTERFACE:KCOREADDONS_LIB>")
+@@ -270,6 +293,7 @@ ecm_generate_headers(KCoreAddons_HEADERS
+         KListOpenFilesJob
+         Kdelibs4Migration
+         Kdelibs4ConfigMigrator
++        KLibexec
+     RELATIVE util
+     REQUIRED_HEADERS KCoreAddons_HEADERS
+ )
+diff --git a/src/lib/util/config-util.h.cmake b/src/lib/util/config-util.h.cmake
+index 575b1c6d..98c462ba 100644
+--- a/src/lib/util/config-util.h.cmake
++++ b/src/lib/util/config-util.h.cmake
+@@ -3,3 +3,5 @@
+ #cmakedefine01 HAVE_GETGROUPLIST
+ 
+ #define KDE4_DEFAULT_HOME "${KDE4_DEFAULT_HOME}"
++
++#cmakedefine01 HAVE_DLADDR
+diff --git a/src/lib/util/klibexec.cpp b/src/lib/util/klibexec.cpp
+new file mode 100644
+index 00000000..e12629e5
+--- /dev/null
++++ b/src/lib/util/klibexec.cpp
+@@ -0,0 +1,79 @@
++/*
++    SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
++    SPDX-FileCopyrightText: 2021 Harald Sitter <sitter@kde.org>
++*/
++
++#include "klibexec.h"
++#include <config-util.h>
++
++#if HAVE_DLADDR
++#include <dlfcn.h>
++#elif defined(Q_OS_WIN)
++#include <windows.h>
++
++#include <QVarLengthArray>
++#endif
++
++#include <QCoreApplication>
++#include <QDir>
++#include <QLibraryInfo>
++
++#include <kcoreaddons_debug.h>
++
++static QString libraryPathFromAddress(void *address)
++{
++#if HAVE_DLADDR
++    Dl_info info{};
++    if (dladdr(address, &info) == 0) {
++        qCWarning(KCOREADDONS_DEBUG) << "Failed to match address to shared object.";
++        // Do not call dlerror. It's only expected to return something useful on freebsd!
++        return {};
++    }
++    return QFile::decodeName(info.dli_fname);
++#elif defined(Q_OS_WIN)
++    HMODULE hModule = nullptr;
++    if (!GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, static_cast<LPWSTR>(address), &hModule)) {
++        qCWarning(KCOREADDONS_DEBUG) << "Failed to GetModuleHandleExW" << GetLastError();
++        return {};
++    }
++    if (!hModule) {
++        qCWarning(KCOREADDONS_DEBUG) << "hModule null unexpectedly";
++        return {};
++    }
++
++    QVarLengthArray<wchar_t, MAX_PATH> pathArray;
++    DWORD pathSize = pathArray.size();
++    while (pathSize == pathArray.size()) { // pathSize doesn't include the null byte on success, so this only ever true if we need to grow
++        pathArray.resize(pathArray.size() + MAX_PATH);
++        pathSize = GetModuleFileNameW(hModule, pathArray.data(), pathArray.size());
++        if (pathSize == 0) {
++            qCWarning(KCOREADDONS_DEBUG) << "Failed to GetModuleFileNameW" << GetLastError();
++            return {};
++        }
++    }
++    return QDir::fromNativeSeparators(QString::fromWCharArray(pathArray.data()));
++#else // unsupported
++    return {};
++#endif
++}
++
++QString KLibexec::pathFromAddress(const QString &relativePath, void *address)
++{
++    const QString libraryPath = libraryPathFromAddress(address);
++    const QString absoluteDirPath = QFileInfo(libraryPath).absolutePath();
++    const QString libexecPath = QFileInfo(absoluteDirPath + QLatin1Char('/') + relativePath).absoluteFilePath();
++    return libexecPath;
++}
++
++QStringList KLibexec::pathCandidates(const QString &relativePath)
++{
++    const QString qLibexec = QLibraryInfo::location(QLibraryInfo::LibraryExecutablesPath);
++    const QString qLibexecKF5 = qLibexec + QLatin1String("/kf5");
++
++    return {
++        QCoreApplication::applicationDirPath(), // look where our application binary is located
++        qLibexec, // look where libexec path is (can be set in qt.conf)
++        qLibexecKF5, // on !win32 we use a kf5 suffix
++        relativePath,
++    };
++}
+diff --git a/src/lib/util/klibexec.h b/src/lib/util/klibexec.h
+new file mode 100644
+index 00000000..b568f034
+--- /dev/null
++++ b/src/lib/util/klibexec.h
+@@ -0,0 +1,70 @@
++/*
++    SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
++    SPDX-FileCopyrightText: 2021 Harald Sitter <sitter@kde.org>
++*/
++
++#ifndef KLIBEXEC_H
++#define KLIBEXEC_H
++
++#include <kcoreaddons_export.h>
++
++#include <QString>
++#include <QStringList>
++
++namespace KLibexec
++{
++// Internal helpers. Do not use these but the inline variants.
++KCOREADDONS_EXPORT QString pathFromAddress(const QString &relativePath, void *address);
++KCOREADDONS_EXPORT QStringList pathCandidates(const QString &relativePath);
++
++/**
++ * @brief Absolute libexec path resolved in relative relation to the current shared object.
++ *
++ * This function helps locate the absolute libexec path relative to the caller's binary artifact.
++ *
++ * For example:
++ *
++ * - Your source gets built with prefix /usr
++ * - Your binary artifact's presumed absolute path will be `/usr/lib/libfoobar.so`
++ * - You call `KLibexec::path("libexec/foobar")`
++ *
++ * Scenario 1 - The binaries are actually installed in /usr:
++ * - The function's output is `/usr/lib/libexec/foobar/` (resolved relatively from `/usr/lib/libfoobar.so`)
++ *
++ * Scenario 2 - The **same** binaries are installed in /opt (or moved there):
++ * - The function's output is `/opt/lib/libexec/foobar/` (resolved relatively from `/opt/lib/libfoobar.so`)
++ *
++ * @param relativePath relative element to append (e.g. "libexec/foobar" resulting in /usr/lib/libexec/foobar/ as output)
++ *   when called with an empty string you effectively get the directory of your binary artifact.
++ * @return QString absolute libexec path or empty string if it cannot be resolved
++ * @since 5.90
++ */
++inline QString path(const QString &relativePath)
++{
++    // this MUST be inline so that the marker address is in the calling object!
++    static int marker = 0;
++    return pathFromAddress(relativePath, &marker);
++}
++
++/**
++ * @brief default paths list for KDE Frameworks
++ *
++ * This function returns a fairly opinionated list of paths you can feed into QStandardPaths. The list includes
++ * various standard locations for Qt and KDE Frameworks and should generally be sensible for most use cases.
++ * You may wish to append the absolute installation path as final fallback.
++ *
++ * @warning The precise content and order of the list is an implementation detail and not expected to remain stable!
++ *
++ * @param relativePath see path() - not all paths get this appended!
++ * @return QStringList list of search paths
++ * @since 5.90
++ */
++inline QStringList kdeFrameworksPaths(const QString &relativePath)
++{
++    // intentionally inline because path must be inline
++    return pathCandidates(path(relativePath));
++}
++
++} // namespace KLibexec
++
++#endif // KLIBEXEC_H
+-- 
+2.25.1
+
