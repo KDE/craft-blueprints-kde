@@ -7,9 +7,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         
         self.description = 'a desktop planetarium'
-        self.svnTargets['3.5.6'] = 'https://invent.kde.org/education/kstars.git|stable-3.5.6'
+        self.svnTargets['3.5.7'] = 'https://invent.kde.org/education/kstars.git|stable-3.5.7'
         self.svnTargets['master'] = "https://github.com/KDE/kstars.git"
-        self.defaultTarget = 'master'
+        self.defaultTarget = '3.5.7'
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
