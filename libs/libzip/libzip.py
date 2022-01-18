@@ -5,10 +5,10 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ['0.9', '0.9.3']:
-            self.targets[ver] = "http://libzip.org/download/libzip-" + ver + ".tar.bz2"
+            self.targets[ver] = "https://libzip.org/download/libzip-" + ver + ".tar.bz2"
             self.targetInstSrc[ver] = "libzip-" + ver
         for ver in ['0.11.1', '1.5.1']:
-            self.targets[ver] = "http://libzip.org/download/libzip-" + ver + ".tar.xz"
+            self.targets[ver] = "https://libzip.org/download/libzip-" + ver + ".tar.xz"
             self.targetInstSrc[ver] = "libzip-" + ver
         self.patchToApply['0.9.0'] = ('libzip-0.9.diff', 1)
         self.patchToApply['0.9.3'] = ('libzip-0.9.3-20101116.diff', 1)
