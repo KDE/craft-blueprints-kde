@@ -15,6 +15,9 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/libbzip2"] = None
+        self.runtimeDependencies["libs/liblzma"] = None
+        self.runtimeDependencies["libs/libzstd"] = None
         self.runtimeDependencies["libs/nettle"] = None
         self.runtimeDependencies["libs/gnutls"] = None
 
