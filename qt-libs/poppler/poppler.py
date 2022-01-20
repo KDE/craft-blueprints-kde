@@ -48,7 +48,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/lcms2"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/openjpeg"] = None
-        self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/libpng"] = None
         self.runtimeDependencies["libs/libcurl"] = None
         self.runtimeDependencies["libs/tiff"] = None
