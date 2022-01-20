@@ -57,8 +57,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["data/poppler-data"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/nss"] = None
+        if not self.options.dynamic.buildGlibFrontend:
+            self.runtimeDependencies["libs/glib"] = None
+            self.runtimeDependencies["libs/cairo"] = None
 
     def registerOptions(self):
+        self.options.dynamic.registerOption("buildGlibFrontend", False)
+        self.options.dynamic.registerOption("buildUtils", False)
         if CraftCore.compiler.isAndroid:
             # Poppler doesn't support MinSizeRel
             self.options.dynamic.setDefault("buildType", "Release")
@@ -67,7 +72,12 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         # we use -DRUN_GPERF_IF_PRESENT=OFF to avoid running in gperf issues on windows during linking
-        self.subinfo.options.configure.args += "-DENABLE_XPDF_HEADERS=ON -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB=ON -DENABLE_UTILS=OFF -DENABLE_GLIB=OFF -DRUN_GPERF_IF_PRESENT=OFF"
+        self.subinfo.options.configure.args += "-DENABLE_XPDF_HEADERS=ON -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB=ON -DRUN_GPERF_IF_PRESENT=OFF"
+
+        if not self.subinfo.options.dynamic.buildGlibFrontend:
+            self.subinfo.options.configure.args += " -DENABLE_GLIB=OFF "
+        if not self.subinfo.options.dynamic.buildUtils:
+            self.subinfo.options.configure.args += " -DENABLE_UTILS=OFF "
 
         if not self.subinfo.options.dynamic.buildTests:
             self.subinfo.options.configure.args += " -DBUILD_QT5_TESTS=OFF -DBUILD_QT6_TESTS=OFF -DBUILD_CPP_TESTS=OFF -DBUILD_MANUAL_TESTS=OFF "
