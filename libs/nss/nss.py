@@ -10,7 +10,7 @@ nspr_ver = "4.32"
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.isMSVC() or CraftCore.compiler.isLinux
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Windows if CraftCore.compiler.isMSVC() else CraftCore.compiler.Platforms.Linux
         self.options.dynamic.registerOption("installTools", False)
 
     def setTargets(self):
