@@ -11,6 +11,7 @@ nspr_ver = "4.32"
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.isMSVC() or CraftCore.compiler.isLinux
+        self.options.dynamic.registerOption("installTools", False)
 
     def setTargets(self):
         self.description = "Network Security Services (NSS) is a set of libraries designed to support cross-platform development of security-enabled client and server applications."
@@ -22,6 +23,7 @@ class subinfo(info.infoclass):
         self.targetDigests[ver] = (['27be1720f93270c7869b0013ed7f60ff5abd74f2612be0ad935a340599a4ec3c'], CraftHash.HashAlgorithm.SHA256)
         if CraftCore.compiler.isMSVC():
             self.patchToApply[ver] = [("install-instead-of-nsinstall.diff", 1), ("cygwin-is-windows.diff", 1)]
+        self.patchLevel[ver] = 1
         self.defaultTarget = ver
 
     def setDependencies(self):
@@ -87,7 +89,10 @@ class Package(MakeFilePackageBase):
 
         copy_tree(self.sourceDir() / 'dist/Release', str(self.installDir()))
         copy_tree(self.sourceDir() / 'dist/public', str(self.installDir() / 'include'))
-        
+
+        if not self.subinfo.options.dynamic.installTools:
+            utils.cleanDirectory(self.installDir() / 'bin')
+
         #NSS has a .pc.in file but doesn't do anything with it
         nsspcSource = os.path.join(self.sourceDir(), "nss/pkg/pkg-config/nss.pc.in")
         nsspcDest = os.path.join(self.installDir(), "lib/pkgconfig/nss.pc")
@@ -132,7 +137,7 @@ class Package(MakeFilePackageBase):
                     new_name = full_path.replace(".dll.lib", ".lib")
                     os.rename(full_path, new_name)
         
-            # Fix the .dll file sbeing in lib instead of bin
+            # Fix the .dll files being in lib instead of bin
             for f in os.listdir(self.installDir() / 'lib'):
                 full_path = os.path.join(self.installDir() / 'lib', f)
                 if os.path.isfile(full_path):
