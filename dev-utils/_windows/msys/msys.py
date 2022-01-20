@@ -65,7 +65,7 @@ class subinfo(info.infoclass):
         except Exception as e:
             CraftCore.log.error(e, exc_info=e)
             return False
-        if not (shell.execute(".", "pacman", Arguments(["-S", "base-devel", "msys/binutils", "msys/autoconf-archive", "--noconfirm", overwrite, "--needed"])) and
+        if not (shell.execute(".", "pacman", Arguments(["-S", "base-devel", "msys/binutils", "msys/autoconf-archive", "msys/autotools", "--noconfirm", overwrite, "--needed"])) and
                 stopProcesses()):
             return False
         # rebase: Too many DLLs for available address space: Cannot allocate memory => ignore return code ATM
