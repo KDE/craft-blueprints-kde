@@ -14,10 +14,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libpng"] = None
 
-from Package.AutoToolsPackageBase import *
+from Package.MesonPackageBase import *
 
 
-class Package(AutoToolsPackageBase):
+class Package(MesonPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.autoreconf = False
+        MesonPackageBase.__init__(self)
