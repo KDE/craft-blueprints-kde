@@ -160,6 +160,7 @@ plugins/designer/.*
 plugins/texttospeech/.*
 plugins/generic/libqtuiotouchplugin.dylib
 plugins/kcm_smb.so
+plugins/namespace/jsonplugin_cmake_macro.so
 plugins/playlistformats/libqtmultimedia_m3u.dylib
 plugins/kcm_trash.so
 share/knotifications5/kstars.notifyrc
