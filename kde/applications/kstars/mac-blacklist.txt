@@ -146,6 +146,7 @@ plugins/kf5/sonnet/sonnet_hunspell.so
 plugins/kf5/kded/kcookiejar.so
 plugins/kf5/kded/proxyscout.so
 plugins/kf5/kded/remotenotifier.so
+plugins/konsolepart.so
 plugins/styles/libqmacstyle.dylib
 plugins/audio/libqtaudio_coreaudio.dylib
 plugins/bearer/libqgenericbearer.dylib
