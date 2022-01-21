@@ -1,0 +1,103 @@
+diff -ru a/nspr/config/Makefile.in b/nspr/config/Makefile.in
+--- a/nspr/config/Makefile.in	2021-06-30 23:43:23.000000000 +0200
++++ b/nspr/config/Makefile.in	2022-01-12 15:47:36.489195600 +0100
+@@ -100,9 +100,9 @@
+ 	$(CC) $(XCFLAGS) $< $(LDFLAGS) $(XLDOPTS) $(OUTOPTION)$@
+ 
+ install:: nspr.m4
+-	$(NSINSTALL) -D $(DESTDIR)$(datadir)/aclocal
+-	$(NSINSTALL) -t -m 0644 $< $(DESTDIR)$(datadir)/aclocal
++	$(NSINSTALL) -d $(DESTDIR)$(datadir)/aclocal
++	$(NSINSTALL) -m 0644 $< $(DESTDIR)$(datadir)/aclocal
+ 
+ install:: nspr.pc
+-	$(NSINSTALL) -D $(DESTDIR)$(libdir)/pkgconfig
+-	$(NSINSTALL) -t -m 0644 $< $(DESTDIR)$(libdir)/pkgconfig
++	$(NSINSTALL) -d $(DESTDIR)$(libdir)/pkgconfig
++	$(NSINSTALL) -m 0644 $< $(DESTDIR)$(libdir)/pkgconfig
+diff -ru a/nspr/config/rules.mk b/nspr/config/rules.mk
+--- a/nspr/config/rules.mk	2021-06-30 23:43:23.000000000 +0200
++++ b/nspr/config/rules.mk	2022-01-12 15:45:42.147586600 +0100
+@@ -182,13 +182,16 @@
+ 
+ install:: $(RELEASE_BINS) $(RELEASE_HEADERS) $(RELEASE_LIBS)
+ ifdef RELEASE_BINS
+-	$(NSINSTALL) -t -m 0755 $(RELEASE_BINS) $(DESTDIR)$(bindir)
++	$(NSINSTALL) -d $(DESTDIR)$(bindir)
++	$(NSINSTALL) -m 0755 $(RELEASE_BINS) $(DESTDIR)$(bindir)
+ endif
+ ifdef RELEASE_HEADERS
+-	$(NSINSTALL) -t -m 0644 $(RELEASE_HEADERS) $(DESTDIR)$(includedir)/$(include_subdir)
++	$(NSINSTALL) -d $(DESTDIR)$(includedir)/$(include_subdir)
++	$(NSINSTALL) -m 0644 $(RELEASE_HEADERS) $(DESTDIR)$(includedir)/$(include_subdir)
+ endif
+ ifdef RELEASE_LIBS
+-	$(NSINSTALL) -t -m 0755 $(RELEASE_LIBS) $(DESTDIR)$(libdir)/$(lib_subdir)
++	$(NSINSTALL) -d $(DESTDIR)$(libdir)/$(lib_subdir)
++	$(NSINSTALL) -m 0755 $(RELEASE_LIBS) $(DESTDIR)$(libdir)/$(lib_subdir)
+ endif
+ 	+$(LOOP_OVER_DIRS)
+ 
+diff -ru a/nspr/configure b/nspr/configure
+--- a/nspr/configure	2021-06-30 23:43:23.000000000 +0200
++++ b/nspr/configure	2022-01-12 15:41:59.218768500 +0100
+@@ -5975,7 +5975,7 @@
+ 
+ case "$host" in
+ *-mingw*|*-msys*)
+-    NSINSTALL=nsinstall
++    NSINSTALL=install
+     ;;
+ *-cygwin*|*-mks*)
+     NSINSTALL='$(CYGWIN_WRAPPER) nsinstall'
+diff -ru a/nspr/pr/include/md/Makefile.in b/nspr/pr/include/md/Makefile.in
+--- a/nspr/pr/include/md/Makefile.in	2021-06-30 23:43:23.000000000 +0200
++++ b/nspr/pr/include/md/Makefile.in	2022-01-12 15:41:31.552727300 +0100
+@@ -19,14 +19,15 @@
+ include $(topsrcdir)/config/rules.mk
+ 
+ export:: $(MDCPUCFG_H)
++	$(INSTALL) -d $(dist_includedir)/md
+ 	$(INSTALL) -m 444 $(CONFIGS) $(dist_includedir)/md
+ 	$(INSTALL) -m 444 $(srcdir)/$(MDCPUCFG_H) $(dist_includedir)
+ 	mv -f $(dist_includedir)/$(MDCPUCFG_H) $(dist_includedir)/prcpucfg.h
+ 
+ install::
+-	$(NSINSTALL) -D $(DESTDIR)$(includedir)/md
+-	$(NSINSTALL) -t -m 644 $(CONFIGS) $(DESTDIR)$(includedir)/md
+-	$(NSINSTALL) -t -m 644 $(srcdir)/$(MDCPUCFG_H) $(DESTDIR)$(includedir)
++	$(NSINSTALL) -d $(DESTDIR)$(includedir)/md
++	$(NSINSTALL) -m 644 $(CONFIGS) $(DESTDIR)$(includedir)/md
++	$(NSINSTALL) -m 644 $(srcdir)/$(MDCPUCFG_H) $(DESTDIR)$(includedir)
+ 	mv -f $(DESTDIR)$(includedir)/$(MDCPUCFG_H) $(DESTDIR)$(includedir)/prcpucfg.h
+ 
+ release:: export
+diff -ru a/nspr/pr/include/obsolete/Makefile.in b/nspr/pr/include/obsolete/Makefile.in
+--- a/nspr/pr/include/obsolete/Makefile.in	2021-06-30 23:43:23.000000000 +0200
++++ b/nspr/pr/include/obsolete/Makefile.in	2022-01-12 15:41:49.618514800 +0100
+@@ -25,4 +25,5 @@
+ include $(topsrcdir)/config/rules.mk
+ 
+ export:: $(RELEASE_HEADERS)
++	$(INSTALL) -d $(dist_includedir)/obsolete
+ 	$(INSTALL) -m 444 $(RELEASE_HEADERS) $(dist_includedir)/obsolete
+diff -ru a/nspr/pr/include/private/Makefile.in b/nspr/pr/include/private/Makefile.in
+--- a/nspr/pr/include/private/Makefile.in	2021-06-30 23:43:23.000000000 +0200
++++ b/nspr/pr/include/private/Makefile.in	2022-01-12 15:42:12.168400700 +0100
+@@ -26,4 +26,5 @@
+ include $(topsrcdir)/config/rules.mk
+ 
+ export:: $(RELEASE_HEADERS)
++	$(INSTALL) -d $(dist_includedir)/private
+ 	$(INSTALL) -m 444 $(RELEASE_HEADERS) $(dist_includedir)/private
+diff -ru a/nspr/pr/src/Makefile.in b/nspr/pr/src/Makefile.in
+--- a/nspr/pr/src/Makefile.in	2021-06-30 23:43:23.000000000 +0200
++++ b/nspr/pr/src/Makefile.in	2022-01-12 15:43:55.501068700 +0100
+@@ -339,6 +339,7 @@
+ #
+ 
+ build:: $(TARGETS)
++	$(INSTALL) -d $(dist_libdir)
+ 	$(INSTALL) -m 444 $(TARGETS) $(dist_libdir)
+ ifdef SHARED_LIBRARY
+ ifeq ($(OS_ARCH),HP-UX)

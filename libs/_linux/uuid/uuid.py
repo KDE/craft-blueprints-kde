@@ -3,14 +3,15 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.33"]:
-            self.targets[ver] = f'https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v{ver}/util-linux-{ver}.tar.xz'
-            self.targetInstSrc[ver] = f'util-linux-{ver}'
-        self.targetDigests["2.33"] = (['f261b9d73c35bfeeea04d26941ac47ee1df937bd3b0583e748217c1ea423658a'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '2.33'
+        ver = "2.37"
+        minor_ver = "2.37.2"
+        self.targets[minor_ver] = f'https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v{ver}/util-linux-{minor_ver}.tar.xz'
+        self.targetInstSrc[minor_ver] = f'util-linux-{minor_ver}'
+        self.targetDigests[minor_ver] = (['6a0764c1aae7fb607ef8a6dd2c0f6c47d5e5fd27aa08820abaad9ec14e28e9d9'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = minor_ver
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/python2"] = None
+        self.buildDependencies["dev-utils/python3"] = None
         self.buildDependencies["dev-utils/gtk-doc"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/iconv"] = None

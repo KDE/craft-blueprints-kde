@@ -7,9 +7,6 @@ class subinfo(info.infoclass):
 
         self.description = "KItinerary"
 
-        self.patchToApply["21.08.3"] = ('0001-Fix-the-Windows-build.patch', 1)
-        self.patchLevel["21.08.3"] = 1
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

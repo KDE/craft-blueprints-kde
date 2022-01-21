@@ -1,0 +1,40 @@
+From 7d2135381d24649bac77afed0ccf8487852fbdfb Mon Sep 17 00:00:00 2001
+From: Alexander Lohnau <alexander.lohnau@gmx.de>
+Date: Sun, 16 Jan 2022 11:32:51 +0100
+Subject: [PATCH] Port to KLibexec
+
+---
+ src/core/slave.cpp | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
+
+diff --git a/src/core/slave.cpp b/src/core/slave.cpp
+index bf2e1ff0b..777b4f057 100644
+--- a/src/core/slave.cpp
++++ b/src/core/slave.cpp
+@@ -11,6 +11,7 @@
+ #include <qplatformdefs.h>
+ #include <stdio.h>
+ 
++#include <KLibexec>
+ #include <QCoreApplication>
+ #include <QDataStream>
+ #include <QDir>
+@@ -433,14 +434,8 @@ Slave *Slave::createSlave(const QString &protocol, const QUrl &url, int &error,
+     const QStringList args = QStringList{lib_path, protocol, QString(), slaveAddress.toString()};
+     // qDebug() << "kioslave" << ", " << lib_path << ", " << protocol << ", " << QString() << ", " << slaveAddress;
+ 
+-    // look where libexec path is (can be set in qt.conf)
+-    const QString qlibexec = QLibraryInfo::location(QLibraryInfo::LibraryExecutablesPath);
+-    // on !win32 we use a kf5 suffix
+-    const QString qlibexecKF5 = QDir(qlibexec).filePath(QStringLiteral("kf5"));
+-
+     // search paths
+-    const QStringList searchPaths = QStringList() << QCoreApplication::applicationDirPath() // then look where our application binary is located
+-                                                  << qlibexec << qlibexecKF5
++    const QStringList searchPaths = QStringList() << KLibexec::kdeFrameworksPaths(QStringLiteral("kf5"))
+                                                   << QFile::decodeName(KDE_INSTALL_FULL_LIBEXECDIR_KF5); // look at our installation location
+     QString kioslaveExecutable = QStandardPaths::findExecutable(QStringLiteral("kioslave5"), searchPaths);
+     if (kioslaveExecutable.isEmpty()) {
+-- 
+2.25.1
+

@@ -32,10 +32,10 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "git://git.freedesktop.org/git/poppler/poppler"
 
         # always try to use latest libpoppler with all security fixes
-        ver = "21.11.0"
+        ver = "22.01.0"
         self.targets[ver] = f"https://poppler.freedesktop.org/poppler-{ver}.tar.xz"
         self.targetInstSrc[ver] = f"poppler-{ver}"
-        self.targetDigests[ver] = (['31b76b5cac0a48612fdd154c02d9eca01fd38fb8eaa77c1196840ecdeb53a584'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[ver] = (['7d3493056b5b86413e5c693c2cae02c5c06cd8e618d14c2c31e2c84b67b2313e'], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply[ver] = [("poppler-optional-manual-tests.diff", 1)]
         self.defaultTarget = ver
 
@@ -48,7 +48,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/lcms2"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/openjpeg"] = None
-        self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/libpng"] = None
         self.runtimeDependencies["libs/libcurl"] = None
         self.runtimeDependencies["libs/tiff"] = None
@@ -56,8 +55,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/fontconfig"] = None
         self.runtimeDependencies["data/poppler-data"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/nss"] = None
+        if not self.options.dynamic.buildGlibFrontend:
+            self.runtimeDependencies["libs/glib"] = None
+            self.runtimeDependencies["libs/cairo"] = None
 
     def registerOptions(self):
+        self.options.dynamic.registerOption("buildGlibFrontend", False)
+        self.options.dynamic.registerOption("buildUtils", False)
         if CraftCore.compiler.isAndroid:
             # Poppler doesn't support MinSizeRel
             self.options.dynamic.setDefault("buildType", "Release")
@@ -66,19 +71,24 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         # we use -DRUN_GPERF_IF_PRESENT=OFF to avoid running in gperf issues on windows during linking
-        self.subinfo.options.configure.args += "-DENABLE_XPDF_HEADERS=ON -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB=ON -DENABLE_UTILS=OFF -DENABLE_GLIB=OFF -DRUN_GPERF_IF_PRESENT=OFF"
+        self.subinfo.options.configure.args += ["-DENABLE_XPDF_HEADERS=ON", "-DENABLE_UNSTABLE_API_ABI_HEADERS=ON", "-DENABLE_ZLIB=ON", "-DRUN_GPERF_IF_PRESENT=OFF"]
+
+        if not self.subinfo.options.dynamic.buildGlibFrontend:
+            self.subinfo.options.configure.args += ["-DENABLE_GLIB=OFF"]
+        if not self.subinfo.options.dynamic.buildUtils:
+            self.subinfo.options.configure.args += ["-DENABLE_UTILS=OFF"]
 
         if not self.subinfo.options.dynamic.buildTests:
-            self.subinfo.options.configure.args += " -DBUILD_QT5_TESTS=OFF -DBUILD_QT6_TESTS=OFF -DBUILD_CPP_TESTS=OFF -DBUILD_MANUAL_TESTS=OFF "
+            self.subinfo.options.configure.args += ["-DBUILD_QT5_TESTS=OFF", "-DBUILD_QT6_TESTS=OFF", "-DBUILD_CPP_TESTS=OFF", "-DBUILD_MANUAL_TESTS=OFF"]
 
         if not self.subinfo.options.isActive("libs/libjpeg-turbo"):
-            self.subinfo.options.configure.args += " -DENABLE_DCTDECODER=unmaintained"
+            self.subinfo.options.configure.args += ["-DENABLE_DCTDECODER=unmaintained"]
         if self.subinfo.options.isActive("libs/openjpeg"):
-            self.subinfo.options.configure.args += " -DENABLE_LIBOPENJPEG=openjpeg2"
+            self.subinfo.options.configure.args += ["-DENABLE_LIBOPENJPEG=openjpeg2"]
         else:
-            self.subinfo.options.configure.args += " -DENABLE_LIBOPENJPEG=unmaintained"
+            self.subinfo.options.configure.args += ["-DENABLE_LIBOPENJPEG=unmaintained"]
         if self.subinfo.options.isActive("libs/libcurl"):
-            self.subinfo.options.configure.args += " -DENABLE_LIBCURL=ON"
+            self.subinfo.options.configure.args += ["-DENABLE_LIBCURL=ON"]
 
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += " -DWITH_NSS3=OFF -DENABLE_CPP=OFF"
+            self.subinfo.options.configure.args += ["-DWITH_NSS3=OFF", "-DENABLE_CPP=OFF"]
