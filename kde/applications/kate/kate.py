@@ -32,6 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/kdeutils/markdownpart"] = None
         if self.options.dynamic.fullPlasma:
             self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
         if OsUtils.isUnix():
