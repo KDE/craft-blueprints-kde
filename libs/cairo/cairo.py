@@ -102,3 +102,5 @@ else:
         def __init__(self, **args):
             AutoToolsPackageBase.__init__(self)
             self.subinfo.options.configure.autoreconf = False
+            if CraftCore.compiler.isMinGW() and CraftVersion(CraftCore.compiler.getVersion()) > CraftVersion("11.0.0"):
+                self.subinfo.options.configure.cflags += " -fstack-protector"
