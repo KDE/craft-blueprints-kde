@@ -1,0 +1,32 @@
+From 70996c0ead612e907dd89e8c15f54e6673a910be Mon Sep 17 00:00:00 2001
+From: Ahmad Samir <a.samirh78@gmail.com>
+Date: Fri, 21 Jan 2022 16:16:57 +0200
+Subject: [PATCH] Fix appimage build
+
+Apparently <numeric> header is included by something indirectly for us on
+Linux (and FreeBSD and Windows CI's). Anyway doesn't hurt to add the
+include.
+
+Reported by Alexander Lohnau:
+https://invent.kde.org/frameworks/kio/-/merge_requests/646#note_382424
+
+GIT_SILENT
+---
+ src/filewidgets/kurlnavigator.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/filewidgets/kurlnavigator.cpp b/src/filewidgets/kurlnavigator.cpp
+index fc65ef4d9..f5bdb08f6 100644
+--- a/src/filewidgets/kurlnavigator.cpp
++++ b/src/filewidgets/kurlnavigator.cpp
+@@ -41,6 +41,7 @@
+ #include <QUrlQuery>
+ 
+ #include <algorithm>
++#include <numeric>
+ 
+ using namespace KDEPrivate;
+ 
+-- 
+2.34.1
+
