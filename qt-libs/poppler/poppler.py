@@ -71,24 +71,24 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         # we use -DRUN_GPERF_IF_PRESENT=OFF to avoid running in gperf issues on windows during linking
-        self.subinfo.options.configure.args += "-DENABLE_XPDF_HEADERS=ON -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB=ON -DRUN_GPERF_IF_PRESENT=OFF"
+        self.subinfo.options.configure.args += ["-DENABLE_XPDF_HEADERS=ON", "-DENABLE_UNSTABLE_API_ABI_HEADERS=ON", "-DENABLE_ZLIB=ON", "-DRUN_GPERF_IF_PRESENT=OFF"]
 
         if not self.subinfo.options.dynamic.buildGlibFrontend:
-            self.subinfo.options.configure.args += " -DENABLE_GLIB=OFF "
+            self.subinfo.options.configure.args += ["-DENABLE_GLIB=OFF"]
         if not self.subinfo.options.dynamic.buildUtils:
-            self.subinfo.options.configure.args += " -DENABLE_UTILS=OFF "
+            self.subinfo.options.configure.args += ["-DENABLE_UTILS=OFF"]
 
         if not self.subinfo.options.dynamic.buildTests:
-            self.subinfo.options.configure.args += " -DBUILD_QT5_TESTS=OFF -DBUILD_QT6_TESTS=OFF -DBUILD_CPP_TESTS=OFF -DBUILD_MANUAL_TESTS=OFF "
+            self.subinfo.options.configure.args += ["-DBUILD_QT5_TESTS=OFF", "-DBUILD_QT6_TESTS=OFF", "-DBUILD_CPP_TESTS=OFF", "-DBUILD_MANUAL_TESTS=OFF"]
 
         if not self.subinfo.options.isActive("libs/libjpeg-turbo"):
-            self.subinfo.options.configure.args += " -DENABLE_DCTDECODER=unmaintained"
+            self.subinfo.options.configure.args += ["-DENABLE_DCTDECODER=unmaintained"]
         if self.subinfo.options.isActive("libs/openjpeg"):
-            self.subinfo.options.configure.args += " -DENABLE_LIBOPENJPEG=openjpeg2"
+            self.subinfo.options.configure.args += ["-DENABLE_LIBOPENJPEG=openjpeg2"]
         else:
-            self.subinfo.options.configure.args += " -DENABLE_LIBOPENJPEG=unmaintained"
+            self.subinfo.options.configure.args += ["-DENABLE_LIBOPENJPEG=unmaintained"]
         if self.subinfo.options.isActive("libs/libcurl"):
-            self.subinfo.options.configure.args += " -DENABLE_LIBCURL=ON"
+            self.subinfo.options.configure.args += ["-DENABLE_LIBCURL=ON"]
 
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += " -DWITH_NSS3=OFF -DENABLE_CPP=OFF"
+            self.subinfo.options.configure.args += ["-DWITH_NSS3=OFF", "-DENABLE_CPP=OFF"]
