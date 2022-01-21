@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
                                         ("0001-ostream.h-styled-ostream.h-Fix-linking.patch", 1),
                                         ("0001-printf-parse.c-Fix-build-on-Visual-Studio-2008.patch", 1),
                                         ("0001-tools-Fix-gnulib-lib-uniname-uniname.c-on-pre-C99.patch", 1)]
+        self.patchToApply['0.21'] = [("gettext-0.21-add-missing-ruby.diff", 1)]
 
         #https://raw.githubusercontent.com/Alexpux/MINGW-packages/35567f5ba0f3bf2db06ea321090432cdafe024af/mingw-w64-gettext/09-asm-underscore-mingw.patch
         self.patchToApply['0.19.8.1'] += [("09-asm-underscore-mingw.patch", 1)]
@@ -31,9 +32,7 @@ class subinfo(info.infoclass):
             self.patchToApply['0.19.8.1'] += [("0001-moopp-sed-extended-regexp.patch", 1)]
 
         self.description = "GNU internationalization (i18n)"
-        self.defaultTarget = '0.19.8.1'
-        if CraftCore.compiler.isFreeBSD:
-            self.defaultTarget = '0.21'
+        self.defaultTarget = '0.21'
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/automake"] = None
