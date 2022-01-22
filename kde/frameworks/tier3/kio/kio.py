@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         #     self.patchToApply["5.86.0"] = [("0001-Allow-building-on-Linux-without-libmount-blkid.patch", 1)]
         self.patchToApply["5.90.0"] = [("0001-Port-to-KLibexec.patch", 1)]
         self.patchToApply["5.90.0"] += [("0001-Fix-appimage-build.patch", 1)]
-        self.patchLevel["5.90.0"] = 3
+        self.patchLevel["5.90.0"] = 4
 
         self.description = "Network transparent access to files and data"
 

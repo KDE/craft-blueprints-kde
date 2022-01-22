@@ -31,7 +31,7 @@ index bf2e1ff0b..777b4f057 100644
      // search paths
 -    const QStringList searchPaths = QStringList() << QCoreApplication::applicationDirPath() // then look where our application binary is located
 -                                                  << qlibexec << qlibexecKF5
-+    const QStringList searchPaths = QStringList() << KLibexec::kdeFrameworksPaths(QStringLiteral("kf5"))
++    const QStringList searchPaths = QStringList() << KLibexec::kdeFrameworksPaths(QStringLiteral("libexec/kf5"))
                                                    << QFile::decodeName(KDE_INSTALL_FULL_LIBEXECDIR_KF5); // look at our installation location
      QString kioslaveExecutable = QStandardPaths::findExecutable(QStringLiteral("kioslave5"), searchPaths);
      if (kioslaveExecutable.isEmpty()) {
