@@ -82,6 +82,7 @@ class Package(CMakePackageBase):
         self.defines["runenv"] = [
                 'KDE_FORK_SLAVES=1',
                 'DIR=$(dirname "$0")',
+                'LD_LIBRARY_PATH=$DIR/usr/lib/:$LD_LIBRARY_PATH',
                 'MLT_REPOSITORY=$DIR/usr/lib/mlt-7/',
                 'MLT_DATA=$DIR/usr/share/mlt-7/',
                 'MLT_ROOT_DIR=$DIR/usr/',
@@ -89,7 +90,8 @@ class Package(CMakePackageBase):
                 'FREI0R_PATH=$DIR/usr/lib/frei0r-1',
                 'MLT_PROFILES_PATH=$DIR/usr/share/mlt-7/profiles/',
                 'MLT_PRESETS_PATH=$DIR/usr/share/mlt-7/presets/',
-                'SDL_AUDIODRIVER=pulseaudio']
+                'SDL_AUDIODRIVER=pulseaudio'
+                ]
         return super().createPackage()
 
     def postInstall(self):
