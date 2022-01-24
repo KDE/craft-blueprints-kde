@@ -75,7 +75,7 @@ class PackageMSVC(MakeFilePackageBase):
 
     def install(self):
         with utils.ScopedEnv(self._globEnv()):
-            if not super().install():
+            if not BuildSystemBase.install(self):
                 return False
 
             os.chdir(self.sourceDir() / 'win32')
