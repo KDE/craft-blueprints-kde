@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
             self.patchToApply["5.28.1"] = [("perl-5.28.0-20181129.diff", 1),
                                            ("perl-5.28.1-20181229.diff", 1)
                                            ]
-            if CraftCore.compiler.isMinGW() and CraftVersion(CraftCore.compiler.getVersion()) > CraftVersion("11.0.0"):
+            if CraftCore.compiler.isMinGW():
                 self.patchToApply["5.28.1"] += [("mingw11.diff", 1)]
         else:
             #https://github.com/Perl/perl5/pull/17946/files
