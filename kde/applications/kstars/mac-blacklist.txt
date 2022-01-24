@@ -117,57 +117,15 @@ lib/mecab/.*
 lib/plugin/.*
 share/(?!(dbus).*)
 
-# Mac: Avoid 'how to merge folder ... into file ...' packaging errors
-# This list may need to be revised, it was generated through trial and error.
-plugins/mediaservice/.*
-plugins/kauth/backend/kauth_backend_plugin.so
-plugins/kauth/helper/kauth_helper_plugin.so
-plugins/platforms/libqoffscreen.dylib
-plugins/platforms/libqminimal.dylib
-plugins/platforms/libqcocoa.dylib
-plugins/qmltooling/.*
-plugins/platformthemes/libqxdgdesktopportal.dylib
-plugins/kcm_proxy.so
-plugins/kcm_cookies.so
-plugins/printsupport/.*
-plugins/kf5/ktranscript.so
-plugins/kf5/urifilters/.*
-plugins/kf5/kwindowsystem/KF5WindowSystemWaylandPlugin.so
-plugins/kf5/kio/kio_http.so
-plugins/kf5/kio/kio_ftp.so
-plugins/kf5/kio/kio_file.so
-plugins/kf5/kio/kio_trash.so
-plugins/kf5/kio/kio_remote.so
-plugins/kf5/kiod/kpasswdserver.so
-plugins/kf5/kiod/kssld.so
-plugins/kf5/kiod/kioexecd.so
-plugins/kf5/sonnet/sonnet_nsspellchecker.so
-plugins/kf5/sonnet/sonnet_hunspell.so
-plugins/kf5/kded/kcookiejar.so
-plugins/kf5/kded/proxyscout.so
-plugins/kf5/kded/remotenotifier.so
-plugins/konsolepart.so
-plugins/styles/libqmacstyle.dylib
-plugins/audio/libqtaudio_coreaudio.dylib
-plugins/bearer/libqgenericbearer.dylib
-plugins/iconengines/KIconEnginePlugin.so
-plugins/iconengines/libqsvgicon.dylib
-plugins/sqldrivers/libqsqlite.dylib
-plugins/kcm_webshortcuts.so
-plugins/kcm_netpref.so
-plugins/imageformats/.*
-plugins/designer/.*
-plugins/texttospeech/.*
-plugins/generic/libqtuiotouchplugin.dylib
-plugins/kcm_smb.so
-plugins/playlistformats/libqtmultimedia_m3u.dylib
-plugins/kcm_trash.so
+# Mac: Avoid packaging errors due to items that are already in the app bundle
 share/knotifications5/kstars.notifyrc
-share/knotifications5/proxyscout.notifyrc
-share/knotifications5/kwalletd.notifyrc
 bin/.*
 lib/libphonon4qt5.4.dylib
 lib/libphonon4qt5experimental.4.dylib
+lib/libgphoto2/.*
+lib/libgphoto2_port/.*
+lib/gettext/.*
+lib/indi/.*
 
 # Only keep bare minimum from VLC plugins to play Ogg and WAV files
 bin/plugins/\b(?!(access|access_output|audio_output|audio_filter|codec).*).*

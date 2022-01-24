@@ -80,8 +80,11 @@ class Package(CMakePackageBase):
         self.defines["mimetypes"] = ["application/x-kdenlive"]
         self.defines["file_types"] = [".kdenlive"]
         self.defines["runenv"] = [
+                'PACKAGE_TYPE=appimage',
                 'KDE_FORK_SLAVES=1',
+                'FONTCONFIG_PATH=/etc/fonts',
                 'DIR=$(dirname "$0")',
+                'LD_LIBRARY_PATH=$DIR/usr/lib/:$LD_LIBRARY_PATH',
                 'MLT_REPOSITORY=$DIR/usr/lib/mlt-7/',
                 'MLT_DATA=$DIR/usr/share/mlt-7/',
                 'MLT_ROOT_DIR=$DIR/usr/',

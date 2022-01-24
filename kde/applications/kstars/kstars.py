@@ -118,24 +118,8 @@ class Package(CMakePackageBase):
         utils.system("cp -rf " + craftRoot + "/lib/libgphoto2_port/" + PORT_VERSION + "/* " + KSTARS_RESOURCES + "/DriverSupport/gphoto/IOLIBS/")
         utils.system("cp -rf " + craftRoot + "/lib/libgphoto2/" + GPHOTO_VERSION + "/* " + KSTARS_RESOURCES + "/DriverSupport/gphoto/CAMLIBS/")
 
-        # Qt Related items
-
         #	The Translations Directory
         utils.system("cp -rf " + craftRoot + "/share/locale " + KSTARS_RESOURCES)
-
-        #   Plugins
-        utils.system("cp -rf " + craftRoot + "/plugins/* " + KSTARS_PLUGINS)
-
-        # qt.conf
-        confContents = "[Paths]\n"
-        confContents += "Prefix = " + craftRoot + "\n"
-        confContents += "Plugins = plugins\n"
-        confContents += "Imports = qml\n"
-        confContents += "Qml2Imports = qml\n"
-        confContents += "Translations = " + craftRoot + "/share/locale\n"
-
-        utils.system("touch " + KSTARS_RESOURCES + "/qt.conf")
-        utils.system("echo \"" + confContents + "\" >> " + KSTARS_RESOURCES + "/qt.conf")
 
         for path in utils.getLibraryDeps(str(KSTARS_APP + "/Contents/MacOS/kstars")):
             if path.startswith(craftLibDir):
