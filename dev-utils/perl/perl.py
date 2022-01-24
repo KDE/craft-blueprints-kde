@@ -75,11 +75,12 @@ class PackageMSVC(MakeFilePackageBase):
 
     def install(self):
         with utils.ScopedEnv(self._globEnv()):
-            if not BuildSystemBase.install(self):
+            if not super().install():
                 return False
 
             os.chdir(self.sourceDir() / 'win32')
-            return utils.system(Arguments([self.makeProgram, self.makeOptions(self.subinfo.options.install.args), f"DESTDIR={self.installDir()}"]))
+            if not utils.system(Arguments([self.makeProgram, self.makeOptions(self.subinfo.options.install.args), f"DESTDIR={self.installDir()}"])):
+                return False
 
         def makeWriatable(root):
             with os.scandir(root) as scan:
