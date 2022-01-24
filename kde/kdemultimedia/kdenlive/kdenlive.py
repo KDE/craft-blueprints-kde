@@ -80,6 +80,7 @@ class Package(CMakePackageBase):
         self.defines["mimetypes"] = ["application/x-kdenlive"]
         self.defines["file_types"] = [".kdenlive"]
         self.defines["runenv"] = [
+                'PACKAGE_TYPE=appimage',
                 'KDE_FORK_SLAVES=1',
                 'FONTCONFIG_PATH=/etc/fonts',
                 'DIR=$(dirname "$0")',
