@@ -85,6 +85,7 @@ class Package(CMakePackageBase):
                 'FONTCONFIG_PATH=/etc/fonts',
                 'DIR=$(dirname "$0")',
                 'LD_LIBRARY_PATH=$DIR/usr/lib/:$LD_LIBRARY_PATH',
+                'XDG_DATA_DIRS=$DIR/usr/share/:$XDG_DATA_DIRS',
                 'MLT_REPOSITORY=$DIR/usr/lib/mlt-7/',
                 'MLT_DATA=$DIR/usr/share/mlt-7/',
                 'MLT_ROOT_DIR=$DIR/usr/',
