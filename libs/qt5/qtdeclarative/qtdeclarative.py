@@ -5,6 +5,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.patchToApply["5.12.0"] = [(".qt-5.12.0", 1)]
+        self.patchToApply["5.15.2"] = [("yarrlimits5152.diff", 1), ("qqmlprofilereventlimits5152.diff", 1), ("d3d12_5152.diff", 1)]
         self.versionInfo.setDefaultValues()
         self.patchLevel["5.15.2"] = 1
 
