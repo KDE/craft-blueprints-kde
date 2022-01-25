@@ -56,7 +56,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["data/poppler-data"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/nss"] = None
-        if not self.options.dynamic.buildGlibFrontend:
+        if self.options.dynamic.buildGlibFrontend:
             self.runtimeDependencies["libs/glib"] = None
             self.runtimeDependencies["libs/cairo"] = None
 
