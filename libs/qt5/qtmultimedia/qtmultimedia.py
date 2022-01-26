@@ -5,6 +5,8 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        if CraftCore.compiler.isMinGW():
+            self.patchToApply["5.15.2"] = [("0001-fix-wmf-plugin.patch", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
