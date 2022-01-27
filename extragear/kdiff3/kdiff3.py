@@ -78,7 +78,7 @@ class Package(CMakePackageBase):
             #Craft attempts to alter the second and third number so we have to adjust to craft's logic as well.
             self.defines["version"] = "1.0.94"
                         
-			self.defines["un_sections"] = r"""
+            self.defines["un_sections"] = r"""
         Section "Un.Cleanup Regsistry"
         ;Maybe left behind due to a bug in previous installers.
         DeleteRegKey SHCTX  "Software\KDE\KDiff3"
