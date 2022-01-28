@@ -277,7 +277,7 @@ class QtPackage(Qt5CorePackageBase):
 # Before sourcing craftenv.sh, ensure PKG_CONFIG_PATH includes xcb.pc, gl.pc etc
 export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/share/pkgconfig
 # Install build dependencies on builder:
-sudo yum-builddep qt5-qtbase
+sudo yum-builddep qt5-qtbase && sudo yum install libxkbcommon-x11-devel
 sudo apt build-dep qt5-default
 """)
             return cfg
