@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.targetDigests[ver] = (['27be1720f93270c7869b0013ed7f60ff5abd74f2612be0ad935a340599a4ec3c'], CraftHash.HashAlgorithm.SHA256)
         if CraftCore.compiler.isMSVC():
             self.patchToApply[ver] = [("install-instead-of-nsinstall.diff", 1), ("cygwin-is-windows.diff", 1)]
-        self.patchLevel[ver] = 1
+        self.patchLevel[ver] = 2
         self.defaultTarget = ver
 
     def setDependencies(self):
@@ -116,27 +116,29 @@ class Package(MakeFilePackageBase):
     def postInstall(self):
         BuildSystemBase.patchInstallPrefix(self, [(self.installDir() / 'lib/pkgconfig/nspr.pc')], [os.path.dirname(self.installDir()) + '/work/nss-3.74/dist/Release'])
         if CraftCore.compiler.isMSVC():
-        
+
             # The nspr libs are created as libnspr4.lib so we need to adapt the pc file
             nsprpc = self.installDir() / 'lib/pkgconfig/nspr.pc'
             with open(nsprpc, "rt") as f:
                 content = f.read()
 
-            content = content.replace('-l', '-llib')
-        
+            content = content.replace('-lplc4', '-llibplc4')
+            content = content.replace('-lplds4', '-llibplds4')
+            content = content.replace('-lnspr4', '-llibnspr4')
+
             with open(nsprpc, "wt") as f:
                 f.write(content)
-        
+
             # Fix the .lib files names (i.e. foo.dll.lib instead of foo.lib)
             for f in os.listdir(self.installDir() / 'lib'):
                 full_path = os.path.join(self.installDir() / 'lib', f)
                 if os.path.isfile(full_path):
                     if not full_path.endswith(".dll.lib"):
                         continue
-                
+
                     new_name = full_path.replace(".dll.lib", ".lib")
                     os.rename(full_path, new_name)
-        
+
             # Fix the .dll files being in lib instead of bin
             for f in os.listdir(self.installDir() / 'lib'):
                 full_path = os.path.join(self.installDir() / 'lib', f)
