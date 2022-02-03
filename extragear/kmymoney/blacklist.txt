@@ -75,6 +75,9 @@ bin/icudt\.dll
 bin/icuin\.dll
 bin/icuuc\.dll
 
+# plugins we do not need
+plugins/position/.*
+
 # doubled qt dlls
 lib/[^/]*\.dll
 # more qt leftovers

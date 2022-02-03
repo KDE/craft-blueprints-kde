@@ -54,7 +54,7 @@ class Package(AutoToolsPackageBase):
         # For appImage builds the --enable-local-install is needed so that
         # the appImage is searched for gwenhywfar plugins
         if CraftCore.compiler.isLinux:
-            self.subinfo.options.configure.args += " --enable-local-install"
+            self.subinfo.options.configure.args += " --enable-local-install --enable-binreloc"
 
         # Disable autoreconf. Otherwise following errors prevent configuring:
         # configure.ac:618: warning: macro 'AM_PATH_LIBGCRYPT' not found in library

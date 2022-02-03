@@ -70,6 +70,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["extragear/kdiagram"] = None
         self.buildDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/qt5/qtwebkit"] = None
+        self.runtimeDependencies["libs/qt5/qtserialport"] = None
         if CraftCore.compiler.isMinGW():
             self.runtimeDependencies["kdesupport/kdewin"] = None
 
@@ -81,7 +82,7 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args += "-DFETCH_TRANSLATIONS=ON"
-        
+
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += "-DENABLE_WOOB=OFF"
 
