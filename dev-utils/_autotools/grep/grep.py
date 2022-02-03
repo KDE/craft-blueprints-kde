@@ -26,5 +26,6 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
 
     def createPackage(self):
+        self.addExecutableFilter(r"bin/(?!(grep)).*")
         self.blacklist_file.append(self.packageDir() / 'blacklist.txt')
         return super().createPackage()

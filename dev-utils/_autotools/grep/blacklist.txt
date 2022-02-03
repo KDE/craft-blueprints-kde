@@ -1,4 +1,2 @@
 # blacklist
 lib/.*
-# strip most executables
-bin/(?!(grep)).*\.exe
