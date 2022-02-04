@@ -90,9 +90,14 @@ class Package(CMakePackageBase):
         craftLibDir = os.path.join(craftRoot,  'lib')
         KSTARS_APP = os.path.join(buildDir , 'bin' , 'KStars.app')
         KSTARS_RESOURCES = os.path.join(KSTARS_APP , 'Contents' , 'Resources')
-        KSTARS_PLUGINS = os.path.join(KSTARS_APP , 'Contents' , 'PlugIns')
+        KSTARS_PLUGINS = os.path.join(KSTARS_APP , 'Contents' , 'Plugins')
+        
+        # KIO Slave and it's parts (For loading thumbnail images)
+        utils.system("cp -rf " + craftRoot + "/lib/libexec/kf5/kioslave5 " + KSTARS_APP + "/Contents/MacOS/")
+        utils.system("mkdir -p " + KSTARS_PLUGINS + "/kf5")
+        utils.system("cp -rf " + craftRoot + "/plugins/kf5/kio " + KSTARS_PLUGINS + "/kf5/")
 
-		# INDI Related items
+       # INDI Related items
 
         #	INDI Drivers
         utils.system("cp -f " + craftRoot + "/bin/indi* " + KSTARS_APP + "/Contents/MacOS/")
