@@ -65,19 +65,21 @@ class Package(CMakePackageBase):
 
     def setDefaults(self, defines: {str:str}) -> {str:str}:
         defines = super().setDefaults(defines)
-        defines["runenv"] += [
-            'PACKAGE_TYPE=appimage',
-            'KDE_FORK_SLAVES=1',
-            'FONTCONFIG_PATH=/etc/fonts',
-            'LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH',
-            'MLT_REPOSITORY=$this_dir/usr/lib/mlt-7/',
-            'MLT_DATA=$this_dir/usr/share/mlt-7/',
-            'MLT_ROOT_DIR=$this_dir/usr/',
-            'LADSPA_PATH=$this_dir/usr/lib/ladspa',
-            'FREI0R_PATH=$this_dir/usr/lib/frei0r-1',
-            'MLT_PROFILES_PATH=$this_dir/usr/share/mlt-7/profiles/',
-            'MLT_PRESETS_PATH=$this_dir/usr/share/mlt-7/presets/',
-            'SDL_AUDIODRIVER=pulseaudio']
+        if isinstance(self, AppImagePackager):
+            defines["runenv"] += [
+                'TEST=hello',
+                'PACKAGE_TYPE=appimage',
+                'KDE_FORK_SLAVES=1',
+                'FONTCONFIG_PATH=/etc/fonts',
+                'LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH',
+                'MLT_REPOSITORY=$this_dir/usr/lib/mlt-7/',
+                'MLT_DATA=$this_dir/usr/share/mlt-7/',
+                'MLT_ROOT_DIR=$this_dir/usr/',
+                'LADSPA_PATH=$this_dir/usr/lib/ladspa',
+                'FREI0R_PATH=$this_dir/usr/lib/frei0r-1',
+                'MLT_PROFILES_PATH=$this_dir/usr/share/mlt-7/profiles/',
+                'MLT_PRESETS_PATH=$this_dir/usr/share/mlt-7/presets/',
+                'SDL_AUDIODRIVER=pulseaudio']
         return defines
 
     def createPackage(self):
