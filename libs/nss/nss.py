@@ -10,7 +10,7 @@ nspr_ver = "4.32"
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Windows if CraftCore.compiler.isMSVC() else CraftCore.compiler.Platforms.Linux
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Windows if CraftCore.compiler.isMSVC() else (CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.Android)
         self.options.dynamic.registerOption("installTools", False)
 
     def setTargets(self):
@@ -49,6 +49,8 @@ class Package(MakeFilePackageBase):
         self._shell = BashShell()
         self._shell.environment["MAKE"] = self.makeProgram
 
+        buildArgs = ["--disable-tests", "--opt", "--system-sqlite", "-Dsign_libs=0"]
+
         if CraftCore.compiler.isMSVC():
             #When you say --system-sqlite it just tries to find it in the path, that doesn't work for MSVC
             configgypi = self.sourceDir() / "nss/coreconf/config.gypi"
@@ -79,9 +81,70 @@ class Package(MakeFilePackageBase):
             
             self._shell.environment["GYP_MSVS_OVERRIDE_PATH"] = str(msvcPath)
             self._shell.environment["GYP_MSVS_VERSION"] = Path(msvcVersionPath).name
-        
+
+
+        if CraftCore.compiler.isAndroid:
+            # Otherwise gyp isn't found
+            self._shell.environment["PATH"] += ":~/.local/bin/"
+            if CraftCore.compiler.architecture == "x86_64":
+                buildArgs += ["--target=x64", "-DOS=android"]
+            else:
+                buildArgs += ["--target=" + CraftCore.compiler.architecture, "-DOS=android"]
+
+
+            # Inspired by craft's own AutoToolsBuildSystem.py
+            if CraftCore.compiler.architecture == "arm":
+                androidtarget = "arm-linux-androideabi"
+            elif CraftCore.compiler.architecture == "arm64":
+                androidtarget = "aarch64-linux-android"
+            elif CraftCore.compiler.architecture == "x86":
+                androidtarget = "i686-linux-android"
+            else:
+                androidtarget = f"{CraftCore.compiler.architecture}-linux-android"
+
+            ndkDir = os.environ.get("ANDROID_NDK")
+            toolchainDir = ndkDir+'/toolchains/llvm/prebuilt/'+os.environ.get("ANDROID_NDK_HOST")
+            # We need the version so we can call the proper clang compiler
+            ndkPlatformVersion = os.environ.get("ANDROID_NDK_PLATFORM").replace("android-", "")
+
+            nsprsh = self.sourceDir() / "nss/coreconf/nspr.sh"
+            with open(nsprsh, "rt") as f:
+                content = f.read()
+            # Tell nspr where the ndk, toolchain and platform are
+            newParams = '--target='+androidtarget+' --with-android-ndk='+ndkDir+' --with-android-toolchain='+toolchainDir+' --with-android-platform='+toolchainDir+'/sysroot'
+            if CraftCore.compiler.architecture == "x86_64":
+                newParams += ' --enable-64bit'
+            content = content.replace('extra_params=(--prefix="$dist_dir"/$target)', 'extra_params=(--prefix="$dist_dir"/$target ' + newParams + ')')
+            with open(nsprsh, "wt") as f:
+                f.write(content)
+
+            nsprconf = self.sourceDir() / "nspr/configure"
+            with open(nsprconf, "rt") as f:
+                content = f.read()
+            # Accept stuff like aarch64-unknown-linux-android, arm-unknown-linux-androideabi, etc.
+            content = content.replace('-linux*-android*)', '-*linux*-android*)')
+            if CraftCore.compiler.architecture == "arm":
+                # For some reason the armv7 compilers have a different name than stuff like ar or ranlib so we need to do a different replacement here ...
+                # Call the proper clang, gcc is no longer supported
+                content = content.replace('CC="$android_toolchain"/bin/"$android_tool_prefix"-gcc', 'CC="$android_toolchain"/bin/armv7a-linux-androideabi'+ndkPlatformVersion+'-clang')
+                content = content.replace('CXX="$android_toolchain"/bin/"$android_tool_prefix"-g++', 'CXX="$android_toolchain"/bin/armv7a-linux-androideabi'+ndkPlatformVersion+'-clang++')
+            else:
+                # Call the proper clang, gcc is no longer supported
+                content = content.replace('CC="$android_toolchain"/bin/"$android_tool_prefix"-gcc', 'CC="$android_toolchain"/bin/"$android_tool_prefix"'+ndkPlatformVersion+'-clang')
+                content = content.replace('CXX="$android_toolchain"/bin/"$android_tool_prefix"-g++', 'CXX="$android_toolchain"/bin/"$android_tool_prefix"'+ndkPlatformVersion+'-clang++')
+            # Remove useless toolchain mangling
+            content = content.replace('android_tool_prefix="i686-android-linux"', ':')
+
+            # No cpp tool
+            content = content.replace('CPP="$android_toolchain"/bin/"$android_tool_prefix"-cpp', 'CPP=')
+            # Remove -mandroid in CFLAGS/CXXFLAGS/LDFLAGS
+            content = content.replace('FLAGS="-mandroid ', 'FLAGS="')
+            with open(nsprconf, "wt") as f:
+                f.write(content)
+
+
         build = Arguments([self.sourceDir() / "nss/build.sh"])
-        return self._shell.execute(self.buildDir(), build, ["--disable-tests", "--opt", "--system-sqlite", "-Dsign_libs=0"])
+        return self._shell.execute(self.buildDir(), build, buildArgs)
     
     def install(self):
         if not BuildSystemBase.install(self):
