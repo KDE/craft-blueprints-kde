@@ -92,4 +92,4 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCURL=ON"]
 
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ["-DWITH_NSS3=OFF", "-DENABLE_CPP=OFF"]
+            self.subinfo.options.configure.args += ["-DENABLE_CPP=OFF"]
