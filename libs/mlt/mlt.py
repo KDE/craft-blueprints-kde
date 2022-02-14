@@ -11,8 +11,8 @@ class subinfo(info.infoclass):
         for ver in ['7.2.0']:
             self.targets[ ver ] = f"https://github.com/mltframework/mlt/archive/v{ver}.tar.gz"
             self.targetInstSrc[ ver ] = "mlt-" + ver
-        self.svnTargets["master"] = "https://github.com/mltframework/mlt.git||0ede2c8a8fb9cd467dbfa570dd792c037b68a3f3"
-        self.patchLevel['master'] = 20220114
+        self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
+        self.patchLevel['master'] = 20220214
         self.defaultTarget = "master"
 
     def setDependencies( self ):
