@@ -1,0 +1,14 @@
+diff --git a/plugin/CMakeLists.txt b/plugin/CMakeLists.txt
+index 88297a109cc7218719ea6a454a8360f7fad28351..9b9cc976783c77f38f5762257706ce9a9165b45c 100644
+--- a/plugin/CMakeLists.txt
++++ b/plugin/CMakeLists.txt
+@@ -24,5 +24,9 @@ if(KF5ConfigWidgets_FOUND)
+     )
+ endif()
+ 
++if(WIN32 AND BUILD_SHARED_LIBS)
++    set_target_properties(qqc2desktopstyleplugin PROPERTIES PREFIX "")
++endif()
++
+ install(TARGETS qqc2desktopstyleplugin DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/qqc2desktopstyle/private)
+ install(FILES qmldir DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/qqc2desktopstyle/private)
