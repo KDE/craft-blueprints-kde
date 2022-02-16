@@ -1,0 +1,15 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 9ba4eb80..52eb60e4 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -295,6 +295,10 @@ target_link_libraries(KirigamiPlugin
+     KF5Kirigami2
+ )
+ 
++if(WIN32 AND BUILD_SHARED_LIBS)
++    set_target_properties(KirigamiPlugin PROPERTIES PREFIX "")
++endif()
++
+ ecm_finalize_qml_module(KirigamiPlugin DESTINATION ${KDE_INSTALL_QMLDIR})
+ 
+ ecm_generate_qmltypes(org.kde.kirigami 2.0 DESTINATION ${KDE_INSTALL_QMLDIR}/org/kde/kirigami.2)
