@@ -1,0 +1,38 @@
+commit 5e8424eba00616328e28f0351bfa7ae098c30be5
+Author: Volker Krause <vkrause@kde.org>
+Date:   Fri Feb 18 15:33:11 2022 +0100
+
+    Revert "KF5CoreAddonsConfig: check desktoptojson version when cross-compiling"
+    
+    This reverts commit dfb1123304b58a4f0308494f55c4d2c19e53d230.
+
+diff --git a/KF5CoreAddonsConfig.cmake.in b/KF5CoreAddonsConfig.cmake.in
+index 766a7847..1bb29ddb 100644
+--- a/KF5CoreAddonsConfig.cmake.in
++++ b/KF5CoreAddonsConfig.cmake.in
+@@ -11,11 +11,6 @@ if(CMAKE_CROSSCOMPILING AND KF5_HOST_TOOLING)
+         NO_DEFAULT_PATH
+         NO_CMAKE_FIND_ROOT_PATH)
+     include("${KCOREADDONS_TARGETSFILE}")
+-    # Check that the host tool version is the same to avoid incompatibilities.
+-    get_target_property(HOST_TOOL_VERSION KF5::desktoptojson TOOL_VERSION)
+-    if (NOT ("${HOST_TOOL_VERSION}" VERSION_EQUAL "@KF_VERSION@"))
+-        message(FATAL_ERROR "Found incompatible host tool version ${HOST_TOOL_VERSION}, expected @KF_VERSION@")
+-    endif()
+ else()
+     include("${CMAKE_CURRENT_LIST_DIR}/KF5CoreAddonsToolingTargets.cmake")
+     if(CMAKE_CROSSCOMPILING AND DESKTOPTOJSON_EXECUTABLE)
+diff --git a/src/desktoptojson/CMakeLists.txt b/src/desktoptojson/CMakeLists.txt
+index 1890cbd6..b01d7fab 100644
+--- a/src/desktoptojson/CMakeLists.txt
++++ b/src/desktoptojson/CMakeLists.txt
+@@ -29,9 +29,5 @@ ecm_mark_nongui_executable(desktoptojson)
+ 
+ target_link_libraries(desktoptojson Qt${QT_MAJOR_VERSION}::Core)
+ target_compile_definitions(desktoptojson PRIVATE BUILDING_DESKTOPTOJSON_TOOL=1)
+-# Note: we add a custom TOOL_VERSION property here to enable compatibility checks when cross-compiling.
+-set_target_properties(desktoptojson PROPERTIES
+-        TOOL_VERSION "${KF_VERSION}"
+-        EXPORT_PROPERTIES TOOL_VERSION)
+ 
+ install(TARGETS desktoptojson EXPORT KF5CoreAddonsToolingTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})

@@ -9,6 +9,8 @@ class subinfo(info.infoclass):
 
         self.patchToApply["5.90.0"] = [("0001-Draft-klibexec-helper-to-resolve-libexec-path-relati.patch", 1)]
         self.patchLevel["5.90.0"] = 1
+        self.patchToApply["5.91.0"] = [("0002-revert-host-tools-version-check.patch", 1)]
+        self.patchLevel["5.91.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
