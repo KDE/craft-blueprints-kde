@@ -123,6 +123,7 @@ class Package(MakeFilePackageBase):
                 content = f.read()
             # Accept stuff like aarch64-unknown-linux-android, arm-unknown-linux-androideabi, etc.
             content = content.replace('-linux*-android*)', '-*linux*-android*)')
+            content = content.replace('-linux*-android*|', '-*linux*-android*|')
             if CraftCore.compiler.architecture == "arm":
                 # For some reason the armv7 compilers have a different name than stuff like ar or ranlib so we need to do a different replacement here ...
                 # Call the proper clang, gcc is no longer supported
