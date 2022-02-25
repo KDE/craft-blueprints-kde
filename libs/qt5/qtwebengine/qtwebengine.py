@@ -10,6 +10,8 @@ class subinfo(info.infoclass):
                     # default is 8 and can fail https://bugreports.qt.io/browse/QTBUG-88657
                     "--webengine-jumbo-build=4"])
 
+        # currently fails build on Mac, disable to avoid clogging up the build queue
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
         # only supports msvc17+
         if CraftCore.compiler.isMSVC() and CraftCore.compiler.getInternalVersion() < 15:
             self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
