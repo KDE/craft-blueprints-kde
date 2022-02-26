@@ -5,6 +5,9 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        self.patchToApply['5.91.0'] = [("0001-Remove-call-to-ecm_find_qmlmodule-org.kde.kdeconnect.patch", 1)]
+        self.patchLevel['5.91.0'] = 1
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
