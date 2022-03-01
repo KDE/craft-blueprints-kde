@@ -53,13 +53,18 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/iconv"] = None
         self.runtimeDependencies["libs/fontconfig"] = None
         self.runtimeDependencies["data/poppler-data"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/nss"] = None
+        if self.options.dynamic.buildQt5Frontend:
+            self.runtimeDependencies["libs/qt5/qtbase"] = None
+        if self.options.dynamic.buildQt6Frontend:
+            self.runtimeDependencies["libs/qt6/qtbase"] = None
         if self.options.dynamic.buildGlibFrontend:
             self.runtimeDependencies["libs/glib"] = None
             self.runtimeDependencies["libs/cairo"] = None
 
     def registerOptions(self):
+        self.options.dynamic.registerOption("buildQt5Frontend", True)
+        self.options.dynamic.registerOption("buildQt6Frontend", False)
         self.options.dynamic.registerOption("buildGlibFrontend", False)
         self.options.dynamic.registerOption("buildUtils", False)
         if CraftCore.compiler.isAndroid:
