@@ -7,14 +7,14 @@ class subinfo(info.infoclass):
         self.svnTargets['master'] = "https://github.com/ccache/ccache.git"
         self.targetInstallPath["master"] = "dev-utils"
 
-        for ver in ["4.4.2"]:
+        for ver in ["4.6"]:
             self.targets[ver] = f"https://github.com/ccache/ccache/releases/download/v{ver}/ccache-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"ccache-{ver}"
             self.targetInstallPath[ver] = "dev-utils"
-        self.targetDigests["4.4.2"] = (['357a2ac55497b39ad6885c14b00cda6cf21d1851c6290f4288e62972665de417'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.6"] = (['73a1767ac6b7c0404a1a55f761a746d338e702883c7137fbf587023062258625'], CraftHash.HashAlgorithm.SHA256)
 
         self.webpage = "https://ccache.dev/"
-        self.defaultTarget = "4.4.2"
+        self.defaultTarget = "4.6"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
