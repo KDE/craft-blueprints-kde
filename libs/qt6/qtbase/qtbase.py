@@ -45,7 +45,7 @@ class Package(CMakePackageBase):
 
         dataDir = CraftCore.standardDirs.locations.data.relative_to(CraftCore.standardDirs.craftRoot())
         self.subinfo.options.configure.args += [
-            #"-DINSTALL_PUBLICBINDIR=bin",
+            "-DINSTALL_PUBLICBINDIR=bin",
             "-DINSTALL_BINDIR=lib/qt6/bin",
             "-DINSTALL_LIBEXECDIR=lib/qt6",
             "-DINSTALL_ARCHDATADIR=lib/qt6",
@@ -78,10 +78,16 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
+        with (self.buildDir() / "user_facing_tool_links.txt").open("rt") as links:
+            for line in links:
+                src, dest = line.split()
+                src = Path(src).relative_to(CraftCore.standardDirs.craftRoot()).with_suffix(CraftCore.compiler.executableSuffix)
+                if not utils.createShim(self.installDir() / dest,  self.installDir() / src):
+                    return False
         if CraftCore.compiler.isWindows:
             # TODO: there must be a more elegant way
             dll = utils.filterDirectoryContent(self.installDir() / "lib/qt6/bin",
-                                                    whitelist=lambda x, root: x.name.endswith(".dll") or x.name.endswith("6.exe"),
+                                                    whitelist=lambda x, root: x.name.endswith(".dll"),
                                                     blacklist=lambda x, root: True)
             utils.createDir(self.installDir() / "bin")
             for d in dll:
