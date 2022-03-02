@@ -1,6 +1,5 @@
-from ctypes import util
+from CraftCore import CraftCore
 import info
-
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -36,16 +35,14 @@ class subinfo(info.infoclass):
                 self.runtimeDependencies["libs/glib"] = None
 
 
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
 
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get('libs/qt6').pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        CraftPackageObject.get('libs/qt6').pattern.__init__(self)
 
         dataDir = CraftCore.standardDirs.locations.data.relative_to(CraftCore.standardDirs.craftRoot())
         self.subinfo.options.configure.args += [
-            "-DINSTALL_PUBLICBINDIR=bin",
             "-DINSTALL_BINDIR=lib/qt6/bin",
             "-DINSTALL_LIBEXECDIR=lib/qt6",
             "-DINSTALL_ARCHDATADIR=lib/qt6",
@@ -74,8 +71,3 @@ class Package(CMakePackageBase):
             env["PATH"] = f"{self.buildDir() / 'lib/qt6/bin'};{os.environ['PATH']}"
         with utils.ScopedEnv(env):
             return super().make()
-
-    def install(self):
-        if not super().install():
-            return False
-        return self.isntallQt6()
