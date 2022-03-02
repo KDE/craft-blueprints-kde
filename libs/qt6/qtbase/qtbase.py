@@ -1,5 +1,6 @@
 from CraftCore import CraftCore
 import info
+import utils
 
 class subinfo(info.infoclass):
     def registerOptions(self):
