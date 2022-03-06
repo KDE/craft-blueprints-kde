@@ -38,6 +38,8 @@ class subinfo(info.infoclass):
         # cantor not available on macOS atm due to broken qtwebengine
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["kde/applications/cantor"] = None
+        else:   # but libexpat is needed
+            self.runtimeDependencies["libs/expat"] = None
         self.runtimeDependencies["qt-libs/qtmqtt"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
