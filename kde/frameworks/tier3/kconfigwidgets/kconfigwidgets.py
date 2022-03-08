@@ -17,8 +17,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
 
         if not CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+
+        if not CraftCore.compiler.isAndroid and not CraftCore.compiler.isWindows:
+            self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
 
 
 from Package.CMakePackageBase import *
