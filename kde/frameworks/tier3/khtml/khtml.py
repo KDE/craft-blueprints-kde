@@ -19,7 +19,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
@@ -32,6 +31,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/sonnet"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
 
+        if not CraftCore.compiler.isWindows and not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
 
 from Package.CMakePackageBase import *
 
