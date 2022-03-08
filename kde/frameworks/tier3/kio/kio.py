@@ -39,11 +39,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         if not CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["kde/frameworks/tier3/kded"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
 
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+            self.runtimeDependencies["kde/frameworks/tier3/kded"] = None
 
 from Package.CMakePackageBase import *
 
