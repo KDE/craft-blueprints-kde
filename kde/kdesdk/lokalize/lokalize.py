@@ -11,7 +11,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/hunspell"] = None
         self.runtimeDependencies["libs/runtime"] = None
-        self.runtimeDependencies["libs/qt5/qtscript"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
@@ -20,12 +19,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/sonnet"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kross"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
