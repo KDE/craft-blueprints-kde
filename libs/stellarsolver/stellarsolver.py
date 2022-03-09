@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'https://github.com/rlancaste/stellarsolver/archive/refs/tags/%s.tar.gz' % ver
             self.archiveNames[ver] = "stellarsolver-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "stellarsolver-%s" % ver
-        self.defaultTarget = '2.0'
+        self.defaultTarget = 'master'
     
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = "default"
