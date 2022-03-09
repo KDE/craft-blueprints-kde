@@ -13,9 +13,9 @@ class subinfo(info.infoclass):
     def setDependencies( self ):
         self.runtimeDependencies["libs/libfftwf"] = None
         self.buildDependencies["libs/ladspa-sdk"] = None
-        self.buildDependencies["libs/libxml2"] = None
+        #self.buildDependencies["libs/libxml2"] = None
         self.buildDependencies["dev-utils/pkg-config"] = None
-        self.buildDependencies["perl-modules/list-moreutils"] = None
+        #self.buildDependencies["perl-modules/list-moreutils"] = None
 
 from Package.AutoToolsPackageBase import *
 
@@ -23,4 +23,4 @@ class Package(AutoToolsPackageBase):
     def __init__( self, **args ):
         AutoToolsPackageBase.__init__( self )
         self.subinfo.options.useShadowBuild = False
-        self.subinfo.options.make.args += f"PERL5LIB={self.shell.toNativePath(CraftCore.standardDirs.craftRoot())}/site/lib"
+        #self.subinfo.options.make.args += f"PERL5LIB={self.shell.toNativePath(CraftCore.standardDirs.craftRoot())}/site/lib"

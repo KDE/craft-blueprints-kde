@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/libasound2"] = None
             self.runtimeDependencies["libs/libexif"] = None
-            # self.runtimeDependencies["libs/ladspa-swh"] = None
+            self.runtimeDependencies["libs/ladspa-swh"] = None
             self.runtimeDependencies["libs/movit"] = None
         if OsUtils.isWin():
             self.runtimeDependencies["libs/dlfcn-win32"] = None
