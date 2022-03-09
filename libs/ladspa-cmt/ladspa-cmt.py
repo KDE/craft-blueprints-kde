@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
             self.targets[ ver ] = 'http://www.ladspa.org/download/cmt_' + ver +'.tgz'
             self.targetInstSrc[ ver ] =  'cmt_' + ver + '/src'
             self.patchToApply[ ver ] = ('ladspa-cmt-cmake.patch', 0)
-        self.targetDigests['1.18'] = (['8f23abdb34d89b511f676c2fe17380dd4e580fa44b630abbb30910f7d6f0b33a'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['1.18'] = (['a82f8636de1f4ada386a199a017a9cd775a49b49e716b11e8dd3f723c93df6ca'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = '1.18'
 
     def setDependencies( self ):
