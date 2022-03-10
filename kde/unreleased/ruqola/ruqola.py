@@ -79,6 +79,8 @@ class Package(CMakePackageBase):
         self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|dbus|snoretoast)).*")
         self.defines["shortcuts"] = [{"name" : "Ruqola", "target":"bin/ruqola.exe", "description" : self.subinfo.description}]
         self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "widget", "appIcons.ico")
+        self.defines["icon_png"] = os.path.join(self.sourceDir(), "src", "icons", "150-apps-ruqola.png")
+        self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "src", "icons", "44-apps-ruqola.png")
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
         return super().createPackage()
