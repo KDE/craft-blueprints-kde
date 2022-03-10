@@ -28,6 +28,10 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
 
+        self.displayName = "Ruqola"
+        self.description = "Rocket.Chat Client"
+        self.webpage = "https://apps.kde.org/ruqola"
+
         self.targets['1.6.3'] = 'https://download.kde.org/stable/ruqola/ruqola-1.6.3.tar.xz'
         self.targetDigests['1.6.3'] = (['70a422793b186c544139c61ff2ee708ce266e931eacb0cdb9f37f125a531c541'], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc['1.6.3'] = 'ruqola-1.6.3'
