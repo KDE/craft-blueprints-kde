@@ -10,8 +10,6 @@ class subinfo(info.infoclass):
                     # default is 8 and can fail https://bugreports.qt.io/browse/QTBUG-88657
                     "--webengine-jumbo-build=4"])
 
-        # currently fails build on Mac, disable to avoid clogging up the build queue
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
         # only supports msvc17+
         if CraftCore.compiler.isMSVC() and CraftCore.compiler.getInternalVersion() < 15:
             self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
@@ -71,6 +69,13 @@ class QtPackage(Qt5CorePackageBase):
         if isinstance(self, GitSource) and self.sourceDir().exists():
             utils.system(["git", "clean", "-xdf"], cwd=self.sourceDir())
         return super().fetch()
+
+    def unpack(self):
+        ret = super().unpack()
+        if CraftCore.compiler.isMacOS:
+            # Move internal libprotobuf headers to a location where they will be picked up before any system protobuf headers
+            utils.copyDir(os.path.join(self.sourceDir(), "src", "3rdparty", "chromium", "third_party", "protobuf", "src", "google"), os.path.join(self.sourceDir(), "include", "google"), linkOnly=True)
+        return ret
 
     def _getEnv(self):
         env = {
