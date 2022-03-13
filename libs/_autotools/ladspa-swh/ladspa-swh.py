@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
         self.description = 'The SWH Plugins package for the LADSPA plugin system'
         self.webpage = 'http://plugin.org.uk/'
 
-        for ver in ['0.4.17']
+        for ver in ['0.4.17']:
             self.targets[ver] = f"https://github.com/swh/ladspa/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f'ladspa-{ver}'
         self.targetDigests['0.4.17'] = (['d1b090feec4c5e8f9605334b47faaad72db7cc18fe91d792b9161a9e3b821ce7'], CraftHash.HashAlgorithm.SHA256)
