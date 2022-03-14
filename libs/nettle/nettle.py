@@ -37,7 +37,7 @@ class subinfo(info.infoclass):
 
         self.targetDigests['3.4'] = (['ae7a42df026550b85daca8389b6a60ba6313b0567f374392e54918588a411e94'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['3.7.3'] =  (['661f5eb03f048a3b924c3a8ad2515d4068e40f67e774e8a26827658007e3bcf0'], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel['3.7.3'] = 1
+        self.patchLevel['3.7.3'] = 2
 
         self.description = "A low-level cryptographic library"
         self.defaultTarget = "3.7.3"
@@ -54,7 +54,7 @@ class subinfo(info.infoclass):
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args = " --enable-shared  --enable-public-key --disable-documentation"
+        self.subinfo.options.configure.args = " --enable-shared  --enable-public-key --enable-mini-gmp --disable-documentation"
         if CraftCore.compiler.isMacOS:
             # for some reason the version of m4 built by craft will segfault
             # /bin/sh: line 1: 39726 Abort trap: 6

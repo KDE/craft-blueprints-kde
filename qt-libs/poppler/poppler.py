@@ -32,12 +32,10 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "git://git.freedesktop.org/git/poppler/poppler"
 
         # always try to use latest libpoppler with all security fixes
-        ver = "22.02.0"
+        ver = "22.03.0"
         self.targets[ver] = f"https://poppler.freedesktop.org/poppler-{ver}.tar.xz"
         self.targetInstSrc[ver] = f"poppler-{ver}"
-        self.targetDigests[ver] = (['e390c8b806f6c9f0e35c8462033e0a738bb2460ebd660bdb8b6dca01556193e1'], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply[ver] = [("poppler-fix-windows-home.diff", 1)]
-        self.patchLevel[ver] = 1
+        self.targetDigests[ver] = (['728c78ba94d75a55f6b6355d4fbdaa6f49934d9616be58e5e679a9cfd0980e1e'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = ver
 
     def setDependencies(self):
@@ -55,13 +53,18 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/iconv"] = None
         self.runtimeDependencies["libs/fontconfig"] = None
         self.runtimeDependencies["data/poppler-data"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/nss"] = None
+        if self.options.dynamic.buildQt5Frontend:
+            self.runtimeDependencies["libs/qt5/qtbase"] = None
+        if self.options.dynamic.buildQt6Frontend:
+            self.runtimeDependencies["libs/qt6/qtbase"] = None
         if self.options.dynamic.buildGlibFrontend:
             self.runtimeDependencies["libs/glib"] = None
             self.runtimeDependencies["libs/cairo"] = None
 
     def registerOptions(self):
+        self.options.dynamic.registerOption("buildQt5Frontend", True)
+        self.options.dynamic.registerOption("buildQt6Frontend", False)
         self.options.dynamic.registerOption("buildGlibFrontend", False)
         self.options.dynamic.registerOption("buildUtils", False)
         if CraftCore.compiler.isAndroid:
@@ -92,4 +95,4 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCURL=ON"]
 
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ["-DWITH_NSS3=OFF", "-DENABLE_CPP=OFF"]
+            self.subinfo.options.configure.args += ["-DENABLE_CPP=OFF"]

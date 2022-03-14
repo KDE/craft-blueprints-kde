@@ -94,34 +94,10 @@ class Package(CMakePackageBase):
         
         # KIO Slave and it's parts (For loading thumbnail images)
         utils.system("cp -rf " + craftRoot + "/lib/libexec/kf5/kioslave5 " + KSTARS_APP + "/Contents/MacOS/")
-        utils.system("mkdir -p " + KSTARS_PLUGINS + "/kf5")
-        utils.system("cp -rf " + craftRoot + "/plugins/kf5/kio " + KSTARS_PLUGINS + "/kf5/")
+        utils.system("mkdir -p " + KSTARS_PLUGINS + "/kf5/kio")
+        utils.system("cp -f " + craftRoot + "/plugins/kf5/kio/kio_file.so " + KSTARS_PLUGINS + "/kf5/kio/")
+        utils.system("cp -f " + craftRoot + "/plugins/kf5/kio/kio_http.so " + KSTARS_PLUGINS + "/kf5/kio/")
 
-       # INDI Related items
-
-        #	INDI Drivers
-        utils.system("cp -f " + craftRoot + "/bin/indi* " + KSTARS_APP + "/Contents/MacOS/")
-
-        #	INDI firmware files"
-        utils.system("mkdir -p " + KSTARS_RESOURCES + "/DriverSupport/")
-        utils.system("cp -rf " + craftRoot + "/usr/local/lib/indi/DriverSupport " + KSTARS_RESOURCES)
-
-        #	Driver XML Files
-        utils.system("cp -f " + craftRoot + "/share/indi/* " + KSTARS_RESOURCES + "/DriverSupport/")
-
-        #	Math Plugins
-        utils.system("cp -rf " + craftRoot + "/lib/indi/MathPlugins " + KSTARS_RESOURCES)
-
-        #	The gsc executable
-        utils.system("cp -f " + craftRoot + "/bin/gsc " + KSTARS_APP + "/Contents/MacOS/")
-
-        #	GPhoto Plugins
-        GPHOTO_VERSION = subprocess.getoutput("pkg-config --modversion libgphoto2")
-        PORT_VERSION = "0.12.0"
-        utils.system("mkdir -p " + KSTARS_RESOURCES + "/DriverSupport/gphoto/IOLIBS")
-        utils.system("mkdir -p " + KSTARS_RESOURCES + "/DriverSupport/gphoto/CAMLIBS")
-        utils.system("cp -rf " + craftRoot + "/lib/libgphoto2_port/" + PORT_VERSION + "/* " + KSTARS_RESOURCES + "/DriverSupport/gphoto/IOLIBS/")
-        utils.system("cp -rf " + craftRoot + "/lib/libgphoto2/" + GPHOTO_VERSION + "/* " + KSTARS_RESOURCES + "/DriverSupport/gphoto/CAMLIBS/")
 
         #	The Translations Directory
         utils.system("cp -rf " + craftRoot + "/share/locale " + KSTARS_RESOURCES)

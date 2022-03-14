@@ -80,8 +80,8 @@ class Package(BinaryPackageBase):
                               f"Craft installed to: {Path(CraftCore.standardDirs.craftRoot()).name}")
         return True
 
-    def unmerge(self):
+    def unmerge(self, dbOnly=False):
         shortcutPath = Path(os.environ["APPDATA"]) / f"Microsoft/Windows/Start Menu/Programs/Craft/Craft {Path(CraftCore.standardDirs.craftRoot()).name}.lnk"
         if os.path.exists(shortcutPath):
             utils.deleteFile(shortcutPath)
-        return super().unmerge()
+        return super().unmerge(dbOnly)

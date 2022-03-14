@@ -1,5 +1,8 @@
-import info
+import os
 
+from CraftCore import CraftCore
+import info
+import utils
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -29,25 +32,45 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libjpeg-turbo"] = None
             self.runtimeDependencies["libs/sqlite"] = None
             self.runtimeDependencies["libs/pcre2"] = None
+            self.runtimeDependencies["libs/harfbuzz"] = None
+            self.runtimeDependencies["libs/freetype"] = None
             if CraftCore.compiler.isUnix and self.options.dynamic.withGlib:
                 self.runtimeDependencies["libs/glib"] = None
 
 
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
 
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get('libs/qt6').pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        CraftPackageObject.get('libs/qt6').pattern.__init__(self)
+
+        dataDir = CraftCore.standardDirs.locations.data.relative_to(CraftCore.standardDirs.craftRoot())
         self.subinfo.options.configure.args += [
+            "-DINSTALL_BINDIR=lib/qt6/bin",
+            "-DINSTALL_LIBEXECDIR=lib/qt6",
+            "-DINSTALL_ARCHDATADIR=lib/qt6",
+            "-DINSTALL_INCLUDEDIR=include/qt6",
+            "-DINSTALL_MKSPECSDIR=lib/qt6/mkspecs",
+            f"-DINSTALL_DOCDIR=doc/qt6",
+            f"-DINSTALL_DATADIR={dataDir}/qt6",
+
             "-DFEATURE_pkg_config=ON",
             
             "-DFEATURE_system_sqlite=ON",
             "-DFEATURE_system_pcre2=ON",
             "-DFEATURE_system_zlib=ON",
+            "-DFEATURE_system_harfbuzz=ON",
+            "-DFEATURE_system_freetype=ON",
 
             "-DQT_BUILD_EXAMPLES=OFF"
         ]
 
         if self.subinfo.options.dynamic.useLtcg:
             self.subinfo.options.configure.args += ["-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON"]
+
+    def make(self):
+        env = {}
+        if CraftCore.compiler.isWindows:
+            env["PATH"] = f"{self.buildDir() / 'lib/qt6/bin'};{os.environ['PATH']}"
+        with utils.ScopedEnv(env):
+            return super().make()

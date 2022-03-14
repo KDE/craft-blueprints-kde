@@ -62,6 +62,26 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += " -DNODBUS=ON"
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += " -DRELEASE_BUILD=OFF"
+
+    def setDefaults(self, defines: {str:str}) -> {str:str}:
+        defines = super().setDefaults(defines)
+        if isinstance(self, AppImagePackager):
+            defines["runenv"] += [
+                'TEST=hello',
+                'PACKAGE_TYPE=appimage',
+                'KDE_FORK_SLAVES=1',
+                'FONTCONFIG_PATH=/etc/fonts',
+                'LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH',
+                'MLT_REPOSITORY=$this_dir/usr/lib/mlt-7/',
+                'MLT_DATA=$this_dir/usr/share/mlt-7/',
+                'MLT_ROOT_DIR=$this_dir/usr/',
+                'LADSPA_PATH=$this_dir/usr/lib/ladspa',
+                'FREI0R_PATH=$this_dir/usr/lib/frei0r-1',
+                'MLT_PROFILES_PATH=$this_dir/usr/share/mlt-7/profiles/',
+                'MLT_PRESETS_PATH=$this_dir/usr/share/mlt-7/presets/',
+                'SDL_AUDIODRIVER=pulseaudio']
+        return defines
+
     def createPackage(self):
         if not CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
@@ -79,21 +99,6 @@ class Package(CMakePackageBase):
         self.defines["shortcuts"] = [{"name" : "Kdenlive", "target":"bin/kdenlive.exe", "description" : self.subinfo.description}]
         self.defines["mimetypes"] = ["application/x-kdenlive"]
         self.defines["file_types"] = [".kdenlive"]
-        self.defines["runenv"] = [
-                'PACKAGE_TYPE=appimage',
-                'KDE_FORK_SLAVES=1',
-                'FONTCONFIG_PATH=/etc/fonts',
-                'DIR=$(dirname "$0")',
-                'LD_LIBRARY_PATH=$DIR/usr/lib/:$LD_LIBRARY_PATH',
-                'XDG_DATA_DIRS=$DIR/usr/share/:$XDG_DATA_DIRS',
-                'MLT_REPOSITORY=$DIR/usr/lib/mlt-7/',
-                'MLT_DATA=$DIR/usr/share/mlt-7/',
-                'MLT_ROOT_DIR=$DIR/usr/',
-                'LADSPA_PATH=$DIR/usr/lib/ladspa',
-                'FREI0R_PATH=$DIR/usr/lib/frei0r-1',
-                'MLT_PROFILES_PATH=$DIR/usr/share/mlt-7/profiles/',
-                'MLT_PRESETS_PATH=$DIR/usr/share/mlt-7/presets/',
-                'SDL_AUDIODRIVER=pulseaudio']
         return super().createPackage()
 
     def postInstall(self):

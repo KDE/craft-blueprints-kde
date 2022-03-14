@@ -3,11 +3,11 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.0.2"]:
+        for ver in ["1.2.2"]:
             self.targets[ver] = f"https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libwebp-{ver}"
-        self.targetDigests["1.0.2"] = (['3d47b48c40ed6476e8047b2ddb81d93835e0ca1b8d3e8c679afbb3004dd564b1'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "1.0.2"
+        self.targetDigests["1.2.2"] = (['7656532f837af5f4cec3ff6bafe552c044dc39bf453587bd5b77450802f4aee6'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "1.2.2"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

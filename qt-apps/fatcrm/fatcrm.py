@@ -8,12 +8,12 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/KDAB/FatCRM.git"
 
-        self.targets["2.4.0"] = "https://github.com/KDAB/FatCRM/releases/download/v2.4.0/fatcrm-2.4.0.tar.gz"
-        self.archiveNames["2.4.0"] = "fatcrm-2.4.0.tar.gz"
-        self.targetInstSrc["2.4.0"] = "fatcrm-2.4.0"
-        self.targetDigests["2.4.0"] = (['ff3d5d84e137ac820de4f95ef14f6cf5e5ad40adee02eadb5082cb104de582ee'], CraftHash.HashAlgorithm.SHA256)
+        self.targets["2.5.0"] = "https://github.com/KDAB/FatCRM/releases/download/v2.5.0/fatcrm-2.5.0.tar.gz"
+        self.archiveNames["2.5.0"] = "fatcrm-2.5.0.tar.gz"
+        self.targetInstSrc["2.5.0"] = "fatcrm-2.5.0"
+        self.targetDigests["2.5.0"] = (['662b7c5ccfe455f64e1058c1ec5f26968944d7bb0f9380b950bd11bf2c1a7ec3'], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "2.4.0"
+        self.defaultTarget = "2.5.0"
 
         self.description = "Desktop Application for SugarCRM"
         self.webpage = "http://www.kdab.com/"

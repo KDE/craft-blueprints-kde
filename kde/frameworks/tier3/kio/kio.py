@@ -10,7 +10,9 @@ class subinfo(info.infoclass):
         self.patchToApply["5.90.0"] += [("0001-Fix-appimage-build.patch", 1)]
         if CraftCore.compiler.isMinGW():
             self.patchToApply["5.90.0"] += [("fix-mingw.patch", 1)]
+            self.patchToApply["5.91.0"] = [("fix-mingw.patch", 1)]
         self.patchLevel["5.90.0"] = 5
+        self.patchLevel["5.91.0"] = 51
 
         self.description = "Network transparent access to files and data"
 

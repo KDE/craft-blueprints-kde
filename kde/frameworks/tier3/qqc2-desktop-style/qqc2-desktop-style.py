@@ -7,6 +7,11 @@ class subinfo(info.infoclass):
 
         self.description = "QtQuickControls 2 style that integrates with the desktop"
 
+        for ver in ["5.90.0", "5.91.0"]:
+            self.patchToApply[ver] = ('FixWindowsTargets.diff', 1)
+            self.patchLevel[ver] = 1
+
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

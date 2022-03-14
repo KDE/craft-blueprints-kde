@@ -53,7 +53,7 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += " -DOKULAR_UI=mobile"
+            self.subinfo.options.configure.args += " -DOKULAR_UI=mobile -DANDROID_LINK_EXTRA_LIBRARIES=ON"
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))

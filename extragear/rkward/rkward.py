@@ -14,7 +14,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["libs/qt5/qtscript"] = None
-        if CraftCore.compiler.isMinGW():    # MinGW has not qtwebengine, but we can fall back to kdewebkit
+        if CraftCore.compiler.isMinGW() or OsUtils.isMac():
+            # MinGW has not qtwebengine, but we can fall back to kdewebkit
+            # Mac is temporarily out of qtwebengine, too.
             self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = None
         else:
             self.runtimeDependencies['libs/qt5/qtwebengine'] = None
@@ -66,8 +68,9 @@ class Package(CMakePackageBase):
             # we cannot set a stable relative path, either. However, the rkward frontend makes sure to cd to the appropriate directory
             # when starting the backend, so the libs can be found by basename.
             rkward_rbackend = os.path.join(self.imageDir(), "lib", "libexec", "rkward.rbackend")
+            rlibs = ["libR.dylib", "libRblas.dylib", "libRlapack.dylib"]
             for path in utils.getLibraryDeps(str(rkward_rbackend)):
-                if path.startswith("/Library/Frameworks/R.framework"):
+                if os.path.basename(path) in rlibs:
                     utils.system(["install_name_tool", "-change", path, os.path.join("@rpath", os.path.basename(path)), rkward_rbackend])
             # Finally tell the loader to look in the current working directory (as set by the frontend)
             utils.system(["install_name_tool", "-add_rpath", ".", rkward_rbackend])
@@ -94,6 +97,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["executable"] = "bin\\rkward.exe"
         self.defines["icon"] = os.path.join(self.sourceDir(), "rkward", "icons", "app-icon", "rkward.ico")
+        self.externalLibs = {"@rpath/libR.dylib", "@rpath/libRblas.dylib", "@rpath/libRlapack.dylib"}
 
         if OsUtils.isMac():
             # We cannot reliably package R inside the bundle. Users will have to install it separately.

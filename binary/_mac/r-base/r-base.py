@@ -3,8 +3,8 @@
 import info
 
 PACKAGE_CRAN_MIRROR = 'http://ftp.gwdg.de/pub/misc/cran'
-PACKAGE_PATH = '/bin/macosx/'
-
+PACKAGE_PATH3 = '/bin/macosx/'
+PACKAGE_PATH4 = '/bin/macosx/base/'
 
 class subinfo(info.infoclass):
     def setDependencies(self):
@@ -13,9 +13,11 @@ class subinfo(info.infoclass):
     def setTargets(self):
         # NOTE on choice of versions: 3.4.4 = earliest official build with R_GE_version 12
         #                             3.3.3 = last official build to work with MacOS < 10.11
-        for version in ['4.0.2', '3.4.4.', '3.3.3']:
-            self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-' + version + '.pkg'
-        self.defaultTarget = '4.0.2'
+        for version in ['3.4.4.', '3.3.3']:
+            self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH3 + 'R-' + version + '.pkg'
+        for version in ['4.1.2']:
+            self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH4 + 'R-' + version + '.pkg'
+        self.defaultTarget = '4.1.2'
 
 
 from Package.BinaryPackageBase import *

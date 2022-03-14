@@ -28,11 +28,15 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
 
-        self.targets['1.6.2'] = 'https://download.kde.org/stable/ruqola/ruqola-1.6.2.tar.xz'
-        self.targetDigests['1.6.2'] = (['b8e801745c0eb340e081e3763004d1d628453abbf8b6dc5cea41915832a81df2'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['1.6.2'] = 'ruqola-1.6.2'
+        self.displayName = "Ruqola"
+        self.description = "Rocket.Chat Client"
+        self.webpage = "https://apps.kde.org/ruqola"
+
+        self.targets['1.6.3'] = 'https://download.kde.org/stable/ruqola/ruqola-1.6.3.tar.xz'
+        self.targetDigests['1.6.3'] = (['70a422793b186c544139c61ff2ee708ce266e931eacb0cdb9f37f125a531c541'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc['1.6.3'] = 'ruqola-1.6.3'
         self.svnTargets["master"] = "https://invent.kde.org/network/ruqola.git"
-        self.defaultTarget = "1.6.2"
+        self.defaultTarget = "1.6.3"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -75,6 +79,8 @@ class Package(CMakePackageBase):
         self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|dbus|snoretoast)).*")
         self.defines["shortcuts"] = [{"name" : "Ruqola", "target":"bin/ruqola.exe", "description" : self.subinfo.description}]
         self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "widget", "appIcons.ico")
+        self.defines["icon_png"] = os.path.join(self.packageDir(), "150-apps-ruqola.png")
+        self.defines["icon_png_44"] = os.path.join(self.packageDir(), "44-apps-ruqola.png")
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
         return super().createPackage()
