@@ -69,7 +69,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["extragear/libalkimia"] = None
         self.runtimeDependencies["extragear/kdiagram"] = None
         self.buildDependencies["libs/gettext"] = None
-        self.runtimeDependencies["libs/qt5/qtwebkit"] = None
+        if self.buildTarget != "master":
+            self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
         if CraftCore.compiler.isMinGW():
             self.runtimeDependencies["kdesupport/kdewin"] = None
