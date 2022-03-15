@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("withMysql", False)
         self.options.dynamic.registerOption("withDBus", not CraftCore.compiler.isAndroid)
         self.options.dynamic.registerOption("withGlib", not CraftCore.compiler.isWindows and not CraftCore.compiler.isAndroid)
+        self.options.dynamic.registerOption("withGtk", False)
         if CraftCore.compiler.isMinGW():
             self.options.dynamic.registerOption("withDirectX", True)
 
@@ -78,7 +79,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.12.9"] = 1
         self.patchLevel["5.12.10"] = 2
         self.patchLevel["5.12.11"] = 2
-        self.patchLevel["5.15.2"] = 8
+        self.patchLevel["5.15.2"] = 9
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):
@@ -249,6 +250,8 @@ class QtPackage(Qt5CorePackageBase):
                     command += " -no-icu "
                 if not self.subinfo.options.dynamic.withGlib:
                     command += " -no-glib "
+                if not self.subinfo.options.dynamic.withGtk:
+                    command += "-no-gtk "
                 if OsUtils.isUnix() and not CraftCore.compiler.isMacOS and not CraftCore.compiler.isAndroid:
                     command += " -xcb -xcb-xlib "
             else:
