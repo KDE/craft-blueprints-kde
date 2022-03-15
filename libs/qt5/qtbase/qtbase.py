@@ -236,6 +236,8 @@ class QtPackage(Qt5CorePackageBase):
                     command += " -sql-mysql "
                 else:
                     command += " -no-sql-mysql "
+                # disable unwanted sql driver that can cause deployment issues
+                command += " -no-sql-db2 -no-sql-ibase -no-sql-oci -no-sql-odbc -no-sql-psql -no-sql-sqlite2 -no-sql-tds"
                 if self.subinfo.options.dynamic.withDBus:
                     command += " -qdbus -dbus-runtime -I \"%s\" -I \"%s\" " % (
                         os.path.join(CraftStandardDirs.craftRoot(), "include", "dbus-1.0"),
