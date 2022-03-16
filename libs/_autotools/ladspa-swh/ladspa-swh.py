@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/swh/ladspa.git"
         self.svnTargets["d99a0db"] = "https://github.com/swh/ladspa.git||d99a0db521d13a87bdaa418c674ca8858e484452"
+        self.patchToApply["d99a0db"] = ('fix-perl-path.diff', 1)
         self.defaultTarget = "d99a0db"
 
     def setDependencies( self ):

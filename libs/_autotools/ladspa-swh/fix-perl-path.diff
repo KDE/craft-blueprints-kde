@@ -1,0 +1,120 @@
+diff --git a/bozosoity-checker.pl b/bozosoity-checker.pl
+index b320a86..4ae3266 100755
+--- a/bozosoity-checker.pl
++++ b/bozosoity-checker.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl -w
++#!perl -w
+ 
+ %used = ();
+ 
+diff --git a/docs/addstyle.pl b/docs/addstyle.pl
+index 825d909..0b653d6 100755
+--- a/docs/addstyle.pl
++++ b/docs/addstyle.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl -w
++#!perl -w
+ 
+ $style = <<EOB;
+ <style>
+diff --git a/docs/makedocs.pl b/docs/makedocs.pl
+index 21c90c2..46afa48 100755
+--- a/docs/makedocs.pl
++++ b/docs/makedocs.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl -w
++#!perl -w
+ 
+ use XML::Parser;
+ 
+diff --git a/impulses/reorder.pl b/impulses/reorder.pl
+index 7d2e67a..3e34495 100755
+--- a/impulses/reorder.pl
++++ b/impulses/reorder.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl
++#!perl
+ 
+ $n = 1;
+ while (<>) {
+diff --git a/impulses/scale.pl b/impulses/scale.pl
+index 381e7af..4268beb 100755
+--- a/impulses/scale.pl
++++ b/impulses/scale.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl
++#!perl
+ 
+ $scale = shift;
+ 
+diff --git a/makestub.pl b/makestub.pl
+index 99e2108..62f1fdb 100755
+--- a/makestub.pl
++++ b/makestub.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl -w
++#!perl -w
+ 
+ use List::MoreUtils qw(any);
+ use XML::Parser;
+diff --git a/metadata/lxml2rdf.pl b/metadata/lxml2rdf.pl
+index 779a007..b3c0608 100755
+--- a/metadata/lxml2rdf.pl
++++ b/metadata/lxml2rdf.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl -w
++#!perl -w
+ 
+ print <<EOB;
+ <?xml version='1.0' encoding='ISO-8859-1'?>
+diff --git a/metadata/txt2scale.pl b/metadata/txt2scale.pl
+index 9bcc7ae..a860f98 100755
+--- a/metadata/txt2scale.pl
++++ b/metadata/txt2scale.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl -w
++#!perl -w
+ 
+ print <<EOB;
+ <?xml version='1.0' encoding='UTF-8'?>
+diff --git a/mkspec.pl b/mkspec.pl
+index 1014b53..acf7e08 100755
+--- a/mkspec.pl
++++ b/mkspec.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl -w
++#!perl -w
+ 
+ $package = shift(@ARGV);
+ $version = shift(@ARGV);
+diff --git a/timetest/autotimetest.pl b/timetest/autotimetest.pl
+index 09db770..1086f16 100755
+--- a/timetest/autotimetest.pl
++++ b/timetest/autotimetest.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl -w
++#!perl -w
+ 
+ $html = 0;
+ $skip = 0;
+diff --git a/timetest/timecmp b/timetest/timecmp
+index 9a92e24..51ded55 100755
+--- a/timetest/timecmp
++++ b/timetest/timecmp
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl -w
++#!perl -w
+ 
+ my $pattern = shift @ARGV;
+ 
+diff --git a/timetest/timetest b/timetest/timetest
+index cad2dc2..5a45fff 100755
+--- a/timetest/timetest
++++ b/timetest/timetest
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl -w
++#!perl -w
+ 
+ my $pattern = shift @ARGV;
+ 
