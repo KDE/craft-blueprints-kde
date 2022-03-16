@@ -60,6 +60,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["qt-libs/poppler"] = None
             self.runtimeDependencies["libs/matio"] = None
             self.runtimeDependencies["libs/readstat"] = None
+            self.runtimeDependencies["libs/discount"] = None
 
 
 from Package.CMakePackageBase import *
