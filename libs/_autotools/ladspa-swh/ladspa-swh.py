@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
 
     def setDependencies( self ):
         self.runtimeDependencies["libs/libfftwf"] = None
+        self.buildDependencies["libs/gettext"] = None
         self.buildDependencies["libs/ladspa-sdk"] = None
         self.buildDependencies["libs/libxml2"] = None
         self.buildDependencies["dev-utils/pkg-config"] = None
