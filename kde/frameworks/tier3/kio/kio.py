@@ -4,8 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        # if CraftCore.compiler.isLinux:
-        #     self.patchToApply["5.86.0"] = [("0001-Allow-building-on-Linux-without-libmount-blkid.patch", 1)]
         self.patchToApply["5.90.0"] = [("0001-Port-to-KLibexec.patch", 1)]
         self.patchToApply["5.90.0"] += [("0001-Fix-appimage-build.patch", 1)]
         if CraftCore.compiler.isMinGW():
