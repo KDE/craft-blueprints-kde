@@ -57,7 +57,7 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
-        self.subinfo.options.configure.args += "-DBUILD_APPLETS=OFF"
+        self.subinfo.options.configure.args += "-DBUILD_APPLETS=OFF -DCMAKE_DISABLE_FIND_PACKAGE_Qt5WebEngineWidgets=1"
 
 
     def createPackage(self):
