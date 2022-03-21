@@ -14,10 +14,14 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = 'labplot-2.6'
         for ver in ['2.5.0', '2.7.0', '2.8.0', '2.8.1', '2.8.2']:
             self.targetInstSrc[ver] = 'labplot-%s' % ver
+        # beta versions
+        for ver in ['2.8.99']:
+            self.targets[ver] = 'http://download.kde.org/stable/labplot/2.9.0/labplot-2.9.0-beta.tar.xz'
+            self.targetInstSrc[ver] = 'labplot-2.9.0-beta'
 
         #self.patchToApply['2.8.1'] = [('labplot-2.8.1.diff', 1)]
-        self.patchLevel['2.8.2'] = 1
-        self.defaultTarget = '2.8.2'
+        #self.patchLevel['2.8.2'] = 1
+        self.defaultTarget = '2.8.99'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -51,15 +55,17 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
-        if self.buildTarget == "master":
+        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("2.8.99"):
             self.runtimeDependencies["qt-libs/poppler"] = None
             self.runtimeDependencies["libs/matio"] = None
             self.runtimeDependencies["libs/readstat"] = None
+            self.runtimeDependencies["libs/discount"] = None
 
 
 from Package.CMakePackageBase import *

@@ -38,8 +38,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
-        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("8.0"):
-            self.runtimeDependencies["libs/qt5/qtwebkit"] = None
+        #if self.buildTarget == "master" or self.buildTarget >= CraftVersion("8.0"):
+        #    self.runtimeDependencies["libs/qt5/qtwebkit"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         if CraftCore.compiler.isMSVC():
             self.runtimeDependencies["libs/mpir"] = None
@@ -56,7 +57,7 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
-        self.subinfo.options.configure.args += "-DBUILD_APPLETS=OFF"
+        self.subinfo.options.configure.args += "-DBUILD_APPLETS=OFF -DCMAKE_DISABLE_FIND_PACKAGE_Qt5WebEngineWidgets=1"
 
 
     def createPackage(self):

@@ -19,10 +19,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
 
+        if not CraftCore.compiler.isWindows:
+            self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
 
 from Package.CMakePackageBase import *
 

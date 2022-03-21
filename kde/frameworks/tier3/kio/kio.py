@@ -4,8 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        # if CraftCore.compiler.isLinux:
-        #     self.patchToApply["5.86.0"] = [("0001-Allow-building-on-Linux-without-libmount-blkid.patch", 1)]
         self.patchToApply["5.90.0"] = [("0001-Port-to-KLibexec.patch", 1)]
         self.patchToApply["5.90.0"] += [("0001-Fix-appimage-build.patch", 1)]
         if CraftCore.compiler.isMinGW():
@@ -39,11 +37,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         if not CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["kde/frameworks/tier3/kded"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
 
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+            self.runtimeDependencies["kde/frameworks/tier3/kded"] = None
 
 from Package.CMakePackageBase import *
 
