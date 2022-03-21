@@ -46,7 +46,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
         self.defines["shortcuts"] = [{"name" : "Dolphin", "target":"bin/dolphin.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\dolphin.ico" }]
-        self.defines["icon"] = self.buildDir() / "src/dolphin_SRCS.ico"
+        self.defines["icon"] = self.buildDir() / "src/dolphin.ico"
 
         self.ignoredPackages.append("binary/mysql")
 
