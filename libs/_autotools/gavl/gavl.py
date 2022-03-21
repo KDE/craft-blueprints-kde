@@ -8,16 +8,14 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"gavl-{ver}"
         self.targetDigests['1.4.0'] = (['51aaac41391a915bd9bad07710957424b046410a276e7deaff24a870929d33ce'], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply['1.4.0'] = ('FixCputest.patch', 1)
-        self.svnTargets['master'] = "https://github.com/jlskuz/gavl.git"
-        self.patchLevel['master'] = 20211209
-        self.defaultTarget = "master"
-        if CraftCore.compiler.isMacOS:
-            self.patchToApply['master'] = ('FixMacOS.patch', 1)
+        self.svnTargets['master'] = "https://github.com/bplaum/gavl.git"
+        self.patchLevel['master'] = 20220321
+        self.svnTargets['6dada9c'] = "https://github.com/bplaum/gavl.git||6dada9c4482ae66ecf721226439531e69fbb6a68"
 
         self.description = "Low level library, upon which multimedia APIs can be built"
         self.webpage = "https://gmerlin.sourceforge.net"
         if CraftCore.compiler.isMacOS:
-            self.defaultTarget = 'master'
+            self.defaultTarget = '6dada9c'
         else:
             self.defaultTarget = '1.4.0'
 
