@@ -37,7 +37,7 @@ class Package(MesonPackageBase):
         self.subinfo.options.configure.cflags += (f"-I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'include/dbus-1.0')}"
                                                   f" -I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'lib/dbus-1.0/include')}")
         # cmake pcre does not provide .pc files
-        self.subinfo.options.configure.args += ["-Dinternal_pcre=true", "-Diconv=external"]
+        self.subinfo.options.configure.args += ["-Dinternal_pcre=true", "-Diconv=external", "--wrap-mode=nodownload"]
         if CraftCore.compiler.isUnix:
             self.subinfo.options.configure.ldflags += " -lintl"
         if CraftCore.compiler.isFreeBSD:
