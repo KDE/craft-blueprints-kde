@@ -1,0 +1,14 @@
+See https://invent.kde.org/frameworks/kio/-/merge_requests/789
+---
+diff --git a/src/kioslave/kioslave.cpp b/src/kioslave/kioslave.cpp
+index e66a1dbddf12635ec0164a3d3171fe476db5acee..9246154d9b92e4e6d4094422b09c910ca69ee5d5 100644
+--- a/src/kioslave/kioslave.cpp
++++ b/src/kioslave/kioslave.cpp
+@@ -16,6 +16,7 @@
+ #include <QFile>
+ #include <QLibrary>
+ #include <QPluginLoader>
++#include <QStandardPaths>
+ #include <QString>
+ 
+ #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
