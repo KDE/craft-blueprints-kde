@@ -9,8 +9,9 @@ class subinfo(info.infoclass):
             tarballInstallSrc = "kirigami2-${VERSION}"
         )
 
-        self.patchToApply["5.91.0"] = ('FixWinTargets.patch', 1)
-        self.patchLevel["5.91.0"] = 1
+        for ver in ["5.91.0", "5.92.0"]:
+            self.patchToApply[ver] = ('FixWinTargets.patch', 1) # fixed upstream in ecm for 5.93.0
+            self.patchLevel[ver] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

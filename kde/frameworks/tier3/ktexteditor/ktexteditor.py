@@ -7,6 +7,10 @@ class subinfo(info.infoclass):
 
         self.description = "KTextEditor provides an advanced embeddable text editor"
 
+        if CraftCore.compiler.isWindows:
+            self.patchToApply["5.92.0"] = [("0001-Don-t-build-KAuth-integration-on-Windows.patch", 1)]
+            self.patchLevel["5.92.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

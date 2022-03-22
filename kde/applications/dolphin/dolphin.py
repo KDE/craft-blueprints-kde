@@ -9,6 +9,9 @@ class subinfo(info.infoclass):
         self.webpage = "https://www.kde.org/applications/system/dolphin/"
         self.displayName = "Dolphin"
 
+        self.patchToApply["21.12.3"] = [("0001-Port-to-target-based-ecm_add_app_icon.patch", 1)]
+        self.patchLevel["21.12.3"] = 1
+
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
@@ -46,7 +49,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
         self.defines["shortcuts"] = [{"name" : "Dolphin", "target":"bin/dolphin.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\dolphin.ico" }]
-        self.defines["icon"] = self.buildDir() / "src/dolphin_SRCS.ico"
+        self.defines["icon"] = self.buildDir() / "src/dolphin.ico"
 
         self.ignoredPackages.append("binary/mysql")
 
