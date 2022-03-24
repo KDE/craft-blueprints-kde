@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
+        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/accessibility/kontrast")
         self.description = "Tool to check contrast for colors that allows verifying that your colors are correctly accessible"
 
     def setDependencies(self):
