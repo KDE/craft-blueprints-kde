@@ -10,7 +10,10 @@ class subinfo(info.infoclass):
         self.patchToApply['1.4.0'] = ('FixCputest.patch', 1)
         self.svnTargets['master'] = "https://github.com/bplaum/gavl.git"
         self.patchLevel['master'] = 20220321
+        # when adding new commit based targets, keep gnutls dependency (below) in mind!
         self.svnTargets['6dada9c'] = "https://github.com/bplaum/gavl.git||6dada9c4482ae66ecf721226439531e69fbb6a68"
+        self.patchToApply['6dada9c'] = ('fix-macos-build-lrt.patch', 1)
+        self.patchLevel['6dada9c'] = 1
 
         self.description = "Low level library, upon which multimedia APIs can be built"
         self.webpage = "https://gmerlin.sourceforge.net"
@@ -21,7 +24,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        if self.buildTarget in ['master']:
+        if self.buildTarget in ['master', '6dada9c']:
             self.runtimeDependencies["libs/gnutls"] = None
 
 
