@@ -6,6 +6,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "Extra widgets for easier configuration support"
 
+        self.patchToApply['5.92.0'] = [('0001-Fix-automatic-color-scheme-on-Windows.patch', 1)]
+        self.patchLevel['5.92.0'] = 1
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
