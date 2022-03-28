@@ -1,0 +1,49 @@
+From dd02a7f7442afaa2d4424dd3c539e66ab9c6ca3c Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Thu, 10 Mar 2022 17:23:42 +0100
+Subject: [PATCH] Replace KateColorSchemeChooser with using KColorSchemeManager
+ directly
+
+The main thing KateColorSchemeChooser adds is saving/loading from the config file, but KColorSchemeManager can do that directly since 5.89
+---
+ kate/katemainwindow.cpp | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/kate/katemainwindow.cpp b/kate/katemainwindow.cpp
+index eaedfcda7..a53757934 100644
+--- a/kate/katemainwindow.cpp
++++ b/kate/katemainwindow.cpp
+@@ -33,6 +33,7 @@
+ #include <KActionCollection>
+ #include <KActionMenu>
+ #include <KApplicationTrader>
++#include <KColorSchemeManager>
+ #include <KConfigGroup>
+ #include <KEditToolBar>
+ #include <KFileItem>
+@@ -53,6 +54,7 @@
+ #include <KToolBar>
+ #include <KWindowConfig>
+ #include <KXMLGUIFactory>
++#include <kconfigwidgets_version.h>
+ 
+ #include <QApplication>
+ #include <QDesktopWidget>
+@@ -226,7 +228,14 @@ void KateMainWindow::setupImportantActions()
+     m_paShowPath->setWhatsThis(i18n("Show the complete document path in the window caption"));
+ 
+     // Load themes
++#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 89, 0)
+     actionCollection()->addAction(QStringLiteral("colorscheme_menu"), new KateColorSchemeChooser(actionCollection()));
++#else
++    const QString colorScheme = KConfigGroup(KSharedConfig::openConfig(), "UiSettings").readEntry("ColorScheme", QString());
++
++    KColorSchemeManager *manager = new KColorSchemeManager(this);
++    actionCollection()->addAction(QStringLiteral("colorscheme_menu"), manager->createSchemeSelectionMenu(colorScheme, this));
++#endif
+ 
+     QAction *a = actionCollection()->addAction(KStandardAction::Back, QStringLiteral("view_prev_tab"));
+     a->setText(i18n("&Previous Tab"));
+-- 
+2.35.1
+
