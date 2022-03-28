@@ -1,0 +1,34 @@
+diff --git a/Makefile b/Makefile
+index 7c6022ff..87352a30 100644
+--- a/Makefile
++++ b/Makefile
+@@ -392,7 +392,7 @@ install-cli: cli
+ 
+ install-lib-dev:
+ 	$(INSTALL) -d $(DESTDIR)$(includedir) $(DESTDIR)$(libdir)/pkgconfig
+-	$(INSTALL) -m 644 $(SRCPATH)/x264.h x264_config.h $(DESTDIR)$(includedir)
++	$(INSTALL) -m 644 $(FULL_SRCPATH)/x264.h x264_config.h $(DESTDIR)$(includedir)
+ 	$(INSTALL) -m 644 x264.pc $(DESTDIR)$(libdir)/pkgconfig
+ 
+ install-lib-static: lib-static install-lib-dev
+diff --git a/configure b/configure
+index b4426d62..0d57a712 100755
+--- a/configure
++++ b/configure
+@@ -1520,6 +1520,7 @@ fi
+ 
+ cat > config.mak << EOF
+ SRCPATH=$SRCPATH
++FULL_SRCPATH=$(dirname "$0")
+ prefix=$prefix
+ exec_prefix=$exec_prefix
+ bindir=$bindir
+@@ -1672,7 +1673,7 @@ echo >> config.log
+ cat conftest.log >> config.log
+ cat conftest.log
+ 
+-[ "$SRCPATH" != "." ] && ln -sf ${SRCPATH}/Makefile ./Makefile
++[ "$SRCPATH" != "." ] && cp $(dirname "$0")/Makefile ./Makefile
+ mkdir -p common/{aarch64,arm,mips,ppc,x86} encoder extras filters/video input output tools
+ 
+ echo
