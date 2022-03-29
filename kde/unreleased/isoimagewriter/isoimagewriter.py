@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
 
 from Package.CMakePackageBase import *
 
