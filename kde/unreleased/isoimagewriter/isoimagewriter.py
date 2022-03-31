@@ -26,3 +26,11 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+
+    def install(self):
+        if not super().install():
+            return False
+        if CraftCore.compiler.isWindows:
+            manifest = os.path.join(self.sourceDir(), "res", "isoimagewriter.manifest")
+            app = os.path.join(self.installDir(), "bin", "isoimagewriter.exe")
+            return utils.embedManifest(app, manifest)
