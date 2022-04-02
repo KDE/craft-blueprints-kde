@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f'https://download.kde.org/stable/rkward/{ver}/src/rkward-{ver}.tar.gz'
             self.targetInstSrc[ver] = f'rkward-{ver}'
         self.targetDigests["0.7.2"] = (['452350a4057d9dc87bb7c7e2f5c38b5cb9715b42141186b0e8c4a28e3dd2adf6'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = 'master'
+        self.defaultTarget = '0.7.2'
 
     def setDependencies(self):
         self.runtimeDependencies["binary/r-base"] = None
