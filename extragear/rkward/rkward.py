@@ -4,9 +4,16 @@ from CraftOS.osutils import OsUtils
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://invent.kde.org/education/rkward.git'
-        self.defaultTarget = 'master'
+        self.description = "RKWard is an easy to use and easily extensible IDE/GUI for R."
         self.displayName = "RKWard"
+        self.webpage = "https://rkward.kde.org"
+
+        self.svnTargets['master'] = 'https://invent.kde.org/education/rkward.git'
+        for ver in ['0.7.2']:
+            self.targets[ver] = f'https://download.kde.org/stable/rkward/{ver}/src/rkward-{ver}.tar.gz'
+            self.targetInstSrc[ver] = f'rkward-{ver}'
+        self.targetDigests["0.7.2"] = (['452350a4057d9dc87bb7c7e2f5c38b5cb9715b42141186b0e8c4a28e3dd2adf6'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = 'master'
 
     def setDependencies(self):
         self.runtimeDependencies["binary/r-base"] = None
@@ -48,7 +55,7 @@ class Package(CMakePackageBase):
     def fetch(self):
         if not CMakePackageBase.fetch(self):
             return False
-        if self.subinfo.hasSvnTarget:
+        if self.subinfo.buildTarget == "master":
             utils.system([sys.executable, os.path.join(self.checkoutDir(), "scripts", "import_translations.py")])
         return True
 
