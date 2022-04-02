@@ -1,0 +1,10 @@
+# blacklist
+
+# we use a icontheme.rc on windows
+bin/data/icons/.*
+
+# kill qsvgengine, we use our KIconThemes engine with re-coloring
+bin/iconengines/qsvgicon.*
+
+# we don't need kcharselect
+bin/data/kf5/kcharselect/kcharselect-data
