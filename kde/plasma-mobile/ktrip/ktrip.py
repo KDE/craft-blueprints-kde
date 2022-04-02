@@ -37,3 +37,5 @@ class Package(CMakePackageBase):
         self.addExecutableFilter(r"(bin|libexec)/(?!(ktrip|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
+        self.defines["icon"] = self.buildDir() / "src/ktrip.ico"
+        self.defines["icon_png"] = os.path.join(self.sourceDir(), "src", "150-org.kde.ktrip.png")
