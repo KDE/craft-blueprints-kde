@@ -1,0 +1,39 @@
+From 64ec065a2830c231aa790dbaf477c79db53ac9c9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?George=20Florea=20B=C4=83nu=C8=99?= <georgefb899@gmail.com>
+Date: Sun, 3 Apr 2022 04:50:37 +0300
+Subject: [PATCH 2/2] init
+
+---
+ Makefile | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/Makefile b/Makefile
+index 7bd90c7..f08fa70 100644
+--- a/Makefile
++++ b/Makefile
+@@ -108,6 +108,22 @@ pc:
+ 	@echo "libdir=$(INSTALL_LIB)"
+ 	@echo "includedir=$(INSTALL_INC)"
+ 
++define PKG_CONFIG
++prefix=$(KDEROOT)
++exec_prefix=$${prefix}
++includedir=$${prefix}/include/lua/lua5.2
++libdir=$${exec_prefix}/lib/lua/lua5.2
++
++Name: Lua 5.2
++Description: An Extensible Extension Language
++Version: 5.2.4
++Cflags: -I$${includedir}
++Libs: -L$${libdir} -llua5.2 -lm
++endef
++
++lua5.2.pc:
++	$(file > $@,$(PKG_CONFIG))
++
+ # list targets that do not create files (but not all makes understand .PHONY)
+ .PHONY: all $(PLATS) clean test install local none dummy echo pecho lecho
+ 
+-- 
+2.35.1
+
