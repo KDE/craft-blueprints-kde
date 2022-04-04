@@ -10,6 +10,9 @@ class subinfo(info.infoclass):
         self.description = "the KDE text editor"
         self.webpage = "https://kate-editor.org/"
 
+        self.patchToApply['21.12.3'] = [('0001-Replace-KateColorSchemeChooser-with-using-KColorSche.patch', 1)]
+        self.patchLevel['21.12.3'] = 1
+
     def registerOptions(self):
         self.options.dynamic.registerOption("fullPlasma", False)
 

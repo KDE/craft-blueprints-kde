@@ -1,0 +1,35 @@
+From 480f9120dcf78b0bb8e810e9f81dad365ea6f7a1 Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Wed, 23 Mar 2022 23:47:48 +0100
+Subject: [PATCH] Fix automatic color scheme on Windows
+
+Trigger the initial system color query after the config is read, otherwise loading the config overrides the automatically picked color
+---
+ src/kcolorschememanager.cpp | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/kcolorschememanager.cpp b/src/kcolorschememanager.cpp
+index 507d3c6..76973a1 100644
+--- a/src/kcolorschememanager.cpp
++++ b/src/kcolorschememanager.cpp
+@@ -101,13 +101,16 @@ KColorSchemeManager::KColorSchemeManager(QObject *parent)
+             }
+         }
+     });
+-    d->getWindowsMessagesNotifier().handleWMSettingChange();
+ #endif
+ 
+     KSharedConfigPtr config = KSharedConfig::openConfig();
+     KConfigGroup cg(config, "UiSettings");
+     auto scheme = cg.readEntry("ColorScheme", QString());
+     activateScheme(indexForScheme(scheme));
++
++#ifdef Q_OS_WIN
++    d->getWindowsMessagesNotifier().handleWMSettingChange();
++#endif
+ }
+ 
+ KColorSchemeManager::~KColorSchemeManager()
+-- 
+2.35.1
+

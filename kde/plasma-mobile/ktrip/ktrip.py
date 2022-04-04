@@ -5,6 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/utilities/ktrip.git")
         self.description = "Public transport assistant"
+        self.displayName = "KTrip"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -16,7 +17,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/libs/kpublictransport"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         if not CraftCore.compiler.isAndroid:
@@ -37,3 +37,5 @@ class Package(CMakePackageBase):
         self.addExecutableFilter(r"(bin|libexec)/(?!(ktrip|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
+        self.defines["icon"] = self.buildDir() / "src/ktrip.ico"
+        self.defines["icon_png"] = os.path.join(self.sourceDir(), "src", "150-org.kde.ktrip.png")
