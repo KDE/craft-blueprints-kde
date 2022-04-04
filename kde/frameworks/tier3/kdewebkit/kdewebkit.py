@@ -2,13 +2,6 @@ import info
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        if CraftCore.compiler.isMinGW():
-            # qtwebkit currently does not build
-            # FIXME: https://sourceware.org/bugzilla/show_bug.cgi?id=24723
-            # next mingw build will ship binutils 2.38 wich contains a fix
-            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NoPlatform
-
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 

@@ -5,10 +5,6 @@ import info
 class subinfo(info.infoclass):
     def registerOptions(self):
         if CraftCore.compiler.isMinGW():
-            # FIXME: https://sourceware.org/bugzilla/show_bug.cgi?id=24723
-            # next mingw build will ship binutils 2.38 wich contains a fix
-            # TODO: also see kdewebkit
-            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NoPlatform
             self.options.dynamic.setDefault("buildType", "Release")
 
     def setTargets(self):
