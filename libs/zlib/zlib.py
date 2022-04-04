@@ -9,20 +9,16 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
-        for ver in ['1.2.11']:
-            self.targets[ver] = 'http://downloads.sourceforge.net/sourceforge/libpng/zlib-%s.tar.gz' % ver
-            self.targetInstSrc[ver] = "zlib-" + ver
+        for ver in ['1.2.12']:
+            self.targets[ver] = f"https://www.zlib.net/zlib-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"zlib-{ver}"
+        self.targetDigests['1.2.12'] = (['7db46b8d7726232a621befaab4a1c870f00a90805511c0e0090441dac57def18'], CraftHash.HashAlgorithm.SHA256)
 
         if CraftCore.compiler.isWindows:
-            self.patchToApply['1.2.11'] = [("zlib-1.2.11-20180203.diff", 1),
-                                           ("zlib-1.2.11-20190509.diff", 1),  # its a cmake define, don't change it
-                                           ("zlib-1.2.11-20201106.diff", 1)
-                                           ]
-        self.patchLevel["1.2.11"] = 3
-        self.targetDigests['1.2.11'] = (['c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1'], CraftHash.HashAlgorithm.SHA256)
+            self.patchToApply['1.2.12'] = [("zlib-1.2.12-20220404.diff", 1)]
 
         self.description = 'The zlib compression and decompression library'
-        self.defaultTarget = '1.2.11'
+        self.defaultTarget = '1.2.12'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -32,6 +28,7 @@ if CraftCore.compiler.isWindows:
     class Package(CMakePackageBase):
         def __init__(self, **args):
             CMakePackageBase.__init__(self)
+            self.subinfo.options.configure.args += [f"-DINSTALL_PKGCONFIG_DIR={CraftCore.standardDirs.craftRoot() / 'lib/pkgconfig'}"   ]
 else:
     class Package(AutoToolsPackageBase):
         def __init__(self, **args):
