@@ -7,17 +7,18 @@ class subinfo(info.infoclass):
         self.description = "Marble"
 
     def setDependencies(self):
-        self.buildDependencies["libs/protobuf"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtlocation"] = None
         self.runtimeDependencies["libs/qt5/qtsvg"] = None
-        self.runtimeDependencies["libs/qt5/qtwebchannel"] = None
-        self.runtimeDependencies["libs/qt5/qtwebengine"] = None
-        self.runtimeDependencies["libs/qt5/qtserialport"] = None
-        self.runtimeDependencies["qt-libs/phonon"] = None
-        self.runtimeDependencies["libs/protobuf"] = None
+
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/qt5/qtwebchannel"] = None
+            self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+            self.runtimeDependencies["libs/qt5/qtserialport"] = None
+            self.runtimeDependencies["qt-libs/phonon"] = None
+            self.runtimeDependencies["libs/protobuf"] = None
 
 from Package.CMakePackageBase import *
 
