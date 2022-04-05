@@ -20,7 +20,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
         self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
         if not CraftCore.compiler.isAndroid:
             self.buildDependencies["libs/chm"] = None
@@ -37,6 +36,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/kjs"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
             self.runtimeDependencies["kde/kdegraphics/kdegraphics-mobipocket"] = None
 
             # try to use Breeze style as Windows style has severe issues for e.g. scaling
