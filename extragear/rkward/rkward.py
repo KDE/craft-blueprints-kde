@@ -51,6 +51,7 @@ class Package(CMakePackageBase):
         elif OsUtils.isMac():
             rhome = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "R.framework", "Resources")
             self.subinfo.options.configure.args += " -DR_EXECUTABLE=" + os.path.join(rhome, "R") + " -DNO_CHECK_R=1 -DR_HOME=" + rhome + " -DR_INCLUDEDIR=" + os.path.join(rhome, "include") + " -DR_SHAREDLIBDIR=" + os.path.join(rhome, "lib")
+            self.subinfo.options.configure.args += " -DUSE_BINARY_PACKAGESE=1"
             self.subinfo.options.configure.args += " -DNO_QT_WEBENGINE=1"
 
     def fetch(self):
