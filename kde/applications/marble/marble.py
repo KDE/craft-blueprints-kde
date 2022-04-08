@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
             self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
+            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
 
 from Package.CMakePackageBase import *
 
