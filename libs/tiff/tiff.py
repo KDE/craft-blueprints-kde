@@ -7,10 +7,10 @@ class subinfo(info.infoclass):
         self.description = "a library to manipulate TIFF image files"
         self.webpage = "http://www.simplesystems.org/libtiff/"
 
-        self.defaultTarget = '4.0.10'
+        self.defaultTarget = '4.3.0'
         self.targets[self.defaultTarget] = "http://download.osgeo.org/libtiff/tiff-" + self.defaultTarget + ".tar.gz"
         self.targetInstSrc[self.defaultTarget] = "tiff-" + self.defaultTarget
-        self.patchLevel['4.0.10'] = 1
+        self.patchLevel['4.3.0'] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/zlib"] = None
