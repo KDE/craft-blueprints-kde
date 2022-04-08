@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/protobuf"] = None
         else:
             self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
+            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
 
 from Package.CMakePackageBase import *
 
