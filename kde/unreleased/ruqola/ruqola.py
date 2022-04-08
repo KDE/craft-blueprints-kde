@@ -81,7 +81,7 @@ class Package(CMakePackageBase):
 
         if self.buildTarget == "master":
             self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "appIcons.ico")
-        else
+        else:
             # compat for 1.7
             self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "widget", "appIcons.ico")
 
