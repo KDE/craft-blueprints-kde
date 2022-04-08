@@ -19,6 +19,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt5/qtserialport"] = None
             self.runtimeDependencies["qt-libs/phonon"] = None
             self.runtimeDependencies["libs/protobuf"] = None
+        else:
+            self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
 
 from Package.CMakePackageBase import *
 
