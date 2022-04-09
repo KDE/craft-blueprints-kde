@@ -52,7 +52,7 @@ class Package(CMakePackageBase):
         elif OsUtils.isMac():
             rhome = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "R.framework", "Resources")
             self.subinfo.options.configure.args += " -DR_EXECUTABLE=" + os.path.join(rhome, "R") + " -DNO_CHECK_R=1 -DR_HOME=" + rhome + " -DR_INCLUDEDIR=" + os.path.join(rhome, "include") + " -DR_SHAREDLIBDIR=" + os.path.join(rhome, "lib")
-            self.subinfo.options.configure.args += " -DUSE_BINARY_PACKAGESE=1"
+            self.subinfo.options.configure.args += " -DUSE_BINARY_PACKAGES=1"
             self.subinfo.options.configure.args += " -DNO_QT_WEBENGINE=1"
 
     def fetch(self):
@@ -88,11 +88,11 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["executable"] = "bin\\rkward.exe"
         self.defines["icon"] = os.path.join(self.sourceDir(), "rkward", "icons", "app-icon", "rkward.ico")
-        self.externalLibs = {"@rpath/libR.dylib", "@rpath/libRblas.dylib", "@rpath/libRlapack.dylib"}
 
         if OsUtils.isMac():
             # We cannot reliably package R inside the bundle. Users will have to install it separately.
             self.ignoredPackages.append("binary/r-base")
+            self.externalLibs = {"@rpath/libR.dylib", "@rpath/libRblas.dylib", "@rpath/libRlapack.dylib"}
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("data/hunspell-dictionaries")
