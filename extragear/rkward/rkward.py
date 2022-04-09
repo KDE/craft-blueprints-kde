@@ -9,11 +9,15 @@ class subinfo(info.infoclass):
         self.webpage = "https://rkward.kde.org"
 
         self.svnTargets['master'] = 'https://invent.kde.org/education/rkward.git'
-        for ver in ['0.7.2']:
+        for ver in ['0.7.2', '0.7.2z+0.7.3+pre1']:
             self.targets[ver] = f'https://download.kde.org/stable/rkward/{ver}/src/rkward-{ver}.tar.gz'
             self.targetInstSrc[ver] = f'rkward-{ver}'
-        self.targetDigests["0.7.2"] = (['452350a4057d9dc87bb7c7e2f5c38b5cb9715b42141186b0e8c4a28e3dd2adf6'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '0.7.2'
+        self.targetDigests['0.7.2'] = (['452350a4057d9dc87bb7c7e2f5c38b5cb9715b42141186b0e8c4a28e3dd2adf6'], CraftHash.HashAlgorithm.SHA256)
+        for ver in ['0.7.2z+0.7.3+pre1']:
+            self.targets[ver] = f'https://files.kde.org/rkward/testing/for_packaging/rkward-{ver}.tar.gz'
+            self.targetInstSrc[ver] = f'rkward-{ver}'
+        self.targetDigests['0.7.2z+0.7.3+pre1'] = (['0de8d5961a0431762a8713045175983b5cc04f1026ff9541317961718253c0f6'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = '0.7.2z+0.7.3+pre1'
 
     def setDependencies(self):
         self.runtimeDependencies["binary/r-base"] = None
