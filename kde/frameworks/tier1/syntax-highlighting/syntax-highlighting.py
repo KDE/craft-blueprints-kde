@@ -8,8 +8,6 @@ class subinfo(info.infoclass):
         self.description = "Syntax highlighting engine for Kate syntax definitions."
         self.displayName = "KSyntaxHighlighting"
 
-        self.patchToApply["5.87.0"] = [("0001-Specify-byproducts-for-ExternalProject_Add-call.patch", 1)]
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/perl"] = None
