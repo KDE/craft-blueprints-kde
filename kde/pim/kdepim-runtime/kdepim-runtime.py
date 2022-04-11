@@ -39,7 +39,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/pimcommon"] = None
 
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
-        self.runtimeDependencies["kde/pim/kalarmcal"] = None
         self.runtimeDependencies["kde/pim/libkgapi"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kdesupport/grantlee"] = None

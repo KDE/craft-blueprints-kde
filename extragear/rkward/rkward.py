@@ -9,11 +9,15 @@ class subinfo(info.infoclass):
         self.webpage = "https://rkward.kde.org"
 
         self.svnTargets['master'] = 'https://invent.kde.org/education/rkward.git'
-        for ver in ['0.7.2']:
+        for ver in ['0.7.2', '0.7.2z+0.7.3+pre1']:
             self.targets[ver] = f'https://download.kde.org/stable/rkward/{ver}/src/rkward-{ver}.tar.gz'
             self.targetInstSrc[ver] = f'rkward-{ver}'
-        self.targetDigests["0.7.2"] = (['452350a4057d9dc87bb7c7e2f5c38b5cb9715b42141186b0e8c4a28e3dd2adf6'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '0.7.2'
+        self.targetDigests['0.7.2'] = (['452350a4057d9dc87bb7c7e2f5c38b5cb9715b42141186b0e8c4a28e3dd2adf6'], CraftHash.HashAlgorithm.SHA256)
+        for ver in ['0.7.2z+0.7.3+pre1']:
+            self.targets[ver] = f'https://files.kde.org/rkward/testing/for_packaging/rkward-{ver}.tar.gz'
+            self.targetInstSrc[ver] = f'rkward-{ver}'
+        self.targetDigests['0.7.2z+0.7.3+pre1'] = (['0de8d5961a0431762a8713045175983b5cc04f1026ff9541317961718253c0f6'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = '0.7.2z+0.7.3+pre1'
 
     def setDependencies(self):
         self.runtimeDependencies["binary/r-base"] = None
@@ -43,14 +47,17 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
         if OsUtils.isWin():
+            # Usually found, automatically, but make extra sure, never to pick up a separate installation of R
             if CraftCore.compiler.isX64():
-                self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "x64")
+                r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "x64")
             else:
-                self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "i386")
-            self.subinfo.options.configure.args += [f"-DR_EXECUTABLE={OsUtils.toUnixPath(os.path.join(self.r_dir, 'R.exe'))}"]
+                r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "i386")
+            self.subinfo.options.configure.args += [f"-DR_EXECUTABLE={OsUtils.toUnixPath(os.path.join(r_dir, 'R.exe'))}"]
         elif OsUtils.isMac():
             rhome = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "R.framework", "Resources")
             self.subinfo.options.configure.args += " -DR_EXECUTABLE=" + os.path.join(rhome, "R") + " -DNO_CHECK_R=1 -DR_HOME=" + rhome + " -DR_INCLUDEDIR=" + os.path.join(rhome, "include") + " -DR_SHAREDLIBDIR=" + os.path.join(rhome, "lib")
+            self.subinfo.options.configure.args += " -DUSE_BINARY_PACKAGES=1"
+            self.subinfo.options.configure.args += " -DNO_QT_WEBENGINE=1"
 
     def fetch(self):
         if not CMakePackageBase.fetch(self):
@@ -82,32 +89,14 @@ class Package(CMakePackageBase):
             utils.system(["install_name_tool", "-add_rpath", ".", rkward_rbackend])
         return ret
 
-    def configure(self):
-        if CraftCore.compiler.isMSVC():
-            # Need to create a .lib-file for R.dll, first
-            dump = subprocess.check_output(["dumpbin", "/exports", os.path.join(self.r_dir, "R.dll")]).decode(
-                "latin1").splitlines()
-            exports = []
-            for line in dump:
-                fields = line.split()
-                if len(fields) != 4:
-                    continue
-                exports.append(fields[3])
-            self.enterBuildDir()
-            with open(os.path.join(self.buildDir(), "R.def"), "wt+") as deffile:
-                deffile.write("EXPORTS\n")
-                deffile.write("\n".join(exports))
-            subprocess.call(["lib", "/def:R.def", "/out:R.lib", f"/machine:{CraftCore.compiler.architecture}"])
-        return super().configure()
-
     def createPackage(self):
         self.defines["executable"] = "bin\\rkward.exe"
         self.defines["icon"] = os.path.join(self.sourceDir(), "rkward", "icons", "app-icon", "rkward.ico")
-        self.externalLibs = {"@rpath/libR.dylib", "@rpath/libRblas.dylib", "@rpath/libRlapack.dylib"}
 
         if OsUtils.isMac():
             # We cannot reliably package R inside the bundle. Users will have to install it separately.
             self.ignoredPackages.append("binary/r-base")
+            self.externalLibs = {"@rpath/libR.dylib", "@rpath/libRblas.dylib", "@rpath/libRlapack.dylib"}
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("data/hunspell-dictionaries")
