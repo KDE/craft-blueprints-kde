@@ -26,3 +26,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+
+    def createPackage(self):
+        self.defines["shortcuts"] = [{"name" : "KDE ISO Image Writer", "target":"bin/isoimagewriter.exe", "description" : self.subinfo.description}]
+        return super().createPackage()
