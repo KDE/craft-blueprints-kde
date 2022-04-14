@@ -5,6 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.svnTargets['master'] = 'https://invent.kde.org/utilities/isoimagewriter.git'
+        self.targets['0.9'] = 'http://embra.edinburghlinux.co.uk/~jr/tmp/isoimagewriter-0.9.tar.xz'
         self.defaultTarget = "master"
 
         self.displayName = "KDE ISO Image Writer"
