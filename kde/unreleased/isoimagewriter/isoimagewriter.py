@@ -6,6 +6,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.svnTargets['master'] = 'https://invent.kde.org/utilities/isoimagewriter.git'
         self.targets['0.9'] = 'http://embra.edinburghlinux.co.uk/~jr/tmp/isoimagewriter-0.9.tar.xz'
+        self.targetInstSrc['0.9'] = "isoimagewriter-%s" % ver
         self.defaultTarget = "master"
 
         self.displayName = "KDE ISO Image Writer"
@@ -30,4 +31,5 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["shortcuts"] = [{"name" : "KDE ISO Image Writer", "target":"bin/isoimagewriter.exe", "description" : self.subinfo.description}]
+        self.defines["icon"] = os.path.join(self.packageDir(), "isoimagewriter.ico")
         return super().createPackage()
