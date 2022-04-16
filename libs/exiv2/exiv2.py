@@ -3,10 +3,6 @@ import info
 
 class subinfo(info.infoclass):
 
-    def registerOptions(self):
-        if CraftCore.compiler.isMinGW():
-            self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
-
     def setTargets(self):
 
         for ver in ["0.27.5"]:
