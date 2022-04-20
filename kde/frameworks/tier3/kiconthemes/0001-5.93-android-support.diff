@@ -1,0 +1,21 @@
+commit 12bfe957eb49080f21272b75682eb2783a8f26e6
+Author: Nicolas Fella <nicolas.fella@gmx.de>
+Date:   Tue Apr 5 18:45:03 2022 +0200
+
+    Mark as supported on Android
+    
+    It doesn't really do anything useful, but is needed to build KIO
+
+diff --git a/metainfo.yaml b/metainfo.yaml
+index e81ad68..8a97b45 100644
+--- a/metainfo.yaml
++++ b/metainfo.yaml
+@@ -7,6 +7,8 @@ platforms:
+     - name: FreeBSD
+     - name: Windows
+     - name: macOS
++    - name: Android
++      note: Porting aid, reduced functionality
+ portingAid: false
+ deprecated: false
+ release: true

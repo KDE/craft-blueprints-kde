@@ -5,6 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Solid"
+        self.patchToApply["5.93.0"] = [("0001-5.93-android-support.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

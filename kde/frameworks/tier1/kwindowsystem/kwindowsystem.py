@@ -6,6 +6,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "KWindowSystem"
+        self.patchToApply["5.93.0"] = [("0001-5.93-android-support.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
