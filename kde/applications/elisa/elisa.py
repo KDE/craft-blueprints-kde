@@ -30,11 +30,11 @@ class subinfo( info.infoclass ):
             self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+            self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
 
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
 
