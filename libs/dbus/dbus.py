@@ -39,6 +39,7 @@ class subinfo(info.infoclass):
 
         self.targetDigests['1.14.0'] = (['ccd7cce37596e0a19558fd6648d1272ab43f011d80c8635aea8fd0bad58aebd4'], CraftHash.HashAlgorithm.SHA256)
 
+        self.patchToApply["1.14.0"] = [("0002-fix-macos-build.diff", 1)]
         self.description = "Freedesktop message bus system (daemon and clients)"
         self.webpage = "http://www.freedesktop.org/wiki/Software/dbus/"
         self.defaultTarget = "1.14.0"
