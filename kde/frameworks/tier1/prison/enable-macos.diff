@@ -1,0 +1,13 @@
+diff --git a/metainfo.yaml b/metainfo.yaml
+index 9ab6f19c782e55df3faa3033ad0787641935d2d8..41607791af03b5f31d5c615c347fbf8cb7ffc416 100644
+--- a/metainfo.yaml
++++ b/metainfo.yaml
+@@ -7,6 +7,8 @@ platforms:
+     - name: FreeBSD
+     - name: Android
+     - name: Windows
++    - name: macOS
++
+ portingAid: false
+ deprecated: false
+ release: true
