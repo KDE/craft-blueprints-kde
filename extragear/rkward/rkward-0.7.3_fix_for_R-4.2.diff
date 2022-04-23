@@ -1,15 +1,6 @@
 diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user rkward-0.7.3.orig/rkward/rbackend/rkrbackend.cpp rkward-0.7.3/rkward/rbackend/rkrbackend.cpp
 --- rkward-0.7.3.orig/rkward/rbackend/rkrbackend.cpp	2022-04-17 00:02:17.000000000 +0200
 +++ rkward-0.7.3/rkward/rbackend/rkrbackend.cpp	2022-04-22 22:07:07.714248200 +0200
-@@ -411,7 +411,7 @@
- }
- 
- #ifdef Q_OS_WIN
--int RReadConsoleWin (const char* prompt, char* buf, int buflen, int hist) {
-+int RReadConsoleWin (const char* prompt, unsigned char* buf, int buflen, int hist) {
- 	return RReadConsole (prompt, (unsigned char*) buf, buflen, hist);
- }
- #endif
 @@ -820,7 +820,11 @@
  	RK_R_Params.home = getRUser ();
  	RK_R_Params.CharacterMode = RGui;
