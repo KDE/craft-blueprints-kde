@@ -11,9 +11,11 @@ class subinfo(info.infoclass):
             self.patchToApply["5.91.0"] = [("fix-mingw.patch", 1)]
             self.patchToApply["5.92.0"] = [("fix-mingw.patch", 1)]
             self.patchToApply["5.92.0"] += [("fix-mingw-qstandardpath-include.diff", 1)]
+            self.patchToApply["5.93.0"] = [("fix-mingw.patch", 1)]
         self.patchLevel["5.90.0"] = 5
         self.patchLevel["5.91.0"] = 51
         self.patchLevel["5.92.0"] = 2
+        self.patchLevel["5.93.0"] = 1
 
         self.description = "Network transparent access to files and data"
 

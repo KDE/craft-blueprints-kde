@@ -1,0 +1,22 @@
+commit 392dd9d53b9f8d7d022379890fe5f38f65ee5b62
+Author: Ahmad Samir <a.samirh78@gmail.com>
+Date:   Tue Apr 5 12:49:38 2022 +0200
+
+    Repo metadata: add Android to supported platforms
+    
+    Required by Okular and KIO.
+    
+    NO_CHANGELOG
+
+diff --git a/metainfo.yaml b/metainfo.yaml
+index 638ee9b..a071784 100644
+--- a/metainfo.yaml
++++ b/metainfo.yaml
+@@ -7,6 +7,7 @@ platforms:
+     - name: FreeBSD
+     - name: Windows
+     - name: macOS
++    - name: Android
+ portingAid: false
+ deprecated: false
+ release: true
