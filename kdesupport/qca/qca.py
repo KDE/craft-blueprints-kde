@@ -7,6 +7,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/openssl"] = None
         self.runtimeDependencies["libs/cyrus-sasl"] = None
+        self.runtimeDependencies["libs/nss"] = None
 
     def setTargets(self):
         self.description = "Qt Cryptographic Architecture (QCA)"
