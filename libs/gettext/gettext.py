@@ -11,7 +11,9 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = "gettext-%s" % ver
         self.targetDigests['0.21'] = (['c77d0da3102aec9c07f43671e60611ebff89a996ef159497ce8e59d075786b12'], CraftHash.HashAlgorithm.SHA256)
 
-        self.patchToApply['0.21'] = [("gettext-0.21-add-missing-ruby.diff", 1)]
+        self.patchToApply['0.21'] = [("gettext-0.21-add-missing-ruby.diff", 1),
+                                     ("d1836dbbd6a90b4c0ab79bc5292c023f08b49511.patch", 1) # https://git.savannah.gnu.org/gitweb/?p=gettext.git;a=commitdiff;h=d1836dbbd6a90b4c0ab79bc5292c023f08b49511
+                                     ]
 
         self.description = "GNU internationalization (i18n)"
         self.defaultTarget = '0.21'
