@@ -5,6 +5,9 @@ from Package.AutoToolsPackageBase import AutoToolsPackageBase
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+        if CraftCore.compiler.isMinGW():
+            # ghostscript does not build
+            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NoPlatform
 
     def setTargets(self):
         """ """
