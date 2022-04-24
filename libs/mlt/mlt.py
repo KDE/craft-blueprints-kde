@@ -8,12 +8,14 @@ class subinfo(info.infoclass):
     def setTargets( self ):
         self.description = "Open source multimedia framework"
         self.webpage = "https://www.mltframework.org"
-        for ver in ['7.2.0']:
+        for ver in ['7.2.0', '7.6.0']:
             self.targets[ ver ] = f"https://github.com/mltframework/mlt/archive/v{ver}.tar.gz"
             self.targetInstSrc[ ver ] = "mlt-" + ver
-        self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
+
+        self.svnTargets['master'] = "https://github.com/mltframework/mlt.git"
         self.patchLevel['master'] = 20220214
-        self.defaultTarget = "master"
+        self.svnTargest['00d5704'] = "https://github.com/mltframework/mlt.git||00d5704deafef599d27022f8126f778f7172150e"
+        self.defaultTarget = '00d5704'
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/pkg-config"] = None

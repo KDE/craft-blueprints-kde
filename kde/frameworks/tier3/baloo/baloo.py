@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def registerOptions(self):
         # would need somone who cares
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows & CraftCore.compiler.Platforms.NotMacOS
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
