@@ -4,7 +4,10 @@ import info
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.options.dynamic.setDefault("buildType", "Release")
+        # we can't mix debug and release builds of Qt on Windows
+        if not CraftCore.compiler.isWindows or CraftCore.settings.get("Compile", "BuildType") != "Debug":
+            # build release builds by default to reduce the package size and speed up the build
+            self.options.dynamic.setDefault("buildType", "Release")
         if CraftCore.compiler.isLinux:
             self.options.dynamic.setDefault("featureArguments", ["--webengine-pulseaudio=no", "--webengine-ffmpeg=system", "--webengine-icu=system",
                     # default is 8 and can fail https://bugreports.qt.io/browse/QTBUG-88657
