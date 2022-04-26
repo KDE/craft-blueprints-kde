@@ -178,7 +178,7 @@ class Package(MakeFilePackageBase):
         return True
 
     def postInstall(self):
-        BuildSystemBase.patchInstallPrefix(self, [(self.installDir() / 'lib/pkgconfig/nspr.pc')], [os.path.dirname(self.installDir()) + '/work/nss-3.74/dist/Release'])
+        BuildSystemBase.patchInstallPrefix(self, [(self.installDir() / 'lib/pkgconfig/nspr.pc')], [os.path.dirname(self.installDir()) + '/work/nss-'+nss_ver+'/dist/Release'])
         if CraftCore.compiler.isMSVC():
 
             # The nspr libs are created as libnspr4.lib so we need to adapt the pc file

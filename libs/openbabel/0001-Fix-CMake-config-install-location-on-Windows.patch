@@ -1,0 +1,31 @@
+From 41c0c157fb16f08a67a3fedf4638c725f74a5712 Mon Sep 17 00:00:00 2001
+From: Nicolas Fella <nicolas.fella@gmx.de>
+Date: Sun, 24 Apr 2022 20:44:26 +0200
+Subject: [PATCH] Fix CMake config install location on Windows
+
+LIB_INSTALL_DIR is 'bin' on Windows, resulting in an unsuitable install location
+
+Instead use the lib dir info from GNUInstallDirs, which gives the appropriate result here
+
+Fixes #2462
+---
+ CMakeLists.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 7b0a30c70..4a07f0651 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -743,7 +743,8 @@ option(MINIMAL_BUILD "Disable full build" OFF)
+ # build against an uninstalled OpenBabel build. Simply set OpenBabel3_DIR to
+ # point at the build directory and call find_package(OpenBabel3)
+ include(CMakePackageConfigHelpers)
+-set(OB_CONFIG_DIR "${LIB_INSTALL_DIR}/cmake/openbabel3")
++include(GNUInstallDirs)
++set(OB_CONFIG_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/openbabel3")
+ set(OpenBabel3_INCLUDE_DIRS "${OB_INCLUDE_DIRS}")
+ set(OpenBabel3_LIBRARIES "openbabel")
+ set(OB_EXPORTS_FILE "OpenBabel3_EXPORTS.cmake")
+-- 
+2.35.1
+
