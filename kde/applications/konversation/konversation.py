@@ -6,11 +6,6 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.svnTargets["1.7"] = "https://invent.kde.org/network/konversation.git|1.7"
-        self.targetUpdatedRepoUrl["1.7"] = ("https://anongit.kde.org/konversation", "https://invent.kde.org/network/konversation.git|1.7")
-        for ver in ["1.7.4", "1.7.5"]:
-            self.targets[ver] = "http://download.kde.org/stable/konversation/%s/src/konversation-%s.tar.xz" % (ver, ver)
-            self.targetInstSrc[ver] = "konversation-%s" % ver
 
         self.displayName = "Konversation"
         self.description = "a KDE based irc client"
