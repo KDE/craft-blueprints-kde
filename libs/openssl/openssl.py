@@ -41,7 +41,7 @@ class subinfo(info.infoclass):
         self.description = "The OpenSSL runtime environment"
 
         #set the default config for openssl 1.1
-        self.options.configure.args = "shared no-zlib threads no-rc5 no-idea no-ssl3-method no-weak-ssl-ciphers no-heartbeats no-dynamic-engine --libdir=lib"
+        self.options.configure.args += ["shared", "no-zlib", "threads", "no-rc5", "no-idea", "no-ssl3-method", "no-weak-ssl-ciphers", "no-heartbeats", "no-dynamic-engine", "--libdir=lib"]
 
         self.defaultTarget = '1.1.1n'
 
@@ -71,7 +71,7 @@ class PackageCMake(CMakePackageBase):
         if CraftCore.compiler.isAndroid:
             ndkToolchainPath = os.path.join(os.environ["ANDROID_NDK"], "toolchains/llvm/prebuilt", os.environ.get("ANDROID_NDK_HOST", "linux-x86_64"), "bin")
             self.env["PATH"] = os.pathsep.join([ndkToolchainPath, os.environ["PATH"]])
-            self.subinfo.options.configure.args += f" android-{CraftCore.compiler.architecture} -D__ANDROID_API__={CraftCore.compiler.androidApiLevel()}"
+            self.subinfo.options.configure.args += [f"android-{CraftCore.compiler.architecture}", f"-D__ANDROID_API__={CraftCore.compiler.androidApiLevel()}"]
             self.subinfo.options.make.args += " SHLIB_VERSION_NUMBER= SHLIB_EXT=_1_1.so"
             self.subinfo.options.install.args += ["SHLIB_VERSION_NUMBER=", "SHLIB_EXT=_1_1.so", f"DESTDIR={self.installDir()}"]
 
@@ -114,10 +114,11 @@ class PackageMSys(AutoToolsPackageBase):
             self.platform = ""
         self.supportsCCACHE = False
         self.subinfo.options.configure.noDataRootDir = True
-        self.subinfo.options.install.args = "install_sw"
+        self.subinfo.options.configure.noLibDir = True
+        self.subinfo.options.install.args += ["install_sw"]
 
         if CraftCore.compiler.isGCC() and not CraftCore.compiler.isNative() and CraftCore.compiler.isX86():
-            self.subinfo.options.configure.args += " linux-x86"
+            self.subinfo.options.configure.args += ["linux-x86"]
             self.subinfo.options.configure.projectFile = "Configure"
 
     def install(self):
