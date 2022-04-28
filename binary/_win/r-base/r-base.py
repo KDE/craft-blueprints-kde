@@ -2,7 +2,7 @@
 
 import info
 
-PACKAGE_CRAN_MIRROR = 'http://ftp5.gwdg.de/pub/misc/cran'
+PACKAGE_CRAN_MIRROR = 'https://ftp5.gwdg.de/pub/misc/cran'
 PACKAGE_PATH = '/bin/windows/base/old/'
 
 
@@ -11,10 +11,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/bin-base"] = None
 
     def setTargets(self):
-        for version in ['4.1.2', '3.6.2']:
+        for version in ['4.2.0', '4.1.2', '3.6.2']:
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + version + '/' + 'R-' + version + '-win.exe'
         self.targets['devel'] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-devel.exe'
-        self.defaultTarget = '4.1.2'
+        self.defaultTarget = '4.2.0'
 
 
 from Package.BinaryPackageBase import *
@@ -35,7 +35,7 @@ class Package(BinaryPackageBase):
         # create combined package
         self.subinfo.options.package.withCompiler = None
         self.subinfo.options.unpack.runInstaller = True
-        self.subinfo.options.configure.args = "/DIR=\"{0}\" /SILENT".format(self.workDir())
+        self.subinfo.options.configure.args = "/DIR=\"{0}\" /SILENT /CURRENTUSER".format(self.workDir())
 
     def install(self):
         srcdir = self.workDir()
