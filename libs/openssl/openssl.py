@@ -78,7 +78,7 @@ class PackageCMake(CMakePackageBase):
     def configure( self, defines=""):
         self.enterBuildDir()
         prefix = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
-        args = ["perl", os.path.join(self.sourceDir(), "Configure"), f"--prefix={prefix}"] + self.subinfo.options.configure.args.split(" ")
+        args = Arguments(["perl", os.path.join(self.sourceDir(), "Configure"), f"--prefix={prefix}"]) + self.subinfo.options.configure.args
         if not CraftCore.compiler.isAndroid:
             args += ["-FS",
                         f"-I{OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), 'include'))}",
