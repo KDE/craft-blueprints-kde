@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f'https://download.kde.org/stable/rkward/{ver}/src/rkward-{ver}.tar.gz'
             self.targetInstSrc[ver] = f'rkward-{ver}'
         self.targetDigests['0.7.3'] = (['49b118c11c41605e05434e4214f06bbf3a45c8bbc5ab54499dca117ca9efe7da'], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply['0.7.3'] = [('rkward-0.7.3_fix_for_R-4.2.diff', 1)]
+        self.patchToApply['0.7.3'] = [('rkward-0.7.3_fix_for_R-4.2.diff', 1), ('rkward-0.7.3-increase-backend-stack-size.diff', 1)]
         self.defaultTarget = '0.7.3'
 
     def setDependencies(self):

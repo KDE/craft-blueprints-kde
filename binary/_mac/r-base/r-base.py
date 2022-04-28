@@ -2,7 +2,7 @@
 
 import info
 
-PACKAGE_CRAN_MIRROR = 'http://ftp.gwdg.de/pub/misc/cran'
+PACKAGE_CRAN_MIRROR = 'https://ftp.gwdg.de/pub/misc/cran'
 PACKAGE_PATH3 = '/bin/macosx/'
 PACKAGE_PATH4 = '/bin/macosx/base/'
 
@@ -15,9 +15,9 @@ class subinfo(info.infoclass):
         #                             3.3.3 = last official build to work with MacOS < 10.11
         for version in ['3.4.4.', '3.3.3']:
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH3 + 'R-' + version + '.pkg'
-        for version in ['4.1.2']:
+        for version in ['4.2.0', '4.1.2']:
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH4 + 'R-' + version + '.pkg'
-        self.defaultTarget = '4.1.2'
+        self.defaultTarget = '4.2.0'
 
 
 from Package.BinaryPackageBase import *
