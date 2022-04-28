@@ -2,7 +2,7 @@
 
 import info
 
-PACKAGE_CRAN_MIRROR = 'https://ftp5.gwdg.de/pub/misc/cran'
+PACKAGE_CRAN_MIRROR = 'https://ftp.gwdg.de/pub/misc/cran'
 PACKAGE_PATH = '/bin/windows/base/old/'
 
 
