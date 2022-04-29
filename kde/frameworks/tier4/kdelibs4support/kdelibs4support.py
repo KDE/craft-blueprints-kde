@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def registerOptions(self):
         # Depends ok KDED? Do we actually still need kdelibs4support?
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS & CraftCore.compiler.Platforms.NotWindows
         if CraftCore.compiler.isMinGW():
             # needs someone who cares
             self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
