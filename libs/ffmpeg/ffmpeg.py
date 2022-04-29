@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMSVC():
             self.patchToApply["4.2"] = [("ffmpeg-4.1-20190507.diff", 1)]
             self.patchToApply["4.4"] = [("ffmpeg-4.4-20210413.diff", 1)]
+            self.patchToApply["5.0"] = [("ffmpeg-4.4-20210413.diff", 1)]
         else:
             self.patchLevel["4.4"] = 1
 
