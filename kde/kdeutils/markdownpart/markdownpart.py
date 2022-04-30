@@ -4,6 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.svnTargets["master"] = "https://invent.kde.org/utilities/markdownpart"
 
         self.description = "a Markdown viewer KParts plugin, which allows KParts-using applications to display files in Markdown format in the target format"
 
