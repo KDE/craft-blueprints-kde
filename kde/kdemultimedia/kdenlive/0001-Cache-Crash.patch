@@ -1,0 +1,28 @@
+diff --git a/src/utils/thumbnailcache.cpp b/src/utils/thumbnailcache.cpp
+index 24d4200cc..4bf16912c 100644
+--- a/src/utils/thumbnailcache.cpp
++++ b/src/utils/thumbnailcache.cpp
+@@ -180,18 +180,15 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage
+             if (m_storedOnDisk.find(binId) == m_storedOnDisk.end() || std::find(m_storedOnDisk[binId].begin(), m_storedOnDisk[binId].end(), pos) == m_storedOnDisk[binId].end()) {
+                 m_storedOnDisk[binId].push_back(pos);
+             }
+-            // if volatile cache also contains this entry, update it
+-            if (m_volatileCache->contains(key)) {
+-                m_volatileCache->remove(key);
+-            } else {
+-                m_storedVolatile[binId].push_back(pos);
+-            }
+-            m_volatileCache->insert(key, img, (int)img.sizeInBytes());
+         }
++    }
++    // if volatile cache also contains this entry, update it
++    if (m_volatileCache->contains(key)) {
++        m_volatileCache->remove(key);
+     } else {
+-        m_volatileCache->insert(key, img, (int)img.sizeInBytes());
+         m_storedVolatile[binId].push_back(pos);
+     }
++    m_volatileCache->insert(key, img, (int)img.sizeInBytes());
+ }
+ 
+ void ThumbnailCache::saveCachedThumbs(const std::unordered_map<QString, std::vector<int>> &keys)

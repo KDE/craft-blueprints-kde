@@ -5,6 +5,8 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Libre Video Editor, by KDE community"
+        self.patchToApply["22.04.0"] = [("0001-Cache-Crash.patch", 1)]
+        self.patchLevel["22.04.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
