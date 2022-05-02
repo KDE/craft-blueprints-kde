@@ -9,7 +9,8 @@ class subinfo(info.infoclass):
             # build release builds by default to reduce the package size and speed up the build
             self.options.dynamic.setDefault("buildType", "Release")
         if CraftCore.compiler.isLinux:
-            self.options.dynamic.setDefault("featureArguments", ["--webengine-pulseaudio=no", "--webengine-ffmpeg=system", "--webengine-icu=system",
+            # , "--webengine-ffmpeg=system", doesn't build with ffmpeg 5
+            self.options.dynamic.setDefault("featureArguments", ["--webengine-pulseaudio=no", "--webengine-icu=system",
                     # default is 8 and can fail https://bugreports.qt.io/browse/QTBUG-88657
                     "--webengine-jumbo-build=4"])
 
@@ -57,7 +58,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libjpeg-turbo"] = None
             self.runtimeDependencies["qt-libs/poppler"] = None
             self.runtimeDependencies["libs/webp"] = None
-            self.runtimeDependencies["libs/ffmpeg"] = None
+            #self.runtimeDependencies["libs/ffmpeg"] = None # see registerOptions
 
 
 from Package.Qt5CorePackageBase import *
