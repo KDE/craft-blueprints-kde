@@ -15,13 +15,13 @@ class subinfo(info.infoclass):
         self.targetDigests['1.2.12'] = (['7db46b8d7726232a621befaab4a1c870f00a90805511c0e0090441dac57def18'], CraftHash.HashAlgorithm.SHA256)
 
         self.patchToApply['1.2.12'] = [("zlib-1.2.12-fix-CC-logic-in-configure.patch", 1), # https://gitweb.gentoo.org/repo/gentoo.git/tree/sys-libs/zlib/files
-                                       ("0001-Prevent-invalid-inclusions-when-HAVE_-is-set-to-0.patch", 1) # https://raw.githubusercontent.com/microsoft/vcpkg/585ff442dd855378eefcff972c75b35587b5235e/ports/zlib/0001-Prevent-invalid-inclusions-when-HAVE_-is-set-to-0.patch
+                                       ("zlib-1.2.12-20220503.diff", 1) # fix ffmpeg
                                       ]
         if CraftCore.compiler.isWindows:
             self.patchToApply['1.2.12'] += [("zlib-1.2.12-20220404.diff", 1)]
 
         self.description = 'The zlib compression and decompression library'
-        self.patchLevel["1.2.12"] = 1
+        self.patchLevel["1.2.12"] = 2
         self.defaultTarget = '1.2.12'
 
     def setDependencies(self):

@@ -1,0 +1,17 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user zlib-1.2.12.orig/zconf.h.cmakein zlib-1.2.12/zconf.h.cmakein
+--- zlib-1.2.12.orig/zconf.h.cmakein	2017-01-01 08:37:10.000000000 +0100
++++ zlib-1.2.12/zconf.h.cmakein	2022-05-03 10:29:30.815924800 +0200
+@@ -8,7 +8,12 @@
+ #ifndef ZCONF_H
+ #define ZCONF_H
+ #cmakedefine Z_PREFIX
+-#cmakedefine Z_HAVE_UNISTD_H
++#cmakedefine01 _Z_HAVE_UNISTD_H
++
++#if _Z_HAVE_UNISTD_H
++#define Z_HAVE_UNISTD_H
++#endif
++
+ 
+ /*
+  * If you *really* need a unique prefix for all types and library functions,
