@@ -26,6 +26,8 @@ class subinfo(info.infoclass):
                 self.patchToApply[ver] = []
             if qtVer >= "5.15.2":
                 self.patchToApply[ver] = [(".qt-5.15.2", 1)]
+                if CraftCore.compiler.isMinGW():
+                    self.patchToApply[ver] += [("mingw11_5152.diff", 1)]
             elif qtVer >= CraftVersion("5.12.11"):
                 self.patchToApply[ver] = [
                     (".qt-5.12.11", 1)
@@ -79,7 +81,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.12.9"] = 1
         self.patchLevel["5.12.10"] = 2
         self.patchLevel["5.12.11"] = 2
-        self.patchLevel["5.15.2"] = 9
+        self.patchLevel["5.15.2"] = 10
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):

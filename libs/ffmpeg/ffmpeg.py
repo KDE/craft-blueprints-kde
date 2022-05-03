@@ -3,27 +3,30 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets( self ):
-        for ver in ['4.2', '4.4']:
+        for ver in ['4.2', '4.4', '5.0.1']:
             self.targets[ ver ] = f"https://ffmpeg.org/releases/ffmpeg-{ver}.tar.bz2"
             self.targetInstSrc[ ver ] = f"ffmpeg-{ver}"
         self.svnTargets['master'] = "https://git.ffmpeg.org/ffmpeg.git"
         self.targetDigests["4.2"] = (['306bde5f411e9ee04352d1d3de41bd3de986e42e2af2a4c44052dce1ada26fb8'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["4.4"] = (['42093549751b582cf0f338a21a3664f52e0a9fbe0d238d3c992005e493607d0e'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["5.0.1"] = (['28df33d400a1c1c1b20d07a99197809a3b88ef765f5f07dc1ff067fac64c59d6'], CraftHash.HashAlgorithm.SHA256)
 
         if CraftCore.compiler.isMSVC():
             self.patchToApply["4.2"] = [("ffmpeg-4.1-20190507.diff", 1)]
             self.patchToApply["4.4"] = [("ffmpeg-4.4-20210413.diff", 1)]
+            self.patchToApply["5.0.1"] = [("ffmpeg-4.4-20210413.diff", 1)]
         else:
             self.patchLevel["4.4"] = 1
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
-        self.defaultTarget = "4.4"
+        self.defaultTarget = "5.0.1"
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/msys"] = None
         self.buildDependencies["dev-utils/nasm"] = None
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblame"] = None
         self.runtimeDependencies["libs/libopus"] = None
         if CraftCore.compiler.isGCCLike():
@@ -56,8 +59,12 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.useShadowBuild = not CraftCore.compiler.isMSVC()
 
         self.subinfo.options.configure.args = ["--enable-shared", "--disable-debug", "--disable-doc", "--enable-gpl",
-                                               "--enable-version3", "--enable-avresample", "--enable-libmp3lame",
+                                               "--enable-version3", "--enable-libmp3lame",
                                                "--cc=" + os.environ["CC"], "--cxx=" + os.environ["CXX"]]
+
+        if self.buildTarget < CraftVersion("5.0"):
+            self.subinfo.options.configure.args += ["--enable-avresample"]
+
         if OsUtils.isWin():
             self.subinfo.options.configure.args += ["--enable-dxva2"]
         if CraftCore.compiler.isMSVC():
@@ -88,7 +95,10 @@ class Package(AutoToolsPackageBase):
             return False
 
         if OsUtils.isWin():
-            for file in ['avcodec', 'avdevice', 'avfilter', 'avformat', 'avresample', 'avutil', 'postproc', 'swresample', 'swscale']:
+            files = ['avcodec', 'avdevice', 'avfilter', 'avformat', 'avresample', 'avutil', 'postproc', 'swresample', 'swscale']
+            if self.buildTarget < CraftVersion("5.0"):
+                files += ['avresample']
+            for file in files:
                 file += ".lib"
                 src = os.path.join(self.installDir(), 'bin', file)
                 if os.path.isfile(src):

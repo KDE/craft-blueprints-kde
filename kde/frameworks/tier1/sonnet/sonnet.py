@@ -4,11 +4,12 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["5.92.0"] = [("sonnet-5.92.0-20220322.diff", 1)]
         self.description = "Spelling framework for Qt, plugin-based."
 
     def registerOptions(self):
         # hunspell just when needed, on Windows(visual studio) or Mac we try with the OS specific checkers
-        self.options.dynamic.registerOption("useHunspell", CraftCore.compiler.isLinux or CraftCore.compiler.isMinGW())
+        self.options.dynamic.registerOption("useHunspell", CraftCore.compiler.isLinux)
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

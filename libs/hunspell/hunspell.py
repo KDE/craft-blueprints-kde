@@ -4,15 +4,14 @@ import info
 class subinfo(info.infoclass):
     def setTargets( self ):
         self.svnTargets[ "master"] = f"https://github.com/hunspell/hunspell.git"
-        for ver in ["1.6.2"]:
-            self.targets[ver] = f"https://github.com/hunspell/hunspell/archive/v1.6.2.tar.gz"
-            self.archiveNames[ver] = f"hunspell-v{ver}.tar.gz"
+        for ver in ["1.6.2", "1.7.0"]:
+            self.targets[ver] = f"https://github.com/hunspell/hunspell/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"hunspell-{ver}"
         self.targetDigests["1.6.2"] = (['3cd9ceb062fe5814f668e4f22b2fa6e3ba0b339b921739541ce180cac4d6f4c4'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Hunspell is the spell checker of LibreOffice, OpenOffice.org, Mozilla Firefox 3 & Thunderbird, Google Chrome, and it is also used by proprietary software packages, like macOS, InDesign, memoQ, Opera and SDL Trados."
         self.webpage = "http://hunspell.github.io/"
-        self.defaultTarget = "1.6.2"
+        self.defaultTarget = "1.7.0"
 
     def setDependencies( self ):
         if CraftCore.compiler.isMinGW():
@@ -51,7 +50,7 @@ class PackageGNU(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.bootstrap = True
-        self.subinfo.options.configure.args += " --disable-static --enable-shared"
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]
 
 if CraftCore.compiler.isGCCLike():
     class Package(PackageGNU):

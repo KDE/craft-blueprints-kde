@@ -1,6 +1,6 @@
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' perl-5.28.1\win32.orig/GNUmakefile perl-5.28.1\win32/GNUmakefile
---- perl-5.28.1\win32.orig/GNUmakefile	2018-12-29 22:56:21.963236200 +0100
-+++ perl-5.28.1\win32/GNUmakefile	2018-12-29 22:54:37.907412900 +0100
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' a/win32/GNUmakefile b/win32/win32/GNUmakefile
+--- a/win32/GNUmakefile	2018-12-29 22:56:21.963236200 +0100
++++ b/win32/win32/GNUmakefile	2018-12-29 22:54:37.907412900 +0100
 @@ -587,7 +587,7 @@
  LINK_DBG	= -s
  endif

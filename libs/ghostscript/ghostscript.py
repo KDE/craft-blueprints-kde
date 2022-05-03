@@ -2,6 +2,10 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        if CraftCore.compiler.isMinGW():
+            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NoPlatform
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/zlib"] = None

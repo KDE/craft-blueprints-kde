@@ -6,7 +6,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/openssl"] = None
-        self.runtimeDependencies["libs/cyrus-sasl"] = None
+        # cyrus-sasl currently fails to build with mingw
+        if not CraftCore.compiler.isMinGW():
+            self.runtimeDependencies["libs/cyrus-sasl"] = None
 
     def setTargets(self):
         self.description = "Qt Cryptographic Architecture (QCA)"

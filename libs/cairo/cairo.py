@@ -63,7 +63,7 @@ if CraftCore.compiler.isMSVC():
             content = content.replace("DEFAULT_CFLAGS += $(PIXMAN_CFLAGS) $(LIBPNG_CFLAGS) $(ZLIB_CFLAGS)", "DEFAULT_CFLAGS += $(PIXMAN_CFLAGS) $(LIBPNG_CFLAGS) $(ZLIB_CFLAGS) " + self.includesFromPkgConfig("freetype2"))
             # freetype lib path
             # TODO fix freetype package so we can use self.libsFromPkgConfig here
-            content = content.replace("CAIRO_LIBS =  gdi32.lib msimg32.lib user32.lib", "CAIRO_LIBS =  gdi32.lib msimg32.lib user32.lib " + self._shell.toNativePath(CraftCore.standardDirs.craftRoot()) + "/lib/freetype.lib")
+            content = content.replace("CAIRO_LIBS =  gdi32.lib msimg32.lib user32.lib", "CAIRO_LIBS =  gdi32.lib msimg32.lib user32.lib " + self.libsFromPkgConfig("freetype2"))
 
             with open(win32common, "wt") as f:
                 f.write(content)
@@ -102,3 +102,5 @@ else:
         def __init__(self, **args):
             AutoToolsPackageBase.__init__(self)
             self.subinfo.options.configure.autoreconf = False
+            if CraftCore.compiler.isMinGW():
+                self.subinfo.options.configure.cflags += " -fstack-protector"
