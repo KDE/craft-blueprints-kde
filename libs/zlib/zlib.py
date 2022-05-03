@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
             self.patchToApply['1.2.12'] += [("zlib-1.2.12-20220404.diff", 1)]
 
         self.description = 'The zlib compression and decompression library'
-        self.patchLevel["1.2.12"] = 2
+        self.patchLevel["1.2.12"] = 3
         self.defaultTarget = '1.2.12'
 
     def setDependencies(self):
