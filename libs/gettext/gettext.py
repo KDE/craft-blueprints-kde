@@ -31,7 +31,6 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.shell.useMSVCCompatEnv = True
         self.subinfo.options.configure.args += [
-            f"--cache-file={self.shell.toNativePath(self.buildDir())}/config.cache",
             "--disable-static", "--enable-shared", "--disable-java", "--disable-native-java", "--enable-nls",
                                                 "--enable-c++", "--with-included-gettext", "--with-included-glib", "--with-included-regex", "--with-gettext-tools"]
 
