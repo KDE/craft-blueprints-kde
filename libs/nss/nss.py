@@ -5,7 +5,7 @@ from distutils.dir_util import copy_tree
 from Package.MakeFilePackageBase import *
 from shells import BashShell
 
-nss_ver = "3.77"
+nss_ver = "3.78"
 nspr_ver = "4.32"
 
 class subinfo(info.infoclass):
@@ -18,9 +18,9 @@ class subinfo(info.infoclass):
 
         # always try to use latest nss with all security fixes
         ver = nss_ver
-        self.targets[ver] = f"https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_77_RTM/src/nss-{ver}-with-nspr-{nspr_ver}.tar.gz"
+        self.targets[ver] = f"https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_78_RTM/src/nss-{ver}-with-nspr-{nspr_ver}.tar.gz"
         self.targetInstSrc[ver] = f"nss-{ver}"
-        self.targetDigests[ver] = (['8fa50421e59c4e4e71d19f23dd6577b8afb1c13e2f9b7f0ecb1a55ae3775295f'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[ver] = (['3e798c4c5d101897de60337dc429252d95369b096e8483107751d697ddd61526'], CraftHash.HashAlgorithm.SHA256)
         if CraftCore.compiler.isMSVC():
             self.patchToApply[ver] = [("install-instead-of-nsinstall.diff", 1), ("cygwin-is-windows.diff", 1)]
         self.patchLevel[ver] = 2
