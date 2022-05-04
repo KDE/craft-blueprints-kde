@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
@@ -37,7 +38,6 @@ class Package(CMakePackageBase):
         self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "44-apps-filelight.png")
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("libs/qt5/qtdeclarative") # pulled in by solid
         self.ignoredPackages.append("kde/frameworks/tier3/kwallet") # pulled in by kio
 
         return TypePackager.createPackage(self)
