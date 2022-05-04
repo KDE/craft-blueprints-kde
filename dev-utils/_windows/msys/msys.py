@@ -11,8 +11,8 @@ from Package.MaybeVirtualPackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         #as updates are applied with msys and not by craft don't ever change the name of the target, its a bad idea...
-        self.targets["base"] = "https://github.com/msys2/msys2-installer/releases/download/2022-03-19/msys2-base-x86_64-20220319.tar.xz"
-        self.targetDigestUrls["base"] = "https://github.com/msys2/msys2-installer/releases/download/2022-03-19/msys2-base-x86_64-20220319.tar.xz.sha256"
+        self.targets["base"] = "https://github.com/msys2/msys2-installer/releases/download/2022-05-03/msys2-base-x86_64-20220503.tar.xz"
+        self.targetDigestUrls["base"] = "https://github.com/msys2/msys2-installer/releases/download/2022-05-03/msys2-base-x86_64-20220503.tar.xz.sha256"
         self.targetInstSrc["base"] = "msys64"
         self.targetInstallPath["base"] = "msys"
 
