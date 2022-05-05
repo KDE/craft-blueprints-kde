@@ -20,20 +20,13 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets['master'] = 'git://git.ghostscript.com/ghostpdl.git'
-        for ver in ['9.26']:
+        for ver in ['9.56.1']:
             ver2 = ver.replace(".", "")
-            self.patchToApply['9.26'] = []
             self.targets[ver] = f"https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{ver2}/ghostscript-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"ghostscript-{ver}"
             self.targetDigestUrls[ver] = ([f"https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{ver2}/SHA512SUMS" ], CraftHash.HashAlgorithm.SHA512)
 
-        if CraftCore.compiler.isMinGW():
-            self.patchToApply['9.26'] += [(".9.26", 1)]
-        if CraftCore.compiler.isMacOS:
-            self.patchToApply['9.26'] += [("mac.diff", 1)]
-        self.patchLevel['9.19'] = 1
-        self.patchLevel['9.26'] = 2
-        self.defaultTarget = '9.26'
+        self.defaultTarget = '9.56.1'
 
 
 from Package.CMakePackageBase import *
