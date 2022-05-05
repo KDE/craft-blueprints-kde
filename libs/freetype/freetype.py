@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         self.targetDigests['2.9.1'] = (['db8d87ea720ea9d5edc5388fc7a0497bb11ba9fe972245e0f7f4c7e8b1e1e84d'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['2.11.1'] = (['3333ae7cfda88429c97a7ae63b7d01ab398076c3b67182e960e5684050f2c5c8'], CraftHash.HashAlgorithm.SHA256)
         self.patchLevel['2.9.1'] = 5
+        self.patchLevel['2.11.1'] = 1
         self.defaultTarget = '2.11.1'
         self.description = "A Free, High-Quality, and Portable Font Engine"
 
@@ -36,14 +37,14 @@ class subinfo(info.infoclass):
 class PackageCMake(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_HarfBuzz=TRUE", "-DDISABLE_FORCE_DEBUG_POSTFIX=ON" ]
+        self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_HarfBuzz=TRUE", "-DDISABLE_FORCE_DEBUG_POSTFIX=ON", "-DFT_DISABLE_BROTLI=OFF" ]
 
 
 class PackageMSys(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-harfbuzz=off"]
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-harfbuzz=off", "--with-brotli=off"]
 
 
 
