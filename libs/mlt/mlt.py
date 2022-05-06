@@ -32,8 +32,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/movit"] = None
         if OsUtils.isWin():
             self.runtimeDependencies["libs/dlfcn-win32"] = None
-        else:
-            self.runtimeDependencies["libs/ladspa-swh"] = None
+        # ladspa-swh currently breaks MLT, making render impossible. So disable for now
+        #else:
+        #    self.runtimeDependencies["libs/ladspa-swh"] = None
         if not CraftCore.compiler.isMacOS:
             # self.runtimeDependencies["libs/jack2"] = None
             self.runtimeDependencies["libs/rubberband"] = None
