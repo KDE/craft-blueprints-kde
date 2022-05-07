@@ -25,6 +25,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['kde/frameworks/tier1/kguiaddons'] = None
         self.runtimeDependencies['kde/frameworks/tier1/kwidgetsaddons'] = None
         self.runtimeDependencies['kde/frameworks/tier1/kwindowsystem'] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies['kde/frameworks/tier2/kdoctools'] = None
         self.runtimeDependencies['kde/frameworks/tier2/kcompletion'] = None
         self.runtimeDependencies['kde/frameworks/tier2/kjobwidgets'] = None
@@ -40,6 +42,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['kde/frameworks/tier3/ktextwidgets'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kwallet'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kxmlgui'] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kinit"] = None
         self.runtimeDependencies['extragear/kdiagram'] = None
 
         if CraftCore.compiler.isMinGW():
