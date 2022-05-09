@@ -11,10 +11,8 @@ class subinfo(info.infoclass):
     def setDependencies( self ):
         self.buildDependencies['dev-utils/pkg-config'] = None
         self.runtimeDependencies['libs/qt5/qtbase'] = None
-        self.runtimeDependencies['libs/boost/boost-system'] = None
         self.runtimeDependencies['kdesupport/qca'] = None
         self.runtimeDependencies['kde/frameworks/tier1/kholidays'] = None
-        self.runtimeDependencies['kde/frameworks/tier1/kcodecs'] = None
         self.runtimeDependencies['kde/frameworks/tier1/kconfig'] = None
         self.runtimeDependencies['kde/frameworks/tier1/kcoreaddons'] = None
         self.runtimeDependencies['kde/frameworks/tier1/kdbusaddons'] = None
@@ -27,17 +25,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['kde/frameworks/tier1/kwindowsystem'] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
-        self.runtimeDependencies['kde/frameworks/tier2/kdoctools'] = None
-        self.runtimeDependencies['kde/frameworks/tier2/kcompletion'] = None
         self.runtimeDependencies['kde/frameworks/tier2/kjobwidgets'] = None
         self.runtimeDependencies['kde/frameworks/tier2/kactivities'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kconfigwidgets'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kiconthemes'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kcmutils'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kio'] = None
-        self.runtimeDependencies['kde/frameworks/tier3/kross'] = None
         self.runtimeDependencies['kde/frameworks/tier3/knotifications'] = None
-        self.runtimeDependencies['kde/frameworks/tier3/knotifyconfig'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kparts'] = None
         self.runtimeDependencies['kde/frameworks/tier3/ktextwidgets'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kwallet'] = None
