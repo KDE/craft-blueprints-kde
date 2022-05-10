@@ -51,7 +51,8 @@ class Package( CMakePackageBase ):
 
     def createPackage(self):
         self.defines["shortcuts"] = [{"name" : "Calligra Plan",  "target" : "bin/calligraplan.exe"},
-                                     {"name" : "Calligra Plan Work",  "target" : "bin/calligraplanwork.exe"}]
+                                     {"name" : "Calligra Plan Work",  "target" : "bin/calligraplanwork.exe"},
+                                     {"name" : "Calligra Plan Portfolio",  "target" : "bin/calligraplanportfolio.exe"}]
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
 
         self.ignoredPackages.append("binary/mysql")
