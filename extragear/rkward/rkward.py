@@ -36,7 +36,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["binary/pandoc"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         if OsUtils.isWin():
-            # For packageing with Innosetup-packager, which is not the default packager (yet)
+            # For packaging with Innosetup-packager, which is not the default packager (yet)
             self.buildDependencies["dev-utils/innosetup"] = None
 
 
@@ -91,6 +91,9 @@ class Package(CMakePackageBase):
         return ret
 
     def createPackage(self):
+        if OsUtils.isWin():
+            self.changePackager("InnoSetupPackager")
+
         self.defines["executable"] = "bin\\rkward.exe"
         self.defines["icon"] = os.path.join(self.sourceDir(), "rkward", "icons", "app-icon", "rkward.ico")
         self.defines["file_types"] = [".R", ".Rdata", ".Rmd", ".rko"]
