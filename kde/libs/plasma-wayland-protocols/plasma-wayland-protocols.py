@@ -2,6 +2,9 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Linux
+
     def setTargets(self):
         self.displayName = "Plasma Wayland Protocols"
         self.description = "Plasma-specific protocols for Wayland"
