@@ -91,7 +91,7 @@ class Package(CMakePackageBase):
         return ret
 
     def createPackage(self):
-        if OsUtils.isWin():
+        if OsUtils.isWin() and (not CraftCore.settings.get("Packager", "PackageType", "")):
             self.changePackager("InnoSetupPackager")
 
         self.defines["executable"] = "bin\\rkward.exe"
