@@ -35,6 +35,10 @@ class subinfo(info.infoclass):
         # optional, but should be in the package
         self.runtimeDependencies["binary/pandoc"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+        if OsUtils.isWin():
+            # For packageing with Innosetup-packager, which is not the default packager (yet)
+            self.buildDependencies["dev-utils/innosetup"] = None
+
 
 from Package.CMakePackageBase import *
 
