@@ -7,6 +7,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.patchToApply["5.93.0"] = [("enable-macos.diff", 1)]
         self.patchLevel["5.93.0"] = 1
+        self.patchLevel["5.94.0"] = 1
 
         self.description = "Qt 5 addon providing a barcode api to produce QRCode barcodes and DataMatrix barcodes."
 
