@@ -18,6 +18,9 @@ class subinfo(info.infoclass):
         else:
             self.patchLevel["4.4"] = 1
 
+        if CraftCore.compiler.isMacOS:
+            self.patchLevel["5.0.1"] = 1
+
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
         self.defaultTarget = "5.0.1"
