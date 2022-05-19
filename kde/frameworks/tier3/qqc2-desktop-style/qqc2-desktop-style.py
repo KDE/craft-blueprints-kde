@@ -20,7 +20,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
-        
+        self.runtimeDependencies["kde/frameworks/tier1/sonnet"] = None
+
 from Package.CMakePackageBase import *
 
 
