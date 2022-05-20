@@ -18,8 +18,7 @@ class subinfo(info.infoclass):
         else:
             self.patchLevel["4.4"] = 1
 
-        if CraftCore.compiler.isMacOS:
-            self.patchLevel["5.0.1"] = 1
+        self.patchLevel["5.0.1"] = 2
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
@@ -80,7 +79,9 @@ class Package(AutoToolsPackageBase):
                                                     "--enable-libvpx", "--enable-libx264",
                                                     "--enable-libx265", "--enable-libass",
                                                     "--enable-libaom", "--enable-libdav1d"]
-        if not CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += ["--enable-rpath"]
+        else:
             self.subinfo.options.configure.args += ["--enable-ffnvcodec", "--enable-nvdec", "--enable-nvenc", "--enable-cuvid"]
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["--enable-vaapi", "--enable-vdpau", "--enable-libmfx"]
