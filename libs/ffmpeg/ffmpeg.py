@@ -52,6 +52,16 @@ class subinfo(info.infoclass):
 from Package.AutoToolsPackageBase import *
 
 class Package(AutoToolsPackageBase):
+    def fixLibraryFolder(self, folder):
+        craftLibDir = os.path.join(CraftCore.standardDirs.craftRoot(),  'lib')
+        for library in utils.filterDirectoryContent(str(folder)):
+            for path in utils.getLibraryDeps(str(library)):
+                if path.startswith(craftLibDir) or path.startswith(str(self.imageDir())):
+                    utils.system(["install_name_tool", "-change", path, os.path.join("@rpath", os.path.basename(path)), library])
+            if library.endswith(".dylib"):
+                utils.system(["install_name_tool", "-id", os.path.join("@rpath", os.path.basename(library)), library])
+            utils.system(["install_name_tool", "-add_rpath", craftLibDir, library])
+
     def __init__( self, **args ):
         AutoToolsPackageBase.__init__( self )
         self.platform = ""
@@ -107,6 +117,10 @@ class Package(AutoToolsPackageBase):
                 src = os.path.join(self.installDir(), 'bin', file)
                 if os.path.isfile(src):
                     os.rename(src, os.path.join(self.installDir(), 'lib', file))
+
+        if OsUtils.isMac():
+             self.fixLibraryFolder(os.path.join(str(self.imageDir()),  "lib"))
+             self.fixLibraryFolder(os.path.join(str(self.imageDir()),  "bin"))
 
         return True
 
