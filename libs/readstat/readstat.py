@@ -13,10 +13,10 @@ class subinfo(info.infoclass):
             ['b18a0d68059d9665491e53838b3ca89b06c3bdaa3b0a11d4ba87d830b743e178'], CraftHash.HashAlgorithm.SHA256)
         self.description = 'A command-line tool and MIT-licensed C library for reading files from popular stats packages'
 
-        for ver in ["1.1.6"]:
+        for ver in ["1.1.6", "1.1.8"]:
             if CraftCore.compiler.isMSVC():
                 self.patchToApply[ver] = [('readstat-1.1.6-compiler-flags.diff', 1)]
-        self.defaultTarget = '1.1.6'
+        self.defaultTarget = '1.1.8'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
