@@ -4,11 +4,13 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = "[git]https://github.com/tbeu/matio.git"
-        for ver in ["1.5.21"]:
+        for ver in ["1.5.21", "1.5.23"]:
             self.targets[ver] = f"https://github.com/tbeu/matio/releases/download/v{ver}/matio-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"matio-{ver}"
         self.targetDigests['1.5.21'] = (
             ['21809177e55839e7c94dada744ee55c1dea7d757ddaab89605776d50122fb065'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['1.5.23'] = (
+            ['9f91eae661df46ea53c311a1b2dcff72051095b023c612d7cbfc09406c9f4d6e'], CraftHash.HashAlgorithm.SHA256)
         self.description = 'A library for reading and writing binary MATLAB MAT files'
 
         for ver in ["1.5.21"]:
