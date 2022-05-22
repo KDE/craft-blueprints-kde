@@ -18,9 +18,8 @@ class subinfo(info.infoclass):
         self.description = 'GNU Scientific Library'
 
         self.patchToApply['2.2.1'] = [("disable-broken-pdb-install.patch", 1)]
-        self.patchLevel["2.5.0"] = 1
 
-        self.defaultTarget = '2.5.0'
+        self.defaultTarget = '2.7.0'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -32,6 +31,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += " -DGSL_DISABLE_TESTS=ON "
+        # AMPL not needed (avoid submodule ASL dependency)
+        self.subinfo.options.configure.args += " -DGSL_DISABLE_TESTS=ON -DNO_AMPL_BINDINGS=ON "
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=OFF "
