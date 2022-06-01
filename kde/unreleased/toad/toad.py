@@ -7,6 +7,7 @@ class subinfo(info.infoclass):
         self.svnTargets['master'] = 'https://invent.kde.org/utilities/toad'
         self.displayName = "Toad"
         self.description = "A simple task list"
+        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
