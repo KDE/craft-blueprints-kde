@@ -48,7 +48,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['libs/boost/boost-system'] = 'default'
 #        self.runtimeDependencies['libs/boost'] = None # do not force boost deps (see: https://phabricator.kde.org/T12071#212690)
         self.runtimeDependencies['libs/expat'] = None
-        self.runtimeDependencies['libs/ffmpeg'] = None
+        self.runtimeDependencies['libs/ffmpeg'] = '4.4'
         self.runtimeDependencies['libs/lcms2'] = None
         self.runtimeDependencies['libs/eigen3'] = None
         self.runtimeDependencies['libs/exiv2'] = None
@@ -82,6 +82,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['kde/frameworks/tier3/kiconthemes'] = None
         self.runtimeDependencies['kde/frameworks/tier1/kcalendarcore'] = None
         #self.runtimeDependencies["kde/applications/marble"] = None
+
+from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
@@ -129,6 +131,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["productname"] = "digiKam"
         self.defines["website"] = "https://www.digikam.org"
+        self.defines["company"] = "digiKam.org"
         self.defines["executable"] = "bin\\digikam.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "digikam.ico")
 
