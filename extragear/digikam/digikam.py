@@ -90,7 +90,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=ON"
             self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=OFF"
@@ -103,7 +103,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=OFF"
