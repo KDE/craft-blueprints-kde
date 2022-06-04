@@ -45,10 +45,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/sqlite"] = None
         self.runtimeDependencies['libs/x265'] = None
         self.runtimeDependencies['libs/tiff'] = None
-        self.runtimeDependencies['libs/boost/boost-system'] = 'default'
+        self.runtimeDependencies['libs/boost/boost-system'] = "default"
 #        self.runtimeDependencies['libs/boost'] = None # do not force boost deps (see: https://phabricator.kde.org/T12071#212690)
         self.runtimeDependencies['libs/expat'] = None
-        self.runtimeDependencies['libs/ffmpeg'] = '4.4'
+        self.runtimeDependencies['libs/ffmpeg'] = "4.4"
         self.runtimeDependencies['libs/lcms2'] = None
         self.runtimeDependencies['libs/eigen3'] = None
         self.runtimeDependencies['libs/exiv2'] = None
