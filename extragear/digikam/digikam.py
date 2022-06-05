@@ -29,10 +29,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
-#        self.svnTargets['master'] = 'https://anongit.kde.org/digikam.git'
-#        self.defaultTarget = 'master'
-
+        self.svnTargets['master'] = 'https://anongit.kde.org/digikam.git'
+        self.defaultTarget = 'master'
         self.displayName = "digiKam"
         self.webpage = "https://www.digikam.org"
         self.description = "Professional Photo Management with the Power of Open Source"
