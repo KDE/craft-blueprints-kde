@@ -26,13 +26,12 @@
 # NOTE: see relevant phabricator entry https://phabricator.kde.org/T12071
 
 import info
-from Package.CMakePackageBase import *
-
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://anongit.kde.org/digikam.git'
-        self.defaultTarget = 'master'
+        self.versionInfo.setDefaultValues()
+#        self.svnTargets['master'] = 'https://anongit.kde.org/digikam.git'
+#        self.defaultTarget = 'master'
 
         self.displayName = "digiKam"
         self.webpage = "https://www.digikam.org"
@@ -64,12 +63,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtsvg"] = None
         self.runtimeDependencies["libs/qt5/qtimageformats"] = None
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
-
         if CraftCore.compiler.isMinGW():
             self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         else:
             self.runtimeDependencies["libs/qt5/qtwebengine"] = None
-
         self.runtimeDependencies['kde/frameworks/tier1/kconfig'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kxmlgui'] = None
         self.runtimeDependencies['kde/frameworks/tier1/ki18n'] = None
@@ -81,7 +78,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['kde/frameworks/tier1/threadweaver'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kiconthemes'] = None
         self.runtimeDependencies['kde/frameworks/tier1/kcalendarcore'] = None
-        #self.runtimeDependencies["kde/applications/marble"] = None
+        #self.runtimeDependencies["kde/applications/marble"] = None # See marble.py: there is no rules to share Marble widgets yet.
 
 from Package.CMakePackageBase import *
 
@@ -132,8 +129,9 @@ class Package(CMakePackageBase):
         self.defines["productname"] = "digiKam"
         self.defines["website"] = "https://www.digikam.org"
         self.defines["company"] = "digiKam.org"
-        self.defines["executable"] = "bin\\digikam.exe"
+        self.defines["executable"] = "bin\\digikam.exe"         # Windows-only, mac is handled implicitly
         self.defines["icon"] = os.path.join(self.packageDir(), "digikam.ico")
+        self.defines["shortcuts"] = [{"name" : "digiKam", "target":"bin/digikam.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\digikam.ico" }]
 
         self.ignoredPackages.append("binary/mysql")
 
