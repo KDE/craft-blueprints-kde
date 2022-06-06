@@ -62,8 +62,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtimageformats"] = None
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
         self.runtimeDependencies["libs/_autotools/libass"] = None
+
         if CraftCore.compiler.isMinGW():
-            self.runtimeDependencies["libs/qt5/qtwebkit"] = None
+            self.runtimeDependencies["libs/runtime"] = None         # mingw-based builds need this
+            self.runtimeDependencies["libs/qt5/qtwebkit"] = None    # QtWebEngine do not compile with MinGW
         else:
             self.runtimeDependencies["libs/qt5/qtwebengine"] = None
         self.runtimeDependencies['kde/frameworks/tier1/kconfig'] = None
