@@ -68,19 +68,19 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt5/qtwebkit"] = None    # QtWebEngine do not compile with MinGW
         else:
             self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
 #        self.packagingDependencies["extragear/digikam/libmarble"] = None        # install libmarble only for geolocation
 
 from Package.CMakePackageBase import *
