@@ -22,6 +22,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kdesupport/kdewin"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
 
 
 from Package.CMakePackageBase import *
