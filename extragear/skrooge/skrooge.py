@@ -4,11 +4,11 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'https://anongit.kde.org/skrooge|master'
-        for ver in ['2.10.5']:
+        for ver in ['2.27.0']:
             self.targets[ver] = 'https://download.kde.org/stable/skrooge/skrooge-' + ver + '.tar.xz'
             self.targetInstSrc[ver] = 'skrooge-%s' % ver
-        self.targetDigests['2.10.5'] = (['56a0124dec34e6e96a5e71ff0e825a7ec79f32a69ef0ccdc5f0f9b753d8c3eb0'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '2.10.5'
+        self.targetDigests['2.27.0'] = (['c649745322440ce7983aaa977f7c2808331bf19c82d9ce428507431451116711'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = '2.27.0'
         self.description = "personal finance manager for KDE"
         self.displayName = "Skrooge"
 
@@ -30,7 +30,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kdesupport/grantlee"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["libs/sqlcipher"] = None
-
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
 
 from Package.CMakePackageBase import *
 
