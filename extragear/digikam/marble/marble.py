@@ -2,8 +2,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
-
+        self.svnTargets['master'] = 'https://invent.kde.org/education/marble'
+        self.defaultTarget = 'master'
         self.description = "Marble Libraries"
 
     def setDependencies(self):
