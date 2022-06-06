@@ -80,6 +80,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
         #self.runtimeDependencies["kde/applications/marble"] = None # See marble.py: there is no rules to share Marble widgets yet.
 
 from Package.CMakePackageBase import *
