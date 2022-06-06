@@ -29,8 +29,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://anongit.kde.org/digikam.git'
-        self.defaultTarget = 'master'
+        self.svnTargets["master"] = 'https://anongit.kde.org/digikam.git'
+        self.defaultTarget = "master"
         self.displayName = "digiKam"
         self.webpage = "https://www.digikam.org"
         self.description = "Professional Photo Management with the Power of Open Source"
@@ -39,24 +39,24 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
-        self.buildDependencies['libs/ffmpeg'] = "4.4"
-        self.runtimeDependencies['libs/opencv/opencv'] = None
+        self.buildDependencies["libs/ffmpeg"] = "4.4"
+        self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/sqlite"] = None
-        self.runtimeDependencies['libs/x265'] = None
-        self.runtimeDependencies['libs/tiff'] = None
-#        self.runtimeDependencies['libs/boost/boost-system'] = "default"
-#        self.runtimeDependencies['libs/boost'] = None # do not force boost deps (see: https://phabricator.kde.org/T12071#212690)
-        self.runtimeDependencies['libs/expat'] = None
-        self.runtimeDependencies['libs/lcms2'] = None
-        self.runtimeDependencies['libs/eigen3'] = None
-        self.runtimeDependencies['libs/exiv2'] = None
-        self.runtimeDependencies['libs/lensfun'] = None
-        self.runtimeDependencies['libs/libpng'] = None
-        self.runtimeDependencies['libs/libxslt'] = None
-        self.runtimeDependencies['libs/libxml2'] = None
-        self.runtimeDependencies['libs/openal-soft'] = None
-        self.runtimeDependencies['libs/pthreads'] = None
-        self.runtimeDependencies['libs/libjpeg-turbo'] = None
+        self.runtimeDependencies["libs/x265"] = None
+        self.runtimeDependencies["libs/tiff"] = None
+#        self.runtimeDependencies["libs/boost/boost-system"] = "default"
+#        self.runtimeDependencies["libs/boost"] = None # do not force boost deps (see: https://phabricator.kde.org/T12071#212690)
+        self.runtimeDependencies["libs/expat"] = None
+        self.runtimeDependencies["libs/lcms2"] = None
+        self.runtimeDependencies["libs/eigen3"] = None
+        self.runtimeDependencies["libs/exiv2"] = None
+        self.runtimeDependencies["libs/lensfun"] = None
+        self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/libxslt"] = None
+        self.runtimeDependencies["libs/libxml2"] = None
+        self.runtimeDependencies["libs/openal-soft"] = None
+        self.runtimeDependencies["libs/pthreads"] = None
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtsvg"] = None
         self.runtimeDependencies["libs/qt5/qtimageformats"] = None
@@ -68,18 +68,18 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt5/qtwebkit"] = None    # QtWebEngine do not compile with MinGW
         else:
             self.runtimeDependencies["libs/qt5/qtwebengine"] = None
-        self.runtimeDependencies['kde/frameworks/tier1/kconfig'] = None
-        self.runtimeDependencies['kde/frameworks/tier1/ki18n'] = None
-        self.runtimeDependencies['kde/frameworks/tier1/kwindowsystem'] = None
-        self.runtimeDependencies['kde/frameworks/tier1/breeze-icons'] = None
-        self.runtimeDependencies['kde/frameworks/tier1/solid'] = None
-        self.runtimeDependencies['kde/frameworks/tier1/kcoreaddons'] = None
-        self.runtimeDependencies['kde/frameworks/tier1/threadweaver'] = None
-        self.runtimeDependencies['kde/frameworks/tier1/kcalendarcore'] = None
-        self.runtimeDependencies['kde/frameworks/tier3/kxmlgui'] = None
-        self.runtimeDependencies['kde/frameworks/tier3/kservice'] = None
-        self.runtimeDependencies['kde/frameworks/tier3/kiconthemes'] = None
-        self.runtimeDependencies['kde/frameworks/tier3/knotifications'] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         #self.runtimeDependencies["kde/applications/marble"] = None # See marble.py: there is no rules to share Marble widgets yet.
 
 from Package.CMakePackageBase import *
