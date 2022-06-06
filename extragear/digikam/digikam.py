@@ -81,7 +81,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
-        self.packagingDependencies["extragear/digikam/marble"] = None             # install libmarble only for geolocation
+        self.packagingDependencies["extragear/digikam/libmarble"] = None        # install libmarble only for geolocation
 
 from Package.CMakePackageBase import *
 
