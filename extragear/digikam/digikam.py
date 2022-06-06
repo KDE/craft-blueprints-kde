@@ -49,7 +49,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['libs/lcms2'] = None
         self.runtimeDependencies['libs/eigen3'] = None
         self.runtimeDependencies['libs/exiv2'] = None
-        self.runtimeDependencies['libs/opencv'] = None
+        self.runtimeDependencies['libs/opencv/opencv'] = None
         self.runtimeDependencies['libs/lensfun'] = None
         self.runtimeDependencies['libs/libpng'] = None
         self.runtimeDependencies['libs/libxslt'] = None
