@@ -39,13 +39,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
+        self.buildDependencies['libs/ffmpeg'] = "4.4"
         self.runtimeDependencies["libs/sqlite"] = None
         self.runtimeDependencies['libs/x265'] = None
         self.runtimeDependencies['libs/tiff'] = None
-        self.runtimeDependencies['libs/boost/boost-system'] = "default"
+#        self.runtimeDependencies['libs/boost/boost-system'] = "default"
 #        self.runtimeDependencies['libs/boost'] = None # do not force boost deps (see: https://phabricator.kde.org/T12071#212690)
         self.runtimeDependencies['libs/expat'] = None
-        self.runtimeDependencies['libs/ffmpeg'] = "4.4"
         self.runtimeDependencies['libs/lcms2'] = None
         self.runtimeDependencies['libs/eigen3'] = None
         self.runtimeDependencies['libs/exiv2'] = None
@@ -127,9 +127,9 @@ class Package(CMakePackageBase):
         self.defines["productname"] = "digiKam"
         self.defines["website"] = "https://www.digikam.org"
         self.defines["company"] = "digiKam.org"
-        self.defines["executable"] = "bin\\digikam.exe"         # Windows-only, mac is handled implicitly
-        self.defines["icon"] = os.path.join(self.packageDir(), "digikam.ico")
-        self.defines["shortcuts"] = [{"name" : "digiKam", "target":"bin/digikam.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\digikam.ico" }]
+        self.defines["executable"] = "bin\\digikam.exe"                         # Windows-only, mac is handled implicitly
+        self.defines["icon"] = os.path.join(self.packageDir(), "digikam.ico")   # Windows-only
+        self.defines["shortcuts"] = [{"name" : "digiKam", "target":"bin/digikam.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\digikam.ico" }]     # Windows-only
 
         self.ignoredPackages.append("binary/mysql")
 
