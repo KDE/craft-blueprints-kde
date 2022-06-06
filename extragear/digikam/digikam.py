@@ -40,6 +40,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
         self.buildDependencies['libs/ffmpeg'] = "4.4"
+        self.buildDependencies['libs/opencv/opencv'] = None
         self.runtimeDependencies["libs/sqlite"] = None
         self.runtimeDependencies['libs/x265'] = None
         self.runtimeDependencies['libs/tiff'] = None
@@ -49,7 +50,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['libs/lcms2'] = None
         self.runtimeDependencies['libs/eigen3'] = None
         self.runtimeDependencies['libs/exiv2'] = None
-        self.runtimeDependencies['libs/opencv/opencv'] = None
         self.runtimeDependencies['libs/lensfun'] = None
         self.runtimeDependencies['libs/libpng'] = None
         self.runtimeDependencies['libs/libxslt'] = None
