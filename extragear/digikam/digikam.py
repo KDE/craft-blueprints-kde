@@ -68,6 +68,10 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt5/qtwebkit"] = None    # QtWebEngine do not compile with MinGW
         else:
             self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+
+        if CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/_mac/libusb"] = None
+
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
