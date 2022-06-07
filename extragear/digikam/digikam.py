@@ -39,7 +39,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
-        self.buildDependencies["libs/ffmpeg"] = "4.4"
+        self.runtimeDependencies["libs/ffmpeg"] = "4.4"
         self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/sqlite"] = None
         self.runtimeDependencies["libs/x265"] = None
