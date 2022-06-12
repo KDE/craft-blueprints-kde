@@ -42,7 +42,7 @@ class subinfo(info.infoclass):
         # digiKam mediaPlayer is not yet fully ported to FFMPEG 5 API
         self.runtimeDependencies["libs/ffmpeg"] = "4.4"
         # See bug https://bugs.kde.org/show_bug.cgi?id=454941
-        self.runtimeDependencies["libs/opencv/opencv"] = "4.5.1"
+        self.runtimeDependencies["libs/opencv/opencv"] = "4.5.3"
         self.runtimeDependencies["libs/sqlite"] = None
         self.runtimeDependencies["libs/x265"] = None
         self.runtimeDependencies["libs/tiff"] = None
