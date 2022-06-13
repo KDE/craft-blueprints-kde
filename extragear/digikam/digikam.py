@@ -144,6 +144,8 @@ class Package(CMakePackageBase):
         self.defines["shortcuts"] = [{"name" : "digiKam", "target":"bin/digikam.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\digikam.ico" }]     # Windows-only
 
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
 
         self.ignoredPackages.append("binary/mysql")
 
