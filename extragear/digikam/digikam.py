@@ -141,7 +141,10 @@ class Package(CMakePackageBase):
         self.defines["company"] = "digiKam.org"
         self.defines["executable"] = "bin\\digikam.exe"                         # Windows-only, mac is handled implicitly
         self.defines["icon"] = os.path.join(self.packageDir(), "digikam.ico")   # Windows-only
-        self.defines["shortcuts"] = [{"name" : "digiKam", "target":"bin/digikam.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\digikam.ico" }]     # Windows-only
+
+        self.defines["shortcuts"] = [{"name" : "digiKam", "target":"bin/digikam.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\digikam.ico" },
+                                     {"name" : "Showfoto", "target":"bin/showfoto.exe", "description" : "digiKam stand alone Image Editor", "icon" : "$INSTDIR\\showfoto.ico" },
+                                     {"name" : "AVPlayer", "target":"bin/avplayer.exe", "description" : "digiKam stand alone Media Player", "icon" : "$INSTDIR\\avplayer.ico" }]     # Windows-only
 
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         if CraftCore.compiler.isMacOS:
