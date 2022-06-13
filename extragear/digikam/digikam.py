@@ -108,7 +108,6 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
             self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
-            self.subinfo.options.configure.args += f" -DCMAKE_BUILD_TYPE=Debug"
 
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
