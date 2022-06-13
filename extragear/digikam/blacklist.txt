@@ -1,0 +1,102 @@
+# blacklist
+
+# general
+manifest/.*
+.*\.exp
+.*\.la
+.*\.nsis
+.*\.prl
+
+# multiple docs
+doc/.*
+html/man.*/.*
+share/man/.*
+share/xml/.*
+
+# cmake stuff
+share/apps/cmake/.*
+
+# not running a desktop, don't need the plasma desktop theme
+share\\plasma\\desktoptheme\\(?!(default)).*
+
+# common app stuff
+(bin/data|share)/apps/ark/.*
+(bin/data|share)/apps/kgpg/.*
+(bin/data|share)/kf5/kdoctools/.*
+(bin/data|share)/aclocal/.*
+(bin/data|share)/common-lisp/.*
+(bin/data|share)/gtk-doc/.*
+(bin/data|share)/hunspell/.*
+(bin/data|share)/dbus-1/.*
+(bin/data|share)/emoticons/.*
+(bin/data|share)/info/.*
+(bin/data|share)/kdevappwizard/.*
+(bin/data|share)/kf5/(?!(libkholidays)).*
+(bin/data|share)/knotifications5/.*
+(bin/data|share)/kservices5/useragentstrings/.*
+(bin/data|share)/kservices5/searchproviders/.*
+(bin/data|share)/libgpg-error/.*
+(bin/data|share)/xdg/.*
+
+
+# Unused Qt modules
+qml/QtMultimedia
+qml/QtWebChannel
+qml/QtWebKit
+qml/QtWinExtras
+qml/QtTest
+bin/Qt/.*
+bin/QtQml/.*
+bin/QtQuick/.*
+bin/QtQuick\.2/.*
+bin/QtSensors/.*
+bin/qmltooling/.*
+bin/scenegraph/.*
+
+# unrelated
+dev-utils/.*
+share/dbus-1/services/.*
+share/pkgconfig/.*
+share/p11-kit
+bin/p11-kit
+
+# cleanup breeze stuff
+share/wallpapers/.*
+#share/icons/Breeze_Snow/.*
+#share/icons/breeze-dark/.*
+
+# TODO cut the big oxygen icons: this can lead to errors though if used!!!!
+#share/icons/oxygen/64x64/.*
+#share/icons/oxygen/128x128/.*
+#share/icons/oxygen/256x256/.*
+
+# doubled dlls
+bin/icudt\.dll
+bin/icuin\.dll
+bin/icuuc\.dll
+
+# TODO plugins we do not need
+#plugins/position/.*
+
+# doubled qt dlls
+lib/[^/]*\.dll
+# more qt leftovers
+#translations/.*
+phrasebooks/.*
+mkspecs/.*
+
+# unneeded stuff from bin\
+bin/qt\.conf
+bin/syncqt\.pl
+
+bin/dbus-*\.exe
+bin/dbus-env\.bat
+
+# strip most executables
+bin/(?!(digikam|showfoto|avplayer|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
+
+# TODO build dependencies
+#lib/tcl8/.*
+#lib/tcl8.6/.*
+#lib/libtcl.*
+#bin/tclsh.*
