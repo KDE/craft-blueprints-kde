@@ -7,9 +7,6 @@ class subinfo(info.infoclass):
 
         self.description = "Provides integration of QML and KDE Frameworks"
 
-        self.patchToApply["5.89.0"] = ('FixWindowsTargets.patch', 1)
-        self.patchLevel["5.89.0"] = 1
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
