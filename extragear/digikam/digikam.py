@@ -87,7 +87,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
         self.runtimeDependencies['kde/frameworks/tier3/kio'] = None
-        self.runtimeDependencies["extragear/digikam/marble"] = None        # install libmarble, plugins and data for geolocation
+        self.runtimeDependencies["kde/applications/marble"] = None        # install libmarble, plugins and data for geolocation
 
 from Package.CMakePackageBase import *
 
