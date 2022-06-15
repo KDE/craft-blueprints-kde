@@ -157,6 +157,11 @@ class Package(CMakePackageBase):
         # - remove digiKam/marble-qt.exe                        (done)
         # - remove digiKam/setup_vars_opencv4.cmd               (done)
 
+        if CraftCore.compiler.isMSVC():
+            utils.moveFile("$INSTDIR/astro.dll",             "$INSTDIR/bin/astro.dll")
+            utils.moveFile("$INSTDIR/marbledeclarative.dll", "$INSTDIR/bin/marbledeclarative.dll")
+            utils.moveFile("$INSTDIR/marblewidget-qt5.dll",  "$INSTDIR/bin/marblewidget-qt5.dll")
+
         self.ignoredPackages.append("binary/mysql")
 
         return TypePackager.createPackage(self)
