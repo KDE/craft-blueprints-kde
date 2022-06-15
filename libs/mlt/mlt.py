@@ -8,16 +8,16 @@ class subinfo(info.infoclass):
     def setTargets( self ):
         self.description = "Open source multimedia framework"
         self.webpage = "https://www.mltframework.org"
-        for ver in ['7.2.0', '7.6.0']:
+        for ver in ['7.6.0']:
             self.targets[ ver ] = f"https://github.com/mltframework/mlt/archive/v{ver}.tar.gz"
             self.targetInstSrc[ ver ] = "mlt-" + ver
 
         self.svnTargets['master'] = "https://github.com/mltframework/mlt.git"
-        self.patchLevel['master'] = 20220214
-        self.svnTargets['0ecc2f9'] = "https://github.com/mltframework/mlt.git||0ecc2f9db1f99c679f0703c9883f708d81e27714"
-        self.defaultTarget = '0ecc2f9'
+        self.patchLevel['master'] = 20220622
+        self.svnTargets['3513e74'] = "https://github.com/mltframework/mlt.git||3513e741eee23b2e72fee96ea280b0858962389e"
+        self.defaultTarget = '3513e74'
         if CraftCore.compiler.isMacOS:
-            self.patchToApply["0ecc2f9"] = [("001-fix-avformat-mac.diff", 1)]
+            self.patchToApply["3513e74"] = [("001-fix-avformat-mac.diff", 1)]
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/pkg-config"] = None
@@ -56,10 +56,13 @@ class Package(CMakePackageBase):
     def __init__( self, **args ):
         CMakePackageBase.__init__(self)
         CMakePackageBase.buildTests = False
+        # enable submodule checkout to get glaximate
+        self.subinfo.options.fetch.checkoutSubmodules = True
         self.subinfo.options.configure.args += [
             "-DMOD_DECKLINK=OFF",
             "-DWINDOWS_DEPLOY=OFF",
             "-DMOD_OPENCV=ON",
+            "-DMOD_GLAXNIMATE=ON",
             "-DRELOCATABLE=ON",
             "-DMOD_GDK=OFF" # don't pull in gtk
         ]
