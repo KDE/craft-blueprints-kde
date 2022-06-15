@@ -154,8 +154,8 @@ class Package(CMakePackageBase):
         # - move digiKam/astro.dll to digiKam/bin/
         # - move digiKam/marbledeclarative.dll to digiKam/bin/
         # - move digiKam/marblewidget-qt5.dll to digiKam/bin/
-        # - remove digiKam/marble-qt.exe
-        # - remove digiKam/setup_vars_opencv4.cmd
+        # - remove digiKam/marble-qt.exe                        (done)
+        # - remove digiKam/setup_vars_opencv4.cmd               (done)
 
         self.ignoredPackages.append("binary/mysql")
 
