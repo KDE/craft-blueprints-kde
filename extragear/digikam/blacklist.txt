@@ -93,7 +93,7 @@ bin/dbus-*\.exe
 bin/dbus-env\.bat
 
 # strip most executables
-bin/(?!(digikam|showfoto|avplayer|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
+bin/(?!(digikam|showfoto|avplayer|kbuildsycoca5|update-mime-database|kioslave|QtWebEngineProcess)).*\.exe
 
 # TODO build dependencies
 #lib/tcl8/.*
