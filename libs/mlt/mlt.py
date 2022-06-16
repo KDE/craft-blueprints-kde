@@ -67,6 +67,7 @@ class Package(CMakePackageBase):
             "-DRELOCATABLE=ON",
             "-DMOD_GDK=OFF" # don't pull in gtk
         ]
+        self.subinfo.options.configure.cxxflags += f" -D_XOPEN_SOURCE=700 "
 
     def install(self):
         if not super().install():
