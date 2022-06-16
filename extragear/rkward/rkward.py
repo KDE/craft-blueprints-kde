@@ -21,7 +21,10 @@ class subinfo(info.infoclass):
         self.defaultTarget = '0.7.4-rc2'
 
     def setDependencies(self):
-        self.runtimeDependencies["binary/r-base"] = None
+        if OsUtils.isWin() or OsUtils.isMac():
+            self.runtimeDependencies["binary/r-base"] = None
+        else:
+            self.runtimeDependencies["libs/r-base"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None

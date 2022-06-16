@@ -21,7 +21,10 @@ class subinfo(info.infoclass):
         # R backend fails compiling with MSVC
         # libR.dylib fails packaging on macOS (lapack.so)
         if not CraftCore.compiler.isMSVC() and not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["binary/r-base"] = None
+            if OsUtils.isWin():
+                self.runtimeDependencies["binary/r-base"] = None
+            else:
+                self.runtimeDependencies["libs/r-base"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
