@@ -183,25 +183,25 @@ class Package(CMakePackageBase):
 
         # Windows-only
 
-        self.defines["shortcuts"]   =
-        [
-            {
-                "name"        : "digiKam",
-                "target"      : "bin/digikam.exe",
-                "description" : self.subinfo.description,
-                "icon"        : "$INSTDIR\\digikam.ico"
-            },
-            {
-                "name"        : "Showfoto",
-                "target"      : "bin/showfoto.exe",
-                "description" : "digiKam stand alone Image Editor",
-                "icon"        : "$INSTDIR\\showfoto.ico" },
-            {
-                "name"        : "AVPlayer",
-                "target"      : "bin/avplayer.exe",
-                "description" : "digiKam stand alone Media Player",
-                "icon"        : "$INSTDIR\\avplayer.ico" }
-        ]
+        self.defines["shortcuts"]   = [ {
+                                            "name"        : "digiKam",
+                                            "target"      : "bin/digikam.exe",
+                                            "description" : self.subinfo.description,
+                                            "icon"        : "$INSTDIR\\digikam.ico"
+                                        },
+                                        {
+                                            "name"        : "Showfoto",
+                                            "target"      : "bin/showfoto.exe",
+                                            "description" : "digiKam stand alone Image Editor",
+                                            "icon"        : "$INSTDIR\\showfoto.ico"
+                                        },
+                                        {
+                                            "name"        : "AVPlayer",
+                                            "target"      : "bin/avplayer.exe",
+                                            "description" : "digiKam stand alone Media Player",
+                                            "icon"        : "$INSTDIR\\avplayer.ico"
+                                        }
+                                      ]
 
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         if CraftCore.compiler.isMacOS:
