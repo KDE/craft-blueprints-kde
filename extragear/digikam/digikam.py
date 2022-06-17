@@ -30,65 +30,83 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = 'https://anongit.kde.org/digikam.git'
-        self.defaultTarget = "master"
-        self.displayName = "digiKam"
-        self.webpage = "https://www.digikam.org"
-        self.description = "Professional Photo Management with the Power of Open Source"
+        self.defaultTarget        = "master"
+        self.displayName          = "digiKam"
+        self.webpage              = "https://www.digikam.org"
+        self.description          = "Professional Photo Management with the Power of Open Source"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = None
-        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["dev-utils/flexbison"] = None
+        self.runtimeDependencies["virtual/base"]                        = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"]    = None
+        self.buildDependencies["dev-utils/flexbison"]                   = None
+
         # digiKam mediaPlayer is not yet fully ported to FFMPEG 5 API
-        self.runtimeDependencies["libs/ffmpeg"] = "4.4"
-        self.runtimeDependencies["libs/opencv/opencv"] = None
-        self.runtimeDependencies["libs/sqlite"] = None
-        self.runtimeDependencies["libs/x265"] = None
-        self.runtimeDependencies["libs/tiff"] = None
+
+        self.runtimeDependencies["libs/ffmpeg"]                         = "4.4"
+
+        self.runtimeDependencies["libs/opencv/opencv"]                  = None
+        self.runtimeDependencies["libs/sqlite"]                         = None
+        self.runtimeDependencies["libs/x265"]                           = None
+        self.runtimeDependencies["libs/tiff"]                           = None
+
         # do not force boost deps (see: https://phabricator.kde.org/T12071#212690)
-#        self.runtimeDependencies["libs/boost/boost-system"] = "default"
-#        self.runtimeDependencies["libs/boost"] = None 
-        self.runtimeDependencies["libs/expat"] = None
-        self.runtimeDependencies["libs/lcms2"] = None
-        self.runtimeDependencies["libs/eigen3"] = None
-        self.runtimeDependencies["libs/exiv2"] = None
-        self.runtimeDependencies["libs/lensfun"] = None
-        self.runtimeDependencies["libs/libpng"] = None
-        self.runtimeDependencies["libs/libxslt"] = None
-        self.runtimeDependencies["libs/libxml2"] = None
-        self.runtimeDependencies["libs/openal-soft"] = None
-        self.runtimeDependencies["libs/pthreads"] = None
-        self.runtimeDependencies["libs/libjpeg-turbo"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtsvg"] = None
-        self.runtimeDependencies["libs/qt5/qtimageformats"] = None
-        self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
-        self.runtimeDependencies["libs/libass"] = None
-        self.runtimeDependencies["libs/libusb"] = None
+
+        #self.runtimeDependencies["libs/boost/boost-system"]            = "default"
+        #self.runtimeDependencies["libs/boost"]                         = None
+
+        self.runtimeDependencies["libs/expat"]                          = None
+        self.runtimeDependencies["libs/lcms2"]                          = None
+        self.runtimeDependencies["libs/eigen3"]                         = None
+        self.runtimeDependencies["libs/exiv2"]                          = None
+        self.runtimeDependencies["libs/lensfun"]                        = None
+        self.runtimeDependencies["libs/libpng"]                         = None
+        self.runtimeDependencies["libs/libxslt"]                        = None
+        self.runtimeDependencies["libs/libxml2"]                        = None
+        self.runtimeDependencies["libs/openal-soft"]                    = None
+        self.runtimeDependencies["libs/pthreads"]                       = None
+        self.runtimeDependencies["libs/libjpeg-turbo"]                  = None
+        self.runtimeDependencies["libs/qt5/qtbase"]                     = None
+        self.runtimeDependencies["libs/qt5/qtsvg"]                      = None
+        self.runtimeDependencies["libs/qt5/qtimageformats"]             = None
+        self.runtimeDependencies["libs/qt5/qtxmlpatterns"]              = None
+        self.runtimeDependencies["libs/libass"]                         = None
+        self.runtimeDependencies["libs/libusb"]                         = None
 
         if CraftCore.compiler.isMinGW():
-            self.runtimeDependencies["libs/runtime"] = None         # mingw-based builds need this
-            self.runtimeDependencies["libs/qt5/qtwebkit"] = None    # QtWebEngine do not compile with MinGW
-        else:
-            self.runtimeDependencies["libs/qt5/qtwebengine"] = None
 
-        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
+            # mingw-based builds need this
+
+            self.runtimeDependencies["libs/runtime"]                    = None
+
+            # QtWebEngine do not compile with MinGW
+
+            self.runtimeDependencies["libs/qt5/qtwebkit"]               = None
+
+        else:
+
+            self.runtimeDependencies["libs/qt5/qtwebengine"]            = None
+
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"]   = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"]        = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"]          = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"]        = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"]  = None
+        self.runtimeDependencies["kde/frameworks/tier3/kservice"]       = None
+        self.runtimeDependencies["kde/frameworks/tier1/solid"]          = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"]    = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"]  = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
-        self.runtimeDependencies['kde/frameworks/tier3/kio'] = None
-        self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
-        self.runtimeDependencies["kde/applications/marble"] = None        # install libmarble, plugins and data for geolocation
+        self.runtimeDependencies["kde/frameworks/tier1/threadweaver"]   = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"]    = None
+        self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"]  = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"]  = None
+        self.runtimeDependencies['kde/frameworks/tier3/kio']            = None
+        self.runtimeDependencies["kde/pim/akonadi-contacts"]            = None
+
+        # Install libmarble, plugins and data for geolocation.
+        # Marble application will be removed at packaging stage.
+
+        self.runtimeDependencies["kde/applications/marble"]             = None
 
 from Package.CMakePackageBase import *
 
@@ -154,10 +172,18 @@ class Package(CMakePackageBase):
         self.defines["productname"] = "digiKam"
         self.defines["website"]     = "https://www.digikam.org"
         self.defines["company"]     = "digiKam.org"
-        self.defines["executable"]  = "bin\\digikam.exe"                               # Windows-only, mac is handled implicitly
-        self.defines["icon"]        = os.path.join(self.packageDir(), "digikam.ico")   # Windows-only
 
-        self.defines["shortcuts"]   =                                                  # Windows-only
+        # Windows-only, mac is handled implicitly
+
+        self.defines["executable"]  = "bin\\digikam.exe"
+
+        # Windows-only
+
+        self.defines["icon"]        = os.path.join(self.packageDir(), "digikam.ico")
+
+        # Windows-only
+
+        self.defines["shortcuts"]   =
         [
             {
                 "name"        : "digiKam",
@@ -197,7 +223,7 @@ class Package(CMakePackageBase):
             # - move astro.dll to digiKam/bin/
             # - move marbledeclarative.dll to digiKam/bin/
             # - move marblewidget-qt5.dll to digiKam/bin/
-            # - remove marble-qt.exe                        (done - blacklist)
+            # - remove marble-qt.exe                      (blacklist.txt)
 
             archiveDir = self.archiveDir()
             binPath = os.path.join(archiveDir,       "bin")
