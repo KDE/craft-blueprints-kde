@@ -146,22 +146,35 @@ class Package(CMakePackageBase):
                                      {"name" : "Showfoto", "target":"bin/showfoto.exe", "description" : "digiKam stand alone Image Editor", "icon" : "$INSTDIR\\showfoto.ico" },
                                      {"name" : "AVPlayer", "target":"bin/avplayer.exe", "description" : "digiKam stand alone Media Player", "icon" : "$INSTDIR\\avplayer.ico" }]     # Windows-only
 
-#        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
-#        if CraftCore.compiler.isMacOS:
-#            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
-
-        # TODO: for MSVC, manage files:
-        # - move digiKam/astro.dll to digiKam/bin/
-        # - move digiKam/marbledeclarative.dll to digiKam/bin/
-        # - move digiKam/marblewidget-qt5.dll to digiKam/bin/
-        # - remove digiKam/marble-qt.exe                        (done)
-        # - remove digiKam/setup_vars_opencv4.cmd               (done)
-
-        if CraftCore.compiler.isMSVC():
-            utils.moveFile("astro.dll",             "bin/astro.dll")
-            utils.moveFile("marbledeclarative.dll", "bin/marbledeclarative.dll")
-            utils.moveFile("marblewidget-qt5.dll",  "bin/marblewidget-qt5.dll")
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
 
         self.ignoredPackages.append("binary/mysql")
 
         return TypePackager.createPackage(self)
+
+    def preArchive(self):
+        if CraftCore.compiler.isMSVC():
+
+            # TODO: for MSVC, manage files:
+            # - move digiKam/astro.dll to digiKam/bin/
+            # - move digiKam/marbledeclarative.dll to digiKam/bin/
+            # - move digiKam/marblewidget-qt5.dll to digiKam/bin/
+            # - remove digiKam/marble-qt.exe                        (done - blacklist)
+            # - remove digiKam/setup_vars_opencv4.cmd               (done - blacklist)
+            # - whitelist opengl32sw
+
+            archiveDir = self.archiveDir()
+            binPath = os.path.join(archiveDir, "bin")
+
+            utils.moveFile(os.path.join(archiveDir, "astro.dll"),
+                           os.path.join(binPath, "astro.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "marbledeclarative.dll"),
+                           os.path.join(binPath, "marbledeclarative.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "marblewidget-qt5.dll"),
+                           os.path.join(binPath, "marblewidget-qt5.dll"))
+
+        return True
