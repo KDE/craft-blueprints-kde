@@ -182,7 +182,7 @@ class Package(CMakePackageBase):
 
             # - move bin/digikam to plugins/digikam
 
-            pluginsPath = os.path.join(archiveDir, "plugins")
+            pluginsPath = os.path.join(archiveDir, "bin", "plugins")
             utils.createDir(pluginsPath)
 
             utils.moveFile(os.path.join(archiveDir, "bin", "digikam"),
