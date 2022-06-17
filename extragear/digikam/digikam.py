@@ -150,6 +150,18 @@ class Package(CMakePackageBase):
 #        if CraftCore.compiler.isMacOS:
 #            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
 
+        # TODO: for MSVC, manage files:
+        # - move digiKam/astro.dll to digiKam/bin/
+        # - move digiKam/marbledeclarative.dll to digiKam/bin/
+        # - move digiKam/marblewidget-qt5.dll to digiKam/bin/
+        # - remove digiKam/marble-qt.exe                        (done)
+        # - remove digiKam/setup_vars_opencv4.cmd               (done)
+
+        if CraftCore.compiler.isMSVC():
+            utils.moveFile("astro.dll",             "bin/astro.dll")
+            utils.moveFile("marbledeclarative.dll", "bin/marbledeclarative.dll")
+            utils.moveFile("marblewidget-qt5.dll",  "bin/marblewidget-qt5.dll")
+
         self.ignoredPackages.append("binary/mysql")
 
         return TypePackager.createPackage(self)
