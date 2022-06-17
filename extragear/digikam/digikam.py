@@ -158,12 +158,15 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMSVC():
 
             # TODO: for MSVC, manage files:
+
+            # see bug #455232
             # - move digiKam/astro.dll to digiKam/bin/
             # - move digiKam/marbledeclarative.dll to digiKam/bin/
             # - move digiKam/marblewidget-qt5.dll to digiKam/bin/
             # - remove digiKam/marble-qt.exe                        (done - blacklist)
+
             # - remove digiKam/setup_vars_opencv4.cmd               (done - blacklist)
-            # - whitelist opengl32sw
+            # - remove digiKam/LICENSE                              (done - blacklist)
 
             archiveDir = self.archiveDir()
             binPath = os.path.join(archiveDir, "bin")
