@@ -97,7 +97,7 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
         if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
+            self.subinfo.options.configure.args  =  " -DENABLE_KFILEMETADATASUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
@@ -108,9 +108,14 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
             self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_DOC=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DOC=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
 
         if CraftCore.compiler.isMinGW():
-            self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
+            self.subinfo.options.configure.args  =  " -DENABLE_KFILEMETADATASUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
@@ -121,9 +126,14 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=ON"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=ON"
             self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_DOC=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DOC=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
 
         if CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
+            self.subinfo.options.configure.args  =  " -DENABLE_KFILEMETADATASUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
@@ -134,17 +144,38 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
             self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_DOC=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DOC=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
 
     def createPackage(self):
         self.defines["productname"] = "digiKam"
-        self.defines["website"] = "https://www.digikam.org"
-        self.defines["company"] = "digiKam.org"
-        self.defines["executable"] = "bin\\digikam.exe"                         # Windows-only, mac is handled implicitly
-        self.defines["icon"] = os.path.join(self.packageDir(), "digikam.ico")   # Windows-only
+        self.defines["website"]     = "https://www.digikam.org"
+        self.defines["company"]     = "digiKam.org"
+        self.defines["executable"]  = "bin\\digikam.exe"                               # Windows-only, mac is handled implicitly
+        self.defines["icon"]        = os.path.join(self.packageDir(), "digikam.ico")   # Windows-only
 
-        self.defines["shortcuts"] = [{"name" : "digiKam", "target":"bin/digikam.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\digikam.ico" },
-                                     {"name" : "Showfoto", "target":"bin/showfoto.exe", "description" : "digiKam stand alone Image Editor", "icon" : "$INSTDIR\\showfoto.ico" },
-                                     {"name" : "AVPlayer", "target":"bin/avplayer.exe", "description" : "digiKam stand alone Media Player", "icon" : "$INSTDIR\\avplayer.ico" }]     # Windows-only
+        self.defines["shortcuts"]   =                                                  # Windows-only
+        [
+            {
+                "name"        : "digiKam",
+                "target"      : "bin/digikam.exe",
+                "description" : self.subinfo.description,
+                "icon"        : "$INSTDIR\\digikam.ico"
+            },
+            {
+                "name"        : "Showfoto",
+                "target"      : "bin/showfoto.exe",
+                "description" : "digiKam stand alone Image Editor",
+                "icon"        : "$INSTDIR\\showfoto.ico" },
+            {
+                "name"        : "AVPlayer",
+                "target"      : "bin/avplayer.exe",
+                "description" : "digiKam stand alone Media Player",
+                "icon"        : "$INSTDIR\\avplayer.ico" }
+        ]
 
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         if CraftCore.compiler.isMacOS:
@@ -169,25 +200,25 @@ class Package(CMakePackageBase):
             # - remove marble-qt.exe                        (done - blacklist)
 
             archiveDir = self.archiveDir()
-            binPath = os.path.join(archiveDir, "bin")
+            binPath = os.path.join(archiveDir,       "bin")
 
-            utils.moveFile(os.path.join(archiveDir, "astro.dll"),
-                           os.path.join(binPath,    "astro.dll"))
+            utils.moveFile(os.path.join(archiveDir,  "astro.dll"),
+                           os.path.join(binPath,     "astro.dll"))
 
-            utils.moveFile(os.path.join(archiveDir, "marbledeclarative.dll"),
-                           os.path.join(binPath,    "marbledeclarative.dll"))
+            utils.moveFile(os.path.join(archiveDir,  "marbledeclarative.dll"),
+                           os.path.join(binPath,     "marbledeclarative.dll"))
 
-            utils.moveFile(os.path.join(archiveDir, "marblewidget-qt5.dll"),
-                           os.path.join(binPath,    "marblewidget-qt5.dll"))
+            utils.moveFile(os.path.join(archiveDir,  "marblewidget-qt5.dll"),
+                           os.path.join(binPath,     "marblewidget-qt5.dll"))
 
             # Move translations/ to bin/translations/
 
-            utils.moveFile(os.path.join(archiveDir, "translations"),
-                           os.path.join(binPath,    "translations"))
+            utils.moveFile(os.path.join(archiveDir,  "translations"),
+                           os.path.join(binPath,     "translations"))
 
             # Move bin/digikam/ to plugins/digikam/
 
-            pluginsPath = os.path.join(archiveDir, "bin", "plugins")
+            pluginsPath = os.path.join(archiveDir,   "bin", "plugins")
             utils.createDir(pluginsPath)
 
             utils.moveFile(os.path.join(archiveDir,  "bin", "digikam"),
