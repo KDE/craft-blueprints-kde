@@ -160,13 +160,13 @@ class Package(CMakePackageBase):
             # TODO: for MSVC, manage files:
 
             # see bug #455232
-            # - move digiKam/astro.dll to digiKam/bin/
-            # - move digiKam/marbledeclarative.dll to digiKam/bin/
-            # - move digiKam/marblewidget-qt5.dll to digiKam/bin/
-            # - remove digiKam/marble-qt.exe                        (done - blacklist)
+            # - move astro.dll to digiKam/bin/
+            # - move marbledeclarative.dll to digiKam/bin/
+            # - move marblewidget-qt5.dll to digiKam/bin/
+            # - remove marble-qt.exe                        (done - blacklist)
 
-            # - remove digiKam/setup_vars_opencv4.cmd               (done - blacklist)
-            # - remove digiKam/LICENSE                              (done - blacklist)
+            # - remove setup_vars_opencv4.cmd               (done - blacklist)
+            # - remove LICENSE                              (done - blacklist)
 
             archiveDir = self.archiveDir()
             binPath = os.path.join(archiveDir, "bin")
@@ -179,5 +179,174 @@ class Package(CMakePackageBase):
 
             utils.moveFile(os.path.join(archiveDir, "marblewidget-qt5.dll"),
                            os.path.join(binPath, "marblewidget-qt5.dll"))
+
+            # - move bin/digikam to plugins/digikam
+
+            pluginsPath = os.path.join(archiveDir, "plugins")
+            utils.createDir(pluginsPath)
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "digikam"),
+                           os.path.join(pluginsPath, "digikam"))
+
+            # - move bin/*marble_plugins* to plugins/
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "AnnotatePlugin.dll"),
+                           os.path.join(pluginsPath, "AnnotatePlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "AprsPlugin.dll"),
+                           os.path.join(pluginsPath, "AprsPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "AtmospherePlugin.dll"),
+                           os.path.join(pluginsPath, "AtmospherePlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "CachePlugin.dll"),
+                           os.path.join(pluginsPath, "CachePlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "CompassFloatItem.dll"),
+                           os.path.join(pluginsPath, "CompassFloatItem.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "CrosshairsPlugin.dll"),
+                           os.path.join(pluginsPath, "CrosshairsPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "CycleStreetsPlugin.dll"),
+                           os.path.join(pluginsPath, "CycleStreetsPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "EarthquakePlugin.dll"),
+                           os.path.join(pluginsPath, "EarthquakePlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "EclipsesPlugin.dll"),
+                           os.path.join(pluginsPath, "EclipsesPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "ElevationProfileFloatItem.dll"),
+                           os.path.join(pluginsPath, "ElevationProfileFloatItem.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "ElevationProfileMarker.dll"),
+                           os.path.join(pluginsPath, "ElevationProfileMarker.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "FlightGearPositionProviderPlugin.dll"),
+                           os.path.join(pluginsPath, "FlightGearPositionProviderPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "FoursquarePlugin.dll"),
+                           os.path.join(pluginsPath, "FoursquarePlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "GeoUriPlugin.dll"),
+                           os.path.join(pluginsPath, "GeoUriPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "GosmoreReverseGeocodingPlugin.dll"),
+                           os.path.join(pluginsPath, "GosmoreReverseGeocodingPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "GosmoreRoutingPlugin.dll"),
+                           os.path.join(pluginsPath, "GosmoreRoutingPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "GpsbabelPlugin.dll"),
+                           os.path.join(pluginsPath, "GpsbabelPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "GpsInfo.dll"),
+                           os.path.join(pluginsPath, "GpsInfo.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "GpxPlugin.dll"),
+                           os.path.join(pluginsPath, "GpxPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "GraticulePlugin.dll"),
+                           os.path.join(pluginsPath, "GraticulePlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "HostipPlugin.dll"),
+                           os.path.join(pluginsPath, "HostipPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "JsonPlugin.dll"),
+                           os.path.join(pluginsPath, "JsonPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "KmlPlugin.dll"),
+                           os.path.join(pluginsPath, "KmlPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "LatLonPlugin.dll"),
+                           os.path.join(pluginsPath, "LatLonPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "License.dll"),
+                           os.path.join(pluginsPath, "License.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "LocalDatabasePlugin.dll"),
+                           os.path.join(pluginsPath, "LocalDatabasePlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "LocalOsmSearchPlugin.dll"),
+                           os.path.join(pluginsPath, "LocalOsmSearchPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "LocalOsmSearchPlugin.dll"),
+                           os.path.join(pluginsPath, "LocalOsmSearchPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "MapQuestPlugin.dll"),
+                           os.path.join(pluginsPath, "MapQuestPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "MapScaleFloatItem.dll"),
+                           os.path.join(pluginsPath, "MapScaleFloatItem.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "MeasureTool.dll"),
+                           os.path.join(pluginsPath, "MeasureTool.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "MonavPlugin.dll"),
+                           os.path.join(pluginsPath, "MonavPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "NavigationFloatItem.dll"),
+                           os.path.join(pluginsPath, "NavigationFloatItem.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "NominatimReverseGeocodingPlugin.dll"),
+                           os.path.join(pluginsPath, "NominatimReverseGeocodingPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "NominatimSearchPlugin.dll"),
+                           os.path.join(pluginsPath, "NominatimSearchPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "NotesPlugin.dll"),
+                           os.path.join(pluginsPath, "NotesPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "OpenLocationCodeSearchPlugin.dll"),
+                           os.path.join(pluginsPath, "OpenLocationCodeSearchPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "OpenRouteServicePlugin.dll"),
+                           os.path.join(pluginsPath, "OpenRouteServicePlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "OsmPlugin.dll"),
+                           os.path.join(pluginsPath, "OsmPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "OSRMPlugin.dll"),
+                           os.path.join(pluginsPath, "OSRMPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "OverviewMap.dll"),
+                           os.path.join(pluginsPath, "OverviewMap.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "Pn2Plugin.dll"),
+                           os.path.join(pluginsPath, "Pn2Plugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "PntPlugin.dll"),
+                           os.path.join(pluginsPath, "PntPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "PositionMarker.dll"),
+                           os.path.join(pluginsPath, "PositionMarker.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "PostalCode.dll"),
+                           os.path.join(pluginsPath, "PostalCode.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "ProgressFloatItem.dll"),
+                           os.path.join(pluginsPath, "ProgressFloatItem.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "RoutingPlugin.dll"),
+                           os.path.join(pluginsPath, "RoutingPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "RoutinoPlugin.dll"),
+                           os.path.join(pluginsPath, "RoutinoPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "SatellitesPlugin.dll"),
+                           os.path.join(pluginsPath, "SatellitesPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "Speedometer.dll"),
+                           os.path.join(pluginsPath, "Speedometer.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "StarsPlugin.dll"),
+                           os.path.join(pluginsPath, "StarsPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "SunPlugin.dll"),
+                           os.path.join(pluginsPath, "SunPlugin.dll"))
+
+            utils.moveFile(os.path.join(archiveDir, "bin", "YoursPlugin.dll"),
+                           os.path.join(pluginsPath, "YoursPlugin.dll"))
 
         return True
