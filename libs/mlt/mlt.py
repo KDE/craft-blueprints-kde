@@ -18,6 +18,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = '3513e74'
         if CraftCore.compiler.isMacOS:
             self.patchToApply["3513e74"] = [("001-fix-avformat-mac.diff", 1)]
+        if CraftCore.compiler.isWindows:
+            self.patchToApply["3513e74"] = [("pi_patch.diff", 1)]
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/pkg-config"] = None

@@ -1,0 +1,12 @@
+diff --git a/src/modules/glaxnimate/glaxnimate/src/core/math/vector.hpp b/src/modules/glaxnimate/glaxnimate/src/core/math/vector.hpp
+index 2afbcbf2..2e7ca002 100644
+--- a/src/modules/glaxnimate/glaxnimate/src/core/math/vector.hpp
++++ b/src/modules/glaxnimate/glaxnimate/src/core/math/vector.hpp
+@@ -2,6 +2,7 @@
+ 
+ #include <tuple>
+ #include <utility>
++#define _USE_MATH_DEFINES
+ #include <cmath>
+ #include <QMetaType>
+ #include <QColor>
