@@ -37,7 +37,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
 
-       if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.isWindows:
             self.buildDependencies["dev-utils/subversion"]              = None
 
         self.runtimeDependencies["virtual/base"]                        = None
