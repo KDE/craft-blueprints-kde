@@ -36,6 +36,10 @@ class subinfo(info.infoclass):
         self.description          = "Professional Photo Management with the Power of Open Source"
 
     def setDependencies(self):
+
+       if CraftCore.compiler.isWindows:
+            self.buildDependencies["dev-utils/subversion"]              = None
+
         self.runtimeDependencies["virtual/base"]                        = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"]    = None
         self.buildDependencies["dev-utils/flexbison"]                   = None
