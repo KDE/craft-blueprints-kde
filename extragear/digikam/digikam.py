@@ -146,9 +146,9 @@ class Package(CMakePackageBase):
                                      {"name" : "Showfoto", "target":"bin/showfoto.exe", "description" : "digiKam stand alone Image Editor", "icon" : "$INSTDIR\\showfoto.ico" },
                                      {"name" : "AVPlayer", "target":"bin/avplayer.exe", "description" : "digiKam stand alone Media Player", "icon" : "$INSTDIR\\avplayer.ico" }]     # Windows-only
 
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
-        if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+#        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+#        if CraftCore.compiler.isMacOS:
+#            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
 
         self.ignoredPackages.append("binary/mysql")
 
