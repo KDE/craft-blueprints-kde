@@ -1,0 +1,30 @@
+1/ Common fixes:
+----------------
+
++ Add more Craft dependencies support: libheif, libjasper, libmagick++, libjxl.
++ update Craft dependencies as rolling-release: libexiv2, liblensfun.
++ integrate 3rdparty digiKam plugins: MosiacWal, GMicQt.
++ integrate 3rdparty digiKam rolling-release manifest.txt in the bundle.
+
+2/ Windows MSVC target:
+-----------------------
+
+- Include KDE i18n.
+- Include Qt translations.
+- Include QtwebEngine resources.
+- Fix binaries to white-list: digikam.exe, showfoto.exe, avplayer.exe, QtWebEngineProcess.exe, kioslave.exe, etc.
+- Drop unwanted Marble files.
+- Fix Marble dlls install path.
+- Use blacklist.txt from kmymoney.
+- Fix broken icons to the desktop menu for Showfoto and AVPlayer.
+
++ Fix installer to ask to uninstall previous version.
++ Add more blacklist.txt entries to drop unwanted files.
++ include exiftool.exe in the bundle.
++ Publish bundle to Microsoft store.
+
+3/ MacOS Clang target:
+----------------------
+
++ Publish bundle to the Apple Store.
++ More...
