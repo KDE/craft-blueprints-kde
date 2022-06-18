@@ -229,7 +229,7 @@ class Package(CMakePackageBase):
             # - move astro.dll to digiKam/bin/
             # - move marbledeclarative.dll to digiKam/bin/
             # - move marblewidget-qt5.dll to digiKam/bin/
-            # - move data/ to digiKam/data 
+            # - move data/ to digiKam/data
             # - remove marble-qt.exe                      (blacklist.txt)
 
             archiveDir = self.archiveDir()
@@ -245,7 +245,7 @@ class Package(CMakePackageBase):
                            os.path.join(binPath,     "marblewidget-qt5.dll"))
 
             utils.moveFile(os.path.join(archiveDir,  "data"),
-                           os.path.join(binPath,     "data"))
+                           os.path.join(binPath,     ""))
 
             # Move translations/ to bin/translations/
 
