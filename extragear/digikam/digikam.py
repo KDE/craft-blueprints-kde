@@ -102,11 +102,30 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"]    = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"]  = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/threadweaver"]   = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"]    = None
+
+        # To sync digiKam database with Baloo Plasma desktop search engine (Linux only).
+
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"]  = None
+
+        # For Panorama export tool.
+
+        self.runtimeDependencies["kde/frameworks/tier1/threadweaver"]   = None
+
+        # For Calendar export plugin.
+
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"]  = None
+
+        # For some digiKam plugins used to export on web services.
+
         self.runtimeDependencies['kde/frameworks/tier3/kio']            = None
+
+        # To support more formats in digiKam Qt plugin image loaders.
+
+        self.runtimeDependencies["kde/frameworks/tier1/kimageformats"]  = None
+
+        # Required even if option is disabled in digiKam at compilation stage.
+
         self.runtimeDependencies["kde/pim/akonadi-contacts"]            = None
 
         # Install libmarble, plugins and data for geolocation.
@@ -183,11 +202,11 @@ class Package(CMakePackageBase):
 
         self.defines["executable"]  = "bin\\digikam.exe"
 
-        # Windows-only
+        # Windows-only (order is important)
 
-        self.defines["icon"]        = os.path.join(self.packageDir(), "digikam.ico")
-        self.defines["icon"]        = os.path.join(self.packageDir(), "showfoto.ico")
         self.defines["icon"]        = os.path.join(self.packageDir(), "avplayer.ico")
+        self.defines["icon"]        = os.path.join(self.packageDir(), "showfoto.ico")
+        self.defines["icon"]        = os.path.join(self.packageDir(), "digikam.ico")
 
         # Windows-only
 
