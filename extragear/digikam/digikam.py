@@ -37,6 +37,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
 
+        # For i18n extraction
+
         if CraftCore.compiler.isWindows:
             self.buildDependencies["dev-utils/subversion"]              = None
 
@@ -227,10 +229,11 @@ class Package(CMakePackageBase):
             # - move astro.dll to digiKam/bin/
             # - move marbledeclarative.dll to digiKam/bin/
             # - move marblewidget-qt5.dll to digiKam/bin/
+            # - move data/ to digiKam/data 
             # - remove marble-qt.exe                      (blacklist.txt)
 
             archiveDir = self.archiveDir()
-            binPath = os.path.join(archiveDir,       "bin")
+            binPath    = os.path.join(archiveDir,    "bin")
 
             utils.moveFile(os.path.join(archiveDir,  "astro.dll"),
                            os.path.join(binPath,     "astro.dll"))
@@ -241,12 +244,15 @@ class Package(CMakePackageBase):
             utils.moveFile(os.path.join(archiveDir,  "marblewidget-qt5.dll"),
                            os.path.join(binPath,     "marblewidget-qt5.dll"))
 
+            utils.moveFile(os.path.join(archiveDir,  "data"),
+                           os.path.join(binPath,     "data"))
+
             # Move translations/ to bin/translations/
 
             utils.moveFile(os.path.join(archiveDir,  "translations"),
                            os.path.join(binPath,     "translations"))
 
-            # Move bin/digikam/ to plugins/digikam/
+            # Move digiKam plugins from bin/digikam/ to bin/plugins/digikam/
 
             pluginsPath = os.path.join(archiveDir,   "bin", "plugins")
             utils.createDir(pluginsPath)
@@ -254,7 +260,7 @@ class Package(CMakePackageBase):
             utils.moveFile(os.path.join(archiveDir,  "bin", "digikam"),
                            os.path.join(pluginsPath, "digikam"))
 
-            # Move bin/*marble_plugins* to plugins/
+            # Move bin/*marble_plugins*.dll to bin/plugins/
 
             utils.moveFile(os.path.join(archiveDir,  "bin", "AnnotatePlugin.dll"),
                            os.path.join(pluginsPath, "AnnotatePlugin.dll"))
