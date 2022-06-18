@@ -257,190 +257,249 @@ class Package(CMakePackageBase):
             archiveDir = self.archiveDir()
             binPath    = os.path.join(archiveDir,    "bin")
 
-            utils.moveFile(os.path.join(archiveDir,  "astro.dll"),
-                           os.path.join(binPath,     "astro.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "astro.dll"),
+                                  os.path.join(binPath,     "astro.dll"))
+                print("Could not move astro.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "marbledeclarative.dll"),
-                           os.path.join(binPath,     "marbledeclarative.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "marbledeclarative.dll"),
+                                  os.path.join(binPath,     "marbledeclarative.dll"))
+                print("Could not move marbledeclarative.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "marblewidget-qt5.dll"),
-                           os.path.join(binPath,     "marblewidget-qt5.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "marblewidget-qt5.dll"),
+                                  os.path.join(binPath,     "marblewidget-qt5.dll"))
+                print("Could not move marblewidget-qt5.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "data"),
-                           os.path.join(binPath,     ""))
+            if not utils.moveFile(os.path.join(archiveDir,  "data"),
+                                  os.path.join(archiveDir,  "bin"))
+                print("Could not move Marble data dir")
 
             # Move translations/ to bin/translations/
 
-            utils.moveFile(os.path.join(archiveDir,  "translations"),
-                           os.path.join(binPath,     "translations"))
+            if not utils.moveFile(os.path.join(archiveDir,  "translations"),
+                                  os.path.join(binPath,     "translations"))
+                print("Could not move Qt translations dir")
 
             # Move digiKam plugins from bin/digikam/ to bin/plugins/digikam/
 
             pluginsPath = os.path.join(archiveDir,   "bin", "plugins")
             utils.createDir(pluginsPath)
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "digikam"),
-                           os.path.join(pluginsPath, "digikam"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "digikam"),
+                                  os.path.join(pluginsPath, "digikam"))
+                print("Could not move digiKam plugins dir")
 
             # Move bin/*marble_plugins*.dll to bin/plugins/
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "AnnotatePlugin.dll"),
-                           os.path.join(pluginsPath, "AnnotatePlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "AnnotatePlugin.dll"),
+                                  os.path.join(pluginsPath, "AnnotatePlugin.dll"))
+                print("Could not move AnnotatePlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "AprsPlugin.dll"),
-                           os.path.join(pluginsPath, "AprsPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "AprsPlugin.dll"),
+                                  os.path.join(pluginsPath, "AprsPlugin.dll"))
+                print("Could not move AprsPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "AtmospherePlugin.dll"),
-                           os.path.join(pluginsPath, "AtmospherePlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "AtmospherePlugin.dll"),
+                                  os.path.join(pluginsPath, "AtmospherePlugin.dll"))
+                print("Could not move AtmospherePlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "CachePlugin.dll"),
-                           os.path.join(pluginsPath, "CachePlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "CachePlugin.dll"),
+                                  os.path.join(pluginsPath, "CachePlugin.dll"))
+                print("Could not move CachePlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "CompassFloatItem.dll"),
-                           os.path.join(pluginsPath, "CompassFloatItem.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "CompassFloatItem.dll"),
+                                  os.path.join(pluginsPath, "CompassFloatItem.dll"))
+                print("Could not move CompassFloatItem.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "CrosshairsPlugin.dll"),
-                           os.path.join(pluginsPath, "CrosshairsPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "CrosshairsPlugin.dll"),
+                                  os.path.join(pluginsPath, "CrosshairsPlugin.dll"))
+                print("Could not move CrosshairsPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "CycleStreetsPlugin.dll"),
-                           os.path.join(pluginsPath, "CycleStreetsPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "CycleStreetsPlugin.dll"),
+                                  os.path.join(pluginsPath, "CycleStreetsPlugin.dll"))
+                print("Could not move CycleStreetsPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "EarthquakePlugin.dll"),
-                           os.path.join(pluginsPath, "EarthquakePlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "EarthquakePlugin.dll"),
+                                  os.path.join(pluginsPath, "EarthquakePlugin.dll"))
+                print("Could not move EarthquakePlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "EclipsesPlugin.dll"),
-                           os.path.join(pluginsPath, "EclipsesPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "EclipsesPlugin.dll"),
+                                  os.path.join(pluginsPath, "EclipsesPlugin.dll"))
+                print("Could not move EclipsesPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "ElevationProfileFloatItem.dll"),
-                           os.path.join(pluginsPath, "ElevationProfileFloatItem.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "ElevationProfileFloatItem.dll"),
+                                  os.path.join(pluginsPath, "ElevationProfileFloatItem.dll"))
+                print("Could not move ElevationProfileFloatItem.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "ElevationProfileMarker.dll"),
-                           os.path.join(pluginsPath, "ElevationProfileMarker.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "ElevationProfileMarker.dll"),
+                                  os.path.join(pluginsPath, "ElevationProfileMarker.dll"))
+                print("Could not move ElevationProfileMarker.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "FlightGearPositionProviderPlugin.dll"),
-                           os.path.join(pluginsPath, "FlightGearPositionProviderPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "FlightGearPositionProviderPlugin.dll"),
+                                  os.path.join(pluginsPath, "FlightGearPositionProviderPlugin.dll"))
+                print("Could not move FlightGearPositionProviderPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "FoursquarePlugin.dll"),
-                           os.path.join(pluginsPath, "FoursquarePlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "FoursquarePlugin.dll"),
+                                  os.path.join(pluginsPath, "FoursquarePlugin.dll"))
+                print("Could not move FoursquarePlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "GeoUriPlugin.dll"),
-                           os.path.join(pluginsPath, "GeoUriPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "GeoUriPlugin.dll"),
+                                  os.path.join(pluginsPath, "GeoUriPlugin.dll"))
+                print("Could not move GeoUriPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "GosmoreReverseGeocodingPlugin.dll"),
-                           os.path.join(pluginsPath, "GosmoreReverseGeocodingPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "GosmoreReverseGeocodingPlugin.dll"),
+                                  os.path.join(pluginsPath, "GosmoreReverseGeocodingPlugin.dll"))
+                print("Could not move GosmoreReverseGeocodingPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "GosmoreRoutingPlugin.dll"),
-                           os.path.join(pluginsPath, "GosmoreRoutingPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "GosmoreRoutingPlugin.dll"),
+                                  os.path.join(pluginsPath, "GosmoreRoutingPlugin.dll"))
+                print("Could not move GosmoreRoutingPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "GpsbabelPlugin.dll"),
-                           os.path.join(pluginsPath, "GpsbabelPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "GpsbabelPlugin.dll"),
+                                  os.path.join(pluginsPath, "GpsbabelPlugin.dll"))
+                print("Could not move GpsbabelPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "GpsInfo.dll"),
-                           os.path.join(pluginsPath, "GpsInfo.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "GpsInfo.dll"),
+                                  os.path.join(pluginsPath, "GpsInfo.dll"))
+                print("Could not move GpsInfo.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "GpxPlugin.dll"),
-                           os.path.join(pluginsPath, "GpxPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "GpxPlugin.dll"),
+                                  os.path.join(pluginsPath, "GpxPlugin.dll"))
+                print("Could not move GpxPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "GraticulePlugin.dll"),
-                           os.path.join(pluginsPath, "GraticulePlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "GraticulePlugin.dll"),
+                                  os.path.join(pluginsPath, "GraticulePlugin.dll"))
+                print("Could not move GraticulePlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "HostipPlugin.dll"),
-                           os.path.join(pluginsPath, "HostipPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "HostipPlugin.dll"),
+                                  os.path.join(pluginsPath, "HostipPlugin.dll"))
+                print("Could not move HostipPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "JsonPlugin.dll"),
-                           os.path.join(pluginsPath, "JsonPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "JsonPlugin.dll"),
+                                  os.path.join(pluginsPath, "JsonPlugin.dll"))
+                print("Could not move JsonPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "KmlPlugin.dll"),
-                           os.path.join(pluginsPath, "KmlPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "KmlPlugin.dll"),
+                                  os.path.join(pluginsPath, "KmlPlugin.dll"))
+                print("Could not move KmlPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "LatLonPlugin.dll"),
-                           os.path.join(pluginsPath, "LatLonPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "LatLonPlugin.dll"),
+                                  os.path.join(pluginsPath, "LatLonPlugin.dll"))
+                print("Could not move LatLonPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "License.dll"),
-                           os.path.join(pluginsPath, "License.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "License.dll"),
+                                  os.path.join(pluginsPath, "License.dll"))
+                print("Could not move License.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "LocalDatabasePlugin.dll"),
-                           os.path.join(pluginsPath, "LocalDatabasePlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "LocalDatabasePlugin.dll"),
+                                  os.path.join(pluginsPath, "LocalDatabasePlugin.dll"))
+                print("Could not move LocalDatabasePlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "LocalOsmSearchPlugin.dll"),
-                           os.path.join(pluginsPath, "LocalOsmSearchPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "LocalOsmSearchPlugin.dll"),
+                                  os.path.join(pluginsPath, "LocalOsmSearchPlugin.dll"))
+                print("Could not move LocalOsmSearchPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "LocalOsmSearchPlugin.dll"),
-                           os.path.join(pluginsPath, "LocalOsmSearchPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "LocalOsmSearchPlugin.dll"),
+                                  os.path.join(pluginsPath, "LocalOsmSearchPlugin.dll"))
+                print("Could not move LocalOsmSearchPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "MapQuestPlugin.dll"),
-                           os.path.join(pluginsPath, "MapQuestPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "MapQuestPlugin.dll"),
+                                  os.path.join(pluginsPath, "MapQuestPlugin.dll"))
+                print("Could not move MapQuestPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "MapScaleFloatItem.dll"),
-                           os.path.join(pluginsPath, "MapScaleFloatItem.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "MapScaleFloatItem.dll"),
+                                  os.path.join(pluginsPath, "MapScaleFloatItem.dll"))
+                print("Could not move MapScaleFloatItem.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "MeasureTool.dll"),
-                           os.path.join(pluginsPath, "MeasureTool.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "MeasureTool.dll"),
+                                  os.path.join(pluginsPath, "MeasureTool.dll"))
+                print("Could not move MeasureTool.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "MonavPlugin.dll"),
-                           os.path.join(pluginsPath, "MonavPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "MonavPlugin.dll"),
+                                  os.path.join(pluginsPath, "MonavPlugin.dll"))
+                print("Could not move MonavPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "NavigationFloatItem.dll"),
-                           os.path.join(pluginsPath, "NavigationFloatItem.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "NavigationFloatItem.dll"),
+                                  os.path.join(pluginsPath, "NavigationFloatItem.dll"))
+                print("Could not move NavigationFloatItem.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "NominatimReverseGeocodingPlugin.dll"),
-                           os.path.join(pluginsPath, "NominatimReverseGeocodingPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "NominatimReverseGeocodingPlugin.dll"),
+                                  os.path.join(pluginsPath, "NominatimReverseGeocodingPlugin.dll"))
+                print("Could not move NominatimReverseGeocodingPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "NominatimSearchPlugin.dll"),
-                           os.path.join(pluginsPath, "NominatimSearchPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "NominatimSearchPlugin.dll"),
+                                  os.path.join(pluginsPath, "NominatimSearchPlugin.dll"))
+                print("Could not move NominatimSearchPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "NotesPlugin.dll"),
-                           os.path.join(pluginsPath, "NotesPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "NotesPlugin.dll"),
+                                  os.path.join(pluginsPath, "NotesPlugin.dll"))
+                print("Could not move NotesPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "OpenLocationCodeSearchPlugin.dll"),
-                           os.path.join(pluginsPath, "OpenLocationCodeSearchPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "OpenLocationCodeSearchPlugin.dll"),
+                                  os.path.join(pluginsPath, "OpenLocationCodeSearchPlugin.dll"))
+                print("Could not move OpenLocationCodeSearchPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "OpenRouteServicePlugin.dll"),
-                           os.path.join(pluginsPath, "OpenRouteServicePlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "OpenRouteServicePlugin.dll"),
+                                  os.path.join(pluginsPath, "OpenRouteServicePlugin.dll"))
+                print("Could not move OpenRouteServicePlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "OsmPlugin.dll"),
-                           os.path.join(pluginsPath, "OsmPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "OsmPlugin.dll"),
+                                  os.path.join(pluginsPath, "OsmPlugin.dll"))
+                print("Could not move OsmPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "OSRMPlugin.dll"),
-                           os.path.join(pluginsPath, "OSRMPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "OSRMPlugin.dll"),
+                                  os.path.join(pluginsPath, "OSRMPlugin.dll"))
+                print("Could not move OSRMPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "OverviewMap.dll"),
-                           os.path.join(pluginsPath, "OverviewMap.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "OverviewMap.dll"),
+                                  os.path.join(pluginsPath, "OverviewMap.dll"))
+                print("Could not move OverviewMap.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "Pn2Plugin.dll"),
-                           os.path.join(pluginsPath, "Pn2Plugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "Pn2Plugin.dll"),
+                                  os.path.join(pluginsPath, "Pn2Plugin.dll"))
+                print("Could not move Pn2Plugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "PntPlugin.dll"),
-                           os.path.join(pluginsPath, "PntPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "PntPlugin.dll"),
+                                  os.path.join(pluginsPath, "PntPlugin.dll"))
+                print("Could not move PntPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "PositionMarker.dll"),
-                           os.path.join(pluginsPath, "PositionMarker.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "PositionMarker.dll"),
+                                  os.path.join(pluginsPath, "PositionMarker.dll"))
+                print("Could not move PositionMarker.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "PostalCode.dll"),
-                           os.path.join(pluginsPath, "PostalCode.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "PostalCode.dll"),
+                                  os.path.join(pluginsPath, "PostalCode.dll"))
+                print("Could not move PostalCode.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "ProgressFloatItem.dll"),
-                           os.path.join(pluginsPath, "ProgressFloatItem.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "ProgressFloatItem.dll"),
+                                  os.path.join(pluginsPath, "ProgressFloatItem.dll"))
+                print("Could not move ProgressFloatItem.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "RoutingPlugin.dll"),
-                           os.path.join(pluginsPath, "RoutingPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "RoutingPlugin.dll"),
+                                  os.path.join(pluginsPath, "RoutingPlugin.dll"))
+                print("Could not move RoutingPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "RoutinoPlugin.dll"),
-                           os.path.join(pluginsPath, "RoutinoPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "RoutinoPlugin.dll"),
+                                  os.path.join(pluginsPath, "RoutinoPlugin.dll"))
+                print("Could not move RoutinoPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "SatellitesPlugin.dll"),
-                           os.path.join(pluginsPath, "SatellitesPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "SatellitesPlugin.dll"),
+                                  os.path.join(pluginsPath, "SatellitesPlugin.dll"))
+                print("Could not move SatellitesPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "Speedometer.dll"),
-                           os.path.join(pluginsPath, "Speedometer.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "Speedometer.dll"),
+                                  os.path.join(pluginsPath, "Speedometer.dll"))
+                print("Could not move Speedometer.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "StarsPlugin.dll"),
-                           os.path.join(pluginsPath, "StarsPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "StarsPlugin.dll"),
+                                  os.path.join(pluginsPath, "StarsPlugin.dll"))
+                print("Could not move StarsPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "SunPlugin.dll"),
-                           os.path.join(pluginsPath, "SunPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "SunPlugin.dll"),
+                                  os.path.join(pluginsPath, "SunPlugin.dll"))
+                print("Could not move SunPlugin.dll file")
 
-            utils.moveFile(os.path.join(archiveDir,  "bin", "YoursPlugin.dll"),
-                           os.path.join(pluginsPath, "YoursPlugin.dll"))
+            if not utils.moveFile(os.path.join(archiveDir,  "bin", "YoursPlugin.dll"),
+                                  os.path.join(pluginsPath, "YoursPlugin.dll"))
+                print("Could not move YoursPlugin.dll file")
 
         return True
