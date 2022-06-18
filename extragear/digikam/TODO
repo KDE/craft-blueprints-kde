@@ -26,6 +26,9 @@
 + Add more blacklist.txt entries to drop unwanted files.
 + include exiftool.exe in the bundle.
 + Publish bundle to Microsoft store.
++ Stand alone AVPlayer do not start. Why?
++ Some icons from the export tools are missing.
++ Includes KimageFormats plugins to extend Qt image loader.
 
 3/ MacOS Clang target:
 ----------------------
