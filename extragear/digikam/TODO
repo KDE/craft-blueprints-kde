@@ -2,9 +2,11 @@
 ----------------
 
 + Add more Craft dependencies support: libheif, libjasper, libmagick++, libjxl.
-+ update Craft dependencies as rolling-release: libexiv2, liblensfun.
-+ integrate 3rdparty digiKam plugins: MosiacWal, GMicQt.
-+ integrate 3rdparty digiKam rolling-release manifest.txt in the bundle.
++ Update Craft dependencies as rolling-release: libexiv2, liblensfun.
++ Integrate 3rdparty digiKam plugins: MosiacWal, GMicQt.
++ Integrate 3rdparty digiKam rolling-release manifest.txt in the bundle.
++ Switch digiKam packaging from Qt 5.15.2 to Qt6 when last dependencies will be ported (libksane and marble).
++ Enable Mysql support with Qt6.
 
 2/ Windows MSVC target:
 -----------------------
@@ -28,4 +30,4 @@
 ----------------------
 
 + Publish bundle to the Apple Store.
-+ More...
++ More... (TODO)
