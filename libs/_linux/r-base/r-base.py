@@ -9,7 +9,7 @@ PACKAGE_PATH = '/src/base/R-4/'
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/bin-base"] = None
-        self.runtimeDependencies["libs/pcre"] = None
+        self.runtimeDependencies["libs/pcre2"] = None
 
     def setTargets(self):
         for version in ['4.2.0', '4.1.2']:
