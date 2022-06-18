@@ -9,6 +9,7 @@ PACKAGE_PATH = '/src/base/R-4/'
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/bin-base"] = None
+        self.runtimeDependencies["libs/pcre"] = None
 
     def setTargets(self):
         for version in ['4.2.0', '4.1.2']:
@@ -24,4 +25,4 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += ["--enable-R-shlib"]
+        self.subinfo.options.configure.args += ["--enable-R-shlib", "--with-readline=no"]
