@@ -186,6 +186,8 @@ class Package(CMakePackageBase):
         # Windows-only
 
         self.defines["icon"]        = os.path.join(self.packageDir(), "digikam.ico")
+        self.defines["icon"]        = os.path.join(self.packageDir(), "showfoto.ico")
+        self.defines["icon"]        = os.path.join(self.packageDir(), "avplayer.ico")
 
         # Windows-only
 
