@@ -269,8 +269,10 @@ class Package(CMakePackageBase):
                                   os.path.join(binPath,     "marblewidget-qt5.dll")):
                 print("Could not move marblewidget-qt5.dll file")
 
-            if not utils.moveFile(os.path.join(archiveDir,  "data"),
-                                  os.path.join(archiveDir,  "bin")):
+            files = utils.filterDirectoryContent(os.path.join(archiveDir,  "data"))
+
+            if not utils.mergeTree(os.path.join(archiveDir, "data"),
+                                   os.path.join(binPath,    "data")):
                 print("Could not move Marble data dir")
 
             # Move translations/ to bin/translations/
