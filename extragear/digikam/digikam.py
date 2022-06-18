@@ -134,6 +134,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/applications/marble"]             = None
 
 from Package.CMakePackageBase import *
+from Utils import GetFiles
 
 class Package(CMakePackageBase):
     def __init__(self):
@@ -353,8 +354,8 @@ class Package(CMakePackageBase):
 
             # Download exiftool.exe in the bundle
 
-            if not utils.getFiles("https://exiftool.org/exiftool-12.42.zip",
-                                  binPath, "exiftool.zip"):
+            if not GetFiles.getFile("https://exiftool.org/exiftool-12.42.zip",
+                                    binPath, "exiftool.zip"):
                 print("Could not get ExifTool Archive")
 
             utils.unpackFile(binPath, "exiftool.zip", binPath)
