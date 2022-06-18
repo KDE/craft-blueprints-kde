@@ -10,10 +10,12 @@ manifest/.*
 # marble
 marble-qt.exe
 LICENSE
+share/applications/org.kde.marble-qt.desktop
 
 # opencv
 
 setup_vars_opencv4.cmd
+share/licenses
 
 # multiple docs
 doc/.*
