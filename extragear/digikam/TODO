@@ -14,21 +14,21 @@
 - Include KDE i18n.
 - Include Qt translations.
 - Include QtwebEngine resources.
+- Use blacklist.txt from kmymoney.
 - Fix binaries to white-list: digikam.exe, showfoto.exe, avplayer.exe, QtWebEngineProcess.exe, kioslave.exe, etc.
 - Drop unwanted Marble files.
 - Fix Marble dlls install path.
-- Use blacklist.txt from kmymoney.
-- Include exiftool.exe in the bundle.
+- Includes exiftool.exe in the bundle.
 - Includes KimageFormats plugins to extend Qt image loader.
 
 * Fix broken icons to the desktop menu for Showfoto and AVPlayer.
 
-+ Fix installer to ask to uninstall previous version (else installer crying that one unknow process still running).
-+ Fix uninstaller which refuse to wrok because one unknow process still running.
++ Fix installer to uninstall previous version (else installer crying about an unknow process still running).
++ Fix uninstaller which refuse to work because one unknow process still running.
 + Add more blacklist.txt entries to drop unwanted files.
-+ Publish bundle to Microsoft store.
 + Stand alone AVPlayer do not start. Why?
 + Some icons from the export tools are missing.
++ Publish bundle to Microsoft store.
 
 3/ MacOS Clang target:
 ----------------------
