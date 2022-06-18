@@ -25,6 +25,8 @@
 
 # NOTE: see relevant phabricator entry https://phabricator.kde.org/T12071
 
+import zipfile
+import requests
 import info
 
 class subinfo(info.infoclass):
@@ -347,8 +349,20 @@ class Package(CMakePackageBase):
             ]
 
             for dll in pluginsLst:
-                if not utils.moveFile(os.path.join(archiveDir,  "bin", dll),
+                if not utils.moveFile(os.path.join(binPath,     dll),
                                       os.path.join(pluginsPath, dll)):
                     print("Could not move Marble plugin " + dll)
+
+            # Download exiftool.exe in the bundle
+
+            url     = 'https://exiftool.org/exiftool-12.42.zip'
+            archive = requests.get(url)
+            open(os.path.join(binPath, "exiftool.zip"), 'wb').write(archive.content)
+            with zipfile.ZipFile(os.path.join(binPath, "exiftool.zip"), "r") as zip_ref:
+                zip_ref.extractall(binPath)
+            utils.moveFile(os.path.join(binPath, "exiftool(-k).exe"),
+                           os.path.join(binPath, "exiftool.exe"))
+            utils.deleteFile(os.path.join(binPath, "exiftool.zip"))
+
 
         return True
