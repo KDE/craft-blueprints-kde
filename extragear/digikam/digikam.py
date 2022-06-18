@@ -353,8 +353,10 @@ class Package(CMakePackageBase):
 
             # Download exiftool.exe in the bundle
 
-            utils.getFiles("https://exiftool.org/exiftool-12.42.zip",
-                           binPath, "exiftool.zip")
+            if not utils.getFiles("https://exiftool.org/exiftool-12.42.zip",
+                                  binPath, "exiftool.zip"):
+                print("Could not get ExifTool Archive")
+
             utils.unpackFile(binPath, "exiftool.zip", binPath)
             utils.moveFile(os.path.join(binPath, "exiftool(-k).exe"),
                            os.path.join(binPath, "exiftool.exe"))
