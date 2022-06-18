@@ -18,7 +18,8 @@
 - Use blacklist.txt from kmymoney.
 - Fix broken icons to the desktop menu for Showfoto and AVPlayer.
 
-+ Fix installer to ask to uninstall previous version.
++ Fix installer to ask to uninstall previous version (else installer crying that one unknow process still running).
++ Fix uninstaller which refuse to wrok because one unknow process still running.
 + Add more blacklist.txt entries to drop unwanted files.
 + include exiftool.exe in the bundle.
 + Publish bundle to Microsoft store.
