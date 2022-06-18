@@ -9,7 +9,7 @@ manifest/.*
 
 # marble
 marble-qt.exe
-LICENCE
+LICENSE
 
 # opencv
 

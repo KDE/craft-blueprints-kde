@@ -197,6 +197,7 @@ class Package(CMakePackageBase):
         self.defines["productname"] = "digiKam"
         self.defines["website"]     = "https://www.digikam.org"
         self.defines["company"]     = "digiKam.org"
+        self.defines["license"]     = os.path.join(self.sourceDir(), "COPYING")
 
         # Windows-only, mac is handled implicitly
 
@@ -244,7 +245,7 @@ class Package(CMakePackageBase):
             # Manage files under Windows bundle:
 
             # remove setup_vars_opencv4.cmd               (blacklist.txt)
-            # remove LICENSE                              (blacklist.txt)
+            # remove Marble LICENSE                       (blacklist.txt)
 
             # See bug #455232:
             # - move astro.dll to digiKam/bin/
