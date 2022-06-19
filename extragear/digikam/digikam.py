@@ -196,7 +196,9 @@ class Package(CMakePackageBase):
         self.defines["website"]     = "https://www.digikam.org"
         self.defines["company"]     = "digiKam.org"
         self.defines["license"]     = os.path.join(self.sourceDir(),  "COPYING")
-        self.defines["readme"]      = os.path.join(self.packageDir(), "ABOUT.txt")
+
+#       Not yet supported by Craft with NSIS
+#        self.defines["readme"]      = os.path.join(self.packageDir(), "ABOUT.txt")
 
         # Windows-only, mac is handled implicitly
 
