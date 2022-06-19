@@ -30,6 +30,7 @@ class Package(AutoToolsPackageBase):
 
     def configure(self):
         env = {}
-        env['CFLAGS'] = "-I " + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "include")
+        env['CFLAGS'] = "-I" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "include")
+        env['LDFLAGS'] = "-L" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "lib")
         with utils.ScopedEnv(env):
             return super().configure()
