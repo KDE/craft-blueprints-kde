@@ -5,14 +5,9 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        branchRegEx = re.compile("\d\.\d\.\d")
-        for ver in self.versionInfo.tarballs():
-            if CraftVersion(ver) < CraftVersion("5.7"):
-                branch = branchRegEx.findall(ver)[0][:-2]
-                del self.targets[ver]
-                if ver in self.targetInstSrc:
-                    del self.targetInstSrc[ver]
-                self.svnTargets[ver] = self.svnTargets[branch]
+        self.patchToApply["5.15.5"] = [
+                    (".qt-5.15.5-kde", 1),
+                ]
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
