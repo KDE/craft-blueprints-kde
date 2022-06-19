@@ -126,7 +126,7 @@ class subinfo(info.infoclass):
 
         # Required even if option is disabled in digiKam at compilation stage.
 
-        self.runtimeDependencies["kde/pim/akonadi-contacts"]            = None
+#        self.runtimeDependencies["kde/pim/akonadi-contacts"]            = None
 
         # Install libmarble, plugins and data for geolocation.
         # Marble application will be removed at packaging stage.
