@@ -104,10 +104,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"]    = None
 
-        # To sync digiKam database with Baloo Plasma desktop search engine (Linux only).
-
-        self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"]  = None
-
         # For Panorama export tool.
 
         self.runtimeDependencies["kde/frameworks/tier1/threadweaver"]   = None
@@ -124,9 +120,10 @@ class subinfo(info.infoclass):
 
         self.runtimeDependencies["kde/frameworks/tier1/kimageformats"]  = None
 
-        # Required even if option is disabled in digiKam at compilation stage.
+        # Required at run-time even if option is disabled in digiKam at compilation stage.
 
-#        self.runtimeDependencies["kde/pim/akonadi-contacts"]            = None
+        self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"]  = None
+        self.runtimeDependencies["kde/pim/akonadi-contacts"]            = None
 
         # Install libmarble, plugins and data for geolocation.
         # Marble application will be removed at packaging stage.
@@ -198,19 +195,16 @@ class Package(CMakePackageBase):
         self.defines["productname"] = "digiKam"
         self.defines["website"]     = "https://www.digikam.org"
         self.defines["company"]     = "digiKam.org"
-        self.defines["license"]     = os.path.join(self.sourceDir(), "COPYING")
+        self.defines["license"]     = os.path.join(self.sourceDir(),  "COPYING")
+        self.defines["readme"]      = os.path.join(self.packageDir(), "ABOUT.txt")
 
         # Windows-only, mac is handled implicitly
 
         self.defines["executable"]  = "bin\\digikam.exe"
 
-        # Windows-only (order is important)
-
-        self.defines["icon"]        = os.path.join(self.packageDir(), "avplayer.ico")
-        self.defines["icon"]        = os.path.join(self.packageDir(), "showfoto.ico")
-        self.defines["icon"]        = os.path.join(self.packageDir(), "digikam.ico")
-
         # Windows-only
+
+        self.defines["icon"]        = os.path.join(self.packageDir(), "digikam.ico")
 
         self.defines["shortcuts"]   = [ {
                                             "name"        : "digiKam",
@@ -241,6 +235,18 @@ class Package(CMakePackageBase):
         return TypePackager.createPackage(self)
 
     def preArchive(self):
+
+        # Copy More application icons in Windows bundle.
+
+        if CraftCore.compiler.isWindows:
+            if not utils.copyFile(os.path.join(self.packageDir(),     "showfoto.ico"),
+                                  os.path.join(self.archiveDir(),     "showfoto.ico")):
+                print("Could not copy showfoto.ico file")
+
+            if not utils.copyFile(os.path.join(self.packageDir(),     "avplayer.ico"),
+                                  os.path.join(self.archiveDir(),     "avplayer.ico")):
+                print("Could not copy avplayer.ico file")
+
         if CraftCore.compiler.isMSVC():
 
             # Manage files under Windows bundle:
