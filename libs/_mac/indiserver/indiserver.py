@@ -29,6 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gsl"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/libfftw"] = None
+        self.runtimeDependencies["libs/libev"] = None
 
 
 from Package.CMakePackageBase import *
