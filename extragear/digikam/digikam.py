@@ -206,6 +206,14 @@ class Package(CMakePackageBase):
 
         self.defines["icon"]        = os.path.join(self.packageDir(), "digikam.ico")
 
+        # extra icons
+
+        self.defines["icon_png"]    = os.path.join(self.sourceDir(),  "core",
+                                                                      "data",
+                                                                      "icons",
+                                                                      "apps",
+                                                                      "128-apps-digikam.png")
+
         self.defines["shortcuts"]   = [ {
                                             "name"        : "digiKam",
                                             "target"      : "bin/digikam.exe",
@@ -230,6 +238,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
 
+        self.ignoredPackages.append("libs/dbus")
         self.ignoredPackages.append("binary/mysql")
 
         return TypePackager.createPackage(self)
