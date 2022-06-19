@@ -20,8 +20,7 @@
 - Fix Marble dlls install path.
 - Includes exiftool.exe in the bundle.
 - Includes KimageFormats plugins to extend Qt image loader.
-
-* Fix broken icons to the desktop menu for Showfoto and AVPlayer.
+- Fix broken icons to the desktop menu for Showfoto and AVPlayer.
 
 + Fix installer to uninstall previous version (else installer crying about an unknow process still running).
 + Fix uninstaller which refuse to work because one unknow process still running.
