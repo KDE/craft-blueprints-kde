@@ -384,17 +384,17 @@ class Package(CMakePackageBase):
                 print("Could not get ExifTool archive")
                 return False
 
-            if not utils.unpackFile(binPath, "exiftool.zip", binPath)
+            if not utils.unpackFile(binPath, "exiftool.zip", binPath):
                 print("Could not unpack ExifTool archive")
                 return False
 
             if not utils.moveFile(os.path.join(binPath, "exiftool(-k).exe"),
-                                  os.path.join(binPath, "exiftool.exe"))
+                                  os.path.join(binPath, "exiftool.exe")):
                 print("Could not rename ExifTool binary")
                 return False
 
 
-            if not utils.deleteFile(os.path.join(binPath, "exiftool.zip"))
+            if not utils.deleteFile(os.path.join(binPath, "exiftool.zip")):
                 print("Could not remove ExifTool archive")
                 return False
 
