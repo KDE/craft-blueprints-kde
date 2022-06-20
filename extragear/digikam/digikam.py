@@ -253,10 +253,12 @@ class Package(CMakePackageBase):
             if not utils.copyFile(os.path.join(self.packageDir(),     "showfoto.ico"),
                                   os.path.join(self.archiveDir(),     "showfoto.ico")):
                 print("Could not copy showfoto.ico file")
+                return False
 
             if not utils.copyFile(os.path.join(self.packageDir(),     "avplayer.ico"),
                                   os.path.join(self.archiveDir(),     "avplayer.ico")):
                 print("Could not copy avplayer.ico file")
+                return False
 
         if CraftCore.compiler.isMSVC():
 
@@ -278,24 +280,29 @@ class Package(CMakePackageBase):
             if not utils.moveFile(os.path.join(archiveDir,  "astro.dll"),
                                   os.path.join(binPath,     "astro.dll")):
                 print("Could not move astro.dll file")
+                return False
 
             if not utils.moveFile(os.path.join(archiveDir,  "marbledeclarative.dll"),
                                   os.path.join(binPath,     "marbledeclarative.dll")):
                 print("Could not move marbledeclarative.dll file")
+                return False
 
             if not utils.moveFile(os.path.join(archiveDir,  "marblewidget-qt5.dll"),
                                   os.path.join(binPath,     "marblewidget-qt5.dll")):
                 print("Could not move marblewidget-qt5.dll file")
+                return False
 
             if not utils.mergeTree(os.path.join(archiveDir, "data"),
                                    os.path.join(binPath,    "data")):
                 print("Could not move Marble data dir")
+                return False
 
             # Move translations/ to bin/translations/
 
             if not utils.moveFile(os.path.join(archiveDir,  "translations"),
                                   os.path.join(binPath,     "translations")):
                 print("Could not move Qt translations dir")
+                return False
 
             # Move digiKam plugins from bin/digikam/ to bin/plugins/digikam/
 
@@ -305,6 +312,7 @@ class Package(CMakePackageBase):
             if not utils.moveFile(os.path.join(archiveDir,  "bin", "digikam"),
                                   os.path.join(pluginsPath, "digikam")):
                 print("Could not move digiKam plugins dir")
+                return False
 
             # Move bin/*marble_plugins*.dll to bin/plugins/
 
@@ -354,7 +362,6 @@ class Package(CMakePackageBase):
                 "PositionMarker.dll",
                 "PostalCode.dll",
                 "ProgressFloatItem.dll",
-                "ProgressFloatItem.dll",
                 "RoutingPlugin.dll",
                 "RoutinoPlugin.dll",
                 "SatellitesPlugin.dll",
@@ -368,16 +375,27 @@ class Package(CMakePackageBase):
                 if not utils.moveFile(os.path.join(binPath,     dll),
                                       os.path.join(pluginsPath, dll)):
                     print("Could not move Marble plugin " + dll)
+                    return False
 
             # Download exiftool.exe in the bundle
 
             if not GetFiles.getFile("https://files.kde.org/digikam/exiftool/exiftool-12.42.zip",
                                     binPath, "exiftool.zip"):
-                print("Could not get ExifTool Archive")
+                print("Could not get ExifTool archive")
+                return False
 
-            utils.unpackFile(binPath, "exiftool.zip", binPath)
-            utils.moveFile(os.path.join(binPath, "exiftool(-k).exe"),
-                           os.path.join(binPath, "exiftool.exe"))
-            utils.deleteFile(os.path.join(binPath, "exiftool.zip"))
+            if not utils.unpackFile(binPath, "exiftool.zip", binPath)
+                print("Could not unpack ExifTool archive")
+                return False
+
+            if not utils.moveFile(os.path.join(binPath, "exiftool(-k).exe"),
+                                  os.path.join(binPath, "exiftool.exe"))
+                print("Could not rename ExifTool binary")
+                return False
+
+
+            if not utils.deleteFile(os.path.join(binPath, "exiftool.zip"))
+                print("Could not remove ExifTool archive")
+                return False
 
         return True
