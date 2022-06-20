@@ -369,12 +369,11 @@ class Package(CMakePackageBase):
                                       os.path.join(pluginsPath, dll)):
                     print("Could not move Marble plugin " + dll)
 
-            # Host exiftool.exe in the bundle
-            # To update ExifTool Windows archive, just download file from https://exiftool.org
+            # Download exiftool.exe in the bundle
 
-            if not utils.copyFile(os.path.join(self.packageDir(),     "exiftool-12.42.zip"),
-                                  os.path.join(self.archiveDir(),     "exiftool.zip")):
-                print("Could not copy ExifTool Archive")
+            if not GetFiles.getFile("https://files.kde.org/digikam/exiftool/exiftool-12.42.zip",
+                                    binPath, "exiftool.zip"):
+                print("Could not get ExifTool Archive")
 
             utils.unpackFile(binPath, "exiftool.zip", binPath)
             utils.moveFile(os.path.join(binPath, "exiftool(-k).exe"),
