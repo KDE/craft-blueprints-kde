@@ -240,7 +240,13 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
 
-        self.ignoredPackages.append("libs/dbus")
+        # Drop dbus support for non Linux target
+
+        if not CraftCore.compiler.isLinux:
+            self.ignoredPackages.append("libs/dbus")
+
+        # Qt 5.15.2 bug with recent Mysql version. Remove when Qt 5.15.3 or later will be used.
+
         self.ignoredPackages.append("binary/mysql")
 
         return TypePackager.createPackage(self)
