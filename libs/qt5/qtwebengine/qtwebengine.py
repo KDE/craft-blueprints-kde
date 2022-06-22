@@ -37,11 +37,13 @@ class subinfo(info.infoclass):
         self.patchToApply["5.15.2"] = [
                 (".qt-5.15.2", 1)
         ]
+        self.patchLevel["5.15.5"] = 1
         
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
         self.buildDependencies["dev-utils/python2"] = None
+        self.buildDependencies["dev-utils/nodejs"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtlocation"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
