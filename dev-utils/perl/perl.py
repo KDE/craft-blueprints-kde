@@ -12,27 +12,17 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
-        for ver in ["5.28.1"]:
+        for ver in ["5.36.0"]:
             self.targets[ver] = f"https://www.cpan.org/src/5.0/perl-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"perl-{ver}"
 
         if CraftCore.compiler.isWindows:
-            # With msvc2015+ and Windows 10 1803 perlglob is broken. for that reason we provide a precompiled version
-            # https://developercommunity.visualstudio.com/content/problem/245615/first-file-name-in-command-line-wildcard-expansion.html
-            self.patchToApply["5.28.1"] = [("perl-5.28.0-20181129.diff", 1),
-                                           ("perl-5.28.1-20181229.diff", 1)
-                                           ]
-            if CraftCore.compiler.isMinGW():
-                self.patchToApply["5.28.1"] += [("mingw11.diff", 1)]
-        else:
-            #https://github.com/Perl/perl5/pull/17946/files
-            self.patchToApply["5.28.1"] = [("17946.diff", 1)]
-        self.targetDigests["5.28.1"] = (['3ebf85fe65df2ee165b22596540b7d5d42f84d4b72d84834f74e2e0b8956c347'],CraftHash.HashAlgorithm.SHA256)
+            self.patchToApply["5.36.0"] = [(".perl-5.36.0", 1)]
+        self.targetDigests["5.36.0"] = (['e26085af8ac396f62add8a533c3a0ea8c8497d836f0689347ac5abd7b7a4e00a'],CraftHash.HashAlgorithm.SHA256)
         self.description = ("Perl 5 is a highly capable, feature-rich programming language with over 30 years of "
                             "development. Perl 5 runs on over 100 platforms from portables to mainframes and is "
                             "suitable for both rapid prototyping and large scale development projects.")
-        self.patchLevel["5.28.1"] = 6
-        self.defaultTarget = "5.28.1"
+        self.defaultTarget = "5.36.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
