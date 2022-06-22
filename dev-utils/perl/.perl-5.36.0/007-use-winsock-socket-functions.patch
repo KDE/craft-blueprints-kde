@@ -32,14 +32,16 @@
  #elif (defined(HAS_POLL) && defined(I_SYS_POLL))
  #  include <sys/poll.h>
  #else
---- a/win32/config_H.gc
-+++ b/win32/config_H.gc
-@@ -1942,11 +1958,11 @@
+ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user perl-5.36.0.orig/win32/config_H.gc perl-5.36.0/win32/config_H.gc
+--- perl-5.36.0.orig/win32/config_H.gc	2021-09-21 04:38:30.000000000 +0200
++++ perl-5.36.0/win32/config_H.gc	2022-06-22 12:32:59.959762100 +0200
+@@ -1950,12 +1950,12 @@
  #define	HAS_SOCKET		/**/
  /*#define	HAS_SOCKETPAIR	/ **/
  /*#define	HAS_SOCKADDR_SA_LEN	/ **/
 -/*#define	HAS_SOCKADDR_IN6	/ **/
 +#define	HAS_SOCKADDR_IN6	/ **/
+ #define	HAS_SOCKADDR_STORAGE	/**/
  #define	HAS_SIN6_SCOPE_ID	/**/
 -/*#define	HAS_IP_MREQ	/ **/
 -/*#define	HAS_IP_MREQ_SOURCE	/ **/
@@ -50,7 +52,7 @@
  /*#define	HAS_IPV6_MREQ_SOURCE	/ **/
  
  /* USE_STAT_BLOCKS:
-@@ -2752,13 +2768,13 @@
+@@ -2809,13 +2809,13 @@
   *	This symbol, if defined, indicates that the inet_ntop() function
   *	is available to parse IPv4 and IPv6 strings.
   */
@@ -65,7 +67,7 @@
 +#define HAS_INETPTON		/ **/
  
  /* HAS_INT64_T:
-  *     This symbol will defined if the C compiler supports int64_t.
+  *	This symbol will defined if the C compiler supports int64_t.
 --- a/win32/config.gc
 +++ b/win32/config.gc
 @@ -304,12 +304,12 @@
