@@ -77,7 +77,7 @@ class Package(CMakePackageBase):
             #Windows app store has special requirements for the version format
             #Craft attempts to alter the second and third number so we have to adjust to craft's logic as well.
                         
-            self.defines["version"] = "1.0.95"
+            self.defines["version"] = "1.0.96"
             self.defines["un_sections"] = r"""
         Section "Un.Cleanup Regsistry"
         ;Maybe left behind due to a bug in previous installers.
