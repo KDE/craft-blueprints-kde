@@ -20,8 +20,8 @@ class subinfo(info.infoclass):
             self.targetInstallPath[ver] = os.path.join("dev-utils", "nodejs")
             self.targetDigestUrls[ver] = (f"https://nodejs.org/dist/v{ver}/SHASUMS256.txt.asc", CraftHash.HashAlgorithm.SHA256)
 
-        self.description = "CMake, the cross-platform, open-source build system."
-        self.webpage = "http://www.cmake.org/"
+        self.description = "Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine."
+        self.webpage = "https://nodejs.org"
 
         self.defaultTarget = "16.15.1"
 
