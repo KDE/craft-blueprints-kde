@@ -37,7 +37,7 @@ class subinfo(info.infoclass):
         self.patchToApply["5.15.2"] = [
                 (".qt-5.15.2", 1)
         ]
-        self.patchLevel["5.15.5"] = 1
+        self.patchLevel["5.15.5"] = 2
         
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
@@ -102,6 +102,10 @@ class QtPackage(Qt5CorePackageBase):
             return super().configure()
 
     def make(self):
+        with open(self.buildDir() / "config.log", "rt") as log:
+            CraftCore.log.info("Config.log --------------------------------")
+            CraftCore.log.info(log.read())
+            CraftCore.log.info("--------------------------------")
         with utils.ScopedEnv(self._getEnv()):
             return super().make()
 
