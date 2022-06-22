@@ -60,6 +60,7 @@ class subinfo(info.infoclass):
         #self.runtimeDependencies["libs/boost/boost-system"]            = "default"
         #self.runtimeDependencies["libs/boost"]                         = None
 
+        self.runtimeDependencies['libs/gpgme']                          = 'default'
         self.runtimeDependencies["libs/expat"]                          = None
         self.runtimeDependencies["libs/lcms2"]                          = None
         self.runtimeDependencies["libs/eigen3"]                         = None
