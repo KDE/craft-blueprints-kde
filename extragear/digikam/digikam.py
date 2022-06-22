@@ -41,6 +41,7 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isWindows:
             self.buildDependencies["dev-utils/subversion"]              = None
+            self.buildDependencies["dev-utils/ruby"]                    = None
 
         self.runtimeDependencies["virtual/base"]                        = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"]    = None
@@ -60,7 +61,6 @@ class subinfo(info.infoclass):
         #self.runtimeDependencies["libs/boost/boost-system"]            = "default"
         #self.runtimeDependencies["libs/boost"]                         = None
 
-        self.runtimeDependencies['libs/gpgme']                          = 'default'
         self.runtimeDependencies["libs/expat"]                          = None
         self.runtimeDependencies["libs/lcms2"]                          = None
         self.runtimeDependencies["libs/eigen3"]                         = None
@@ -123,6 +123,7 @@ class subinfo(info.infoclass):
 
         # Required at run-time even if option is disabled in digiKam at compilation stage.
 
+        self.runtimeDependencies['libs/gpgme']                          = 'default'
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"]  = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"]            = None
 
