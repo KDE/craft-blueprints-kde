@@ -123,7 +123,9 @@ class subinfo(info.infoclass):
 
         # Required at run-time even if option is disabled in digiKam at compilation stage.
 
-        self.runtimeDependencies['libs/gpgme']                          = 'default'
+        if not CraftCore.compiler.isWindows:
+            self.runtimeDependencies['libs/gpgme']                      = 'default'
+
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"]  = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"]            = None
 
