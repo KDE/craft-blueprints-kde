@@ -76,6 +76,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtsvg"]                      = None
         self.runtimeDependencies["libs/qt5/qtimageformats"]             = None
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"]              = None
+        self.runtimeDependencies["libs/qt5/qtnetworkauth"]              = None
         self.runtimeDependencies["libs/libass"]                         = None
         self.runtimeDependencies["libs/libusb"]                         = None
 
