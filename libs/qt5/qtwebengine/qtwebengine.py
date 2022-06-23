@@ -37,7 +37,7 @@ class subinfo(info.infoclass):
         self.patchToApply["5.15.2"] = [
                 (".qt-5.15.2", 1)
         ]
-        self.patchLevel["5.15.5"] = 2
+        self.patchLevel["5.15.5"] = 3
         
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
@@ -93,8 +93,8 @@ class QtPackage(Qt5CorePackageBase):
             env["PATH"] = f"/usr/bin/:{os.environ['PATH']}"
         if CraftCore.compiler.isWindows:
             # shorten the path to python2 which is passed to gn...
-            shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/bin").shortPath
-            env["PATH"] = f"{shortDevUtils};{os.environ['PATH']}"
+            shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/").shortPath
+            env["PATH"] = f"{shortDevUtils}/bin;{os.environ['PATH']}"
         return env
 
     def configure(self, configureDefines=""):
