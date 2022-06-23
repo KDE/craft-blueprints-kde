@@ -47,9 +47,13 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"]    = None
         self.buildDependencies["dev-utils/flexbison"]                   = None
 
-        # digiKam mediaPlayer is not yet fully ported to FFMPEG 5 API
+        # Android ffmpeg is broken.
 
-        self.runtimeDependencies["libs/ffmpeg"]                         = "4.4"
+        if not CraftCore.compiler.isAndroid:
+
+            # digiKam mediaPlayer is not yet fully ported to FFMPEG 5 API
+
+            self.runtimeDependencies["libs/ffmpeg"]                         = "4.4"
 
         self.runtimeDependencies["libs/opencv/opencv"]                  = None
         self.runtimeDependencies["libs/sqlite"]                         = None
