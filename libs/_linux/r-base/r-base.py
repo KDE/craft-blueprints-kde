@@ -11,6 +11,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/bin-base"] = None
         self.runtimeDependencies["libs/pcre2"] = None
         self.runtimeDependencies["libs/libbzip2"] = None
+        self.runtimeDependencies["libs/liblzma"] = None
+        self.runtimeDependencies["libs/libcurl"] = None
 
     def setTargets(self):
         for version in ['4.2.0', '4.1.2']:
@@ -31,6 +33,7 @@ class Package(AutoToolsPackageBase):
     def configure(self):
         env = {}
         env['CFLAGS'] = "-I" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "include")
+        env['CPPFLAGS'] = env['CFLAGS']
         env['LDFLAGS'] = "-L" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "lib")
         with utils.ScopedEnv(env):
             return super().configure()
