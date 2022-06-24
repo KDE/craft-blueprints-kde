@@ -23,6 +23,8 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.svnTargets["5.15.10"] = "https://github.com/qt/qtwebengine.git||v5.15.10-lts"
+        self.defaultTarget = "5.15.10"
         self.patchLevel["5.12.1"] = 2
 
         self.patchToApply["5.12.3"] = [("0001-Fix-building-GN-with-VS-2019.patch", 1),
