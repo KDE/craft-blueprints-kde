@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
                 self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-darwin-x64.tar.gz"
                 self.targetInstSrc[ver] = f"node-v{ver}-darwin-x64"
             elif CraftCore.compiler.isLinux:
-                self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-{ver}-linux-x64.tar.xz"
+                self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-linux-x64.tar.xz"
                 self.targetInstSrc[ver] = f"node-v{ver}-linux-x64"
             
             self.targetInstallPath[ver] = os.path.join("dev-utils", "nodejs")
