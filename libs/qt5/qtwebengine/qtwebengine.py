@@ -73,6 +73,11 @@ class QtPackage(Qt5CorePackageBase):
         Qt5CorePackageBase.__init__(self)
         self.subinfo.options.fetch.checkoutSubmodules = True
 
+    def sourceDir(self):
+        if isinstance(self, GitSource):
+            return CraftShortPath(super().sourceDir()).shortPath
+        return super().sourceDir()
+
     def fetch(self):
         if isinstance(self, GitSource) and self.sourceDir().exists():
             utils.system(["git", "clean", "-xdf"], cwd=self.sourceDir())
