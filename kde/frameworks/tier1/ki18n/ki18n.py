@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/gettext"] = None
         else:
+            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
             self.buildDependencies["libs/libintl-lite"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None

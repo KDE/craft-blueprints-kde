@@ -58,10 +58,3 @@ class PackageAutotools(AutoToolsPackageBase):
 class Package(PackageAutotools):
     def __init__(self):
         PackageAutotools.__init__(self)
-
-    def install(self):
-        if not super().install():
-            return False
-        if CraftCore.compiler.isMSVC():
-            return utils.moveFile(self.installDir() / "lib/ofx.dll.lib", self.installDir() / "lib/ofx.lib")
-        return True

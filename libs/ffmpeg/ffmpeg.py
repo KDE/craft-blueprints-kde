@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         else:
             self.patchLevel["4.4"] = 1
 
-        self.patchLevel["5.0.1"] = 2
+        self.patchLevel["5.0.1"] = 3
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
@@ -40,6 +40,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libass"] = None
             self.runtimeDependencies["libs/aom"] = None
             self.runtimeDependencies["libs/dav1d"] = None
+            self.runtimeDependencies["libs/zimg"] = None
         #if CraftCore.compiler.isWindows:
         #    self.buildDependencies["libs/dxva2"] = None
         if not CraftCore.compiler.isMacOS:
@@ -78,7 +79,7 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.args += ["--enable-libopus", "--enable-libvorbis",
                                                     "--enable-libvpx", "--enable-libx264",
                                                     "--enable-libx265", "--enable-libass",
-                                                    "--enable-libaom", "--enable-libdav1d"]
+                                                    "--enable-libaom", "--enable-libdav1d", "--enable-libzimg"]
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["--enable-rpath", "--install-name-dir=@rpath"]
         else:

@@ -51,6 +51,8 @@ class Package(CMakePackageBase):
         WriteRegStr SHCTX "Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved" "${DIFF_EXT_CLSID}" "${DIFF_EXT_ID}"
         WriteRegStr SHCTX "Software\Classes\Folder\shellex\ContextMenuHandlers\${DIFF_EXT_ID}" "" "${DIFF_EXT_CLSID}"
         WriteRegStr SHCTX "Software\Classes\Directory\shellex\ContextMenuHandlers\${DIFF_EXT_ID}" "" "${DIFF_EXT_CLSID}"
+
+        WriteRegStr SHCTX "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\bin\kdiff3.exe" "~ DPIUNAWARE"
         SetRegView 32
 
         WriteRegStr HKCU  "${regkey}\diff-ext" "" ""
@@ -65,6 +67,8 @@ class Package(CMakePackageBase):
                         DeleteRegKey SHCTX "Software\Classes\Folder\shellex\ContextMenuHandlers\${DIFF_EXT_ID}"
                         DeleteRegKey SHCTX "Software\Classes\Directory\shellex\ContextMenuHandlers\${DIFF_EXT_ID}"
                         DeleteRegValue SHCTX "Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved" "${DIFF_EXT_CLSID}"
+                        DeleteRegValue SHCTX "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers\" "$INSTDIR\bin\kdiff3.exe"
+
                         SetRegView 32
                         ;remove old diff-ext settings
                         DeleteRegKey HKCU  "Software\KDiff3"
@@ -77,7 +81,7 @@ class Package(CMakePackageBase):
             #Windows app store has special requirements for the version format
             #Craft attempts to alter the second and third number so we have to adjust to craft's logic as well.
                         
-            self.defines["version"] = "1.0.95"
+            self.defines["version"] = "1.0.96"
             self.defines["un_sections"] = r"""
         Section "Un.Cleanup Regsistry"
         ;Maybe left behind due to a bug in previous installers.
