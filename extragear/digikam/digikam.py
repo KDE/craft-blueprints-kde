@@ -90,6 +90,8 @@ class subinfo(info.infoclass):
 
             self.runtimeDependencies["libs/runtime"]                    = None
 
+            self.buildDependencies["libs/boost/boost-graph"]            = None
+
             # QtWebEngine do not compile with MinGW
 
             self.runtimeDependencies["libs/qt5/qtwebkit"]               = None
