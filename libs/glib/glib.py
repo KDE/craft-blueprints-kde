@@ -3,17 +3,14 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.66.4"]:
+        for ver in ["2.68.4"]:
             majorMinorStr = '.'.join(ver.split('.')[0:2])
             self.targets[ver] = f"https://download.gnome.org/sources/glib/{majorMinorStr}/glib-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"glib-{ver}"
-        if CraftCore.compiler.isMSVC():
-            self.patchToApply["2.66.3"] = [("glib-2.66.3-20201204.diff", 1)]
-        self.targetDigests["2.66.3"] = (['79f31365a99cb1cc9db028625635d1438890702acde9e2802eae0acebcf7b5b1'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["2.66.4"] = (['97df8670e32f9fd4f7392b0980e661dd625012015d58350da1e58e343f4af984'], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["2.66.4"] = 1
+        self.targetDigests["2.68.4"] = (['62fd061d08a75492617e625a73e2c05e259f831acbb8e1f8b9c81f23f7993a3b'], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["2.68.4"] = 1
 
-        self.defaultTarget = "2.66.4"
+        self.defaultTarget = "2.68.4"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

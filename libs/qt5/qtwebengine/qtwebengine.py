@@ -23,6 +23,8 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.svnTargets["5.15.10"] = "https://github.com/qt/qtwebengine.git||v5.15.10-lts"
+        self.defaultTarget = "5.15.10"
         self.patchLevel["5.12.1"] = 2
 
         self.patchToApply["5.12.3"] = [("0001-Fix-building-GN-with-VS-2019.patch", 1),
@@ -37,11 +39,13 @@ class subinfo(info.infoclass):
         self.patchToApply["5.15.2"] = [
                 (".qt-5.15.2", 1)
         ]
+        self.patchLevel["5.15.5"] = 3
         
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
         self.buildDependencies["dev-utils/python2"] = None
+        self.buildDependencies["dev-utils/nodejs"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtlocation"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
@@ -69,6 +73,11 @@ class QtPackage(Qt5CorePackageBase):
         Qt5CorePackageBase.__init__(self)
         self.subinfo.options.fetch.checkoutSubmodules = True
 
+    def checkoutDir(self, index=0):
+        if isinstance(self, GitSource):
+            return CraftShortPath(super().checkoutDir(index)).shortPath
+        return super().checkoutDir(index)
+
     def fetch(self):
         if isinstance(self, GitSource) and self.sourceDir().exists():
             utils.system(["git", "clean", "-xdf"], cwd=self.sourceDir())
@@ -91,8 +100,8 @@ class QtPackage(Qt5CorePackageBase):
             env["PATH"] = f"/usr/bin/:{os.environ['PATH']}"
         if CraftCore.compiler.isWindows:
             # shorten the path to python2 which is passed to gn...
-            shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/bin").shortPath
-            env["PATH"] = f"{shortDevUtils};{os.environ['PATH']}"
+            shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/").shortPath
+            env["PATH"] = f"{shortDevUtils}/bin;{os.environ['PATH']}"
         return env
 
     def configure(self, configureDefines=""):
@@ -100,6 +109,10 @@ class QtPackage(Qt5CorePackageBase):
             return super().configure()
 
     def make(self):
+        with open(self.buildDir() / "config.log", "rt") as log:
+            CraftCore.log.info("Config.log --------------------------------")
+            CraftCore.log.info(log.read())
+            CraftCore.log.info("--------------------------------")
         with utils.ScopedEnv(self._getEnv()):
             return super().make()
 

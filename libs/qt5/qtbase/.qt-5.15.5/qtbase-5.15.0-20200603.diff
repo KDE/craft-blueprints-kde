@@ -1,0 +1,28 @@
+Binary files qtbase-everywhere-src-5.15.0.orig/.DS_Store and qtbase-everywhere-src-5.15.0/.DS_Store differ
+Binary files qtbase-everywhere-src-5.15.0.orig/src/.DS_Store and qtbase-everywhere-src-5.15.0/src/.DS_Store differ
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user qtbase-everywhere-src-5.15.0.orig/src/gui/gui.pro qtbase-everywhere-src-5.15.0/src/gui/gui.pro
+--- qtbase-everywhere-src-5.15.0.orig/src/gui/gui.pro	2020-05-11 10:15:08.000000000 +0200
++++ qtbase-everywhere-src-5.15.0/src/gui/gui.pro	2020-06-03 17:12:38.000000000 +0200
+@@ -59,16 +59,18 @@
+ win32: CMAKE_WINDOWS_BUILD = True
+ 
+ qtConfig(angle) {
++    ANGLE_IMPORTLIB_PREFIX=
+     !mingw|qtConfig(debug_and_release): debug_suffix="d"
++    mingw:ANGLE_IMPORTLIB_PREFIX=lib
+     CMAKE_GL_INCDIRS = $$CMAKE_INCLUDE_DIR
+     CMAKE_ANGLE_EGL_DLL_RELEASE = libEGL.dll
+-    CMAKE_ANGLE_EGL_IMPLIB_RELEASE = libEGL.$${QMAKE_EXTENSION_STATICLIB}
++    CMAKE_ANGLE_EGL_IMPLIB_RELEASE = $${ANGLE_IMPORTLIB_PREFIX}libEGL.$${QMAKE_EXTENSION_STATICLIB}
+     CMAKE_ANGLE_GLES2_DLL_RELEASE = libGLESv2.dll
+-    CMAKE_ANGLE_GLES2_IMPLIB_RELEASE = libGLESv2.$${QMAKE_EXTENSION_STATICLIB}
++    CMAKE_ANGLE_GLES2_IMPLIB_RELEASE = $${ANGLE_IMPORTLIB_PREFIX}libGLESv2.$${QMAKE_EXTENSION_STATICLIB}
+     CMAKE_ANGLE_EGL_DLL_DEBUG = libEGL$${debug_suffix}.dll
+-    CMAKE_ANGLE_EGL_IMPLIB_DEBUG = libEGL$${debug_suffix}.$${QMAKE_EXTENSION_STATICLIB}
++    CMAKE_ANGLE_EGL_IMPLIB_DEBUG = $${ANGLE_IMPORTLIB_PREFIX}libEGL$${debug_suffix}.$${QMAKE_EXTENSION_STATICLIB}
+     CMAKE_ANGLE_GLES2_DLL_DEBUG = libGLESv2$${debug_suffix}.dll
+-    CMAKE_ANGLE_GLES2_IMPLIB_DEBUG = libGLESv2$${debug_suffix}.$${QMAKE_EXTENSION_STATICLIB}
++    CMAKE_ANGLE_GLES2_IMPLIB_DEBUG = $${ANGLE_IMPORTLIB_PREFIX}libGLESv2$${debug_suffix}.$${QMAKE_EXTENSION_STATICLIB}
+
+     CMAKE_QT_OPENGL_IMPLEMENTATION = GLESv2
+ } else {

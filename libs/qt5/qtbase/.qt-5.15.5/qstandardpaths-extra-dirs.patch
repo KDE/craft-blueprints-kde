@@ -1,0 +1,97 @@
+commit 0e86ee934b6587dc288e756eb980da002bcbd240
+Author: Alex Richardson <arichardson.kde@gmail.com>
+Date:   Mon Sep 3 10:16:48 2018 +0100
+
+    MacOS: Add configure option for additional QStandardPaths data directories
+    
+    On MacOS QStandardPaths::GenericDataLocation only contains
+    "~/Library/Application Support" and "/Library/Application Support".
+    Package managers such as homebrew or KDE craft install into a custom
+    prefix and do not/cannot write to either of these directories. This makes
+    it impossible for them to share the generic data between different
+    applications. The current workaround used e.g. by homebrew-kde is to create
+    symlinks for every file/directory that is needed in /usr/local/share/ in
+    the users "~/Library/Application Support" directory. However, this causes
+    issues if you forget to create the appropriate link and makes it difficult
+    for the user to override a data file from the system-wide installation with
+    a file in the home directory.
+    
+    This commit introduces a new hidden ./configure option
+    `-macos-additional-datadirs`. This option is a colon-separated list of
+    additional directories that QStandardPaths searches before looking in
+    "/Library/Application Support".
+    
+    I also introduced a new environment variable QT_DATA_DIRS that can be
+    used to override this ./configure option.
+    TODO: should this be QT_MACOS_DATA_DIRS instead?
+    
+    Change-Id: I23b046fcc9520181286fe300827645cd608b0201
+
+diff --git a/configure.json b/configure.json
+index 1f45f2ccb2..f29e962a98 100644
+--- a/configure.json
++++ b/configure.json
+@@ -90,6 +90,7 @@
+             "incredibuild-xge": { "type": "boolean", "name": "incredibuild_xge" },
+             "libudev": "boolean",
+             "ltcg": "boolean",
++            "macos-additional-datadirs": { "type": "string", "name": "macos_additional_datadirs" },
+             "make": { "type": "addString", "values": [ "examples", "libs", "tests", "tools" ] },
+             "make-tool": "string",
+             "mips_dsp": "boolean",
+diff --git a/configure.pri b/configure.pri
+index 03eacd3c07..9505a30da7 100644
+--- a/configure.pri
++++ b/configure.pri
+@@ -1190,6 +1190,15 @@ defineReplace(qtConfOutputPostProcess_publicHeader) {
+     !isEmpty(config.input.qt_libinfix): \
+         output += "$${LITERAL_HASH}define QT_LIBINFIX \"$$eval(config.input.qt_libinfix)\""
+ 
++    # Add support for additional QStandardPaths::GenericDataLocation on MacOS (useful for homebrew, etc.)
++    macos {
++        !isEmpty(config.input.macos_additional_datadirs) {
++            output += "$${LITERAL_HASH}define QT_MACOS_ADDITIONAL_DATADIRS \"$$eval(config.input.macos_additional_datadirs)\""
++        } else {
++            output += "// $${LITERAL_HASH}undef QT_MACOS_ADDITIONAL_DATADIRS"
++        }
++    }
++
+     return($$output)
+ }
+ 
+diff --git a/src/corelib/io/qstandardpaths_mac.mm b/src/corelib/io/qstandardpaths_mac.mm
+index 11b5cc8c37..da91ec3ae5 100644
+--- a/src/corelib/io/qstandardpaths_mac.mm
++++ b/src/corelib/io/qstandardpaths_mac.mm
+@@ -184,6 +184,31 @@ QStringList QStandardPaths::standardLocations(StandardLocation type)
+         dirs << writableLocation(PicturesLocation) << QLatin1String("assets-library://");
+ #endif
+ 
++#if !defined(QT_BOOTSTRAPPED) && defined(Q_OS_MACOS)
++    if (type == AppDataLocation || type == AppLocalDataLocation || type == GenericDataLocation) {
++        QStringList extraDataDirs;
++        // Add the value of -macos-generic-datadirs configure argument to the list.
++        // This allows e.g. homebrew to use a Qt build that is configured to search
++        // for generic data in /usr/local/share instead of requiring it to be in
++        // /Library/Application Support which is not writable from the homebrew sandbox.
++#ifdef QT_MACOS_ADDITIONAL_DATADIRS
++        QString fromConfigure = QStringLiteral(QT_MACOS_ADDITIONAL_DATADIRS);
++        extraDataDirs = fromConfigure.split(QLatin1Char(':'), QString::SkipEmptyParts);
++#endif
++        // Also allow the environment variable QT_DATA_DIRS to override this default
++        QByteArray qtDataDirsEnv = qgetenv("QT_DATA_DIRS");
++        if (!qtDataDirsEnv.isEmpty()) {
++            extraDataDirs = QFile::decodeName(qtDataDirsEnv).split(QLatin1Char(':'), QString::SkipEmptyParts);
++        }
++        if (type == AppDataLocation || type == AppLocalDataLocation) {
++            for (QString &dir : extraDataDirs) {
++                appendOrganizationAndApp(dir);
++            }
++        }
++        dirs << extraDataDirs;
++    }
++#endif
++
+     if (type == GenericDataLocation || type == FontsLocation || type == ApplicationsLocation
+             || type == AppDataLocation || type == AppLocalDataLocation
+             || type == GenericCacheLocation || type == CacheLocation) {
