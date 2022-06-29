@@ -27,20 +27,21 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.10.3'] = "https://downloads.sourceforge.net/project/libofx/libofx/libofx-0.10.3.tar.gz"
-        self.targetDigests['0.10.3'] = (['7b5f21989afdd9cf63ab4a2df4ca398782f24fda2e2411f88188e00ab49e3069'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['0.10.3'] = "libofx-0.10.3"
+        self.targets['0.10.5'] = "https://github.com/libofx/libofx/releases/download/0.10.5/libofx-0.10.5.tar.gz"
+        self.targetDigests['0.10.5'] = (['570ea744fb654750ed9c60456c771e7cbb035465f409e9ee1118f671b47b3bc3'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc['0.10.5'] = "libofx-0.10.5"
 
         if CraftCore.compiler.isMSVC():
-            self.patchToApply['0.10.3'] = [("msvc.diff", 1)]                                        # https://github.com/libofx/libofx/pull/47
-            self.patchToApply['0.10.3'] += [("getopt.diff", 1)]                                     # https://github.com/libofx/libofx/pull/50
-            self.patchToApply['0.10.3'] += [("revert-correct-casting-of-iconv-inbuf-arg.patch", 1)] # https://github.com/libofx/libofx/issues/51
+            self.patchToApply['0.10.5'] = [("msvc.patch", 1)]                                       # https://github.com/libofx/libofx/pull/47
+            self.patchToApply['0.10.5'] += [("getopt.diff", 1)]                                     # https://github.com/libofx/libofx/pull/50
+            self.patchToApply['0.10.5'] += [("iconv-windows-dont-deconst.patch", 1)]                # https://github.com/libofx/libofx/pull/61
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
-        self.defaultTarget = '0.10.3'
-        self.patchLevel["0.10.3"] = 0
+        self.defaultTarget = '0.10.5'
+        self.patchLevel["0.10.5"] = 0
 
     def setDependencies(self):
+        self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["libs/libopensp"] = None
         self.runtimeDependencies["libs/iconv"] = None
 
@@ -53,7 +54,7 @@ class PackageAutotools(AutoToolsPackageBase):
         self.shell.useMSVCCompatEnv = True
         openSPIncludeDir = OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), "include/OpenSP"))
         openSPLibDir = OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), "lib"))
-        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", f"--with-opensp-includes={openSPIncludeDir}", f"--with-opensp-libs={openSPLibDir}"]
+        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", "--disable-tools", f"--with-opensp-includes={openSPIncludeDir}", f"--with-opensp-libs={openSPLibDir}"]
 
 class Package(PackageAutotools):
     def __init__(self):
