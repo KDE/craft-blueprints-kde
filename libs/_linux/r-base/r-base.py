@@ -37,3 +37,9 @@ class Package(AutoToolsPackageBase):
         env['LDFLAGS'] = "-L" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "lib")
         with utils.ScopedEnv(env):
             return super().configure()
+
+    def install(self):
+       res = super().install()
+       for lib in ["libR.so", "libRlapack.so", "libRblas.so"]:
+           res = res and utils.createSymlink(os.path.join(self.imageDir(), "lib", "R", "lib", lib), os.path.join(self.imageDir(), "lib", lib))
+       return res
