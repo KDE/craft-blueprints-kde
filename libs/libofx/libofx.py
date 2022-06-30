@@ -51,6 +51,7 @@ from Package.AutoToolsPackageBase import *
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
+        self.subinfo.options.configure.noDataRootDir = True
         self.shell.useMSVCCompatEnv = True
         openSPIncludeDir = OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), "include/OpenSP"))
         openSPLibDir = OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), "lib"))
