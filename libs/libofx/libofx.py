@@ -38,7 +38,7 @@ class subinfo(info.infoclass):
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
         self.defaultTarget = '0.10.5'
-        self.patchLevel["0.10.5"] = 0
+        self.patchLevel["0.10.5"] = 1
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
