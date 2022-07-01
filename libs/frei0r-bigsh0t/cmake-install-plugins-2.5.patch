@@ -1,8 +1,10 @@
---- CMakeLists.txt	2022-06-29 20:35:28.103438577 +0200
-+++ CMakeLists.txt	2022-06-29 20:36:28.858890293 +0200
-@@ -112,3 +112,14 @@
- build_plugin(bigsh0t_zenith_correction ZenithCorrection.cpp)
- build_plugin(bigsh0t_eq_to_stereo EqToStereo.cpp)
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4ea5cf0..663b4ba 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -139,3 +139,14 @@ build_plugin(bigsh0t_eq_to_stereo EqToStereo.cpp)
+ build_plugin(bigsh0t_eq_cap EqCap.cpp)
+ build_plugin(bigsh0t_eq_wrap EqWrap.cpp)
  build_test()
 +
 +install (TARGETS
