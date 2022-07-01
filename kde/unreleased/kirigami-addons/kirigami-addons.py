@@ -4,11 +4,12 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'https://invent.kde.org/libraries/kirigami-addons.git'
-        self.defaultTarget = '0.2'
+        self.defaultTarget = '0.3'
 
-        self.targets["0.2"] = "https://download.kde.org/unstable/kirigami-addons/0.2/kirigami-addons-0.2.tar.xz"
-        self.targetDigestUrls["0.2"] = "https://download.kde.org/unstable/kirigami-addons/0.2/kirigami-addons-0.2.tar.xz.sha256"
-        self.targetInstSrc["0.2"] = "kirigami-addons-0.2"
+        for ver in ['0.3']:
+            self.targets[ ver ] = f"https://download.kde.org/unstable/kirigami-addons/{ver}/kirigami-addons-{ver}.tar.xz"
+            self.targetDigestUrls[ ver ] = f"https://download.kde.org/unstable/kirigami-addons/{ver}/kirigami-addons-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ ver ] = "kirigami-addons-" + ver
 
         self.description = "Addons for the Kirigami Framework"
 
