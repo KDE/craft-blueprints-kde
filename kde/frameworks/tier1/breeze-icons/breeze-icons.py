@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
         self.description = "Breeze icon theme."
 
     def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
         self.options.dynamic.registerOption("useBreezeDark", False)
         self.options.dynamic.registerOption("useIconResource", True)
 
