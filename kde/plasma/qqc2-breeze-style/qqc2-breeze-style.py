@@ -5,8 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        for ver in self.versionInfo.tarballs():
-            self.patchToApply[ver] = [('0001-Build-without-QtDBus-on-Android.patch', 1), ('0002-Use-kcoreaddons-macro-for-kirigami-plugin.patch', 1), ('0003-Build-without-KIconThemes-on-Android.patch', 1)]
+        self.patchLevel["5.25.0"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
