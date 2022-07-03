@@ -83,13 +83,6 @@ class QtPackage(Qt5CorePackageBase):
             utils.system(["git", "clean", "-xdf"], cwd=self.sourceDir())
         return super().fetch()
 
-    def unpack(self):
-        ret = super().unpack()
-        if CraftCore.compiler.isMacOS:
-            # Move internal libprotobuf headers to a location where they will be picked up before any system protobuf headers
-            utils.copyDir(os.path.join(self.sourceDir(), "src", "3rdparty", "chromium", "third_party", "protobuf", "src", "google"), os.path.join(self.sourceDir(), "include", "google"), linkOnly=True)
-        return ret
-
     def _getEnv(self):
         env = {
             "BISON_PKGDATADIR": None,
@@ -105,6 +98,9 @@ class QtPackage(Qt5CorePackageBase):
         return env
 
     def configure(self, configureDefines=""):
+        if CraftCore.compiler.isMacOS:
+            # Link internal libprotobuf headers to a location where they will be picked up before any system protobuf headers
+            utils.createSymlink(os.path.join(self.sourceDir(), "src", "3rdparty", "chromium", "third_party", "protobuf", "src", "google"), os.path.join(self.buildDir(), "include", "google"), targetIsDirectory=True)
         with utils.ScopedEnv(self._getEnv()):
             return super().configure()
 
