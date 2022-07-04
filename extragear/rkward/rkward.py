@@ -29,7 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["libs/qt5/qtscript"] = None
-        if CraftCore.compiler.isMinGW() or OsUtils.isMac():
+        if CraftCore.compiler.isMinGW() or OsUtils.isMac() or OsUtils.isLinux():
             # MinGW has no qtwebengine, but we can fall back to kdewebkit
             self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = None
         else:
