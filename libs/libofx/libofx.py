@@ -35,10 +35,11 @@ class subinfo(info.infoclass):
             self.patchToApply['0.10.5'] = [("msvc.patch", 1)]                                       # https://github.com/libofx/libofx/pull/47
             self.patchToApply['0.10.5'] += [("getopt.diff", 1)]                                     # https://github.com/libofx/libofx/pull/50
             self.patchToApply['0.10.5'] += [("iconv-windows-dont-deconst.patch", 1)]                # https://github.com/libofx/libofx/pull/61
+            self.patchToApply['0.10.5'] += [("disable-ofx2qif-msvc.patch", 1)]
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
         self.defaultTarget = '0.10.5'
-        self.patchLevel["0.10.5"] = 1
+        self.patchLevel["0.10.5"] = 2
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
@@ -55,7 +56,7 @@ class PackageAutotools(AutoToolsPackageBase):
         self.shell.useMSVCCompatEnv = True
         openSPIncludeDir = OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), "include/OpenSP"))
         openSPLibDir = OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), "lib"))
-        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", "--disable-tools", f"--with-opensp-includes={openSPIncludeDir}", f"--with-opensp-libs={openSPLibDir}"]
+        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", "--enable-tools", f"--with-opensp-includes={openSPIncludeDir}", f"--with-opensp-libs={openSPLibDir}"]
 
 class Package(PackageAutotools):
     def __init__(self):

@@ -1,0 +1,32 @@
+From d3731bc25de8a2774fbb3332e6c2dd3b2584e559 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Dawid=20Wro=CC=81bel?= <me@dawidwrobel.com>
+Date: Mon, 4 Jul 2022 12:29:35 +0200
+Subject: [PATCH] Dont compile ofx2qif with MSVC
+
+---
+ configure.ac | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 0966bda..6db01ce 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -346,7 +346,17 @@ build_ofxdump=no
+ build_ofxconnect=no
+ 
+ if test x$tools = xyes ; then
+-	build_ofx2qif=yes
++	# https://github.com/libofx/libofx/pull/47
++	AC_EGREP_CPP([yes],
++	[
++		#ifdef _MSC_VER
++			yes
++		#endif
++	],
++	[build_ofx2qif=no],
++	[build_ofx2qif=yes]
++	)
++
+ 	build_ofxdump=yes
+ 
+ 	if test "$libcurl_available" = yes; then
