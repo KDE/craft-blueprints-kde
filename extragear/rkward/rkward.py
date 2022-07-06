@@ -45,10 +45,12 @@ class subinfo(info.infoclass):
         if OsUtils.isWin():
             # For packaging with Innosetup-packager, which is not the default packager (yet)
             self.buildDependencies["dev-utils/innosetup"] = None
-        # NOTE: the following are not actually direct dependencies, but rather an optional dependency of kate->kuserfeedback, and others
-        #       Added, here, as a workaround, because kuserfeedback may have been built with the lib in the cache, without anything declaring the dependency
-        self.runtimeDependencies["libs/qt5/qtcharts"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
+        if OsUtils.isLinux():
+            # NOTE: the following are not actually direct dependencies, but rather an optional dependency of kate->kuserfeedback, and others
+            #       Added, here, as a workaround, because kuserfeedback may have been built with the lib in the cache, without anything declaring the dependency
+            self.runtimeDependencies["libs/qt5/qtcharts"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
+            self.runtimeDependencies["libs/qt5/qtserialport"] = None
 
 
 from Package.CMakePackageBase import *
