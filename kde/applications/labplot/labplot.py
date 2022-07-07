@@ -72,7 +72,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += "-DENABLE_TESTS=OFF"
+        #self.subinfo.options.configure.args += "-DENABLE_TESTS=OFF"
         if CraftCore.compiler.isMacOS:
             # readstat fails with ninja
             self.supportsNinja = False
