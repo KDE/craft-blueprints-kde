@@ -6,7 +6,6 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.setDefault("buildType", "Release")
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS # needs GNU readlink that we ATM don't have on macOS
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -21,6 +20,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://download.kde.org/stable/clazy/{ver}/src/clazy-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/clazy/{ver}/src/clazy-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"clazy-{ver}"
+        self.patchToApply["1.11"] = [("0001-Allow-to-build-clazy-on-mac.patch", 1)]
         self.defaultTarget = '1.11'
 
 
