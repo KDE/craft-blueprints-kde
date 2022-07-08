@@ -5,6 +5,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        if CraftCore.compiler.isMinGW():
+            self.patchToApply["5.95.0"] = [("fix-mingw-prefix.diff", 1)]
+            self.patchLevel["5.95.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
