@@ -3,22 +3,22 @@ from CraftOS.osutils import OsUtils
 
 
 class subinfo(info.infoclass):
+    def addReleaseCandidate(self, version, suffix):
+        self.targets[f'{version}-{suffix}'] = f'https://files.kde.org/rkward/testing/for_packaging/rkward-{version}-{suffix}.tar.gz'
+        self.targetInstSrc[f'{version}-{suffix}'] = f'rkward-{version}'
+
     def setTargets(self):
         self.description = "RKWard is an easy to use and easily extensible IDE/GUI for R."
         self.displayName = "RKWard"
         self.webpage = "https://rkward.kde.org"
 
         self.svnTargets['master'] = 'https://invent.kde.org/education/rkward.git'
-        for ver in ['0.7.3']:
-            self.targets[ver] = f'https://download.kde.org/stable/rkward/{ver}/src/rkward-{ver}.tar.gz'
+        #self.addReleaseCandidate('0.7.5', 'rc1')
+        for ver in ['0.7.4']:
+            self.targets[ver] = f'https://download.kde.org/stable/rkward/{ver}/rkward-{ver}.tar.gz'
             self.targetInstSrc[ver] = f'rkward-{ver}'
-        self.targetDigests['0.7.3'] = (['49b118c11c41605e05434e4214f06bbf3a45c8bbc5ab54499dca117ca9efe7da'], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply['0.7.3'] = [('rkward-0.7.3_fix_for_R-4.2.diff', 1), ('rkward-0.7.3-increase-backend-stack-size.diff', 1)]
-
-        self.targets['0.7.4-rc2'] = 'https://files.kde.org/rkward/testing/for_packaging/rkward-0.7.4-rc2.tar.gz'
-        self.targetInstSrc['0.7.4-rc2'] = 'rkward-0.7.4'
-
-        self.defaultTarget = '0.7.4-rc2'
+        self.targetDigests['0.7.4'] = (['7633f3b269f6cf2c067b3b09cbe3da3e0ffdcd9dc3ecb9a9fa63b4f865e8161e'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = '0.7.4'
 
     def setDependencies(self):
         if OsUtils.isWin() or OsUtils.isMac():
@@ -62,10 +62,7 @@ class Package(CMakePackageBase):
 
         if OsUtils.isWin():
             # Usually found, automatically, but make extra sure, never to pick up a separate installation of R
-            if CraftCore.compiler.isX64():
-                r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "x64")
-            else:
-                r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "i386")
+            r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "x64")
             self.subinfo.options.configure.args += [f"-DR_EXECUTABLE={OsUtils.toUnixPath(os.path.join(r_dir, 'R.exe'))}"]
         elif OsUtils.isMac():
             rhome = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "R.framework", "Resources")
@@ -82,13 +79,13 @@ class Package(CMakePackageBase):
 
     def install(self):
         ret = CMakePackageBase.install(self)
-        if OsUtils.isWin():
+        if OsUtils.isWin() or OsUtils.isLinux():
             # Make installation movable, by providing rkward.ini with relative path to R
             rkward_ini = open(os.path.join(self.imageDir(), "bin", "rkward.ini"), "w")
-            if CraftCore.compiler.isX64():
-                rkward_ini.write("R executable=../lib/R/bin/x64/R.exe\n")
+            if OsUtils.isLinux():
+                rkward_ini.write("R executable=../lib/R/bin/R\n")
             else:
-                rkward_ini.write("R executable=../lib/R/bin/i386/R.exe\n")
+                rkward_ini.write("R executable=../lib/R/bin/x64/R.exe\n")
             rkward_ini.close()
         elif OsUtils.isMac():
             # Fix absolute library locations for R libs. Users may use RKWard with various versions of R (installed, separately), so
