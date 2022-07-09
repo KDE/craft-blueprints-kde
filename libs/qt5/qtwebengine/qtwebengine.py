@@ -38,6 +38,7 @@ class subinfo(info.infoclass):
                                        ("qtwebengine-5.14.1-20200227.diff", 1)]
         self.patchToApply["5.15.2"] = [(".qt-5.15.2", 1)]
         self.patchToApply["5.15.10"] = [(".qt-5.15.10", 1)]
+        #self.patchToApply["5.15.10"]  -- NOTE: a post-installation patch is applied in install, below!
         self.patchLevel["5.15.5"] = 3
         
     def setDependencies(self):
@@ -120,6 +121,18 @@ class QtPackage(Qt5CorePackageBase):
             # see: https://stackoverflow.com/a/35448081
             utils.mergeTree(os.path.join(self.imageDir(), "resources"),
                             os.path.join(self.imageDir(), "bin"))
+
+        if CraftVersion(self.subinfo.buildTarget) >= CraftVersion('5.15.10'):
+            # See https://www.qt.io/blog/building-qt-webengine-against-other-qt-versions
+            versionold = self.subinfo.buildTarget
+            versionnew = '5.15'
+            for module in ["Qt5WebEngine", "Qt5WebEngineCore", "Qt5WebEngineWidgets"]:
+                filename = self.imageDir() / "lib" / "cmake" / module / f'{module}Config.cmake'
+                with open(filename, 'r') as f:
+                    contents = f.read()
+                with open(filename, 'w') as f:
+                    f.write(contents.replace(f'{versionold} ${{_{module}_FIND_VERSION_EXACT}}', f'{versionnew}'))
+
         return True
 
 
