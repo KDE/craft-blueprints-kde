@@ -7,11 +7,10 @@ class subinfo(info.infoclass):
         for ver in ['2.9.7']:
             self.targets[ver] = 'ftp://xmlsoft.org/libxml2/libxml2-' + ver + '.tar.gz'
             self.targetInstSrc[ver] = 'libxml2-' + ver
-            if not CraftCore.compiler.isGCCLike():
-                self.targetInstSrc[ver] = os.path.join(self.targetInstSrc[ver], 'win32')
         self.targetDigests['2.9.7'] = (['f63c5e7d30362ed28b38bfa1ac6313f9a80230720b7fb6c80575eeab3ff5900c'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["2.9.7"] = [("libxml2-2.9.7-20220709.diff", 1)]
         self.description = "XML C parser and toolkit (runtime and applications)"
-        self.patchLevel["2.9.7"] = 2
+        self.patchLevel["2.9.7"] = 3
         self.defaultTarget = '2.9.7'
 
     def setDependencies(self):
@@ -21,6 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblzma"] = None
         self.runtimeDependencies["libs/iconv"] = None
+        self.runtimeDependencies["libs/icu"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
 
@@ -33,7 +33,7 @@ class PackageMSVC(MakeFilePackageBase):
         self.subinfo.options.make.supportsMultijob = False
 
     def configure(self):
-        self.enterSourceDir()
+        os.chdir(self.sourceDir() / "win32")
         includedir = os.path.join(CraftCore.standardDirs.craftRoot(), 'include')
         libdir = os.path.join(CraftCore.standardDirs.craftRoot(), 'lib')
         prefixdir = self.imageDir()
@@ -47,10 +47,23 @@ class PackageMSVC(MakeFilePackageBase):
                             f"prefix={prefixdir}",
                             f"debug={builddebug}",
                             f"zlib=yes",
-                            f"iconv=yes"])
+                            f"iconv=yes",
+                            f"icu=yes"])
+
+    def make(self):
+        os.chdir(self.sourceDir() / "win32")
+        env = {
+            "LIB" : f"{os.path.join(CraftStandardDirs.craftRoot() , 'lib')};{os.environ['LIB']}",
+            "INCLUDE" : f"{os.environ['INCLUDE']};{os.path.join(CraftStandardDirs.craftRoot() , 'include')}"
+            }
+        with utils.ScopedEnv(env):
+            return utils.system(Arguments([self.makeProgram, self.makeOptions(self.subinfo.options.make.args)]))
 
     def install(self):
-        if not super().install():
+        if not BuildSystemBase.install(self):
+            return False
+        os.chdir(self.sourceDir() / "win32")
+        if not utils.system(Arguments([self.makeProgram, self.makeOptions(self.subinfo.options.install.args), f"DESTDIR={self.installDir()}"])):
             return False
         data = {"prefix" : OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot())}
         return utils.configureFile(self.packageDir() / "libxml-2.0-msvc.pc", self.imageDir() / "lib/pkgconfig/libxml-2.0.pc", data)
@@ -67,11 +80,11 @@ class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += " --without-python "
+        self.subinfo.options.configure.args += ["--without-python", "--with-icu"]
         if self.subinfo.options.buildStatic:
-            self.subinfo.options.configure.args += "--enable-static=yes --enable-shared=no "
+            self.subinfo.options.configure.args += ["--enable-static=yes", "--enable-shared=no"]
         else:
-            self.subinfo.options.configure.args += "--enable-static=no --enable-shared=yes "
+            self.subinfo.options.configure.args += ["--enable-static=no", "--enable-shared=yes"]
 
     def postInstall(self):
         # remove API docs here as there is no build option for that
