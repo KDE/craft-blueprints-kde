@@ -48,7 +48,7 @@ class PackageMSVC(MakeFilePackageBase):
                             f"debug={builddebug}",
                             f"zlib=yes",
                             f"iconv=yes",
-                            f"icu=yes"])
+                            f"icu={'yes' if self.subinfo.options.isActive('libs/icu') else 'no'}"])
 
     def make(self):
         os.chdir(self.sourceDir() / "win32")
