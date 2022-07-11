@@ -1,18 +1,17 @@
 diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user R-4.2.0.orig/src/scripts/Makefile.in R-4.2.0/src/scripts/Makefile.in
 --- R-4.2.0.orig/src/scripts/Makefile.in	2019-03-29 00:02:38.000000000 +0100
 +++ R-4.2.0/src/scripts/Makefile.in	2022-07-11 19:59:34.595581402 +0200
-@@ -75,9 +75,7 @@
+@@ -75,8 +75,8 @@
  	  dat=`sed -e 1d -e 's/^Last Changed Date: //' $(top_builddir)/SVN-REVISION`; \
  	  v="$${v} ($${dat})"; \
  	  y=`$(ECHO) $${dat} | cut -d- -f1`; \
--	  d=`$(ECHO) "$(abs_top_builddir)" | sed 's,/,\\\/,g'`; \
+ 	  d=`$(ECHO) "$(abs_top_builddir)" | sed 's,/,\\\/,g'`; \
 -	  sed "1,/R_HOME_DIR/s/\\(R_HOME_DIR=\\).*/\\1\"$${d}\"/; \
--	       s@REPLACE_BY_VERSION@$${v}@; \
-+	  sed "s@REPLACE_BY_VERSION@$${v}@; \
++	  sed "1,/R_HOME_DIR_DISABLED/s/\\(R_HOME_DIR=\\).*/\\1\"$${d}\"/; \
+ 	       s@REPLACE_BY_VERSION@$${v}@; \
  	       s@REPLACE_BY_YEAR@$${y}@" < R.sh > $@)
  	@chmod +x $@
- ## </NOTE>
-@@ -88,10 +86,10 @@
+@@ -88,10 +87,10 @@
  install: installdirs install-cmds
  	@rm -f $(DESTDIR)$(bindir)/R
  	@(d=`$(ECHO) '$(rhome)' | sed 's,/,\\\/,g';`; \
@@ -20,9 +19,9 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.
 -	  d3=`$(ECHO) '$(rincludedir)' | sed 's,/,\\\/,g';`; \
 -	  d4=`$(ECHO) '$(rdocdir)' | sed 's,/,\\\/,g';`; \
 -	  sed -e "1,/R_HOME_DIR=/s/\\(R_HOME_DIR=\\).*/\\1$${d}/;" -e "s/\\(R_SHARE_DIR=\\).*/\\1$${d2}/;" -e  "s/\\(R_INCLUDE_DIR=\\).*/\\1$${d3}/;" -e "s/\\(R_DOC_DIR=\\).*/\\1$${d4}/;"\
-+	  d2="$${R_HOME_DIR}/share"; \
-+	  d3="$${R_HOME_DIR}/include"; \
-+	  d4="$${R_HOME_DIR}/doc"; \
++	  d2="\$${R_HOME_DIR}\/share"; \
++	  d3="\$${R_HOME_DIR}\/include"; \
++	  d4="\$${R_HOME_DIR}\/doc"; \
 +	  sed -e "1,/R_HOME_DIR_DISABLED=/s/\\(R_HOME_DIR=\\).*/\\1$${d}/;" -e "s/\\(R_SHARE_DIR=\\).*/\\1$${d2}/;" -e  "s/\\(R_INCLUDE_DIR=\\).*/\\1$${d3}/;" -e "s/\\(R_DOC_DIR=\\).*/\\1$${d4}/;"\
  	  < R.fe > "$(DESTDIR)$(Rexecbindir)/R")
  	@$(INSTALL_SCRIPT)  "$(DESTDIR)$(Rexecbindir)/R" "$(DESTDIR)$(bindir)/R"
