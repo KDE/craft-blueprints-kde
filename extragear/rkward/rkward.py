@@ -29,7 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["libs/qt5/qtscript"] = None
-        if CraftCore.compiler.isMinGW() or OsUtils.isMac() or OsUtils.isLinux():
+        if CraftCore.compiler.isMinGW() or OsUtils.isMac():
             # MinGW has no qtwebengine, but we can fall back to kdewebkit
             self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = None
         else:
@@ -130,4 +130,12 @@ class Package(CMakePackageBase):
             rkward_ini = open(os.path.join(rkward_dir, "rkward.ini"), "w")
             rkward_ini.write("R executable=auto\n")
             rkward_ini.close()
+        if isinstance(self, AppImagePackager):
+            for filename in ["bin/R", "lib/R/bin/R", "lib/R/bin/libtool", "lib/R/etc/Makeconf", "lib/R/etc/ldpaths", "lib/R/etc/Renviron"]:
+                filename = os.path.join(self.archiveDir(), filename)
+                print(f"patching {filename}")
+                with open(filename, 'r') as f:
+                    content = f.read()
+                with open(filename, 'w') as f:
+                    f.write(content.replace(CraftCore.standardDirs.craftRoot(), "${{APPDIR}}"))
         return super().preArchive()

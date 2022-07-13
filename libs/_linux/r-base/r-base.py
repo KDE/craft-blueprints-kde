@@ -18,7 +18,6 @@ class subinfo(info.infoclass):
         for version in ['4.2.0', '4.1.2']:
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-' + version + '.tar.gz'
             self.targetInstSrc[version] = "R-%s" % version
-            self.patchToApply[version] = [('r-base-allow-relocation.diff', 1)]
         self.defaultTarget = '4.2.0'
 
 
