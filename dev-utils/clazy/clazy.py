@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/clazy/{ver}/src/clazy-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"clazy-{ver}"
         self.patchToApply["1.11"] = [("0001-Allow-to-build-clazy-on-mac.patch", 1)]
+        self.patchLevel["1.11"] = 1
         self.defaultTarget = '1.11'
 
 

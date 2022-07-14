@@ -13,10 +13,9 @@ class subinfo(info.infoclass):
             # don't just link against xml2 but use cmake logic...
             # don't apply this at Windows as it is used there for configurtion files...
             self.patchToApply["13.0.0"] = [("fix_libxml.diff", 1)]
-        if not CraftCore.compiler.isMacOS:
-            self.patchToApply["8.0.0"] = [("llvm-8.0.0-20190411.diff", 1)]
 
-        self.targetConfigurePath["13.0.0"] = "llvm"
+        for ver in self.versionInfo.tarballs():
+            self.targetConfigurePath[ver] = "llvm"
 
     def setDependencies(self):
         # workaround, ensure system clang is used to build bjam
