@@ -133,9 +133,9 @@ class Package(CMakePackageBase):
         if isinstance(self, AppImagePackager):
             for filename in ["bin/R", "lib/R/bin/R", "lib/R/bin/libtool", "lib/R/etc/Makeconf", "lib/R/etc/ldpaths", "lib/R/etc/Renviron"]:
                 filename = os.path.join(self.archiveDir(), filename)
-                print(f"patching {filename}")
+                CraftCore.log.info(f"patching absolute paths in {filename}")
                 with open(filename, 'r') as f:
                     content = f.read()
                 with open(filename, 'w') as f:
-                    f.write(content.replace(str(CraftCore.standardDirs.craftRoot()), "${{APPDIR}}"))
+                    f.write(content.replace(str(CraftCore.standardDirs.craftRoot()), "${APPDIR}"))
         return super().preArchive()
