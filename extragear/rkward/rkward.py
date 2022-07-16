@@ -122,6 +122,13 @@ class Package(CMakePackageBase):
 
         return TypePackager.createPackage(self)
 
+    def reinplace(self, filename, old, new):
+        CraftCore.log.info(f"patching {old} -> {new} in {filename}")
+        with open(filename, 'r') as f:
+            content = f.read()
+        with open(filename, 'w') as f:
+            f.write(content.replace(old, new))
+
     def preArchive(self):
         if OsUtils.isMac():
             # On Mac there is no sane way to bundle R along with RKWard, so make the default behavior to detect an R installation, automatically.
@@ -131,11 +138,10 @@ class Package(CMakePackageBase):
             rkward_ini.write("R executable=auto\n")
             rkward_ini.close()
         if isinstance(self, AppImagePackager):
-            for filename in ["bin/R", "lib/R/bin/R", "lib/R/bin/libtool", "lib/R/etc/Makeconf", "lib/R/etc/ldpaths", "lib/R/etc/Renviron"]:
+            for filename in ["bin/R", "lib/R/bin/R", "lib/R/bin/libtool", "lib/R/etc/ldpaths", "lib/R/etc/Renviron"]:
                 filename = os.path.join(self.archiveDir(), filename)
-                CraftCore.log.info(f"patching absolute paths in {filename}")
-                with open(filename, 'r') as f:
-                    content = f.read()
-                with open(filename, 'w') as f:
-                    f.write(content.replace(str(CraftCore.standardDirs.craftRoot()), "${APPDIR}/usr"))
+                self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "${APPDIR}/usr")
+            for filename in ["lib/R/etc/Makeconf"]:
+                filename = os.path.join(self.archiveDir(), filename)
+                self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "$(APPDIR)/usr") # NOTE: round braces, here
         return super().preArchive()
