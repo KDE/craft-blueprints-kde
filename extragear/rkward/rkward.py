@@ -137,5 +137,5 @@ class Package(CMakePackageBase):
                 with open(filename, 'r') as f:
                     content = f.read()
                 with open(filename, 'w') as f:
-                    f.write(content.replace(str(CraftCore.standardDirs.craftRoot()), "${APPDIR}"))
+                    f.write(content.replace(str(CraftCore.standardDirs.craftRoot()), "${APPDIR}/usr"))
         return super().preArchive()
