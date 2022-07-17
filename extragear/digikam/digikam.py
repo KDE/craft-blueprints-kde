@@ -391,7 +391,7 @@ class Package(CMakePackageBase):
 
             # Download exiftool.exe in the bundle
 
-            if not GetFiles.getFile("https://files.kde.org/digikam/exiftool/exiftool-12.42.zip",
+            if not GetFiles.getFile("https://files.kde.org/digikam/exiftool/exiftool.zip",
                                     binPath, "exiftool.zip"):
                 print("Could not get ExifTool archive")
                 return False
