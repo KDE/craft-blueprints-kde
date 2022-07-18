@@ -1,0 +1,13 @@
+diff --git a/src/sycoca/ksycocadevices_p.h b/src/sycoca/ksycocadevices_p.h
+index b5001014513eafd7de5c7a42989ba5f2c05b7a7f..962fdeb5135fb8d95336083a4a3a7fe8d38561bc 100644
+--- a/src/sycoca/ksycocadevices_p.h
++++ b/src/sycoca/ksycocadevices_p.h
+@@ -12,7 +12,7 @@
+ #include <stdlib.h>
+ // TODO: remove mmap() from kdewin32 and use QFile::mmap() when needed
+ #ifdef Q_OS_WIN
+-#undef HAVE_MMAP
++#define HAVE_MMAP 0
+ #endif
+ 
+ class QString;
