@@ -136,6 +136,10 @@ class subinfo(info.infoclass):
 
         self.runtimeDependencies["kde/applications/marble"]             = None
 
+        # To support Mysql database
+
+        self.runtimeDependencies["binary/mysql"]                        = None
+
 from Package.CMakePackageBase import *
 from Utils import GetFiles
 
@@ -149,8 +153,8 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
@@ -167,8 +171,8 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=ON"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=ON"
@@ -185,8 +189,8 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
@@ -250,10 +254,6 @@ class Package(CMakePackageBase):
 
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
-
-        # Qt 5.15.2 bug with recent Mysql version. Remove when Qt 5.15.3 or later will be used.
-
-        self.ignoredPackages.append("binary/mysql")
 
         return TypePackager.createPackage(self)
 
