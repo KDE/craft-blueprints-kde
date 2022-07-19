@@ -1,0 +1,15 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' libofx-0.9.13.orig/lib/ofx_utilities.cpp libofx-0.9.13/lib/ofx_utilities.cpp
+--- libofx-0.9.13.orig/lib/ofx_utilities.cpp	2018-05-02 20:39:38.000000000 +0100
++++ libofx-0.9.13/lib/ofx_utilities.cpp	2018-05-05 08:25:40.600886900 +0100
+@@ -140,9 +140,9 @@
+   time_t temptime;
+ 
+   std::time(&temptime);
+-  local_offset = difftime(mktime(localtime(&temptime)), mktime(gmtime(&temptime)));
++  local_offset = difftime(mktime(localtime(&temptime)), mktime(gmtime(&temptime))) + (3600 * _daylight);
+   /* daylight is set to 1 if the timezone indicated by the environment (either TZ or /etc/localtime) uses daylight savings time (aka summer time). We use it here to provisionally set tm_isdst. */
+-  time.tm_isdst = daylight;
++  time.tm_isdst = _daylight;
+ 
+   if (ofxdate.size() != 0)
+   {

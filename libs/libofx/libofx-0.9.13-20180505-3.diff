@@ -1,0 +1,20 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x'*\.o' -x '*\.pyc' libofx-0.9.13.orig/lib/ofx_preproc.cpp libofx-0.9.13/lib/ofx_preproc.cpp
+--- libofx-0.9.13.orig/lib/ofx_preproc.cpp	2018-05-02 20:39:38.000000000 +0100
++++ libofx-0.9.13/lib/ofx_preproc.cpp	2018-05-05 08:35:31.913418300 +0100
+@@ -44,6 +44,7 @@
+ #ifdef __WIN32__
+ # include "win32.hh"
+ # include <windows.h> // for GetModuleFileName()
++# include <algorithm>
+ # undef ERROR
+ # undef DELETE
+ #endif
+@@ -449,7 +450,7 @@
+     }
+     else
+     {
+-        pos = std::min(input_string.length(), start_idx + tag_name.length() + 3);
++        pos = (std::min)(input_string.length(), start_idx + tag_name.length() + 3);
+     }
+     return;
+ }
