@@ -146,4 +146,5 @@ class Package(CMakePackageBase):
                 self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "$(APPDIR)/usr") # NOTE: round braces, here
             # quirkaround for making kioslaves work despite of https://github.com/linuxdeploy/linuxdeploy/issues/208
             utils.createSymlink(os.path.join(self.archiveDir(), "lib"), os.path.join(self.archiveDir(), "libexec", "lib"), targetIsDirectory=True)
+            utils.createSymlink(os.path.join(self.archiveDir(), "lib"), os.path.join(self.archiveDir(), "lib", "libexec", "lib"), targetIsDirectory=True)
         return super().preArchive()
