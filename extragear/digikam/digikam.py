@@ -448,6 +448,11 @@ class Package(CMakePackageBase):
                 print("Could not unpack ExifTool archive")
                 return False
 
+            if not utils.moveFile(os.path.join(binPath, "Image-ExifTool*"),
+                                  os.path.join(binPath, "Image-ExifTool")):
+                print("Could not rename ExifTool directory")
+                return False
+
             if not utils.deleteFile(os.path.join(binPath, "Image-ExifTool.tar.gz")):
                 print("Could not remove ExifTool archive")
                 return False
