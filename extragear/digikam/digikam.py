@@ -452,7 +452,7 @@ class Package(CMakePackageBase):
             etname  = None
 
             for f in binfiles:
-                if f.startsWith("Image-ExifTool-"):
+                if f.startswith("Image-ExifTool-"):
                     etname = f
                     break
 
