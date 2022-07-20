@@ -148,6 +148,24 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.args  =  " -DENABLE_KFILEMETADATASUPPORT=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_DBUS=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
+            self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_DOC=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DOC=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
+
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args  =  " -DENABLE_KFILEMETADATASUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
@@ -406,8 +424,31 @@ class Package(CMakePackageBase):
                 print("Could not rename ExifTool binary")
                 return False
 
-
             if not utils.deleteFile(os.path.join(binPath, "exiftool.zip")):
+                print("Could not remove ExifTool archive")
+                return False
+
+        if CraftCore.compiler.isLinux:
+
+            # Manage files under AppImage bundle:
+
+            archiveDir = self.archiveDir()
+            binPath    = os.path.join(archiveDir,    "bin")
+
+            # TODO: optimize files in bundle.
+
+            # Download exiftool in the bundle
+
+            if not GetFiles.getFile("https://files.kde.org/digikam/exiftool/Image-ExifTool.tar.gz",
+                                    binPath, "Image-ExifTool.tar.gz"):
+                print("Could not get ExifTool archive")
+                return False
+
+            if not utils.unpackFile(binPath, "Image-ExifTool.tar.gz", binPath):
+                print("Could not unpack ExifTool archive")
+                return False
+
+            if not utils.deleteFile(os.path.join(binPath, "Image-ExifTool.tar.gz")):
                 print("Could not remove ExifTool archive")
                 return False
 
