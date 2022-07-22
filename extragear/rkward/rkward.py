@@ -77,6 +77,14 @@ class Package(CMakePackageBase):
             utils.system([sys.executable, os.path.join(self.checkoutDir(), "scripts", "import_translations.py")])
         return True
 
+    def setDefaults(self, defines: {str:str}) -> {str:str}:
+        defines = super().setDefaults(defines)
+        if isinstance(self, AppImagePackager):
+            defines["runenv"] += [
+                'FONTCONFIG_PATH=`if [ -d /etc/fonts ]; then echo "/etc/fonts"; else echo "${APPDIR}/etc/fonts"; fi`'
+                ]
+        return defines
+
     def install(self):
         ret = CMakePackageBase.install(self)
         if OsUtils.isWin() or OsUtils.isLinux():
