@@ -463,7 +463,7 @@ class Package(CMakePackageBase):
 
             if not os.symlink(os.path.join("Image-ExifTool", "exiftool"),
                               os.path.join(self.archiveDir(), "bin", "exiftool"),
-                              targetIsDirectory=False):
+                              False):
                 print("Could not create symlink to ExifTool binary")
                 return False
 
