@@ -229,6 +229,41 @@ class Package(CMakePackageBase):
 #       Not yet supported by Craft with NSIS
 #        self.defines["readme"]      = os.path.join(self.packageDir(), "ABOUT.txt")
 
+        # Set env variables for AppImage run environment
+        # There are stored in apprun-hooks/craft-reunenv-hook.sh
+
+        self.defines["runenv"]      = [
+                                        'APPIMAGE_ORIGINAL_LD_LIBRARY_PATH=$LD_LIBRARY_PATH',
+                                        'APPIMAGE_ORIGINAL_QT_PLUGIN_PATH=$QT_PLUGIN_PATH',
+                                        'APPIMAGE_ORIGINAL_XDG_DATA_DIRS=$XDG_DATA_DIRS',
+                                        'APPIMAGE_ORIGINAL_LD_PRELOAD=$LD_PRELOAD',
+                                        'APPIMAGE_ORIGINAL_PATH=$PATH',
+
+                                        'LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH',
+                                        'QT_XKB_CONFIG_ROOT=$this_dir/usr/share/X11/xkb/',
+                                        'PATH=$this_dir/usr/lib/libexec/kf5:$this_dir/usr/share/digikam/utils:$PATH',
+                                        'KDE_FORK_SLAVES=1',
+
+                                        # Gphoto2 runtime environment (TODO: add gphoto2 support)
+                                        'CAMLIBS=$this_dir/usr/lib/libgphoto2',
+                                        'IOLIBS=$this_dir/usr/lib/libgphoto2_port',
+
+                                        # ImageMagick run-time environment (TODO: add IM support)
+                                        'MAGICK_CODER_MODULE_PATH=$this_dir/usr/lib/modules-Q16HDRI/coders',
+                                        'MAGICK_CODER_FILTER_PATH=$this_dir/usr/lib/modules-Q16HDRI/filters',
+
+                                        # QtWebEngine crash with some video card drivers
+                                        # https://github.com/qutebrowser/qutebrowser/issues/2368
+                                        'QT_XCB_FORCE_SOFTWARE_OPENGL=1',
+                                        'QTWEBENGINE_CHROMIUM_FLAGS="--disable-gpu"',
+
+                                        # Code to disable Plasma desktop detection with QDesktopService
+                                        'APPIMAGE_ORIGINAL_KDE_FULL_SESSION=$KDE_FULL_SESSION',
+                                        'APPIMAGE_ORIGINAL_DESKTOP_SESSION=$DESKTOP_SESSION',
+                                        'APPIMAGE_ORIGINAL_XDG_CURRENT_DESKTOP=$XDG_CURRENT_DESKTOP',
+                                        'APPIMAGE_ORIGINAL_XDG_SESSION_DESKTOP=$XDG_SESSION_DESKTOP',
+                                      ]
+
         # Windows-only, mac is handled implicitly
 
         self.defines["executable"]  = "bin\\digikam.exe"
