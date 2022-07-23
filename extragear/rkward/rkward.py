@@ -55,6 +55,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["core/cacert"] = None
             # Needed for building some R packages
             self.runtimeDependencies["dev-util/sed"] = None
+            # tags io-slave used by KEncodingFileDialog (producing ugly warning, if not present)
+            self.runtimeDependencies["kde/frameworks/tier3/baloo"] = None
 
 
 from Package.CMakePackageBase import *
