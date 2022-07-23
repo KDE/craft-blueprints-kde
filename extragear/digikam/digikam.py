@@ -461,7 +461,7 @@ class Package(CMakePackageBase):
                 print("Could not rename ExifTool directory")
                 return False
 
-            if not os.symlink(os.path.join("Image-ExifTool", "exiftool"),
+            if not os.symlink(os.path.join("./", "Image-ExifTool", "exiftool"),
                               os.path.join(self.archiveDir(), "bin", "exiftool"),
                               False):
                 print("Could not create symlink to ExifTool binary")
