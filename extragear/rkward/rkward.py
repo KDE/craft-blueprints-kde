@@ -51,6 +51,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt5/qtcharts"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
             self.runtimeDependencies["libs/qt5/qtserialport"] = None
+            # Needed at runtime to keep libcurl working inside the AppImage. See definition of CURL_CA_BUNDLE, below.
+            self.runtimeDependencies["core/cacert"] = None
 
 
 from Package.CMakePackageBase import *
@@ -81,7 +83,8 @@ class Package(CMakePackageBase):
         defines = super().setDefaults(defines)
         if isinstance(self, AppImagePackager):
             defines["runenv"] += [
-                'FONTCONFIG_PATH=`if [ -d /etc/fonts ]; then echo "/etc/fonts"; else echo "${APPDIR}/etc/fonts"; fi`'
+                'FONTCONFIG_PATH=`if [ -d /etc/fonts ]; then echo "/etc/fonts"; else echo "${APPDIR}/etc/fonts"; fi`',
+                'CURL_CA_BUNDLE=$this_dir/etc/cacert.pem'
                 ]
         return defines
 
