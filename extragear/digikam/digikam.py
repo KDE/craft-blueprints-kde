@@ -274,6 +274,8 @@ class Package(CMakePackageBase):
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
+        print("Build Package...")
+
         if not TypePackager.createPackage(self):
             return False
 
@@ -282,6 +284,8 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isLinux:
 
             # Backup and replace AppImage AppRun script by own one with advanced features.
+
+            print("Patch AppImage startup script...")
 
             if not utils.moveFile(os.path.join(self.archiveDir(),     "AppRun"),
                                   os.path.join(self.archiveDir(),     "AppRun.old")):
