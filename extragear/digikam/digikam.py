@@ -274,7 +274,26 @@ class Package(CMakePackageBase):
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
-        return TypePackager.createPackage(self)
+        if not TypePackager.createPackage(self):
+            return False
+
+        # Post package creation operations
+
+        if CraftCore.compiler.isLinux:
+
+            # Backup and replace AppImage AppRun script by own one with advanced features.
+
+            if not utils.moveFile(os.path.join(self.archiveDir(),     "AppRun"),
+                                  os.path.join(self.archiveDir(),     "AppRun.old")):
+                print("Could not backup original AppImage startup script")
+                return False
+
+            if not utils.copyFile(os.path.join(self.packageDir(),     "AppRun"),
+                                  os.path.join(self.archiveDir(),     "AppRun")):
+                print("Could not copy AppImage startup script")
+                return False
+
+        return True
 
     def preArchive(self):
 
@@ -437,17 +456,6 @@ class Package(CMakePackageBase):
 
             # TODO: optimize files in bundle.
 
-            # Backup and replace AppRun script by own one with advanced features.
-
-            if not utils.moveFile(os.path.join(self.archiveDir(),     "AppRun"),
-                                  os.path.join(self.archiveDir(),     "AppRun.old")):
-                print("Could not backup original AppImage startup script")
-                return False
-
-            if not utils.copyFile(os.path.join(self.packageDir(),     "AppRun"),
-                                  os.path.join(self.archiveDir(),     "AppRun")):
-                print("Could not copy AppImage startup script")
-                return False
 
             # Download exiftool in the bundle
 
