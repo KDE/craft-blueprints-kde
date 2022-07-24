@@ -54,7 +54,7 @@ class subinfo(info.infoclass):
             # Needed at runtime to keep libcurl working inside the AppImage. See definition of CURL_CA_BUNDLE, below.
             self.runtimeDependencies["core/cacert"] = None
             # Needed for building some R packages
-            self.runtimeDependencies["dev-util/sed"] = None
+            self.runtimeDependencies["dev-utils/sed"] = None
             # tags io-slave used by KEncodingFileDialog (producing ugly warning, if not present)
             self.runtimeDependencies["kde/frameworks/tier3/baloo"] = None
 
