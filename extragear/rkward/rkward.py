@@ -54,7 +54,7 @@ class subinfo(info.infoclass):
             # Needed at runtime to keep libcurl working inside the AppImage. See definition of CURL_CA_BUNDLE, below.
             self.runtimeDependencies["core/cacert"] = None
             # Needed for building some R packages
-            self.runtimeDependencies["dev-util/sed"] = None
+            self.runtimeDependencies["dev-utils/sed"] = None
             # tags io-slave used by KEncodingFileDialog (producing ugly warning, if not present)
             self.runtimeDependencies["kde/frameworks/tier3/baloo"] = None
 
@@ -159,7 +159,7 @@ class Package(CMakePackageBase):
             for filename in ["lib/R/etc/Makeconf"]:
                 filename = os.path.join(self.archiveDir(), filename)
                 self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "$(APPDIR)/usr") # NOTE: round braces, here
-            # quirkaround for making kioslaves work despite of https://github.com/linuxdeploy/linuxdeploy/issues/208
-            utils.createSymlink(os.path.join(self.archiveDir(), "lib"), os.path.join(self.archiveDir(), "libexec", "lib"), targetIsDirectory=True)
-            utils.createSymlink(os.path.join(self.archiveDir(), "lib"), os.path.join(self.archiveDir(), "lib", "libexec", "lib"), targetIsDirectory=True)
+            # quirkaround for making kioslaves work despite of https://github.com/linuxdeploy/linuxdeploy/issues/208 / https://invent.kde.org/packaging/craft/-/merge_requests/80
+            for subpath in [ "libexec/lib", "lib/libexec/lib", "plugins/lib", "plugins/kf5/lib" ]:
+                utils.createSymlink(os.path.join(self.archiveDir(), "lib"), os.path.join(self.archiveDir(), subpath), targetIsDirectory=True)
         return super().preArchive()
