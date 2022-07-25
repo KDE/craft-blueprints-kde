@@ -226,8 +226,8 @@ class Package(CMakePackageBase):
         self.defines["company"]     = "digiKam.org"
         self.defines["license"]     = os.path.join(self.sourceDir(),  "COPYING")
 
-#       Not yet supported by Craft with NSIS
-#        self.defines["readme"]      = os.path.join(self.packageDir(), "ABOUT.txt")
+        # Not yet supported by Craft with NSIS
+        # self.defines["readme"]      = os.path.join(self.packageDir(), "ABOUT.txt")
 
         # In AppImage, run the new startup script sctip with advanced features.
 
@@ -282,7 +282,7 @@ class Package(CMakePackageBase):
 
         return TypePackager.createPackage(self)
 
-     def preArchive(self):
+    def preArchive(self):
 
         # Copy More application icons in Windows bundle.
 
