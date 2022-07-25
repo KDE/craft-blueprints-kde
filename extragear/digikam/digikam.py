@@ -232,7 +232,7 @@ class Package(CMakePackageBase):
         # In AppImage, run the new startup script sctip with advanced features.
 
         self.defines["runenv"]      = [
-                                        'export APPIMAGE_EXTRACT_AND_RUN=1 && "$this_dir"/usr/bin/AppRun.digiKam "$@" && exit',
+                                        'APPIMAGE_EXTRACT_AND_RUN=1 && "$this_dir"/usr/bin/AppRun.digiKam "$@" && exit',
                                       ]
 
         # Windows-only, mac is handled implicitly
