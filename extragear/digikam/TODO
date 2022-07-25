@@ -41,6 +41,7 @@
 
 - Include digiKam i18n.
 - Includes ExifTool binaries in the bundle.
+- Use hand-maid AppImage start-up script to add advanced options and controls.
 
 + Add Qt Mysql plugins.
 + Add Mariadb binaries.
