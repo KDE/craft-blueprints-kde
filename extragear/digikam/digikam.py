@@ -280,19 +280,9 @@ class Package(CMakePackageBase):
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
-        print("Build Package...")
+        return TypePackager.createPackage(self)
 
-        if not TypePackager.createPackage(self):
-            return False
-
-        # Post package creation operations
-
-        if CraftCore.compiler.isLinux:
-
-
-        return True
-
-    def preArchive(self):
+     def preArchive(self):
 
         # Copy More application icons in Windows bundle.
 
