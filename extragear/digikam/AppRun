@@ -120,7 +120,9 @@ if [ -f /etc/pki/openssl10.cnf ]; then
 fi
 
 # See Bug #109060
-export LD_PRELOAD=$LD_PRELOAD:$DIR/usr/lib/libavif.so.13
+if [ -f $DIR/usr/lib/libavif.so.13 ]; then
+    export LD_PRELOAD=$LD_PRELOAD:$DIR/usr/lib/libavif.so.13
+fi
 
 preload_shared_library libudev.so.0
 
