@@ -62,7 +62,7 @@ case "${XDG_CURRENT_DESKTOP}" in
 esac
 
 DIR="`dirname \"$0\"`"
-DIR="`( cd \"$DIR\" && readlink -f $(pwd) )`"
+DIR="`( cd \"$DIR\"/../.. && readlink -f $(pwd) )`"
 echo "-- AppImage mounted directory: $DIR"
 export APPDIR=$DIR
 
