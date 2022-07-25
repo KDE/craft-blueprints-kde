@@ -1,0 +1,62 @@
+# blacklist
+
+# general
+.*\.pdb
+.*\.sym
+
+# unused libs and exe
+bin/icuin\.dll
+bin/icuuc\.dll
+bin/poppler-cpp\.dll
+bin/AnalitzaPlot\.dll
+bin/AnalitzaWidgets\.dll
+bin/gio-2\.dll
+bin/glib-2\.dll
+bin/gmodule-2\.dll
+bin/gobject-2\.dll
+bin/gthread-2\.dll
+bin/kcm_kio\.dll
+bin/kcm_webshortcuts\.dll
+bin/kdewin\.dll
+bin/kdewin-qt\.dll
+bin/kdewin\.dll
+bin/kdewin-qt\.dll
+bin/phonon4qt5.*
+# used on macOS?
+#lib/.*
+libexec/.*
+
+# unused Qt/KF5 libs
+# TODO
+
+# unused data
+bin/QtTest/.*
+bin/QtWinExtras/.*
+bin/bearer/.*
+bin/designer/.*
+bin/kauth/.*
+bin/scenegraph/.*
+bin/texttospeech/.*
+bin/data/aclocal/.*
+bin/data/common-lisp/.*
+bin/data/dbus-1/.*
+bin/data/hunspell/.*
+bin/data/icu/.*
+bin/data/info/.*
+bin/data/katepart5/.*
+bin/data/kdevappwizard/.*
+bin/data/kf5/kmoretools/.*
+bin/data/knotifications5/.*
+bin/data/libgpg-error/.*
+# used for translations
+#bin/data/locale/.*
+# needed on macOS
+#share/.*
+
+# we use a icontheme.rc on windows
+# only icons for cantor backends
+bin/data/icons/(?!hicolor).*
+bin/data/icons/hicolor/(?!48x48).*
+
+# strip executables
+bin/(?!(step.*)).*\.exe
