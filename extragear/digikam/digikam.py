@@ -232,7 +232,7 @@ class Package(CMakePackageBase):
         # In AppImage, run the new startup script sctip with advanced features.
 
         self.defines["runenv"]      = [
-                                        'RUN_DK=$("$this_dir"/AppRun.digiKam "$@") && echo $RUN_DK && exit',
+                                        'export APPIMAGE_EXTRACT_AND_RUN=1 && "$this_dir"/usr/bin/AppRun.digiKam "$@" && exit',
                                       ]
 
         # Windows-only, mac is handled implicitly
@@ -243,13 +243,15 @@ class Package(CMakePackageBase):
 
         self.defines["icon"]        = os.path.join(self.packageDir(), "digikam.ico")
 
-        # extra icons
+        # Windows-only extra icons
 
         self.defines["icon_png"]    = os.path.join(self.sourceDir(),  "core",
                                                                       "data",
                                                                       "icons",
                                                                       "apps",
                                                                       "128-apps-digikam.png")
+
+        # Windows-only application shortcuts
 
         self.defines["shortcuts"]   = [ {
                                             "name"        : "digiKam",
@@ -271,7 +273,10 @@ class Package(CMakePackageBase):
                                         }
                                       ]
 
+        # Files to drop from the bundles
+
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
 
@@ -478,7 +483,7 @@ class Package(CMakePackageBase):
             # Replace AppImage AppRun script by own one with advanced features.
 
             if not utils.copyFile(os.path.join(self.packageDir(),     "AppRun"),
-                                  os.path.join(self.archiveDir(),     "AppRun.digiKam")):
+                                  os.path.join(binPath,               "AppRun.digiKam")):
                 print("Could not copy AppImage startup script")
                 return False
 
