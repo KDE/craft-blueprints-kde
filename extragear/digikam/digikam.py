@@ -649,8 +649,7 @@ class Package(CMakePackageBase):
 
             for binFile in dropLst:
                 if not utils.deleteFile(os.path.join(binPath, binFile)):
-                    print("Could not remove binary file from the archive:" + binFile)
-                    return False
+                    print("Warning: could not remove binary file from the archive: " + binFile)
 
             # Download exiftool in the bundle
 
