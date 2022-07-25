@@ -229,6 +229,12 @@ class Package(CMakePackageBase):
 #       Not yet supported by Craft with NSIS
 #        self.defines["readme"]      = os.path.join(self.packageDir(), "ABOUT.txt")
 
+        # In AppImage, run the new startup script sctip with advanced features.
+
+        self.defines["runenv"]      = [
+                                        'RUN_DK=$("$this_dir"/AppRun.digiKam "$@") && echo $RUN_DK && exit',
+                                      ]
+
         # Windows-only, mac is handled implicitly
 
         self.defines["executable"]  = "bin\\digikam.exe"
@@ -283,19 +289,6 @@ class Package(CMakePackageBase):
 
         if CraftCore.compiler.isLinux:
 
-            # Backup and replace AppImage AppRun script by own one with advanced features.
-
-            print("Patch AppImage startup script...")
-
-            if not utils.moveFile(os.path.join(self.archiveDir(),     "AppRun"),
-                                  os.path.join(self.archiveDir(),     "AppRun.old")):
-                print("Could not backup original AppImage startup script")
-                return False
-
-            if not utils.copyFile(os.path.join(self.packageDir(),     "AppRun"),
-                                  os.path.join(self.archiveDir(),     "AppRun")):
-                print("Could not copy AppImage startup script")
-                return False
 
         return True
 
@@ -490,6 +483,13 @@ class Package(CMakePackageBase):
 
             if not utils.deleteFile(os.path.join(binPath, "Image-ExifTool.tar.gz")):
                 print("Could not remove ExifTool archive")
+                return False
+
+            # Replace AppImage AppRun script by own one with advanced features.
+
+            if not utils.copyFile(os.path.join(self.packageDir(),     "AppRun"),
+                                  os.path.join(self.archiveDir(),     "AppRun.digiKam")):
+                print("Could not copy AppImage startup script")
                 return False
 
         return True
