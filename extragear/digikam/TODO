@@ -18,7 +18,7 @@
 - Fix binaries to white-list: digikam.exe, showfoto.exe, avplayer.exe, QtWebEngineProcess.exe, kioslave.exe, etc.
 - Drop unwanted Marble files.
 - Fix Marble dlls install path.
-- Includes exiftool.exe in the bundle.
+- Includes exiftool.exe in the installer.
 - Includes KimageFormats plugins to extend Qt image loader.
 - Fix broken icons to the desktop menu for Showfoto and AVPlayer.
 
@@ -32,6 +32,8 @@
 
 3/ MacOS Clang Target:
 ----------------------
+
+- Includes ExifTool binaries in the package.
 
 + Publish bundle to the Apple Store.
 + More... (TODO)
