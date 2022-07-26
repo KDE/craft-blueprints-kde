@@ -586,7 +586,8 @@ class Package(CMakePackageBase):
                 "pngfix",
                 "png-fix-itxt",
                 "ppm2tiff",
-                "protocprotoc-3.11.2.0",
+                "protoc",
+                "protoc-3.11.2.0",
                 "protocoltojson",
                 "psicc",
                 "raw2tiff",
@@ -663,7 +664,7 @@ class Package(CMakePackageBase):
                 return False
 
             binfiles = os.listdir(binPath)
-            etname  = None
+            etname   = None
 
             for f in binfiles:
                 if f.startswith("Image-ExifTool-"):
@@ -675,7 +676,7 @@ class Package(CMakePackageBase):
                 print("Could not rename ExifTool directory")
                 return False
 
-            os.symlink(os.path.join("./", "Image-ExifTool", "exiftool"),
+            os.symlink(os.path.join("./", "Image-ExifTool",   "exiftool"),
                        os.path.join(self.archiveDir(), "bin", "exiftool"))
 
             if not utils.deleteFile(os.path.join(binPath, "Image-ExifTool.tar.gz")):
