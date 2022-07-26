@@ -65,6 +65,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libass"]                         = None
         self.runtimeDependencies["libs/tiff"]                           = None
 
+        if CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/libgphoto2"]                 = None
+            self.runtimeDependencies["libs/libusb-compat"]              = None
+
         # do not force boost deps (see: https://phabricator.kde.org/T12071#212690)
 
         #self.runtimeDependencies["libs/boost/boost-system"]            = "default"
