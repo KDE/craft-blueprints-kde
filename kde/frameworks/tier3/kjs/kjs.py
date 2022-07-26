@@ -7,6 +7,9 @@ class subinfo(info.infoclass):
             tarballUrl="http://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz",
             tarballDigestUrl="http://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz.sha1")
 
+        if CraftCore.compiler.isMinGW():
+            self.patchToApply["5.96.0"] = [("fix-mingw-undefined.diff", 1)]
+
         self.description = "KJS"
 
     def setDependencies(self):
