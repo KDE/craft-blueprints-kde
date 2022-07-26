@@ -449,7 +449,7 @@ class Package(CMakePackageBase):
 
         if CraftCore.compiler.isLinux:
 
-            # Manage files under AppImage bundle:
+            # --- Manage files under AppImage bundle
 
             archiveDir = self.archiveDir()
             binPath    = os.path.join(archiveDir,    "bin")
@@ -696,6 +696,44 @@ class Package(CMakePackageBase):
             if not utils.copyFile(os.path.join(self.packageDir(),     "AppRun"),
                                   os.path.join(binPath,               "AppRun.digiKam")):
                 print("Could not copy AppImage startup script")
+                return False
+
+        if CraftCore.compiler.isMacOS:
+
+            # --- Manage files under MacOS package
+
+            archiveDir = self.archiveDir()
+            binPath    = os.path.join(archiveDir,    "bin")
+
+            # Download exiftool in the bundle
+
+            if not GetFiles.getFile("https://files.kde.org/digikam/exiftool/Image-ExifTool.tar.gz",
+                                    binPath, "Image-ExifTool.tar.gz"):
+                print("Could not get ExifTool archive")
+                return False
+
+            if not utils.unpackFile(binPath, "Image-ExifTool.tar.gz", binPath):
+                print("Could not unpack ExifTool archive")
+                return False
+
+            binfiles = os.listdir(binPath)
+            etname   = None
+
+            for f in binfiles:
+                if f.startswith("Image-ExifTool-"):
+                    etname = f
+                    break
+
+            if not utils.moveFile(os.path.join(binPath, etname),
+                                  os.path.join(binPath, "Image-ExifTool")):
+                print("Could not rename ExifTool directory")
+                return False
+
+            os.symlink(os.path.join("./", "Image-ExifTool",   "exiftool"),
+                       os.path.join(self.archiveDir(), "bin", "exiftool"))
+
+            if not utils.deleteFile(os.path.join(binPath, "Image-ExifTool.tar.gz")):
+                print("Could not remove ExifTool archive")
                 return False
 
         return True
