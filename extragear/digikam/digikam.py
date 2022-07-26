@@ -222,9 +222,9 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
             self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_PO=OFF"  # FIXME
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_DOC=OFF"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=OFF"   # FIXME
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DOC=OFF"
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
 
