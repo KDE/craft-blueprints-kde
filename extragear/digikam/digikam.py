@@ -43,6 +43,10 @@ class subinfo(info.infoclass):
             self.buildDependencies["dev-utils/subversion"]              = None
             self.buildDependencies["dev-utils/ruby"]                    = None
 
+        if CraftCore.compiler.isMacOS:
+            self.buildDependencies["dev-utils/subversion"]              = None
+            self.buildDependencies["dev-utils/ruby"]                    = None
+
         self.runtimeDependencies["virtual/base"]                        = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"]    = None
         self.buildDependencies["dev-utils/flexbison"]                   = None
