@@ -1,3 +1,5 @@
 .*PlugIns/kf5/org\.kde\.kwindowsystem\.platforms.*
 
+# Mac: Avoid packaging errors due to items that are already in the app bundle
+lib/libgphoto2/.*
 lib/libgphoto2_port/.*
