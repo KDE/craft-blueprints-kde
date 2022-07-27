@@ -287,7 +287,10 @@ class Package(CMakePackageBase):
 
         # Files to drop from the bundles
 
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_common.txt'))
+
+        if CraftCore.compiler.isWindows:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_win.txt'))
 
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))

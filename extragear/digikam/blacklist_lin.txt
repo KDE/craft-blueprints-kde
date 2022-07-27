@@ -1,3 +1,4 @@
+# Blacklist for Linux AppImage
 
 bin/affixcompress
 bin/alsoft-config

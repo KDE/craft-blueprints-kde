@@ -1,3 +1,5 @@
+# Blacklist for MacOS package
+
 .*PlugIns/kf5/org\.kde\.kwindowsystem\.platforms.*
 
 # Mac: Avoid packaging errors due to items that are already in the app bundle
