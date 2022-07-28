@@ -51,6 +51,12 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt5/qtcharts"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
             self.runtimeDependencies["libs/qt5/qtserialport"] = None
+            # Needed at runtime to keep libcurl working inside the AppImage. See definition of CURL_CA_BUNDLE, below.
+            self.runtimeDependencies["core/cacert"] = None
+            # Needed for building some R packages
+            self.runtimeDependencies["dev-utils/sed"] = None
+            # tags io-slave used by KEncodingFileDialog (producing ugly warning, if not present)
+            self.runtimeDependencies["kde/frameworks/tier3/baloo"] = None
 
 
 from Package.CMakePackageBase import *
@@ -76,6 +82,15 @@ class Package(CMakePackageBase):
         if self.subinfo.buildTarget == "master":
             utils.system([sys.executable, os.path.join(self.checkoutDir(), "scripts", "import_translations.py")])
         return True
+
+    def setDefaults(self, defines: {str:str}) -> {str:str}:
+        defines = super().setDefaults(defines)
+        if isinstance(self, AppImagePackager):
+            defines["runenv"] += [
+                'FONTCONFIG_PATH=`if [ -d /etc/fonts ]; then echo "/etc/fonts"; else echo "${APPDIR}/etc/fonts"; fi`',
+                'CURL_CA_BUNDLE=$this_dir/etc/cacert.pem'
+                ]
+        return defines
 
     def install(self):
         ret = CMakePackageBase.install(self)
@@ -122,6 +137,13 @@ class Package(CMakePackageBase):
 
         return TypePackager.createPackage(self)
 
+    def reinplace(self, filename, old, new):
+        CraftCore.log.info(f"patching {old} -> {new} in {filename}")
+        with open(filename, 'r') as f:
+            content = f.read()
+        with open(filename, 'w') as f:
+            f.write(content.replace(old, new))
+
     def preArchive(self):
         if OsUtils.isMac():
             # On Mac there is no sane way to bundle R along with RKWard, so make the default behavior to detect an R installation, automatically.
@@ -131,11 +153,13 @@ class Package(CMakePackageBase):
             rkward_ini.write("R executable=auto\n")
             rkward_ini.close()
         if isinstance(self, AppImagePackager):
-            for filename in ["bin/R", "lib/R/bin/R", "lib/R/bin/libtool", "lib/R/etc/Makeconf", "lib/R/etc/ldpaths", "lib/R/etc/Renviron"]:
+            for filename in ["bin/R", "lib/R/bin/R", "lib/R/bin/libtool", "lib/R/etc/ldpaths", "lib/R/etc/Renviron"]:
                 filename = os.path.join(self.archiveDir(), filename)
-                print(f"patching {filename}")
-                with open(filename, 'r') as f:
-                    content = f.read()
-                with open(filename, 'w') as f:
-                    f.write(content.replace(str(CraftCore.standardDirs.craftRoot()), "${{APPDIR}}"))
+                self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "${APPDIR}/usr")
+            for filename in ["lib/R/etc/Makeconf"]:
+                filename = os.path.join(self.archiveDir(), filename)
+                self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "$(APPDIR)/usr") # NOTE: round braces, here
+            # quirkaround for making kioslaves work despite of https://github.com/linuxdeploy/linuxdeploy/issues/208 / https://invent.kde.org/packaging/craft/-/merge_requests/80
+            for subpath in [ "libexec/lib", "lib/libexec/lib", "plugins/lib", "plugins/kf5/lib" ]:
+                utils.createSymlink(os.path.join(self.archiveDir(), "lib"), os.path.join(self.archiveDir(), subpath), targetIsDirectory=True)
         return super().preArchive()

@@ -1,0 +1,24 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user kjs-5.96.0.orig/src/kjs/interpreter.cpp kjs-5.96.0/src/kjs/interpreter.cpp
+--- kjs-5.96.0.orig/src/kjs/interpreter.cpp	2022-07-02 17:55:38.000000000 +0200
++++ kjs-5.96.0/src/kjs/interpreter.cpp	2022-07-26 14:46:17.098254400 +0200
+@@ -49,7 +49,7 @@
+ #endif
+ 
+ #if defined _WIN32 || defined _WIN64
+-#undef HAVE_SYS_TIME_H // no setitimer in kdewin32
++#define HAVE_SYS_TIME_H 0 // no setitimer in kdewin32
+ #endif
+ #if HAVE_SYS_TIME_H
+ #include <sys/time.h>
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user kjs-5.96.0.orig/src/kjs/regexp.cpp kjs-5.96.0/src/kjs/regexp.cpp
+--- kjs-5.96.0.orig/src/kjs/regexp.cpp	2022-07-02 17:55:38.000000000 +0200
++++ kjs-5.96.0/src/kjs/regexp.cpp	2022-07-26 14:09:29.473395000 +0200
+@@ -31,7 +31,7 @@
+ #include <wtf/Vector.h>
+ 
+ #if defined _WIN32 || defined _WIN64
+-#undef HAVE_SYS_TIME_H
++#define HAVE_SYS_TIME_H 0
+ #endif
+ #if HAVE_SYS_TIME_H
+ #include <sys/time.h>

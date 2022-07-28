@@ -1,0 +1,25 @@
+# Blacklist for Windows installer
+
+# marble
+marble-qt.exe
+LICENSE
+share/applications/org.kde.marble-qt.desktop
+
+# opencv
+
+setup_vars_opencv4.cmd
+share/licenses
+
+# doubled dlls
+bin/icudt\.dll
+bin/icuin\.dll
+bin/icuuc\.dll
+
+# doubled qt dlls
+lib/[^/]*\.dll
+
+# unneeded stuff from bin\
+
+bin/dbus-*\.exe
+bin/dbus-env\.bat
+

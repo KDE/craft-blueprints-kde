@@ -1,0 +1,55 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b6a26f2..a5b2fa8 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -2,7 +2,7 @@ project(ofx)
+ 
+ set (VERSION_MAJOR 0)
+-set (VERSION_MINOR 9)
++set (VERSION_MINOR 10)
+-set (VERSION_PATH 13)
++set (VERSION_PATCH 15)
+ 
+ cmake_minimum_required(VERSION 2.6)
+ 
+@@ -86,13 +86,16 @@ if(MSVC)
+     set(ofxdump_SRCS ${ofxdump_SRCS} lib/messages.cpp lib/getopt.c lib/getopt1.c)
+ endif(MSVC)
+
+-add_definitions(-DCMDLINE_PARSER_PACKAGE=\"ofxdump\" -DCMDLINE_PARSER_PACKAGE_NAME=\"ofxdump\" -DCMDLINE_PARSER_VERSION=\"0.9.13\")
++add_definitions(-DCMDLINE_PARSER_PACKAGE=\"ofxdump\" -DCMDLINE_PARSER_PACKAGE_NAME=\"ofxdump\" -DCMDLINE_PARSER_VERSION=\"0.10.15\")
+ add_executable(ofxdump ${ofxdump_SRCS})
+ target_link_libraries(ofxdump ofx)
+
++configure_file("libofx.pc.in" "${CMAKE_CURRENT_BINARY_DIR}/libofx.pc")
++
+ install(TARGETS ofx ofxdump RUNTIME DESTINATION bin ARCHIVE DESTINATION lib LIBRARY DESTINATION lib)
+ install(FILES inc/libofx.h DESTINATION include/libofx)
+ install(FILES dtd/opensp.dcl DESTINATION ${CMAKE_PREFIX_PATH}/share/libofx/dtd)
+ install(FILES dtd/ofx160.dtd DESTINATION ${CMAKE_PREFIX_PATH}/share/libofx/dtd)
+ install(FILES dtd/ofx201.dtd DESTINATION ${CMAKE_PREFIX_PATH}/share/libofx/dtd)
+ install(FILES dtd/ofc.dtd DESTINATION ${CMAKE_PREFIX_PATH}/share/libofx/dtd)
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libofx.pc DESTINATION ${CMAKE_PREFIX_PATH}/lib/pkgconfig)
+diff --git a/libofx.pc.in b/libofx.pc.in
+index cc1b0fd..6ed75c2 100644
+--- a/libofx.pc.in
++++ b/libofx.pc.in
+@@ -7,10 +7,8 @@ includedir=@includedir@
+ 
+ Name: libofx
+ Description: libofx is a library for processing Open Financial eXchange (OFX) data
+-Version: @VERSION@
++Version: @VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@
+ Requires:
+ Conflicts:
+-Libs: -L${libdir} -lofx
+-Libs.private: @OPENSPLIBS@
+-Cflags: -I${includedir}
+-Cflags.private: -I@OPENSPINCLUDES@
+\ No newline at end of file
++Libs: @CMAKE_INSTALL_PREFIX@/lib/libofx.lib @OPENSP_LIBRARIES@ @ICONV_LIBRARIES@
++Cflags: -I@CMAKE_INSTALL_PREFIX@/include
+\ No newline at end of file
+-- 
+2.36.1
+

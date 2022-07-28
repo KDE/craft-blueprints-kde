@@ -5,10 +5,10 @@
 + Update Craft dependencies as rolling-release: libexiv2, liblensfun.
 + Integrate 3rdparty digiKam plugins: MosaicWall, GMicQt.
 + Integrate 3rdparty digiKam rolling-release manifest.txt in the bundle.
-+ Switch digiKam packaging from Qt 5.15.2 to Qt6 when last dependencies will be ported (libksane and marble).
-+ Enable Mysql support with Qt6.
++ Switch digiKam packaging from Qt 5.15 to Qt6 when last dependencies will be ported (libksane and marble).
++ Enable Mysql support with Qt >= 5.15.5.
 
-2/ Windows MSVC target:
+2/ Windows MSVC Target:
 -----------------------
 
 - Include KDE i18n.
@@ -18,7 +18,7 @@
 - Fix binaries to white-list: digikam.exe, showfoto.exe, avplayer.exe, QtWebEngineProcess.exe, kioslave.exe, etc.
 - Drop unwanted Marble files.
 - Fix Marble dlls install path.
-- Includes exiftool.exe in the bundle.
+- Includes exiftool.exe in the installer.
 - Includes KimageFormats plugins to extend Qt image loader.
 - Fix broken icons to the desktop menu for Showfoto and AVPlayer.
 
@@ -30,8 +30,21 @@
 + Some icons from the export tools are missing.
 + Publish bundle to Microsoft store.
 
-3/ MacOS Clang target:
+3/ MacOS Clang Target:
 ----------------------
+
+- Includes ExifTool binaries in the package.
 
 + Publish bundle to the Apple Store.
 + More... (TODO)
+
+4/ AppImage GCC Target:
+-----------------------
+
+- Include digiKam i18n.
+- Includes ExifTool binaries in the bundle.
+- Use hand-maid AppImage start-up script to add advanced options and controls.
+- Add list of bin files to drop from the bundle.
+
++ Add Qt Mysql plugins.
++ Add Mariadb binaries.

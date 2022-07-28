@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2019-2020 by Gilles Caulier <caulier dot gilles at gmail dot com>
+# Copyright (c) 2019-2022 by Gilles Caulier <caulier dot gilles at gmail dot com>
 # Copyright (c) 2019-2020 by Ben Cooksley <bcooksley at kde dot org>
 #
 # Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,7 @@ class subinfo(info.infoclass):
 
         # For i18n extraction
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
             self.buildDependencies["dev-utils/subversion"]              = None
             self.buildDependencies["dev-utils/ruby"]                    = None
 
@@ -53,12 +53,17 @@ class subinfo(info.infoclass):
 
             # digiKam mediaPlayer is not yet fully ported to FFMPEG 5 API
 
-            self.runtimeDependencies["libs/ffmpeg"]                         = "4.4"
+            self.runtimeDependencies["libs/ffmpeg"]                     = "4.4"
 
         self.runtimeDependencies["libs/opencv/opencv"]                  = None
         self.runtimeDependencies["libs/sqlite"]                         = None
         self.runtimeDependencies["libs/x265"]                           = None
+        self.runtimeDependencies["libs/libass"]                         = None
         self.runtimeDependencies["libs/tiff"]                           = None
+
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/libgphoto2"]                 = None
+            self.runtimeDependencies["libs/libusb-compat"]              = None
 
         # do not force boost deps (see: https://phabricator.kde.org/T12071#212690)
 
@@ -134,7 +139,15 @@ class subinfo(info.infoclass):
         # Install libmarble, plugins and data for geolocation.
         # Marble application will be removed at packaging stage.
 
-        self.runtimeDependencies["kde/applications/marble"]             = None
+        # TODO: Marble-Qt 22.04.3 is not yet instalable under MacOS.
+        # This will be fixed with later release.
+
+        if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["kde/applications/marble"]         = None
+
+        # To support Mysql database
+
+        self.runtimeDependencies["binary/mysql"]                        = None
 
 from Package.CMakePackageBase import *
 from Utils import GetFiles
@@ -143,14 +156,32 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.args  =  " -DENABLE_KFILEMETADATASUPPORT=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_DBUS=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
+            self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_DOC=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DOC=OFF"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
+
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args  =  " -DENABLE_KFILEMETADATASUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
@@ -167,8 +198,8 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=ON"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=ON"
@@ -185,15 +216,15 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=ON"
+            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
             self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_PO=OFF"  # FIXME
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_DOC=OFF"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
+            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=OFF"   # FIXME
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DOC=OFF"
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
 
@@ -203,8 +234,14 @@ class Package(CMakePackageBase):
         self.defines["company"]     = "digiKam.org"
         self.defines["license"]     = os.path.join(self.sourceDir(),  "COPYING")
 
-#       Not yet supported by Craft with NSIS
-#        self.defines["readme"]      = os.path.join(self.packageDir(), "ABOUT.txt")
+        # Not yet supported by Craft with NSIS
+        # self.defines["readme"]      = os.path.join(self.packageDir(), "ABOUT.txt")
+
+        # In AppImage, run the new startup script sctip with advanced features.
+
+        self.defines["runenv"]      = [
+                                        'APPIMAGE_EXTRACT_AND_RUN=1 && "$this_dir"/usr/bin/AppRun.digiKam "$@" && exit',
+                                      ]
 
         # Windows-only, mac is handled implicitly
 
@@ -214,13 +251,15 @@ class Package(CMakePackageBase):
 
         self.defines["icon"]        = os.path.join(self.packageDir(), "digikam.ico")
 
-        # extra icons
+        # Windows-only extra icons
 
         self.defines["icon_png"]    = os.path.join(self.sourceDir(),  "core",
                                                                       "data",
                                                                       "icons",
                                                                       "apps",
                                                                       "128-apps-digikam.png")
+
+        # Windows-only application shortcuts
 
         self.defines["shortcuts"]   = [ {
                                             "name"        : "digiKam",
@@ -242,18 +281,23 @@ class Package(CMakePackageBase):
                                         }
                                       ]
 
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        # Files to drop from the bundles
+
+        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_common.txt'))
+
+        if CraftCore.compiler.isWindows:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_win.txt'))
+
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+
+        if CraftCore.compiler.isLinux:
+            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_lin.txt'))
 
         # Drop dbus support for non Linux target
 
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
-
-        # Qt 5.15.2 bug with recent Mysql version. Remove when Qt 5.15.3 or later will be used.
-
-        self.ignoredPackages.append("binary/mysql")
 
         return TypePackager.createPackage(self)
 
@@ -391,7 +435,7 @@ class Package(CMakePackageBase):
 
             # Download exiftool.exe in the bundle
 
-            if not GetFiles.getFile("https://files.kde.org/digikam/exiftool/exiftool-12.42.zip",
+            if not GetFiles.getFile("https://files.kde.org/digikam/exiftool/exiftool.zip",
                                     binPath, "exiftool.zip"):
                 print("Could not get ExifTool archive")
                 return False
@@ -405,8 +449,90 @@ class Package(CMakePackageBase):
                 print("Could not rename ExifTool binary")
                 return False
 
-
             if not utils.deleteFile(os.path.join(binPath, "exiftool.zip")):
+                print("Could not remove ExifTool archive")
+                return False
+
+        if CraftCore.compiler.isLinux:
+
+            # --- Manage files under AppImage bundle
+
+            archiveDir = self.archiveDir()
+            binPath    = os.path.join(archiveDir,    "bin")
+
+            # Download exiftool in the bundle
+
+            if not GetFiles.getFile("https://files.kde.org/digikam/exiftool/Image-ExifTool.tar.gz",
+                                    binPath, "Image-ExifTool.tar.gz"):
+                print("Could not get ExifTool archive")
+                return False
+
+            if not utils.unpackFile(binPath, "Image-ExifTool.tar.gz", binPath):
+                print("Could not unpack ExifTool archive")
+                return False
+
+            binfiles = os.listdir(binPath)
+            etname   = None
+
+            for f in binfiles:
+                if f.startswith("Image-ExifTool-"):
+                    etname = f
+                    break
+
+            if not utils.moveFile(os.path.join(binPath, etname),
+                                  os.path.join(binPath, "Image-ExifTool")):
+                print("Could not rename ExifTool directory")
+                return False
+
+            os.symlink(os.path.join("./", "Image-ExifTool",   "exiftool"),
+                       os.path.join(self.archiveDir(), "bin", "exiftool"))
+
+            if not utils.deleteFile(os.path.join(binPath, "Image-ExifTool.tar.gz")):
+                print("Could not remove ExifTool archive")
+                return False
+
+            # Replace AppImage AppRun script by own one with advanced features.
+
+            if not utils.copyFile(os.path.join(self.packageDir(),     "AppRun"),
+                                  os.path.join(binPath,               "AppRun.digiKam")):
+                print("Could not copy AppImage startup script")
+                return False
+
+        if CraftCore.compiler.isMacOS:
+
+            # --- Manage files under MacOS package
+
+            archiveDir = self.archiveDir()
+            binPath    = os.path.join(archiveDir,    "bin")
+
+            # Download exiftool in the bundle
+
+            if not GetFiles.getFile("https://files.kde.org/digikam/exiftool/Image-ExifTool.tar.gz",
+                                    binPath, "Image-ExifTool.tar.gz"):
+                print("Could not get ExifTool archive")
+                return False
+
+            if not utils.unpackFile(binPath, "Image-ExifTool.tar.gz", binPath):
+                print("Could not unpack ExifTool archive")
+                return False
+
+            binfiles = os.listdir(binPath)
+            etname   = None
+
+            for f in binfiles:
+                if f.startswith("Image-ExifTool-"):
+                    etname = f
+                    break
+
+            if not utils.moveFile(os.path.join(binPath, etname),
+                                  os.path.join(binPath, "Image-ExifTool")):
+                print("Could not rename ExifTool directory")
+                return False
+
+            os.symlink(os.path.join("./", "Image-ExifTool",   "exiftool"),
+                       os.path.join(self.archiveDir(), "bin", "exiftool"))
+
+            if not utils.deleteFile(os.path.join(binPath, "Image-ExifTool.tar.gz")):
                 print("Could not remove ExifTool archive")
                 return False
 
