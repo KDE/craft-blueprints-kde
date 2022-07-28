@@ -39,11 +39,7 @@ class subinfo(info.infoclass):
 
         # For i18n extraction
 
-        if CraftCore.compiler.isWindows:
-            self.buildDependencies["dev-utils/subversion"]              = None
-            self.buildDependencies["dev-utils/ruby"]                    = None
-
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
             self.buildDependencies["dev-utils/subversion"]              = None
             self.buildDependencies["dev-utils/ruby"]                    = None
 
@@ -65,7 +61,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libass"]                         = None
         self.runtimeDependencies["libs/tiff"]                           = None
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libgphoto2"]                 = None
             self.runtimeDependencies["libs/libusb-compat"]              = None
 
