@@ -104,6 +104,8 @@ from Package.AutoToolsPackageBase import *
 class PackageMSys(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
+        # https://github.com/openssl/openssl/issues/18720
+        self.subinfo.options.configure.cflags += "-Wno-error=implicit-function-declaration"
         if CraftCore.compiler.isMinGW():
             if CraftCore.compiler.isX64():
                 self.platform = "mingw64"
