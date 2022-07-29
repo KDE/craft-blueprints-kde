@@ -6,8 +6,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['1.9.5.1'] = "https://github.com/indilib/indi.git||v1.9.5.1"
-        self.defaultTarget = '1.9.5.1'
+        self.svnTargets['1.9.7'] = "https://github.com/indilib/indi.git||v1.9.7"
+        self.defaultTarget = '1.9.7'
         self.description = 'INDI Library'
 
     def setDependencies(self):
