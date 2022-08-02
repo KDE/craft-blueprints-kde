@@ -27,7 +27,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.10.5'] = "http://downloads.sourceforge.net/project/libofx/libofx/libofx-0.10.5.tar.gz"
+        self.targets['0.10.5'] = "https://github.com/libofx/libofx/releases/download/0.10.5/libofx-0.10.5.tar.gz"
         self.targetDigests['0.10.5'] = (['570ea744fb654750ed9c60456c771e7cbb035465f409e9ee1118f671b47b3bc3'], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc['0.10.5'] = "libofx-0.10.5"
         self.patchToApply['0.10.5'] = [("libofx-0.10.15-20180505-1.diff", 1)]
