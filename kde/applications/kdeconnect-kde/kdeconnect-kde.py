@@ -52,7 +52,6 @@ class Package(CMakePackageBase):
         self.defines["executable"] = r"bin/kdeconnect-app.exe"
 
         if isinstance(self, NullsoftInstallerPackager):
-            self.defines["nsis_include"] = f"!include {self.packageDir()}\\SnoreNotify.nsh"
             self.defines["sections"] = r"""
                 Section "@{productname}"
                     SectionIn 1
