@@ -54,8 +54,6 @@ class Package(CMakePackageBase):
         if isinstance(self, NullsoftInstallerPackager):
             self.defines["nsis_include"] = f"!include {self.packageDir()}\\SnoreNotify.nsh"
             self.defines["sections"] = r"""
-                !define SnoreToastExe "$INSTDIR\\bin\\SnoreToast.exe"
-
                 Section "@{productname}"
                     SectionIn 1
                     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
