@@ -8,8 +8,6 @@ class subinfo(info.infoclass):
         for ver in self.versionInfo.tarballs():
             self.patchToApply[ver] = ('breeze-noWinDrag.diff', 0)
 
-        self.patchToApply["5.24.4"] = [('breeze-noWinDrag.diff', 0), ('0001-Add-missing-kcoreaddons-dep.patch', 1)]
-
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/libfftw"] = None
