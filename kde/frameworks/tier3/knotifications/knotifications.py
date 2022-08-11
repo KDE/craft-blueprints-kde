@@ -8,6 +8,8 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMinGW():
             self.patchToApply["5.95.0"] = [("fix-mingw-prefix.diff", 1)]
             self.patchLevel["5.95.0"] = 1
+            self.patchToApply["5.96.0"] = [("fix-mingw-prefix.diff", 1)]
+            self.patchLevel["5.96.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
