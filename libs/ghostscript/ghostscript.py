@@ -1,5 +1,5 @@
 import info
-
+from CraftCompiler import CraftCompiler
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -43,7 +43,7 @@ class PackageMSVC(CMakePackageBase):
         self.enterSourceDir()
 
         extraArgs = []
-        if CraftCore.compiler.isX64():
+        if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             extraArgs.append("WIN64=")
         # because ghostscript doesn't know about msvc2015, it guesses wrong on this. But,
         # because of where we are, rc /should/ be in the path, so we'll just use that.
@@ -71,10 +71,7 @@ class PackageMSVC(CMakePackageBase):
         if not os.path.isdir(os.path.join(dst, "include", "ghostscript")):
             os.mkdir(os.path.join(dst, "include", "ghostscript"))
 
-        if CraftCore.compiler.isX64():
-            _bit = "64"
-        else:
-            _bit = "32"
+        _bit = CraftCore.compiler.bits
         utils.copyFile(os.path.join(src, "bin", "gsdll%s.dll" % _bit), os.path.join(dst, "bin"), False)
         utils.copyFile(os.path.join(src, "bin", "gsdll%s.lib" % _bit), os.path.join(dst, "lib"), False)
         utils.copyFile(os.path.join(src, "bin", "gswin%s.exe" % _bit), os.path.join(dst, "bin"), False)

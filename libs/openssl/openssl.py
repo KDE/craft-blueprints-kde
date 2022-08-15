@@ -24,7 +24,7 @@
 
 import info
 from Blueprints.CraftVersion import CraftVersion
-
+from CraftCompiler import CraftCompiler
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -82,7 +82,7 @@ class PackageCMake(CMakePackageBase):
         if not CraftCore.compiler.isAndroid:
             args += ["-FS",
                         f"-I{OsUtils.toUnixPath(os.path.join(CraftStandardDirs.craftRoot(), 'include'))}",
-                        "VC-WIN64A" if CraftCore.compiler.isX64() else "VC-WIN32"]
+                        "VC-WIN64A" if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64 else "VC-WIN32"]
         with utils.ScopedEnv(self.env):
             return utils.system(args)
 
@@ -107,7 +107,7 @@ class PackageMSys(AutoToolsPackageBase):
         # https://github.com/openssl/openssl/issues/18720
         self.subinfo.options.configure.cflags += "-Wno-error=implicit-function-declaration"
         if CraftCore.compiler.isMinGW():
-            if CraftCore.compiler.isX64():
+            if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
                 self.platform = "mingw64"
             else:
                 self.platform = "mingw"
@@ -119,7 +119,7 @@ class PackageMSys(AutoToolsPackageBase):
         self.subinfo.options.configure.noLibDir = True
         self.subinfo.options.install.args += ["install_sw"]
 
-        if CraftCore.compiler.isGCC() and not CraftCore.compiler.isNative() and CraftCore.compiler.isX86():
+        if CraftCore.compiler.isGCC() and not CraftCore.compiler.isNative() and CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32:
             self.subinfo.options.configure.args += ["linux-x86"]
             self.subinfo.options.configure.projectFile = "Configure"
 

@@ -2,6 +2,7 @@ import shutil
 
 import info
 from Package.BinaryPackageBase import *
+from CraftCompiler import CraftCompiler
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -13,14 +14,13 @@ class subinfo(info.infoclass):
     def setMariaDbTargets(self):
         baseURL = "http://mariadb.kisiek.net/"
         ver = '10.2.12'
-        arch = "x64" if CraftCore.compiler.isX64() else "32"
+        arch = "x64" if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64 else "32"
         self.targets[ver] = f"{baseURL}mariadb-{ver}/win{arch}-packages/mariadb-{ver}-win{arch}.zip"
         self.targetInstSrc[ver] = f"mariadb-{ver}-win{arch}"
-
-        self.targetDigests[ver] = (['1e6a5640a9b9e9c290f785f232ab3f623bfc5f8736e26e8ae040c0d7dde174ae'],
-                                   CraftHash.HashAlgorithm.SHA256)
-        self.targetDigestsX64[ver] = (['b57cc78fe79633e551d88622bfa729328268da5e7b0fa58e86e838fcc906c796'],
-                                      CraftHash.HashAlgorithm.SHA256)
+        if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+            self.targetDigests[ver] = (['b57cc78fe79633e551d88622bfa729328268da5e7b0fa58e86e838fcc906c796'], CraftHash.HashAlgorithm.SHA256)
+        else:
+            self.targetDigests[ver] = (['1e6a5640a9b9e9c290f785f232ab3f623bfc5f8736e26e8ae040c0d7dde174ae'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "MariaDB database server and embedded library"
         self.defaultTarget = ver
@@ -28,14 +28,14 @@ class subinfo(info.infoclass):
     def setMySqlTargets(self):
         baseURL = "http://dev.mysql.com/get/Downloads/MySQL-5.7/"
         ver = '5.7.18'
-        if CraftCore.compiler.isX64():
+        if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             arch = "x64"
+            self.targetDigests["5.7.18"] = (['6a3b2d070200ae4e29f8a08aceb1c76cca9beccb037de4f5ab120d657e781353'], CraftHash.HashAlgorithm.SHA256)
         else:
             arch = "32"
         self.targets[ver] = f"{baseURL}mysql-{ver}-win{arch}.zip"
         self.targetInstSrc[ver] = f"mysql-{ver}-win{arch}"
 
-        self.targetDigestsX64["5.7.18"] = (['6a3b2d070200ae4e29f8a08aceb1c76cca9beccb037de4f5ab120d657e781353'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "MySql database server and embedded library"
         self.defaultTarget = ver

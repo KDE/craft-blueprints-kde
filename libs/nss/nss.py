@@ -4,6 +4,7 @@ import shutil
 from distutils.dir_util import copy_tree
 from Package.MakeFilePackageBase import *
 from shells import BashShell
+from CraftCompiler import CraftCompiler
 
 nss_ver = "3.78"
 nspr_ver = "4.32"
@@ -86,18 +87,18 @@ class Package(MakeFilePackageBase):
         if CraftCore.compiler.isAndroid:
             # Otherwise gyp isn't found
             self._shell.environment["PATH"] += ":~/.local/bin/"
-            if CraftCore.compiler.architecture == "x86_64":
+            if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
                 buildArgs += ["--target=x64", "-DOS=android"]
             else:
                 buildArgs += ["--target=" + CraftCore.compiler.architecture, "-DOS=android"]
 
 
             # Inspired by craft's own AutoToolsBuildSystem.py
-            if CraftCore.compiler.architecture == "arm":
+            if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm32:
                 androidtarget = "arm-linux-androideabi"
-            elif CraftCore.compiler.architecture == "arm64":
+            elif CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
                 androidtarget = "aarch64-linux-android"
-            elif CraftCore.compiler.architecture == "x86":
+            elif CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
                 androidtarget = "i686-linux-android"
             else:
                 androidtarget = f"{CraftCore.compiler.architecture}-linux-android"
@@ -112,7 +113,7 @@ class Package(MakeFilePackageBase):
                 content = f.read()
             # Tell nspr where the ndk, toolchain and platform are
             newParams = '--target='+androidtarget+' --with-android-ndk='+ndkDir+' --with-android-toolchain='+toolchainDir+' --with-android-platform='+toolchainDir+'/sysroot'
-            if CraftCore.compiler.architecture == "x86_64":
+            if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
                 newParams += ' --enable-64bit'
             content = content.replace('extra_params=(--prefix="$dist_dir"/$target)', 'extra_params=(--prefix="$dist_dir"/$target ' + newParams + ')')
             with open(nsprsh, "wt") as f:
@@ -124,7 +125,7 @@ class Package(MakeFilePackageBase):
             # Accept stuff like aarch64-unknown-linux-android, arm-unknown-linux-androideabi, etc.
             content = content.replace('-linux*-android*)', '-*linux*-android*)')
             content = content.replace('-linux*-android*|', '-*linux*-android*|')
-            if CraftCore.compiler.architecture == "arm":
+            if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm32:
                 # For some reason the armv7 compilers have a different name than stuff like ar or ranlib so we need to do a different replacement here ...
                 # Call the proper clang, gcc is no longer supported
                 content = content.replace('CC="$android_toolchain"/bin/"$android_tool_prefix"-gcc', 'CC="$android_toolchain"/bin/armv7a-linux-androideabi'+ndkPlatformVersion+'-clang')

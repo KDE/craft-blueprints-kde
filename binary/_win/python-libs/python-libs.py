@@ -1,10 +1,10 @@
 import info
-
+from CraftCompiler import CraftCompiler
 
 class subinfo(info.infoclass):
     def setTargets(self):
         arch = "win32"
-        if CraftCore.compiler.isX64():
+        if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             arch = "amd64"
 
         self.targets["default"] = ""

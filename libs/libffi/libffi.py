@@ -1,7 +1,7 @@
 import info
 
 from Package.AutoToolsPackageBase import *
-
+from CraftCompiler import CraftCompiler
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["3.3"]:
@@ -24,7 +24,7 @@ class Package(AutoToolsPackageBase):
         if CraftCore.compiler.isMSVC():
             wrapper = self.shell.toNativePath(self.sourceDir() / "msvcc.sh")
             arch = ""
-            if CraftCore.compiler.isX64():
+            if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
                 arch = " -m64"
             self.subinfo.options.configure.args += [f"CC={wrapper}{arch}", f"CXX={wrapper}{arch}"]
             self.subinfo.options.configure.args += ["--enable-static", "--disable-shared"]
