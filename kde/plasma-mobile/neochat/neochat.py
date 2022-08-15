@@ -42,7 +42,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
-        self.defines["executable"] = r"bin\neochat.exe"
+        self.defines["shortcuts"] = [{"name" : "NeoChat", "target":"bin/neochat.exe", "appId": "neochat"}]
         self.defines["icon"] = self.buildDir() / "src/NEOCHAT_ICON.ico"
         self.addExecutableFilter(r"(bin|libexec)/(?!(neochat|update-mime-database|snoretoast)).*")
         self.ignoredPackages.append("binary/mysql")

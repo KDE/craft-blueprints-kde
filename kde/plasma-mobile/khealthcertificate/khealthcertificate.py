@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
 
 class Package(CMakePackageBase):
     def __init__(self):

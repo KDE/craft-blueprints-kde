@@ -32,11 +32,11 @@ class subinfo(info.infoclass):
         self.description = "Rocket.Chat Client"
         self.webpage = "https://apps.kde.org/ruqola"
 
-        self.targets['1.7.2'] = 'https://download.kde.org/stable/ruqola/ruqola-1.7.2.tar.xz'
-        self.targetDigests['1.7.2'] = (['09a3f668764926a94e79c4a56c794f4aeb945f6bdc5691d942b0b0fd7da2f948'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['1.7.2'] = 'ruqola-1.7.2'
+        self.targets['1.7.4'] = 'https://download.kde.org/stable/ruqola/ruqola-1.7.4.tar.xz'
+        self.targetDigests['1.7.4'] = (['f55f146651fb5f0f34a6b204f4d71b2baac9f6f93f0b8cb7423012b1ae55a93d'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc['1.7.4'] = 'ruqola-1.7.4'
         self.svnTargets["master"] = "https://invent.kde.org/network/ruqola.git"
-        self.defaultTarget = "1.7.2"
+        self.defaultTarget = "1.7.4"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -77,7 +77,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
         self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|dbus|snoretoast)).*")
-        self.defines["shortcuts"] = [{"name" : "Ruqola", "target":"bin/ruqola.exe", "description" : self.subinfo.description}]
+        self.defines["shortcuts"] = [{"name" : "Ruqola", "target":"bin/ruqola.exe", "description" : self.subinfo.description, "appId": "ruqola"}]
 
         if self.buildTarget == "master":
             self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "appIcons.ico")

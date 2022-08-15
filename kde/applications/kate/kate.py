@@ -10,9 +10,6 @@ class subinfo(info.infoclass):
         self.description = "the KDE text editor"
         self.webpage = "https://kate-editor.org/"
 
-        self.patchToApply['21.12.3'] = [('0001-Replace-KateColorSchemeChooser-with-using-KColorSche.patch', 1)]
-        self.patchLevel['21.12.3'] = 1
-
     def registerOptions(self):
         self.options.dynamic.registerOption("fullPlasma", False)
 
@@ -28,8 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kinit"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
@@ -37,6 +33,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/kdeutils/markdownpart"] = None
         if self.options.dynamic.fullPlasma:
+            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
             self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
         if OsUtils.isUnix():
             self.runtimeDependencies["kde/applications/konsole"] = None
