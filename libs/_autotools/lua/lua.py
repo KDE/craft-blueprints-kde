@@ -35,63 +35,44 @@ class Package( MakeFilePackageBase ):
 
     def install(self):
         if OsUtils.isUnix() :
-            # generate and install lua5.2.pc file
-            os.chdir(os.path.join(self.workDir(), "lua-5.2.4"))
-            os.system("make lua5.2.pc")
-            utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "lua5.2.pc"),
-                           os.path.join(self.installDir(), "lib", "pkgconfig", "lua5.2.pc"))
+            # generate  lua5.2.pc file
+            self.enterSourceDir()
+            utils.system("make lua5.2.pc")
 
-            # install libraries
-            liblua = os.path.join(self.installDir(), "lib", "lua", "lua5.2", "liblua.so.5.2.4")
-            utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "src", "liblua.so.5.2.4"), liblua)
-            utils.createSymlink(liblua, os.path.join(self.installDir(), "lib", "lua", "lua5.2", "liblua.so"))
-            utils.createSymlink(liblua, os.path.join(self.installDir(), "lib", "lua", "lua5.2", "liblua.so.5.2"))
-            utils.createSymlink(liblua, os.path.join(self.installDir(), "lib", "lua", "lua5.2", "liblua5.2.so"))
-            utils.createSymlink(liblua, os.path.join(self.installDir(), "lib", "lua", "lua5.2", "liblua5.2.4.so"))
-
-            # install executables
-            utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "src", "lua"),
-                           os.path.join(self.installDir(), "bin", "lua"))
-            utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "src", "luac"),
-                           os.path.join(self.installDir(), "bin", "luac"))
-
-        if OsUtils.isWin() :
-            utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "src", "liblua.a"),
-                           os.path.join(self.installDir(), "bin", "liblua.a"))
-            utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "src", "lua52.dll"),
-                           os.path.join(self.installDir(), "bin", "lua52.dll"))
-
-            utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "src", "lua.exe"),
-                           os.path.join(self.installDir(), "bin", "lua.exe"))
-
-            utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "src", "luac.exe"),
-                           os.path.join(self.installDir(), "bin", "luac.exe"))
-
-        # install headers
-        includeDir = os.path.join(self.installDir(), "include", "lua", "lua5.2")
+        includeDir = os.path.join(self.installDir(), "include/lua/lua5.2")
         if OsUtils.isWin() :
             includeDir = os.path.join(self.installDir(), "include")
 
-        utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "src", "lua.h"),
-                       os.path.join(includeDir, "lua.h"))
+        files = {
+            "lua5.2.pc":           os.path.join(self.installDir(), "lib/pkgconfig/lua5.2.pc"),
+            "src/liblua.so.5.2.4": os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5.2.4"),
+            "src/lua":             os.path.join(self.installDir(), "bin/lua"),
+            "src/luac":            os.path.join(self.installDir(), "bin/luac"),
+            "src/liblua.a":        os.path.join(self.installDir(), "bin/liblua.a"),
+            "src/lua52.dll":       os.path.join(self.installDir(), "bin/lua52.dll"),
+            "src/lua.exe":         os.path.join(self.installDir(), "bin/lua.exe"),
+            "src/luac.exe":        os.path.join(self.installDir(), "bin/luac.exe"),
+            "src/lua.h":           os.path.join(includeDir, "lua.h"),
+            "src/luaconf.h":       os.path.join(includeDir, "luaconf.h"),
+            "src/lualib.h":        os.path.join(includeDir, "lualib.h"),
+            "src/lauxlib.h":       os.path.join(includeDir, "lauxlib.h"),
+            "src/lua.hpp":         os.path.join(includeDir, "lua.hpp"),
+            "doc/lua.1":           os.path.join(self.installDir(), "man/man1/lua.1"),
+            "doc/luac.1":          os.path.join(self.installDir(), "man/man1/luac.1"),
+        }
 
-        utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "src", "luaconf.h"),
-                       os.path.join(includeDir, "luaconf.h"))
+        # install files
+        for src, dest in files.items():
+            source = os.path.join(self.workDir(), "lua-5.2.4", src)
+            if (os.path.exists(source)) :
+                if not utils.copyFile(source, dest) :
+                    return False
 
-        utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "src", "lualib.h"),
-                       os.path.join(includeDir, "lualib.h"))
-
-        utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "src", "lauxlib.h"),
-                      os.path.join(includeDir, "lauxlib.h"))
-
-        utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "src", "lua.hpp"),
-                      os.path.join(includeDir, "lua.hpp"))
-
-        # install docs
-        utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "doc", "lua.1"),
-                       os.path.join(self.installDir(), "man", "man1", "lua.1"))
-
-        utils.copyFile(os.path.join(self.workDir(), "lua-5.2.4", "doc", "luac.1"),
-                       os.path.join(self.installDir(), "man", "man1", "luac.1"))
+        if OsUtils.isUnix() :
+            liblua  = os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5.2.4")
+            if (os.path.exists(liblua)) :
+                utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5.2"))
+                utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5"))
+                utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.0"))
 
         return True
