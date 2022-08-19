@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
             tarballInstallSrc = "kirigami2-${VERSION}"
         )
 
-        for ver in ["5.91.0", "5.92.0", "5.93.0"]:
+        for ver in ["5.92.0", "5.93.0"]:
             self.patchToApply[ver] = ('FixWinTargets.patch', 1) # fixed upstream in ecm for 5.94.0
             self.patchLevel[ver] = 1
 

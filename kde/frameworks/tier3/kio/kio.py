@@ -5,11 +5,9 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["5.91.0"] = [("fix-mingw.patch", 1)]
             self.patchToApply["5.92.0"] = [("fix-mingw.patch", 1)]
             self.patchToApply["5.92.0"] += [("fix-mingw-qstandardpath-include.diff", 1)]
             self.patchToApply["5.93.0"] = [("fix-mingw.patch", 1)]
-        self.patchLevel["5.91.0"] = 51
         self.patchLevel["5.92.0"] = 2
         self.patchLevel["5.93.0"] = 1
 
