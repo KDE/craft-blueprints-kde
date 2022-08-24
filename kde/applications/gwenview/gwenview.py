@@ -17,9 +17,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/lcms2"] = None
         self.runtimeDependencies["libs/lmdb"] = None
         self.runtimeDependencies["kde/libs/libkdcraw"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
         self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
         self.runtimeDependencies["qt-libs/phonon"] = None
+
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
 
 
 from Package.CMakePackageBase import *

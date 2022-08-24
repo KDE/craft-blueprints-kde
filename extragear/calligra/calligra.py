@@ -40,7 +40,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['kde/frameworks/tier2/kdoctools'] = 'default'
         self.runtimeDependencies['kde/frameworks/tier2/kcompletion'] = 'default'
         self.runtimeDependencies['kde/frameworks/tier2/kjobwidgets'] = 'default'
-        self.runtimeDependencies['kde/frameworks/tier2/kactivities'] = 'default'
         self.runtimeDependencies['kde/frameworks/tier3/kconfigwidgets'] = 'default'
         self.runtimeDependencies['kde/frameworks/tier3/kiconthemes'] = 'default'
         self.runtimeDependencies['kde/frameworks/tier3/kcmutils'] = 'default'
@@ -58,6 +57,9 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isMinGW():
             self.runtimeDependencies["libs/runtime"] = None #mingw-based builds need this
+
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
 
 from Package.CMakePackageBase import *
 

@@ -31,7 +31,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/ghostscript"] = None
             self.runtimeDependencies["kde/applications/libkexiv2"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
-            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kpty"] = None
             self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kjs"] = None
@@ -45,6 +44,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
             self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
+
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
 
 from Package.CMakePackageBase import *
 

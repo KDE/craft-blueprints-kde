@@ -17,7 +17,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/openexr"] = None
         self.runtimeDependencies["libs/taglib"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -32,6 +31,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdnssd"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
+
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
 
 from Package.CMakePackageBase import *
 

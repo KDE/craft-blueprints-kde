@@ -27,7 +27,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
         self.runtimeDependencies['kde/frameworks/tier2/kjobwidgets'] = None
-        self.runtimeDependencies['kde/frameworks/tier2/kactivities'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kconfigwidgets'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kiconthemes'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kcmutils'] = None
@@ -42,6 +41,9 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isMinGW():
             self.runtimeDependencies["libs/runtime"] = None #mingw-based builds need this
+
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
 
 from Package.CMakePackageBase import *
 
