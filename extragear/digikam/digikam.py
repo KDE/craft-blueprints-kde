@@ -139,7 +139,7 @@ class subinfo(info.infoclass):
         # Install libmarble, plugins and data for geolocation.
         # Marble application will be removed at packaging stage.
 
-        self.runtimeDependencies["kde/applications/marble"]         = None
+        self.runtimeDependencies["kde/applications/marble"]             = None
 
         # To support Mysql database
 
