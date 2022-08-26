@@ -139,11 +139,7 @@ class subinfo(info.infoclass):
         # Install libmarble, plugins and data for geolocation.
         # Marble application will be removed at packaging stage.
 
-        # TODO: Marble-Qt 22.04.3 is not yet instalable under MacOS.
-        # This will be fixed with later release.
-
-        if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["kde/applications/marble"]         = None
+        self.runtimeDependencies["kde/applications/marble"]         = None
 
         # To support Mysql database
 
