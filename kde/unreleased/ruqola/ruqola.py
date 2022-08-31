@@ -79,11 +79,7 @@ class Package(CMakePackageBase):
         self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|dbus|snoretoast)).*")
         self.defines["shortcuts"] = [{"name" : "Ruqola", "target":"bin/ruqola.exe", "description" : self.subinfo.description, "appId": "ruqola"}]
 
-        if self.buildTarget == "master":
-            self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "appIcons.ico")
-        else:
-            # compat for 1.7
-            self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "widget", "appIcons.ico")
+        self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "appIcons.ico")
 
         self.defines["icon_png"] = os.path.join(self.packageDir(), "150-apps-ruqola.png")
         self.defines["icon_png_44"] = os.path.join(self.packageDir(), "44-apps-ruqola.png")
