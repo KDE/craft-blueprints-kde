@@ -6,14 +6,17 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/danvratil/qcoro.git'
 
-        for ver in ['0.6.0']:
+        for ver in ['0.3.0']:
             self.targets[ver] = 'https://github.com/danvratil/qcoro/archive/refs/tags/v%s.tar.gz' % ver
             self.archiveNames[ver] = 'qcoro-%s.tar.gz' % ver
             self.targetInstSrc[ver] = 'qcoro-%s' % ver
 
-        self.targetDigests['0.6.0'] = (['26d6ea1103c51b895e93d27b59bee394f80db8fd9ca21e7c0056583b1938906d'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['0.3.0'] = (['610fcf621de0cf04597e2e308d1d22a7fce2a39eafa2d4827d1ff6c8b0e724c0'], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = '0.6.0'
+        self.patchToApply["0.3.0"] = [("0001-Disable-QDBus-integration-by-default-on-Windows-Mac-.patch", 1)]
+        self.patchLevel["0.3.0"] = 1
+
+        self.defaultTarget = '0.3.0'
         self.description = "C++ Coroutines for Qt"
 
     def setDependencies(self):
