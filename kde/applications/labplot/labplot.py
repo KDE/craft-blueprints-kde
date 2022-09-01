@@ -17,8 +17,10 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'http://download.kde.org/stable/labplot/2.9.0/labplot-2.9.0-beta.tar.xz'
             self.targetInstSrc[ver] = 'labplot-2.9.0-beta'
 
-        #self.patchToApply['2.8.1'] = [('labplot-2.8.1.diff', 1)]
-        #self.patchLevel['2.8.2'] = 1
+        self.patchToApply['2.8.1'] = [('labplot-2.8.1.patch', 1)]
+        self.patchToApply['2.9.0'] = [('labplot-2.9.0.patch', 1)]
+        self.patchLevel['2.9.0'] = 1
+
         self.defaultTarget = '2.9.0'
 
     def setDependencies(self):
