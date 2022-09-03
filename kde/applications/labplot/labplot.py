@@ -89,6 +89,8 @@ class Package(CMakePackageBase):
         return result
 
     def createPackage(self):
+        self.defines["appname"] = "labplot2"
+
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         # Some plugin files brake codesigning on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
@@ -99,7 +101,6 @@ class Package(CMakePackageBase):
         self.defines["runenv"] = [
                 'LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH']
 
-        self.defines["appname"] = "labplot2"
         self.defines["website"] = "https://labplot.kde.org/"
         self.defines["executable"] = "bin\\labplot2.exe"
         self.defines["shortcuts"] = [{"name" : "LabPlot2", "target" : "bin/labplot2.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\labplot2.ico" }]
