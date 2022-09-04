@@ -27,19 +27,13 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.10.5'] = "https://github.com/libofx/libofx/releases/download/0.10.5/libofx-0.10.5.tar.gz"
-        self.targetDigests['0.10.5'] = (['570ea744fb654750ed9c60456c771e7cbb035465f409e9ee1118f671b47b3bc3'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['0.10.5'] = "libofx-0.10.5"
-        self.patchToApply['0.10.5'] = [("libofx-0.10.15-20180505-1.diff", 1)]
-        self.patchToApply['0.10.5'] += [("libofx-0.10.15-20180412.diff", 1)]
-        if CraftCore.compiler.isMSVC():
-            self.patchToApply['0.10.5'] += [("libofx-0.10.15-20180505-5.diff", 1)]
-            self.patchToApply['0.10.5'] += [("0001-Don-t-deconst-iconv-input-buffer-under-Windows.patch", 1)]
-            self.patchToApply['0.10.5'] += [("0001-Add-new-code-to-CMakeLists.txt.patch", 1)]
+        self.targets['0.10.6'] = "https://github.com/libofx/libofx/releases/download/0.10.6/libofx-0.10.6.tar.gz"
+        self.targetDigests['0.10.6'] = (['05b263642cac763d6656316b9065fe2f4d2684239a99fe45368f367603257971'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc['0.10.6'] = "libofx-0.10.6"
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
-        self.defaultTarget = '0.10.5'
-        self.patchLevel["0.10.5"] = 3
+        self.defaultTarget = '0.10.6'
+        self.patchLevel["0.10.6"] = 0
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libopensp"] = None
@@ -49,22 +43,8 @@ class subinfo(info.infoclass):
 from Package.AutoToolsPackageBase import *
 from Package.CMakePackageBase import *
 
-class PackageAutotools(AutoToolsPackageBase):
-    def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
-        openSPIncludeDir = CraftStandardDirs.craftRoot() / "include/OpenSP"
-        openSPLibDir = CraftStandardDirs.craftRoot() / "lib"
-        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", f"--with-opensp-includes={openSPIncludeDir}", f"--with-opensp-libs={openSPLibDir}"]
-
-if CraftCore.compiler.isMacOS:
-    class Package(PackageAutotools):
-        def __init__(self):
-            PackageAutotools.__init__(self)
-else:
-    class Package(CMakePackageBase):
-        def __init__(self):
-            # we use subinfo for now too
-            CMakePackageBase.__init__(self)
-            if CraftCore.compiler.isMSVC():
-                # LINK : fatal error LNK1104: cannot open file 'libofx.lib'
-                self.subinfo.options.dynamic.buildStatic = True
+class Package(CMakePackageBase):
+    def __init__(self):
+        # we use subinfo for now too
+        CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args = "-DENABLE_OFXCONNECT=off -DENABLE_OFX2QIF=off"
