@@ -85,7 +85,7 @@ bin/data/libgpg-error/.*
 translations/qtwebengine_locales/.*
 html/.*
 # required on macOS?
-share/.*
+#share/.*
 
 # we use a icontheme.rc on windows
 # only icons for cantor backends
