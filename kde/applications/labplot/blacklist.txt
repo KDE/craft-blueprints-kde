@@ -84,7 +84,7 @@ bin/data/libgpg-error/.*
 #bin/data/locale/.*
 translations/qtwebengine_locales/.*
 html/.*
-# required on macOS?
+# share/applications/*.desktop needed for AppImage (also share/ required on macOS?)
 #share/.*
 
 # we use a icontheme.rc on windows
