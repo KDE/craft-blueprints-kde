@@ -9,8 +9,6 @@ class subinfo( info.infoclass ):
         self.displayName = "Elisa"
         self.description = "the Elisa music player"
 
-        self.patchToApply["22.08.0"] = [("kde/applications/elisa/0001-Fix-condition-for-Breeze-style.patch", 1)]
-
     def setDependencies( self ):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

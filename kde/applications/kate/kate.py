@@ -6,8 +6,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.patchToApply["22.08.0"] = [("0001-Don-t-search-for-KF5Activities-on-Windows-Mac.patch", 1)]
-
         self.displayName = "Kate"
         self.description = "the KDE text editor"
         self.webpage = "https://kate-editor.org/"
