@@ -25,10 +25,3 @@ from Package.BinaryPackageBase import *
 class Package(BinaryPackageBase):
     def __init__(self, **args):
         BinaryPackageBase.__init__(self)
-
-    def install(self):
-        if not super().install():
-            return False
-        appImage = self.installDir() / "linuxdeploy-x86_64.AppImage"
-        appImage.chmod(appImage.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
-        return True
