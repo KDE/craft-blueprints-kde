@@ -4,7 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply["5.92.0"] = [("sonnet-5.92.0-20220322.diff", 1)]
 
         if CraftCore.compiler.isMinGW():
             self.patchToApply["5.95.0"] = [("fix-mingw-prefix.diff", 1)]
