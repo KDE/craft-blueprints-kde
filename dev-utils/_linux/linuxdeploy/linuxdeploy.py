@@ -6,16 +6,17 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["continous"] = ["https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage",
-                                    "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage"
-                                    ]
-        self.targetInstallPath["continous"] = "dev-utils/bin"
+        for ver in ["1-alpha-20220822-1"]:
+            self.targets[ver] = "https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20220822-1/linuxdeploy-x86_64.AppImage"
+            self.targetInstallPath[ver] = "dev-utils/bin"
+            self.defaultTarget = ver
+        self.targetDigests["1-alpha-20220822-1"] = (['fb9183b0cac3985829f8dbcdcaa2bc0fa4bb7db0e1a7215e23f52f31088c993d'], CraftHash.HashAlgorithm.SHA256)
         self.description = "AppDir creation and maintenance tool. Featuring flexible plugin system."
         self.webpage = "https://github.com/linuxdeploy/linuxdeploy"
-        self.defaultTarget = "continous"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["linuxdeploy-plugin-qt"] = None
 
 
 from Package.BinaryPackageBase import *
@@ -24,18 +25,3 @@ from Package.BinaryPackageBase import *
 class Package(BinaryPackageBase):
     def __init__(self, **args):
         BinaryPackageBase.__init__(self)
-
-
-    def unpack(self):
-        return True
-
-    def install(self):
-        utils.createDir(self.installDir())
-        for f in self.localFilePath():
-            src = Path(f)
-            dest = Path(self.installDir()) / src.name
-            # we move the files so that on a reinstall the continous target gets redownloaded
-            if not utils.moveFile(src, dest):
-                return False
-            dest.chmod(dest.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
-        return True

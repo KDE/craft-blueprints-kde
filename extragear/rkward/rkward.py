@@ -57,6 +57,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["dev-utils/sed"] = None
             # tags io-slave used by KEncodingFileDialog (producing ugly warning, if not present)
             self.runtimeDependencies["kde/frameworks/tier3/baloo"] = None
+        elif OsUtils.isMac():
+            # indirectly required by kate, but not declared as dependency, there
+            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
 
 
 from Package.CMakePackageBase import *

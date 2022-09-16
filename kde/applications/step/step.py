@@ -6,9 +6,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "Interactive Physical Simulator"
         self.webpage = "https://edu.kde.org/step"
-        # 22.04.3 not working for MSVC
-        if CraftCore.compiler.isMSVC():
-            self.defaultTarget = 'master'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

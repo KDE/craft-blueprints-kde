@@ -7,9 +7,6 @@ class subinfo(info.infoclass):
             tarballUrl="http://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz",
             tarballDigestUrl="http://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz.sha1")
 
-        self.patchToApply["5.92.0"] = [("0001-Build-without-kglobalaccel-on-Windows-and-mac.patch", 1)]
-        self.patchLevel["5.92.0"] = 1
-
         self.description = "KHTML APIs"
 
     def setDependencies(self):

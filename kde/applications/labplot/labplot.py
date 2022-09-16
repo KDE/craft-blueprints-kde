@@ -17,8 +17,10 @@ class subinfo(info.infoclass):
             self.targets[ver] = 'http://download.kde.org/stable/labplot/2.9.0/labplot-2.9.0-beta.tar.xz'
             self.targetInstSrc[ver] = 'labplot-2.9.0-beta'
 
-        #self.patchToApply['2.8.1'] = [('labplot-2.8.1.diff', 1)]
-        #self.patchLevel['2.8.2'] = 1
+        self.patchToApply['2.8.1'] = [('labplot-2.8.1.patch', 1)]
+        self.patchToApply['2.9.0'] = [('labplot-2.9.0.patch', 1)]
+        self.patchLevel['2.9.0'] = 1
+
         self.defaultTarget = '2.9.0'
 
     def setDependencies(self):
@@ -87,13 +89,18 @@ class Package(CMakePackageBase):
         return result
 
     def createPackage(self):
+        self.defines["appname"] = "labplot2"
+
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         # Some plugin files brake codesigning on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
         self.addExecutableFilter(r"bin/(?!(labplot|cantor_)).*")
 
-        self.defines["appname"] = "labplot2"
+        # set env variables for AppImage run environment
+        self.defines["runenv"] = [
+                'LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH']
+
         self.defines["website"] = "https://labplot.kde.org/"
         self.defines["executable"] = "bin\\labplot2.exe"
         self.defines["shortcuts"] = [{"name" : "LabPlot2", "target" : "bin/labplot2.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\labplot2.ico" }]
