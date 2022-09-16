@@ -15,7 +15,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kinit"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
@@ -27,7 +26,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kinit"] = None
 
 
 

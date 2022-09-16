@@ -30,7 +30,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kinit"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
