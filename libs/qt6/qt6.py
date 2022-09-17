@@ -5,6 +5,15 @@ class Pattern(CMakePackageBase):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args += ["-DINSTALL_PUBLICBINDIR=bin"]
 
+    @property
+    def qt6EnvBuildEnv(self):
+        if CraftCore.compiler.isWindows:
+            return {"PATH": f"{self.buildDir() / 'lib/qt6/bin'};{os.environ['PATH']}"}
+        return {}
+
+    def make(self):
+        with utils.ScopedEnv(self.qt6EnvBuildEnv):
+            super().make()
 
     def postInstall(self):
         user_facing_tool_links = self.buildDir() / "user_facing_tool_links.txt"
