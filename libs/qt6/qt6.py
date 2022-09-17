@@ -13,7 +13,7 @@ class Pattern(CMakePackageBase):
 
     def make(self):
         with utils.ScopedEnv(self.qt6EnvBuildEnv):
-            super().make()
+            return super().make()
 
     def postInstall(self):
         user_facing_tool_links = self.buildDir() / "user_facing_tool_links.txt"
