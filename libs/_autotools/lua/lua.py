@@ -71,8 +71,9 @@ class Package( MakeFilePackageBase ):
         if OsUtils.isUnix() :
             liblua  = os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5.2.4")
             if (os.path.exists(liblua)) :
-                utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5.2"))
-                utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5"))
-                utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.0"))
+                if (not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5.2"))
+                    or not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5"))
+                    or not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.0"))) :
+                    return False
 
         return True
