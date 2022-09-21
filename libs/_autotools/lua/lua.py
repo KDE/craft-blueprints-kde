@@ -37,7 +37,8 @@ class Package( MakeFilePackageBase ):
         if OsUtils.isUnix() :
             # generate  lua5.2.pc file
             self.enterSourceDir()
-            utils.system("make lua5.2.pc")
+            if not utils.system(["make", "lua5.2.pc"]):
+                return False
 
         includeDir = os.path.join(self.installDir(), "include/lua/lua5.2")
         if OsUtils.isWin() :
