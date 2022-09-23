@@ -351,10 +351,10 @@ class Package(CMakePackageBase):
 
             # Move translations/ to bin/translations/
 
-            if not utils.moveFile(os.path.join(archiveDir,  "translations"),
-                                  os.path.join(binPath,     "translations")):
-                print("Could not move Qt translations dir")
-                return False
+            #  if not utils.moveFile(os.path.join(archiveDir,  "translations"),
+            #                        os.path.join(binPath,     "translations")):
+            #      print("Could not move Qt translations dir")
+            #      return False
 
             # Move digiKam plugins from bin/digikam/ to bin/plugins/digikam/
 
