@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
                                       ]
         self.patchToApply["dev"] = [("qtwebkit-20181022.patch", 1)]
 
-        for ver in ["5.12", "5.15"]:
+        for ver in ["5.12", "5.15", "kde/5.15"]:
             self.svnTargets[ver] = self.svnTargets["5.212"]
             self.patchToApply[ver] = self.patchToApply["5.212"]
 
