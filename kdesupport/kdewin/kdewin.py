@@ -8,8 +8,9 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         # will be moved to kdewin-qt
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtsvg"] = None
+        if self.options.dynamic.buildWithQt:
+            self.runtimeDependencies["libs/qt5/qtbase"] = None
+            self.runtimeDependencies["libs/qt5/qtsvg"] = None
         # will be moved to kdewin-tools
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/libpng"] = None
@@ -27,6 +28,9 @@ class subinfo(info.infoclass):
         self.description = "kde supplementary package for win32"
         self.defaultTarget = 'master'
 
+    def registerOptions(self):
+        self.options.dynamic.registerOption("buildWithQt", False)
+
 
 from Package.CMakePackageBase import *
 
@@ -36,7 +40,9 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         # required for package generating because we build from svnHEAD by default
         #        self.subinfo.options.package.version = '0.5.4'
-        self.subinfo.options.configure.args = '-DBUILD_BASE_LIB_WITH_QT=ON -DBUILD_QT_LIB=ON -DBUILD_PNG2ICO=OFF '
+        self.subinfo.options.configure.args = '-DBUILD_PNG2ICO=OFF '
+        if self.options.dynamic.buildWithQt:
+            self.subinfo.options.configure.args += ' -DBUILD_BASE_LIB_WITH_QT=ON -DBUILD_QT_LIB=ON '
         self.subinfo.options.configure.args += ' -DBUILD_TOOLS=ON '
         if CraftCore.compiler.isMinGW_W32():
             self.subinfo.options.configure.args += ' -DMINGW_W32=ON '
