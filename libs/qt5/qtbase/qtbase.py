@@ -121,6 +121,22 @@ class subinfo(info.infoclass):
 class QtPackage(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
+        self._qtVer = None
+
+    @property
+    def qtVer(self):
+        if self._qtVer:
+            return self._qtVer
+        if not self.subinfo.hasSvnTarget():
+            self._qtVer = CraftVersion(self.subinfo.buildTarget)
+        elif self.sourceDir().exists():
+            with open(self.sourceDir() / ".qmake.conf", "rt") as conf:
+                for line in conf:
+                    if line.startswith("MODULE_VERSION"):
+                        self._qtVer = CraftVersion(line.split("=", 1)[1].strip())
+        if not self._qtVer:
+            raise "qtVer is only available after the src was fetched"
+        return self._qtVer
 
     def configure(self, unused1=None, unused2=""):
         # https://github.com/qt/qtbase/blob/5.14/mkspecs/common/macx.conf#L8
