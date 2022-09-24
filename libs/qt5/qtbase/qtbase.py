@@ -25,7 +25,6 @@ class subinfo(info.infoclass):
             if ver == "dev":
                 self.patchToApply[ver] = []
             elif ver == "kde/5.15":
-                # TODO: qstandardpaths-extra-dirs.patch
                 self.patchToApply[ver] = [
                     (".qt-kde-5.15", 1),
                 ]
