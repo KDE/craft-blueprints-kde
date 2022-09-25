@@ -1,0 +1,31 @@
+From 052f199e7eb34ec2a97cee1fcb33e515af13d428 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ingo=20Kl=C3=B6cker?=
+ <ingokloecker@users.noreply.github.com>
+Date: Thu, 15 Sep 2022 19:24:34 +0200
+Subject: [PATCH] Fix installation path of libofx.h (#83)
+
+Install libofx.h as <includedir>/libofx/libofx.h as in version 10.0.5.
+Currently, it's installed as <includedir>/libofx.h which breaks the
+build of kmymoney and probably every other user of libofx. I guess this
+was changed unintentionally with using GNUInstallDirs in
+8a154a014962d5ea8ac1c9b59f388013c2e184bb.
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c96fb58..b70e041 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -202,7 +202,7 @@ endif ()
+ configure_file("libofx.pc.in" "${CMAKE_BINARY_DIR}/libofx.pc")
+ 
+ install(DIRECTORY dtd DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/libofx FILES_MATCHING PATTERN "*.dtd" PATTERN "*.dcl")
+-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/inc/libofx.h" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
++install(FILES "${CMAKE_CURRENT_BINARY_DIR}/inc/libofx.h" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libofx)
+ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libofx.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+ 
+ feature_summary(WHAT REQUIRED_PACKAGES_NOT_FOUND
+-- 
+2.37.1
+
