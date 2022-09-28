@@ -1,116 +1,30 @@
-From a6c2a4600218f5fb673c5e92c8d5e277249fba64 Mon Sep 17 00:00:00 2001
+From aaf9883a464ce6e62ae5e1971450f2cb2b3a3feb Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Dawid=20Wro=CC=81bel?= <me@dawidwrobel.com>
-Date: Tue, 27 Sep 2022 21:20:00 +0200
+Date: Wed, 28 Sep 2022 10:42:10 +0200
 Subject: [PATCH] Fix library name on Windows
 
 Fixes #88
 ---
- LibOFXConfig.cmake.in     |  2 +-
- lib/CMakeLists.txt        | 26 +++++++++++---------------
- ofx2qif/CMakeLists.txt    |  2 +-
- ofxconnect/CMakeLists.txt |  2 +-
- ofxdump/CMakeLists.txt    |  2 +-
- 5 files changed, 15 insertions(+), 19 deletions(-)
+ lib/CMakeLists.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/LibOFXConfig.cmake.in b/LibOFXConfig.cmake.in
-index e5ecabd..9f40836 100644
---- a/LibOFXConfig.cmake.in
-+++ b/LibOFXConfig.cmake.in
-@@ -8,7 +8,7 @@
- #
- # The following imported library targets are created, which may be used directly
- # with target_link_libraries():
--#   libofx::libofx                - the LibOFX library
-+#   libofx::ofx                   - the LibOFX library
- 
- @PACKAGE_INIT@
- 
 diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
-index 5c28aa7..0177adc 100644
+index 5c28aa7..b6a328c 100644
 --- a/lib/CMakeLists.txt
 +++ b/lib/CMakeLists.txt
-@@ -41,32 +41,28 @@ if (WIN32)
-     set(ofx_HEADERS ${ofx_HEADERS} win32.hh)
- endif ()
- 
--add_library(libofx ${ofx_SRCS} ${ofx_HEADERS})
--set_target_properties(libofx PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
--set_target_properties(libofx PROPERTIES SOVERSION ${LIBOFX_LIBRARY_SONAME})
--set_target_properties(libofx PROPERTIES VERSION ${LIBOFX_LIBRARY_VERSION})
--set_target_properties(libofx PROPERTIES PREFIX "")
-+add_library(ofx ${ofx_SRCS} ${ofx_HEADERS})
-+set_target_properties(ofx PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
-+set_target_properties(ofx PROPERTIES SOVERSION ${LIBOFX_LIBRARY_SONAME})
-+set_target_properties(ofx PROPERTIES VERSION ${LIBOFX_LIBRARY_VERSION})
-+set_target_properties(ofx PROPERTIES PREFIX "")
- 
--target_link_libraries(libofx OpenSP::OpenSP)
--target_include_directories(libofx BEFORE
-+target_link_libraries(ofx OpenSP::OpenSP)
-+target_include_directories(ofx BEFORE
-         PUBLIC $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/inc> $<INSTALL_INTERFACE:include>
-         PRIVATE ${CMAKE_BINARY_DIR}
- )
--target_compile_definitions(libofx PRIVATE IN_LIBOFX=1 MAKEFILE_DTD_PATH="${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATAROOTDIR}/libofx/dtd/")
-+target_compile_definitions(ofx PRIVATE IN_LIBOFX=1 MAKEFILE_DTD_PATH="${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATAROOTDIR}/libofx/dtd/")
- 
- if (CMAKE_COMPILER_IS_GNUCXX)
--    set_target_properties(libofx PROPERTIES CXX_VISIBILITY_PRESET hidden)
-+    set_target_properties(ofx PROPERTIES CXX_VISIBILITY_PRESET hidden)
+@@ -58,9 +58,9 @@ if (CMAKE_COMPILER_IS_GNUCXX)
+     set_target_properties(libofx PROPERTIES CXX_VISIBILITY_PRESET hidden)
  endif (CMAKE_COMPILER_IS_GNUCXX)
  
 -if (MSVC)
 -    set_target_properties(libofx PROPERTIES OUTPUT_NAME "libofx")
 -endif (MSVC)
--
++if (WIN32)
++    set_target_properties(libofx PROPERTIES OUTPUT_NAME "ofx")
++endif ()
+ 
  if (Iconv_FOUND)
--    target_link_libraries(libofx Iconv::Iconv)
-+    target_link_libraries(ofx Iconv::Iconv)
- endif ()
- 
--install(TARGETS libofx
-+install(TARGETS ofx
-         EXPORT LibOFXTargets
-         LIBRARY
-         DESTINATION ${CMAKE_INSTALL_LIBDIR}
-diff --git a/ofx2qif/CMakeLists.txt b/ofx2qif/CMakeLists.txt
-index b0d9c83..513215c 100644
---- a/ofx2qif/CMakeLists.txt
-+++ b/ofx2qif/CMakeLists.txt
-@@ -6,6 +6,6 @@ set(ofx2qif_SRCS
- )
- 
- add_executable(ofx2qif ${ofx2qif_SRCS})
--target_link_libraries(ofx2qif libofx)
-+target_link_libraries(ofx2qif ofx)
- 
- install(TARGETS ofx2qif RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-diff --git a/ofxconnect/CMakeLists.txt b/ofxconnect/CMakeLists.txt
-index cb68d3e..1cfeb58 100644
---- a/ofxconnect/CMakeLists.txt
-+++ b/ofxconnect/CMakeLists.txt
-@@ -14,7 +14,7 @@ if (CMAKE_CXX_STANDARD LESS 11)
- endif()
- 
- add_executable(ofxconnect ${ofxconnect_SRCS})
--target_link_libraries(ofxconnect libofx CURL::libcurl PkgConfig::LIBXMLPP)
-+target_link_libraries(ofxconnect ofx CURL::libcurl PkgConfig::LIBXMLPP)
- target_compile_definitions(ofxconnect PRIVATE
-         CMDLINE_PARSER_PACKAGE="ofxconnect"
-         CMDLINE_PARSER_PACKAGE_NAME="ofxconnect"
-diff --git a/ofxdump/CMakeLists.txt b/ofxdump/CMakeLists.txt
-index fc862bb..546305a 100644
---- a/ofxdump/CMakeLists.txt
-+++ b/ofxdump/CMakeLists.txt
-@@ -7,7 +7,7 @@ set(ofxdump_SRCS
- )
- 
- add_executable(ofxdump ${ofxdump_SRCS})
--target_link_libraries(ofxdump libofx)
-+target_link_libraries(ofxdump ofx)
- target_compile_definitions(ofxdump PRIVATE CMDLINE_PARSER_PACKAGE="ofxdump"
-         CMDLINE_PARSER_PACKAGE_NAME="ofxdump"
-         CMDLINE_PARSER_VERSION="${LIBOFX_VERSION_RELEASE_STRING}"
+     target_link_libraries(libofx Iconv::Iconv)
 -- 
 2.37.1
 

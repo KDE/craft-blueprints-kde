@@ -34,7 +34,7 @@ class subinfo(info.infoclass):
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
         self.defaultTarget = '0.10.8'
         self.patchToApply['0.10.8'] = ('0001-Fix-library-name-on-Windows.patch', 1)
-        self.patchLevel['0.10.8'] = 0
+        self.patchLevel['0.10.8'] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libopensp"] = None
