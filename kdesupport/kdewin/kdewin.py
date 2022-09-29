@@ -41,7 +41,7 @@ class Package(CMakePackageBase):
         # required for package generating because we build from svnHEAD by default
         #        self.subinfo.options.package.version = '0.5.4'
         self.subinfo.options.configure.args = '-DBUILD_PNG2ICO=OFF '
-        if self.options.dynamic.buildWithQt:
+        if self.subinfo.options.dynamic.buildWithQt:
             self.subinfo.options.configure.args += ' -DBUILD_BASE_LIB_WITH_QT=ON -DBUILD_QT_LIB=ON '
         self.subinfo.options.configure.args += ' -DBUILD_TOOLS=ON '
         if CraftCore.compiler.isMinGW_W32():
