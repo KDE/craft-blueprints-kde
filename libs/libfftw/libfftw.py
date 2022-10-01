@@ -25,7 +25,6 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.supportsNinja = False
         self.subinfo.options.configure.args += \
                 ' -DENABLE_SSE2=ON -DENABLE_AVX=OFF ' \
                 ' -DENABLE_THREADS=ON -DWITH_COMBINED_THREADS=ON '
