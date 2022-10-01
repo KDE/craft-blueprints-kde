@@ -98,17 +98,14 @@ class subinfo(info.infoclass):
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):
-        if CraftCore.settings.getboolean("Packager", "UseCache") and not CraftCore.settings.getboolean("QtSDK", "Enabled", False):
+        if CraftCore.settings.getboolean("Packager", "UseCache"):
             self.buildDependencies["dev-utils/qtbinpatcher"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.buildDependencies["dev-utils/perl"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
         if not self.options.buildStatic:
-            if CraftCore.settings.getboolean("QtSDK", "Enabled", False):
-                self.runtimeDependencies["libs/openssl"] = None
-            else:
-                self.runtimeDependencies["libs/openssl"] = "1.1"
+            self.runtimeDependencies["libs/openssl"] = "1.1"
             if self.options.dynamic.withDBus:
                 self.runtimeDependencies["libs/dbus"] = None
             if self.options.dynamic.withMysql:
@@ -126,7 +123,7 @@ class subinfo(info.infoclass):
                 self.runtimeDependencies["libs/glib"] = None
 
 
-class QtPackage(Qt5CorePackageBase):
+class Package(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
         self._qtVer = None
@@ -363,8 +360,3 @@ sudo apt build-dep qt5-default
         envs["PATH"] = os.pathsep.join([os.path.join(self.buildDir(), "bin"), os.environ["PATH"]])
         envs["QMAKESPEC"] = None
         return utils.ScopedEnv(envs)
-
-
-class Package(Qt5CoreSdkPackageBase):
-    def __init__(self):
-        Qt5CoreSdkPackageBase.__init__(self, classA=QtPackage)

@@ -68,7 +68,7 @@ class subinfo(info.infoclass):
 from Package.Qt5CorePackageBase import *
 
 
-class QtPackage(Qt5CorePackageBase):
+class Package(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
         self.subinfo.options.fetch.checkoutSubmodules = True
@@ -134,8 +134,3 @@ class QtPackage(Qt5CorePackageBase):
                     f.write(contents.replace(f'{versionold} ${{_{module}_FIND_VERSION_EXACT}}', f'{versionnew}'))
 
         return True
-
-
-class Package(Qt5CoreSdkPackageBase):
-    def __init__(self):
-        Qt5CoreSdkPackageBase.__init__(self, classA=QtPackage)

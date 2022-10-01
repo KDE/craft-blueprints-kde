@@ -17,12 +17,7 @@ class subinfo(info.infoclass):
 from Package.Qt5CorePackageBase import *
 
 
-class QtPackage(Qt5CorePackageBase):
+class Package(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
         self.subinfo.options.dynamic.featureArguments += ["-no-gstreamer"]
-
-
-class Package(Qt5CoreSdkPackageBase):
-    def __init__(self):
-        Qt5CoreSdkPackageBase.__init__(self, classA=QtPackage)

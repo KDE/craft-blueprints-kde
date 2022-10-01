@@ -44,7 +44,7 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args = "-DGAMMARAY_INSTALL_QT_LAYOUT=ON "
 
-        nultiBuild = CraftPackageObject.get("libs/qt5/qtbase").subinfo.options.dynamic.buildReleaseAndDebug or CraftCore.settings.getboolean("QtSDK", "Enabled", False)
+        nultiBuild = CraftPackageObject.get("libs/qt5/qtbase").subinfo.options.dynamic.buildReleaseAndDebug
         self.subinfo.options.configure.args += f" -DGAMMARAY_MULTI_BUILD={'ON' if nultiBuild else 'OFF'}"
 
         if self.subinfo.options.dynamic.gammarayProbeOnly:
@@ -53,7 +53,7 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += " -DGAMMARAY_BUILD_CLI_INJECTOR=OFF"
 
     def createPackage(self):
-        self.subinfo.options.package.movePluginsToBin = not CraftCore.settings.getboolean("QtSDK", "Enabled", False)
+        self.subinfo.options.package.movePluginsToBin = False
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\gammaray-launcher.exe"
         self.defines["license"] = os.path.join(self.sourceDir(), "LICENSE.GPL.txt")
