@@ -62,6 +62,8 @@ class Package(CraftPackageObject.get('libs/qt6').pattern):
             "-DFEATURE_system_harfbuzz=ON",
             "-DFEATURE_system_freetype=ON",
 
+            "-DFEATURE_openssl_linked=ON",
+
             "-DQT_BUILD_EXAMPLES=OFF"
         ]
 
