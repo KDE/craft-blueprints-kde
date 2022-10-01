@@ -67,10 +67,3 @@ class Package(CraftPackageObject.get('libs/qt6').pattern):
 
         if self.subinfo.options.dynamic.useLtcg:
             self.subinfo.options.configure.args += ["-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON"]
-
-    def make(self):
-        env = {}
-        if CraftCore.compiler.isWindows:
-            env["PATH"] = f"{self.buildDir() / 'lib/qt6/bin'};{os.environ['PATH']}"
-        with utils.ScopedEnv(env):
-            return super().make()
