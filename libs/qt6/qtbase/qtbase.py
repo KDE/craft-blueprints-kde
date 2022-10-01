@@ -38,22 +38,12 @@ class subinfo(info.infoclass):
                 self.runtimeDependencies["libs/glib"] = None
 
 
-from Blueprints.CraftPackageObject import CraftPackageObject
-
-class Package(CraftPackageObject.get('libs/qt6').pattern):
+from Package.CMakePackageBase import *
+class Package(CMakePackageBase):
     def __init__(self):
-        CraftPackageObject.get('libs/qt6').pattern.__init__(self)
+        CMakePackageBase.__init__(self)
 
-        dataDir = CraftCore.standardDirs.locations.data.relative_to(CraftCore.standardDirs.craftRoot())
         self.subinfo.options.configure.args += [
-            "-DINSTALL_BINDIR=lib/qt6/bin",
-            "-DINSTALL_LIBEXECDIR=lib/qt6",
-            "-DINSTALL_ARCHDATADIR=lib/qt6",
-            "-DINSTALL_INCLUDEDIR=include/qt6",
-            "-DINSTALL_MKSPECSDIR=lib/qt6/mkspecs",
-            f"-DINSTALL_DOCDIR=doc/qt6",
-            f"-DINSTALL_DATADIR={dataDir}/qt6",
-
             "-DFEATURE_pkg_config=ON",
             
             "-DFEATURE_system_sqlite=ON",
