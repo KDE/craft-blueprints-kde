@@ -18,16 +18,21 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://anongit.kde.org/qca.git"
 
-        # latest stable version
-        self.defaultTarget = "2.3.3"
-        if self.options.dynamic.buildWithQt6:
-             self.defaultTarget = "master" # no release with Qt 6 support yet
-        self.targets[self.defaultTarget] = f"https://download.kde.org/stable/qca/{self.defaultTarget}/qca-{self.defaultTarget}.tar.xz"
-        self.targetDigestUrls[self.defaultTarget] = f"https://download.kde.org/stable/qca/{self.defaultTarget}/qca-{self.defaultTarget}.tar.xz.sha256"
-        self.targetInstSrc[self.defaultTarget] = f"qca-{self.defaultTarget}"
+
+        for ver in ["2.3.3"]:
+            self.targets[ver] = f"https://download.kde.org/stable/qca/{ver}/qca-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/qca/{ver}/qca-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = f"qca-{ver}"
 
         self.patchToApply["2.3.3"] = [("msvc.diff", 1)]
         self.patchLevel["2.3.3"] = 1
+
+
+        # latest stable version
+        if self.options.dynamic.buildWithQt6:
+             self.defaultTarget = "master" # no release with Qt 6 support yet
+        else:
+            self.defaultTarget = "2.3.3"
 
     def registerOptions(self):
         self.options.dynamic.registerOption("buildWithQt6", False)
