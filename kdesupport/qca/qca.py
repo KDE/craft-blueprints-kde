@@ -26,8 +26,8 @@ class subinfo(info.infoclass):
         self.targetDigestUrls[self.defaultTarget] = f"https://download.kde.org/stable/qca/{self.defaultTarget}/qca-{self.defaultTarget}.tar.xz.sha256"
         self.targetInstSrc[self.defaultTarget] = f"qca-{self.defaultTarget}"
 
-        self.patchToApply[self.defaultTarget] = [("msvc.diff", 1)]
-        self.patchLevel[self.defaultTarget] = 1
+        self.patchToApply["2.3.3"] = [("msvc.diff", 1)]
+        self.patchLevel["2.3.3"] = 1
 
     def registerOptions(self):
         self.options.dynamic.registerOption("buildWithQt6", False)
