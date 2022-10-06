@@ -8,6 +8,8 @@ class subinfo(info.infoclass):
         self.displayName = "Kongress"
         self.description = "Conference companion app"
 
+        self.patchToApply["22.09"] = [("0001-Add-missing-include.patch", 1)]
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None

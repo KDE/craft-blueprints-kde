@@ -48,8 +48,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
-        # if CraftCore.compiler.isWindows:
-        #     self.runtimeDependencies["libs/drmingw"] = None
+        if CraftCore.compiler.isWindows:
+            self.runtimeDependencies["libs/drmingw"] = None
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["kde/plasma/drkonqi"] = None
 

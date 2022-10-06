@@ -1,0 +1,30 @@
+From aaf9883a464ce6e62ae5e1971450f2cb2b3a3feb Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Dawid=20Wro=CC=81bel?= <me@dawidwrobel.com>
+Date: Wed, 28 Sep 2022 10:42:10 +0200
+Subject: [PATCH] Fix library name on Windows
+
+Fixes #88
+---
+ lib/CMakeLists.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index 5c28aa7..b6a328c 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -58,9 +58,9 @@ if (CMAKE_COMPILER_IS_GNUCXX)
+     set_target_properties(libofx PROPERTIES CXX_VISIBILITY_PRESET hidden)
+ endif (CMAKE_COMPILER_IS_GNUCXX)
+ 
+-if (MSVC)
+-    set_target_properties(libofx PROPERTIES OUTPUT_NAME "libofx")
+-endif (MSVC)
++if (WIN32)
++    set_target_properties(libofx PROPERTIES OUTPUT_NAME "ofx")
++endif ()
+ 
+ if (Iconv_FOUND)
+     target_link_libraries(libofx Iconv::Iconv)
+-- 
+2.37.1
+

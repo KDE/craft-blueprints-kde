@@ -27,14 +27,14 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.10.7'] = "https://github.com/libofx/libofx/releases/download/0.10.7/libofx-0.10.7.tar.gz"
-        self.targetDigests['0.10.7'] = (['5809202588b028742d2b9d2cbe418781e326b353028738bfd8b423b9174f99ab'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['0.10.7'] = "libofx-0.10.7"
+        self.targets['0.10.8'] = "https://github.com/libofx/libofx/releases/download/0.10.8/libofx-0.10.8.tar.gz"
+        self.targetDigests['0.10.8'] = (['d7133fb939ac0e46507cf7a5de7678b52bf6bcc7be87adc94b761c2cd12ce320'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc['0.10.8'] = "libofx-0.10.8"
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
-        self.defaultTarget = '0.10.7'
-        self.patchToApply['0.10.7'] = ('0001-Fix-installation-path-of-libofx.h-83.patch', 1)
-        self.patchLevel['0.10.7'] = 1
+        self.defaultTarget = '0.10.8'
+        self.patchToApply['0.10.8'] = ('0001-Fix-library-name-on-Windows.patch', 1)
+        self.patchLevel['0.10.8'] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libopensp"] = None

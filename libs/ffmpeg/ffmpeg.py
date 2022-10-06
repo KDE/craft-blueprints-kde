@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         else:
             self.patchLevel["4.4"] = 1
 
-        self.patchLevel["5.0.1"] = 3
+        self.patchLevel["5.0.1"] = 4
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
@@ -41,15 +41,14 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/aom"] = None
             self.runtimeDependencies["libs/dav1d"] = None
             self.runtimeDependencies["libs/zimg"] = None
-        #if CraftCore.compiler.isWindows:
-        #    self.buildDependencies["libs/dxva2"] = None
         if not CraftCore.compiler.isMacOS:
+            self.buildDependencies["libs/amf"] = None
             self.buildDependencies["libs/nvidia-codecs"] = None
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/libva"] = None
             self.runtimeDependencies["libs/libvdpau"] = None
             self.runtimeDependencies["libs/intel-mfx"] = None
-
+            
 from Package.AutoToolsPackageBase import *
 
 class Package(AutoToolsPackageBase):
@@ -83,7 +82,7 @@ class Package(AutoToolsPackageBase):
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["--enable-rpath", "--install-name-dir=@rpath"]
         else:
-            self.subinfo.options.configure.args += ["--enable-ffnvcodec", "--enable-nvdec", "--enable-nvenc", "--enable-cuvid"]
+            self.subinfo.options.configure.args += ["--enable-ffnvcodec", "--enable-nvdec", "--enable-nvenc", "--enable-cuvid", "--enable-amf"]
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["--enable-vaapi", "--enable-vdpau", "--enable-libmfx"]
 

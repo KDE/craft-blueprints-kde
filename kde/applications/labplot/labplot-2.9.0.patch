@@ -1,3 +1,25 @@
+diff -ruNa a/src/backend/core/datatypes/String2DateTimeFilter.cpp b/src/backend/core/datatypes/String2DateTimeFilter.cpp
+--- a/src/backend/core/datatypes/String2DateTimeFilter.cpp	2022-05-02 07:35:16.000000000 +0200
++++ b/src/backend/core/datatypes/String2DateTimeFilter.cpp	2022-10-02 23:22:07.702431222 +0200
+@@ -45,6 +45,7 @@
+ 
+ 	// first try the selected format string m_format
+ 	QDateTime result = QDateTime::fromString(input_value, m_format);
++	result.setTimeSpec(Qt::UTC);
+ 	if (result.isValid())
+ 		return result;
+ 
+diff -ruNa a/src/backend/datasources/filters/AsciiFilter.cpp b/src/backend/datasources/filters/AsciiFilter.cpp
+--- a/src/backend/datasources/filters/AsciiFilter.cpp	2022-05-02 07:35:16.000000000 +0200
++++ b/src/backend/datasources/filters/AsciiFilter.cpp	2022-10-02 20:50:40.602914719 +0200
+@@ -1852,6 +1852,7 @@
+ 	}
+ 
+ 	QDateTime dateTime = QDateTime::fromString(fixedString, fixedFormat);
++	dateTime.setTimeSpec(Qt::UTC);
+ 	//QDEBUG("fromString() =" << dateTime)
+ 	// interpret 2-digit year smaller than 50 as 20XX
+ 	if (dateTime.date().year() < 1950 && !format.contains("yyyy"))
 diff -ruNa a/src/backend/gsl/ExpressionParser.cpp b/src/backend/gsl/ExpressionParser.cpp
 --- a/src/backend/gsl/ExpressionParser.cpp	2022-05-02 07:35:16.000000000 +0200
 +++ b/src/backend/gsl/ExpressionParser.cpp	2022-07-02 11:07:54.462720684 +0200
