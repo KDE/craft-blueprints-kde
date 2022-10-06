@@ -11,6 +11,7 @@ USING_HDF5_VS.txt
 # unused libs and exe
 bin/icuin\.dll
 bin/icuuc\.dll
+bin/icudt\.dll
 bin/poppler-cpp\.dll
 bin/AnalitzaPlot\.dll
 bin/AnalitzaWidgets\.dll

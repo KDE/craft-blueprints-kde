@@ -95,7 +95,7 @@ class Package(CMakePackageBase):
         # Some plugin files brake codesigning on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
-        self.addExecutableFilter(r"bin/(?!(labplot|cantor_)).*")
+        self.addExecutableFilter(r"bin/(?!(labplot|cantor_|QtWebEngineProcess)).*")
 
         # set env variables for AppImage run environment
         self.defines["runenv"] = [
