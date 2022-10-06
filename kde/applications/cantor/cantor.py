@@ -18,9 +18,8 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies['libs/expat'] = None
             self.runtimeDependencies["libs/webp"] = None
-        # R backend fails compiling with MSVC
         # libR.dylib fails packaging on macOS (lapack.so)
-        if not CraftCore.compiler.isMSVC() and not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.isMacOS:
             if OsUtils.isWin():
                 self.runtimeDependencies["binary/r-base"] = None
             else:
