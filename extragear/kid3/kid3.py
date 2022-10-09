@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'https://invent.kde.org/multimedia/kid3.git'
 
-        for ver in ['3.8.4', '3.8.5', '3.8.6']:
+        for ver in ['3.8.4', '3.8.5', '3.8.6', '3.8.7', '3.9.0', '3.9.1', '3.9.2']:
             self.targets[ver] = f'https://download.kde.org/stable/kid3/{ver}/kid3-{ver}.tar.xz'
             self.targetInstSrc[ver] = 'kid3-' + ver
             self.targetDigestUrls[ver] = f'https://download.kde.org/stable/kid3/{ver}/kid3-{ver}.tar.xz.sha256'
@@ -35,8 +35,6 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args = '-DWITH_ID3LIB=OFF -DWITH_VORBIS=OFF -DWITH_FLAC=OFF'
         self.subinfo.options.configure.args += ' -DWITH_MP4V2=OFF -DWITH_QML=ON'
         self.subinfo.options.configure.args += ' -DWITH_APPS="Qt;CLI"'
-        if self.buildTarget == 'master':
-            self.subinfo.options.configure.args += ' -DDOWNLOAD_POS=ON'
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ' -DWITH_DOCBOOKDIR=' + \
                 os.path.join(CraftStandardDirs.craftRoot(),
