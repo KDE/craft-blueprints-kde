@@ -50,7 +50,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
@@ -71,6 +70,9 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/gettext"] = None
         if self.buildTarget != "master":
             self.runtimeDependencies["libs/qt5/qtwebkit"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
+        else:
+            self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
         if CraftCore.compiler.isMinGW():
             self.runtimeDependencies["kdesupport/kdewin"] = None
