@@ -61,7 +61,6 @@ from Utils import GetFiles
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_KF5FileMetaData=ON"
         if self.buildTarget == "master" or self.buildTarget >= CraftVersion("21.11.70"):
             self.subinfo.options.configure.args += " -DNODBUS=ON"
         if self.buildTarget == "master":
