@@ -14,6 +14,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/freetype"] = None
         self.runtimeDependencies["qt-libs/phonon"] = None
+        if not CraftCore.compiler.isMacOS and not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["qt-libs/phonon-vlc"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
