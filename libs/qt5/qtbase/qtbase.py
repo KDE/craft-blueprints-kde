@@ -94,7 +94,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.15.5"] = 1
 
         # pin a specific commit
-        self.svnTargets["kde/5.15"] = " https://invent.kde.org/qt/qt/qtbase.git||411b90bfe5"
+        self.svnTargets["kde/5.15"] = "https://invent.kde.org/qt/qt/qtbase.git||411b90bfe5"
         self.description = "a cross-platform application framework"
 
     def setDependencies(self):
