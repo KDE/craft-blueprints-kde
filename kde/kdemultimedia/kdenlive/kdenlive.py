@@ -29,6 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
@@ -60,9 +61,7 @@ from Utils import GetFiles
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_KF5FileMetaData=ON"
-        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("21.11.70"):
-            self.subinfo.options.configure.args += " -DNODBUS=ON"
+        self.subinfo.options.configure.args += " -DNODBUS=ON"
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += " -DRELEASE_BUILD=OFF"
 
@@ -70,7 +69,6 @@ class Package(CMakePackageBase):
         defines = super().setDefaults(defines)
         if isinstance(self, AppImagePackager):
             defines["runenv"] += [
-                'TEST=hello',
                 'PACKAGE_TYPE=appimage',
                 'KDE_FORK_SLAVES=1',
                 'FONTCONFIG_PATH=/etc/fonts',
@@ -88,10 +86,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         if not CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
-        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("21.11.70"):
-            self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioslave|melt|update-mime-database|data/kdenlive)).*")
-        else:
-            self.addExecutableFilter(r"bin/(?!(dbus-daemon|ff|kdenlive|kioslave|melt|update-mime-database|data/kdenlive)).*")
+        self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioslave|melt|update-mime-database|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm-meta")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.ignoredPackages.append("binary/mysql")

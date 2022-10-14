@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        for ver in filter(lambda x: x >= CraftVersion("5.60"), self.targets):
+        for ver in self.targets:
             self.targets[ver] = self.versionInfo.format("http://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz", ver)
             self.targetDigestUrls[ver] = self.versionInfo.format("http://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz.sha256", ver)
 
@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["libs/qt5/qtwebkit"] = (None, DependencyRequirementType.Required)
+        self.runtimeDependencies["libs/qt5/qtwebkit"] = (None, info.DependencyRequirementType.Required)
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
