@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
 from Package.CMakePackageBase import *
+from Packager.CollectionPackagerBase import PackagerLists
 
 
 class subinfo(info.infoclass):

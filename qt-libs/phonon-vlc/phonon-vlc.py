@@ -2,6 +2,7 @@
 
 import info
 from Package.CMakePackageBase import *
+from Blueprints.CraftVersion import CraftVersion
 
 
 class subinfo(info.infoclass):

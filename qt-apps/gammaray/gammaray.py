@@ -1,10 +1,9 @@
-
-import glob
-
 import info
-
+from Blueprints.CraftPackageObject import CraftPackageObject
 class subinfo(info.infoclass):
+    print(CraftPackageObject)
     def setTargets(self):
+        print(CraftPackageObject)
         self.svnTargets["master"] = "[git]https://github.com/KDAB/GammaRay.git"
         for ver in ["2.7.0", "2.9.0", "2.9.1", "2.10.0", "2.11.0", "2.11.1", "2.11.3"]:
             self.targets[ver] = f"https://github.com/KDAB/GammaRay/archive/v{ver}.tar.gz"
@@ -22,10 +21,14 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.11.3"
 
     def registerOptions(self):
+        print(CraftPackageObject)
+        
         self.options.dynamic.registerOption("gammarayProbeOnly", False)
         self.options.dynamic.registerOption("disableGammarayBuildCliInjector", False)
 
     def setDependencies(self):
+        print(CraftPackageObject)
+        
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None

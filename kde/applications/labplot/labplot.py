@@ -1,5 +1,5 @@
 import info
-
+from Blueprints.CraftVersion import CraftVersion
 
 class subinfo(info.infoclass):
     def setTargets(self):

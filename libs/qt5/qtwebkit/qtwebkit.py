@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
-
+from Blueprints.CraftVersion import CraftVersion
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 class subinfo(info.infoclass):
     def registerOptions(self):
