@@ -67,7 +67,7 @@ class Package(CMakePackageBase):
 
     def setDefaults(self, defines: {str:str}) -> {str:str}:
         defines = super().setDefaults(defines)
-        if isinstance(self, AppImagePackager):
+        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
             defines["runenv"] += [
                 'PACKAGE_TYPE=appimage',
                 'KDE_FORK_SLAVES=1',
