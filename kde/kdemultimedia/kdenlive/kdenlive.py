@@ -1,4 +1,5 @@
 import info
+from Packager.AppImagePackager import AppImagePackager
 
 
 class subinfo(info.infoclass):
