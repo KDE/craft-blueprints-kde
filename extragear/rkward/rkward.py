@@ -88,7 +88,7 @@ class Package(CMakePackageBase):
 
     def setDefaults(self, defines: {str:str}) -> {str:str}:
         defines = super().setDefaults(defines)
-        if isinstance(self, AppImagePackager):
+        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
             defines["runenv"] += [
                 'FONTCONFIG_PATH=`if [ -d /etc/fonts ]; then echo "/etc/fonts"; else echo "${APPDIR}/etc/fonts"; fi`',
                 'CURL_CA_BUNDLE=$this_dir/etc/cacert.pem'
