@@ -69,7 +69,8 @@ class subinfo(info.infoclass):
 
 
 from Package.CMakePackageBase import *
-
+from Packager.AppxPackager import AppxPackager
+from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
 
 class Package(CMakePackageBase):
     def __init__(self):
