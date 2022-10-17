@@ -41,6 +41,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/applications/analitza"] = None
 
 from Package.CMakePackageBase import *
+from Packager.AppxPackager import AppxPackager
 
 
 class Package(CMakePackageBase):
