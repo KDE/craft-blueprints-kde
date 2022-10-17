@@ -1,4 +1,5 @@
 import info
+import utils
 from Blueprints.CraftVersion import CraftVersion
 
 class subinfo(info.infoclass):
