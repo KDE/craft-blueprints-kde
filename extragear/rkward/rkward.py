@@ -154,7 +154,7 @@ class Package(CMakePackageBase):
             rkward_ini = open(os.path.join(rkward_dir, "rkward.ini"), "w")
             rkward_ini.write("R executable=auto\n")
             rkward_ini.close()
-        if isinstance(self, AppImagePackager):
+        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
             for filename in ["bin/R", "lib/R/bin/R", "lib/R/bin/libtool", "lib/R/etc/ldpaths", "lib/R/etc/Renviron"]:
                 filename = os.path.join(self.archiveDir(), filename)
                 self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "${APPDIR}/usr")
