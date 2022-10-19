@@ -147,6 +147,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["binary/mysql"]                        = None
 
 from Package.CMakePackageBase import *
+from Packager.AppxPackager import AppxPackager
 from Utils import GetFiles
 
 class Package(CMakePackageBase):
