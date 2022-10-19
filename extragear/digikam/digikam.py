@@ -26,6 +26,7 @@
 # NOTE: see relevant phabricator entry https://phabricator.kde.org/T12071
 
 import info
+import utils
 
 class subinfo(info.infoclass):
     def setTargets(self):
