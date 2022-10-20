@@ -38,25 +38,19 @@ class subinfo(info.infoclass):
                 if CraftCore.compiler.isMinGW():
                     self.patchToApply[ver] += [("mingw11_5152.diff", 1)]
             elif qtVer >= CraftVersion("5.12.11"):
-                self.patchToApply[ver] = [
-                    (".qt-5.12.11", 1)
-                ]
+                self.patchToApply[ver] = [(".qt-5.12.11", 1)]
             elif qtVer >= CraftVersion("5.12.10"):
-                self.patchToApply[ver] = [
-                    (".qt-5.12.10", 1)
-                ]
+                self.patchToApply[ver] = [(".qt-5.12.10", 1)]
             elif qtVer >= CraftVersion("5.12.9"):
-                self.patchToApply[ver] = [
-                    (".qt-5.12.9", 1)
-                ]
+                self.patchToApply[ver] = [(".qt-5.12.9", 1)]
             elif qtVer >= CraftVersion("5.12.7"):
                 self.patchToApply[ver] = [
-                    ("8a3fde00bf53d99e9e4853e8ab97b0e1bcf74915.patch", 1), # https://github.com/qt/qtbase/commit/8a3fde00bf53d99e9e4853e8ab97b0e1bcf74915
+                    ("8a3fde00bf53d99e9e4853e8ab97b0e1bcf74915.patch", 1),  # https://github.com/qt/qtbase/commit/8a3fde00bf53d99e9e4853e8ab97b0e1bcf74915
                     ("qdbus-manager-quit-5.7.patch", 1),  # https://phabricator.kde.org/D2545#69186
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_GenericDataLocation_mac.patch", 1),
                     ("qstandardpaths-extra-dirs.patch", 1),
-                    ("qtbase-5.13.1-20191104.diff", 1)  # https://bugreports.qt.io/browse/QTBUG-72846
+                    ("qtbase-5.13.1-20191104.diff", 1),  # https://bugreports.qt.io/browse/QTBUG-72846
                 ]
             elif qtVer >= CraftVersion("5.12.4"):
                 self.patchToApply[ver] = [
@@ -64,7 +58,7 @@ class subinfo(info.infoclass):
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_GenericDataLocation_mac.patch", 1),
                     ("qstandardpaths-extra-dirs.patch", 1),
-                    ("qtbase-5.13.1-20191104.diff", 1)  # https://bugreports.qt.io/browse/QTBUG-72846
+                    ("qtbase-5.13.1-20191104.diff", 1),  # https://bugreports.qt.io/browse/QTBUG-72846
                 ]
             elif qtVer >= CraftVersion("5.12.1"):
                 self.patchToApply[ver] = [
@@ -72,7 +66,7 @@ class subinfo(info.infoclass):
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_GenericDataLocation_mac.patch", 1),
                     ("qstandardpaths-extra-dirs.patch", 1),
-                    ("qtbase-5.12.3-macos-debug.diff", 1) # https://codereview.qt-project.org/c/qt/qtbase/+/260917
+                    ("qtbase-5.12.3-macos-debug.diff", 1),  # https://codereview.qt-project.org/c/qt/qtbase/+/260917
                 ]
             elif qtVer >= CraftVersion("5.12.0"):
                 self.patchToApply[ver] = [
@@ -80,8 +74,8 @@ class subinfo(info.infoclass):
                     ("workaround-mingw-egl.diff", 1),
                     ("fix_GenericDataLocation_mac.patch", 1),
                     ("qstandardpaths-extra-dirs.patch", 1),
-                    ("0001-QComboBox-WindowVistaStyle-restore-focus-rect.patch", 1), # https://codereview.qt-project.org/#/c/248945/
-                    (".qt-5.12.0", 1)
+                    ("0001-QComboBox-WindowVistaStyle-restore-focus-rect.patch", 1),  # https://codereview.qt-project.org/#/c/248945/
+                    (".qt-5.12.0", 1),
                 ]
 
         self.patchLevel["5.12.0"] = 2
@@ -155,8 +149,7 @@ class Package(Qt5CorePackageBase):
         with self.getQtBaseEnv():
             if CraftCore.compiler.isMinGW() and self.subinfo.options.dynamic.withDirectX and "DXSDK_DIR" not in os.environ:
                 CraftCore.log.critical("Failed to detec a DirectX SDK")
-                CraftCore.log.critical(
-                    "Please visite https://community.kde.org/Guidelines_and_HOWTOs/Build_from_source/Windows#Direct_X_SDK for instructions")
+                CraftCore.log.critical("Please visite https://community.kde.org/Guidelines_and_HOWTOs/Build_from_source/Windows#Direct_X_SDK for instructions")
                 CraftCore.log.critical("Or you may set the blueprint option withDirectX=False to use only Desktop OpenGL (issue on Intel GPU)")
                 return False
             self.enterBuildDir()
@@ -175,7 +168,6 @@ class Package(Qt5CorePackageBase):
             command += f"-headerdir {os.path.join(CraftStandardDirs.craftRoot(), 'include', 'qt5')} "
             if not CraftCore.compiler.isAndroid:
                 command += "-pkg-config "
-
 
             # Android: androiddeployqt fails to deploy the Android QPA plugin correctly when depending against a system Freetype
             if self.subinfo.options.isActive("libs/freetype") and not CraftCore.compiler.isAndroid:
@@ -207,8 +199,9 @@ class Package(Qt5CorePackageBase):
 
             command += "-mp "
 
-            if CraftCore.compiler.isMacOS:
-                command += f"-macos-additional-datadirs \"{CraftCore.standardDirs.locations.data}\" "
+            # for the kde repo we only apply the parts of the patch
+            if CraftCore.compiler.isMacOS and self.subinfo.buildTarget != "kde/5.15":
+                command += f'-macos-additional-datadirs "{CraftCore.standardDirs.locations.data}" '
 
             if CraftCore.compiler.isFreeBSD:
                 command += "-no-libudev -no-evdev "
@@ -246,18 +239,17 @@ class Package(Qt5CorePackageBase):
                     command += "-no-framework "
 
             if not self.subinfo.options.buildStatic:
-                command += "-I \"%s\" -L \"%s\" " % (
-                    os.path.join(CraftStandardDirs.craftRoot(), "include"), os.path.join(CraftStandardDirs.craftRoot(), "lib"))
+                command += '-I "%s" -L "%s" ' % (os.path.join(CraftStandardDirs.craftRoot(), "include"), os.path.join(CraftStandardDirs.craftRoot(), "lib"))
                 if self.subinfo.options.isActive("libs/openssl"):
                     if not CraftCore.compiler.isAndroid:
                         command += " -openssl-linked "
                         if self.qtVer >= CraftVersion("5.10"):
                             opensslIncDir = os.path.join(CraftCore.standardDirs.craftRoot(), "include", "openssl")
-                            command += f" OPENSSL_INCDIR=\"{opensslIncDir}\""
+                            command += f' OPENSSL_INCDIR="{opensslIncDir}"'
                             if CraftCore.compiler.isWindows:
-                                command += f" OPENSSL_LIBS=\"-llibssl -llibcrypto\" "
+                                command += f' OPENSSL_LIBS="-llibssl -llibcrypto" '
                             else:
-                                command += f" OPENSSL_LIBS=\"-lssl -lcrypto\" "
+                                command += f' OPENSSL_LIBS="-lssl -lcrypto" '
                     else:
                         command += " -openssl-runtime "
                 if self.subinfo.options.dynamic.withMysql:
@@ -267,14 +259,15 @@ class Package(Qt5CorePackageBase):
                 # disable unwanted sql driver that can cause deployment issues
                 command += " -no-sql-db2 -no-sql-ibase -no-sql-oci -no-sql-odbc -no-sql-psql -no-sql-sqlite2 -no-sql-tds"
                 if self.subinfo.options.dynamic.withDBus:
-                    command += " -qdbus -dbus-runtime -I \"%s\" -I \"%s\" " % (
+                    command += ' -qdbus -dbus-runtime -I "%s" -I "%s" ' % (
                         os.path.join(CraftStandardDirs.craftRoot(), "include", "dbus-1.0"),
-                        os.path.join(CraftStandardDirs.craftRoot(), "lib", "dbus-1.0", "include"))
+                        os.path.join(CraftStandardDirs.craftRoot(), "lib", "dbus-1.0", "include"),
+                    )
                 else:
                     command += " -no-dbus "
                 if self.subinfo.options.isActive("libs/icu"):
                     icuIncDir = os.path.join(CraftCore.standardDirs.craftRoot(), "include")
-                    command += f" ICU_INCDIR=\"{icuIncDir}\""
+                    command += f' ICU_INCDIR="{icuIncDir}"'
                     command += " -icu "
                 else:
                     command += " -no-icu "
@@ -306,15 +299,16 @@ class Package(Qt5CorePackageBase):
 
             cfg = utils.system(command)
             if not cfg and CraftCore.compiler.isLinux:
-                CraftCore.log.info("""
+                CraftCore.log.info(
+                    """
 # Before sourcing craftenv.sh, ensure PKG_CONFIG_PATH includes xcb.pc, gl.pc etc
 export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/share/pkgconfig
 # Install build dependencies on builder:
 sudo yum-builddep qt5-qtbase && sudo yum install libxkbcommon-x11-devel
 sudo apt build-dep qt5-default
-""")
+"""
+                )
             return cfg
-
 
     def make(self):
         with self.getQtBaseEnv():
@@ -334,25 +328,21 @@ sudo apt build-dep qt5-default
 
     def postInstall(self):
         if CraftCore.compiler.isWindows and CraftCore.settings.getboolean("Packager", "UseCache"):
-            return utils.system(["qtbinpatcher", "--nobackup",
-                                 f"--qt-dir={self.installDir()}",
-                                 f"--new-dir={CraftStandardDirs.craftRoot()}"])
+            return utils.system(["qtbinpatcher", "--nobackup", f"--qt-dir={self.installDir()}", f"--new-dir={CraftStandardDirs.craftRoot()}"])
         else:
-            if not self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "qt.conf")],
-                                           self.subinfo.buildPrefix,
-                                           CraftCore.standardDirs.craftRoot()):
+            if not self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "qt.conf")], self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot()):
                 return False
 
         # try to normalize the auto-detected paths during Qt build for non-debian distros
         if CraftCore.compiler.isLinux:
-            files = utils.filterDirectoryContent(self.installDir(),
-                                             whitelist=lambda x, root: Path(x).suffix in {".cmake", ".prl", ".pri"},
-                                             blacklist=lambda x, root: True)
+            files = utils.filterDirectoryContent(
+                self.installDir(), whitelist=lambda x, root: Path(x).suffix in {".cmake", ".prl", ".pri"}, blacklist=lambda x, root: True
+            )
             for f in files:
                 with open(f, "rb") as _f:
                     old = _f.read()
                 with open(f, "wb") as _f:
-                    _f.write(re.sub(rb'/usr/lib/(\w+-\w+-\w+/)?lib(\w+)\.so', rb'-l\2', old))
+                    _f.write(re.sub(rb"/usr/lib/(\w+-\w+-\w+/)?lib(\w+)\.so", rb"-l\2", old))
         return True
 
     def getQtBaseEnv(self):
