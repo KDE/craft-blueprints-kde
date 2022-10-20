@@ -29,13 +29,13 @@ import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets( self ):
-        for ver in ["1.6.0"]:
+        for ver in ["1.6.2"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/libksba/libksba-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"libksba-{ver}"
 
-        self.targetDigests[ "1.6.0" ] = (['dad683e6f2d915d880aa4bed5cea9a115690b8935b78a1bbe01669189307a48b'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[ "1.6.2" ] = (['fce01ccac59812bddadffacff017dac2e4762bdb6ebc6ffe06f6ed4f6192c971'], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "1.6.0"
+        self.defaultTarget = "1.6.2"
 
 
     def setDependencies( self ):

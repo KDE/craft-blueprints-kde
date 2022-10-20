@@ -13,12 +13,12 @@ class subinfo(info.infoclass):
         self.webpage = "https://rkward.kde.org"
 
         self.svnTargets['master'] = 'https://invent.kde.org/education/rkward.git'
-        #self.addReleaseCandidate('0.7.5', 'rc1')
+        self.addReleaseCandidate('0.7.5', 'rc1')
         for ver in ['0.7.4']:
             self.targets[ver] = f'https://download.kde.org/stable/rkward/{ver}/rkward-{ver}.tar.gz'
             self.targetInstSrc[ver] = f'rkward-{ver}'
         self.targetDigests['0.7.4'] = (['7633f3b269f6cf2c067b3b09cbe3da3e0ffdcd9dc3ecb9a9fa63b4f865e8161e'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '0.7.4'
+        self.defaultTarget = '0.7.5-rc1'
 
     def setDependencies(self):
         if OsUtils.isWin() or OsUtils.isMac():
@@ -88,9 +88,8 @@ class Package(CMakePackageBase):
 
     def setDefaults(self, defines: {str:str}) -> {str:str}:
         defines = super().setDefaults(defines)
-        if isinstance(self, AppImagePackager):
+        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
             defines["runenv"] += [
-                'FONTCONFIG_PATH=`if [ -d /etc/fonts ]; then echo "/etc/fonts"; else echo "${APPDIR}/etc/fonts"; fi`',
                 'CURL_CA_BUNDLE=$this_dir/etc/cacert.pem'
                 ]
         return defines
@@ -155,7 +154,7 @@ class Package(CMakePackageBase):
             rkward_ini = open(os.path.join(rkward_dir, "rkward.ini"), "w")
             rkward_ini.write("R executable=auto\n")
             rkward_ini.close()
-        if isinstance(self, AppImagePackager):
+        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
             for filename in ["bin/R", "lib/R/bin/R", "lib/R/bin/libtool", "lib/R/etc/ldpaths", "lib/R/etc/Renviron"]:
                 filename = os.path.join(self.archiveDir(), filename)
                 self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "${APPDIR}/usr")
