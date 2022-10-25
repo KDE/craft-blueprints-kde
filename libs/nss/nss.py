@@ -6,8 +6,8 @@ from Package.MakeFilePackageBase import *
 from shells import BashShell
 from CraftCompiler import CraftCompiler
 
-nss_ver = "3.82"
-nspr_ver = "4.34"
+nss_ver = "3.84"
+nspr_ver = "4.35"
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -19,9 +19,9 @@ class subinfo(info.infoclass):
 
         # always try to use latest nss with all security fixes
         ver = nss_ver
-        self.targets[ver] = f"https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_82_RTM/src/nss-{ver}-with-nspr-{nspr_ver}.tar.gz"
+        self.targets[ver] = f"https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_84_RTM/src/nss-{ver}-with-nspr-{nspr_ver}.tar.gz"
         self.targetInstSrc[ver] = f"nss-{ver}"
-        self.targetDigests[ver] = (['12dcbe001f7f69c029f0f245c9cbfc52dab1211583e9e2feb51a0cbe0da6a102'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[ver] = (['0342347a01545a990860849d39e62aec901c8fabbd614e768c6a5df5d18debeb'], CraftHash.HashAlgorithm.SHA256)
         if CraftCore.compiler.isMSVC():
             self.patchToApply[ver] = [("install-instead-of-nsinstall.diff", 1), ("cygwin-is-windows.diff", 1)]
         self.patchLevel[ver] = 2
