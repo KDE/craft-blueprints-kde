@@ -28,9 +28,6 @@ class subinfo(info.infoclass):
         self.description = "kde supplementary package for win32"
         self.defaultTarget = "master"
 
-    def registerOptions(self):
-        self.options.dynamic.registerOption("buildWithQt", False)
-
 
 from Package.CMakePackageBase import *
 
