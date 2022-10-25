@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import info
-from Package.CMakePackageBase import *
 from Blueprints.CraftVersion import CraftVersion
+from Package.CMakePackageBase import *
 
 
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["qt-libs/phonon"] = None
         self.runtimeDependencies["binary/vlc"] = None
-        if CraftCore.compiler.isMSVC() or CraftCore.compiler.isIntel():
+        if CraftCore.compiler.isMSVC():
             self.runtimeDependencies["kdesupport/kdewin"] = None
 
     def setTargets(self):
@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
             else:
                 self.targetInstSrc[ver] = f"phonon-vlc-{ver}"
 
-            self.patchToApply[ver] = [("qtdbus-lib-macos.diff", 1)] # Add patch for link error of QtDBus on macOS
+            self.patchToApply[ver] = [("qtdbus-lib-macos.diff", 1)]  # Add patch for link error of QtDBus on macOS
 
         self.svnTargets["master"] = "https://anongit.kde.org/phonon-vlc"
 
