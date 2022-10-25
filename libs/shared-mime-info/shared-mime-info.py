@@ -23,6 +23,7 @@
 # SUCH DAMAGE.
 
 import shutil
+
 import info
 from Package.AutoToolsPackageBase import *
 from Utils.PostInstallRoutines import *
@@ -36,7 +37,7 @@ class subinfo(info.infoclass):
         for ver in ["1.9"]:
             self.targets[ver] = f"http://freedesktop.org/~hadess/shared-mime-info-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
-        self.targetDigests["1.9"] = (['5c0133ec4e228e41bdf52f726d271a2d821499c2ab97afd3aa3d6cf43efcdc83'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.9"] = (["5c0133ec4e228e41bdf52f726d271a2d821499c2ab97afd3aa3d6cf43efcdc83"], CraftHash.HashAlgorithm.SHA256)
         self.patchLevel["1.9"] = 5
 
         self.description = "The shared-mime-info package contains the core database of common types and the update-mime-database command used to extend it"
@@ -62,8 +63,8 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args += ["--disable-default-make-check", "--disable-update-mimedb"]
         if not CraftCore.compiler.isWindows:
-            #/Users/hannah/CraftRoot/build/libs/shared-mime-info/work/shared-mime-info-1.9/configure: line 4476: syntax error near unexpected token `0.35.0'
-            #/Users/hannah/CraftRoot/build/libs/shared-mime-info/work/shared-mime-info-1.9/configure: line 4476: `IT_PROG_INTLTOOL(0.35.0)'
+            # /Users/hannah/CraftRoot/build/libs/shared-mime-info/work/shared-mime-info-1.9/configure: line 4476: syntax error near unexpected token `0.35.0'
+            # /Users/hannah/CraftRoot/build/libs/shared-mime-info/work/shared-mime-info-1.9/configure: line 4476: `IT_PROG_INTLTOOL(0.35.0)'
             self.subinfo.options.configure.autoreconf = False
         elif CraftCore.compiler.isMSVC():
             root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
@@ -75,8 +76,8 @@ class Package(AutoToolsPackageBase):
             else:
                 self.subinfo.options.configure.ldflags += " -lkdewin"
 
-    def install(self):
-        if not super().install():
+    def postInstall(self):
+        if not super().postInstall():
             return False
         if CraftCore.compiler.isWindows:
             manifest = os.path.join(self.packageDir(), "update-mime-database.exe.manifest")
