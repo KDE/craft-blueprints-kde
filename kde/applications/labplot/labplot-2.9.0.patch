@@ -150,7 +150,7 @@ diff -ruNa a/src/backend/gsl/ExpressionParser.h b/src/backend/gsl/ExpressionPars
  					const QStringList& paramNames, const QVector<double>& paramValues);
 diff -ruNa a/src/backend/lib/Range.cpp b/src/backend/lib/Range.cpp
 --- a/src/backend/lib/Range.cpp	2022-05-02 07:35:16.000000000 +0200
-+++ b/src/backend/lib/Range.cpp	2022-10-26 10:25:25.421236624 +0200
++++ b/src/backend/lib/Range.cpp	2022-10-26 11:16:02.518277718 +0200
 @@ -10,5 +10,7 @@
  
  #include "Range.h"
@@ -158,7 +158,7 @@ diff -ruNa a/src/backend/lib/Range.cpp b/src/backend/lib/Range.cpp
 -const QStringList RangeT::scaleNames{ i18n("Linear"), i18n("Log10"), i18n("Log2"), i18n("Ln"), i18n("Sqrt"), i18n("Square"), i18n("Inverse") };
 -
 +const QStringList& RangeT::scaleNames() { 
-+	static const QStringList names = i18n("Linear"), i18n("Log10"), i18n("Log2"), i18n("Ln"), i18n("Sqrt"), i18n("Square"), i18n("Inverse") };
++	static const QStringList names = { i18n("Linear"), i18n("Log10"), i18n("Log2"), i18n("Ln"), i18n("Sqrt"), i18n("Square"), i18n("Inverse") };
 +	return names;
 +}
 diff -ruNa a/src/backend/lib/Range.h b/src/backend/lib/Range.h
