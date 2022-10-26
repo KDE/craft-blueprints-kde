@@ -560,7 +560,7 @@ diff -ruNa a/src/kdefrontend/dockwidgets/AxisDock.cpp b/src/kdefrontend/dockwidg
  	//update the title label
 diff -ruNa a/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp b/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp
 --- a/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp	2022-05-02 07:35:16.000000000 +0200
-+++ b/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp	2022-10-26 10:23:09.216846905 +0200
++++ b/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp	2022-10-26 10:53:10.526051183 +0200
 @@ -517,7 +517,7 @@
  
  			} else {
@@ -634,6 +634,15 @@ diff -ruNa a/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp b/src/kdefrontend
  			dte->setWrapping(true);
  			ui.twYRanges->setCellWidget(i, TwRangesColumn::Max, dte);
  			dte->setProperty("row", i);
+@@ -779,7 +783,7 @@
+ 		// scale
+ 		cb = new ComboBoxIgnoreWheel(ui.twYRanges);
+ 		//TODO: -> updateLocale()
+-		for (const auto& name: RangeT::scaleNames)
++		for (const auto& name: RangeT::scaleNames())
+ 			cb->addItem(name);
+ 
+ 		cb->setCurrentIndex(static_cast<int>(scale));
 @@ -2248,7 +2252,7 @@
  	const Lock lock(m_initializing);
  	SET_NUMBER_LOCALE
