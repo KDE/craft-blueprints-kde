@@ -148,9 +148,31 @@ diff -ruNa a/src/backend/gsl/ExpressionParser.h b/src/backend/gsl/ExpressionPars
  	bool evaluateCartesian(const QString& expr, QVector<double>* xVector, QVector<double>* yVector);
  	bool evaluateCartesian(const QString& expr, QVector<double>* xVector, QVector<double>* yVector,
  					const QStringList& paramNames, const QVector<double>& paramValues);
+diff -ruNa a/src/backend/lib/Range.cpp b/src/backend/lib/Range.cpp
+--- a/src/backend/lib/Range.cpp	2022-05-02 07:35:16.000000000 +0200
++++ b/src/backend/lib/Range.cpp	2022-10-26 11:16:02.518277718 +0200
+@@ -10,5 +10,7 @@
+ 
+ #include "Range.h"
+ 
+-const QStringList RangeT::scaleNames{ i18n("Linear"), i18n("Log10"), i18n("Log2"), i18n("Ln"), i18n("Sqrt"), i18n("Square"), i18n("Inverse") };
+-
++const QStringList& RangeT::scaleNames() { 
++	static const QStringList names = { i18n("Linear"), i18n("Log10"), i18n("Log2"), i18n("Ln"), i18n("Sqrt"), i18n("Square"), i18n("Inverse") };
++	return names;
++}
 diff -ruNa a/src/backend/lib/Range.h b/src/backend/lib/Range.h
 --- a/src/backend/lib/Range.h	2022-05-02 07:35:16.000000000 +0200
-+++ b/src/backend/lib/Range.h	2022-07-11 00:21:09.148454695 +0200
++++ b/src/backend/lib/Range.h	2022-10-26 10:26:23.177401881 +0200
+@@ -44,7 +44,7 @@
+ 	// TODO: InverseOffset, Prob, Probit, Logit, Weibull
+ 	enum class Scale {Linear, Log10, Log2, Ln, Sqrt, Square, Inverse};
+ 	Q_ENUM(Scale)
+-	const static QStringList scaleNames; // see Range.cpp
++	static const QStringList& scaleNames(); // see Range.cpp
+ 	//TODO: when we have C++17: use inline initialization
+ //	const static inline QStringList scaleNames{ i18n("Linear"), i18n("Log10"), i18n("Log2"), i18n("Ln"), i18n("Sqrt"), i18n("Square") };
+ };
 @@ -57,8 +57,8 @@
  	Range(T start, T end, Format format = Format::Numeric, Scale scale = Scale::Linear) {
  		this->setRange(start, end, format, scale);
@@ -515,9 +537,30 @@ diff -ruNa a/src/CMakeLists.txt b/src/CMakeLists.txt
  	ENDIF ()
  	target_link_libraries( labplot2lib ${READSTAT_LIBRARIES} ${ZLIB_LIBRARIES} )
  ENDIF ()
+diff -ruNa a/src/kdefrontend/dockwidgets/AxisDock.cpp b/src/kdefrontend/dockwidgets/AxisDock.cpp
+--- a/src/kdefrontend/dockwidgets/AxisDock.cpp	2022-05-02 07:35:16.000000000 +0200
++++ b/src/kdefrontend/dockwidgets/AxisDock.cpp	2022-10-26 10:22:51.336795744 +0200
+@@ -303,7 +303,7 @@
+ 	ui.cbRangeType->setToolTip(msg);
+ 
+ 	// scales
+-	for (const auto& name: RangeT::scaleNames)
++	for (const auto& name: RangeT::scaleNames())
+ 		ui.cbScale->addItem(name);
+ 
+ 	ui.cbOrientation->addItem( i18n("Horizontal") );
+@@ -602,7 +602,7 @@
+ 
+ 	// scales
+ 	ui.cbScale->clear();
+-	for (const auto& name: RangeT::scaleNames)
++	for (const auto& name: RangeT::scaleNames())
+ 		ui.cbScale->addItem(name);
+ 
+ 	//update the title label
 diff -ruNa a/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp b/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp
 --- a/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp	2022-05-02 07:35:16.000000000 +0200
-+++ b/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp	2022-07-11 00:21:09.160454579 +0200
++++ b/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp	2022-10-26 10:53:10.526051183 +0200
 @@ -517,7 +517,7 @@
  
  			} else {
@@ -560,6 +603,15 @@ diff -ruNa a/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp b/src/kdefrontend
  			dte->setWrapping(true);
  			ui.twXRanges->setCellWidget(i, TwRangesColumn::Max, dte);
  			dte->setProperty("row", i);
+@@ -686,7 +688,7 @@
+ 		// scale
+ 		cb = new ComboBoxIgnoreWheel(ui.twXRanges);
+ 		//TODO: -> updateLocale()
+-		for (const auto& name: RangeT::scaleNames)
++		for (const auto& name: RangeT::scaleNames())
+ 			cb->addItem(name);
+ 
+ 		cb->setCurrentIndex(static_cast<int>(scale));
 @@ -761,15 +763,17 @@
  			connect(le, &QLineEdit::textChanged, this, &CartesianPlotDock::yMaxChanged);
  		} else {
@@ -582,6 +634,15 @@ diff -ruNa a/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp b/src/kdefrontend
  			dte->setWrapping(true);
  			ui.twYRanges->setCellWidget(i, TwRangesColumn::Max, dte);
  			dte->setProperty("row", i);
+@@ -779,7 +783,7 @@
+ 		// scale
+ 		cb = new ComboBoxIgnoreWheel(ui.twYRanges);
+ 		//TODO: -> updateLocale()
+-		for (const auto& name: RangeT::scaleNames)
++		for (const auto& name: RangeT::scaleNames())
+ 			cb->addItem(name);
+ 
+ 		cb->setCurrentIndex(static_cast<int>(scale));
 @@ -2248,7 +2252,7 @@
  	const Lock lock(m_initializing);
  	SET_NUMBER_LOCALE
