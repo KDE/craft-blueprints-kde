@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         if self.options.dynamic.qdocThroughLLVM:
-            self.runtimeDependencies["libs/llvm-meta/llvm"] = None
+            self.runtimeDependencies["libs/llvm"] = None
 
 
 from Package.Qt5CorePackageBase import *

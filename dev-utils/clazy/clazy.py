@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libxml2"] = None
-        self.runtimeDependencies["libs/llvm-meta/clang"] = None
+        self.runtimeDependencies["libs/llvm"] = None
 
     def setTargets(self):
         self.svnTargets["master"] = "https://invent.kde.org/sdk/clazy.git"

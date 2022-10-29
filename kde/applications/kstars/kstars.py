@@ -57,14 +57,16 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["qt-libs/phonon-vlc"] = None
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
 
+
 from Package.CMakePackageBase import *
 from Packager.AppxPackager import AppxPackager
+
 
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("libs/llvm-meta")
+        self.ignoredPackages.append("libs/llvm")
         if CraftCore.compiler.isWindows:
             self.blacklist_file = ["win-blacklist.txt"]
         if CraftCore.compiler.isMacOS:
