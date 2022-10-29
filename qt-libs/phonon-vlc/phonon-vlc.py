@@ -8,7 +8,10 @@ from Blueprints.CraftVersion import CraftVersion
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["qt-libs/phonon"] = None
-        self.runtimeDependencies["binary/vlc"] = None
+        if OsUtils.isWin():
+            self.runtimeDependencies["binary/vlc"] = None
+        else:
+            self.runtimeDependencies["libs/vlc"] = None
         if CraftCore.compiler.isMSVC() or CraftCore.compiler.isIntel():
             self.runtimeDependencies["kdesupport/kdewin"] = None
 
