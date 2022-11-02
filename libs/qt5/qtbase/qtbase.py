@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import info
+from CraftCompiler import CraftCompiler
 from Package.Qt5CorePackageBase import *
 
 
@@ -164,7 +165,12 @@ class Package(Qt5CorePackageBase):
             if self.subinfo.options.dynamic.libInfix:
                 command += f"-qtlibinfix {self.subinfo.options.dynamic.libInfix} "
             command += f"-headerdir {os.path.join(CraftStandardDirs.craftRoot(), 'include', 'qt5')} "
-            if not CraftCore.compiler.isAndroid:
+            if (
+                not CraftCore.compiler.isAndroid
+                and
+                # Qt pretends to crosscompile..
+                not (CraftCore.compiler.isMacOS and CraftCore.compiler.architecture & CraftCompiler.Architecture.arm)
+            ):
                 command += "-pkg-config "
 
             # Android: androiddeployqt fails to deploy the Android QPA plugin correctly when depending against a system Freetype
@@ -198,8 +204,12 @@ class Package(Qt5CorePackageBase):
             command += "-mp "
 
             # for the kde repo we only apply the parts of the patch
-            if CraftCore.compiler.isMacOS and self.subinfo.buildTarget != "kde/5.15":
-                command += f'-macos-additional-datadirs "{CraftCore.standardDirs.locations.data}" '
+            if CraftCore.compiler.isMacOS:
+                if self.subinfo.buildTarget != "kde/5.15":
+                    command += f'-macos-additional-datadirs "{CraftCore.standardDirs.locations.data}" '
+
+                if CraftCore.compiler.architecture & CraftCompiler.Architecture.arm:
+                    command += "-device-option QMAKE_APPLE_DEVICE_ARCHS=arm64 "
 
             if CraftCore.compiler.isFreeBSD:
                 command += "-no-libudev -no-evdev "
