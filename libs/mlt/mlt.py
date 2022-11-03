@@ -13,13 +13,13 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ ver ] = "mlt-" + ver
 
         self.svnTargets['master'] = "https://github.com/mltframework/mlt.git"
-        self.patchLevel['master'] = 20220704
-        self.svnTargets['640266b'] = "https://github.com/mltframework/mlt.git||640266b8b55a9b2377638a77f833a7839e4a3efb"
-        self.defaultTarget = '640266b'
+        self.patchLevel['master'] = 20221103
+        self.svnTargets['0cfdba6'] = "https://github.com/mltframework/mlt.git||0cfdba6fa69dbfe8b21fabee4aef2b5e5f3a508f"
+        self.defaultTarget = '0cfdba6'
         if CraftCore.compiler.isMacOS:
-            self.patchToApply["640266b"] = [("001-fix-avformat-mac.diff", 1)]
+            self.patchToApply["0cfdba6"] = [("001-fix-avformat-mac.diff", 1)]
         if CraftCore.compiler.isWindows:
-            self.patchToApply["640266b"] = [("pi_patch.diff", 1)]
+            self.patchToApply["0cfdba6"] = [("pi_patch.diff", 1)]
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/pkg-config"] = None
