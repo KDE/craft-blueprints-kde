@@ -5,7 +5,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Solid"
-        self.patchToApply["5.93.0"] = [("0001-5.93-android-support.diff", 1)]
 
         if CraftCore.compiler.isMinGW():
             self.patchToApply["5.95.0"] = [("fix-mingw-prefix.diff", 1)]

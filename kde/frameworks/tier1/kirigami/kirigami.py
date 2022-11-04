@@ -9,10 +9,6 @@ class subinfo(info.infoclass):
             tarballInstallSrc = "kirigami2-${VERSION}"
         )
 
-        for ver in ["5.93.0"]:
-            self.patchToApply[ver] = ('FixWinTargets.patch', 1) # fixed upstream in ecm for 5.94.0
-            self.patchLevel[ver] = 1
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
