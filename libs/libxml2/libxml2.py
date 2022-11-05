@@ -6,8 +6,12 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["2.10.3"]:
-            self.svnTargets[ver] = f"https://gitlab.gnome.org/GNOME/libxml2.git||v{ver}"
-        self.targetDigests["2.10.3"] = (["497f12e34790d407ec9e2a190d576c0881a1cd78ff3c8991d1f9e40281a5ff57"], CraftHash.HashAlgorithm.SHA256)
+            self.targets[ver] = f"https://download.gnome.org/sources/libxml2/2.10/libxml2-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"libxml2-{ver}"
+        self.targetDigests["2.10.3"] = (["5d2cc3d78bec3dbe212a9d7fa629ada25a7da928af432c93060ff5c17ee28a9c"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["2.10.3"] = [("libxml2-2.10.3-20221105.diff", 1)]
+        self.patchLevel["2.10.3"] = 1
+
         self.description = "XML C parser and toolkit (runtime and applications)"
         self.defaultTarget = "2.10.3"
 
