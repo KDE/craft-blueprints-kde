@@ -30,12 +30,12 @@ import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets( self ):
-        for ver in ["3.0.6"]:
+        for ver in ["3.0.17"]:
             self.targets[ver] = f"http://get.videolan.org/vlc/{ver}/vlc-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"vlc-{ver}"
-        self.targetDigests["3.0.6"] = (['18c16d4be0f34861d0aa51fbd274fb87f0cab3b7119757ead93f3db3a1f27ed3'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.0.17"] = (['48bd9bf337aa107a1524eba57c52dc4a91e29f5a97fbdee92f6a4dba90383cd0'], CraftHash.HashAlgorithm.SHA256)
         self.description = "VLC is a free and open source cross-platform multimedia player and framework that plays most multimedia files as well as DVDs, Audio CDs, VCDs, and various streaming protocols."
-        self.defaultTarget = "3.0.6"
+        self.defaultTarget = "3.0.17"
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/msys"] = None
@@ -61,3 +61,4 @@ class Package(AutoToolsPackageBase):
     def __init__( self, **args ):
         AutoToolsPackageBase.__init__( self )
         self.subinfo.options.configure.args += " --disable-lua --disable-a52 --enable-vpx=no --enable-sparkle=no"
+        self.subinfo.options.configure.args += " --enable-harfbuzz=no" # hb-ft.h missing in harfbuzz version that we ship at the time of this writing (2.7.2)

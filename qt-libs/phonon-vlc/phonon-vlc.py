@@ -8,9 +8,12 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["qt-libs/phonon"] = None
-        self.runtimeDependencies["binary/vlc"] = None
         if CraftCore.compiler.isMSVC():
             self.runtimeDependencies["kdesupport/kdewin"] = None
+        if OsUtils.isWin():
+            self.runtimeDependencies["binary/vlc"] = None
+        else:
+            self.runtimeDependencies["libs/vlc"] = None
 
     def setTargets(self):
         for ver in ["0.10.0", "0.11.1"]:
