@@ -28,6 +28,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/boost/boost-bjam"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["libs/libxml2"] = None
+        self.buildDependencies["libs/libzstd"] = None
         self.buildDependencies["dev-utils/python3"] = None
 
 
