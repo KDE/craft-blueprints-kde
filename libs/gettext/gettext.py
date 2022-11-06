@@ -15,6 +15,10 @@ class subinfo(info.infoclass):
                                      ("d1836dbbd6a90b4c0ab79bc5292c023f08b49511.patch", 1) # https://git.savannah.gnu.org/gitweb/?p=gettext.git;a=commitdiff;h=d1836dbbd6a90b4c0ab79bc5292c023f08b49511
                                      ]
 
+        if CraftCore.compiler.isMinGW():
+            self.patchToApply['0.21'] = [("0011-fix-interference-between-libintl-boost-header-files.patch", 1)] #https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gettext/0011-fix-interference-between-libintl-boost-header-files.patch
+            self.patchLevel['0.21'] = 1
+
         self.description = "GNU internationalization (i18n)"
         self.defaultTarget = '0.21'
 
