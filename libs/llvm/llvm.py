@@ -4,6 +4,9 @@ from Package import CMakePackageBase
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildType", "Release")
+
     def setTargets(self):
         for ver in ["15.0.2"]:
             self.targets[ver] = f"https://github.com/llvm/llvm-project/releases/download/llvmorg-{ver}/llvm-project-{ver}.src.tar.xz"
