@@ -20,9 +20,9 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://download.kde.org/stable/clazy/{ver}/src/clazy-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/clazy/{ver}/src/clazy-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"clazy-{ver}"
-        self.patchToApply["1.11"] = [("0001-Allow-to-build-clazy-on-mac.patch", 1)]
+        self.patchToApply["1.11"] = [("0001-Allow-to-build-clazy-on-mac.patch", 1), ("20fca52da739ebefa47e35f6b338bb99a0da3cfe.patch", 1)]  # llvm 15
         self.patchLevel["1.11"] = 1
-        self.defaultTarget = '1.11'
+        self.defaultTarget = "1.11"
 
 
 class Package(CMakePackageBase):
