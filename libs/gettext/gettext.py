@@ -16,8 +16,8 @@ class subinfo(info.infoclass):
                                      ]
 
         if CraftCore.compiler.isMinGW():
-            self.patchToApply['0.21'] = [("0011-fix-interference-between-libintl-boost-header-files.patch", 1)] #https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gettext/0011-fix-interference-between-libintl-boost-header-files.patch
-            self.patchLevel['0.21'] = 1
+            self.patchToApply['0.21'] += [("0011-fix-interference-between-libintl-boost-header-files.patch", 1)] #https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-gettext/0011-fix-interference-between-libintl-boost-header-files.patch
+            self.patchLevel['0.21'] = 2
 
         self.description = "GNU internationalization (i18n)"
         self.defaultTarget = '0.21'
