@@ -86,7 +86,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         if not CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
-        self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioslave|melt|update-mime-database|data/kdenlive)).*")
+        self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioslave|melt|update-mime-database|drmingw|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm-meta")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.ignoredPackages.append("binary/mysql")
