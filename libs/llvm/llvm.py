@@ -14,10 +14,12 @@ class subinfo(info.infoclass):
             ["7877cd67714728556a79e5ec0cc72d66b6926448cf73b12b2cb901b268f7a872"],
             CraftHash.HashAlgorithm.SHA256,
         )
+        self.patchLevel["15.0.2"] = 1
 
         self.description = "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines."
         self.webpage = "http://llvm.org/"
         self.tags = "clang, clang-tools-extra"
+
         self.defaultTarget = "15.0.2"
 
     def setDependencies(self):
