@@ -1,0 +1,22 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user llvm-project-15.0.2.src.orig/llvm/lib/Support/CMakeLists.txt llvm-project-15.0.2.src/llvm/lib/Support/CMakeLists.txt
+--- llvm-project-15.0.2.src.orig/llvm/lib/Support/CMakeLists.txt	2022-10-04 11:29:17.000000000 +0200
++++ llvm-project-15.0.2.src/llvm/lib/Support/CMakeLists.txt	2022-11-07 12:31:28.968201900 +0100
+@@ -306,12 +306,15 @@
+ 
+ if(LLVM_ENABLE_ZSTD)
+   # CMAKE_BUILD_TYPE is only meaningful to single-configuration generators.
+-  if(CMAKE_BUILD_TYPE)
+     string(TOUPPER ${CMAKE_BUILD_TYPE} build_type)
+-    get_property(zstd_library TARGET ${zstd_target} PROPERTY LOCATION_${build_type})
++  if(CMAKE_BUILD_TYPE)
++    get_property(zstd_library TARGET ${zstd_target} PROPERTY IMPORTED_IMPLIB_${build_type})
++  endif()
++  if(NOT zstd_library AND build_type STREQUAL "RELEASE")
++    get_property(zstd_library TARGET ${zstd_target} PROPERTY IMPORTED_IMPLIB_RELWITHDEBINFO)
+   endif()
+   if(NOT zstd_library)
+-    get_property(zstd_library TARGET ${zstd_target} PROPERTY LOCATION)
++    get_property(zstd_library TARGET ${zstd_target} PROPERTY IMPORTED_IMPLIB)
+   endif()
+   get_library_name(${zstd_library} zstd_library)
+   set(llvm_system_libs ${llvm_system_libs} "${zstd_library}")

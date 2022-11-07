@@ -13,10 +13,13 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"llvm-project-{ver}.src"
             self.targetConfigurePath[ver] = "llvm"
             self.patchToApply[ver] = [("llvm-15.0.2-20221030.diff", 1)]
+        if CraftCore.compiler.isMSVC():
+            self.patchToApply[ver] += [("llvm-15.0.2-20221107.diff", 1)]
         self.targetDigests["15.0.2"] = (
             ["7877cd67714728556a79e5ec0cc72d66b6926448cf73b12b2cb901b268f7a872"],
             CraftHash.HashAlgorithm.SHA256,
         )
+        self.patchLevel["15.0.2"] = 2
 
         self.description = "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines."
         self.webpage = "http://llvm.org/"
