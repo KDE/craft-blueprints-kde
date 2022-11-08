@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user libxslt-1.1.37.orig/CMakeLists.txt libxslt-1.1.37/CMakeLists.txt
+--- libxslt-1.1.37.orig/CMakeLists.txt	2022-08-17 13:34:00.000000000 +0200
++++ libxslt-1.1.37/CMakeLists.txt	2022-11-08 14:26:23.789535300 +0100
+@@ -208,7 +208,7 @@
+ target_link_libraries(LibXslt PUBLIC LibXml2::LibXml2)
+ 
+ if(UNIX)
+-	target_link_libraries(LibXslt PRIVATE m)
++	target_link_libraries(LibXslt PUBLIC m)
+ 	set(LIBM "-lm")
+ endif()
+ 
