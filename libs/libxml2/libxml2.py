@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"libxml2-{ver}"
         self.targetDigests["2.10.3"] = (["5d2cc3d78bec3dbe212a9d7fa629ada25a7da928af432c93060ff5c17ee28a9c"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["2.10.3"] = [("libxml2-2.10.3-20221105.diff", 1)]
-        self.patchLevel["2.10.3"] = 1
+        self.patchLevel["2.10.3"] = 2
 
         self.description = "XML C parser and toolkit (runtime and applications)"
         self.defaultTarget = "2.10.3"
@@ -26,4 +26,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += ["-DLIBXML2_WITH_PYTHON=OFF"]
+        self.subinfo.options.configure.args += [
+            "-DLIBXML2_WITH_PYTHON=OFF",
+            f"-DLIBXML2_WITH_ICU={'ON' if self.subinfo.options.isActive('libs/icu') else 'OFF'}",
+        ]
