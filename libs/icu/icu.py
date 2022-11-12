@@ -11,11 +11,13 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
+        for ver in ["71.1"]:
+            major, minor = ver.split(".")
+            self.targets[ver] = f"https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/icu4c-{major}_{minor}-src.tgz"
+            self.targetInstSrc[ver] = os.path.join("icu", "source")
+            self.targetDigests[ver] = (["67a7e6e51f61faf1306b6935333e13b2c48abd8da6d2f46ce6adca24b1e21ebf"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["71.1"] = [("icu-71.1-20221112.diff", 1)]
         self.defaultTarget = "71.1"
-        major, minor = self.defaultTarget.split(".")
-        self.targets[self.defaultTarget] = f"https://github.com/unicode-org/icu/releases/download/release-{major}-{minor}/icu4c-{major}_{minor}-src.tgz"
-        self.targetInstSrc[self.defaultTarget] = os.path.join("icu", "source")
-        self.targetDigests[self.defaultTarget] = (["67a7e6e51f61faf1306b6935333e13b2c48abd8da6d2f46ce6adca24b1e21ebf"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -56,29 +58,6 @@ class Package(AutoToolsPackageBase):
             for dll in files:
                 if dll.endswith(".dll"):
                     utils.moveFile(os.path.join(self.installDir(), "lib", dll), os.path.join(self.installDir(), "bin", dll))
-        elif CraftCore.compiler.isMacOS:
-            # based on BuildSystemBase
-            for f in utils.filterDirectoryContent(
-                self.installDir(),
-                lambda x, root: not os.path.islink(x.path) and utils.isBinary(x.path) and x.path.endswith(".dylib"),
-                lambda x, root: True,
-            ):
-                with io.StringIO() as log:
-                    utils.system(["otool", "-D", f], stdout=log, logCommand=False)
-                    oldId = log.getvalue().strip().split("\n")
-                # the first line is the file name
-                # the second the id, if we only get one line, there is no id to fix
-                if len(oldId) == 2:
-                    oldId = oldId[1].strip()
-                    if not oldId.startswith("@"):
-                        newId = f"@rpath/{oldId}"
-                        CraftCore.log.warning(f"Fixing broken lib id: {oldId} to {newId}")
-                        if newId != oldId:
-                            if not utils.system(
-                                ["install_name_tool", "-id", newId, f],
-                                logCommand=False,
-                            ):
-                                return False
         return True
 
     def postInstall(self):
