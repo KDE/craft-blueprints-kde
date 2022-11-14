@@ -1,0 +1,36 @@
+From 9e71fe9233db1a25d4ff73a3f9c4a7b253f026aa Mon Sep 17 00:00:00 2001
+From: Hannah von Reth <hannah.vonreth@owncloud.com>
+Date: Tue, 27 Sep 2022 15:51:53 +0200
+Subject: [PATCH] Implement QTEST_MAX_WARNINGS
+
+Behaves similar to the QTest command line switch
+`-maxwarnings number Sets the maximum number of warnings to output. 0 for unlimited, defaults to 2000.`
+
+But allows to set the value globally and for tests run with ctest.
+---
+ src/testlib/qtestlog.cpp | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/src/testlib/qtestlog.cpp b/src/testlib/qtestlog.cpp
+index da9626a559..0747cf8e48 100644
+--- a/src/testlib/qtestlog.cpp
++++ b/src/testlib/qtestlog.cpp
+@@ -171,7 +171,14 @@ namespace QTest {
+     Q_GLOBAL_STATIC(QVector<QAbstractTestLogger *>, loggers)
+ 
+     static int verbosity = 0;
+-    static int maxWarnings = 2002;
++    static int maxWarnings = [] {
++      bool ok;
++      const int m = qEnvironmentVariableIntValue("QTEST_MAX_WARNINGS", &ok);
++      if (ok) {
++        return m == 0 ? INT_MAX : m;
++      }
++      return 2002;
++    }();
+     static bool installedTestCoverage = true;
+ 
+     static QtMessageHandler oldMessageHandler;
+-- 
+2.37.2.windows.2
+

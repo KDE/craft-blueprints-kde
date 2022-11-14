@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["linuxdeploy-plugin-qt"] = None
+        self.runtimeDependencies["dev-utils/linuxdeploy-plugin-qt"] = None
 
 
 from Package.BinaryPackageBase import *

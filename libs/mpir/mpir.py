@@ -3,7 +3,7 @@
 
 import info
 import re
-
+from CraftCompiler import CraftCompiler
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -35,7 +35,7 @@ class PackageAutotools(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.useShadowBuild = False # ./configure doesn't support absolute paths
         abi = "ABI=64"
-        if CraftCore.compiler.isX86():
+        if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32:
             abi = "ABI=32"
             self.platform = ""
         self.subinfo.options.configure.args += ["--enable-shared", "--disable-static",

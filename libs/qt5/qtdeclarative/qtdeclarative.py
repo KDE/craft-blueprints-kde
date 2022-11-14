@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
         self.patchToApply["5.12.0"] = [(".qt-5.12.0", 1)]
         self.patchToApply["5.15.2"] = [(".qt-5.15.2", 1)]
         self.patchToApply["5.15.5"] = [(".qt-5.15.5", 1)]
+        self.patchToApply["kde/5.15"] = [(".qt-kde-5.15", 1)]
         self.patchLevel["5.15.2"] = 1
 
     def setDependencies(self):
@@ -22,7 +23,7 @@ class subinfo(info.infoclass):
 from Package.Qt5CorePackageBase import *
 
 
-class QtPackage(Qt5CorePackageBase):
+class Package(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
         if self.buildType() == "MinSizeRel":
@@ -39,9 +40,3 @@ class QtPackage(Qt5CorePackageBase):
             env["PATH"] = os.environ["PATH"] + f":{Path(fxc).parent}"
         with utils.ScopedEnv(env):
             return super().make()
-
-
-
-class Package(Qt5CoreSdkPackageBase):
-    def __init__(self):
-        Qt5CoreSdkPackageBase.__init__(self, classA=QtPackage)

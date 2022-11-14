@@ -9,8 +9,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
 
-from Blueprints.CraftPackageObject import CraftPackageObject
-
-class Package(CraftPackageObject.get('libs/qt6').pattern):
+from Package.CMakePackageBase import *
+class Package(CMakePackageBase):
     def __init__(self):
-        CraftPackageObject.get('libs/qt6').pattern.__init__(self)
+        CMakePackageBase.__init__(self)

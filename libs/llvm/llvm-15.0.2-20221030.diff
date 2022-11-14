@@ -1,0 +1,35 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user llvm-project-15.0.2.src\llvm.orig/cmake/modules/LLVMInstallSymlink.cmake llvm-project-15.0.2.src\llvm/cmake/modules/LLVMInstallSymlink.cmake
+--- llvm-project-15.0.2.src\llvm.orig/cmake/modules/LLVMInstallSymlink.cmake	2022-10-04 11:29:17.000000000 +0200
++++ llvm-project-15.0.2.src\llvm/cmake/modules/LLVMInstallSymlink.cmake	2022-10-30 13:52:21.531745000 +0100
+@@ -7,19 +7,26 @@
+ function(install_symlink name target outdir)
+   set(DESTDIR $ENV{DESTDIR})
+   if(NOT IS_ABSOLUTE "${outdir}")
+-    set(outdir "${CMAKE_INSTALL_PREFIX}/${outdir}")
++    set(PREFIX ${CMAKE_INSTALL_PREFIX})
++    if (CMAKE_HOST_WIN32)
++      # strip drive letter (C:) from path
++      string(SUBSTRING ${PREFIX} 2 -1 PREFIX)
++    endif()
++    set(outdir "${PREFIX}/${outdir}")
+   endif()
+   set(outdir "${DESTDIR}${outdir}")
+ 
+   message(STATUS "Creating ${name}")
+ 
++  if(CMAKE_HOST_WIN32)
+   execute_process(
+-    COMMAND "${CMAKE_COMMAND}" -E create_symlink "${target}" "${name}"
+-    WORKING_DIRECTORY "${outdir}" ERROR_VARIABLE has_err)
+-  if(CMAKE_HOST_WIN32 AND has_err)
++      COMMAND "kshimgen" --create "${name}" "${target}"
++      WORKING_DIRECTORY "${outdir}")
++  else()
+     execute_process(
+-      COMMAND "${CMAKE_COMMAND}" -E copy "${target}" "${name}"
++      COMMAND "${CMAKE_COMMAND}" -E create_symlink "${target}" "${name}"
+       WORKING_DIRECTORY "${outdir}")
+   endif()
+ 
++
+ endfunction()

@@ -3,10 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        arch = "x86"
-        if CraftCore.compiler.isX64():
-            arch = "x64"
-        self.targets['2.2'] = 'http://www.dependencywalker.com/depends22_' + arch + '.zip'
+        self.targets['2.2'] = 'http://www.dependencywalker.com/depends22_x64.zip'
         self.targetInstallPath['2.2'] = "dev-utils/bin"
         self.defaultTarget = '2.2'
 

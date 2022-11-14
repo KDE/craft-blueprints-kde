@@ -1,18 +1,17 @@
 import info
-from Package.AutoToolsPackageBase import *
-from Package.MakeFilePackageBase import *
+from Package.CMakePackageBase import *
+
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ['1.1.32']:
-            self.targets[ver] = 'ftp://xmlsoft.org/libxslt/libxslt-' + ver + '.tar.gz'
-            self.targetInstSrc[ver] = 'libxslt-' + ver
-            if not CraftCore.compiler.isGCCLike():
-                self.targetInstSrc[ver] = os.path.join(self.targetInstSrc[ver], 'win32')
-        self.targetDigests['1.1.32'] = (['526ecd0abaf4a7789041622c3950c0e7f2c4c8835471515fd77eec684a355460'], CraftHash.HashAlgorithm.SHA256)
-
+        for ver in ["1.1.37"]:
+            self.targets[ver] = f"https://download.gnome.org/sources/libxslt/1.1/libxslt-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"libxslt-{ver}"
+        self.patchToApply["1.1.37"] = [("libxslt-1.1.37-20221108.diff", 1)]
+        self.targetDigests["1.1.37"] = (["3a4b27dc8027ccd6146725950336f1ec520928f320f144eb5fa7990ae6123ab4"], CraftHash.HashAlgorithm.SHA256)
         self.description = "The GNOME XSLT C library and tools"
-        self.defaultTarget = '1.1.32'
+        self.webpage = "https://gitlab.gnome.org/GNOME/libxslt"
+        self.defaultTarget = "1.1.37"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
@@ -22,42 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/iconv"] = None
 
 
-class PackageMSVC(MakeFilePackageBase):
+class Package(CMakePackageBase):
     def __init__(self, **args):
-        MakeFilePackageBase.__init__(self)
-        self.supportsNinja = False
-        self.subinfo.options.useShadowBuild = False
-        self.subinfo.options.make.supportsMultijob = False
-
-    def configure(self):
-        self.enterSourceDir()
-        includedir = os.path.join(CraftCore.standardDirs.craftRoot(), 'include')
-        libdir = os.path.join(CraftCore.standardDirs.craftRoot(), 'lib')
-        prefixdir = self.imageDir()
-        builddebug = "yes" if self.buildType() == "Debug" else "no"
-
-        return utils.system([f"cscript.exe",
-                            f".\configure.js",
-                            f"compiler=msvc",
-                            f"include={includedir}",
-                            f"lib={libdir}",
-                            f"prefix={prefixdir}",
-                            f"debug={builddebug}",
-                            f"zlib=yes",
-                            f"iconv=yes"]
-                            )
-
-
-class PackageMinGW(AutoToolsPackageBase):
-    def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args += f" --disable-static --enable-shared --with-python=no"
-
-if CraftCore.compiler.isGCCLike():
-    class Package(PackageMinGW):
-        def __init__(self):
-            PackageMinGW.__init__(self)
-else:
-    class Package(PackageMSVC):
-        def __init__(self):
-            PackageMSVC.__init__(self)
+        CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args += ["-DLIBXSLT_WITH_PYTHON=OFF"]

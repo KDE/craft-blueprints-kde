@@ -30,19 +30,19 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
-        for ver in ["1.14.0"]:
+        for ver in ["1.14.0", "1.14.4"]:
             self.targets[ver] = f"http://dbus.freedesktop.org/releases/dbus/dbus-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"dbus-{ver}"
 
         self.svnTargets["master"] = "git://anongit.freedesktop.org/git/dbus/dbus"
         self.targetSrcSuffix["master"] = "git"
 
-        self.targetDigests['1.14.0'] = (['ccd7cce37596e0a19558fd6648d1272ab43f011d80c8635aea8fd0bad58aebd4'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.14.0"] = (["ccd7cce37596e0a19558fd6648d1272ab43f011d80c8635aea8fd0bad58aebd4"], CraftHash.HashAlgorithm.SHA256)
 
         self.patchToApply["1.14.0"] = [("0002-fix-macos-build.diff", 1)]
         self.description = "Freedesktop message bus system (daemon and clients)"
         self.webpage = "http://www.freedesktop.org/wiki/Software/dbus/"
-        self.defaultTarget = "1.14.0"
+        self.defaultTarget = "1.14.4"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
@@ -57,16 +57,12 @@ from Package.CMakePackageBase import *
 class PackageCMake(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = (
-            "-DDBUS_BUILD_TESTS=OFF "
-            "-DDBUS_ENABLE_XML_DOCS=OFF ")
+        self.subinfo.options.configure.args = "-DDBUS_BUILD_TESTS=OFF " "-DDBUS_ENABLE_XML_DOCS=OFF "
 
-        if (self.buildType() == "Debug"):
+        if self.buildType() == "Debug":
             self.subinfo.options.configure.args += "-DDBUS_ENABLE_VERBOSE_MODE=ON "
         else:
-            self.subinfo.options.configure.args += (
-                "-DDBUS_ENABLE_VERBOSE_MODE=OFF "
-                "-DDBUS_DISABLE_ASSERT=ON ")
+            self.subinfo.options.configure.args += "-DDBUS_ENABLE_VERBOSE_MODE=OFF " "-DDBUS_DISABLE_ASSERT=ON "
 
         if OsUtils.isWin():
             # kde uses debugger output, so dbus should do too
@@ -76,10 +72,12 @@ class PackageCMake(CMakePackageBase):
             self.subinfo.options.configure.args += (
                 "-DDBUS_SESSION_BUS_LISTEN_ADDRESS:STRING=autolaunch:scope=*install-path "
                 "-DDBUS_SESSION_BUS_CONNECT_ADDRESS:STRING=autolaunch:scope=*install-path "
-                "-DDBUS_SYSTEM_BUS_DEFAULT_ADDRESS:STRING=autolaunch:scope=*install-path ")
+                "-DDBUS_SYSTEM_BUS_DEFAULT_ADDRESS:STRING=autolaunch:scope=*install-path "
+            )
 
     def install(self):
-        if not CMakePackageBase.install(self): return False
+        if not CMakePackageBase.install(self):
+            return False
         # TODO: fix
         if self.buildType() == "Debug":
             imagedir = os.path.join(self.installDir(), "lib")
@@ -90,10 +88,10 @@ class PackageCMake(CMakePackageBase):
                     utils.copyFile(os.path.join(imagedir, "dbus-1.lib"), os.path.join(imagedir, "dbus-1d.lib"))
             if CraftCore.compiler.isMinGW():
                 if os.path.exists(os.path.join(imagedir, "libdbus-1.dll.a")):
-                    utils.copyFile(os.path.join(imagedir, "libdbus-1.dll.a"),
-                                   os.path.join(imagedir, "libdbus-1d.dll.a"))
+                    utils.copyFile(os.path.join(imagedir, "libdbus-1.dll.a"), os.path.join(imagedir, "libdbus-1d.dll.a"))
 
         return True
+
 
 from Package.AutoToolsPackageBase import *
 
@@ -114,29 +112,29 @@ class PackageAutotools(AutoToolsPackageBase):
         )
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += (
-                "--enable-launchd "
-                f"--with-launchd-agent-dir='{os.path.join(CraftCore.standardDirs.craftRoot(), 'Library', 'LaunchAgents')}' ")
-
-
-
+                "--enable-launchd " f"--with-launchd-agent-dir='{os.path.join(CraftCore.standardDirs.craftRoot(), 'Library', 'LaunchAgents')}' "
+            )
 
     def postInstall(self):
         hardCodedFiles = []
         if CraftCore.compiler.isMacOS:
             hardCodedFiles += [os.path.join(self.installDir(), "Library", "LaunchAgents", "org.freedesktop.dbus-session.plist")]
-        return self.patchInstallPrefix(hardCodedFiles,
-                                       self.subinfo.buildPrefix,
-                                       CraftCore.standardDirs.craftRoot())
+        return self.patchInstallPrefix(hardCodedFiles, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())
 
     def postQmerge(self):
         if CraftCore.compiler.isMacOS:
-            utils.system(["launchctl", "load", os.path.join(CraftCore.standardDirs.craftRoot(), 'Library', 'LaunchAgents', 'org.freedesktop.dbus-session.plist')])
+            utils.system(
+                ["launchctl", "load", os.path.join(CraftCore.standardDirs.craftRoot(), "Library", "LaunchAgents", "org.freedesktop.dbus-session.plist")]
+            )
         return True
 
 
 if not CraftCore.compiler.isWindows:
+
     class Package(PackageAutotools):
         pass
+
 else:
+
     class Package(PackageCMake):
         pass

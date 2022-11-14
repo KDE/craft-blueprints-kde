@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
                                       ]
         self.patchToApply["dev"] = [("qtwebkit-20181022.patch", 1)]
 
-        for ver in ["5.12", "5.15"]:
+        for ver in ["5.12", "5.15", "kde/5.15"]:
             self.svnTargets[ver] = self.svnTargets["5.212"]
             self.patchToApply[ver] = self.patchToApply["5.212"]
 
@@ -72,28 +72,7 @@ class subinfo(info.infoclass):
 from Package.Qt5CorePackageBase import *
 from Package.CMakePackageBase import *
 
-
-class QtPackage(Qt5CorePackageBase):
-    def __init__(self, **args):
-        Qt5CorePackageBase.__init__(self)
-        self.subinfo.options.configure.args = ""
-        if OsUtils.isWin():
-            self.subinfo.options.configure.args += """ "QT_CONFIG+=no-pkg-config" """
-        if CraftCore.compiler.isMinGW():
-            # things get too big
-            # disable warnings as the project is unmaintained an the log files where getting too big
-            self.subinfo.options.configure.args += """ "QMAKE_CXXFLAGS += -g0 -O3 -w" """
-        elif CraftCore.compiler.isMSVC():
-            # don't run out of heap during
-            self.subinfo.options.make.supportsMultijob = False
-        self.subinfo.options.configure.args += """ "WEBKIT_CONFIG-=geolocation" """
-
-    def fetch(self):
-        if os.path.exists(self.sourceDir()):
-            utils.system(["git", "reset", "--hard"], cwd=self.sourceDir())
-        return super().fetch()
-
-class CMakePackage(CMakePackageBase):
+class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args += " -DPORT=Qt -DENABLE_API_TESTS=OFF -DENABLE_TOOLS=OFF " \
@@ -110,12 +89,3 @@ class CMakePackage(CMakePackageBase):
             self.subinfo.options.configure.args += """ -DCMAKE_CXX_FLAGS="-w" """
             if CraftCore.compiler.isMinGW():
                 self.subinfo.options.configure.args += """ -DCMAKE_CXX_FLAGS_RELEASE="-g0 -O3" """
-
-
-
-class Package(Qt5CoreSdkPackageBase):
-    def __init__(self):
-        base = QtPackage
-        if CraftVersion(CraftPackageObject.get("libs/qt5/qtbase").version) > "5.12":
-            base = CMakePackage
-        Qt5CoreSdkPackageBase.__init__(self, classA=base)

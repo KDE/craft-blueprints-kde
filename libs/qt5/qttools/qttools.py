@@ -14,20 +14,15 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         if self.options.dynamic.qdocThroughLLVM:
-            self.runtimeDependencies["libs/llvm-meta/llvm"] = None
+            self.runtimeDependencies["libs/llvm"] = None
 
 
 from Package.Qt5CorePackageBase import *
 
 
-class QtPackage(Qt5CorePackageBase):
+class Package(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
-
-
-class Package(Qt5CoreSdkPackageBase):
-    def __init__(self):
-        Qt5CoreSdkPackageBase.__init__(self, classA=QtPackage)
 
     def compile(self):
         env = {}

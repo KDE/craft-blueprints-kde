@@ -31,3 +31,5 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         self.supportsCCACHE = False
         self.subinfo.options.configure.args += ["-DPNG_TESTS=OFF", "-DPNG_STATIC=OFF", "-DPNG_NO_STDIO=OFF"]
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += "-DPNG_ARM_NEON=off"

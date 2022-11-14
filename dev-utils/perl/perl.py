@@ -5,7 +5,7 @@ import info
 from Package.AutoToolsPackageBase import *
 from Package.MakeFilePackageBase import *
 from Blueprints.CraftVersion import *
-
+from CraftCompiler import CraftCompiler
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -37,15 +37,15 @@ class PackageMSVC(MakeFilePackageBase):
         root = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
         config = {  "CCTYPE": "MSVC141" if CraftCore.compiler.isMSVC() else "GCC",
                     "CRAFT_DESTDIR": self.installDir(),
-                    "CRAFT_WIN64": "" if CraftCore.compiler.isX64() else "undef",
+                    "CRAFT_WIN64": "" if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64 else "undef",
                     "PLMAKE": "nmake" if CraftCore.compiler.isMSVC() else "mingw32-make"}
 
         if CraftCore.compiler.isMinGW():
             config["CCHOME"] = os.path.join(CraftCore.standardDirs.craftRoot(), "mingw64")
             config["SHELL"] = os.environ["COMSPEC"]
             config["CRAFT_CFLAGS"] = f"{os.environ.get('CFLAGS', '')} -I'{root}/include' -L'{root}/lib'"
-        elif CraftCore.compiler.isX86():
-            config["PROCESSOR_ARCHITECTURE"] = CraftCore.compiler.architecture
+        elif CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32:
+            config["PROCESSOR_ARCHITECTURE"] = f"x{CraftCore.compiler.bits}"
 
 
         self.subinfo.options.make.args += ["{0}={1}".format(x, y) for x, y in config.items()]
@@ -109,7 +109,7 @@ class PackageAutoTools(AutoToolsPackageBase):
 
         cflags = self.shell.environment["CFLAGS"]
         ldflags = self.shell.environment["LDFLAGS"]
-        if CraftCore.compiler.isGCC() and not CraftCore.compiler.isNative() and CraftCore.compiler.isX86():
+        if CraftCore.compiler.isGCC() and not CraftCore.compiler.isNative() and CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32:
             cflags += " -m32"
             ldflags += " -m32"
             self.subinfo.options.configure.args += ["-Alddlflags=-m32 -shared", "-Uuse64bitint -Uuse64bitall"]
