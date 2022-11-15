@@ -30,6 +30,14 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
+    def install(self):
+        if not super().install():
+            return False
+        if CraftCore.compiler.isWindows:
+            manifest = os.path.join(self.sourceDir(), "res", "isoimagewriter.manifest")
+            app = os.path.join(self.installDir(), "bin", "isoimagewriter.exe")
+            return utils.embedManifest(app, manifest)
+
     def createPackage(self):
         self.defines["shortcuts"] = [{"name" : "KDE ISO Image Writer", "target":"bin/isoimagewriter.exe", "description" : self.subinfo.description}]
         self.defines["icon"] = os.path.join(self.packageDir(), "isoimagewriter.ico")
