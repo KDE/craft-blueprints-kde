@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isAndroid:
             self.patchToApply["5.15.2"] = [ ("optional-widget-dependency.diff", 1) ]
             self.patchToApply["5.15.5"] = [ ("optional-widget-dependency.diff", 1) ]
+            self.patchToApply["kde/5.15"] = [ ("optional-widget-dependency.diff", 1) ]
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
