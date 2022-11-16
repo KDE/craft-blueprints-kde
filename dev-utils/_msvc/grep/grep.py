@@ -4,10 +4,11 @@ from Package.BinaryPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.addCachedBuild("https://files.kde.org/craft/prebuilt/packages/", packageName="dev-utils/_autotools/grep", targetInstallPath="dev-utils")
+        self.addCachedBuild("https://files.kde.org/craft/prebuilt/packages/22.11", packageName="dev-utils/_autotools/grep", targetInstallPath="dev-utils")
 
     def setDependencies(self):
         self.buildDependencies["virtual/bin-base"] = None
+
 
 class Package(BinaryPackageBase):
     def __init__(self):
