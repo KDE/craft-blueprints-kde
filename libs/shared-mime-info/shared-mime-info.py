@@ -38,7 +38,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"http://freedesktop.org/~hadess/shared-mime-info-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
         self.targetDigests["1.9"] = (["5c0133ec4e228e41bdf52f726d271a2d821499c2ab97afd3aa3d6cf43efcdc83"], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["1.9"] = 5
+        self.patchLevel["1.9"] = 6
 
         self.description = "The shared-mime-info package contains the core database of common types and the update-mime-database command used to extend it"
         self.webpage = "https://www.freedesktop.org/wiki/Software/shared-mime-info/"
@@ -63,6 +63,8 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args += ["--disable-default-make-check", "--disable-update-mimedb"]
         if not CraftCore.compiler.isWindows:
+            # stripping a embedManifest patched binary fails
+            self.subinfo.options.package.disableStriping = True
             # /Users/hannah/CraftRoot/build/libs/shared-mime-info/work/shared-mime-info-1.9/configure: line 4476: syntax error near unexpected token `0.35.0'
             # /Users/hannah/CraftRoot/build/libs/shared-mime-info/work/shared-mime-info-1.9/configure: line 4476: `IT_PROG_INTLTOOL(0.35.0)'
             self.subinfo.options.configure.autoreconf = False
@@ -76,9 +78,10 @@ class Package(AutoToolsPackageBase):
             else:
                 self.subinfo.options.configure.ldflags += " -lkdewin"
 
-    def postInstall(self):
-        if not super().postInstall():
+    def install(self):
+        if not super().install():
             return False
+        # must be called before we sign
         if CraftCore.compiler.isWindows:
             manifest = os.path.join(self.packageDir(), "update-mime-database.exe.manifest")
             executable = os.path.join(self.installDir(), "bin", "update-mime-database.exe")
