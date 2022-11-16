@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/cmark"] = None
         self.runtimeDependencies["kde/libs/kquickimageeditor"] = None
         self.runtimeDependencies["qt-libs/qcoro"] = None
+        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = "master"
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/sonnet"] = None
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
