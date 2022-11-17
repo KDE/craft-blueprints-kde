@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.buildDependencies['dev-utils/xsd'] = 'default'
+        self.buildDependencies['dev-utils/xsd'] = None
         self.buildDependencies["libs/xerces-c"] = None
 
         # the following runtimeDependencies are runtime runtimeDependencies for packages linking to the static! libkolabxml

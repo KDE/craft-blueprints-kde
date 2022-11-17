@@ -17,8 +17,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtscript"] = None
-        self.runtimeDependencies['qt-libs/poppler'] = 'default'
-        self.runtimeDependencies['kde/applications/okular'] = 'default'
+        self.runtimeDependencies['qt-libs/poppler'] = None
+        self.runtimeDependencies['kde/applications/okular'] = None
         self.runtimeDependencies["kde/applications/kate"] = None
         self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
 

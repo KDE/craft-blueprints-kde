@@ -68,7 +68,7 @@ class subinfo(info.infoclass):
 
         # do not force boost deps (see: https://phabricator.kde.org/T12071#212690)
 
-        #self.runtimeDependencies["libs/boost/boost-system"]            = "default"
+        #self.runtimeDependencies["libs/boost/boost-system"]            = None
         #self.runtimeDependencies["libs/boost"]                         = None
 
         self.runtimeDependencies["libs/expat"]                          = None

@@ -18,11 +18,11 @@ class subinfo(info.infoclass):
         self.patchLevel[self.defaultTarget] = 1
 
     def setDependencies(self):
-        self.buildDependencies['dev-utils/pkg-config'] = 'default'
+        self.buildDependencies['dev-utils/pkg-config'] = None
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies['libs/libssh2'] = 'default'
-        self.runtimeDependencies['libs/pcre2'] = 'default'
-        self.runtimeDependencies['libs/openssl'] = 'default'
+        self.runtimeDependencies['libs/libssh2'] = None
+        self.runtimeDependencies['libs/pcre2'] = None
+        self.runtimeDependencies['libs/openssl'] = None
 
 
 from Package.CMakePackageBase import *

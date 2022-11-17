@@ -30,9 +30,9 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         # self.buildDependencies["dev-utils/doxygen"] = None
-        self.runtimeDependencies['libs/glib'] = 'default'
-        # self.runtimeDependencies['libs-bin/zlib']  = 'default' # only needed if building auxfun and tests
-        # self.runtimeDependencies['libs-bin/libpng'] = 'default' # only needed if building auxfun and tests
+        self.runtimeDependencies['libs/glib'] = None
+        # self.runtimeDependencies['libs-bin/zlib'] = None # only needed if building auxfun and tests
+        # self.runtimeDependencies['libs-bin/libpng'] = None # only needed if building auxfun and tests
 
 
 class Package(CMakePackageBase):
