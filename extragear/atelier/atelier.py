@@ -17,7 +17,7 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
-        self.runtimeDependencies["extragear/atcore"] = "master"
+        self.runtimeDependencies["extragear/atcore"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
         self.runtimeDependencies["libs/qt5/qtcharts"] = None

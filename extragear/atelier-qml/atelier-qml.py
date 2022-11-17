@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
-        self.runtimeDependencies["extragear/atcore"] = "master"
+        self.runtimeDependencies["extragear/atcore"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
         self.runtimeDependencies["libs/qt5/qtcharts"] = None
