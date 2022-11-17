@@ -84,7 +84,7 @@ class PackageCMake(CMakePackageBase):
             ndkToolchainPath = os.path.join(os.environ["ANDROID_NDK"], "toolchains/llvm/prebuilt", os.environ.get("ANDROID_NDK_HOST", "linux-x86_64"), "bin")
             self.env["PATH"] = os.pathsep.join([ndkToolchainPath, os.environ["PATH"]])
             self.subinfo.options.configure.args += [
-                f"android-{CraftCore.compiler.architecture.name}",
+                f"android-{CraftCore.compiler.androidArchitecture}",
                 f"-D__ANDROID_API__={CraftCore.compiler.androidApiLevel()}",
             ]
             self.subinfo.options.make.args += " SHLIB_VERSION_NUMBER= SHLIB_EXT=_1_1.so"
