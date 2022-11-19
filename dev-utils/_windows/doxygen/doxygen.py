@@ -3,8 +3,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.9.1"]:
-            self.targets[ver] = f"http://doxygen.nl/files/doxygen-{ver}.windows.x64.bin.zip"
+        for ver in ["1.9.5"]:
+            self.targets[ver] = f"https://doxygen.nl/files/doxygen-{ver}.windows.x64.bin.zip"
             self.targetInstallPath[ver] = "dev-utils/bin"
 
         self.targetDigests["1.9.1"] =  (['deb8e6e5f21c965ec07fd32589d0332eff047f2c8658b5c56be4839a5dd43353'], CraftHash.HashAlgorithm.SHA256)
