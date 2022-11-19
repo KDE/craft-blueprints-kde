@@ -13,7 +13,8 @@ class subinfo(info.infoclass):
         self.targetInstSrc[self.defaultTarget] = 'cmark-%s' % self.defaultTarget
 
         # fix clash of bin artifacts and lib artifacs
-        self.patchToApply[self.defaultTarget] = ('cmark-0.30.1-20210816.diff', 1)
+        self.patchToApply[self.defaultTarget] = ('cmark-no-exe.diff', 1)
+        self.patchLevel["0.30.2"] = 1
 
         self.targetDigests["0.30.2"] =  (['6c7d2bcaea1433d977d8fed0b55b71c9d045a7cdf616e3cd2dce9007da753db3'], CraftHash.HashAlgorithm.SHA256)
         self.description = "CommonMark parsing and rendering library and program in C"
