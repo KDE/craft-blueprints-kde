@@ -71,7 +71,6 @@ class Package(CMakePackageBase):
         if OsUtils.isLinux() and isinstance(self, AppImagePackager):
             defines["runenv"] += [
                 'PACKAGE_TYPE=appimage',
-                'KDE_FORK_SLAVES=1',
                 'LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH',
                 'MLT_REPOSITORY=$this_dir/usr/lib/mlt-7/',
                 'MLT_DATA=$this_dir/usr/share/mlt-7/',
