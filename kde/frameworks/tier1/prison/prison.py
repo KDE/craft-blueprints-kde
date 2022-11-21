@@ -5,8 +5,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchLevel["5.94.0"] = 1
-
         self.description = "Qt 5 addon providing a barcode api to produce QRCode barcodes and DataMatrix barcodes."
 
     def setDependencies(self):
