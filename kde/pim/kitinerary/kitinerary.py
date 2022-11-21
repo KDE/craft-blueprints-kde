@@ -20,6 +20,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/zxing-cpp"] = None
+        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = "master"
+
 
 
 from Package.CMakePackageBase import *
