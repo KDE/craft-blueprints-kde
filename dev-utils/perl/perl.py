@@ -104,9 +104,6 @@ class PackageAutoTools(AutoToolsPackageBase):
             "-U", "default_inc_excludes_dot",
             "-D", "usethreads"])
 
-        if CraftCore.compiler.isFreeBSD:
-            self.subinfo.options.make.supportsMultijob = False
-
         cflags = self.shell.environment["CFLAGS"]
         ldflags = self.shell.environment["LDFLAGS"]
         if CraftCore.compiler.isGCC() and not CraftCore.compiler.isNative() and CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32:
@@ -136,8 +133,12 @@ class PackageAutoTools(AutoToolsPackageBase):
         hardCoded = [os.path.join(self.imageDir(), x) for x in ["bin/pod2man"]]
         return self.patchInstallPrefix(hardCoded, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())
 
-
-
+    @property
+    def makeProgram(self):
+        if CraftCore.compiler.isFreeBSD:
+            return "make"
+        else:
+            return super().makeProgram
 
 if CraftCore.compiler.isUnix:
     class Package(PackageAutoTools):
