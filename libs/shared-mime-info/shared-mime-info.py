@@ -63,20 +63,21 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args += ["--disable-default-make-check", "--disable-update-mimedb"]
         if not CraftCore.compiler.isWindows:
-            # stripping a embedManifest patched binary fails
-            self.subinfo.options.package.disableStriping = True
             # /Users/hannah/CraftRoot/build/libs/shared-mime-info/work/shared-mime-info-1.9/configure: line 4476: syntax error near unexpected token `0.35.0'
             # /Users/hannah/CraftRoot/build/libs/shared-mime-info/work/shared-mime-info-1.9/configure: line 4476: `IT_PROG_INTLTOOL(0.35.0)'
             self.subinfo.options.configure.autoreconf = False
-        elif CraftCore.compiler.isMSVC():
-            root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
-            self.subinfo.options.configure.cflags += f" -I{root}/include/msvc"
-            self.shell.useMSVCCompatEnv = True
-            self.platform = ""
-            if self.buildType() == "Debug":
-                self.subinfo.options.configure.ldflags += " -lkdewind"
-            else:
-                self.subinfo.options.configure.ldflags += " -lkdewin"
+        else:
+            # stripping a embedManifest patched binary fails
+            self.subinfo.options.package.disableStriping = True
+            if CraftCore.compiler.isMSVC():
+                root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
+                self.subinfo.options.configure.cflags += f" -I{root}/include/msvc"
+                self.shell.useMSVCCompatEnv = True
+                self.platform = ""
+                if self.buildType() == "Debug":
+                    self.subinfo.options.configure.ldflags += " -lkdewind"
+                else:
+                    self.subinfo.options.configure.ldflags += " -lkdewin"
 
     def install(self):
         if not super().install():
