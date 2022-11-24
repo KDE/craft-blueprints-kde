@@ -16,6 +16,8 @@ class subinfo(info.infoclass):
         self.targetDigests["1.11.1"] = (['b6d1a5a610aae6ff39d93de5efd0fdc787aa9e9dc1e7026fa4c961b26563526b'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.12"] = (['7fccd07669a523b07a15bd24c8da1bbb92206cb19e9366c3692af3d79253b703'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.13"] = (['58f08b4db3dc31ed152c04896ee9172d22052bc7ef12888028c01d8b1d60ade0'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["1.13"] = [("fix-mac-rpath.diff", 1)]
+        self.patchLevel["1.13"] = 1
         self.description = "audio metadata library"
         self.webpage = "http://taglib.org/"
         self.defaultTarget = "1.13"
