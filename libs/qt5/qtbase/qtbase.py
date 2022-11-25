@@ -222,7 +222,7 @@ class Package(Qt5CorePackageBase):
                 command += "-plugin-sql-odbc "
 
             if CraftCore.compiler.isAndroid:
-                command += f"-xplatform android-clang -android-abis {CraftCore.compiler.abi} "
+                command += f"-xplatform android-clang -android-abis {CraftCore.compiler.androidAbi} "
 
             if self.subinfo.options.dynamic.useLtcg:
                 command += "-ltcg "
