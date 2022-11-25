@@ -90,7 +90,7 @@ class Package(MakeFilePackageBase):
             if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
                 buildArgs += ["--target=x64", "-DOS=android"]
             else:
-                buildArgs += ["--target=" + CraftCore.compiler.architecture, "-DOS=android"]
+                buildArgs += ["--target=" + CraftCore.compiler.androidArchitecture, "-DOS=android"]
 
 
             # Inspired by craft's own AutoToolsBuildSystem.py
