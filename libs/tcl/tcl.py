@@ -91,7 +91,7 @@ class PackageAutotools(AutoToolsPackageBase):
 
             if CraftCore.compiler.isLinux():
                 os.chmod(os.path.join(self.installDir(), "lib", "libtcl8.6.so"), stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
-            else if CraftCore.compiler.isMacOS:
+            elif CraftCore.compiler.isMacOS:
                 os.chmod(os.path.join(self.installDir(), "lib", "libtcl8.6.dylib"), stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
 
         return isInstalled
