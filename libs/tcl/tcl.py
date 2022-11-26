@@ -82,11 +82,18 @@ class PackageAutotools(AutoToolsPackageBase):
         if CraftCore.compiler.isMinGW():
             shutil.copy(os.path.join(self.buildDir(), "tclsh86.exe"), os.path.join(CraftCore.standardDirs.craftRoot(), "bin", "tclsh.exe")) # otherwise super().install() fails
             shutil.copy(os.path.join(self.buildDir(), "tclsh86.exe"), os.path.join(CraftCore.standardDirs.craftRoot(), "bin", "tclsh8.6.exe"))
+
         isInstalled = super().install()
-        if isInstalled and not CraftCore.compiler.isMinGW():
-            shutil.copy(os.path.join(self.installDir(), "bin", "tclsh8.6"), os.path.join(self.installDir(), "bin", "tclsh"))
-        if CraftCore.compiler.isMacOS:
-            os.chmod(os.path.join(self.installDir(), "lib", "libtcl8.6.dylib"), stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
+
+        if isInstalled:
+            if CraftCore.compiler.isMinGW():
+                shutil.copy(os.path.join(self.installDir(), "bin", "tclsh8.6"), os.path.join(self.installDir(), "bin", "tclsh"))
+
+            if CraftCore.compiler.isLinux():
+                os.chmod(os.path.join(self.installDir(), "lib", "libtcl8.6.so"), stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
+            else if CraftCore.compiler.isMacOS:
+                os.chmod(os.path.join(self.installDir(), "lib", "libtcl8.6.dylib"), stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
+
         return isInstalled
 
 class PackageMSVC(MSBuildPackageBase):
