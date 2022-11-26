@@ -60,6 +60,10 @@ class Package(CMakePackageBase):
         WriteRegStr HKCU "${regkey}\diff-ext" "diffcommand" "$INSTDIR\bin\kdiff3.exe"
                 """)
             self.defines["un_sections"] = r"""
+                    Section "Un.Cleanup Stray Files"
+                        RMDir /r /rebootok  $INSTDIR\bin
+                    SectionEnd
+                    
                     Section "Un.Cleanup Regsistry"
                         SetRegView 64
                         DeleteRegKey SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}"
