@@ -89,7 +89,7 @@ class PackageAutotools(AutoToolsPackageBase):
             if CraftCore.compiler.isMinGW():
                 shutil.copy(os.path.join(self.installDir(), "bin", "tclsh8.6"), os.path.join(self.installDir(), "bin", "tclsh"))
 
-            if CraftCore.compiler.isLinux():
+            if CraftCore.compiler.isLinux:
                 os.chmod(os.path.join(self.installDir(), "lib", "libtcl8.6.so"), stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
             elif CraftCore.compiler.isMacOS:
                 os.chmod(os.path.join(self.installDir(), "lib", "libtcl8.6.dylib"), stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
