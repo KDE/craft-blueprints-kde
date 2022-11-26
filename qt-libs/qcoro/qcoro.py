@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtwebsockets"] = None
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
