@@ -98,7 +98,7 @@ class Package(MakeFilePackageBase):
                 androidtarget = "arm-linux-androideabi"
             elif CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
                 androidtarget = "aarch64-linux-android"
-            elif CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+            elif CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32:
                 androidtarget = "i686-linux-android"
             else:
                 androidtarget = f"{CraftCore.compiler.architecture}-linux-android"
