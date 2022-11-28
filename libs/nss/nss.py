@@ -50,7 +50,7 @@ class Package(MakeFilePackageBase):
         self._shell = BashShell()
         self._shell.environment["MAKE"] = self.makeProgram
 
-        buildArgs = ["--disable-tests", "--opt", "--system-sqlite", "-Dsign_libs=0"]
+        buildArgs = ["-v", "--disable-tests", "--opt", "--system-sqlite", "-Dsign_libs=0"]
 
         if CraftCore.compiler.isMSVC():
             #When you say --system-sqlite it just tries to find it in the path, that doesn't work for MSVC
@@ -101,7 +101,7 @@ class Package(MakeFilePackageBase):
             elif CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32:
                 androidtarget = "i686-linux-android"
             else:
-                androidtarget = f"{CraftCore.compiler.architecture}-linux-android"
+                androidtarget = f"{CraftCore.compiler.androidArchitecture}-linux-android"
 
             ndkDir = os.environ.get("ANDROID_NDK")
             toolchainDir = ndkDir+'/toolchains/llvm/prebuilt/'+os.environ.get("ANDROID_NDK_HOST")
