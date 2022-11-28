@@ -22,16 +22,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/cairo"] = None
-        if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["libs/gavl"] = None
+        self.runtimeDependencies["libs/gavl"] = None
 
 from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        if CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += " -DWITHOUT_GAVL=1 "
 
     def install(self):
         if not super().install():
