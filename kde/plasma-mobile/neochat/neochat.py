@@ -44,7 +44,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
-        self.defines["shortcuts"] = [{"name" : "NeoChat", "target":"bin/neochat.exe", "appId": "neochat"}]
+        self.defines["shortcuts"] = [{"name" : "NeoChat", "target":"bin/neochat.exe", "appId": "neochat", "icon": self.buildDir() / "src/NEOCHAT_ICON.ico"}]
         self.defines["icon"] = self.buildDir() / "src/NEOCHAT_ICON.ico"
         # set the icons for the appx bundle
         if os.path.exists(os.path.join(self.sourceDir(), "icons", "150-apps-neochat.png")):
