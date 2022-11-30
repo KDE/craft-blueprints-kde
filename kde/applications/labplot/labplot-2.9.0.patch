@@ -206,6 +206,18 @@ diff -ruNa a/src/backend/lib/Range.h b/src/backend/lib/Range.h
  }
  
  #endif
+diff -ruNa a/src/backend/worksheet/InfoElement.cpp b/src/backend/worksheet/InfoElement.cpp
+--- a/src/backend/worksheet/InfoElement.cpp	2022-05-02 07:35:16.000000000 +0200
++++ b/src/backend/worksheet/InfoElement.cpp	2022-11-30 11:48:51.297869244 +0100
+@@ -407,7 +407,7 @@
+ 	else if (columnMode== AbstractColumn::ColumnMode::Day ||
+ 			columnMode == AbstractColumn::ColumnMode::Month ||
+ 			columnMode == AbstractColumn::ColumnMode::DateTime) {
+-		const auto& dateTime = QDateTime::fromMSecsSinceEpoch(d->positionLogical);
++		const auto& dateTime = QDateTime::fromMSecsSinceEpoch(d->positionLogical, Qt::UTC);
+ 		xValueStr = dateTime.toString(m_plot->xRangeDateTimeFormat());
+ 	}
+ 
 diff -ruNa a/src/backend/worksheet/plots/cartesian/Axis.cpp b/src/backend/worksheet/plots/cartesian/Axis.cpp
 --- a/src/backend/worksheet/plots/cartesian/Axis.cpp	2022-05-02 07:35:16.000000000 +0200
 +++ b/src/backend/worksheet/plots/cartesian/Axis.cpp	2022-07-11 00:21:09.152454657 +0200
@@ -520,6 +532,18 @@ diff -ruNa a/src/backend/worksheet/plots/cartesian/XYFitCurve.h b/src/backend/wo
  
  	QIcon icon() const override;
  	void save(QXmlStreamWriter*) const override;
+diff -ruNa a/src/backend/worksheet/Worksheet.cpp b/src/backend/worksheet/Worksheet.cpp
+--- a/src/backend/worksheet/Worksheet.cpp	2022-05-02 07:35:16.000000000 +0200
++++ b/src/backend/worksheet/Worksheet.cpp	2022-11-30 11:50:00.786139997 +0100
+@@ -1037,7 +1037,7 @@
+ 			QVariant data;
+ 			valueCursor[i] = sender->cursorPos(i);
+ 			if (isDatetime) {
+-				datetime[i] = QDateTime::fromMSecsSinceEpoch(valueCursor[i]);
++				datetime[i] = QDateTime::fromMSecsSinceEpoch(valueCursor[i], Qt::UTC);
+ 				data = datetime[i].toString(sender->xRangeDateTimeFormat());
+ 			} else
+ 				data = QVariant(valueCursor[i]);
 diff -ruNa a/src/CMakeLists.txt b/src/CMakeLists.txt
 --- a/src/CMakeLists.txt	2022-05-02 07:35:16.000000000 +0200
 +++ b/src/CMakeLists.txt	2022-09-01 17:29:13.628463099 +0200
@@ -720,6 +744,60 @@ diff -ruNa a/src/kdefrontend/dockwidgets/CartesianPlotDock.cpp.rej b/src/kdefron
 + 				auto* dte = qobject_cast<QDateTimeEdit*>(ui.twXRanges->cellWidget(row, TwRangesColumn::Min));
 + 				if (dte)
 + 					isDateTime = true;
+diff -ruNa a/src/kdefrontend/dockwidgets/CustomPointDock.cpp b/src/kdefrontend/dockwidgets/CustomPointDock.cpp
+--- a/src/kdefrontend/dockwidgets/CustomPointDock.cpp	2022-05-02 07:35:16.000000000 +0200
++++ b/src/kdefrontend/dockwidgets/CustomPointDock.cpp	2022-11-30 11:52:14.305722378 +0100
+@@ -349,9 +349,9 @@
+ 	const Lock lock(m_initializing);
+ 	SET_NUMBER_LOCALE
+ 	ui.lePositionXLogical->setText(numberLocale.toString(pos.x()));
+-	ui.dtePositionXLogical->setDateTime(QDateTime::fromMSecsSinceEpoch(pos.x()));
++	ui.dtePositionXLogical->setDateTime(QDateTime::fromMSecsSinceEpoch(pos.x(), Qt::UTC));
+ 	ui.lePositionYLogical->setText(numberLocale.toString(pos.y()));
+-	ui.dtePositionYLogical->setDateTime(QDateTime::fromMSecsSinceEpoch(pos.y()));
++	ui.dtePositionYLogical->setDateTime(QDateTime::fromMSecsSinceEpoch(pos.y(), Qt::UTC));
+ }
+ 
+ void CustomPointDock::pointVisibilityChanged(bool on) {
+@@ -394,7 +394,7 @@
+ 			ui.lePositionXLogical->setText(numberLocale.toString(m_point->positionLogical().x()));
+ 		else {
+ 			ui.dtePositionXLogical->setDisplayFormat(plot->xRangeDateTimeFormat());
+-			ui.dtePositionXLogical->setDateTime(QDateTime::fromMSecsSinceEpoch(m_point->positionLogical().x()));
++			ui.dtePositionXLogical->setDateTime(QDateTime::fromMSecsSinceEpoch(m_point->positionLogical().x(), Qt::UTC));
+ 		}
+ 
+ 		//y
+@@ -407,7 +407,7 @@
+ 			ui.lePositionYLogical->setText(numberLocale.toString(m_point->positionLogical().y()));
+ 		else {
+ 			ui.dtePositionYLogical->setDisplayFormat(plot->yRangeDateTimeFormat());
+-			ui.dtePositionYLogical->setDateTime(QDateTime::fromMSecsSinceEpoch(m_point->positionLogical().y()));
++			ui.dtePositionYLogical->setDateTime(QDateTime::fromMSecsSinceEpoch(m_point->positionLogical().y(), Qt::UTC));
+ 		}
+ 
+ 		bindingChanged(m_point->coordinateBindingEnabled());
+diff -ruNa a/src/kdefrontend/dockwidgets/InfoElementDock.cpp b/src/kdefrontend/dockwidgets/InfoElementDock.cpp
+--- a/src/kdefrontend/dockwidgets/InfoElementDock.cpp	2022-05-02 07:35:16.000000000 +0200
++++ b/src/kdefrontend/dockwidgets/InfoElementDock.cpp	2022-11-30 11:53:00.057466633 +0100
+@@ -180,7 +180,7 @@
+ 		ui->dateTimeEditPosition->hide();
+ 	} else {
+ 		ui->dateTimeEditPosition->setDisplayFormat(m_element->plot()->xRangeDateTimeFormat());
+-		ui->dateTimeEditPosition->setDateTime(QDateTime::fromMSecsSinceEpoch(m_element->positionLogical()));
++		ui->dateTimeEditPosition->setDateTime(QDateTime::fromMSecsSinceEpoch(m_element->positionLogical(), Qt::UTC));
+ 		ui->lPosition->hide();
+ 		ui->lePosition->hide();
+ 		ui->lPositionDateTime->show();
+@@ -476,7 +476,7 @@
+ 	const Lock lock(m_initializing);
+ 	SET_NUMBER_LOCALE
+ 	ui->lePosition->setText(numberLocale.toString(pos));
+-	ui->dateTimeEditPosition->setDateTime(QDateTime::fromMSecsSinceEpoch(pos));
++	ui->dateTimeEditPosition->setDateTime(QDateTime::fromMSecsSinceEpoch(pos), Qt::UTC);
+ }
+ 
+ void InfoElementDock::elementCurveRemoved(const QString& name) {
 diff -ruNa a/src/kdefrontend/dockwidgets/XYFitCurveDock.cpp b/src/kdefrontend/dockwidgets/XYFitCurveDock.cpp
 --- a/src/kdefrontend/dockwidgets/XYFitCurveDock.cpp	2022-05-02 07:35:16.000000000 +0200
 +++ b/src/kdefrontend/dockwidgets/XYFitCurveDock.cpp	2022-06-25 10:11:12.080051594 +0200
