@@ -166,9 +166,7 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
             self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_DOC=OFF"
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DOC=OFF"
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
 
         if CraftCore.compiler.isMSVC():
@@ -183,9 +181,7 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
             self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_DOC=OFF"
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DOC=OFF"
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
 
         if CraftCore.compiler.isMinGW():
@@ -200,9 +196,7 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=ON"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=ON"
             self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_DOC=OFF"
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DOC=OFF"
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
 
         if CraftCore.compiler.isMacOS:
@@ -217,9 +211,7 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
             self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_CHECKOUT_DOC=OFF"
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DOC=OFF"
             self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
 
     def createPackage(self):
