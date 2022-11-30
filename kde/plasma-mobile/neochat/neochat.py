@@ -46,6 +46,10 @@ class Package(CMakePackageBase):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         self.defines["shortcuts"] = [{"name" : "NeoChat", "target":"bin/neochat.exe", "appId": "neochat"}]
         self.defines["icon"] = self.buildDir() / "src/NEOCHAT_ICON.ico"
+        # set the icons for the appx bundle
+        if os.path.exists(os.path.join(self.sourceDir(), "icons", "150-apps-neochat.png")):
+            self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-neochat.png")
+            self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-neochat.png")
         self.addExecutableFilter(r"(bin|libexec)/(?!(neochat|update-mime-database|snoretoast)).*")
         self.ignoredPackages.append("binary/mysql")
         if not CraftCore.compiler.isLinux:
