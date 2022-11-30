@@ -50,6 +50,9 @@ class Package(CMakePackageBase):
         if os.path.exists(os.path.join(self.sourceDir(), "icons", "150-apps-neochat.png")):
             self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-neochat.png")
             self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-neochat.png")
+        else:
+            self.defines["icon_png"] = os.path.join(self.packageDir(), "150-apps-neochat.png")
+            self.defines["icon_png_44"] = os.path.join(self.packageDir(), "44-apps-neochat.png")
         self.addExecutableFilter(r"(bin|libexec)/(?!(neochat|update-mime-database|snoretoast)).*")
         self.ignoredPackages.append("binary/mysql")
         if not CraftCore.compiler.isLinux:
