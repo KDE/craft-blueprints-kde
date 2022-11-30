@@ -779,7 +779,7 @@ diff -ruNa a/src/kdefrontend/dockwidgets/CustomPointDock.cpp b/src/kdefrontend/d
  		bindingChanged(m_point->coordinateBindingEnabled());
 diff -ruNa a/src/kdefrontend/dockwidgets/InfoElementDock.cpp b/src/kdefrontend/dockwidgets/InfoElementDock.cpp
 --- a/src/kdefrontend/dockwidgets/InfoElementDock.cpp	2022-05-02 07:35:16.000000000 +0200
-+++ b/src/kdefrontend/dockwidgets/InfoElementDock.cpp	2022-11-30 11:53:00.057466633 +0100
++++ b/src/kdefrontend/dockwidgets/InfoElementDock.cpp	2022-11-30 12:30:23.681910749 +0100
 @@ -180,7 +180,7 @@
  		ui->dateTimeEditPosition->hide();
  	} else {
@@ -794,7 +794,7 @@ diff -ruNa a/src/kdefrontend/dockwidgets/InfoElementDock.cpp b/src/kdefrontend/d
  	SET_NUMBER_LOCALE
  	ui->lePosition->setText(numberLocale.toString(pos));
 -	ui->dateTimeEditPosition->setDateTime(QDateTime::fromMSecsSinceEpoch(pos));
-+	ui->dateTimeEditPosition->setDateTime(QDateTime::fromMSecsSinceEpoch(pos), Qt::UTC);
++	ui->dateTimeEditPosition->setDateTime(QDateTime::fromMSecsSinceEpoch(pos, Qt::UTC));
  }
  
  void InfoElementDock::elementCurveRemoved(const QString& name) {
