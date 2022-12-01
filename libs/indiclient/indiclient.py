@@ -6,12 +6,13 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['1.9.9'] = "https://github.com/indilib/indi.git||v1.9.9"
-        self.defaultTarget = '1.9.9'
+        self.svnTargets['master'] = "https://github.com/indilib/indi.git"
+        self.defaultTarget = 'master'
         self.description = 'INDI Library'
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/grep"] = None
+        self.buildDependencies["libs/zlib"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/libnova"] = None
@@ -24,4 +25,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DINDI_BUILD_SERVER=OFF -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_CLIENT=ON -DINDI_BUILD_QT5_CLIENT=OFF"
+        self.subinfo.options.configure.args = "-DINDI_BUILD_SERVER=OFF -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_CLIENT=ON -DINDI_BUILD_QT5_CLIENT=OFF -DINDI_BUILD_SHARED=OFF"
