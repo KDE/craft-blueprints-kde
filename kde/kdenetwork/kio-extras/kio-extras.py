@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         self.patchToApply["17.12.0"] = [("fix-taglib-detection-and-build-on-windows.diff", 1)]
         self.patchToApply["17.12.3"] = [("fix-taglib-detection-and-build-on-windows.diff", 1)]
         self.patchLevel["18.08.3"] = 2
-        self.patchLevel["22.08.3"] = 1
+        self.patchLevel["22.08.3"] = 2
 
         self.description = "Extra plugins for KIO (thumbnail generators, archives, remote filesystems and more)"
 

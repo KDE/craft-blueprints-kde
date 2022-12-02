@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
 
         self.description = "A file metadata and text extraction library"
 
-        self.patchLevel["5.100.0"] = 1
+        self.patchLevel["5.100.0"] = 2
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
