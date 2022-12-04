@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/taglib"] = None
         self.runtimeDependencies["libs/exiv2"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
+        self.runtimeDependencies["libs/ebook-tools"] = None
 
 
 from Package.CMakePackageBase import *
