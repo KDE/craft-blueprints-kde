@@ -32,10 +32,10 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "git://git.freedesktop.org/git/poppler/poppler"
 
         # always try to use latest libpoppler with all security fixes
-        ver = "22.09.0"
+        ver = "22.12.0"
         self.targets[ver] = f"https://poppler.freedesktop.org/poppler-{ver}.tar.xz"
         self.targetInstSrc[ver] = f"poppler-{ver}"
-        self.targetDigests[ver] = (['d7a8f748211359cadb774ba3e18ecda6464b34027045c0648eb30d5852a41e2e'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[ver] = (['d9aa9cacdfbd0f8e98fc2b3bb008e645597ed480685757c3e7bc74b4278d15c0'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = ver
 
     def setDependencies(self):
