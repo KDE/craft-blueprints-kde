@@ -18,6 +18,7 @@ from Package.MesonPackageBase import *
 class Package(MesonPackageBase):
     def __init__(self):
         MesonPackageBase.__init__(self)
+        self.subinfo.options.configure.args += ["-Dtests=false"]
 
     def install(self):
         if not super().install():
