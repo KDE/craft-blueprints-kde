@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtwayland"] = None
         self.runtimeDependencies["kde/libs/plasma-wayland-protocols"] = None
         self.runtimeDependencies["libs/wayland-protocols"] = None
+        self.runtimeDependencies["libs/wayland"] = None
 
 
 from Package.CMakePackageBase import *
