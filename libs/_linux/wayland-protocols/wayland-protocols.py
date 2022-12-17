@@ -3,15 +3,14 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.24"]:
-            self.targets[ver] = f"https://wayland.freedesktop.org/releases/wayland-protocols-{ver}.tar.xz"
+        for ver in ["1.31"]:
+            self.targets[ver] = f"https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/{ver}/downloads/wayland-protocols-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"wayland-protocols-{ver}"
-        self.targetDigests['1.24'] = (['bff0d8cffeeceb35159d6f4aa6bab18c807b80642c9d50f66cba52ecf7338bc2'], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["1.24"] = 2
+        self.targetDigests['1.31'] = (['a07fa722ed87676ec020d867714bc9a2f24c464da73912f39706eeef5219e238'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "wayland-protocols contains Wayland protocols that add functionality not available in the Wayland core protocol."
 
-        self.defaultTarget = "1.24"
+        self.defaultTarget = "1.31"
 
 
 from Package.MesonPackageBase import *
