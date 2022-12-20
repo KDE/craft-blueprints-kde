@@ -1,9 +1,15 @@
 import info
+from CraftCompiler import CraftCompiler
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.addCachedBuild("https://files.kde.org/craft/prebuilt/packages/22.11", packageName="dev-utils/_autotools/icoutils", targetInstallPath="dev-utils")
+        self.addCachedBuild(
+            "https://files.kde.org/craft/prebuilt/packages/22.11",
+            packageName="dev-utils/_autotools/icoutils",
+            targetInstallPath="dev-utils",
+            architecture=CraftCompiler.Architecture.x86_64,
+        )
         self.patchLevel["0.32.3"] = 1
 
     def setDependencies(self):
