@@ -2,17 +2,15 @@ import io
 
 import info
 import shells
-
 from CraftOS.osutils import OsUtils
-
 from Package.MaybeVirtualPackageBase import *
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        #as updates are applied with msys and not by craft don't ever change the name of the target, its a bad idea...
-        self.targets["base"] = "https://github.com/msys2/msys2-installer/releases/download/2022-05-03/msys2-base-x86_64-20220503.tar.xz"
-        self.targetDigestUrls["base"] = "https://github.com/msys2/msys2-installer/releases/download/2022-05-03/msys2-base-x86_64-20220503.tar.xz.sha256"
+        # as updates are applied with msys and not by craft don't ever change the name of the target, its a bad idea...
+        self.targets["base"] = "https://github.com/msys2/msys2-installer/releases/download/2022-12-16/msys2-base-x86_64-20221216.tar.xz"
+        self.targetDigestUrls["base"] = "https://github.com/msys2/msys2-installer/releases/download/2022-12-16/msys2-base-x86_64-20221216.tar.xz.sha256"
         self.targetInstSrc["base"] = "msys64"
         self.targetInstallPath["base"] = "msys"
 
@@ -23,9 +21,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["dev-utils/python3"] = None
 
     def msysInstallShim(self, installDir):
-        return utils.createShim(os.path.join(installDir, "dev-utils", "bin", "msys.exe"),
-                                os.path.join(installDir, "dev-utils", "bin", "python3.exe"),
-                                args=[os.path.join(CraftStandardDirs.craftBin(), "shells.py")], useAbsolutePath=False)
+        return utils.createShim(
+            os.path.join(installDir, "dev-utils", "bin", "msys.exe"),
+            os.path.join(installDir, "dev-utils", "bin", "python3.exe"),
+            args=[os.path.join(CraftStandardDirs.craftBin(), "shells.py")],
+            useAbsolutePath=False,
+        )
 
     def updateMsys(self):
         msysDir = CraftCore.settings.get("Paths", "Msys", os.path.join(CraftStandardDirs.craftRoot(), "msys"))
@@ -47,8 +48,7 @@ class subinfo(info.infoclass):
             return out != b""
 
         # start and restart msys before first use
-        if not (shell.execute(".", "echo", "Init update", bashArguments=["-l"]) and
-                stopProcesses()):
+        if not (shell.execute(".", "echo", "Init update", bashArguments=["-l"]) and stopProcesses()):
             return False
 
         try:
@@ -63,8 +63,16 @@ class subinfo(info.infoclass):
         except Exception as e:
             CraftCore.log.error(e, exc_info=e)
             return False
-        if not (shell.execute(".", "pacman", Arguments(["-S", "base-devel", "msys/binutils", "msys/autoconf-archive", "msys/autotools", "msys/intltool", "--noconfirm", overwrite, "--needed"])) and
-                stopProcesses()):
+        if not (
+            shell.execute(
+                ".",
+                "pacman",
+                Arguments(
+                    ["-S", "base-devel", "msys/binutils", "msys/autoconf-archive", "msys/autotools", "msys/intltool", "--noconfirm", overwrite, "--needed"]
+                ),
+            )
+            and stopProcesses()
+        ):
             return False
         # rebase: Too many DLLs for available address space: Cannot allocate memory => ignore return code ATM
         utils.system("autorebase.bat", cwd=msysDir)
@@ -84,6 +92,7 @@ class MsysPackage(BinaryPackageBase):
     def postQmerge(self):
         return self.subinfo.updateMsys()
 
+
 class UpdatePackage(VirtualPackageBase):
     def __init__(self):
         VirtualPackageBase.__init__(self)
@@ -95,6 +104,7 @@ class UpdatePackage(VirtualPackageBase):
 
     def qmerge(self):
         return super().qmerge(dbOnly=True)
+
 
 class Package(MaybeVirtualPackageBase):
     def __init__(self):
