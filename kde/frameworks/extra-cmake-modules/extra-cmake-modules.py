@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        if not CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.isWindows:
             self.buildDependencies["dev-utils/icoutils"] = None
         # needed for many kf5's
         self.buildDependencies["dev-utils/flexbison"] = None
