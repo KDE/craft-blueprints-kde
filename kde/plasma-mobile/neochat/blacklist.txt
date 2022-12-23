@@ -8,3 +8,11 @@ bin/iconengines/qsvgicon.*
 
 # we don't need kcharselect
 bin/data/kf5/kcharselect/kcharselect-data
+
+# doubled icu dlls
+bin/icudt\.dll
+bin/icuin\.dll
+bin/icuuc\.dll
+bin/icuio\.dll
+bin/icutu\.dll
+bin/icutest\.dll
