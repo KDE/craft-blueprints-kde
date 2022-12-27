@@ -82,8 +82,6 @@ class Package(CMakePackageBase):
     def fetch(self):
         if not CMakePackageBase.fetch(self):
             return False
-        if self.subinfo.buildTarget == "master":
-            utils.system([sys.executable, os.path.join(self.checkoutDir(), "scripts", "import_translations.py")])
         return True
 
     def setDefaults(self, defines: {str:str}) -> {str:str}:
