@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/openssl"] = None
+        self.runtimeDependencies["libs/gcrypt"] = None
         # cyrus-sasl currently fails to build with mingw
         if not CraftCore.compiler.isMinGW():
             self.runtimeDependencies["libs/cyrus-sasl"] = None
