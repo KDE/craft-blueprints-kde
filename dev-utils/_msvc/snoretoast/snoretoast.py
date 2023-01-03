@@ -16,22 +16,23 @@ class subinfo(info.infoclass):
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/snoretoast/{ver}/src/snoretoast-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"snoretoast-{ver}"
 
-        for ver in ["0.8.0"]:
+        for ver in ["0.8.0", "0.9.0"]:
             self.targets[ver] = f"https://invent.kde.org/libraries/snoretoast/-/archive/v{ver}/snoretoast-v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"snoretoast-v{ver}"
-        self.targetDigests["0.8.0"] = (['3d77ae76dd47929c088b3bbf4bd4fa2984dfa3c8c4c959ad4a5a427002a2ab64'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "0.8.0"
-
+        self.targetDigests["0.8.0"] = (["3d77ae76dd47929c088b3bbf4bd4fa2984dfa3c8c4c959ad4a5a427002a2ab64"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.9.0"] = (["2d19d793b665ec0357a506111528110f87823c3efcd1a08599e1c4571ae86066"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "0.9.0"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
 
+
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-
 
     def qmerge(self):
         OsUtils.killProcess("snoretoast", CraftCore.standardDirs.craftRoot())
