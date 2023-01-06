@@ -5,15 +5,15 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.targets['1.0.0'] = 'https://download.kde.org/stable/kuserfeedback/kuserfeedback-1.0.0.tar.xz'
-        self.targetDigests['1.0.0'] = (
-            ['5a2f53ebb4b99a280757ca32bd9b686a7764a726e7e4d8bafee33acbb44b9db7'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['1.0.0'] = 'kuserfeedback-1.0.0'
+        self.targets['1.2.0'] = 'https://download.kde.org/stable/kuserfeedback/kuserfeedback-1.2.0.tar.xz'
+        self.targetDigests['1.2.0'] = (
+            ['76aac922b153249b274680a6f4c72c238ef14e3df04bad00cb64158b1063f264'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc['1.2.0'] = 'kuserfeedback-1.2.0'
 
         if CraftCore.compiler.isWindows:
             self.defaultTarget = 'master'
         else:
-            self.defaultTarget = '1.0.0'
+            self.defaultTarget = '1.2.0'
 
         self.description = "KUserFeedback"
 
