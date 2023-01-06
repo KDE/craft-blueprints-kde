@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlrpcclient"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
+        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
 from Package.CMakePackageBase import *
 
