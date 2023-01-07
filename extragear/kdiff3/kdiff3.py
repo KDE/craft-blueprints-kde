@@ -1,6 +1,6 @@
 import info
 from CraftOS.osutils import OsUtils
-from Packager import AppxPackager
+from Packager.AppxPackager import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
