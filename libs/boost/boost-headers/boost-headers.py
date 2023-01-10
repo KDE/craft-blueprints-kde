@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.67.0"] = (["8aa4e330c870ef50a896634c931adf468b21f8a69b77007e45c444151229f665"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.69.0"] = (["9a2c2819310839ea373f42d69e733c339b4e9a19deab6bfec448281554aa4dbb"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.71.0"] = (["96b34f7468f26a141f6020efb813f1a2f3dfb9797ecf76a7d7cbd843cc95f5bd"], CraftHash.HashAlgorithm.SHA256)
+        self.targets["1.80.0"] = "https://files.kde.org/craft/sources/libs/boost/boost_1_80_0.tar.gz"
         self.targetDigests["1.80.0"] = (["4b2136f98bdd1f5857f1c3dea9ac2018effe65286cf251534b6ae20cc45e1847"], CraftHash.HashAlgorithm.SHA256)
 
         self.patchToApply["1_55_0"] = [("boost_1_54_0-spirit-20131114.diff", 1)]
