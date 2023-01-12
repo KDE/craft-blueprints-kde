@@ -28,6 +28,8 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["5.101.0"] = [("0001-ecm-5.15.8-comapt", 1)]
+        self.patchLevel["5.101.0"] = 1
 
         self.tags = "ECM"
 
