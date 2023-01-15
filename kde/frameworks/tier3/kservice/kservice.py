@@ -4,8 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        if CraftCore.compiler.isMinGW():
-            self.patchToApply["5.96.0"] = [("fix-mingw-undefined.diff", 1)]
         self.description = "KService provides a plugin framework for handling desktop services."
 
     def setDependencies(self):
