@@ -29,6 +29,9 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
 
+        if CraftCore.compiler.isWindows:
+            self.runtimeDependencies["binary/vlc"] = None
+
 
 class Package(CMakePackageBase):
     def __init__(self):
