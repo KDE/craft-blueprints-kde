@@ -16,8 +16,7 @@ class subinfo(info.infoclass):
         self.patchLevel['master'] = 20221103
         self.svnTargets['0b1d574'] = "https://github.com/mltframework/mlt.git||0b1d574c52568de94745a1cdaa8f0b12e063cbac"
         self.defaultTarget = '0b1d574'
-        #if CraftCore.compiler.isMacOS:
-        #    self.patchToApply["0b1d574"] = [("001-fix-avformat-mac.diff", 1)]
+        self.patchLevel["0b1d574"] = 1
         if CraftCore.compiler.isWindows:
             self.patchToApply["0b1d574"] = [("pi_patch.diff", 1)]
 
