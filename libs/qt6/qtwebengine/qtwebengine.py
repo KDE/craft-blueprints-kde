@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/gperf"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
         self.buildDependencies["dev-utils/nodejs"] = None
+        self.buildDependencies["python-modules/html5lib"] = None
 
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
@@ -16,7 +17,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qttools"] = None
         self.runtimeDependencies["libs/qt6/qtwebchannel"] = None
 
+
 from Package.CMakePackageBase import *
+
+
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
