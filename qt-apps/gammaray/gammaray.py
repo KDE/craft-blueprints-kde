@@ -53,15 +53,15 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DGAMMARAY_INSTALL_QT_LAYOUT=ON "
+        self.subinfo.options.configure.args = ["-DGAMMARAY_INSTALL_QT_LAYOUT=ON", "-DGAMMARAY_BUILD_DOCS=OFF"]
 
         nultiBuild = CraftPackageObject.get("libs/qt5/qtbase").subinfo.options.dynamic.buildReleaseAndDebug
-        self.subinfo.options.configure.args += f" -DGAMMARAY_MULTI_BUILD={'ON' if nultiBuild else 'OFF'}"
+        self.subinfo.options.configure.args += [f"-DGAMMARAY_MULTI_BUILD={'ON' if nultiBuild else 'OFF'}"]
 
         if self.subinfo.options.dynamic.gammarayProbeOnly:
-            self.subinfo.options.configure.args += " -DGAMMARAY_PROBE_ONLY_BUILD=ON -DGAMMARAY_BUILD_DOCS=OFF"
+            self.subinfo.options.configure.args += ["-DGAMMARAY_PROBE_ONLY_BUILD=ON"]
         if self.subinfo.options.dynamic.disableGammarayBuildCliInjector:
-            self.subinfo.options.configure.args += " -DGAMMARAY_BUILD_CLI_INJECTOR=OFF"
+            self.subinfo.options.configure.args += ["-DGAMMARAY_BUILD_CLI_INJECTOR=OFF"]
 
     def createPackage(self):
         self.subinfo.options.package.movePluginsToBin = False
