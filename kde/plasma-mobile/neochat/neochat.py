@@ -8,7 +8,6 @@ class subinfo(info.infoclass):
 
         self.displayName = "NeoChat"
         self.description = "A client for matrix, the decentralized communication protocol."
-        self.patchLevel["22.11"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
