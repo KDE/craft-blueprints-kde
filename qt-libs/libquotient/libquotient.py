@@ -19,10 +19,18 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
+        if self.options.dynamic.buildWithQt6:
+            self.runtimeDependencies["libs/qt6/qtbase"] = None
+        else:
+            self.runtimeDependencies["libs/qt5/qtbase"] = None
+            self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
+
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["libs/olm"] = None
+
+    def registerOptions(self):
+        self.options.dynamic.registerOption("buildWithQt6", False)
+
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
@@ -31,3 +39,5 @@ class Package(CMakePackageBase):
         # And fixes crash on android
         self.subinfo.options.dynamic.buildStatic = True
         self.subinfo.options.configure.args = "-DQuotient_ENABLE_E2EE=ON"
+        if self.subinfo.options.dynamic.buildWithQt6:
+            self.subinfo.options.configure.args = "-DBUILD_WITH_QT6=1"
