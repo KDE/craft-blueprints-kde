@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
 
         for ver in ['4.1.0']:
-            self.targets[ver] = f"https://www.mpfr.org/mpfr-current/mpfr-{ver}.tar.gz"
+            self.targets[ver] = f"https://www.mpfr.org/mpfr-{ver}/mpfr-{ver}.tar.gz"
             self.archiveNames[ver] = f"mpfr-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"mpfr-{ver}"
 
