@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://github.com/hunspell/hunspell/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"hunspell-{ver}"
         self.targetDigests["1.6.2"] = (['3cd9ceb062fe5814f668e4f22b2fa6e3ba0b339b921739541ce180cac4d6f4c4'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.7.0"] = (['bb27b86eb910a8285407cf3ca33b62643a02798cf2eef468c0a74f6c3ee6bc8a'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Hunspell is the spell checker of LibreOffice, OpenOffice.org, Mozilla Firefox 3 & Thunderbird, Google Chrome, and it is also used by proprietary software packages, like macOS, InDesign, memoQ, Opera and SDL Trados."
         self.webpage = "http://hunspell.github.io/"

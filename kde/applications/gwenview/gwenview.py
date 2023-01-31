@@ -10,16 +10,33 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/libjpeg-turbo"] = None
-        self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtsvg"] = None
+        self.runtimeDependencies["libs/qt5/qtx11extras"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/baloo"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
+        self.runtimeDependencies["kde/libs/libkdcraw"] = None
+        self.runtimeDependencies["qt-libs/kimageannotator"] = None
+        self.runtimeDependencies["qt-libs/phonon"] = None
+        self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/exiv2"] = None
         self.runtimeDependencies["libs/lcms2"] = None
-        self.runtimeDependencies["libs/lmdb"] = None
-        self.runtimeDependencies["kde/libs/libkdcraw"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
-        self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
-        self.runtimeDependencies["qt-libs/phonon"] = None
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
+        self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/tiff"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
 from Package.CMakePackageBase import *

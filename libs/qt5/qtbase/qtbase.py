@@ -87,6 +87,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.12.11"] = 2
         self.patchLevel["5.15.2"] = 10
         self.patchLevel["5.15.5"] = 1
+        self.patchLevel["kde/5.15"] = 1
 
         self.description = "a cross-platform application framework"
 
@@ -332,6 +333,11 @@ sudo apt build-dep qt5-default
             parser.remove_section("EffectiveSourcePaths")
             with open(os.path.join(self.imageDir(), "bin", "qt.conf"), "wt") as out:
                 parser.write(out)
+
+            if CraftCore.compiler.isMacOS:
+                if self.subinfo.options.isActive("libs/zlib"):
+                    # workaround we use system zlib and a broken qt might install a broken QtZlib.framework
+                    utils.rmtree(self.installDir() / "lib/QtZlib.framework")
             return True
 
     def postInstall(self):
