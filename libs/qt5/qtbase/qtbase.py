@@ -332,6 +332,11 @@ sudo apt build-dep qt5-default
             parser.remove_section("EffectiveSourcePaths")
             with open(os.path.join(self.imageDir(), "bin", "qt.conf"), "wt") as out:
                 parser.write(out)
+
+            if CraftCore.compiler.isMacOS:
+                if self.subinfo.options.isActive("libs/zlib"):
+                    # workaround we use system zlib and a broken qt might install a broken QtZlib.framework
+                    utils.rmtree(self.installDir() / "lib/QtZlib.framework")
             return True
 
     def postInstall(self):
