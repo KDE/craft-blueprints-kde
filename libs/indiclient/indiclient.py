@@ -6,8 +6,10 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['2.0.0'] = "https://github.com/indilib/indi/archive/refs/tags/v2.0.0.tar.gz"
-        self.defaultTarget = '2.0.0'
+        ver = "2.0.0"
+        self.targets['2.0.0'] = "https://github.com/indilib/indi/archive/refs/tags/v%s.tar.gz" % ver
+        self.targetInstSrc[ver] = "indi-%s" % ver
+        self.defaultTarget = ver
         self.description = 'INDI Library'
 
     def setDependencies(self):
