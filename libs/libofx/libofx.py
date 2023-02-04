@@ -27,21 +27,18 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.10.8'] = "https://github.com/libofx/libofx/releases/download/0.10.8/libofx-0.10.8.tar.gz"
-        self.targetDigests['0.10.8'] = (['d7133fb939ac0e46507cf7a5de7678b52bf6bcc7be87adc94b761c2cd12ce320'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['0.10.8'] = "libofx-0.10.8"
+        self.targets['0.10.9'] = "https://github.com/libofx/libofx/releases/download/0.10.9/libofx-0.10.9.tar.gz"
+        self.targetDigests['0.10.9'] = (['1ca89ff7d681c9edad312172ac464231a8de686e653213612f9417492cef0d37'], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc['0.10.9'] = "libofx-0.10.9"
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
-        self.defaultTarget = '0.10.8'
-        self.patchToApply['0.10.8'] = ('0001-Fix-library-name-on-Windows.patch', 1)
-        self.patchLevel['0.10.8'] = 1
+        self.defaultTarget = '0.10.9'
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libopensp"] = None
         self.runtimeDependencies["libs/iconv"] = None
 
 
-from Package.AutoToolsPackageBase import *
 from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
