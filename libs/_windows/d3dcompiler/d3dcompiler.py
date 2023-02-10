@@ -23,6 +23,7 @@
 # SUCH DAMAGE.
 
 import info
+import shutil
 
 
 class subinfo(info.infoclass):
@@ -58,5 +59,4 @@ class Package(BinaryPackageBase):
 
         with utils.ScopedEnv({"PATHEXT" : ";".join(f"_{ver}.dll" for ver in range(60, 30, -1))}):
             d3dcompiler = shutil.which("d3dcompiler")
-            utils.copyFile(d3dcompiler, os.path.join(destdir, os.path.basename(d3dcompiler)), linkOnly=False)
-        return True
+            return utils.copyFile(d3dcompiler, os.path.join(destdir, os.path.basename(d3dcompiler)), linkOnly=False)
