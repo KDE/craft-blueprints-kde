@@ -1,5 +1,3 @@
-import shutil
-
 import info
 from Package.BinaryPackageBase import *
 

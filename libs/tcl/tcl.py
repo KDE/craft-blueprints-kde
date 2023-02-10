@@ -23,7 +23,9 @@
 # SUCH DAMAGE.
 
 import info
+import shutil
 import stat
+
 from Package.AutoToolsPackageBase import *
 from Package.MSBuildPackageBase import *
 
