@@ -1,5 +1,5 @@
---- a/trunk/src/libdisplay/DisplayOutput.cpp
-+++ b/trunk/src/libdisplay/DisplayOutput.cpp
+--- a/src/libdisplay/DisplayOutput.cpp
++++ b/src/libdisplay/DisplayOutput.cpp
 @@ -51,7 +51,7 @@
      string outputFilename = options->OutputBase();
      int startIndex = options->OutputStartIndex();
