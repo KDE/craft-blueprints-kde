@@ -7,18 +7,19 @@ from Package.AutoToolsPackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
 
-        for ver in ['4.1.0']:
+        for ver in ['4.2.0']:
             self.targets[ver] = f"https://www.mpfr.org/mpfr-{ver}/mpfr-{ver}.tar.gz"
             self.archiveNames[ver] = f"mpfr-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"mpfr-{ver}"
 
-        self.targetDigests['4.1.0'] = (['3127fe813218f3a1f0adf4e8899de23df33b4cf4b4b3831a5314f78e65ffa2d6'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['4.2.0'] = (['f1cc1c6bb14d18f0c61cc416e083f5e697b6e0e3cf9630b9b33e8e483fc960f0'], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = '4.1.0'
+        self.defaultTarget = '4.2.0'
         self.description = "The MPFR library is a C library for multiple-precision floating-point computations with correct rounding"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["texinfo"] = None
         self.runtimeDependencies["libs/libgmp"] = None
 
 class Package(AutoToolsPackageBase):
