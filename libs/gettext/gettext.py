@@ -5,6 +5,9 @@ from Package.AutoToolsPackageBase import *
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+
     def setTargets(self):
         for ver in ['0.21']:
             self.targets[ver] = 'http://ftp.gnu.org/pub/gnu/gettext/gettext-%s.tar.gz' % ver
