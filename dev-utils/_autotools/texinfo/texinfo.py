@@ -5,6 +5,7 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setDependencies(self):
+        self.buildDependencies["dev-utils/autoconf"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["virtual/base"] = None
 
