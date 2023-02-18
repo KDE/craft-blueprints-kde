@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/frankosterfeld/qtkeychain.git'
+        self.svnTargets['841f31c'] = 'https://github.com/frankosterfeld/qtkeychain.git||841f31c7ca177e45647fd705200d7fcbeee056e5'
         for ver in ["0.10.0", "0.11.0", "0.12.0", "0.13.1"]:
             self.targets[ver] = "https://github.com/frankosterfeld/qtkeychain/archive/v%s.tar.gz" % ver
             self.archiveNames[ver] = "qtkeychain-v%s.tar.gz" % ver
@@ -32,7 +33,7 @@ class subinfo(info.infoclass):
         self.patchLevel["0.12.0"] = 2
 
         if self.options.dynamic.buildWithQt6:
-             self.defaultTarget = "master" # no release with full Qt 6 support yet
+             self.defaultTarget = "841f31c" # no release with full Qt 6 support yet
         else:
             self.defaultTarget = '0.13.1'
 
