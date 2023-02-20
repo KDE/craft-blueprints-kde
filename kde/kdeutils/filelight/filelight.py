@@ -35,7 +35,7 @@ class Package(CMakePackageBase):
         self.blacklist_file.append(os.path.join(os.path.dirname(__file__), 'blacklist.txt'))
 
     def createPackage(self):
-        self.defines["website"] = "https://kde.org/applications/utilities/org.kde.filelight"
+        self.defines["website"] = "https://apps.kde.org/filelight/"
         self.defines["executable"] = "bin\\filelight.exe"
 
         # filelight icons
@@ -44,6 +44,5 @@ class Package(CMakePackageBase):
         self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "44-apps-filelight.png")
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("kde/frameworks/tier3/kwallet") # pulled in by kio
 
         return TypePackager.createPackage(self)
