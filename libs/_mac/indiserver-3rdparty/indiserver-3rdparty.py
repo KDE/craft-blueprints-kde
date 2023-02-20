@@ -35,6 +35,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/_mac/indiserver-3rdparty-libraries"] = None
         self.runtimeDependencies["libs/_mac/librtlsdr"] = None
         self.runtimeDependencies["libs/_mac/limesuite"] = None
+        self.runtimeDependencies["libs/opencv/opencv"] = None
 
 
 

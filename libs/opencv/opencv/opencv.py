@@ -34,8 +34,8 @@ class Package(CMakePackageBase):
         self.contrib = CraftPackageObject.get("libs/opencv/opencv_contrib").instance
         self.subinfo.options.configure.args += [f"-DOPENCV_EXTRA_MODULES_PATH={OsUtils.toUnixPath(self.contrib.sourceDir() / 'modules')}",
         
-                # build only modules needed by digikam & kdenlive
-                "-DBUILD_LIST=core,objdetect,imgproc,imgcodecs,dnn,flann,ml,tracking",
+                # build only modules needed by digikam, kdenlive and indiserver 3rd Party Libraries
+                "-DBUILD_LIST=core,objdetect,imgproc,imgcodecs,dnn,flann,ml,tracking,highgui",
                 "-DBUILD_EXAMPLES=OFF", "-DBUILD_TESTS=OFF", "-DBUILD_DOCS=OFF", "-DBUILD_PERF_TESTS=OFF",
                 "-DINSTALL_C_EXAMPLES=OFF", "-DINSTALL_PYTHON_EXAMPLES=OFF",
                 # fix build failures (cmake failing tests in craft - linux or mingw)

@@ -32,6 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/_mac/indiserver"] = None
         self.runtimeDependencies["libs/_mac/librtlsdr"] = None
+        self.runtimeDependencies["libs/opencv/opencv"] = None
 
 
 
