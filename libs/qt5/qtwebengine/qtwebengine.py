@@ -38,6 +38,7 @@ class subinfo(info.infoclass):
         self.patchToApply["5.15.11"] = [(".qt-5.15.11", 1)]
         self.svnTargets["5.15.12"] = "https://github.com/qt/qtwebengine.git||v5.15.12-lts"
         self.patchToApply["5.15.12"] = [(".qt-5.15.11", 1)]
+        self.patchLevel["5.15.12"] = 1
 
         self.patchToApply["5.12.3"] = [("0001-Fix-building-GN-with-VS-2019.patch", 1), ("c6fb532d81f405b2456c382aa0b29eef8866f993.patch", 1)]
         self.patchToApply["5.13.0"] = [("20b5e27.diff", 1)]
