@@ -53,7 +53,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies['kde/frameworks/tier3/ktextwidgets'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kwallet'] = None
         self.runtimeDependencies['kde/frameworks/tier3/kxmlgui'] = None
-        self.runtimeDependencies['kde/frameworks/tier4/kdelibs4support'] = None
         self.runtimeDependencies['extragear/kdiagram'] = None
 
         if CraftCore.compiler.isMinGW():
