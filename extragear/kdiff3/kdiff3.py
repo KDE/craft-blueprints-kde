@@ -1,11 +1,12 @@
+import os
 import info
-from CraftOS.osutils import OsUtils
 from Packager.AppxPackager import *
+from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        #Warning: Craft by default takes the display name to also be the product name.
+        # Warning: Craft by default takes the display name to also be the product name.
         self.displayName = 'KDiff3'
         self.description = "Compares and merges 2 or 3 files or directories"
 
@@ -18,27 +19,24 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
-
-from Package.CMakePackageBase import *
-
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+    
     def createPackage(self):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
         
         self.defines["executable"] = r"bin\kdiff3.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kdiff3.ico")
-        #self.defines["display_name"] = r"KDiff3"
         
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
-        #Only attempt to install shell extention in standalone mode 
+        # Only attempt to install shell extention in standalone mode
         if not isinstance(self, AppxPackager):
             self.defines["version"] = self.subinfo.buildTarget
             
-            self.defines["registry_hook"]=(r"""
+            self.defines["registry_hook"] = r"""
         !define DIFF_EXT_CLSID "{34471FFB-4002-438b-8952-E4588D0C0FE9}"
         !define DIFF_EXT_ID "Diff-ext for KDiff3"
         !define DIFF_EXT_DLL "kdiff3ext.dll"
@@ -58,7 +56,7 @@ class Package(CMakePackageBase):
         WriteRegStr HKCU  "${regkey}\diff-ext" "" ""
         WriteRegStr HKCU "${regkey}\diff-ext" "InstallDir" "$INSTDIR\bin"
         WriteRegStr HKCU "${regkey}\diff-ext" "diffcommand" "$INSTDIR\bin\kdiff3.exe"
-                """)
+                """
             self.defines["un_sections"] = r"""
                     Section "Un.Cleanup Stray Files"
                         RMDir /r /rebootok  $INSTDIR\bin
@@ -82,8 +80,8 @@ class Package(CMakePackageBase):
                     SectionEnd
                     """
         else:
-            #Windows app store has special requirements for the version format
-            #Craft attempts to alter the second and third number so we have to adjust to craft's logic as well.
+            # Windows app store has special requirements for the version format
+            # Craft attempts to alter the second and third number so we have to adjust to craft's logic as well.
                         
             self.defines["version"] = "1.0.100"
             self.defines["un_sections"] = r"""
