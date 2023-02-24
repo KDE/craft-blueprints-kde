@@ -1,3 +1,4 @@
+import os
 import info
 from CraftOS.osutils import OsUtils
 from Packager.AppxPackager import *
@@ -30,7 +31,6 @@ class Package(CMakePackageBase):
         
         self.defines["executable"] = r"bin\kdiff3.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kdiff3.ico")
-        #self.defines["display_name"] = r"KDiff3"
         
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
