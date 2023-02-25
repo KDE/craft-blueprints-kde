@@ -15,8 +15,8 @@ class subinfo(info.infoclass):
 
         self.svnTargets['master'] = 'https://github.com/dyne/frei0r.git'
         self.patchLevel['master'] = 20220128
-        self.svnTargets['114a72f'] = 'https://github.com/dyne/frei0r.git||114a72f438fa04c5d12593e38dac148dbb9ce10c'
-        self.defaultTarget = '2.2.0'
+        self.svnTargets['0e9ba7a'] = 'https://github.com/dyne/frei0r.git||0e9ba7a109e21f3c03e7e55593119e80721d32f2'
+        self.defaultTarget = '0e9ba7a'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
