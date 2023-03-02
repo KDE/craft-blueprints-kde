@@ -68,7 +68,8 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DFEATURE_glib=OFF"]
 
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += [f"-DANDROID_ABI={CraftCore.compiler.androidAbi}"]
+            self.subinfo.options.configure.args += [f"-DANDROID_ABI={CraftCore.compiler.androidAbi}",
+                                                    "-DECM_THREADS_WORKAROUND=OFF"]
 
         if self.subinfo.options.dynamic.useLtcg:
             self.subinfo.options.configure.args += ["-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON"]
