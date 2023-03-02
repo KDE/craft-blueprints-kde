@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.targetDigests['1.7.0'] = (['6f7cf95ea2257687cc31db0ed9c9bc0eec152e953d515f346eabec048ed2b29d'], CraftHash.HashAlgorithm.SHA256)
 
         self.svnTargets['master'] = 'https://github.com/dyne/frei0r.git'
-        self.patchLevel['master'] = 20220128
+        self.patchLevel['0e9ba7a'] = 1
         self.svnTargets['0e9ba7a'] = 'https://github.com/dyne/frei0r.git||0e9ba7a109e21f3c03e7e55593119e80721d32f2'
         self.defaultTarget = '0e9ba7a'
 
@@ -22,13 +22,16 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/cairo"] = None
-        self.runtimeDependencies["libs/gavl"] = None
+        if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/gavl"] = None
 
 from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += " -DWITHOUT_GAVL=1 "
 
     def install(self):
         if not super().install():
