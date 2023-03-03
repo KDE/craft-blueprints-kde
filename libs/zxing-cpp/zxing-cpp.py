@@ -7,13 +7,13 @@ class subinfo(info.infoclass):
         pass
 
     def setTargets(self):
-        self.svnTargets['master'] = 'https://github.com/nu-book/zxing-cpp.git'
-        self.defaultTarget = '1.3.0'
-        self.targets[self.defaultTarget] = f"https://github.com/nu-book/zxing-cpp/archive/v{self.defaultTarget}.tar.gz"
+        self.svnTargets['master'] = 'https://github.com/zxing-cpp/zxing-cpp.git'
+        self.defaultTarget = '2.0.0'
+        self.targets[self.defaultTarget] = f"https://github.com/zxing-cpp/zxing-cpp/archive/v{self.defaultTarget}.tar.gz"
         self.archiveNames[self.defaultTarget] = f"zxing-cpp-v{self.defaultTarget}.tar.gz"
         self.targetInstSrc[self.defaultTarget] = f"zxing-cpp-{self.defaultTarget}"
         self.targetDigests[self.defaultTarget] = (
-            ['bfd8fc706def30e34f96088b5a7afdbe0917831e57a774d34e3ee864b01c6891'], CraftHash.HashAlgorithm.SHA256)
+            ['12b76b7005c30d34265fc20356d340da179b0b4d43d2c1b35bcca86776069f76'], CraftHash.HashAlgorithm.SHA256)
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
