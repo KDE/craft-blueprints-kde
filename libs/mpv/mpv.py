@@ -6,8 +6,15 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "mpv"
         self.description = "Command line video player"
-        self.svnTargets["e6c5d58"] = "https://github.com/mpv-player/mpv.git||e6c5d58d1ed95c503ec7261a3d85de32315192cf"
-        self.defaultTarget = "e6c5d58"
+        self.svnTargets["master"] = "https://github.com/mpv-player/mpv.git"
+        self.defaultTarget = "0.35.1"
+
+        for ver in ["0.35.1"]:
+            self.targets[ver] = f"https://github.com/mpv-player/mpv/archive/refs/tags/v{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"mpv-{ver}"
+            self.archiveNames[ver] = f"mpv-{ver}.tar.gz"
+
+        self.targetDigests["0.35.1"] = (["41df981b7b84e33a2ef4478aaf81d6f4f5c8b9cd2c0d337ac142fc20b387d1a9"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies( self ):
         self.buildDependencies["python-modules/meson"] = None
