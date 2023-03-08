@@ -7,15 +7,15 @@ class subinfo( info.infoclass ):
         self.displayName = "Haruna"
         self.description = "Haruna video player"
         self.svnTargets["master"] = "https://invent.kde.org/multimedia/haruna.git"
-        self.defaultTarget = "0.9.1"
+        self.defaultTarget = "0.10.3"
 
-        for ver in ["0.9.1", "0.8.0"]:
-            self.targets[ver] = f"https://invent.kde.org/multimedia/haruna/-/archive/v{ver}/haruna-v{ver}.tar.gz"
-            self.targetInstSrc[ver] = f"haruna-v{ver}"
-            self.archiveNames[ver] = f"haruna-v{ver}.tar.gz"
+        for ver in ["0.10.3", "0.9.3"]:
+            self.targets[ver] = f"https://download.kde.org/stable/haruna/haruna-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"haruna-{ver}"
+            self.archiveNames[ver] = f"haruna-{ver}.tar.gz"
 
-        self.targetDigests["0.9.1"] = (["d83dc77713984294e6e81068913a3a64d6477a5787cceb96430632034b8a6bf7"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["0.8.0"] = (["7af284278a482758c55a85c38eda386f8ea1a16d383e36ce03f9b02e76ebf44d"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.10.3"] = (["4d21eaa709dd3b9f393e2252c4642127ab5da9781a74c903dafba64ae3f9d296"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.9.3"] = (["673d8db5d59e1c0f5937c3b73c11ee858fbd43d65efcde91aba9dcf70dac73e6"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies( self ):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -36,7 +36,6 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
 
 from Package.CMakePackageBase import *
 
