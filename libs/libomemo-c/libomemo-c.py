@@ -21,3 +21,5 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
         self.subinfo.options.configure.args += ["-DBUILD_TESTING=OFF"]
+        if CraftCore.compiler.isWindows:
+            self.subinfo.options.configure.args += ["-DBUILD_SHARED_LIBS=OFF"]
