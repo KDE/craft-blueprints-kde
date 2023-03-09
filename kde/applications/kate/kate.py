@@ -32,11 +32,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/kdeutils/markdownpart"] = None
+
+        if OsUtils.isUnix() or self.buildTarget == 'master':
+            self.runtimeDependencies["kde/applications/konsole"] = None
+
         if self.options.dynamic.fullPlasma:
             self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
             self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
-        if OsUtils.isUnix():
-            self.runtimeDependencies["kde/applications/konsole"] = None
 
         # KUserFeedback yet not an official tier1 framework
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
