@@ -16,14 +16,13 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/qxmpp-project/qxmpp.git'
-        for ver in ["1.5.2"]:
+        for ver in ["1.5.3"]:
             self.targets[ver] = f"https://github.com/qxmpp-project/qxmpp/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"qxmpp-v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"qxmpp-{ver}"
-            self.patchToApply[ver] = [("0001-Install-dll-to-bindir-on-windows.patch", 1)]
-        self.targetDigests['1.5.2'] = (
-            ['cc26345428d816bb33e63f92290c52b9a417d9a836bf9fabf295e3477f71e66c'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '1.5.2'
+        self.targetDigests['1.5.3'] = (
+            ['43ef503adcea8ef1a7eb0ce3af408eb693f66875550aaca9fd8309119e1afec8'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = '1.5.3'
 
 
 class Package(CMakePackageBase):
