@@ -62,21 +62,12 @@ class Package(CMakePackageBase):
         self.addExecutableFilter(r"bin/(?!(kate|update-mime-database|kioslave)).*")
         self.defines["shortcuts"] = [{"name" : "Kate", "target":"bin/kate.exe", "description" : self.subinfo.description}]
 
-        # handle moved stuff post 22.04
-        if os.path.isfile(os.path.join(self.sourceDir(), "apps", "kate", "main.cpp")):
-            # kate icons
-            self.defines["icon"] = self.buildDir() / "apps/kate/ICONS_SOURCES.ico"
+        # kate icons
+        self.defines["icon"] = self.buildDir() / "apps/kate/ICONS_SOURCES.ico"
 
-            # use special windows icons (>= 21.04)
-            self.defines["icon_png"] = os.path.join(self.sourceDir(), "apps", "kate", "icons", "windows", "150-apps-kate.png")
-            self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "apps", "kate", "icons", "windows", "44-apps-kate.png")
-        else:
-            # kate icons
-            self.defines["icon"] = self.buildDir() / "kate/ICONS_SOURCES.ico"
-
-            # use special windows icons (>= 21.04)
-            self.defines["icon_png"] = os.path.join(self.sourceDir(), "kate", "icons", "windows", "150-apps-kate.png")
-            self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "kate", "icons", "windows", "44-apps-kate.png")
+        # use special windows icons
+        self.defines["icon_png"] = os.path.join(self.sourceDir(), "apps", "kate", "icons", "windows", "150-apps-kate.png")
+        self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "apps", "kate", "icons", "windows", "44-apps-kate.png")
 
         self.defines["registry_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate" "" "Edit with Kate"\n"""
                                         """WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate\\command" "" '"$INSTDIR\\bin\\kate.exe" "%V"'\n""")
