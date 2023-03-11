@@ -1,0 +1,30 @@
+diff --git a/src/linguist/lupdate/lupdatepreprocessoraction.cpp b/src/linguist/lupdate/lupdatepreprocessoraction.cpp
+index d963747d8e7550f65dfe6244cbc65271f47b5f93..478d5fbeaf782cb7c9889d350b9f4bab779f8e46 100644
+--- a/src/linguist/lupdate/lupdatepreprocessoraction.cpp
++++ b/src/linguist/lupdate/lupdatepreprocessoraction.cpp
+@@ -157,7 +157,9 @@ void LupdatePPCallbacks::SourceRangeSkipped(clang::SourceRange sourceRange,
+ void LupdatePPCallbacks::InclusionDirective(clang::SourceLocation /*hashLoc*/,
+     const clang::Token & /*includeTok*/, clang::StringRef /*fileName*/, bool /*isAngled*/,
+     clang::CharSourceRange /*filenameRange*/,
+-#if (LUPDATE_CLANG_VERSION >= LUPDATE_CLANG_VERSION_CHECK(15,0,0))
++#if (LUPDATE_CLANG_VERSION >= LUPDATE_CLANG_VERSION_CHECK(16,0,0))
++    const clang::OptionalFileEntryRef file,
++#elif (LUPDATE_CLANG_VERSION >= LUPDATE_CLANG_VERSION_CHECK(15,0,0))
+     const clang::Optional<clang::FileEntryRef> file,
+ #else
+     const clang::FileEntry *file,
+diff --git a/src/linguist/lupdate/lupdatepreprocessoraction.h b/src/linguist/lupdate/lupdatepreprocessoraction.h
+index 3e44cee839436e500d06d5955a1a634317f009f3..673ecb495029a65dbca37721667a12807f4e7b89 100644
+--- a/src/linguist/lupdate/lupdatepreprocessoraction.h
++++ b/src/linguist/lupdate/lupdatepreprocessoraction.h
+@@ -52,7 +52,9 @@ private:
+     void InclusionDirective(clang::SourceLocation /*hashLoc*/, const clang::Token &/*includeTok*/,
+                             clang::StringRef /*fileName*/, bool /*isAngled*/,
+                             clang::CharSourceRange /*filenameRange*/,
+-#if (LUPDATE_CLANG_VERSION >= LUPDATE_CLANG_VERSION_CHECK(15,0,0))
++#if (LUPDATE_CLANG_VERSION >= LUPDATE_CLANG_VERSION_CHECK(16,0,0))
++                            const clang::OptionalFileEntryRef file,
++#elif (LUPDATE_CLANG_VERSION >= LUPDATE_CLANG_VERSION_CHECK(15,0,0))
+                             const clang::Optional<clang::FileEntryRef> file,
+ #else
+                             const clang::FileEntry *file,

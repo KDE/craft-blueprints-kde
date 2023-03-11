@@ -9,6 +9,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
+        self.patchToApply["6.4.0"] = [("fix-build-clang15.diff", 1)]
+        self.patchToApply["6.4.0"] += [("fix-build-clang16.diff", 1)]
+        self.patchLevel["6.4.0"] = 1
 
 from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
