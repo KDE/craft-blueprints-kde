@@ -3,7 +3,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.1.26"]:
+        for ver in ["2.1.26", "2.1.28"]:
             self.targets[ver] = f"https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-{ver}/cyrus-sasl-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"cyrus-sasl-{ver}"
             #http://www.linuxfromscratch.org/blfs/view/svn/postlfs/cyrus-sasl.html
@@ -13,8 +13,9 @@ class subinfo(info.infoclass):
             self.patchToApply["2.1.26"] += [("cyrus-sasl-2.1.26.patch", 1)]
         self.targetDigests["2.1.26"] = (['8fbc5136512b59bb793657f36fadda6359cae3b08f01fd16b3d406f1345b7bc3'], CraftHash.HashAlgorithm.SHA256)
         self.patchLevel["2.1.26"] = 1
+        self.targetDigests["2.1.28"] = (['7ccfc6abd01ed67c1a0924b353e526f1b766b21f42d4562ee635a8ebfc5bb38c'], CraftHash.HashAlgorithm.SHA256)
         self.description = "Cyrus SASL implementation"
-        self.defaultTarget = "2.1.26"
+        self.defaultTarget = "2.1.28"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
