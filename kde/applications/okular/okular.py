@@ -26,8 +26,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/kdegraphics/kdegraphics-mobipocket"] = None
         if not CraftCore.compiler.isAndroid:
             self.buildDependencies["libs/chm"] = None
-            self.buildDependencies["libs/discount"] = None
             self.buildDependencies["libs/libspectre"] = None
+            self.runtimeDependencies["libs/discount"] = None
             self.runtimeDependencies["libs/djvu"] = None
             self.runtimeDependencies["libs/ebook-tools"] = None
             self.runtimeDependencies["libs/ghostscript"] = None
@@ -55,7 +55,9 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += " -DOKULAR_UI=mobile -DANDROID_LINK_EXTRA_LIBRARIES=ON"
+            self.subinfo.options.configure.args += ["-DOKULAR_UI=mobile", "-DANDROID_LINK_EXTRA_LIBRARIES=ON"]
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += ["-DFORCE_NOT_REQUIRED_DEPENDENCIES=LibSpectre"]
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
