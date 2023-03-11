@@ -13,6 +13,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt6/qtbase"] = None
             self.buildDependencies["libs/qt6/qttools"] = None
             self.buildDependencies["libs/qt6/qt5compat"] = None
+        self.runtimeDependencies["libs/libomemo-c"] = None
+        self.buildDependencies["libs/libomemo-c"] = None
 
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/qxmpp-project/qxmpp.git'
@@ -29,4 +31,4 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
 
-        self.subinfo.options.configure.args = "-DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF"
+        self.subinfo.options.configure.args = "-DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DBUILD_OMEMO=ON"
