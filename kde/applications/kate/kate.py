@@ -7,11 +7,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.displayName = "Kate"
-        self.description = "the KDE text editor"
+        self.description = "Modern text editor built on the KDE Frameworks and Qt"
         self.webpage = "https://kate-editor.org/"
-
-    def registerOptions(self):
-        self.options.dynamic.registerOption("fullPlasma", False)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -36,9 +33,8 @@ class subinfo(info.infoclass):
         if OsUtils.isUnix() or self.buildTarget == 'master':
             self.runtimeDependencies["kde/applications/konsole"] = None
 
-        if self.options.dynamic.fullPlasma:
+        if OsUtils.isUnix():
             self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
 
         # KUserFeedback yet not an official tier1 framework
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
@@ -52,8 +48,6 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        if not self.subinfo.options.dynamic.fullPlasma:
-            self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_KF5Plasma=ON"
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
