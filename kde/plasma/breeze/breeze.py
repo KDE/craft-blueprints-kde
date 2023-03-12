@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         if not OsUtils.isWin():
             self.runtimeDependencies["kde/frameworks/tier4/frameworkintegration"] = None
         if not OsUtils.isWin() and not OsUtils.isMac():
