@@ -1,4 +1,6 @@
 import info
+from CraftOS.osutils import OsUtils
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -11,20 +13,19 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         if not CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["libs/qt5/qtspeech"] = None
+            self.runtimeDependencies["libs/qt/qtspeech"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
             self.runtimeDependencies["qt-libs/phonon"] = None
         else:
-            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
+            self.runtimeDependencies["libs/qt/qtandroidextras"] = None
         if OsUtils.isMac():
-            self.runtimeDependencies["libs/qt5/qtmacextras"] = None
+            self.runtimeDependencies["libs/qt/qtmacextras"] = None
         if OsUtils.isWin():
             self.runtimeDependencies["dev-utils/snoretoast"] = None
 
 
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
 
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get('kde').pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        CraftPackageObject.get('kde').pattern.__init__(self)

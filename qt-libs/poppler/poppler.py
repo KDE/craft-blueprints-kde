@@ -32,10 +32,10 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "git://git.freedesktop.org/git/poppler/poppler"
 
         # always try to use latest libpoppler with all security fixes
-        ver = "23.01.0"
+        ver = "23.03.0"
         self.targets[ver] = f"https://poppler.freedesktop.org/poppler-{ver}.tar.xz"
         self.targetInstSrc[ver] = f"poppler-{ver}"
-        self.targetDigests[ver] = (['fae9b88d3d5033117d38477b79220cfd0d8e252c278ec870ab1832501741fd94'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[ver] = (['b04148bf849c1965ada7eff6be4685130e3a18a84e0cce73bf9bc472ec32f2b4'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = ver
 
     def setDependencies(self):
@@ -81,6 +81,10 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_GLIB=OFF"]
         if not self.subinfo.options.dynamic.buildUtils:
             self.subinfo.options.configure.args += ["-DENABLE_UTILS=OFF"]
+
+        self.subinfo.options.configure.args += ["-DENABLE_QT5=" + ("ON" if self.subinfo.options.dynamic.buildQt5Frontend else "OFF")]
+        self.subinfo.options.configure.args += ["-DENABLE_QT6=" + ("ON" if self.subinfo.options.dynamic.buildQt6Frontend else "OFF")]
+
 
         if not self.subinfo.options.dynamic.buildTests:
             self.subinfo.options.configure.args += ["-DBUILD_QT5_TESTS=OFF", "-DBUILD_QT6_TESTS=OFF", "-DBUILD_CPP_TESTS=OFF", "-DBUILD_MANUAL_TESTS=OFF"]

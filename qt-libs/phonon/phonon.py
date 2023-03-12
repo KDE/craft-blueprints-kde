@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         # qtquick1 is optional
         # self.runtimeDependencies["libs/qtquick1"] = None
 
@@ -30,9 +30,11 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = " -DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=ON -DPHONON_BUILD_PHONON4QT5=ON"
+        self.subinfo.options.configure.args = ["-DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=ON", "-DPHONON_BUILD_PHONON4QT5=ON"]
         if not self.subinfo.options.isActive("libs/dbus"):
-            self.subinfo.options.configure.args += " -DPHONON_NO_DBUS=ON "
+            self.subinfo.options.configure.args += ["-DPHONON_NO_DBUS=ON"]
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.subinfo.options.configure.args += ["-DQT_MAJOR_VERSION=6", "-DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.99.0"]
 
     def postInstall(self):
         libDir = self.installDir() / "lib"

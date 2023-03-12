@@ -1,5 +1,5 @@
 import info
-from Packager.AppImagePackager import AppImagePackager
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -9,14 +9,15 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
-        self.runtimeDependencies["libs/qt5/qtspeech"] = None
-        self.runtimeDependencies["libs/qt5/qtimageformats"] = None
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
-        self.runtimeDependencies["libs/qt5/qtnetworkauth"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtmultimedia"] = None
+        self.runtimeDependencies["libs/qt/qtspeech"] = None
+        self.runtimeDependencies["libs/qt/qtimageformats"] = None
+        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt/qtnetworkauth"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
+            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -56,12 +57,13 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/drkonqi"] = None
 
 
-from Package.CMakePackageBase import *
 from Utils import GetFiles
+from Blueprints.CraftPackageObject import CraftPackageObject
+from Packager.AppImagePackager import AppImagePackager
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get('kde').pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        CraftPackageObject.get('kde').pattern.__init__(self)
         self.subinfo.options.configure.args += " -DNODBUS=ON"
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += " -DRELEASE_BUILD=OFF"

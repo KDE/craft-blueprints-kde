@@ -1,4 +1,5 @@
 import info
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -13,19 +14,18 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
 
         if self.options.dynamic.useHunspell:
             self.runtimeDependencies["libs/hunspell"] = None
 
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
 
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get('kde').pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        CraftPackageObject.get('kde').pattern.__init__(self)
 
         # always use just hunspell, if at all!
-        self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_ASPELL=ON"
+        self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_ASPELL=ON"]
         if not self.subinfo.options.dynamic.useHunspell:
-            self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_HUNSPELL=ON"
+            self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_HUNSPELL=ON"]

@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/libbfd"] = None
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kdesupport/kdewin"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
@@ -24,14 +24,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlrpcclient"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
-from Package.CMakePackageBase import *
 
+from Blueprints.CraftPackageObject import CraftPackageObject
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get('kde').pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        CraftPackageObject.get('kde').pattern.__init__(self)

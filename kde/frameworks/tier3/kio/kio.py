@@ -1,4 +1,6 @@
 import info
+from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
 
 
 class subinfo(info.infoclass):
@@ -15,6 +17,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
@@ -40,21 +43,19 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
             self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
 
-        
 
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
 
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get('kde').pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += f" -DKIO_ASSERT_SLAVE_STATES={'ON' if self.buildType() == 'Debug' else 'OFF'}"
-        self.subinfo.options.configure.args += " -DCMAKE_DISABLE_FIND_PACKAGE_KF5DocTools=ON "
+        CraftPackageObject.get('kde').pattern.__init__(self)
+        self.subinfo.options.configure.args += [f"-DKIO_ASSERT_SLAVE_STATES={'ON' if self.buildType() == 'Debug' else 'OFF'}"]
+        self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF5DocTools=ON"]
         if OsUtils.isWin() or OsUtils.isMac():
-            self.subinfo.options.configure.args += " -DKIO_FORK_SLAVES=ON "
+            self.subinfo.options.configure.args += ["-DKIO_FORK_SLAVES=ON"]
 
     def configure(self):
-        cfg = CMakePackageBase.configure(self)
+        cfg = CraftPackageObject.get('kde').pattern.configure(self)
         if not cfg and CraftCore.compiler.isLinux:
             CraftCore.log.info("You may need to install libmount-dev(el) and blkid-dev(el) on builder")
         return cfg

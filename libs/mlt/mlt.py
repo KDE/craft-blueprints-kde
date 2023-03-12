@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
     def setTargets( self ):
         self.description = "Open source multimedia framework"
         self.webpage = "https://www.mltframework.org"
-        for ver in ['7.6.0']:
+        for ver in ['7.14.0']:
             self.targets[ ver ] = f"https://github.com/mltframework/mlt/archive/v{ver}.tar.gz"
             self.targetInstSrc[ ver ] = "mlt-" + ver
 
@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/ladspa-sdk"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
-        self.runtimeDependencies["libs/qt5/qtsvg"] = None
+        self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/libsamplerate"] = None
 
@@ -63,10 +63,14 @@ class Package(CMakePackageBase):
             "-DMOD_DECKLINK=OFF",
             "-DWINDOWS_DEPLOY=OFF",
             "-DMOD_OPENCV=ON",
-            "-DMOD_GLAXNIMATE=ON",
             "-DRELOCATABLE=ON",
             "-DMOD_GDK=OFF" # don't pull in gtk
         ]
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE=ON"]
+        else:
+            self.subinfo.options.configure.args += ["-DMOD_QT=OFF", "-DMOD_QT6=ON", "-DMOD_GLAXNIMATE_QT6=ON"]
+
         self.subinfo.options.configure.cxxflags += f" -D_XOPEN_SOURCE=700 "
 
     def install(self):

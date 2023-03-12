@@ -1,4 +1,5 @@
 import info
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -13,15 +14,15 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["libs/boost/boost-headers"] = None
 
 
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
 
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get('kde').pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DKACTIVITIES_LIBRARY_ONLY=YES"
+        CraftPackageObject.get('kde').pattern.__init__(self)
+        self.subinfo.options.configure.args += ["-DKACTIVITIES_LIBRARY_ONLY=YES"]

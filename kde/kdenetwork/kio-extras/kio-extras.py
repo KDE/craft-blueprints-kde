@@ -4,9 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply["17.12.0"] = [("fix-taglib-detection-and-build-on-windows.diff", 1)]
-        self.patchToApply["17.12.3"] = [("fix-taglib-detection-and-build-on-windows.diff", 1)]
-        self.patchLevel["18.08.3"] = 2
         self.patchLevel["22.08.3"] = 2
 
         self.description = "Extra plugins for KIO (thumbnail generators, archives, remote filesystems and more)"
@@ -17,7 +14,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libssh"] = None
         self.runtimeDependencies["libs/openexr"] = None
         self.runtimeDependencies["libs/taglib"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtsvg"] = None
+        #self.runtimeDependencies["qt-libs/kdsoap"] = None # Our KDSoap version in Craft is to new for kio-extras
         self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
@@ -34,9 +33,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kdnssd"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
 
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
 
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get('kde').pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        CraftPackageObject.get('kde').pattern.__init__(self)
+        self.subinfo.options.configure.args += ["-DSAMBA_FOUND=false", "-DBUILD_KDSoapWSDiscoveryClient=OFF"] # This requires KDSoap 1.9.0, but we only have a newer version in Craft
+

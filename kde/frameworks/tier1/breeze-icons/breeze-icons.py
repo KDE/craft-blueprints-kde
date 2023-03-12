@@ -1,5 +1,12 @@
-import info
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2023 Julius Künzel <jk.kdedev@smartlab.uber.space>
+# SPDX-FileCopyrightText: 2016 Kevin Funke <kfunk@kde.org>
+# SPDX-FileCopyrightText: 2015 Hannah von Reth <vonreth@kde.org>
 
+import info
+import os
+import utils
+from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -16,20 +23,20 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["python-modules/lxml"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
 
 
-from Package.CMakePackageBase import *
 
+from Blueprints.CraftPackageObject import CraftPackageObject
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get('kde').pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        CraftPackageObject.get('kde').pattern.__init__(self)
         if self.subinfo.options.dynamic.useIconResource:
-            self.subinfo.options.configure.args = " -DBINARY_ICONS_RESOURCE=ON -DSKIP_INSTALL_ICONS=ON"
+            self.subinfo.options.configure.args += ["-DBINARY_ICONS_RESOURCE=ON -DSKIP_INSTALL_ICONS=ON"]
 
     def install(self):
-        if not CMakePackageBase.install(self):
+        if not CraftPackageObject.get('kde').pattern.install(self):
             return False
         if self.subinfo.options.dynamic.useIconResource:
             dest = os.path.join(self.installDir(), os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot()))
