@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.patchLevel["2.1.26"] = 1
         self.targetDigests["2.1.28"] = (['7ccfc6abd01ed67c1a0924b353e526f1b766b21f42d4562ee635a8ebfc5bb38c'], CraftHash.HashAlgorithm.SHA256)
         self.description = "Cyrus SASL implementation"
-        self.defaultTarget = "2.1.28"
+        self.defaultTarget = "2.1.26"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
