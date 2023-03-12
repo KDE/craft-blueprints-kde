@@ -99,8 +99,11 @@ class PackageMSys(AutoToolsPackageBase):
         self.subinfo.options.configure.args += ["--with-drivers=ALL", "--disable-cups",
                                                "--without-x", "--disable-contrib", "--enable-freetype",
                                                "--with-jbig2dec", "--enable-openjpeg", "--disable-gtk",
-                                               "--enable-fontconfig","--with-system-libtiff"]
-
+                                               "--enable-fontconfig"]
+        if not CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += ["--with-system-libtiff"]
+        else:
+            self.subinfo.options.configure.args += ["--with-libtiff"]
         self.subinfo.options.make.args += ["so", "all"]
         self.subinfo.options.install.args += ["install-so", "install"]
         self.subinfo.options.useShadowBuild = False
@@ -108,7 +111,9 @@ class PackageMSys(AutoToolsPackageBase):
     def unpack(self):
         if not AutoToolsPackageBase.unpack(self):
             return False
-        forceSystemLibs = ["freetype", "jpeg", "libpng", "lcms", "lcms2", "zlib", "openjpeg", "tiff"]
+        forceSystemLibs = ["freetype", "jpeg", "libpng", "lcms", "lcms2", "zlib", "openjpeg"]
+        if not CraftCore.compiler.isMacOS:
+            forceSystemLibs += "tiff"
         for d in forceSystemLibs:
             utils.rmtree(os.path.join(self.sourceDir(), d))
         return True
