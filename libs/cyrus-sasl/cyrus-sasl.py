@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -20,10 +21,23 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
+class CMakePackage(CMakePackageBase):
+    def __init__(self, **args):
+        CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args += " -DSTATIC_LIBRARY=OFF"
+
+
 from Package.AutoToolsPackageBase import *
 
-class Package(AutoToolsPackageBase):
+class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.bootstrap = True
         self.subinfo.options.configure.args += " --disable-macos-framework"
+
+if CraftCore.compiler.isWindows:
+    class Package(CMakePackage):
+        pass
+else:
+    class Package(PackageAutotools):
+        pass
