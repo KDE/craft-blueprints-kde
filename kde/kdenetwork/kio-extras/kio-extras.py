@@ -4,10 +4,8 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply["17.12.0"] = [("fix-taglib-detection-and-build-on-windows.diff", 1)]
-        self.patchToApply["17.12.3"] = [("fix-taglib-detection-and-build-on-windows.diff", 1)]
-        self.patchLevel["18.08.3"] = 2
         self.patchLevel["22.08.3"] = 2
+        self.patchLevel["22.12.3"] = 1
 
         self.description = "Extra plugins for KIO (thumbnail generators, archives, remote filesystems and more)"
 
@@ -33,6 +31,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdnssd"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
+        self.runtimeDependencies["kde/applications/libkexiv2"] = None
 
 from Package.CMakePackageBase import *
 
