@@ -25,5 +25,5 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        if CraftCore.compiler.isMacOS:
+        if CraftVersion(self.buildTarget) <= CraftVersion("1.1.0") && CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args = "-DUSE_OMP=OFF "
