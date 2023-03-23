@@ -1,5 +1,7 @@
 import info
 
+from Blueprints.CraftVersion import CraftVersion
+
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -25,5 +27,5 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        if CraftVersion(self.buildTarget) <= CraftVersion("1.1.0") && CraftCore.compiler.isMacOS:
+        if CraftVersion(self.buildTarget) <= CraftVersion("1.1.0") and CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args = "-DUSE_OMP=OFF "
