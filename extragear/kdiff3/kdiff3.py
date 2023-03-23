@@ -50,7 +50,6 @@ class Package(CMakePackageBase):
         WriteRegStr SHCTX "Software\Classes\Folder\shellex\ContextMenuHandlers\${DIFF_EXT_ID}" "" "${DIFF_EXT_CLSID}"
         WriteRegStr SHCTX "Software\Classes\Directory\shellex\ContextMenuHandlers\${DIFF_EXT_ID}" "" "${DIFF_EXT_CLSID}"
 
-        WriteRegStr SHCTX "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\bin\kdiff3.exe" "~ DPIUNAWARE"
         SetRegView 32
 
         WriteRegStr HKCU  "${regkey}\diff-ext" "" ""

@@ -3,10 +3,11 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.description = "A simple, user-friendly Jabber/XMPP client for every device!"
         self.displayName = "Kaidan"
+        self.description = "User-friendly and modern chat app for every device"
+        self.webpage = "https://www.kaidan.im/"
 
-        self.svnTargets['master'] = 'https://anongit.kde.org/kaidan.git'
+        self.svnTargets['master'] = 'https://invent.kde.org/network/kaidan.git'
         for ver in ["0.8.0"]:
             self.targets[ver] = f"https://download.kde.org/unstable/kaidan/{ver}/kaidan-{ver}.tar.xz"
             self.archiveNames[ver] = f"kaidan-v{ver}.tar.xz"

@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
             self.buildDependencies["libs/qt6/qttools"] = None
             self.buildDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["libs/libomemo-c"] = None
-        self.buildDependencies["libs/libomemo-c"] = None
+        self.runtimeDependencies["kdesupport/qca"] = None
 
     def setTargets(self):
         self.svnTargets['master'] = 'https://github.com/qxmpp-project/qxmpp.git'
