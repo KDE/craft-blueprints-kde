@@ -8,14 +8,14 @@ class subinfo(info.infoclass):
     def setTargets( self ):
         self.description = "Open source multimedia framework"
         self.webpage = "https://www.mltframework.org"
-        for ver in ['7.6.0']:
+        for ver in ['7.14.0']:
             self.targets[ ver ] = f"https://github.com/mltframework/mlt/archive/v{ver}.tar.gz"
             self.targetInstSrc[ ver ] = "mlt-" + ver
 
         self.svnTargets['master'] = "https://github.com/mltframework/mlt.git"
         self.patchLevel['master'] = 20221103
-        self.svnTargets['2c614ae'] = "https://github.com/mltframework/mlt.git||2c614ae902c9b331f93dd7952e1d23e178da6d69"
-        self.defaultTarget = '2c614ae'
+        self.svnTargets['6ea420b'] = "https://github.com/mltframework/mlt.git||6ea420b138b8f2cfe0650d643372e25f5fef41ea"
+        self.defaultTarget = '6ea420b'
         if CraftCore.compiler.isWindows:
             self.patchToApply["2c614ae"] = [("pi_patch.diff", 1)]
 
