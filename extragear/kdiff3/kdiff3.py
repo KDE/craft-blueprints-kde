@@ -42,6 +42,9 @@ class Package(CMakePackageBase):
         !define DIFF_EXT_DLL "kdiff3ext.dll"
         
         SetRegView 64
+        ;remove old diff-ext settings
+        DeleteRegKey HKCU  "Software\KDiff3"
+
         WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}" "" "${DIFF_EXT_ID}"
         WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}\InProcServer32" "" "$INSTDIR\bin\${DIFF_EXT_DLL}"
         WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}\InProcServer32" "ThreadingModel" "Apartment"
@@ -52,14 +55,24 @@ class Package(CMakePackageBase):
 
         SetRegView 32
 
+        ;remove old diff-ext settings
+        DeleteRegKey HKCU  "Software\KDiff3"
+        ;Maybe left behind due to a bug in previous installers.
+        DeleteRegKey SHCTX  "Software\KDE\KDiff3"
+        DeleteRegKey /ifempty SHCTX  "Software\KDE\"
+        
         WriteRegStr HKCU  "${regkey}\diff-ext" "" ""
         WriteRegStr HKCU "${regkey}\diff-ext" "InstallDir" "$INSTDIR\bin"
         WriteRegStr HKCU "${regkey}\diff-ext" "diffcommand" "$INSTDIR\bin\kdiff3.exe"
+        ;NSIS Does not seem to support translated text.
+        MessageBox MB_OK|MB_ICONEXCLAMATION "A reboot may be needed to complete install if upgrading from pre-1.8."
+        
                 """
             self.defines["un_sections"] = r"""
                     Section "Un.Cleanup Stray Files"
                         RMDir /r /rebootok  $INSTDIR\bin
-                    SectionEnd
+                        RMDir /REBOOTOK $INSTDIR
+                    SectionEnd""" + r"""
                     
                     Section "Un.Cleanup Regsistry"
                         SetRegView 64
