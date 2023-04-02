@@ -16,13 +16,22 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libsamplerate"] = None
         self.runtimeDependencies["libs/iconv"] = None
 
+
+from Package.CMakePackageBase import *
 from Package.AutoToolsPackageBase import *
 
+if CraftCore.compiler.isAndroid:
 
-class Package(AutoToolsPackageBase):
-    def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args = ["--disable-static", "--enable-threads", "--enable-directx", "--enable-libsamplerate"]
-        if CraftCore.compiler.isFreeBSD:
-            self.subinfo.options.configure.args += ["--disable-static", "--enable-threads", "--enable-directx", "--enable-libsamplerate"]
+    class Package(CMakePackageBase):
+        def __init__(self, **args):
+            CMakePackageBase.__init__(self)
+else:
+
+    # TODO: check if CMake works for other platforms too so we can replace AutoTools here
+    class Package(AutoToolsPackageBase):
+        def __init__(self, **args):
+            AutoToolsPackageBase.__init__(self)
+            self.subinfo.options.configure.autoreconf = False
+            self.subinfo.options.configure.args = ["--disable-static", "--enable-threads", "--enable-directx", "--enable-libsamplerate"]
+            if CraftCore.compiler.isFreeBSD:
+                self.subinfo.options.configure.args += ["--disable-static", "--enable-threads", "--enable-directx", "--enable-libsamplerate"]
