@@ -14,8 +14,8 @@ class subinfo(info.infoclass):
 
         self.svnTargets['master'] = "https://github.com/mltframework/mlt.git"
         self.patchLevel['master'] = 20221103
-        self.svnTargets['6ea420b'] = "https://github.com/mltframework/mlt.git||6ea420b138b8f2cfe0650d643372e25f5fef41ea"
-        self.defaultTarget = '6ea420b'
+        self.svnTargets['01ab0f4'] = "https://github.com/mltframework/mlt.git||01ab0f45b34cf8c171e42213404c05018916e8c1"
+        self.defaultTarget = '01ab0f4'
         if CraftCore.compiler.isWindows:
             self.patchToApply["2c614ae"] = [("pi_patch.diff", 1)]
 
