@@ -3,11 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
-
-        if CraftCore.compiler.isMinGW():
-            self.patchToApply["5.99.0"] = [("fix-mingw-STAT_LNK.patch", 1)]
-
+        self.versionInfo.setDefaultValues
         self.description = "Network transparent access to files and data"
 
     def setDependencies(self):
