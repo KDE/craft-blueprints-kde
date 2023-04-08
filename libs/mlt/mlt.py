@@ -67,6 +67,8 @@ class Package(CMakePackageBase):
             "-DRELOCATABLE=ON",
             "-DMOD_GDK=OFF" # don't pull in gtk
         ]
+        if CraftCore.compiler.isWindows:
+            self.subinfo.options.configure.args += "-DCMAKE_C_FLAGS=-Wno-incompatible-pointer-types"
         self.subinfo.options.configure.cxxflags += f" -D_XOPEN_SOURCE=700 "
 
     def install(self):
