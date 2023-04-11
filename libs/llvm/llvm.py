@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
             self.targetConfigurePath[ver] = "llvm"
             self.patchToApply[ver] = [("llvm-15.0.2-20221030.diff", 1)]
         if CraftCore.compiler.isMSVC():
-            self.patchToApply[ver] += [("llvm-15.0.2-20221107.diff", 1)]
+            self.patchToApply[ver] += [("llvm-15.0.2-20221107.diff", 1), ("1b9fbc81ff15f6ad5a0e7f29c486c6edd0bce94c.patch", 1)]
         self.targetDigests["15.0.2"] = (
             ["7877cd67714728556a79e5ec0cc72d66b6926448cf73b12b2cb901b268f7a872"],
             CraftHash.HashAlgorithm.SHA256,
