@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.setDefault("buildType", "Release")
 
     def setTargets(self):
-        for ver in ["15.0.2", "15.0.7"]:
+        for ver in ["15.0.2", "15.0.7", "16.0.1"]:
             self.targets[ver] = f"https://github.com/llvm/llvm-project/releases/download/llvmorg-{ver}/llvm-project-{ver}.src.tar.xz"
             self.targetInstSrc[ver] = f"llvm-project-{ver}.src"
             self.targetConfigurePath[ver] = "llvm"
@@ -19,12 +19,16 @@ class subinfo(info.infoclass):
             ["7877cd67714728556a79e5ec0cc72d66b6926448cf73b12b2cb901b268f7a872"],
             CraftHash.HashAlgorithm.SHA256,
         )
+        self.targetDigests["16.0.1"] = (
+            ["ab7e3b95adb88fd5b669ca8c1d3c1e8d2a601c4478290d3ae31d8d70e96f2064"],
+            CraftHash.HashAlgorithm.SHA256,
+        )
         self.patchLevel["15.0.2"] = 2
 
         self.description = "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines."
         self.webpage = "http://llvm.org/"
         self.tags = "clang, clang-tools-extra"
-        self.defaultTarget = "15.0.7"
+        self.defaultTarget = "16.0.1"
 
     def setDependencies(self):
         # workaround, ensure system clang is used to build bjam
