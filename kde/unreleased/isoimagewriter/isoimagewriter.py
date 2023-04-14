@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.svnTargets['master'] = 'https://invent.kde.org/utilities/isoimagewriter.git'
-        for ver in ["0.9"]:
+        for ver in ["0.9.2"]:
             self.targets[ver] = "http://embra.edinburghlinux.co.uk/~jr/tmp/isoimagewriter-%s.tar.xz" % ver
             self.targetInstSrc[ver] = "isoimagewriter-%s" % ver
         self.defaultTarget = "master"
