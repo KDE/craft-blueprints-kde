@@ -82,7 +82,7 @@ from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        #self.subinfo.options.configure.args += "-DENABLE_TESTS=OFF"
+        self.subinfo.options.configure.args += "-DLOCAL_DBC_PARSER=ON -DLOCAL_VECTOR_BLF=ON"
         if CraftCore.compiler.isMacOS:
             # readstat fails with ninja
             self.supportsNinja = False

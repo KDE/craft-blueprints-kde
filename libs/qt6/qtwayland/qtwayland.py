@@ -1,7 +1,11 @@
 import info
 
+from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.FreeBSD
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 

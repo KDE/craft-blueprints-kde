@@ -2,12 +2,12 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["0.15.0"]:
+        for ver in ["0.17.1"]:
             self.targets[ver] = f"https://github.com/libass/libass/archive/{ver}.tar.gz"
             self.targetInstSrc[ ver ] = "libass-" + ver
-        self.targetDigests['0.15.0'] = (['232b1339c633e6a93c153cac7a483e536944921605f35fcbaedc661c62fb49ec'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['0.17.1'] = (['5ba42655d7e8c5e87bba3ffc8a2b1bc19c29904240126bb0d4b924f39429219f'], CraftHash.HashAlgorithm.SHA256)
         self.description = "Portable subtitle renderer"
-        self.defaultTarget = '0.15.0'
+        self.defaultTarget = '0.17.1'
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/nasm"] = None
