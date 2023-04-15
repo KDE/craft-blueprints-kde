@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues
+        self.versionInfo.setDefaultValues()
         self.description = "Network transparent access to files and data"
 
     def setDependencies(self):
