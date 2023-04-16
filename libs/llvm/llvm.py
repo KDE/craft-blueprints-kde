@@ -54,7 +54,7 @@ class Package(CMakePackageBase):
             "-DLLVM_INCLUDE_GO_TESTS=OFF",
             "-DLLVM_INCLUDE_EXAMPLES=OFF",
             "-DLLVM_BUILD_EXAMPLES=OFF",
-            "-DLLVM_TARGETS_TO_BUILD=all",
+            "-DLLVM_TARGETS_TO_BUILD=X86;ARM",
             "-DLLVM_ENABLE_RTTI=ON",
             "-DLLVM_ENABLE_EH=ON",
             "-DLLVM_INCLUDE_DOCS=OFF",
