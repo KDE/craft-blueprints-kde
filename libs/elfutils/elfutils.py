@@ -5,6 +5,9 @@ from Package.CMakePackageBase import *
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Linux
+
     def setTargets(self):
         for ver in ["0.181", "0.185", "0.188"]:
             self.targets[ver] = "https://sourceware.org/elfutils/ftp/%s/elfutils-%s.tar.bz2" % (ver, ver)
