@@ -36,9 +36,9 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isGCCLike():
             self.runtimeDependencies["libs/libsdl2"] = None
             self.runtimeDependencies["libs/libvorbis"] = None
-            self.runtimeDependencies["libs/libvpx"] = None
             self.runtimeDependencies["libs/x264"] = None
             if not CraftCore.compiler.isAndroid:
+                self.runtimeDependencies["libs/libvpx"] = None
                 self.runtimeDependencies["libs/x265"] = None
                 self.runtimeDependencies["libs/libass"] = None
                 self.runtimeDependencies["libs/aom"] = None
