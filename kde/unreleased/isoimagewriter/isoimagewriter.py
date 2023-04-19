@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         for ver in ["1.0.0"]:
             self.targets[ver] = "https://download.kde.org/unstable/isoimagewriter/%s/isoimagewriter-%s.tar.xz" % (ver, ver)
             self.targetInstSrc[ver] = "isoimagewriter-%s" % ver
-        self.defaultTarget = "master"
+        self.defaultTarget = "1.0.0"
 
         self.displayName = "KDE ISO Image Writer"
         self.description = "A tool to write ISO images to USB flash drives"
