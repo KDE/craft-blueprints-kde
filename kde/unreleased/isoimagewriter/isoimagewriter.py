@@ -37,6 +37,7 @@ class Package(CMakePackageBase):
             manifest = os.path.join(self.sourceDir(), "res", "isoimagewriter.manifest")
             app = os.path.join(self.installDir(), "bin", "isoimagewriter.exe")
             return utils.embedManifest(app, manifest)
+        return True
 
     def createPackage(self):
         self.defines["shortcuts"] = [{"name" : "KDE ISO Image Writer", "target":"bin/isoimagewriter.exe", "description" : self.subinfo.description}]
