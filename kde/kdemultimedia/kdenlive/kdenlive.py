@@ -79,6 +79,7 @@ class Package(CMakePackageBase):
                 'FREI0R_PATH=$this_dir/usr/lib/frei0r-1',
                 'MLT_PROFILES_PATH=$this_dir/usr/share/mlt-7/profiles/',
                 'MLT_PRESETS_PATH=$this_dir/usr/share/mlt-7/presets/',
+                'QT_QPA_PLATFORM=xcb',
                 'SDL_AUDIODRIVER=pulseaudio']
         return defines
 

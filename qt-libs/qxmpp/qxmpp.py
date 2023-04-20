@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"qxmpp-{ver}"
         self.targetDigests['1.5.4'] = (
             ['e437fdb91aa52c6fd8ca3f922354eb3221df98146ec99ee92e70e20a82c7ad2d'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '1.5.3'
+        self.defaultTarget = '1.5.4'
 
 
 class Package(CMakePackageBase):
