@@ -20,6 +20,7 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["libs/qt5/qtsvg"] = None
         if CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
+            self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
         if CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/qt5/qtwinextras"] = None
