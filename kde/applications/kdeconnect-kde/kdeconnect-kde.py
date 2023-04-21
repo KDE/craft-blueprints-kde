@@ -11,8 +11,6 @@ class subinfo(info.infoclass):
         self.description = "KDE Connect adds communication between KDE and your smartphone"
         self.displayName = "KDE Connect"
 
-        self.patchToApply["22.08.1"] = [("0001-Prevent-null-pointer-dereference-if-there-s-no-audio.patch", 1)]
-
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
