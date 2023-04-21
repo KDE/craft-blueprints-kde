@@ -8,15 +8,19 @@ class subinfo(info.infoclass):
         self.options.dynamic.setDefault("buildType", "Release")
 
     def setTargets(self):
-        for ver in ["15.0.2"]:
+        for ver in ["15.0.2", "15.0.7", "16.0.1"]:
             self.targets[ver] = f"https://github.com/llvm/llvm-project/releases/download/llvmorg-{ver}/llvm-project-{ver}.src.tar.xz"
             self.targetInstSrc[ver] = f"llvm-project-{ver}.src"
             self.targetConfigurePath[ver] = "llvm"
             self.patchToApply[ver] = [("llvm-15.0.2-20221030.diff", 1)]
         if CraftCore.compiler.isMSVC():
-            self.patchToApply[ver] += [("llvm-15.0.2-20221107.diff", 1)]
+            self.patchToApply[ver] += [("llvm-15.0.2-20221107.diff", 1), ("1b9fbc81ff15f6ad5a0e7f29c486c6edd0bce94c.patch", 1)]
         self.targetDigests["15.0.2"] = (
             ["7877cd67714728556a79e5ec0cc72d66b6926448cf73b12b2cb901b268f7a872"],
+            CraftHash.HashAlgorithm.SHA256,
+        )
+        self.targetDigests["16.0.1"] = (
+            ["ab7e3b95adb88fd5b669ca8c1d3c1e8d2a601c4478290d3ae31d8d70e96f2064"],
             CraftHash.HashAlgorithm.SHA256,
         )
         self.patchLevel["15.0.2"] = 2
@@ -24,7 +28,7 @@ class subinfo(info.infoclass):
         self.description = "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines."
         self.webpage = "http://llvm.org/"
         self.tags = "clang, clang-tools-extra"
-        self.defaultTarget = "15.0.2"
+        self.defaultTarget = "16.0.1"
 
     def setDependencies(self):
         # workaround, ensure system clang is used to build bjam
@@ -50,7 +54,7 @@ class Package(CMakePackageBase):
             "-DLLVM_INCLUDE_GO_TESTS=OFF",
             "-DLLVM_INCLUDE_EXAMPLES=OFF",
             "-DLLVM_BUILD_EXAMPLES=OFF",
-            "-DLLVM_TARGETS_TO_BUILD=all",
+            "-DLLVM_TARGETS_TO_BUILD=X86;ARM",
             "-DLLVM_ENABLE_RTTI=ON",
             "-DLLVM_ENABLE_EH=ON",
             "-DLLVM_INCLUDE_DOCS=OFF",
