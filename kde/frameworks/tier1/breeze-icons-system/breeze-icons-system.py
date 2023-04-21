@@ -1,4 +1,5 @@
 import info
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
