@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.svnTargets['master'] = 'https://invent.kde.org/utilities/isoimagewriter.git'
+        self.svnTargets["master"] = "https://invent.kde.org/utilities/isoimagewriter.git"
         for ver in ["1.0.0"]:
             self.targets[ver] = "https://download.kde.org/stable/isoimagewriter/%s/isoimagewriter-%s.tar.xz" % (ver, ver)
             self.targetInstSrc[ver] = "isoimagewriter-%s" % ver
@@ -22,6 +22,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+        # we need the system icon for the creation of the appimage
+        self.buildDependencies["kde/frameworks/tier1/breeze-icons-system"] = None
+
 
 from Package.CMakePackageBase import *
 
@@ -40,6 +43,6 @@ class Package(CMakePackageBase):
         return True
 
     def createPackage(self):
-        self.defines["shortcuts"] = [{"name" : "KDE ISO Image Writer", "target":"bin/isoimagewriter.exe", "description" : self.subinfo.description}]
+        self.defines["shortcuts"] = [{"name": "KDE ISO Image Writer", "target": "bin/isoimagewriter.exe", "description": self.subinfo.description}]
         self.defines["icon"] = os.path.join(self.packageDir(), "isoimagewriter.ico")
         return super().createPackage()

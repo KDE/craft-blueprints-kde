@@ -26,7 +26,7 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         if self.subinfo.options.dynamic.useIconResource:
-            self.subinfo.options.configure.args = " -DBINARY_ICONS_RESOURCE=ON -DSKIP_INSTALL_ICONS=ON"
+            self.subinfo.options.configure.args += ["-DBINARY_ICONS_RESOURCE=ON", "-DSKIP_INSTALL_ICONS=ON"]
 
     def install(self):
         if not CMakePackageBase.install(self):
