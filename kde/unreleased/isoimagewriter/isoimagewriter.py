@@ -1,3 +1,4 @@
+from Packager.AppImagePackager import AppImagePackager
 import info
 
 
