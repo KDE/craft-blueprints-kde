@@ -39,6 +39,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isWindows:
             manifest = os.path.join(self.sourceDir(), "res", "isoimagewriter.manifest")
             app = os.path.join(self.installDir(), "bin", "isoimagewriter.exe")
+            self.addExecutableFilter(r"bin/(?!(isoimagewriter|update-mime-database|kioslave)).*")
             return utils.embedManifest(app, manifest)
         if OsUtils.isLinux() and isinstance(self, AppImagePackager):
             utils.copyFile(
