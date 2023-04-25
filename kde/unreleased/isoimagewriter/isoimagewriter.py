@@ -1,7 +1,6 @@
 from Packager.AppImagePackager import AppImagePackager
 import info
 
-
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -52,5 +51,5 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["shortcuts"] = [{"name": "KDE ISO Image Writer", "target": "bin/isoimagewriter.exe", "description": self.subinfo.description}]
         self.defines["icon"] = os.path.join(self.packageDir(), "isoimagewriter.ico")
-        self.defines["name"] = "KDEe.V.56633903C3C16"
+        self.defines["name"] = "KDEe.V.450937C45433E"
         return super().createPackage()
