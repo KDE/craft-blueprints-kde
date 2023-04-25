@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = "isoimagewriter-%s" % ver
         self.defaultTarget = "1.0.0"
 
-        self.displayName = "KDE ISO Image Writer"
+        self.displayName = "ISO Image Writer"
         self.description = "A tool to write ISO images to USB flash drives"
 
     def setDependencies(self):
