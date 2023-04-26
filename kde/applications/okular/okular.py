@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtimageformats"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/tiff"] = None
         self.runtimeDependencies["libs/zlib"] = None
@@ -17,6 +18,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isMacOS and not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["qt-libs/phonon-vlc"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kimageformats"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
