@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "0.42.2"
 
     def setDependencies(self):
+        self.buildDependencies["python-modules/meson"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libpng"] = None
 

@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "0.20.4"
 
     def setDependencies(self):
+        self.buildDependencies["python-modules/meson"] = None
         self.buildDependencies["data/docbook-xsl"] = None
         self.runtimeDependencies["libs/glib"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
