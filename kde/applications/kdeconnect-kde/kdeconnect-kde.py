@@ -29,6 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
