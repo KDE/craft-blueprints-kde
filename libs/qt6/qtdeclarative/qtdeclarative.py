@@ -19,11 +19,5 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
-    def make(self):
-        env = {}
-        if CraftCore.compiler.isWindows:
-            # shorten the path to qsb.exe ...
-            shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "bin").shortPath
-            env["PATH"] = f"{shortDevUtils}/bin;{os.environ['PATH']}"
-        with utils.ScopedEnv(env):
-            return super().make()
+    def sourceDir(self) -> Path:
+        return CraftShortPath(super().sourceDir()).shortPath
