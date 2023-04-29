@@ -6,9 +6,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/openssl"] = None
-        self.runtimeDependencies["libs/gcrypt"] = None
-        # cyrus-sasl currently fails to build with mingw
-        if not CraftCore.compiler.isMinGW():
+
+        # gcrypt currently fails to build for android
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/gcrypt"] = None
+
+        # cyrus-sasl currently fails to build with mingw / for android
+        if not CraftCore.compiler.isMinGW() and not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/cyrus-sasl"] = None
 
     def setTargets(self):
