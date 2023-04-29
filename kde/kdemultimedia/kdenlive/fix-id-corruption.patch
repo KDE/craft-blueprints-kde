@@ -1,0 +1,11 @@
+--- a/src/timeline2/model/builders/meltBuilder.cpp	2023-04-14 05:14:19.000000000 +0200
++++ b/src/timeline2/model/builders/meltBuilder.cpp	2023-04-29 18:11:24.462545689 +0200
+@@ -95,7 +95,7 @@
+             pCore->bin()->loadBinProperties(foldersToExpand, zoomLevel);
+         }
+     } else {
+-        binIdCorresp.clear();
++        // loading an extra timeline
+     }
+ 
+     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"),
