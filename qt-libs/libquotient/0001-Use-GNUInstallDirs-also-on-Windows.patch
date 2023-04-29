@@ -8,33 +8,36 @@ Subject: [PATCH] Use GNUInstallDirs also on Windows
  1 file changed, 2 insertions(+), 16 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 5c1babc5..89f5c020 100644
+index 750ed771..7c815ab5 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -11,22 +11,8 @@ option(${PROJECT_NAME}_INSTALL_TESTS "install quotest (former qmc-example) appli
- option(${PROJECT_NAME}_ENABLE_E2EE "end-to-end encryption (E2EE) support" OFF)
- 
- include(CheckCXXCompilerFlag)
+@@ -51,25 +51,8 @@ else()
+     add_compile_options(-fno-exceptions)
+ endif()
+
 -if (WIN32)
 -    if (NOT CMAKE_INSTALL_LIBDIR)
 -        set(CMAKE_INSTALL_LIBDIR ".")
--    endif ()
+-        set(CMakeFilesLocation "cmake")
+-    else()
+-        set(CMakeFilesLocation "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+-    endif()
 -
 -    if (NOT CMAKE_INSTALL_BINDIR)
 -        set(CMAKE_INSTALL_BINDIR ".")
--    endif ()
+-    endif()
 -
 -    if (NOT CMAKE_INSTALL_INCLUDEDIR)
 -        set(CMAKE_INSTALL_INCLUDEDIR "include")
--    endif ()
+-    endif()
 -else()
 -    include(GNUInstallDirs)
--    set(INCLUDEDIR_INIT ${PROJECT_NAME})
+-    set(CMakeFilesLocation "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 -endif(WIN32)
 +include(GNUInstallDirs)
-+set(INCLUDEDIR_INIT ${PROJECT_NAME})
++set(CMakeFilesLocation "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
  set(${PROJECT_NAME}_INSTALL_INCLUDEDIR
-         "${CMAKE_INSTALL_INCLUDEDIR}/${INCLUDEDIR_INIT}" CACHE PATH
+         "${CMAKE_INSTALL_INCLUDEDIR}/" CACHE PATH
          "directory to install ${PROJECT_NAME} include files to")
 -- 
 2.34.1
