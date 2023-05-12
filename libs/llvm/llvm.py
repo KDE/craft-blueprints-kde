@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
             CraftHash.HashAlgorithm.SHA256,
         )
         self.patchLevel["15.0.2"] = 2
+        self.patchLevel["16.0.1"] = 1
 
         self.description = "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines."
         self.webpage = "http://llvm.org/"
@@ -54,7 +55,7 @@ class Package(CMakePackageBase):
             "-DLLVM_INCLUDE_GO_TESTS=OFF",
             "-DLLVM_INCLUDE_EXAMPLES=OFF",
             "-DLLVM_BUILD_EXAMPLES=OFF",
-            "-DLLVM_TARGETS_TO_BUILD=X86;ARM",
+            "-DLLVM_TARGETS_TO_BUILD=X86;AArch64",
             "-DLLVM_ENABLE_RTTI=ON",
             "-DLLVM_ENABLE_EH=ON",
             "-DLLVM_INCLUDE_DOCS=OFF",
