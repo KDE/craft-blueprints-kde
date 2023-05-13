@@ -5,9 +5,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        if CraftCore.compiler.isWindows:
-            self.patchToApply["5.100.0"] = [("fix-window-size.patch", 1)]
-
         self.description = "KConfig"
 
     def setDependencies(self):
