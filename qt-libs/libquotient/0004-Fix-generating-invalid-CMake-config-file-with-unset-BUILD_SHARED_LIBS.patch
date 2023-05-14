@@ -1,0 +1,28 @@
+commit 2b1f7a9e4b0123ae4359ea5ae10aa700e9c20c59
+Author: Volker Krause <vkrause@kde.org>
+Date:   Sun May 14 14:51:55 2023 +0200
+
+    Fix generating an invalid CMake config file with unset BUILD_SHARED_LIBS
+    
+    PR #656 missed that case, resulting in an invalid if() expression if
+    BUILD_SHARED_LIBS in undefined rather than set to a boolean value.
+    Explicitly set it to false in that case, to avoid that problem.
+    
+    Found by NeoChat's Flatpak CI build.
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3592642d..31519053 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -368,6 +368,11 @@ write_basic_package_version_file(
+ export(PACKAGE ${QUOTIENT_LIB_NAME})
+ export(EXPORT ${QUOTIENT_LIB_NAME}Targets
+        FILE "${CMAKE_CURRENT_BINARY_DIR}/${QUOTIENT_LIB_NAME}/${QUOTIENT_LIB_NAME}Targets.cmake")
++
++# make sure BUILD_SHARED_LIBS is always defined for generating the QuotientConfig.cmake file
++if (NOT DEFINED BUILD_SHARED_LIBS)
++    set(BUILD_SHARED_LIBS OFF)
++endif()
+ configure_file(cmake/${PROJECT_NAME}Config.cmake.in
+     "${CMAKE_CURRENT_BINARY_DIR}/${QUOTIENT_LIB_NAME}/${QUOTIENT_LIB_NAME}Config.cmake"
+     @ONLY
