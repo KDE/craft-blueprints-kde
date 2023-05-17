@@ -1,0 +1,21 @@
+diff -Nrub -x *~ -x *\.rej -x *\.orig -x *\.o -x *\.pyc -x CMakeLists.txt.user qtimageformats-everywhere-src-6.4.3.orig/CMakeLists.txt qtimageformats-everywhere-src-6.4.3/CMakeLists.txt
+--- qtimageformats-everywhere-src-6.4.3.orig/CMakeLists.txt	2023-03-11 19:16:45
++++ qtimageformats-everywhere-src-6.4.3/CMakeLists.txt	2023-05-17 11:07:17
+@@ -9,7 +9,16 @@
+     HOMEPAGE_URL "https://qt.io/"
+     LANGUAGES CXX C
+ )
+-
++find_package(Threads)
++set_property(TARGET Threads::Threads PROPERTY _qt_no_promote_global TRUE)
++find_package(ZLIB)
++if(TARGET ZLIB::ZLIB)
++	set_property(TARGET ZLIB::ZLIB PROPERTY _qt_no_promote_global TRUE)
++endif()
++find_package(JPEG)
++if(TARGET JPEG::JPEG)
++	set_property(TARGET JPEG::JPEG PROPERTY _qt_no_promote_global TRUE)
++endif()
+ find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS BuildInternals Core) # special case
+ find_package(Qt6 ${PROJECT_VERSION} QUIET CONFIG OPTIONAL_COMPONENTS Gui) # special case
+ if(NOT TARGET Qt::Gui)
