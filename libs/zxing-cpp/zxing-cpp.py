@@ -14,6 +14,9 @@ class subinfo(info.infoclass):
         self.targetInstSrc[self.defaultTarget] = f"zxing-cpp-{self.defaultTarget}"
         self.targetDigests[self.defaultTarget] = (
             ['12b76b7005c30d34265fc20356d340da179b0b4d43d2c1b35bcca86776069f76'], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply['2.0.0'] = [('0001-missing-stdexcept-include.patch', 1)]
+        self.patchLevel['2.0.0'] = 1
+
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
