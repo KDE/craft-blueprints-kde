@@ -47,7 +47,6 @@ class subinfo(info.infoclass):
                 self.runtimeDependencies["libs/dav1d"] = None
             self.runtimeDependencies["libs/zimg"] = None
         if not CraftCore.compiler.isMacOS:
-            self.buildDependencies["libs/onevpl"] = None
             self.buildDependencies["libs/amf"] = None
             self.buildDependencies["libs/nvidia-codecs"] = None
         if CraftCore.compiler.isLinux:
@@ -100,7 +99,7 @@ class Package(AutoToolsPackageBase):
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["--enable-rpath", "--install-name-dir=@rpath"]
         else:
-            self.subinfo.options.configure.args += ["--enable-ffnvcodec", "--enable-nvdec", "--enable-nvenc", "--enable-cuvid", "--enable-amf", "--enable-libvpl"]
+            self.subinfo.options.configure.args += ["--enable-ffnvcodec", "--enable-nvdec", "--enable-nvenc", "--enable-cuvid", "--enable-amf"]
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["--enable-vaapi", "--enable-vdpau", "--enable-libmfx"]
 
