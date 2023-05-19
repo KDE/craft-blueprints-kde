@@ -3,17 +3,13 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "x264 video coding library"
-        git = {'20220326': '5db6aa6cab1b146e07b60cc1736a01f21da01154'}
-        for ver in git.keys():
-            self.targets[ver] = f"https://code.videolan.org/videolan/x264/-/archive/{git[ver]}/x264-{git[ver]}.tar.bz2"
-            self.targetInstSrc[ver] = f"x264-{git[ver]}"
-        self.targetDigests['20220326'] = (['05a60491ef2e96d7bd3487576fbfded2677d7185dd53f59e263d18d050b836de'], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply["20220326"] = [("shebang-fix.diff", 1)]
+        self.svnTargets['eaa68fa'] = "https://github.com/mirror/x264.git||eaa68fad9e5d201d42fde51665f2d137ae96baf0"
+        self.patchToApply["eaa68fa"] = [("shebang-fix.diff", 1)]
         if CraftCore.compiler.isWindows:
             # copy make file instead of creating a symlink
-            self.patchToApply["20220326"] = [("fix-paths-and-symlinks-win.diff", 1)]
+            self.patchToApply["eaa68fa"] = [("fix-paths-and-symlinks-win.diff", 1)]
 
-        self.defaultTarget = '20220326'
+        self.defaultTarget = 'eaa68fa'
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/nasm"] = None
