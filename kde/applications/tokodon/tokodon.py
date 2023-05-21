@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["libs/qt5/qtwebsockets"] = None
-        self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
+        self.runtimeDependencies["libs/mpv"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
