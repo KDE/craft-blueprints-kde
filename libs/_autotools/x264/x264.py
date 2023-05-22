@@ -20,8 +20,8 @@ from Package.AutoToolsPackageBase import *
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        # if self.package.isInstalled: # this is causing rebuild every time
-        #     PackageBase.unmerge(self) # else build picks old incompatible includes
+        if self.package.isInstalled: # this is causing rebuild every time
+            PackageBase.unmerge(self) # else build picks old incompatible includes
         self.subinfo.options.configure.args = "--enable-shared --disable-cli --disable-avs --disable-lavf --disable-swscale --disable-ffms --disable-gpac --enable-pic"
 
 
