@@ -12,9 +12,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.buildDependencies[f"libs/qt6/{self.parent.package.name}"] = None
+            self.runtimeDependencies[f"libs/qt6/{self.parent.package.name}"] = None
         else:
-            self.buildDependencies[f"libs/qt5/{self.parent.package.name}"] = None
+            self.runtimeDependencies[f"libs/qt5/{self.parent.package.name}"] = None
 
 
 class Package(VirtualPackageBase):
