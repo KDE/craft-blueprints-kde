@@ -11,8 +11,6 @@ class subinfo(info.infoclass):
         self.description = "KDE Connect adds communication between KDE and your smartphone"
         self.displayName = "KDE Connect"
 
-        self.patchToApply["22.08.1"] = [("0001-Prevent-null-pointer-dereference-if-there-s-no-audio.patch", 1)]
-
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
@@ -31,6 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
         self.runtimeDependencies["kde/plasma/breeze"] = None
 

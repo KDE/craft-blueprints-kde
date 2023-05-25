@@ -14,10 +14,10 @@ class subinfo(info.infoclass):
 
         self.svnTargets['master'] = "https://github.com/mltframework/mlt.git"
         self.patchLevel['master'] = 20221103
-        self.svnTargets['13f0949'] = "https://github.com/mltframework/mlt.git||13f094925d7b71321d125f2c4f006fb00d2f2a2d"
-        self.defaultTarget = '13f0949'
+        self.svnTargets['67d5efd'] = "https://github.com/mltframework/mlt.git||67d5efd034c3cb746468dc37d8885aeacdf7f07c"
+        self.defaultTarget = '67d5efd'
         if CraftCore.compiler.isWindows:
-            self.patchToApply["13f0949"] = [("pi_patch.diff", 1)]
+            self.patchToApply["2c614ae"] = [("pi_patch.diff", 1)]
 
     def setDependencies( self ):
         self.buildDependencies["dev-utils/pkg-config"] = None
@@ -66,11 +66,14 @@ class Package(CMakePackageBase):
             "-DRELOCATABLE=ON",
             "-DMOD_GDK=OFF" # don't pull in gtk
         ]
+
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE=ON"]
         else:
             self.subinfo.options.configure.args += ["-DMOD_QT=OFF", "-DMOD_QT6=ON", "-DMOD_GLAXNIMATE_QT6=ON"]
 
+        if CraftCore.compiler.isWindows:
+            self.subinfo.options.configure.args += "-DCMAKE_C_FLAGS=-Wno-incompatible-pointer-types"
         self.subinfo.options.configure.cxxflags += f" -D_XOPEN_SOURCE=700 "
 
     def install(self):

@@ -31,15 +31,16 @@ from Package.VirtualPackageBase import VirtualPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["3.7.2","3.7.4"]:
-            self.targets[ver] = "ftp://ftp.gnutls.org/gcrypt/gnutls/v3.7/gnutls-%s.tar.xz" % ver
-            self.targetInstSrc[ver] = "gnutls-%s" % ver
+        for ver in ["3.7.2", "3.7.4", "3.8.0"]:
+            self.targets[ver] = f"ftp://ftp.gnutls.org/gcrypt/gnutls/v{ver[:3]}/gnutls-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"gnutls-{ver}"
 
         self.targetDigests['3.7.2'] = (['646e6c5a9a185faa4cea796d378a1ba8e1148dbb197ca6605f95986a25af2752'], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests['3.7.4'] = (['e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests['3.8.0'] = (['0ea0d11a1660a1e63f960f157b197abe6d0c8cb3255be24e1fb3815930b9bdc5'], CraftHash.HashAlgorithm.SHA256)
         self.description = "A library which provides a secure layer over a reliable transport layer"
         self.webpage = "https://www.gnutls.org/"
-        self.defaultTarget = "3.7.4"
+        self.defaultTarget = "3.8.0"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gtk-doc"] = None

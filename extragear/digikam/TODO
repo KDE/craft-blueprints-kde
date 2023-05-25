@@ -1,7 +1,7 @@
 1/ Common fixes:
 ----------------
 
-+ Add more Craft dependencies support: libheif, libjasper, libmagick++, libjxl, liblqr.
++ Add more Craft dependencies support: libheif (libde265 + libx265 dependencies), libjasper, libmagick++, libjxl, liblqr.
 + Update Craft dependencies as rolling-release: libexiv2, liblensfun.
 + Integrate 3rdparty digiKam plugins: MosaicWall, GMicQt.
 + Integrate 3rdparty digiKam rolling-release manifest.txt in the bundle.

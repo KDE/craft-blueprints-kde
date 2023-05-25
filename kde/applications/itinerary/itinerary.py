@@ -8,9 +8,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/pim/itinerary.git")
         self.description = "Digital travel assistant app"
 
-        self.patchToApply["22.08.3"] = [("0001-qt5-15-android-compatibility.diff", 1)]
-        self.patchToApply["22.12.2"] = [("0002-android-12-compat.diff", 1)]
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchLevel["22.08.3"] = 2
+        self.patchLevel["22.12.3"] = 1
 
         self.description = "Extra plugins for KIO (thumbnail generators, archives, remote filesystems and more)"
 
@@ -32,6 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdnssd"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
+        self.runtimeDependencies["kde/applications/libkexiv2"] = None
 
 from Blueprints.CraftPackageObject import CraftPackageObject
 

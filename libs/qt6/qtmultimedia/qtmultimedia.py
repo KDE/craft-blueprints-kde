@@ -8,6 +8,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt6/qtshadertools"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/ffmpeg"] = None
 
 from Package.CMakePackageBase import *
 class Package(CMakePackageBase):

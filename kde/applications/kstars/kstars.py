@@ -7,9 +7,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         
         self.description = 'a desktop planetarium'
-        self.svnTargets['3.6.3'] = 'https://invent.kde.org/education/kstars.git|stable-3.6.3'
+        self.svnTargets['3.6.4'] = 'https://invent.kde.org/education/kstars.git|stable-3.6.4'
         self.svnTargets['master'] = "https://github.com/KDE/kstars.git"
-        self.defaultTarget = '3.6.3'
+        self.defaultTarget = '3.6.4'
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
@@ -35,6 +35,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
         self.runtimeDependencies["libs/eigen3"] = None
         self.runtimeDependencies["libs/cfitsio"] = None
+        self.runtimeDependencies["libs/xisf"] = None
         self.runtimeDependencies["libs/wcslib"] = None
 
         if CraftCore.compiler.isMacOS:

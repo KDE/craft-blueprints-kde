@@ -259,12 +259,6 @@ class Package(CMakePackageBase):
                                             "description" : "digiKam stand alone Image Editor",
                                             "icon"        : "$INSTDIR\\showfoto.ico"
                                         },
-                                        {
-                                            "name"        : "AVPlayer",
-                                            "target"      : "bin/avplayer.exe",
-                                            "description" : "digiKam stand alone Media Player",
-                                            "icon"        : "$INSTDIR\\avplayer.ico"
-                                        }
                                       ]
 
         # Files to drop from the bundles
@@ -295,11 +289,6 @@ class Package(CMakePackageBase):
             if not utils.copyFile(os.path.join(self.packageDir(),     "showfoto.ico"),
                                   os.path.join(self.archiveDir(),     "showfoto.ico")):
                 print("Could not copy showfoto.ico file")
-                return False
-
-            if not utils.copyFile(os.path.join(self.packageDir(),     "avplayer.ico"),
-                                  os.path.join(self.archiveDir(),     "avplayer.ico")):
-                print("Could not copy avplayer.ico file")
                 return False
 
         if CraftCore.compiler.isMSVC():

@@ -1,4 +1,5 @@
 import info
+import utils
 
 
 class subinfo(info.infoclass):
@@ -10,7 +11,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtshadertools"] = None
 
+
 from Package.CMakePackageBase import *
+
+
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)

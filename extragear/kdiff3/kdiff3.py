@@ -42,6 +42,9 @@ class Package(CMakePackageBase):
         !define DIFF_EXT_DLL "kdiff3ext.dll"
         
         SetRegView 64
+        ;remove old diff-ext settings
+        DeleteRegKey HKCU  "Software\KDiff3"
+
         WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}" "" "${DIFF_EXT_ID}"
         WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}\InProcServer32" "" "$INSTDIR\bin\${DIFF_EXT_DLL}"
         WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}\InProcServer32" "ThreadingModel" "Apartment"
@@ -50,17 +53,26 @@ class Package(CMakePackageBase):
         WriteRegStr SHCTX "Software\Classes\Folder\shellex\ContextMenuHandlers\${DIFF_EXT_ID}" "" "${DIFF_EXT_CLSID}"
         WriteRegStr SHCTX "Software\Classes\Directory\shellex\ContextMenuHandlers\${DIFF_EXT_ID}" "" "${DIFF_EXT_CLSID}"
 
-        WriteRegStr SHCTX "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\bin\kdiff3.exe" "~ DPIUNAWARE"
         SetRegView 32
 
+        ;remove old diff-ext settings
+        DeleteRegKey HKCU  "Software\KDiff3"
+        ;Maybe left behind due to a bug in previous installers.
+        DeleteRegKey SHCTX  "Software\KDE\KDiff3"
+        DeleteRegKey /ifempty SHCTX  "Software\KDE\"
+        
         WriteRegStr HKCU  "${regkey}\diff-ext" "" ""
         WriteRegStr HKCU "${regkey}\diff-ext" "InstallDir" "$INSTDIR\bin"
         WriteRegStr HKCU "${regkey}\diff-ext" "diffcommand" "$INSTDIR\bin\kdiff3.exe"
+        ;NSIS Does not seem to support translated text.
+        MessageBox MB_OK|MB_ICONEXCLAMATION "A reboot may be needed to complete install if upgrading from pre-1.8."
+        
                 """
             self.defines["un_sections"] = r"""
                     Section "Un.Cleanup Stray Files"
                         RMDir /r /rebootok  $INSTDIR\bin
-                    SectionEnd
+                        RMDir /REBOOTOK $INSTDIR
+                    SectionEnd""" + r"""
                     
                     Section "Un.Cleanup Regsistry"
                         SetRegView 64
@@ -83,7 +95,7 @@ class Package(CMakePackageBase):
             # Windows app store has special requirements for the version format
             # Craft attempts to alter the second and third number so we have to adjust to craft's logic as well.
                         
-            self.defines["version"] = "1.0.100"
+            self.defines["version"] = "1.0.101"
             self.defines["un_sections"] = r"""
         Section "Un.Cleanup Regsistry"
         ;Maybe left behind due to a bug in previous installers.

@@ -4,9 +4,9 @@ from Blueprints.CraftVersion import CraftVersion
 
 class subinfo(info.infoclass):
     def setTargets( self ):
-        self.versionInfo.setDefaultValues()
-        # self.svnTargets[ 'master' ] = 'https://anongit.kde.org/calligra.git'
-        # self.defaultTarget = 'master'
+        # self.versionInfo.setDefaultValues()
+        self.svnTargets[ 'master' ] = 'https://anongit.kde.org/calligra.git'
+        self.defaultTarget = 'master'
         self.description = 'The Integrated Work Applications Suite by KDE'
         self.webpage = "https://calligra.org/"
         self.displayName = "Calligra Gemini"

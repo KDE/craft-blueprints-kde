@@ -1,8 +1,9 @@
 import os
 
-from CraftCore import CraftCore
 import info
 import utils
+from CraftCore import CraftCore
+
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -39,20 +40,20 @@ class subinfo(info.infoclass):
 
 
 from Package.CMakePackageBase import *
+
+
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
         self.subinfo.options.configure.args += [
             "-DFEATURE_pkg_config=ON",
-            
             "-DFEATURE_system_sqlite=ON",
             "-DFEATURE_system_zlib=ON",
             "-DFEATURE_system_freetype=ON",
-
+            "-DQT_FEATURE_brotli=OFF",
             "-DFEATURE_openssl_linked=ON",
-
-            "-DQT_BUILD_EXAMPLES=OFF"
+            "-DQT_BUILD_EXAMPLES=OFF",
         ]
 
         if self.subinfo.options.isActive("libs/pcre2"):
@@ -68,8 +69,7 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DFEATURE_glib=OFF"]
 
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += [f"-DANDROID_ABI={CraftCore.compiler.androidAbi}",
-                                                    "-DECM_THREADS_WORKAROUND=OFF"]
+            self.subinfo.options.configure.args += [f"-DANDROID_ABI={CraftCore.compiler.androidAbi}", "-DECM_THREADS_WORKAROUND=OFF"]
 
         if self.subinfo.options.dynamic.useLtcg:
             self.subinfo.options.configure.args += ["-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON"]

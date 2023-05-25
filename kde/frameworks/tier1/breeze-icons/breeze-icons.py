@@ -33,7 +33,7 @@ class Package(CraftPackageObject.get('kde').pattern):
     def __init__(self):
         CraftPackageObject.get('kde').pattern.__init__(self)
         if self.subinfo.options.dynamic.useIconResource:
-            self.subinfo.options.configure.args += ["-DBINARY_ICONS_RESOURCE=ON -DSKIP_INSTALL_ICONS=ON"]
+            self.subinfo.options.configure.args += ["-DBINARY_ICONS_RESOURCE=ON", "-DSKIP_INSTALL_ICONS=ON"]
 
     def install(self):
         if not CraftPackageObject.get('kde').pattern.install(self):

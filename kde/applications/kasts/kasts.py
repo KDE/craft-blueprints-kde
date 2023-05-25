@@ -28,6 +28,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/breeze"] = None
         else:
             self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
+            self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
         if CraftCore.compiler.isWindows:
             self.runtimeDependencies["binary/vlc"] = None

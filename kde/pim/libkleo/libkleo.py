@@ -7,9 +7,6 @@ class subinfo(info.infoclass):
 
         self.description = "Crypto library"
 
-        self.patchToApply["22.12.2"] = [("22122-build-fix.diff", 1)]
-        self.patchLevel["22.12.2"] = 1
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

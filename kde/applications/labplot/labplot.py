@@ -11,7 +11,9 @@ class subinfo(info.infoclass):
 
         for ver in ['2.7.0', '2.8.0', '2.8.1', '2.8.2', '2.9.0']:
             self.targets[ver] = 'http://download.kde.org/stable/labplot/%s/labplot-%s.tar.xz' % (ver, ver)
-        for ver in ['2.7.0', '2.8.0', '2.8.1', '2.8.2', '2.9.0']:
+        for ver in ['2.10.0']:
+            self.targets[ver] = 'http://download.kde.org/stable/labplot/labplot-%s.tar.xz' % ver
+        for ver in ['2.7.0', '2.8.0', '2.8.1', '2.8.2', '2.9.0', '2.10.0']:
             self.targetInstSrc[ver] = 'labplot-%s' % ver
         # beta versions
         for ver in ['2.8.99']:
@@ -22,7 +24,7 @@ class subinfo(info.infoclass):
         self.patchToApply['2.9.0'] = [('labplot-2.9.0.patch', 1)]
         self.patchLevel['2.9.0'] = 1
 
-        self.defaultTarget = '2.9.0'
+        self.defaultTarget = '2.10.0'
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -80,7 +82,7 @@ from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        #self.subinfo.options.configure.args += "-DENABLE_TESTS=OFF"
+        self.subinfo.options.configure.args += "-DLOCAL_DBC_PARSER=ON -DLOCAL_VECTOR_BLF=ON"
         if CraftCore.compiler.isMacOS:
             # readstat fails with ninja
             self.supportsNinja = False
@@ -91,7 +93,7 @@ class Package(CMakePackageBase):
         result = super().install()
         if CraftCore.compiler.isWindows:
             pythonPath = CraftCore.settings.get("Paths", "PYTHON")
-            utils.copyFile(os.path.join(pythonPath, "python38.dll"), os.path.join(self.imageDir(), "bin"), linkOnly=False)
+            utils.copyFile(os.path.join(pythonPath, "python310.dll"), os.path.join(self.imageDir(), "bin"), linkOnly=False)
         return result
 
     def createPackage(self):

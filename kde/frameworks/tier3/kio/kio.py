@@ -6,12 +6,6 @@ from CraftOS.osutils import OsUtils
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-
-        if CraftCore.compiler.isMinGW():
-            self.patchToApply["5.98.0"] = [("fix-mingw-STAT_LNK.patch", 1)]
-            self.patchToApply["5.99.0"] = [("fix-mingw-STAT_LNK.patch", 1)]
-            self.patchLevel["5.98.0"] = 1
-
         self.description = "Network transparent access to files and data"
 
     def setDependencies(self):

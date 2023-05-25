@@ -6,6 +6,8 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Libre Video Editor, by KDE community"
+        self.patchToApply["23.04.0"] = [("fix-id-corruption.patch", 1)]
+        self.patchLevel["23.04.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -81,6 +83,7 @@ class Package(CraftPackageObject.get('kde').pattern):
                 'FREI0R_PATH=$this_dir/usr/lib/frei0r-1',
                 'MLT_PROFILES_PATH=$this_dir/usr/share/mlt-7/profiles/',
                 'MLT_PRESETS_PATH=$this_dir/usr/share/mlt-7/presets/',
+                'QT_QPA_PLATFORM=xcb',
                 'SDL_AUDIODRIVER=pulseaudio']
         return defines
 
