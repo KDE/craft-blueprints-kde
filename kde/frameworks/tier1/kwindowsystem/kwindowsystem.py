@@ -13,13 +13,14 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            if OsUtils.isUnix()
+            if OsUtils.isUnix():
                 self.runtimeDependencies["libs/qt5/qtx11extras"] = None
             else:
                 self.runtimeDependencies["libs/qt5/qtwinextras"] = None
 
 
 from Blueprints.CraftPackageObject import CraftPackageObject
+
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
