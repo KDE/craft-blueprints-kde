@@ -53,6 +53,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/iconv"] = None
         self.runtimeDependencies["libs/fontconfig"] = None
         self.runtimeDependencies["data/poppler-data"] = None
+        self.runtimeDependencies["data/urw-base35-fonts"] = None
         self.runtimeDependencies["libs/nss"] = None
         if self.options.dynamic.buildQt5Frontend:
             self.runtimeDependencies["libs/qt5/qtbase"] = None

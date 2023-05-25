@@ -7,8 +7,6 @@ class subinfo(info.infoclass):
 
         self.description = "KImageFormats"
 
-        self.patchLevel["5.100.0"] = 1
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.patchToApply["5.15.5"] = [(".qt-5.15.5", 1)]
         self.patchToApply["kde/5.15"] = [(".qt-kde-5.15", 1)]
         self.patchLevel["5.15.2"] = 1
+        self.patchLevel["kde/5.15"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None

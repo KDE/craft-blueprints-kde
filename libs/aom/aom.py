@@ -4,9 +4,9 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "An open, royalty-free video coding format designed for video transmissions over the Internet"
-        ver = "3.1.3"
-        self.defaultTarget = ver
-        self.targets[ver] = f"https://aomedia.googlesource.com/aom.git/+archive/v{ver}.tar.gz"
+        for ver in ["3.1.3", "3.6.1"]:
+            self.targets[ver] = f"https://aomedia.googlesource.com/aom.git/+archive/v{ver}.tar.gz"
+        self.defaultTarget = "3.6.1"
         # self.targetDigests[ver] =  (['non-reproducible archive :-('], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):

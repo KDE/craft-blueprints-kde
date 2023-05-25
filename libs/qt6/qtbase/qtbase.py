@@ -56,6 +56,9 @@ class Package(CMakePackageBase):
             "-DQT_BUILD_EXAMPLES=OFF",
         ]
 
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.args += ["-DFEATURE_xcb=ON"]
+
         if self.subinfo.options.isActive("libs/pcre2"):
             self.subinfo.options.configure.args += ["-DFEATURE_system_pcre2=ON"]
 
