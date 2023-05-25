@@ -65,9 +65,9 @@ from Utils import GetFiles
 from Blueprints.CraftPackageObject import CraftPackageObject
 from Packager.AppImagePackager import AppImagePackager
 
-class Package(CraftPackageObject.get('kde').pattern):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CraftPackageObject.get('kde').pattern.__init__(self)
+        CraftPackageObject.get("kde").pattern.__init__(self)
         self.subinfo.options.configure.args += " -DNODBUS=ON"
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += " -DRELEASE_BUILD=OFF"

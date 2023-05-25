@@ -28,9 +28,9 @@ class subinfo(info.infoclass):
 
 from Blueprints.CraftPackageObject import CraftPackageObject
 
-class Package(CraftPackageObject.get('kde').pattern):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CraftPackageObject.get('kde').pattern.__init__(self)
+        CraftPackageObject.get("kde").pattern.__init__(self)
         if OsUtils.isWin():
             self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF5FrameworkIntegration=ON", "-DWITH_DECORATIONS=OFF"]
 
