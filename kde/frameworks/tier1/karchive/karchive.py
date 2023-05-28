@@ -16,7 +16,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/libarchive"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt/qtbase"] = None
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.runtimeDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["libs/libbzip2"] = None

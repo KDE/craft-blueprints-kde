@@ -4,10 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        if self.options.dynamic.buildWithQt6:
-            self.runtimeDependencies["libs/qt6/qtbase"] = None
-        else:
-            self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/openssl"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
         # cyrus-sasl currently fails to build with mingw
@@ -42,5 +39,5 @@ class Package(CMakePackageBase):
         # tests fail to build with missing openssl header
         self.subinfo.options.configure.args = "-DBUILD_TESTS=OFF "
 
-        if self.subinfo.options.dynamic.buildWithQt6:
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.subinfo.options.configure.args += "-DBUILD_WITH_QT6=ON "

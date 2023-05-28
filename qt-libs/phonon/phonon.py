@@ -42,6 +42,7 @@ class Package(CMakePackageBase):
             libDir = self.installDir() / "lib64"
         if (libDir / "x86_64-linux-gnu").is_dir():
             libDir = libDir / "x86_64-linux-gnu"
-        brokenFiles = [ os.path.join(libDir, "cmake", "phonon4qt5", "Phonon4Qt5Config.cmake"),
-                        os.path.join(self.installDir(), "mkspecs", "modules", "qt_phonon4qt5.pri") ]
+        qtMajor = CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion
+        brokenFiles = [ os.path.join(libDir, "cmake", f"phonon4qt{qtMajor}", f"Phonon4Qt{qtMajor}Config.cmake"),
+                        os.path.join(self.installDir(), "mkspecs", "modules", f"qt_phonon4qt{qtMajor}.pri") ]
         return self.patchInstallPrefix(brokenFiles, OsUtils.toUnixPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))

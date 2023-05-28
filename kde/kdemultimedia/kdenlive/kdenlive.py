@@ -1,4 +1,5 @@
 import info
+import os
 from CraftCore import CraftCore
 
 
@@ -68,9 +69,12 @@ from Packager.AppImagePackager import AppImagePackager
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         CraftPackageObject.get("kde").pattern.__init__(self)
-        self.subinfo.options.configure.args += " -DNODBUS=ON"
+        self.subinfo.options.configure.args += ["-DNODBUS=ON"]
         if self.buildTarget == "master":
-            self.subinfo.options.configure.args += " -DRELEASE_BUILD=OFF"
+            self.subinfo.options.configure.args += ["-DRELEASE_BUILD=OFF"]
+
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.subinfo.options.configure.args += ["-DKF_MAJOR=6"]
 
     def setDefaults(self, defines: {str:str}) -> {str:str}:
         defines = super().setDefaults(defines)

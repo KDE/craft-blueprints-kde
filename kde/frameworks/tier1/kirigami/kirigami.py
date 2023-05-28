@@ -16,6 +16,9 @@ class subinfo(info.infoclass):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             self.runtimeDependencies["libs/qt5/qtgraphicaleffects"] = None
             self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+        else:
+            self.runtimeDependencies["libs/qt/qtsvg"] = None
+            self.runtimeDependencies["libs/qt/qttools"] = None
 
 
 from Blueprints.CraftPackageObject import CraftPackageObject
