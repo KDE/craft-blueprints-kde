@@ -65,7 +65,7 @@ class Package(CMakePackageBase):
         WriteRegStr HKCU "${regkey}\diff-ext" "InstallDir" "$INSTDIR\bin"
         WriteRegStr HKCU "${regkey}\diff-ext" "diffcommand" "$INSTDIR\bin\kdiff3.exe"
         ;NSIS Does not seem to support translated text.
-        MessageBox MB_OK|MB_ICONEXCLAMATION "A reboot may be needed to complete install if upgrading from pre-1.8."
+        MessageBox MB_OK|MB_ICONEXCLAMATION "A reboot may be needed to complete install if upgrading from pre-1.8." /SD IDOK
         
                 """
             self.defines["un_sections"] = r"""
