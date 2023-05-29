@@ -2,6 +2,7 @@ import os
 
 import info
 from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
 
 
 class subinfo(info.infoclass):
