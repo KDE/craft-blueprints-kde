@@ -84,6 +84,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libjpeg-turbo"]                  = None
         self.runtimeDependencies["libs/libass"]                         = None
         self.runtimeDependencies["libs/libusb"]                         = None
+        self.runtimeDependencies["libs/cyrus-sasl"]                     = None
         self.runtimeDependencies["libs/qt5/qtbase"]                     = None
         self.runtimeDependencies["libs/qt5/qtsvg"]                      = None
         self.runtimeDependencies["libs/qt5/qtimageformats"]             = None
