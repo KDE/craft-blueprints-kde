@@ -18,8 +18,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["qt-libs/phonon"] = None
         elif CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             self.runtimeDependencies["libs/qt/qtandroidextras"] = None
-        if OsUtils.isMac():
-            self.runtimeDependencies["libs/qt/qtmacextras"] = None
+        if OsUtils.isMac() and CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.runtimeDependencies["libs/qt5/qtmacextras"] = None
         if OsUtils.isWin():
             self.runtimeDependencies["dev-utils/snoretoast"] = None
 
