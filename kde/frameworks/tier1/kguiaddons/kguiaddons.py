@@ -15,7 +15,6 @@ class subinfo(info.infoclass):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             self.runtimeDependencies["libs/qt5/qtx11extras"] = None
         self.runtimeDependencies["kde/libs/plasma-wayland-protocols"] = None
-        
 
 
 from Blueprints.CraftPackageObject import CraftPackageObject

@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "4.11.1"
 
         self.patchToApply["4.10.1"] = [
-            ("phonon-4.10.1-macos-rpath.diff", 1), # fix rpath lokup issue during build
+            ("phonon-4.10.1-macos-rpath.diff", 1),  # fix rpath lokup issue during build
         ]
         self.patchLevel["4.10.1"] = 1
 
@@ -43,6 +43,8 @@ class Package(CMakePackageBase):
         if (libDir / "x86_64-linux-gnu").is_dir():
             libDir = libDir / "x86_64-linux-gnu"
         qtMajor = CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion
-        brokenFiles = [ os.path.join(libDir, "cmake", f"phonon4qt{qtMajor}", f"Phonon4Qt{qtMajor}Config.cmake"),
-                        os.path.join(self.installDir(), "mkspecs", "modules", f"qt_phonon4qt{qtMajor}.pri") ]
+        brokenFiles = [
+            os.path.join(libDir, "cmake", f"phonon4qt{qtMajor}", f"Phonon4Qt{qtMajor}Config.cmake"),
+            os.path.join(self.installDir(), "mkspecs", "modules", f"qt_phonon4qt{qtMajor}.pri"),
+        ]
         return self.patchInstallPrefix(brokenFiles, OsUtils.toUnixPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))

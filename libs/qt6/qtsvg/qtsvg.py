@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
 
+
 from Package.CMakePackageBase import *
 
 

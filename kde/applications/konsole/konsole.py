@@ -29,14 +29,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
-
 from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-
 
     def createPackage(self):
         self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(konsole|update-mime-database|kioslave|kdeinit5)).*")

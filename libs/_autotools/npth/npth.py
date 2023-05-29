@@ -29,29 +29,27 @@ import info
 
 
 class subinfo(info.infoclass):
-    def setTargets( self ):
+    def setTargets(self):
         for ver in ["1.6"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/npth/npth-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"npth-{ver}"
 
-        self.targetDigests[ "1.6" ] = (['1393abd9adcf0762d34798dc34fdcf4d0d22a8410721e76f1e3afcd1daa4e2d1'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.6"] = (["1393abd9adcf0762d34798dc34fdcf4d0d22a8410721e76f1e3afcd1daa4e2d1"], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "1.6"
 
-
-
-    def setDependencies( self ):
+    def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["virtual/base"] = None
+
 
 from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):
-    def __init__( self, **args ):
-        AutoToolsPackageBase.__init__( self )
+    def __init__(self, **args):
+        AutoToolsPackageBase.__init__(self)
 
     def install(self):
         self.subinfo.options.make.supportsMultijob = False
         return super().install()
-

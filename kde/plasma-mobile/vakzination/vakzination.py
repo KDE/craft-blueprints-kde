@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
+
 from Package.CMakePackageBase import *
 
 

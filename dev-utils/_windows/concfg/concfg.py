@@ -28,9 +28,10 @@ class Package(BinaryPackageBase):
     def install(self):
         if not BinaryPackageBase.install(self):
             return False
-        utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "concfg.exe"),
-                         CraftCore.cache.findApplication("powershell"),
-                         args="-NoProfile {path}".format(
-                             path=os.path.join(self.imageDir(), "dev-utils", "concfg", "bin", "concfg.ps1")),
-                         useAbsolutePath=True)
+        utils.createShim(
+            os.path.join(self.imageDir(), "dev-utils", "bin", "concfg.exe"),
+            CraftCore.cache.findApplication("powershell"),
+            args="-NoProfile {path}".format(path=os.path.join(self.imageDir(), "dev-utils", "concfg", "bin", "concfg.ps1")),
+            useAbsolutePath=True,
+        )
         return True

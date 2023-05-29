@@ -25,7 +25,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
 
 
-
 from Blueprints.CraftPackageObject import CraftPackageObject
 
 

@@ -29,6 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kdesupport/grantlee"] = None
 
+
 from Package.CMakePackageBase import *
 
 

@@ -7,8 +7,8 @@ class subinfo(info.infoclass):
     # def setDependencies( self ):
 
     def setTargets(self):
-        self.svnTargets['master'] = ''
-        self.defaultTarget = 'master'
+        self.svnTargets["master"] = ""
+        self.defaultTarget = "master"
 
 
 class Package(PipPackageBase):
@@ -18,7 +18,5 @@ class Package(PipPackageBase):
 
     def install(self):
         pythonPath = CraftCore.settings.get("Paths", "PYTHON")
-        utils.createShim(os.path.join(self.imageDir(), "bin", "pylint.exe"),
-                         os.path.join(pythonPath, "scripts", "pylint"),
-                         useAbsolutePath=True)
+        utils.createShim(os.path.join(self.imageDir(), "bin", "pylint.exe"), os.path.join(pythonPath, "scripts", "pylint"), useAbsolutePath=True)
         return PipBuildSystem.install(self)

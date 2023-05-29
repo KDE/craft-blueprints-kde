@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
 
+
 from Package.CMakePackageBase import *
 
 

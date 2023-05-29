@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.targets[ver] = "https://fc-solve.shlomifish.org/downloads/fc-solve/freecell-solver-%s.tar.xz" % ver
         self.archiveNames[ver] = "freecell-solver-%s.tar.xz" % ver
         self.targetInstSrc[ver] = "freecell-solver-%s" % ver
-        self.targetDigests[ver] =  (['2267758cc00ec7e7f0c47e61f398032afb4bb5386d1e54d5164ca815547f7423'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[ver] = (["2267758cc00ec7e7f0c47e61f398032afb4bb5386d1e54d5164ca815547f7423"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["libs/rinutils"] = None

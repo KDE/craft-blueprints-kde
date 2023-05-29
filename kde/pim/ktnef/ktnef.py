@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/pim/kcalutils"] = None
 
+
 from Package.CMakePackageBase import *
 
 

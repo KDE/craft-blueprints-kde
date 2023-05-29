@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         if self.options.dynamic.useHunspell:
             self.runtimeDependencies["libs/hunspell"] = None
 
+
 from Blueprints.CraftPackageObject import CraftPackageObject
 
 

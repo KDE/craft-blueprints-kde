@@ -5,8 +5,12 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         for ver in self.targets:
-            self.targets[ver] = self.versionInfo.format("http://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz", ver)
-            self.targetDigestUrls[ver] = self.versionInfo.format("http://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz.sha256", ver)
+            self.targets[ver] = self.versionInfo.format(
+                "http://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz", ver
+            )
+            self.targetDigestUrls[ver] = self.versionInfo.format(
+                "http://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz.sha256", ver
+            )
 
         self.description = "This library contains simple XML-RPC Client support"
 

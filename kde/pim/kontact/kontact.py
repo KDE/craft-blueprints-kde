@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
-        self.runtimeDependencies['kde/frameworks/tier3/kparts'] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kde/pim/kontactinterface"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None

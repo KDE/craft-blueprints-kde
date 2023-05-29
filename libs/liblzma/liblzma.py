@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"http://tukaani.org/xz/xz-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"xz-{ver}"
 
-        self.targetDigests["5.2.3"] = (['7876096b053ad598c31f6df35f7de5cd9ff2ba3162e5a5554e4fc198447e0347'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["5.2.3"] = (["7876096b053ad598c31f6df35f7de5cd9ff2ba3162e5a5554e4fc198447e0347"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "free general-purpose data compression software with high compression ratio"
         self.webpage = "https://tukaani.org/xz"
@@ -52,7 +52,6 @@ class PackageMSBuild(MSBuildPackageBase):
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "windows", "xz_win.sln")
         self.msbuildTargets = ["liblzma_dll"]
 
-
     def install(self):
         if not MSBuildPackageBase.install(self, installHeaders=False):
             return False
@@ -64,19 +63,23 @@ class PackageMSBuild(MSBuildPackageBase):
             utils.copyFile(h, h.replace(headerDir, includeDir), linkOnly=False)
         return True
 
+
 from Package.AutoToolsPackageBase import *
 
 
 class PackageAutotools(AutoToolsPackageBase):
-    def __init__( self, **args ):
-        AutoToolsPackageBase.__init__( self )
+    def __init__(self, **args):
+        AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += " --disable-static --enable-shared "
 
 
 if CraftCore.compiler.isMSVC():
+
     class Package(PackageMSBuild):
         pass
+
 else:
+
     class Package(PackageAutotools):
         pass

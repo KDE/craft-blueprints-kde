@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
 
         self.description = "KDE hex editor for viewing and editing the raw data of files."
         self.displayName = "Okteta"
-        self.defaultTarget = 'master'
+        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -37,10 +37,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file = [
-            PackagerLists.runtimeBlacklist,
-            os.path.join(os.path.dirname(__file__), "blacklist.txt")
-        ]
+        self.blacklist_file = [PackagerLists.runtimeBlacklist, os.path.join(os.path.dirname(__file__), "blacklist.txt")]
 
     def createPackage(self):
         self.defines["executable"] = "bin\\okteta.exe"

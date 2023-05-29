@@ -4,15 +4,15 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://invent.kde.org/maui/mauikit-accounts.git'
+        self.svnTargets["master"] = "https://invent.kde.org/maui/mauikit-accounts.git"
 
-        for ver in ['2.1.0']:
-            self.targets[ver] = 'https://download.kde.org/stable/maui/mauikit-accounts/%s/mauikit-accounts-%s.tar.xz' % (ver, ver)
-            self.archiveNames[ver] = 'mauikit-accounts-%s.tar.gz' % ver
-            self.targetInstSrc[ver] = 'mauikit-accounts-%s' % ver
+        for ver in ["2.1.0"]:
+            self.targets[ver] = "https://download.kde.org/stable/maui/mauikit-accounts/%s/mauikit-accounts-%s.tar.xz" % (ver, ver)
+            self.archiveNames[ver] = "mauikit-accounts-%s.tar.gz" % ver
+            self.targetInstSrc[ver] = "mauikit-accounts-%s" % ver
 
         self.description = "MauiKit accounts"
-        self.defaultTarget = '2.1.0'
+        self.defaultTarget = "2.1.0"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

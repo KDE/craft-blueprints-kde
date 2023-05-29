@@ -5,21 +5,21 @@ from Packager.AppImagePackager import AppImagePackager
 
 class subinfo(info.infoclass):
     def addReleaseCandidate(self, version, suffix):
-        self.targets[f'{version}-{suffix}'] = f'https://files.kde.org/rkward/testing/for_packaging/rkward-{version}-{suffix}.tar.gz'
-        self.targetInstSrc[f'{version}-{suffix}'] = f'rkward-{version}'
+        self.targets[f"{version}-{suffix}"] = f"https://files.kde.org/rkward/testing/for_packaging/rkward-{version}-{suffix}.tar.gz"
+        self.targetInstSrc[f"{version}-{suffix}"] = f"rkward-{version}"
 
     def setTargets(self):
         self.description = "RKWard is an easy to use and easily extensible IDE/GUI for R."
         self.displayName = "RKWard"
         self.webpage = "https://rkward.kde.org"
 
-        self.svnTargets['master'] = 'https://invent.kde.org/education/rkward.git'
-        self.addReleaseCandidate('0.7.5', 'rc1')
-        for ver in ['0.7.4']:
-            self.targets[ver] = f'https://download.kde.org/stable/rkward/{ver}/rkward-{ver}.tar.gz'
-            self.targetInstSrc[ver] = f'rkward-{ver}'
-        self.targetDigests['0.7.4'] = (['7633f3b269f6cf2c067b3b09cbe3da3e0ffdcd9dc3ecb9a9fa63b4f865e8161e'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '0.7.5-rc1'
+        self.svnTargets["master"] = "https://invent.kde.org/education/rkward.git"
+        self.addReleaseCandidate("0.7.5", "rc1")
+        for ver in ["0.7.4"]:
+            self.targets[ver] = f"https://download.kde.org/stable/rkward/{ver}/rkward-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"rkward-{ver}"
+        self.targetDigests["0.7.4"] = (["7633f3b269f6cf2c067b3b09cbe3da3e0ffdcd9dc3ecb9a9fa63b4f865e8161e"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "0.7.5-rc1"
 
     def setDependencies(self):
         if OsUtils.isWin() or OsUtils.isMac():
@@ -34,7 +34,7 @@ class subinfo(info.infoclass):
             # MinGW has no qtwebengine, but we can fall back to kdewebkit
             self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = None
         else:
-            self.runtimeDependencies['libs/qt5/qtwebengine'] = None
+            self.runtimeDependencies["libs/qt5/qtwebengine"] = None
         # not strictly runtimeDependencies, but should be included in the package for plugins and extra functionality
         self.runtimeDependencies["kde/applications/kate"] = None
         if not OsUtils.isMac():
@@ -76,7 +76,16 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += [f"-DR_EXECUTABLE={OsUtils.toUnixPath(os.path.join(r_dir, 'R.exe'))}"]
         elif OsUtils.isMac():
             rhome = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "R.framework", "Resources")
-            self.subinfo.options.configure.args += " -DR_EXECUTABLE=" + os.path.join(rhome, "R") + " -DNO_CHECK_R=1 -DR_HOME=" + rhome + " -DR_INCLUDEDIR=" + os.path.join(rhome, "include") + " -DR_SHAREDLIBDIR=" + os.path.join(rhome, "lib")
+            self.subinfo.options.configure.args += (
+                " -DR_EXECUTABLE="
+                + os.path.join(rhome, "R")
+                + " -DNO_CHECK_R=1 -DR_HOME="
+                + rhome
+                + " -DR_INCLUDEDIR="
+                + os.path.join(rhome, "include")
+                + " -DR_SHAREDLIBDIR="
+                + os.path.join(rhome, "lib")
+            )
             self.subinfo.options.configure.args += " -DUSE_BINARY_PACKAGES=1"
             self.subinfo.options.configure.args += " -DNO_QT_WEBENGINE=1"
 
@@ -85,12 +94,10 @@ class Package(CMakePackageBase):
             return False
         return True
 
-    def setDefaults(self, defines: {str:str}) -> {str:str}:
+    def setDefaults(self, defines: {str: str}) -> {str: str}:
         defines = super().setDefaults(defines)
         if OsUtils.isLinux() and isinstance(self, AppImagePackager):
-            defines["runenv"] += [
-                'CURL_CA_BUNDLE=$this_dir/etc/cacert.pem'
-                ]
+            defines["runenv"] += ["CURL_CA_BUNDLE=$this_dir/etc/cacert.pem"]
         return defines
 
     def install(self):
@@ -131,18 +138,18 @@ class Package(CMakePackageBase):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("data/hunspell-dictionaries")
-        self.whitelist_file.append(os.path.join(self.packageDir(), 'whitelist.txt'))
+        self.whitelist_file.append(os.path.join(self.packageDir(), "whitelist.txt"))
         # Certain plugin files defeat codesigning on mac, which is picky about file names
         if OsUtils.isMac():
-            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
 
         return TypePackager.createPackage(self)
 
     def reinplace(self, filename, old, new):
         CraftCore.log.info(f"patching {old} -> {new} in {filename}")
-        with open(filename, 'r') as f:
+        with open(filename, "r") as f:
             content = f.read()
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             f.write(content.replace(old, new))
 
     def preArchive(self):
@@ -159,8 +166,8 @@ class Package(CMakePackageBase):
                 self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "${APPDIR}/usr")
             for filename in ["lib/R/etc/Makeconf"]:
                 filename = os.path.join(self.archiveDir(), filename)
-                self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "$(APPDIR)/usr") # NOTE: round braces, here
+                self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "$(APPDIR)/usr")  # NOTE: round braces, here
             # quirkaround for making kioslaves work despite of https://github.com/linuxdeploy/linuxdeploy/issues/208 / https://invent.kde.org/packaging/craft/-/merge_requests/80
-            for subpath in [ "libexec/lib", "lib/libexec/lib", "plugins/lib", "plugins/kf5/lib" ]:
+            for subpath in ["libexec/lib", "lib/libexec/lib", "plugins/lib", "plugins/kf5/lib"]:
                 utils.createSymlink(os.path.join(self.archiveDir(), "lib"), os.path.join(self.archiveDir(), subpath), targetIsDirectory=True)
         return super().preArchive()

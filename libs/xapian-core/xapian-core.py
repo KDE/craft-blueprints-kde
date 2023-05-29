@@ -9,8 +9,8 @@ class subinfo(info.infoclass):
         for ver in ["1.4.5", "1.4.9"]:
             self.targets[ver] = f"http://oligarchy.co.uk/xapian/{ver}/xapian-core-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"xapian-core-{ver}"
-        self.targetDigests["1.4.5"] = (['85b5f952de9df925fd13e00f6e82484162fd506d38745613a50b0a2064c6b02b'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["1.4.9"] = (['cde9c39d014f04c09b59d9c21551db9794c10617dc69ab4c9826352a533df5cc'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.4.5"] = (["85b5f952de9df925fd13e00f6e82484162fd506d38745613a50b0a2064c6b02b"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.4.9"] = (["cde9c39d014f04c09b59d9c21551db9794c10617dc69ab4c9826352a533df5cc"], CraftHash.HashAlgorithm.SHA256)
         if CraftCore.compiler.isWindows:
             self.patchToApply["1.4.5"] = [("xapian-core-1.4.5-20180515.diff", 1)]
             self.patchToApply["1.4.9"] = [("xapian-core-1.4.5-20180515.diff", 1)]
@@ -47,10 +47,12 @@ class Package(AutoToolsPackageBase):
         return True
 
     def postInstall(self):
-        return (self.patchInstallPrefix([os.path.join(self.installDir(), "lib" , "cmake", "xapian", "xapian-config.cmake")],
-                                        OsUtils.toMSysPath(self.subinfo.buildPrefix),
-                                        OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())) and
-                self.patchInstallPrefix([os.path.join(self.installDir(), "bin", "xapian-config")],
-                                        OsUtils.toMSysPath(self.subinfo.buildPrefix),
-                                        OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot())))
-
+        return self.patchInstallPrefix(
+            [os.path.join(self.installDir(), "lib", "cmake", "xapian", "xapian-config.cmake")],
+            OsUtils.toMSysPath(self.subinfo.buildPrefix),
+            OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()),
+        ) and self.patchInstallPrefix(
+            [os.path.join(self.installDir(), "bin", "xapian-config")],
+            OsUtils.toMSysPath(self.subinfo.buildPrefix),
+            OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot()),
+        )

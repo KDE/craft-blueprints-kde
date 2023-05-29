@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
+
 from Blueprints.CraftPackageObject import CraftPackageObject
 
 

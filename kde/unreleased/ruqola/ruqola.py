@@ -27,14 +27,13 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-
         self.displayName = "Ruqola"
         self.description = "Rocket.Chat Client"
         self.webpage = "https://apps.kde.org/ruqola"
 
-        self.targets['1.9.1'] = 'https://download.kde.org/stable/ruqola/ruqola-1.9.1.tar.xz'
-        self.targetDigests['1.9.1'] = (['a01b5272ec6ca2b1711098e1dc8d60df77972de5dfe57613dab6d4d412e1b931'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['1.9.1'] = 'ruqola-1.9.1'
+        self.targets["1.9.1"] = "https://download.kde.org/stable/ruqola/ruqola-1.9.1.tar.xz"
+        self.targetDigests["1.9.1"] = (["a01b5272ec6ca2b1711098e1dc8d60df77972de5dfe57613dab6d4d412e1b931"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["1.9.1"] = "ruqola-1.9.1"
         self.svnTargets["master"] = "https://invent.kde.org/network/ruqola.git"
         self.defaultTarget = "1.9.1"
 
@@ -74,11 +73,11 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
         self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|dbus|snoretoast)).*")
-        self.defines["shortcuts"] = [{"name" : "Ruqola", "target":"bin/ruqola.exe", "description" : self.subinfo.description, "appId": "ruqola"}]
+        self.defines["shortcuts"] = [{"name": "Ruqola", "target": "bin/ruqola.exe", "description": self.subinfo.description, "appId": "ruqola"}]
 
         self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "appIcons.ico")
 

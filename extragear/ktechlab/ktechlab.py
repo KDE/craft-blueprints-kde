@@ -4,11 +4,11 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = "https://invent.kde.org/sdk/ktechlab.git"
+        self.svnTargets["master"] = "https://invent.kde.org/sdk/ktechlab.git"
         self.description = "IDE for microcontrollers and electronics."
         self.displayName = "ktechlab"
         self.webpage = "https://userbase.kde.org/KTechlab"
-        self.defaultTarget = 'master'
+        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+
 
 class Package(CMakePackageBase):
     def __init__(self):

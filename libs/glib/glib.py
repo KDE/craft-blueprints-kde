@@ -4,10 +4,10 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["2.68.4"]:
-            majorMinorStr = '.'.join(ver.split('.')[0:2])
+            majorMinorStr = ".".join(ver.split(".")[0:2])
             self.targets[ver] = f"https://download.gnome.org/sources/glib/{majorMinorStr}/glib-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"glib-{ver}"
-        self.targetDigests["2.68.4"] = (['62fd061d08a75492617e625a73e2c05e259f831acbb8e1f8b9c81f23f7993a3b'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.68.4"] = (["62fd061d08a75492617e625a73e2c05e259f831acbb8e1f8b9c81f23f7993a3b"], CraftHash.HashAlgorithm.SHA256)
         self.patchLevel["2.68.4"] = 1
 
         self.defaultTarget = "2.68.4"
@@ -25,14 +25,17 @@ class subinfo(info.infoclass):
         if not OsUtils.isWin():
             self.runtimeDependencies["libs/iconv"] = None
 
+
 from Package.MesonPackageBase import *
 
 
 class Package(MesonPackageBase):
     def __init__(self):
         MesonPackageBase.__init__(self)
-        self.subinfo.options.configure.cflags += (f"-I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'include/dbus-1.0')}"
-                                                  f" -I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'lib/dbus-1.0/include')}")
+        self.subinfo.options.configure.cflags += (
+            f"-I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'include/dbus-1.0')}"
+            f" -I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'lib/dbus-1.0/include')}"
+        )
         # cmake pcre does not provide .pc files
         self.subinfo.options.configure.args += ["-Dinternal_pcre=true", "-Diconv=external", "--wrap-mode=nodownload"]
         if CraftCore.compiler.isUnix:

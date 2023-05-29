@@ -17,14 +17,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kdesupport/qca"] = None
 
     def setTargets(self):
-        self.svnTargets['master'] = 'https://github.com/qxmpp-project/qxmpp.git'
+        self.svnTargets["master"] = "https://github.com/qxmpp-project/qxmpp.git"
         for ver in ["1.5.4"]:
             self.targets[ver] = f"https://github.com/qxmpp-project/qxmpp/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"qxmpp-v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"qxmpp-{ver}"
-        self.targetDigests['1.5.4'] = (
-            ['e437fdb91aa52c6fd8ca3f922354eb3221df98146ec99ee92e70e20a82c7ad2d'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '1.5.4'
+        self.targetDigests["1.5.4"] = (["e437fdb91aa52c6fd8ca3f922354eb3221df98146ec99ee92e70e20a82c7ad2d"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "1.5.4"
 
 
 class Package(CMakePackageBase):

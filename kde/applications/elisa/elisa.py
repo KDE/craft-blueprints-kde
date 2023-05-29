@@ -3,14 +3,14 @@ from CraftConfig import *
 from CraftOS.osutils import OsUtils
 
 
-class subinfo( info.infoclass ):
-    def setTargets( self ):
+class subinfo(info.infoclass):
+    def setTargets(self):
         self.versionInfo.setDefaultValues()
 
         self.displayName = "Elisa"
         self.description = "the Elisa music player"
 
-    def setDependencies( self ):
+    def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
@@ -40,10 +40,11 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
 
+
 from Package.CMakePackageBase import *
 
 
-class Package( CMakePackageBase ):
+class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
@@ -57,7 +58,7 @@ class Package( CMakePackageBase ):
         self.defines["mimetypes"] = ["audio/mpeg", "audio/mp4"]
         self.defines["file_types"] = [".mp3", ".ogg", ".m4a", ".flac", ".wav", ".m3u", ".opus"]
 
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")

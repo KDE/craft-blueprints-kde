@@ -7,9 +7,9 @@ class subinfo(info.infoclass):
     # def setDependencies( self ):
 
     def setTargets(self):
-        self.svnTargets['master'] = ''
+        self.svnTargets["master"] = ""
         self.description = "PyYAML is a Python module that implements the next generation YAML parser and emitter."
-        self.defaultTarget = 'master'
+        self.defaultTarget = "master"
 
 
 class Package(PipPackageBase):

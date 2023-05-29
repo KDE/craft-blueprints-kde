@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.description = "Libkdcraw is a C++ interface around \"LibRaw library\""
+        self.description = 'Libkdcraw is a C++ interface around "LibRaw library"'
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

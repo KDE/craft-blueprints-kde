@@ -33,6 +33,7 @@ class subinfo(info.infoclass):
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
+
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
@@ -42,9 +43,11 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
-        self.addExecutableFilter(r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioslave|SnoreToast).*)")
+        self.addExecutableFilter(
+            r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioslave|SnoreToast).*)"
+        )
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
 
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
@@ -53,7 +56,9 @@ class Package(CMakePackageBase):
         self.defines["executable"] = r"bin/kdeconnect-app.exe"
 
         if isinstance(self, NullsoftInstallerPackager):
-            self.defines["sections"] = r"""
+            self.defines[
+                "sections"
+            ] = r"""
                 Section "@{productname}"
                     SectionIn 1
                     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
@@ -65,7 +70,9 @@ class Package(CMakePackageBase):
                     !insertmacro MUI_STARTMENU_WRITE_END
                 SectionEnd
                 """
-            self.defines["un_sections"]=r"""
+            self.defines[
+                "un_sections"
+            ] = r"""
                 Section "Un.Remove Shortcuts"
                     Delete "$SMPROGRAMS\\@{productname}.lnk"
                     Delete "$SMPROGRAMS\\Startup\\@{productname}.lnk"
@@ -77,15 +84,21 @@ class Package(CMakePackageBase):
         elif isinstance(self, AppxPackager):
             self.defines["startup_task"] = r"bin/@{appname}.exe"
 
-            self.defines["additional_capabilities"] = r"""
+            self.defines[
+                "additional_capabilities"
+            ] = r"""
             <uap7:Capability Name="globalMediaControl" />
             """
-            self.defines["additional_xmlns"] = r"""
+            self.defines[
+                "additional_xmlns"
+            ] = r"""
             xmlns:uap7="http://schemas.microsoft.com/appx/manifest/uap/windows10/7"
             xmlns:desktop2="http://schemas.microsoft.com/appx/manifest/desktop/windows10/2"
             """
 
-            self.defines["desktop_extensions"] = r"""
+            self.defines[
+                "desktop_extensions"
+            ] = r"""
             <desktop2:Extension Category="windows.firewallRules">
             <desktop2:FirewallRules Executable="bin/kdeconnectd.exe">
                 <desktop2:Rule Direction="in" IPProtocol="TCP" LocalPortMax="1764" LocalPortMin="1714" Profile="all"/>
@@ -100,7 +113,13 @@ class Package(CMakePackageBase):
             self.defines["alias"] = r"kdeconnect-cli"
 
             self.defines["file_types"] = ["*", ".txt"]
-            self.defines["shortcuts"] = [{"name" : self.subinfo.displayName , "target" : f"bin/kdeconnect-app{CraftCore.compiler.executableSuffix}", "description" : self.subinfo.description}]
+            self.defines["shortcuts"] = [
+                {
+                    "name": self.subinfo.displayName,
+                    "target": f"bin/kdeconnect-app{CraftCore.compiler.executableSuffix}",
+                    "description": self.subinfo.description,
+                }
+            ]
             self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "Square150x150Logo.scale-100.png")
             self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "Square44x44Logo.scale-100.png")
             self.defines["icon_png_310x150"] = os.path.join(self.packageDir(), ".assets", "Wide310x150Logo.scale-100.png")
@@ -120,17 +139,25 @@ class Package(CMakePackageBase):
             # Move kdeconnect, kdeconnect-sms to the package
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
-            if not utils.copyFile(os.path.join(archiveDir, "Applications", "KDE", "kdeconnect-app.app", "Contents", "MacOS", "kdeconnect-app"),
-                os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
+            if not utils.copyFile(
+                os.path.join(archiveDir, "Applications", "KDE", "kdeconnect-app.app", "Contents", "MacOS", "kdeconnect-app"),
+                os.path.join(appPath, "Contents", "MacOS"),
+                linkOnly=False,
+            ):
                 return False
 
-            if not utils.copyFile(os.path.join(archiveDir, "Applications", "KDE", "kdeconnect-sms.app", "Contents", "MacOS", "kdeconnect-sms"),
-                os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
+            if not utils.copyFile(
+                os.path.join(archiveDir, "Applications", "KDE", "kdeconnect-sms.app", "Contents", "MacOS", "kdeconnect-sms"),
+                os.path.join(appPath, "Contents", "MacOS"),
+                linkOnly=False,
+            ):
                 return False
 
-            if not utils.copyFile(os.path.join(archiveDir, "Applications", "KDE", "kdeconnect-handler.app", "Contents", "MacOS", "kdeconnect-handler"),
-                os.path.join(appPath, "Contents", "MacOS"), linkOnly=False):
+            if not utils.copyFile(
+                os.path.join(archiveDir, "Applications", "KDE", "kdeconnect-handler.app", "Contents", "MacOS", "kdeconnect-handler"),
+                os.path.join(appPath, "Contents", "MacOS"),
+                linkOnly=False,
+            ):
                 return False
 
-        return utils.mergeTree(os.path.join(archiveDir, "lib/qca-qt5"),
-            pluginPath if CraftCore.compiler.isMacOS else binPath)
+        return utils.mergeTree(os.path.join(archiveDir, "lib/qca-qt5"), pluginPath if CraftCore.compiler.isMacOS else binPath)

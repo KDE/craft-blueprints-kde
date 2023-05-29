@@ -4,11 +4,12 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "z image library"
-        self.svnTargets['20220622'] = "https://github.com/sekrit-twc/zimg.git||51c3c7f750c2af61955377faad56e3ba1b03589f"
-        self.defaultTarget = '20220622'
+        self.svnTargets["20220622"] = "https://github.com/sekrit-twc/zimg.git||51c3c7f750c2af61955377faad56e3ba1b03589f"
+        self.defaultTarget = "20220622"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+
 
 from Package.AutoToolsPackageBase import *
 
@@ -26,4 +27,3 @@ class Package(AutoToolsPackageBase):
             return False
         self.subinfo.options.make.supportsMultijob = old
         return True
-

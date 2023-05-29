@@ -36,14 +36,10 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
 
 
-
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file = [
-            PackagerLists.runtimeBlacklist,
-            os.path.join(self.packageDir(), "blacklist.txt")
-        ]
+        self.blacklist_file = [PackagerLists.runtimeBlacklist, os.path.join(self.packageDir(), "blacklist.txt")]
 
     def createPackage(self):
         self.defines["executable"] = "bin\\konversation.exe"

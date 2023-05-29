@@ -6,8 +6,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "KDEgames Library"
-        self.patchToApply['21.12.3'] = [("0001-Fix-missing-KCoreAddons-link.patch", 1)]
-        self.patchLevel['21.12.3'] = 1
+        self.patchToApply["21.12.3"] = [("0001-Fix-missing-KCoreAddons-link.patch", 1)]
+        self.patchLevel["21.12.3"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/utilities/krecorder.git")
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/utilities/krecorder.git")
         self.description = "Audio recorder"
 
     def setDependencies(self):
@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
+
 
 from Package.CMakePackageBase import *
 

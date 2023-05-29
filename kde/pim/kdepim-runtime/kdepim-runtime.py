@@ -43,7 +43,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kdesupport/grantlee"] = None
         self.runtimeDependencies["libs/cyrus-sasl"] = None
-        #self.runtimeDependencies["libs/libkolabxml"] = None
+        # self.runtimeDependencies["libs/libkolabxml"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None

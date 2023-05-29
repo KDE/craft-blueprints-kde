@@ -7,9 +7,9 @@ class subinfo(info.infoclass):
     # def setDependencies( self ):
 
     def setTargets(self):
-        self.svnTargets['master'] = ''
+        self.svnTargets["master"] = ""
         self.description = "Python 3 compatible Python 2 'random' Module"
-        self.defaultTarget = 'master'
+        self.defaultTarget = "master"
 
 
 class Package(PipPackageBase):

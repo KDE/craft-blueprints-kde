@@ -3,9 +3,9 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://github.com/witwall/mman-win32.git'        
+        self.svnTargets["master"] = "https://github.com/witwall/mman-win32.git"
         self.description = "A light implementation of the mmap functions for Windows."
-        self.defaultTarget = 'master'
+        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

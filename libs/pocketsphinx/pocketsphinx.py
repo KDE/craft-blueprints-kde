@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         self.description = "Lightweight speech recognition engine."
         self.webpage = "http://cmusphinx.sourceforge.net/"
         self.displayName = "PocketSphinx"
-        self.patchToApply['e40da77a85edbb5d79b92bf1dcb927d94e43e07d'] = [
+        self.patchToApply["e40da77a85edbb5d79b92bf1dcb927d94e43e07d"] = [
             ("0001-fix-static-lapack-link.patch", 1),
         ]
 
@@ -32,5 +32,5 @@ class Package(AutoToolsPackageBase):
         with open(fileName, "rt") as f:
             content = f.read()
         with open(fileName, "wt") as f:
-            f.write(re.compile('(SUBDIRS\\s*=.*)\\bdoc\\b').sub('\\1', content))
+            f.write(re.compile("(SUBDIRS\\s*=.*)\\bdoc\\b").sub("\\1", content))
         return True

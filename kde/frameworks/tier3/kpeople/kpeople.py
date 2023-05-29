@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
 
+
 from Package.CMakePackageBase import *
 
 

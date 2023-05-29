@@ -3,8 +3,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://anongit.kde.org/peruse|master'
-        self.defaultTarget = 'master'
+        self.svnTargets["master"] = "https://anongit.kde.org/peruse|master"
+        self.defaultTarget = "master"
         self.description = "Peruse Comic Book Viewer and Creator"
         self.webpage = "http://peruse.kde.org"
         self.displayName = "Peruse Comic Book Viewer"
@@ -37,10 +37,12 @@ class Package(CMakePackageBase):
         self.subinfo.options.fetch.checkoutSubmodules = True
 
     def createPackage(self):
-        self.defines["shortcuts"] = [{"name" : self.subinfo.displayName, "target":"bin//peruse.exe"},
-                                     {"name": "Peruse Creator", "target" : "bin//perusecreator.exe"}]
+        self.defines["shortcuts"] = [
+            {"name": self.subinfo.displayName, "target": "bin//peruse.exe"},
+            {"name": "Peruse Creator", "target": "bin//perusecreator.exe"},
+        ]
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "peruse.ico")
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
 
         return TypePackager.createPackage(self)
 
@@ -50,8 +52,7 @@ class Package(CMakePackageBase):
         # move everything to the location where Qt expects it
         binPath = os.path.join(archiveDir, "bin")
 
-        utils.moveFile(os.path.join(archiveDir, "etc", "xdg", "peruse.knsrc"),
-                       os.path.join(binPath, "data", "peruse.knsrc"))
+        utils.moveFile(os.path.join(archiveDir, "etc", "xdg", "peruse.knsrc"), os.path.join(binPath, "data", "peruse.knsrc"))
 
         # TODO: use blacklist
         utils.rmtree(os.path.join(self.archiveDir(), "lib"))

@@ -10,8 +10,8 @@ class subinfo(info.infoclass):
         for ver in ["2.0.0", "2.1.1"]:
             self.targets[ver] = f"https://github.com/KDAB/KDSoap/releases/download/kdsoap-{ver}/kdsoap-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"kdsoap-{ver}"
-        self.targetDigests['2.0.0'] = (['d18963104fa6f7d02b044631cddbe78f18f70e06c607af680c7ace04d6cf04ee'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests['2.1.1'] = (['aed57f6b200ddf762f5d2898f7e9228dd0700881c4491aefe4006f7fa5f5c627'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.0.0"] = (["d18963104fa6f7d02b044631cddbe78f18f70e06c607af680c7ace04d6cf04ee"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.1.1"] = (["aed57f6b200ddf762f5d2898f7e9228dd0700881c4491aefe4006f7fa5f5c627"], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "2.1.1"
         self.description = "A Qt-based client-side and server-side SOAP component"

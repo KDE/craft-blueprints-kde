@@ -6,7 +6,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/pim/itinerary.git")
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/pim/itinerary.git")
         self.description = "Digital travel assistant app"
 
     def setDependencies(self):
@@ -32,6 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kpkpass"] = None
         self.runtimeDependencies["kde/plasma-mobile/khealthcertificate"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
+
 
 from Package.CMakePackageBase import *
 

@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
 
+
 from Package.CMakePackageBase import *
 
 

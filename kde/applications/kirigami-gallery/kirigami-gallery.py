@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
 
+
 from Package.CMakePackageBase import *
 
 

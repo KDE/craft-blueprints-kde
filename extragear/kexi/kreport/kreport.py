@@ -17,11 +17,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None # hard dependency for now
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None  # hard dependency for now
         self.runtimeDependencies["extragear/kexi/kproperty"] = None
         # TODO Windows/Mac: add marble libs (we only need marble widget), for now marble libs are disabled there
         if not OsUtils.isWin() and not OsUtils.isMac():
             self.runtimeDependencies["kde/applications/marble"] = None
+
 
 from Package.CMakePackageBase import *
 

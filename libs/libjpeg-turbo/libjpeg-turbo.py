@@ -29,20 +29,20 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/libjpeg-turbo/libjpeg-turbo.git"
 
-        for ver in ['2.1.2']:
+        for ver in ["2.1.2"]:
             self.targets[ver] = "https://github.com/libjpeg-turbo/libjpeg-turbo/archive/%s.tar.gz" % ver
             self.archiveNames[ver] = "libjpeg-turbo-%s.tar.gz" % ver
-            self.targetInstSrc[ver] = 'libjpeg-turbo-%s' % ver
+            self.targetInstSrc[ver] = "libjpeg-turbo-%s" % ver
 
-        self.targetDigests['2.1.2'] = (
-            ['e7fdc8a255c45bc8fbd9aa11c1a49c23092fcd7379296aeaeb14d3343a3d1bed'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.1.2"] = (["e7fdc8a255c45bc8fbd9aa11c1a49c23092fcd7379296aeaeb14d3343a3d1bed"], CraftHash.HashAlgorithm.SHA256)
         self.description = "libjpeg-turbo is a JPEG image codec that uses SIMD instructions (MMX, SSE2, NEON, AltiVec) to accelerate baseline JPEG compression and decompression on x86, x86-64, ARM, and PowerPC systems"
         self.webpage = "http://libjpeg-turbo.virtualgl.org/"
-        self.defaultTarget = '2.1.2'
+        self.defaultTarget = "2.1.2"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/nasm"] = None
+
 
 from Package.CMakePackageBase import *
 
@@ -54,4 +54,3 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args = " -DENABLE_SHARED=OFF -DENABLE_STATIC=ON "
         else:
             self.subinfo.options.configure.args = " -DENABLE_SHARED=ON -DENABLE_STATIC=OFF "
-

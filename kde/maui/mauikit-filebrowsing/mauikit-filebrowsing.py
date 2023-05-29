@@ -4,15 +4,15 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://invent.kde.org/maui/mauikit-filebrowsing.git'
+        self.svnTargets["master"] = "https://invent.kde.org/maui/mauikit-filebrowsing.git"
 
-        for ver in ['2.1.0']:
-            self.targets[ver] = 'https://download.kde.org/stable/maui/mauikit-filebrowsing/%s/mauikit-filebrowsing-%s.tar.xz' % (ver, ver)
-            self.archiveNames[ver] = 'mauikit-filebrowsing-%s.tar.gz' % ver
-            self.targetInstSrc[ver] = 'mauikit-filebrowsing-%s' % ver
+        for ver in ["2.1.0"]:
+            self.targets[ver] = "https://download.kde.org/stable/maui/mauikit-filebrowsing/%s/mauikit-filebrowsing-%s.tar.xz" % (ver, ver)
+            self.archiveNames[ver] = "mauikit-filebrowsing-%s.tar.gz" % ver
+            self.targetInstSrc[ver] = "mauikit-filebrowsing-%s" % ver
 
         self.description = "MauiKit File Browsing utilities and controls"
-        self.defaultTarget = '2.1.0'
+        self.defaultTarget = "2.1.0"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
         self.runtimeDependencies["libs/boost/boost-headers"] = None
 
+
 from Package.CMakePackageBase import *
 
 

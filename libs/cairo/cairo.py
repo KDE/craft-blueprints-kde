@@ -6,13 +6,13 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ['1.16.0']:
-            self.targets[ver] = 'https://www.cairographics.org/releases/cairo-' + ver + '.tar.xz'
-            self.targetInstSrc[ver] = 'cairo-' + ver
-        self.targetDigests['1.16.0'] = (['5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331'], CraftHash.HashAlgorithm.SHA256)
+        for ver in ["1.16.0"]:
+            self.targets[ver] = "https://www.cairographics.org/releases/cairo-" + ver + ".tar.xz"
+            self.targetInstSrc[ver] = "cairo-" + ver
+        self.targetDigests["1.16.0"] = (["5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Multi-platform 2D graphics library"
-        self.defaultTarget = '1.16.0'
+        self.defaultTarget = "1.16.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -23,26 +23,28 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/fontconfig"] = None
         self.runtimeDependencies["libs/pixman"] = None
 
+
 from Package.AutoToolsPackageBase import *
 from Package.MakeFilePackageBase import *
 
 if CraftCore.compiler.isMSVC():
+
     class Package(MakeFilePackageBase):
         def __init__(self):
             MakeFilePackageBase.__init__(self)
 
         def includesFromPkgConfig(self, libName):
-            includes = subprocess.run('pkg-config --cflags-only-I ' + libName, stdout=subprocess.PIPE, universal_newlines=True).stdout.strip()
+            includes = subprocess.run("pkg-config --cflags-only-I " + libName, stdout=subprocess.PIPE, universal_newlines=True).stdout.strip()
             includes = includes.replace(CraftCore.standardDirs.craftRoot().as_posix(), self._shell.toNativePath(CraftCore.standardDirs.craftRoot()))
             return includes
 
         def libsFromPkgConfig(self, libName):
-            libs = subprocess.run('pkg-config --libs-only-l ' + libName, stdout=subprocess.PIPE, universal_newlines=True).stdout.strip()
-            libs = libs.replace('-l', '')
+            libs = subprocess.run("pkg-config --libs-only-l " + libName, stdout=subprocess.PIPE, universal_newlines=True).stdout.strip()
+            libs = libs.replace("-l", "")
             res = []
             for lib in libs.split():
                 res.append(self._shell.toNativePath(CraftCore.standardDirs.craftRoot()) + "/lib/" + lib + ".lib")
-            return ' '.join(res)
+            return " ".join(res)
 
         def make(self):
             self._shell = BashShell()
@@ -61,10 +63,15 @@ if CraftCore.compiler.isMSVC():
             # zlib lib path
             content = content.replace("CAIRO_LIBS += $(ZLIB_PATH)/zdll.lib", "CAIRO_LIBS += " + self.libsFromPkgConfig("zlib"))
             # freetype include path
-            content = content.replace("DEFAULT_CFLAGS += $(PIXMAN_CFLAGS) $(LIBPNG_CFLAGS) $(ZLIB_CFLAGS)", "DEFAULT_CFLAGS += $(PIXMAN_CFLAGS) $(LIBPNG_CFLAGS) $(ZLIB_CFLAGS) " + self.includesFromPkgConfig("freetype2"))
+            content = content.replace(
+                "DEFAULT_CFLAGS += $(PIXMAN_CFLAGS) $(LIBPNG_CFLAGS) $(ZLIB_CFLAGS)",
+                "DEFAULT_CFLAGS += $(PIXMAN_CFLAGS) $(LIBPNG_CFLAGS) $(ZLIB_CFLAGS) " + self.includesFromPkgConfig("freetype2"),
+            )
             # freetype lib path
             # TODO fix freetype package so we can use self.libsFromPkgConfig here
-            content = content.replace("CAIRO_LIBS =  gdi32.lib msimg32.lib user32.lib", "CAIRO_LIBS =  gdi32.lib msimg32.lib user32.lib " + self.libsFromPkgConfig("freetype2"))
+            content = content.replace(
+                "CAIRO_LIBS =  gdi32.lib msimg32.lib user32.lib", "CAIRO_LIBS =  gdi32.lib msimg32.lib user32.lib " + self.libsFromPkgConfig("freetype2")
+            )
 
             with open(win32common, "wt") as f:
                 f.write(content)
@@ -79,7 +86,6 @@ if CraftCore.compiler.isMSVC():
             with open(win32features, "wt") as f:
                 f.write(content)
 
-
             return self._shell.execute(self.sourceDir(), "make", ["-f", "Makefile.win32", "CFG=release"])
 
         def install(self):
@@ -89,16 +95,26 @@ if CraftCore.compiler.isMSVC():
             for d in ["include", "bin", "lib"]:
                 os.makedirs(self.installDir() / d, exist_ok=True)
 
-            shutil.copyfile(self.sourceDir() / "cairo-version.h", self.installDir() / 'include/cairo-version.h')
-            for f in ["cairo-features.h", "cairo.h", "cairo-deprecated.h", "cairo-win32.h", "cairo-script.h", "cairo-ps.h", "cairo-pdf.h", "cairo-svg.h", "cairo-ft.h"]:
-                shutil.copyfile(self.sourceDir() / "src" / f, self.installDir() / 'include' / f)
-            shutil.copyfile(self.sourceDir() / "src/release/cairo.dll", self.installDir() / 'bin/cairo.dll')
-            shutil.copyfile(self.sourceDir() / "src/release/cairo.lib", self.installDir() / 'lib/cairo.lib')
-
+            shutil.copyfile(self.sourceDir() / "cairo-version.h", self.installDir() / "include/cairo-version.h")
+            for f in [
+                "cairo-features.h",
+                "cairo.h",
+                "cairo-deprecated.h",
+                "cairo-win32.h",
+                "cairo-script.h",
+                "cairo-ps.h",
+                "cairo-pdf.h",
+                "cairo-svg.h",
+                "cairo-ft.h",
+            ]:
+                shutil.copyfile(self.sourceDir() / "src" / f, self.installDir() / "include" / f)
+            shutil.copyfile(self.sourceDir() / "src/release/cairo.dll", self.installDir() / "bin/cairo.dll")
+            shutil.copyfile(self.sourceDir() / "src/release/cairo.lib", self.installDir() / "lib/cairo.lib")
 
             return True
 
 else:
+
     class Package(AutoToolsPackageBase):
         def __init__(self, **args):
             AutoToolsPackageBase.__init__(self)

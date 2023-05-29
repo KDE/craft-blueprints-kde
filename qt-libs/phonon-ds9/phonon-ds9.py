@@ -7,13 +7,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/phonon"] = None
 
     def setTargets(self):
-        self.svnTargets['master'] = 'https://anongit.kde.org/phonon-directshow'
+        self.svnTargets["master"] = "https://anongit.kde.org/phonon-directshow"
         self.description = "the DirectShow based phonon multimedia backend"
-        self.defaultTarget = 'master'
+        self.defaultTarget = "master"
 
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = ' -DPHONON_BUILD_PHONON4QT5=ON -DPHONON_BUILDSYSTEM_DIR=\"%s\" ' % (
-        os.path.join(CraftStandardDirs.craftRoot(), 'share', 'phonon', 'buildsystem').replace('\\', '/'))
+        self.subinfo.options.configure.args = ' -DPHONON_BUILD_PHONON4QT5=ON -DPHONON_BUILDSYSTEM_DIR="%s" ' % (
+            os.path.join(CraftStandardDirs.craftRoot(), "share", "phonon", "buildsystem").replace("\\", "/")
+        )

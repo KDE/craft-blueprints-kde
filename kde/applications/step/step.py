@@ -20,8 +20,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
-        
-        #self.runtimeDependencies["libs/gsl"] = None
+
+        # self.runtimeDependencies["libs/gsl"] = None
+
 
 from Package.CMakePackageBase import *
 
@@ -31,7 +32,7 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
@@ -39,7 +40,7 @@ class Package(CMakePackageBase):
         self.defines["appname"] = "step"
         self.defines["website"] = "https://apps.kde.org/step"
         self.defines["executable"] = "bin\\step.exe"
-        self.defines["shortcuts"] = [{"name" : "Step", "target" : "bin/step.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\step.ico" }]
+        self.defines["shortcuts"] = [{"name": "Step", "target": "bin/step.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\step.ico"}]
         self.defines["icon"] = os.path.join(self.packageDir(), "step.ico")
 
         return TypePackager.createPackage(self)

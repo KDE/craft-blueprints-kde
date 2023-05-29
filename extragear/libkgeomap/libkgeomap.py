@@ -4,8 +4,8 @@ import info
 # deprecated class
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://anongit.kde.org/libkgeomap'
-        self.defaultTarget = 'master'
+        self.svnTargets["master"] = "https://anongit.kde.org/libkgeomap"
+        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

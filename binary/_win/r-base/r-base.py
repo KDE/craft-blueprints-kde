@@ -2,8 +2,8 @@
 
 import info
 
-PACKAGE_CRAN_MIRROR = 'https://ftp.gwdg.de/pub/misc/cran'
-PACKAGE_PATH = '/bin/windows/base/old/'
+PACKAGE_CRAN_MIRROR = "https://ftp.gwdg.de/pub/misc/cran"
+PACKAGE_PATH = "/bin/windows/base/old/"
 
 
 class subinfo(info.infoclass):
@@ -11,10 +11,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/bin-base"] = None
 
     def setTargets(self):
-        for version in ['4.2.0', '4.1.2', '3.6.2']:
-            self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + version + '/' + 'R-' + version + '-win.exe'
-        self.targets['devel'] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + 'R-devel.exe'
-        self.defaultTarget = '4.2.0'
+        for version in ["4.2.0", "4.1.2", "3.6.2"]:
+            self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + version + "/" + "R-" + version + "-win.exe"
+        self.targets["devel"] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "R-devel.exe"
+        self.defaultTarget = "4.2.0"
 
 
 from Package.BinaryPackageBase import *
@@ -31,11 +31,11 @@ class Package(BinaryPackageBase):
     def __init__(self):
         BinaryPackageBase.__init__(self)
         # don't use shortcut to unpack into imageDir()
-        self.buildSystemType = 'custom'
+        self.buildSystemType = "custom"
         # create combined package
         self.subinfo.options.package.withCompiler = None
         self.subinfo.options.unpack.runInstaller = True
-        self.subinfo.options.configure.args = "/DIR=\"{0}\" /SILENT /CURRENTUSER".format(self.workDir())
+        self.subinfo.options.configure.args = '/DIR="{0}" /SILENT /CURRENTUSER'.format(self.workDir())
 
     def install(self):
         srcdir = self.workDir()
@@ -53,11 +53,22 @@ class Package(BinaryPackageBase):
         # create a shortcut in dstdir/bin
         f = open(os.path.join(dstdir, "bin", "R.bat"), "w")
         f.write(
-            "REM redirect to R.exe, autocreated during installation\n" + os.path.join("%~dsp0", "..", "lib", "R", "bin",
-                                                                                      "R.exe") + " %1 %2 %3 %4 %5 %6 %7 %8 %9\n")
+            "REM redirect to R.exe, autocreated during installation\n"
+            + os.path.join("%~dsp0", "..", "lib", "R", "bin", "R.exe")
+            + " %1 %2 %3 %4 %5 %6 %7 %8 %9\n"
+        )
         f.close()
 
         # Pre-install R2HTML-package. It will almost certainly be needed.
-        utils.system([os.path.join(r_rootdir, "bin", "R.exe"), "--no-save", "--slave", "--vanilla", "-e", "install.packages('R2HTML',lib=.Library[1],repos='https://ftp.gwdg.de/pub/misc/cran')"])
+        utils.system(
+            [
+                os.path.join(r_rootdir, "bin", "R.exe"),
+                "--no-save",
+                "--slave",
+                "--vanilla",
+                "-e",
+                "install.packages('R2HTML',lib=.Library[1],repos='https://ftp.gwdg.de/pub/misc/cran')",
+            ]
+        )
 
         return True

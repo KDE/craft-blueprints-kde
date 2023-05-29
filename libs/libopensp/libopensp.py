@@ -27,20 +27,21 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['1.5.2'] = "http://downloads.sourceforge.net/project/openjade/opensp/1.5.2/OpenSP-1.5.2.tar.gz"
-        self.targetInstSrc['1.5.2'] = "OpenSP-1.5.2"
+        self.targets["1.5.2"] = "http://downloads.sourceforge.net/project/openjade/opensp/1.5.2/OpenSP-1.5.2.tar.gz"
+        self.targetInstSrc["1.5.2"] = "OpenSP-1.5.2"
         if CraftCore.compiler.isWindows:
-            self.patchToApply['1.5.2'] = ("OpenSP-1.5.2-20110111.diff", 1)
+            self.patchToApply["1.5.2"] = ("OpenSP-1.5.2-20110111.diff", 1)
         # elif CraftCore.compiler.isMinGW():
         #     self.patchToApply['1.5.2'] = ("OpenSP-1.5.2-20180505.diff", 1)
-        self.targetDigests['1.5.2'] = 'b4e903e980f8a8b3887396a24e067bef126e97d5'
+        self.targetDigests["1.5.2"] = "b4e903e980f8a8b3887396a24e067bef126e97d5"
         self.description = "a library for a SGML parser algorithm"
-        self.defaultTarget = '1.5.2'
+        self.defaultTarget = "1.5.2"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         # if CraftCore.compiler.isMinGW():
         #     self.buildDependencies["dev-utils/msys"] = None
+
 
 from Package.AutoToolsPackageBase import *
 from Package.CMakePackageBase import *
@@ -60,11 +61,15 @@ class PackageAutotools(AutoToolsPackageBase):
             self.subinfo.options.configure.cxxflags += "-fpermissive "
         return super().configure()
 
+
 if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
+
     class Package(PackageAutotools):
         def __init__(self):
             PackageAutotools.__init__(self)
+
 else:
+
     class Package(CMakePackageBase):
         def __init__(self):
             CMakePackageBase.__init__(self)

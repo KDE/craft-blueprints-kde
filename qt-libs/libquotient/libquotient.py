@@ -4,20 +4,22 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://github.com/quotient-im/libQuotient.git'
+        self.svnTargets["master"] = "https://github.com/quotient-im/libQuotient.git"
 
-        for ver in ['0.7.2']:
-            self.targets[ver] = 'https://github.com/quotient-im/libQuotient/archive/%s.tar.gz' % ver
-            self.archiveNames[ver] = 'libQuotient-%s.tar.gz' % ver
-            self.targetInstSrc[ver] = 'libQuotient-%s' % ver
+        for ver in ["0.7.2"]:
+            self.targets[ver] = "https://github.com/quotient-im/libQuotient/archive/%s.tar.gz" % ver
+            self.archiveNames[ver] = "libQuotient-%s.tar.gz" % ver
+            self.targetInstSrc[ver] = "libQuotient-%s" % ver
 
-        self.targetDigests['0.7.2'] = (['62ff42c8fe321e582ce8943417c1d815ab3f373a26fa0d99a5926e713f6a9382'], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply['0.7.2'] = [('0002-Add-missing-include-in-qt-connection-util-h-for-Qt6.patch', 1),
-                                      ('0003-Fix-dependency-finding-in-CMake-config-file.patch', 1),
-                                      ('0004-Fix-generating-invalid-CMake-config-file-with-unset-BUILD_SHARED_LIBS.patch', 1)]
-        self.patchLevel['0.7.2'] = 1
+        self.targetDigests["0.7.2"] = (["62ff42c8fe321e582ce8943417c1d815ab3f373a26fa0d99a5926e713f6a9382"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["0.7.2"] = [
+            ("0002-Add-missing-include-in-qt-connection-util-h-for-Qt6.patch", 1),
+            ("0003-Fix-dependency-finding-in-CMake-config-file.patch", 1),
+            ("0004-Fix-generating-invalid-CMake-config-file-with-unset-BUILD_SHARED_LIBS.patch", 1),
+        ]
+        self.patchLevel["0.7.2"] = 1
 
-        self.defaultTarget = '0.7.2'
+        self.defaultTarget = "0.7.2"
         self.description = "A Qt library to write cross-platform clients for Matrix"
 
     def setDependencies(self):

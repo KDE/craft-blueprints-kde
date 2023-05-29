@@ -15,8 +15,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://github.com/stachenov/quazip/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"quazip-v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"quazip-{ver}"
-        self.targetDigests["1.1"] = (
-            ["54edce9c11371762bd4f0003c2937b5d8806a2752dd9c0fd9085e90792612ad0"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.1"] = (["54edce9c11371762bd4f0003c2937b5d8806a2752dd9c0fd9085e90792612ad0"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "1.1"
 
         self.description = "Qt/C++ wrapper over minizip"

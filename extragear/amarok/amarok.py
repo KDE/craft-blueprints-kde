@@ -5,12 +5,12 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://anongit.kde.org/amarok.git'
+        self.svnTargets["master"] = "https://anongit.kde.org/amarok.git"
 
-        ver = '2.9.0'
+        ver = "2.9.0"
         self.defaultTarget = ver
-        self.targets[ver] = 'http://download.kde.org/download.php?url=stable/amarok/' + ver + '/src/amarok-' + ver + '.tar.bz2'
-        self.targetInstSrc[ver] = 'amarok-' + ver
+        self.targets[ver] = "http://download.kde.org/download.php?url=stable/amarok/" + ver + "/src/amarok-" + ver + ".tar.bz2"
+        self.targetInstSrc[ver] = "amarok-" + ver
 
     def setDependencies(self):
         self.runtimeDependencies["libs/taglib"] = None

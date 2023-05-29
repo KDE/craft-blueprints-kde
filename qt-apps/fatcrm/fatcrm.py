@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.targets["2.5.0"] = "https://github.com/KDAB/FatCRM/releases/download/v2.5.0/fatcrm-2.5.0.tar.gz"
         self.archiveNames["2.5.0"] = "fatcrm-2.5.0.tar.gz"
         self.targetInstSrc["2.5.0"] = "fatcrm-2.5.0"
-        self.targetDigests["2.5.0"] = (['662b7c5ccfe455f64e1058c1ec5f26968944d7bb0f9380b950bd11bf2c1a7ec3'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.5.0"] = (["662b7c5ccfe455f64e1058c1ec5f26968944d7bb0f9380b950bd11bf2c1a7ec3"], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "2.5.0"
 
@@ -39,6 +39,6 @@ class Package(CMakePackageBase):
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\fatcrm.exe"
         self.defines["license"] = os.path.join(self.sourceDir(), "LICENSE.GPL.txt")
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
         self.ignoredPackages.append("binary/mysql")
         return TypePackager.createPackage(self)

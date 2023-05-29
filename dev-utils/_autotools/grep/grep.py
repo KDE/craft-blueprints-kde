@@ -12,12 +12,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gettext"] = None
 
     def setTargets(self):
-        self.description = "Grep searches one or more input files for lines containing a match to a specified pattern. By default, Grep outputs the matching lines."
+        self.description = (
+            "Grep searches one or more input files for lines containing a match to a specified pattern. By default, Grep outputs the matching lines."
+        )
         for ver in ["3.7"]:
             self.targets[ver] = f"https://ftp.gnu.org/gnu/grep/grep-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"grep-{ver}"
-        self.targetDigests["3.7"] = (['5c10da312460aec721984d5d83246d24520ec438dd48d7ab5a05dbc0d6d6823c'], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = '3.7'
+        self.targetDigests["3.7"] = (["5c10da312460aec721984d5d83246d24520ec438dd48d7ab5a05dbc0d6d6823c"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "3.7"
 
 
 class Package(AutoToolsPackageBase):
@@ -27,5 +29,5 @@ class Package(AutoToolsPackageBase):
 
     def createPackage(self):
         self.addExecutableFilter(r"bin/(?!(grep)).*")
-        self.blacklist_file.append(self.packageDir() / 'blacklist.txt')
+        self.blacklist_file.append(self.packageDir() / "blacklist.txt")
         return super().createPackage()

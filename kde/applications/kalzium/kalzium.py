@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kplotting"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kunitconversion"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
-        #self.runtimeDependencies["libs/openbabel"] = None https://github.com/openbabel/openbabel/issues/2461
+        # self.runtimeDependencies["libs/openbabel"] = None https://github.com/openbabel/openbabel/issues/2461
 
 
 from Package.CMakePackageBase import *

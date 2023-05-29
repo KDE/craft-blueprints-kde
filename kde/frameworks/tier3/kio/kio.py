@@ -57,4 +57,3 @@ class Package(CraftPackageObject.get("kde").pattern):
         if not cfg and CraftCore.compiler.isLinux:
             CraftCore.log.info("You may need to install libmount-dev(el) and blkid-dev(el) on builder")
         return cfg
-

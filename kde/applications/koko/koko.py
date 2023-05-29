@@ -37,6 +37,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
 
+
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)

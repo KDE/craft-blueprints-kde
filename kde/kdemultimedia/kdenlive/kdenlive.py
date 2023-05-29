@@ -78,26 +78,27 @@ class Package(CraftPackageObject.get("kde").pattern):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.subinfo.options.configure.args += ["-DKF_MAJOR=6"]
 
-    def setDefaults(self, defines: {str:str}) -> {str:str}:
+    def setDefaults(self, defines: {str: str}) -> {str: str}:
         defines = super().setDefaults(defines)
         if OsUtils.isLinux() and isinstance(self, AppImagePackager):
             defines["runenv"] += [
-                'PACKAGE_TYPE=appimage',
-                'LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH',
-                'MLT_REPOSITORY=$this_dir/usr/lib/mlt-7/',
-                'MLT_DATA=$this_dir/usr/share/mlt-7/',
-                'MLT_ROOT_DIR=$this_dir/usr/',
-                'LADSPA_PATH=$this_dir/usr/lib/ladspa',
-                'FREI0R_PATH=$this_dir/usr/lib/frei0r-1',
-                'MLT_PROFILES_PATH=$this_dir/usr/share/mlt-7/profiles/',
-                'MLT_PRESETS_PATH=$this_dir/usr/share/mlt-7/presets/',
-                'QT_QPA_PLATFORM=xcb',
-                'SDL_AUDIODRIVER=pulseaudio']
+                "PACKAGE_TYPE=appimage",
+                "LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH",
+                "MLT_REPOSITORY=$this_dir/usr/lib/mlt-7/",
+                "MLT_DATA=$this_dir/usr/share/mlt-7/",
+                "MLT_ROOT_DIR=$this_dir/usr/",
+                "LADSPA_PATH=$this_dir/usr/lib/ladspa",
+                "FREI0R_PATH=$this_dir/usr/lib/frei0r-1",
+                "MLT_PROFILES_PATH=$this_dir/usr/share/mlt-7/profiles/",
+                "MLT_PRESETS_PATH=$this_dir/usr/share/mlt-7/presets/",
+                "QT_QPA_PLATFORM=xcb",
+                "SDL_AUDIODRIVER=pulseaudio",
+            ]
         return defines
 
     def createPackage(self):
         if not CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), 'exclude.list'))
+            self.blacklist_file.append(os.path.join(self.packageDir(), "exclude.list"))
         self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioslave|melt|update-mime-database|drmingw|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm")
         self.ignoredPackages.append("data/hunspell-dictionaries")
@@ -106,17 +107,16 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["appname"] = "kdenlive"
         self.defines["icon"] = os.path.join(self.sourceDir(), "data", "icons", "kdenlive.ico")
         self.defines["icon_png"] = os.path.join(self.sourceDir(), "data", "icons", "128-apps-kdenlive.png")
-        self.defines["shortcuts"] = [{"name" : "Kdenlive", "target":"bin/kdenlive.exe", "description" : self.subinfo.description}]
+        self.defines["shortcuts"] = [{"name": "Kdenlive", "target": "bin/kdenlive.exe", "description": self.subinfo.description}]
         self.defines["mimetypes"] = ["application/x-kdenlive"]
         self.defines["file_types"] = [".kdenlive"]
         return super().createPackage()
 
     def postInstall(self):
         if CraftCore.compiler.isWindows:
-            self.schemeDir = os.path.join(self.installDir(), 'bin', 'data', 'color-schemes')
+            self.schemeDir = os.path.join(self.installDir(), "bin", "data", "color-schemes")
         else:
-            self.schemeDir = os.path.join(self.installDir(), 'share', 'color-schemes')
-        for scheme in ['RustedBronze']:
-            GetFiles.getFile('https://raw.githubusercontent.com/Bartoloni/RustedBronze/master/'+scheme+'.colors', self.schemeDir)
+            self.schemeDir = os.path.join(self.installDir(), "share", "color-schemes")
+        for scheme in ["RustedBronze"]:
+            GetFiles.getFile("https://raw.githubusercontent.com/Bartoloni/RustedBronze/master/" + scheme + ".colors", self.schemeDir)
         return True
-

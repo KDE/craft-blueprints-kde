@@ -45,7 +45,7 @@ class Package(CMakePackageBase):
         if OsUtils.isLinux() and isinstance(self, AppImagePackager):
             utils.copyFile(
                 "/home/appimage/Craft/BinaryFactory/linux-64-gcc/build/kde/frameworks/tier1/breeze-icons-system/image-RelWithDebInfo-5.105.0/home/appimage/Craft/BinaryFactory/linux-64-gcc/share/icons/breeze/devices/64/drive-removable-media.svg",
-                "/home/appimage/Craft/BinaryFactory/linux-64-gcc/build/kde/unreleased/isoimagewriter/archive/usr/share/breeze/apps/64/drive-removable-media.svg"
+                "/home/appimage/Craft/BinaryFactory/linux-64-gcc/build/kde/unreleased/isoimagewriter/archive/usr/share/breeze/apps/64/drive-removable-media.svg",
             )
 
         return True

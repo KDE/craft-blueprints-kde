@@ -3,14 +3,14 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for v in ['3.5.1', '3.4.3']:
-            self.targets[v] = 'https://github.com/libarchive/libarchive/archive/v' + v + '.tar.gz'
-            self.targetInstSrc[v] = 'libarchive-' + v
+        for v in ["3.5.1", "3.4.3"]:
+            self.targets[v] = "https://github.com/libarchive/libarchive/archive/v" + v + ".tar.gz"
+            self.targetInstSrc[v] = "libarchive-" + v
 
-        self.targetDigests['3.4.3'] = (['19556c1c67aacdff547fd719729630444dbc7161c63eca661a310676a022bb01'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests['3.5.1'] = (['6d92e669e259a55a0119c135873469778f2718acbe605717f9d341487b4d0cba'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.4.3"] = (["19556c1c67aacdff547fd719729630444dbc7161c63eca661a310676a022bb01"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.5.1"] = (["6d92e669e259a55a0119c135873469778f2718acbe605717f9d341487b4d0cba"], CraftHash.HashAlgorithm.SHA256)
         self.description = "C library and command-line tools for reading and writing tar, cpio, zip, ISO, and other archive formats"
-        self.defaultTarget = '3.5.1'
+        self.defaultTarget = "3.5.1"
 
     def setDependencies(self):
         self.buildDependencies["libs/liblzma"] = None
@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/iconv"] = None
         self.runtimeDependencies["virtual/base"] = None
         #        self.runtimeDependencies["libs/expat"] = None
+
 
 from Package.CMakePackageBase import *
 

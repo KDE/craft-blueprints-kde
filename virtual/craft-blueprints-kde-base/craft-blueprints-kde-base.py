@@ -5,8 +5,8 @@ from Package.VirtualPackageBase import VirtualPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.1'] = ""
-        self.defaultTarget = '0.1'
+        self.targets["0.1"] = ""
+        self.defaultTarget = "0.1"
 
     def setDependencies(self):
         # The order is important

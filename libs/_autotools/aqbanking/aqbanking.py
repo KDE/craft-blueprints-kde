@@ -30,7 +30,7 @@ from Package.AutoToolsPackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         self.targets["6.4.1"] = "https://www.aquamaniac.de/rdm/attachments/download/400/aqbanking-6.4.1.tar.gz"
-        self.targetDigests["6.4.1"] = (['79adeaf05e99b5aa0d31c3eac3db37a56bb375f537b3f106a9acfcf844dadd77'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["6.4.1"] = (["79adeaf05e99b5aa0d31c3eac3db37a56bb375f537b3f106a9acfcf844dadd77"], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["6.4.1"] = "aqbanking-6.4.1"
         self.patchLevel["6.4.1"] = 1
         self.defaultTarget = "6.4.1"
@@ -40,6 +40,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gwenhywfar"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
+
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
@@ -57,7 +58,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
 
     def postInstall(self):
-        cmakes = [ os.path.join(self.installDir(), "lib", "cmake", f"aqbanking-{self.subinfo.buildTarget[:-2]}", "aqbanking-config.cmake") ]
+        cmakes = [os.path.join(self.installDir(), "lib", "cmake", f"aqbanking-{self.subinfo.buildTarget[:-2]}", "aqbanking-config.cmake")]
         for cmake in cmakes:
             with open(cmake, "rt") as f:
                 cmakeFileContents = f.readlines()
@@ -68,11 +69,11 @@ class Package(AutoToolsPackageBase):
                         craftRoot = OsUtils.toUnixPath(CraftStandardDirs.craftRoot())
                         if craftRoot.endswith("/"):
                             craftRoot = craftRoot[:-1]
-                        cmakeFileContents[i] = cmakeFileContents[i].replace(m.group('root'), craftRoot)
+                        cmakeFileContents[i] = cmakeFileContents[i].replace(m.group("root"), craftRoot)
                 elif CraftCore.compiler.isMacOS:
                     m2 = re.search("(libaqbanking.so.(\d*))", cmakeFileContents[i])
                     if m2 is not None:
                         cmakeFileContents[i] = cmakeFileContents[i].replace(m2.group(1), "libaqbanking.%s.dylib" % m2.group(2))
             with open(cmake, "wt") as f:
-                f.write(''.join(cmakeFileContents))
+                f.write("".join(cmakeFileContents))
         return AutoToolsPackageBase.postInstall(self)

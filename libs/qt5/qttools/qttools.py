@@ -27,7 +27,6 @@ class Package(Qt5CorePackageBase):
     def compile(self):
         env = {}
         if self.subinfo.options.dynamic.qdocThroughLLVM:
-            env = { "LLVM_INSTALL_DIR" : CraftCore.standardDirs.craftRoot(),
-                "FORCE_MINGW_QDOC_BUILD" : "1"}
+            env = {"LLVM_INSTALL_DIR": CraftCore.standardDirs.craftRoot(), "FORCE_MINGW_QDOC_BUILD": "1"}
         with utils.ScopedEnv(env):
             return super().compile()

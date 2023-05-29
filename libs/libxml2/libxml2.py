@@ -10,7 +10,11 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://download.gnome.org/sources/libxml2/2.10/libxml2-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"libxml2-{ver}"
         self.targetDigests["2.10.3"] = (["5d2cc3d78bec3dbe212a9d7fa629ada25a7da928af432c93060ff5c17ee28a9c"], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply["2.10.3"] = [("libxml2-2.10.3-20221105.diff", 1), ("libxml2-2.10.3-20221114.diff", 1), ("libxml2-android-ecm-toolchain-workaround.diff", 1)]
+        self.patchToApply["2.10.3"] = [
+            ("libxml2-2.10.3-20221105.diff", 1),
+            ("libxml2-2.10.3-20221114.diff", 1),
+            ("libxml2-android-ecm-toolchain-workaround.diff", 1),
+        ]
         self.patchLevel["2.10.3"] = 3
 
         self.description = "XML C parser and toolkit (runtime and applications)"
@@ -30,7 +34,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += [
             "-DLIBXML2_WITH_PYTHON=OFF",
             f"-DLIBXML2_WITH_ICU={'ON' if self.subinfo.options.isActive('libs/icu') else 'OFF'}",
-            f"-DLIBXML2_WITH_LZMA={'ON' if self.subinfo.options.isActive('libs/liblzma') else 'OFF'}"
+            f"-DLIBXML2_WITH_LZMA={'ON' if self.subinfo.options.isActive('libs/liblzma') else 'OFF'}",
         ]
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ['-DLIBXML2_WITH_ICONV=OFF', '-DLIBXML2_WITH_PROGRAMS=OFF', '-DLIBXML2_WITH_TESTS=OFF']
+            self.subinfo.options.configure.args += ["-DLIBXML2_WITH_ICONV=OFF", "-DLIBXML2_WITH_PROGRAMS=OFF", "-DLIBXML2_WITH_TESTS=OFF"]

@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["extragear/kdevelop/kdev-php"] = None
         self.runtimeDependencies["binary/python-libs"] = None
 
+
 from Package.CMakePackageBase import *
 
 
@@ -26,4 +27,4 @@ class Package(CMakePackageBase):
             if CraftCore.compiler.isWindows:
                 CraftCore.log.warning(f"Could not find {python} as provided by [Paths]Python, using {sys.executable} as a fallback")
             python = sys.executable
-        self.subinfo.options.configure.args = f" -DPYTHON_EXECUTABLE=\"{python}\""
+        self.subinfo.options.configure.args = f' -DPYTHON_EXECUTABLE="{python}"'

@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.targets[ver] = "https://fc-solve.shlomifish.org/downloads/fc-solve/black-hole-solver-%s.tar.xz" % ver
         self.archiveNames[ver] = "black-hole-solver-%s.tar.xz" % ver
         self.targetInstSrc[ver] = "black-hole-solver-%s" % ver
-        self.targetDigests[ver] =  (['36e1953a99e02e82489a3cb109fb590bcab307b4ddaec34cb0e67347668511e2'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[ver] = (["36e1953a99e02e82489a3cb109fb590bcab307b4ddaec34cb0e67347668511e2"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["libs/rinutils"] = None

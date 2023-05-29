@@ -10,9 +10,9 @@ class subinfo(info.infoclass):
 
         self.patchToApply["2.0.0"] = [("001-libical-2.0.0-search-snprintf.diff", 1)]
         self.targetDigests["2.0.0"] = (["20f4a98475052e1200d2691ba50b27969e4bedc6e50bffd5e2fa81f4ac90de9a"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["3.0.1"] = (['6405964d596aac64fc82c03c4486387fd6a9c09b1f7af1ff251238e66b9e66e1'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["3.0.2"] = (['f9699be8521e1aea190a7c87802805d3388e0a3f59a9b9faedec490f596807a0'],  CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["3.0.9"] = (['bd26d98b7fcb2eb0cd5461747bbb02024ebe38e293ca53a7dfdcb2505265a728'],  CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.0.1"] = (["6405964d596aac64fc82c03c4486387fd6a9c09b1f7af1ff251238e66b9e66e1"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.0.2"] = (["f9699be8521e1aea190a7c87802805d3388e0a3f59a9b9faedec490f596807a0"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.0.9"] = (["bd26d98b7fcb2eb0cd5461747bbb02024ebe38e293ca53a7dfdcb2505265a728"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Reference implementation of the icalendar data type and serialization format"
         self.webpage = "http://libical.github.io/libical/"

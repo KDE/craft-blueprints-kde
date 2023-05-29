@@ -3,7 +3,6 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-
         self.svnTargets["master"] = "https://invent.kde.org/pim/kalendar.git"
         self.defaultTarget = "master"
         self.description = "Calendar application"
@@ -30,6 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
+
 
 from Package.CMakePackageBase import *
 

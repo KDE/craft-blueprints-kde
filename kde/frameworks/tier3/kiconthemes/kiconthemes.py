@@ -28,6 +28,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
 
+
 from Blueprints.CraftPackageObject import CraftPackageObject
 
 

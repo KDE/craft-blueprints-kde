@@ -3,9 +3,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-
-        self.svnTargets['master'] = 'https://invent.kde.org/plasma-mobile/plasma-camera'
-        self.defaultTarget = 'master'
+        self.svnTargets["master"] = "https://invent.kde.org/plasma-mobile/plasma-camera"
+        self.defaultTarget = "master"
 
         self.description = "Camera Application"
         self.displayName = "Plasma Camera"
@@ -30,6 +29,7 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
+
 
 from Package.CMakePackageBase import *
 

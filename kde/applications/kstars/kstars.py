@@ -7,11 +7,11 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        
-        self.description = 'a desktop planetarium'
-        self.svnTargets['3.6.4'] = 'https://invent.kde.org/education/kstars.git|stable-3.6.4'
-        self.svnTargets['master'] = "https://github.com/KDE/kstars.git"
-        self.defaultTarget = '3.6.4'
+
+        self.description = "a desktop planetarium"
+        self.svnTargets["3.6.4"] = "https://invent.kde.org/education/kstars.git|stable-3.6.4"
+        self.svnTargets["master"] = "https://github.com/KDE/kstars.git"
+        self.defaultTarget = "3.6.4"
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
@@ -43,8 +43,8 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/_mac/xplanet"] = None
             self.runtimeDependencies["libs/_mac/gsc"] = None
-            #Making these dependencies casues an issue where you can't have KStars and INDI both be the latest version or both be stable
-            #You have to comment these out if you want stable, this basically hard codes it to be the latest version.
+            # Making these dependencies casues an issue where you can't have KStars and INDI both be the latest version or both be stable
+            # You have to comment these out if you want stable, this basically hard codes it to be the latest version.
             self.runtimeDependencies["libs/_mac/indiserver"] = None
             self.runtimeDependencies["libs/_mac/indiserver-3rdparty"] = None
         if not CraftCore.compiler.isMacOS:
@@ -71,9 +71,9 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/llvm")
         if CraftCore.compiler.isWindows:
-            self.blacklist_file.append(os.path.join(self.packageDir(), 'win-blacklist.txt'))
+            self.blacklist_file.append(os.path.join(self.packageDir(), "win-blacklist.txt"))
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), 'mac-blacklist.txt'))
+            self.blacklist_file.append(os.path.join(self.packageDir(), "mac-blacklist.txt"))
         self.subinfo.options.configure.args += "-DBUILD_DOC=OFF"
 
     def make(self):
@@ -83,27 +83,26 @@ class Package(CMakePackageBase):
         if not CraftCore.compiler.isMacOS:
             return True
 
-        #	Copying things needed for MacOS KStars
+        # 	Copying things needed for MacOS KStars
 
-        #	Defining Craft Directories
+        # 	Defining Craft Directories
         buildDir = str(self.buildDir())
         sourceDir = str(self.sourceDir())
         packageDir = str(self.packageDir())
         imageDir = str(self.imageDir())
         craftRoot = str(CraftCore.standardDirs.craftRoot())
-        craftLibDir = os.path.join(craftRoot,  'lib')
-        KSTARS_APP = os.path.join(buildDir , 'bin' , 'KStars.app')
-        KSTARS_RESOURCES = os.path.join(KSTARS_APP , 'Contents' , 'Resources')
-        KSTARS_PLUGINS = os.path.join(KSTARS_APP , 'Contents' , 'Plugins')
-        
+        craftLibDir = os.path.join(craftRoot, "lib")
+        KSTARS_APP = os.path.join(buildDir, "bin", "KStars.app")
+        KSTARS_RESOURCES = os.path.join(KSTARS_APP, "Contents", "Resources")
+        KSTARS_PLUGINS = os.path.join(KSTARS_APP, "Contents", "Plugins")
+
         # KIO Slave and it's parts (For loading thumbnail images)
         utils.system("cp -rf " + craftRoot + "/lib/libexec/kf5/kioslave5 " + KSTARS_APP + "/Contents/MacOS/")
         utils.system("mkdir -p " + KSTARS_PLUGINS + "/kf5/kio")
         utils.system("cp -f " + craftRoot + "/plugins/kf5/kio/kio_file.so " + KSTARS_PLUGINS + "/kf5/kio/")
         utils.system("cp -f " + craftRoot + "/plugins/kf5/kio/kio_http.so " + KSTARS_PLUGINS + "/kf5/kio/")
 
-
-        #	The Translations Directory
+        # 	The Translations Directory
         utils.system("cp -rf " + craftRoot + "/share/locale " + KSTARS_RESOURCES)
 
         for path in utils.getLibraryDeps(str(KSTARS_APP + "/Contents/MacOS/kstars")):
@@ -114,19 +113,19 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["executable"] = "bin\\kstars.exe"
-        #self.defines["setupname"] = "kstars-latest-win64.exe"
+        # self.defines["setupname"] = "kstars-latest-win64.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "kstars.ico")
         # TODO: support dpi scaling
         # TODO: use assets from src with the next release
-        #self.defines["icon_png"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Square150x150Logo.scale-100.png")
-        #self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Square44x44Logo.scale-100.png")
-        #self.defines["icon_png_310x150"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Wide310x150Logo.scale-100.png")
-        #self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Square310x310Logo.scale-100.png")
+        # self.defines["icon_png"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Square150x150Logo.scale-100.png")
+        # self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Square44x44Logo.scale-100.png")
+        # self.defines["icon_png_310x150"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Wide310x150Logo.scale-100.png")
+        # self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Square310x310Logo.scale-100.png")
         self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "Square150x150Logo.scale-100.png")
         self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "Square44x44Logo.scale-100.png")
         self.defines["icon_png_310x150"] = os.path.join(self.packageDir(), ".assets", "Wide310x150Logo.scale-100.png")
         self.defines["icon_png_310x310"] = os.path.join(self.packageDir(), ".assets", "Square310x310Logo.scale-100.png")
         if isinstance(self, AppxPackager):
-              self.defines["display_name"] = "KStars"
+            self.defines["display_name"] = "KStars"
 
         return TypePackager.createPackage(self)

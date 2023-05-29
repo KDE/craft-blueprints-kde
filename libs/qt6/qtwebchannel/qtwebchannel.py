@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt6/qtwebsockets"] = None
 
+
 from Package.CMakePackageBase import *
 
 

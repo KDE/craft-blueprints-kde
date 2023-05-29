@@ -3,10 +3,9 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets[
-            'svnHEAD'] = 'https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/trunk/mingw-w64-tools/gendef'
+        self.svnTargets["svnHEAD"] = "https://mingw-w64.svn.sourceforge.net/svnroot/mingw-w64/trunk/mingw-w64-tools/gendef"
 
-        self.defaultTarget = 'svnHEAD'
+        self.defaultTarget = "svnHEAD"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None

@@ -7,8 +7,9 @@ class subinfo(info.infoclass):
         versions = ["2.9.2.1"]
         for ver in versions:
             self.targets[ver] = f"https://github.com/jgm/pandoc/releases/download/{ver}/pandoc-{ver}-macOS.zip"
-        self.targetDigests["2.9.2.1"] = (['c4847f7a6e6a02a7d1b8dc17505896d8a6e4c2ee9e8b325e47a0468036675307'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.9.2.1"] = (["c4847f7a6e6a02a7d1b8dc17505896d8a6e4c2ee9e8b325e47a0468036675307"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "2.9.2.1"
+
 
 from Package.BinaryPackageBase import *
 

@@ -16,24 +16,24 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["dev-utils/snoretoast"] = None
 
     def setTargets(self):
-        self.svnTargets['master'] = 'https://invent.kde.org/libraries/snorenotify.git'
-        self.svnTargets['0.7'] = 'https://invent.kde.org/libraries/snorenotify.git|0.7'
+        self.svnTargets["master"] = "https://invent.kde.org/libraries/snorenotify.git"
+        self.svnTargets["0.7"] = "https://invent.kde.org/libraries/snorenotify.git|0.7"
         self.targetUpdatedRepoUrl["master"] = ("https://anongit.kde.org/snorenotify", "https://invent.kde.org/libraries/snorenotify.git")
         self.targetUpdatedRepoUrl["0.7"] = ("https://anongit.kde.org/snorenotify", "https://invent.kde.org/libraries/snorenotify.git")
-        for ver in ['0.6.0', '0.7.0']:
+        for ver in ["0.6.0", "0.7.0"]:
             self.targets[ver] = "http://download.kde.org/stable/snorenotify/%s/src/snorenotify-%s.tar.xz" % (ver, ver)
             self.targetInstSrc[ver] = "snorenotify-%s" % ver
             self.targetDigestUrls[ver] = (
-            "http://download.kde.org/stable/snorenotify/%s/src/snorenotify-%s.tar.xz.sha256" % (ver, ver),
-            CraftHash.HashAlgorithm.SHA256)
+                "http://download.kde.org/stable/snorenotify/%s/src/snorenotify-%s.tar.xz.sha256" % (ver, ver),
+                CraftHash.HashAlgorithm.SHA256,
+            )
 
         self.description = "Snorenotify is a multi platform Qt notification framework. Using a plugin system it is possible to create notifications with many different notification systems on Windows, Mac OS and Unix."
         self.patchLevel["0.7"] = 2
-        self.defaultTarget = '0.7'
+        self.defaultTarget = "0.7"
 
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.staticArgs = "-DSNORE_STATIC=ON -DSNORE_STATIC_QT=ON"
-

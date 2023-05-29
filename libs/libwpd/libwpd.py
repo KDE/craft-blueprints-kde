@@ -4,13 +4,13 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.9.0'] = "http://download.sourceforge.net/libwpd/libwpd-0.9.0.tar.bz2"
-        self.targetInstSrc['0.9.0'] = "libwpd-0.9.0"
-        self.targetDigests['0.9.0'] = 'd667654a329509c458f6e425868fa56ac12cd6b8'
-        self.patchToApply['0.9.0'] = ('libwpd-0.9.0-20110721.diff', 1)
+        self.targets["0.9.0"] = "http://download.sourceforge.net/libwpd/libwpd-0.9.0.tar.bz2"
+        self.targetInstSrc["0.9.0"] = "libwpd-0.9.0"
+        self.targetDigests["0.9.0"] = "d667654a329509c458f6e425868fa56ac12cd6b8"
+        self.patchToApply["0.9.0"] = ("libwpd-0.9.0-20110721.diff", 1)
 
         self.description = "A library designed to help process WordPerfect documents"
-        self.defaultTarget = '0.9.0'
+        self.defaultTarget = "0.9.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

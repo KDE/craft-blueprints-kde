@@ -28,7 +28,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
 
-
 from Blueprints.CraftPackageObject import CraftPackageObject
 
 

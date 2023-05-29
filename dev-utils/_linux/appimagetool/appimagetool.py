@@ -23,7 +23,6 @@ class Package(BinaryPackageBase):
     def __init__(self, **args):
         BinaryPackageBase.__init__(self)
 
-
     def unpack(self):
         return True
 

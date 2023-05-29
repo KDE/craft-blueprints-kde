@@ -26,5 +26,7 @@ class Package(BinaryPackageBase):
         BinaryPackageBase.__init__(self)
 
     def postInstall(self):
-        return utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", f"hub{CraftCore.compiler.executableSuffix}"),
-                                os.path.join(self.imageDir(), "dev-utils", "github", "bin", f"hub{CraftCore.compiler.executableSuffix}"))
+        return utils.createShim(
+            os.path.join(self.imageDir(), "dev-utils", "bin", f"hub{CraftCore.compiler.executableSuffix}"),
+            os.path.join(self.imageDir(), "dev-utils", "github", "bin", f"hub{CraftCore.compiler.executableSuffix}"),
+        )

@@ -29,27 +29,27 @@ import info
 
 
 class subinfo(info.infoclass):
-    def setTargets( self ):
+    def setTargets(self):
         for ver in ["1.2.0"]:
             self.targets[ver] = f"https://gnupg.org/ftp/gcrypt/pinentry/pinentry-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"pinentry-{ver}"
 
-        self.targetDigests["1.2.0"] = (['68076686fa724a290ea49cdf0d1c0c1500907d1b759a3bcbfbec0293e8f56570'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.2.0"] = (["68076686fa724a290ea49cdf0d1c0c1500907d1b759a3bcbfbec0293e8f56570"], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "1.2.0"
 
-
-    def setDependencies( self ):
+    def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/gpg-error"] = None
         self.runtimeDependencies["libs/assuan2"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
 
+
 from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):
-    def __init__( self, **args ):
-        AutoToolsPackageBase.__init__( self )
-        self.subinfo.options.configure.args +=" --enable-pinentry-qt"
+    def __init__(self, **args):
+        AutoToolsPackageBase.__init__(self)
+        self.subinfo.options.configure.args += " --enable-pinentry-qt"

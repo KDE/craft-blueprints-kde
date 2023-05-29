@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Factory for the easy creation of KDE/Qt components and programs"
-        self.defaultTarget = 'master'
+        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None

@@ -30,15 +30,16 @@ from Package.AutoToolsPackageBase import *
 from Package.BinaryPackageBase import *
 
 if not CraftCore.compiler.isMSVC():
+
     class subinfo(info.infoclass):
         def registerOptions(self):
             self.options.dynamic.registerOption("enableCPP", False)
 
-        def setTargets( self ):
+        def setTargets(self):
             self.versionInfo.setDefaultValues()
-            self.targetDigests["1.16.0"] = (['6c8cc4aedb10d5d4c905894ba1d850544619ee765606ac43df7405865de29ed0'], CraftHash.HashAlgorithm.SHA256)
-            
-        def setDependencies( self ):
+            self.targetDigests["1.16.0"] = (["6c8cc4aedb10d5d4c905894ba1d850544619ee765606ac43df7405865de29ed0"], CraftHash.HashAlgorithm.SHA256)
+
+        def setDependencies(self):
             self.buildDependencies["dev-utils/msys"] = None
             self.runtimeDependencies["virtual/base"] = None
             self.runtimeDependencies["libs/gpg-error"] = None
@@ -46,10 +47,9 @@ if not CraftCore.compiler.isMSVC():
             if self.options.dynamic.enableCPP:
                 self.runtimeDependencies["libs/qt5/qtbase"] = None
 
-
     class Package(AutoToolsPackageBase):
-        def __init__( self, **args ):
-            AutoToolsPackageBase.__init__( self )
+        def __init__(self, **args):
+            AutoToolsPackageBase.__init__(self)
             self.subinfo.options.configure.args += ["--disable-gpg-test"]
             if not self.subinfo.options.dynamic.enableCPP:
                 self.subinfo.options.configure.args += ["--enable-languages=no"]
@@ -65,22 +65,21 @@ if not CraftCore.compiler.isMSVC():
 
         def postInstall(self):
             badFiles = [os.path.join(self.installDir(), "bin", "gpgme-config")]
-            return self.patchInstallPrefix(badFiles,
-                                            [OsUtils.toMSysPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(self.subinfo.buildPrefix)],
-                                            CraftCore.standardDirs.craftRoot())
+            return self.patchInstallPrefix(
+                badFiles, [OsUtils.toMSysPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(self.subinfo.buildPrefix)], CraftCore.standardDirs.craftRoot()
+            )
 
 else:
+
     class subinfo(info.infoclass):
         def setTargets(self):
             self.addCachedAutotoolsBuild(versionInfo="../../_msvc/version.ini")
 
         def setDependencies(self):
-            self.runtimeDependencies['virtual/base'] = None
+            self.runtimeDependencies["virtual/base"] = None
             self.runtimeDependencies["libs/mingw-crt4msvc"] = None
-            self.runtimeDependencies['libs/assuan2'] = None
+            self.runtimeDependencies["libs/assuan2"] = None
             self.runtimeDependencies["libs/gpg-error"] = None
-
-
 
     class Package(BinaryPackageBase):
         def __init__(self, **args):

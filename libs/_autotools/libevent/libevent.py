@@ -2,19 +2,20 @@ import info
 
 
 class subinfo(info.infoclass):
-    def setTargets( self ):
+    def setTargets(self):
         for ver in ["2.1.11"]:
-            self.targets[ ver ] = f"https://github.com/libevent/libevent/releases/download/release-2.1.11-stable/libevent-2.1.11-stable.tar.gz"
-            self.targetInstSrc[ ver ] = f"libevent-{ver}-stable"
-        self.targetDigests["2.1.11"] = (['a65bac6202ea8c5609fd5c7e480e6d25de467ea1917c08290c521752f147283d'], CraftHash.HashAlgorithm.SHA256)
+            self.targets[ver] = f"https://github.com/libevent/libevent/releases/download/release-2.1.11-stable/libevent-2.1.11-stable.tar.gz"
+            self.targetInstSrc[ver] = f"libevent-{ver}-stable"
+        self.targetDigests["2.1.11"] = (["a65bac6202ea8c5609fd5c7e480e6d25de467ea1917c08290c521752f147283d"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "2.1.11"
 
-    def setDependencies( self ):
+    def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+
 
 from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):
-    def __init__( self, **args ):
-        AutoToolsPackageBase.__init__( self )
+    def __init__(self, **args):
+        AutoToolsPackageBase.__init__(self)

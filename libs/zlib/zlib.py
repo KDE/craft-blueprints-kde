@@ -6,9 +6,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = (
-            CraftCore.compiler.Platforms.NotAndroid
-        )
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
         for ver in ["1.2.13"]:
@@ -40,9 +38,7 @@ if CraftCore.compiler.isWindows:
     class Package(CMakePackageBase):
         def __init__(self, **args):
             CMakePackageBase.__init__(self)
-            self.subinfo.options.configure.args += [
-                f"-DINSTALL_PKGCONFIG_DIR={CraftCore.standardDirs.craftRoot() / 'lib/pkgconfig'}"
-            ]
+            self.subinfo.options.configure.args += [f"-DINSTALL_PKGCONFIG_DIR={CraftCore.standardDirs.craftRoot() / 'lib/pkgconfig'}"]
 
 else:
 

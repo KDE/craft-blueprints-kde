@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
 
+
 from Package.CMakePackageBase import *
 
 

@@ -10,22 +10,22 @@ class subinfo(info.infoclass):
         self.webpage = "https://labplot.kde.org/"
         self.displayName = "LabPlot2"
 
-        for ver in ['2.7.0', '2.8.0', '2.8.1', '2.8.2', '2.9.0']:
-            self.targets[ver] = 'http://download.kde.org/stable/labplot/%s/labplot-%s.tar.xz' % (ver, ver)
-        for ver in ['2.10.0']:
-            self.targets[ver] = 'http://download.kde.org/stable/labplot/labplot-%s.tar.xz' % ver
-        for ver in ['2.7.0', '2.8.0', '2.8.1', '2.8.2', '2.9.0', '2.10.0']:
-            self.targetInstSrc[ver] = 'labplot-%s' % ver
+        for ver in ["2.7.0", "2.8.0", "2.8.1", "2.8.2", "2.9.0"]:
+            self.targets[ver] = "http://download.kde.org/stable/labplot/%s/labplot-%s.tar.xz" % (ver, ver)
+        for ver in ["2.10.0"]:
+            self.targets[ver] = "http://download.kde.org/stable/labplot/labplot-%s.tar.xz" % ver
+        for ver in ["2.7.0", "2.8.0", "2.8.1", "2.8.2", "2.9.0", "2.10.0"]:
+            self.targetInstSrc[ver] = "labplot-%s" % ver
         # beta versions
-        for ver in ['2.8.99']:
-            self.targets[ver] = 'http://download.kde.org/stable/labplot/2.9.0/labplot-2.9.0-beta.tar.xz'
-            self.targetInstSrc[ver] = 'labplot-2.9.0-beta'
+        for ver in ["2.8.99"]:
+            self.targets[ver] = "http://download.kde.org/stable/labplot/2.9.0/labplot-2.9.0-beta.tar.xz"
+            self.targetInstSrc[ver] = "labplot-2.9.0-beta"
 
-        self.patchToApply['2.8.1'] = [('labplot-2.8.1.patch', 1)]
-        self.patchToApply['2.9.0'] = [('labplot-2.9.0.patch', 1)]
-        self.patchLevel['2.9.0'] = 1
+        self.patchToApply["2.8.1"] = [("labplot-2.8.1.patch", 1)]
+        self.patchToApply["2.9.0"] = [("labplot-2.9.0.patch", 1)]
+        self.patchLevel["2.9.0"] = 1
 
-        self.defaultTarget = '2.10.0'
+        self.defaultTarget = "2.10.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -49,7 +49,7 @@ class subinfo(info.infoclass):
                 self.runtimeDependencies["kde/applications/cantor"] = "master"
             else:
                 self.runtimeDependencies["kde/applications/cantor"] = None
-        else:   # but libexpat is needed
+        else:  # but libexpat is needed
             self.runtimeDependencies["libs/expat"] = None
         self.runtimeDependencies["qt-libs/qtmqtt"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
@@ -101,19 +101,20 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["appname"] = "labplot2"
 
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
         # Some plugin files brake codesigning on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
         self.addExecutableFilter(r"bin/(?!(labplot|cantor_|QtWebEngineProcess)).*")
 
         # set env variables for AppImage run environment
-        self.defines["runenv"] = [
-                'LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH']
+        self.defines["runenv"] = ["LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH"]
 
         self.defines["website"] = "https://labplot.kde.org/"
         self.defines["executable"] = "bin\\labplot2.exe"
-        self.defines["shortcuts"] = [{"name" : "LabPlot2", "target" : "bin/labplot2.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\labplot2.ico" }]
+        self.defines["shortcuts"] = [
+            {"name": "LabPlot2", "target": "bin/labplot2.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\labplot2.ico"}
+        ]
         self.defines["icon"] = os.path.join(self.packageDir(), "labplot2.ico")
         if self.buildTarget == "master" or self.buildTarget >= CraftVersion("2.8.1"):
             self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-labplot2.png")
@@ -123,21 +124,27 @@ class Package(CMakePackageBase):
         # see NullsoftInstaller.nsi and NullsoftInstallerPackager.py
         if isinstance(self, NullsoftInstallerPackager):
             # register application and .lml file type
-            self.defines["registry_hook"] = ("""WriteRegStr SHCTX "Software\\Classes\\.lml" "" "LabPlot2"\n"""
+            self.defines["registry_hook"] = (
+                """WriteRegStr SHCTX "Software\\Classes\\.lml" "" "LabPlot2"\n"""
                 """WriteRegStr SHCTX "Software\\Classes\\LabPlot2" "" "LabPlot2 project"\n"""
                 """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\DefaultIcon" "" "$INSTDIR\\bin\\data\\labplot2\\application-x-labplot2.ico"\n"""
                 """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell" "" "open"\n"""
-                """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell\\open\\command" "" '"$INSTDIR\\bin\\labplot2.exe" "%1"'\n""")
+                """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell\\open\\command" "" '"$INSTDIR\\bin\\labplot2.exe" "%1"'\n"""
+            )
 
             # remove old version if exists
-            self.defines["preInstallHook"] = r"""
+            self.defines[
+                "preInstallHook"
+            ] = r"""
                 Exec "$INSTDIR\unins000.exe"
                 """
 
             # add option for desktop shortcut (see kdeconnect-kde.py) and update file associations
             # SHChangeNotify(SHCNE_ASSOCCHANGED,SHCNF_FLUSH,0,0)
             # SHCNE_ASSOCCHANGED = 0x08000000, SHCNF_IDLIST = 0, SHCNF_FLUSH = 0x1000, SHCNF_FLUSHNOWAIT = 0x2000
-            self.defines["sections"] = r"""
+            self.defines[
+                "sections"
+            ] = r"""
                 Section "Desktop Shortcut"
                         CreateShortCut "$DESKTOP\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
                 SectionEnd
@@ -145,7 +152,9 @@ class Package(CMakePackageBase):
                         System::Call "shell32::SHChangeNotify(i,i,i,i) (0x08000000, 0x1000, 0, 0)"
                 SectionEnd
                 """
-            self.defines["un_sections"] = r"""
+            self.defines[
+                "un_sections"
+            ] = r"""
                 Section "Un.Remove Shortcuts"
                     Delete "$DESKTOP\\@{productname}.lnk"
                 SectionEnd
@@ -160,4 +169,3 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
         return TypePackager.createPackage(self)
-

@@ -7,7 +7,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/utilities/kweather.git")
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/utilities/kweather.git")
         self.displayName = "KWeather"
         self.description = "Weather Forecasts"
 
@@ -31,6 +31,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/breeze"] = None
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
+
 
 class Package(CMakePackageBase):
     def __init__(self):

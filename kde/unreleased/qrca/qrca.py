@@ -3,8 +3,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://invent.kde.org/plasma-mobile/qrca'
-        self.defaultTarget = 'master'
+        self.svnTargets["master"] = "https://invent.kde.org/plasma-mobile/qrca"
+        self.defaultTarget = "master"
 
         self.description = "QR Code Scanner"
 
@@ -29,6 +29,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/breeze"] = None
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
+
 
 from Package.CMakePackageBase import *
 

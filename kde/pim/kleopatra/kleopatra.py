@@ -28,7 +28,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/assuan2"] = None
 
 
-
 from Package.CMakePackageBase import *
 
 

@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["kde/kdegraphics/libkipi"] = None
 
+
 from Package.CMakePackageBase import *
 
 

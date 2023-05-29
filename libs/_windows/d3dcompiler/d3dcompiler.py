@@ -30,9 +30,9 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         # not used  yet only for reference
-        self.targets['master'] = ""
+        self.targets["master"] = ""
         self.description = "The d3dcompiler*.dll for qml"
-        self.defaultTarget = 'master'
+        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -58,6 +58,6 @@ class Package(BinaryPackageBase):
         destdir = os.path.join(self.installDir(), "bin")
         utils.createDir(destdir)
 
-        with utils.ScopedEnv({"PATHEXT" : ";".join(f"_{ver}.dll" for ver in range(60, 30, -1))}):
+        with utils.ScopedEnv({"PATHEXT": ";".join(f"_{ver}.dll" for ver in range(60, 30, -1))}):
             d3dcompiler = shutil.which("d3dcompiler")
             return utils.copyFile(d3dcompiler, os.path.join(destdir, os.path.basename(d3dcompiler)), linkOnly=False)

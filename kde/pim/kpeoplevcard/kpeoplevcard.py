@@ -3,8 +3,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://invent.kde.org/pim/kpeoplevcard.git'
-        self.defaultTarget = 'master'
+        self.svnTargets["master"] = "https://invent.kde.org/pim/kpeoplevcard.git"
+        self.defaultTarget = "master"
 
         self.description = "Expose VCard contacts to KPeople"
 

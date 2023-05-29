@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.patchToApply["6.4.0"] += [("fix-build-clang16.diff", 1)]
         self.patchLevel["6.4.0"] = 1
 
+
 from Package.CMakePackageBase import *
 
 

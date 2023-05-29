@@ -27,13 +27,13 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['0.10.9'] = "https://github.com/libofx/libofx/releases/download/0.10.9/libofx-0.10.9.tar.gz"
-        self.targetDigests['0.10.9'] = (['1ca89ff7d681c9edad312172ac464231a8de686e653213612f9417492cef0d37'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['0.10.9'] = "libofx-0.10.9"
+        self.targets["0.10.9"] = "https://github.com/libofx/libofx/releases/download/0.10.9/libofx-0.10.9.tar.gz"
+        self.targetDigests["0.10.9"] = (["1ca89ff7d681c9edad312172ac464231a8de686e653213612f9417492cef0d37"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["0.10.9"] = "libofx-0.10.9"
 
         self.description = "a parser and an API for the OFX (Open Financial eXchange) specification"
-        self.defaultTarget = '0.10.9'
-        self.patchLevel['0.10.9'] = 1
+        self.defaultTarget = "0.10.9"
+        self.patchLevel["0.10.9"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libopensp"] = None

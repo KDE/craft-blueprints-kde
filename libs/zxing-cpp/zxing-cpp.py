@@ -8,15 +8,14 @@ class subinfo(info.infoclass):
         pass
 
     def setTargets(self):
-        self.svnTargets['master'] = 'https://github.com/zxing-cpp/zxing-cpp.git'
-        self.defaultTarget = '2.0.0'
+        self.svnTargets["master"] = "https://github.com/zxing-cpp/zxing-cpp.git"
+        self.defaultTarget = "2.0.0"
         self.targets[self.defaultTarget] = f"https://github.com/zxing-cpp/zxing-cpp/archive/v{self.defaultTarget}.tar.gz"
         self.archiveNames[self.defaultTarget] = f"zxing-cpp-v{self.defaultTarget}.tar.gz"
         self.targetInstSrc[self.defaultTarget] = f"zxing-cpp-{self.defaultTarget}"
-        self.targetDigests[self.defaultTarget] = (
-            ['12b76b7005c30d34265fc20356d340da179b0b4d43d2c1b35bcca86776069f76'], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply['2.0.0'] = [('0001-missing-stdexcept-include.patch', 1)]
-        self.patchLevel['2.0.0'] = 1
+        self.targetDigests[self.defaultTarget] = (["12b76b7005c30d34265fc20356d340da179b0b4d43d2c1b35bcca86776069f76"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["2.0.0"] = [("0001-missing-stdexcept-include.patch", 1)]
+        self.patchLevel["2.0.0"] = 1
 
 
 class Package(CMakePackageBase):

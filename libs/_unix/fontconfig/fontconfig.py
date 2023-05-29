@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/uuid"] = None
 
+
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)

@@ -13,9 +13,9 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["libs/glib"] = None # mdb
-        self.runtimeDependencies["libs/sqlite"] = None # migration
-        #TODO self.runtimeDependencies["binary/postgresql"] = None # migration
+        self.runtimeDependencies["libs/glib"] = None  # mdb
+        self.runtimeDependencies["libs/sqlite"] = None  # migration
+        # TODO self.runtimeDependencies["binary/postgresql"] = None # migration
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies["kdesupport/kdewin"] = None
@@ -50,11 +50,11 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         # TODO
-        #self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        # self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
         self.defines["executable"] = "bin\\kexi.exe"
-        #self.defines["icon"] = os.path.join(self.packageDir(), "kexi.ico")
+        # self.defines["icon"] = os.path.join(self.packageDir(), "kexi.ico")
         # TODO:  find a way to extend the default script
-        #self.scriptname = os.path.join(self.packageDir(), "NullsoftInstaller.nsi")
-        #self.ignoredPackages.append("binary/mysql")
+        # self.scriptname = os.path.join(self.packageDir(), "NullsoftInstaller.nsi")
+        # self.ignoredPackages.append("binary/mysql")
 
         return TypePackager.createPackage(self)

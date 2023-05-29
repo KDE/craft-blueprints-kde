@@ -8,13 +8,14 @@ class subinfo(info.infoclass):
     def setTargets(self):
         ver = "0.2.2"
         self.targets[ver] = "https://gitea.nouspiro.space/nou/libXISF/archive/v%s.tar.gz" % ver
-        self.svnTargets['master'] = "https://gitea.nouspiro.space/nou/libXISF"
+        self.svnTargets["master"] = "https://gitea.nouspiro.space/nou/libXISF"
         self.targetInstSrc[ver] = "libxisf"
         self.defaultTarget = ver
-        self.description = 'XISF Library'
+        self.description = "XISF Library"
 
     def setDependencies(self):
         self.buildDependencies["libs/zlib"] = None
+
 
 from Package.CMakePackageBase import *
 

@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
             self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
 
+
 from Package.CMakePackageBase import *
 
 
@@ -39,7 +40,7 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(self.sourceDir(), "data", "ico", "marble.ico")
         self.defines["icon_png"] = os.path.join(self.packageDir(), "150-apps-marble.png")
         self.defines["icon_png_44"] = os.path.join(self.packageDir(), "44-apps-marble.png")
-        self.defines["shortcuts"] = [{"name" : "Marble", "target" : "bin\marble-qt.exe"}]
+        self.defines["shortcuts"] = [{"name": "Marble", "target": "bin\marble-qt.exe"}]
         self.defines["website"] = "https://marble.kde.org/"
 
         self.addExecutableFilter(r"bin/(?!(marble-qt|QtWebEngineProcess)).*")

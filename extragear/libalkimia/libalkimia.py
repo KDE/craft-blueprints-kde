@@ -28,17 +28,17 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://anongit.kde.org/alkimia|master'
-        for ver in ['7.0.1', '7.0.2', "8.0.1", "8.0.2", "8.0.3", "8.0.4", "8.1.0", "8.1.1"]:
-          self.targets[ver] = f"https://download.kde.org/stable/alkimia/{ver}/alkimia-{ver}.tar.xz"
-          self.targetDigestUrls[ver] = f"https://download.kde.org/stable/alkimia/{ver}/alkimia-{ver}.tar.xz.sha256"
-          self.targetInstSrc[ver] = f"alkimia-{ver}"
+        self.svnTargets["master"] = "https://anongit.kde.org/alkimia|master"
+        for ver in ["7.0.1", "7.0.2", "8.0.1", "8.0.2", "8.0.3", "8.0.4", "8.1.0", "8.1.1"]:
+            self.targets[ver] = f"https://download.kde.org/stable/alkimia/{ver}/alkimia-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/alkimia/{ver}/alkimia-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = f"alkimia-{ver}"
 
-        self.defaultTarget = '8.1.1'
+        self.defaultTarget = "8.1.1"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
-        #if self.buildTarget == "master" or self.buildTarget >= CraftVersion("8.0"):
+        # if self.buildTarget == "master" or self.buildTarget >= CraftVersion("8.0"):
         #    self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
@@ -59,8 +59,7 @@ class Package(CMakePackageBase):
 
         self.subinfo.options.configure.args += "-DBUILD_APPLETS=OFF -DCMAKE_DISABLE_FIND_PACKAGE_Qt5WebEngineWidgets=1"
 
-
     def createPackage(self):
-        self.defines['appname'] = "onlinequoteseditor5"
-        self.defines['apppath'] = "Applications/KDE/onlinequoteseditor5.app"
+        self.defines["appname"] = "onlinequoteseditor5"
+        self.defines["apppath"] = "Applications/KDE/onlinequoteseditor5.app"
         return super().createPackage()

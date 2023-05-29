@@ -7,11 +7,12 @@ import info
 # Additionally, the binary is packaged with upx
 # This binary is from the 4.7.0 version of Qt
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['HEAD'] = "http://www.winkde.org/pub/kde/ports/win32/repository/other/qlalr.exe"
-        self.defaultTarget = 'HEAD'
-        self.targetInstallPath['HEAD'] = os.path.join("dev-utils", "bin")
+        self.targets["HEAD"] = "http://www.winkde.org/pub/kde/ports/win32/repository/other/qlalr.exe"
+        self.defaultTarget = "HEAD"
+        self.targetInstallPath["HEAD"] = os.path.join("dev-utils", "bin")
 
 
 from Package.BinaryPackageBase import *

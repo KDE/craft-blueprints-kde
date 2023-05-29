@@ -37,6 +37,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/kshimgen"] = None
 
+
 from Package.BinaryPackageBase import *
 
 
@@ -44,7 +45,6 @@ class Package(BinaryPackageBase):
     def __init__(self):
         BinaryPackageBase.__init__(self)
         self.subinfo.options.package.disableBinaryCache = True
-
 
     @property
     def powershell(self):
@@ -72,13 +72,14 @@ class Package(BinaryPackageBase):
         else:
             return utils.createShim(out, wt, ["new-tab", self.powershell] + command, useAbsolutePath=True, guiApp=True)
 
-
     def postQmerge(self):
-        utils.installShortcut(f"Craft {Path(CraftCore.standardDirs.craftRoot()).name}",
-                              Path(CraftCore.standardDirs.craftRoot()) / "bin/craftenv.exe",
-                              Path(CraftCore.standardDirs.craftBin()).parent,
-                              Path(CraftCore.standardDirs.craftBin()) / "data/icons/craft.ico",
-                              f"Craft installed to: {Path(CraftCore.standardDirs.craftRoot()).name}")
+        utils.installShortcut(
+            f"Craft {Path(CraftCore.standardDirs.craftRoot()).name}",
+            Path(CraftCore.standardDirs.craftRoot()) / "bin/craftenv.exe",
+            Path(CraftCore.standardDirs.craftBin()).parent,
+            Path(CraftCore.standardDirs.craftBin()) / "data/icons/craft.ico",
+            f"Craft installed to: {Path(CraftCore.standardDirs.craftRoot()).name}",
+        )
         return True
 
     def unmerge(self, dbOnly=False):

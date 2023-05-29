@@ -8,8 +8,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
     def setTargets(self):
-        self.svnTargets['master'] = 'https://github.com/TheOneRing/vsd.git'
-        self.defaultTarget = 'master'
+        self.svnTargets["master"] = "https://github.com/TheOneRing/vsd.git"
+        self.defaultTarget = "master"
 
 
 class Package(CMakePackageBase):

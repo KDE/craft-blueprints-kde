@@ -4,18 +4,18 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ['10.37', "10.42"]:
+        for ver in ["10.37", "10.42"]:
             self.targets[ver] = f"https://github.com/PhilipHazel/pcre2/releases/download/pcre2-{ver}/pcre2-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"pcre2-{ver}"
 
         self.patchToApply["10.37"] = [("pcre2-10.37-20211120.diff", 1)]
-        self.targetDigests["10.37"] = (['04e214c0c40a97b8a5c2b4ae88a3aa8a93e6f2e45c6b3534ddac351f26548577'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["10.37"] = (["04e214c0c40a97b8a5c2b4ae88a3aa8a93e6f2e45c6b3534ddac351f26548577"], CraftHash.HashAlgorithm.SHA256)
         self.patchLevel["10.37"] = 2
         self.patchToApply["10.42"] = [("pcre2-10.37-20211120.diff", 1)]
-        #self.targetDigests["10.42"] = (['04e214c0c40a97b8a5c2b4ae88a3aa8a93e6f2e45c6b3534ddac351f26548577'], CraftHash.HashAlgorithm.SHA256)
+        # self.targetDigests["10.42"] = (['04e214c0c40a97b8a5c2b4ae88a3aa8a93e6f2e45c6b3534ddac351f26548577'], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Perl-Compatible Regular Expressions (version2)"
-        self.defaultTarget = '10.42'
+        self.defaultTarget = "10.42"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

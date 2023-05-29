@@ -14,7 +14,8 @@ class subinfo(info.infoclass):
         self.targets[ver] = f"https://github.com/shlomif/rinutils/releases/download/{ver}/rinutils-{ver}.tar.xz"
         self.archiveNames[ver] = f"rinutils-{ver}.tar.xz"
         self.targetInstSrc[ver] = f"rinutils-{ver}"
-        self.targetDigests[ver] =  (['1d9677cdfb2792436db993aeff7e8e91670d5c4deae62b70ec82d452615409e0'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[ver] = (["1d9677cdfb2792436db993aeff7e8e91670d5c4deae62b70ec82d452615409e0"], CraftHash.HashAlgorithm.SHA256)
+
 
 class Package(CMakePackageBase):
     def __init__(self, **args):

@@ -22,10 +22,13 @@ class UnixPackage(CMakePackageBase):
 
 
 if OsUtils.isUnix():
+
     class Package(UnixPackage):
         def __init__(self):
             UnixPackage.__init__(self)
+
 else:
+
     class Package(VirtualPackageBase):
         def __init__(self):
             VirtualPackageBase.__init__(self)

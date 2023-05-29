@@ -31,7 +31,7 @@ from Package.AutoToolsPackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         self.targets["5.8.1"] = "https://www.aquamaniac.de/rdm/attachments/download/402/gwenhywfar-5.8.1.tar.gz"
-        self.targetDigests["5.8.1"] = (['05397618b9cae0197a181835f67e19ba09652cf30e2c9d1fbb98f3f34dbf4e1f'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["5.8.1"] = (["05397618b9cae0197a181835f67e19ba09652cf30e2c9d1fbb98f3f34dbf4e1f"], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["5.8.1"] = "gwenhywfar-5.8.1"
         self.patchToApply["5.8.1"] = [("gwenhywfar-5.8.1-20211230.diff", 0)]
         if CraftCore.compiler.isMinGW():
@@ -47,6 +47,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
+
 
 # 2018-02-11: compilation is successful if xmlmerge.exe gives any output in the console. For it to happen gnutls must be compiled with --enable-nls --enable-openssl-compatibility
 class Package(AutoToolsPackageBase):
@@ -67,26 +68,27 @@ class Package(AutoToolsPackageBase):
         if CraftCore.compiler.isMinGW():
             _, includedir = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_HEADERS")
             includedir = self.shell.toNativePath(includedir.strip())
-            widgetsdir = self.shell.toNativePath(os.path.join(includedir , "QtWidgets"))
-            guidir = self.shell.toNativePath(os.path.join(includedir , "QtGui"))
-            coredir = self.shell.toNativePath(os.path.join(includedir , "QtCore"))
+            widgetsdir = self.shell.toNativePath(os.path.join(includedir, "QtWidgets"))
+            guidir = self.shell.toNativePath(os.path.join(includedir, "QtGui"))
+            coredir = self.shell.toNativePath(os.path.join(includedir, "QtCore"))
 
             self.subinfo.options.configure.cxxflags += f"-I{widgetsdir} -I{guidir} -I{coredir} -I{includedir} "
         return super().configure()
 
     def postInstall(self):
         versionWithoutPatch = ".".join(self.subinfo.buildTarget.split(".")[0:2])
-        cmakes = [ os.path.join(self.installDir(), "lib", "cmake", f"gwengui-cpp-{versionWithoutPatch}", "gwengui-cpp-config.cmake"),
-                os.path.join(self.installDir(), "lib", "cmake", f"gwengui-qt5-{versionWithoutPatch}", "gwengui-qt5-config.cmake"),
-                os.path.join(self.installDir(), "lib", "cmake", f"gwenhywfar-{versionWithoutPatch}", "gwenhywfar-config.cmake")
-                ]
+        cmakes = [
+            os.path.join(self.installDir(), "lib", "cmake", f"gwengui-cpp-{versionWithoutPatch}", "gwengui-cpp-config.cmake"),
+            os.path.join(self.installDir(), "lib", "cmake", f"gwengui-qt5-{versionWithoutPatch}", "gwengui-qt5-config.cmake"),
+            os.path.join(self.installDir(), "lib", "cmake", f"gwenhywfar-{versionWithoutPatch}", "gwenhywfar-config.cmake"),
+        ]
         for cmake in cmakes:
             with open(cmake, "rt") as f:
                 cmakeFileContents = f.readlines()
 
             for i in range(len(cmakeFileContents)):
                 if CraftCore.compiler.isMinGW():
-                    m = re.search("set_and_check\(prefix \"(?P<root>[^\"]*)\"\)", cmakeFileContents[i])
+                    m = re.search('set_and_check\(prefix "(?P<root>[^"]*)"\)', cmakeFileContents[i])
                     if m is not None:
                         # somehow this doesn't produce forward slash path in CI
                         # craftRoot = OsUtils.toUnixPath(CraftStandardDirs.craftRoot())
@@ -94,11 +96,11 @@ class Package(AutoToolsPackageBase):
                         craftRoot = craftRoot.replace("\\", "/")
                         if craftRoot.endswith("/"):
                             craftRoot = craftRoot[:-1]
-                        cmakeFileContents[i] = cmakeFileContents[i].replace(m.group('root'), craftRoot)
+                        cmakeFileContents[i] = cmakeFileContents[i].replace(m.group("root"), craftRoot)
 
                     m2 = re.search("libgwenhywfar.so.(?P<number>[\d]*)", cmakeFileContents[i])
                     if m2 is not None:
-                        cmakeFileContents[i] = cmakeFileContents[i].replace("lib/" + m2.group(0), "bin/libgwenhywfar-" + m2.group('number') +".dll")
+                        cmakeFileContents[i] = cmakeFileContents[i].replace("lib/" + m2.group(0), "bin/libgwenhywfar-" + m2.group("number") + ".dll")
 
                     m3 = re.search("libgwengui-cpp.so", cmakeFileContents[i])
                     if m3 is not None:
@@ -110,7 +112,7 @@ class Package(AutoToolsPackageBase):
                 elif CraftCore.compiler.isMacOS:
                     m2 = re.search("libgwenhywfar.so.(?P<number>[\d]*)", cmakeFileContents[i])
                     if m2 is not None:
-                        cmakeFileContents[i] = cmakeFileContents[i].replace(m2.group(0), "libgwenhywfar." + m2.group('number') + ".dylib")
+                        cmakeFileContents[i] = cmakeFileContents[i].replace(m2.group(0), "libgwenhywfar." + m2.group("number") + ".dylib")
 
                     m3 = re.search("libgwengui-cpp.so", cmakeFileContents[i])
                     if m3 is not None:
@@ -121,6 +123,6 @@ class Package(AutoToolsPackageBase):
                         cmakeFileContents[i] = cmakeFileContents[i].replace("libgwengui-qt5.so", "libgwengui-qt5.dylib")
 
                 with open(cmake, "wt") as f:
-                    f.write(''.join(cmakeFileContents))
+                    f.write("".join(cmakeFileContents))
 
         return AutoToolsPackageBase.postInstall(self)

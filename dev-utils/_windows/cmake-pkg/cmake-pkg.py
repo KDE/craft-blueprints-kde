@@ -26,7 +26,8 @@ class Package(CMakePackageBase):
         if not CMakePackageBase.install(self):
             return False
         for name in ["cmake", "cmake-gui", "cmcldeps", "cpack", "ctest"]:
-            if not utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", f"{name}.exe"),
-                                    os.path.join(self.imageDir(), "dev-utils", "cmake", "bin", f"{name}.exe")):
+            if not utils.createShim(
+                os.path.join(self.imageDir(), "dev-utils", "bin", f"{name}.exe"), os.path.join(self.imageDir(), "dev-utils", "cmake", "bin", f"{name}.exe")
+            ):
                 return False
         return True

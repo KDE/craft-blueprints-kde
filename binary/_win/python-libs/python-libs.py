@@ -36,9 +36,9 @@ class Package(BinaryPackageBase):
                 break
         os.makedirs(os.path.join(self.sourceDir(), "bin"))
         os.makedirs(os.path.join(self.sourceDir(), "bin", "lib"))
-        return utils.unpackFile(pythonDir, f"{name}.zip",
-                                os.path.join(self.sourceDir(), "bin", "lib")) \
-               and utils.copyFile(os.path.join(pythonDir, f"{name}.dll"), os.path.join(self.sourceDir(), "bin"), False)
+        return utils.unpackFile(pythonDir, f"{name}.zip", os.path.join(self.sourceDir(), "bin", "lib")) and utils.copyFile(
+            os.path.join(pythonDir, f"{name}.dll"), os.path.join(self.sourceDir(), "bin"), False
+        )
 
     def install(self):
         return BinaryPackageBase.install(self)

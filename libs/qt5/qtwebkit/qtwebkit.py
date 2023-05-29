@@ -15,15 +15,24 @@ class subinfo(info.infoclass):
 
         for ver in self.versionInfo.branches():
             if CraftVersion(ver) < "5.212":
-                self.patchToApply[ver] = [("build-with-mysql.diff", 1),
-                                          ("disable-icu-test.diff", 1)]
+                self.patchToApply[ver] = [("build-with-mysql.diff", 1), ("disable-icu-test.diff", 1)]
 
-        self.patchToApply["5.212"] = [("qtwebkit-20181022.patch", 1),
-                                      ("0001-gettickcount64-compatibility-xp.patch", 1),# https://raw.githubusercontent.com/Alexpux/MINGW-packages/2cfdf054df2c826d7c61237ee5ac2453b0f3964d/mingw-w64-qtwebkit/0001-gettickcount64-compatibility-xp.patch
-                                      ("0004-msvc-bug-not-mingw.patch", 1),# https://raw.githubusercontent.com/Alexpux/MINGW-packages/2cfdf054df2c826d7c61237ee5ac2453b0f3964d/mingw-w64-qtwebkit/0004-msvc-bug-not-mingw.patch
-                                      ("fix_mac.diff", 1), # https://raw.githubusercontent.com/OSGeo/homebrew-osgeo4mac/742b2afb6b85f9ba52d457ef63b1bb947f3dfcc0/Formula/qt5-webkit.rb
-                                      ("qtwebkit-5.212.0_pre20200309-icu-68.patch", 1) # https://gitweb.gentoo.org/repo/gentoo.git/plain/dev-qt/qtwebkit/files/qtwebkit-5.212.0_pre20200309-icu-68.patch
-                                      ]
+        self.patchToApply["5.212"] = [
+            ("qtwebkit-20181022.patch", 1),
+            (
+                "0001-gettickcount64-compatibility-xp.patch",
+                1,
+            ),  # https://raw.githubusercontent.com/Alexpux/MINGW-packages/2cfdf054df2c826d7c61237ee5ac2453b0f3964d/mingw-w64-qtwebkit/0001-gettickcount64-compatibility-xp.patch
+            (
+                "0004-msvc-bug-not-mingw.patch",
+                1,
+            ),  # https://raw.githubusercontent.com/Alexpux/MINGW-packages/2cfdf054df2c826d7c61237ee5ac2453b0f3964d/mingw-w64-qtwebkit/0004-msvc-bug-not-mingw.patch
+            ("fix_mac.diff", 1),  # https://raw.githubusercontent.com/OSGeo/homebrew-osgeo4mac/742b2afb6b85f9ba52d457ef63b1bb947f3dfcc0/Formula/qt5-webkit.rb
+            (
+                "qtwebkit-5.212.0_pre20200309-icu-68.patch",
+                1,
+            ),  # https://gitweb.gentoo.org/repo/gentoo.git/plain/dev-qt/qtwebkit/files/qtwebkit-5.212.0_pre20200309-icu-68.patch
+        ]
         self.patchToApply["dev"] = [("qtwebkit-20181022.patch", 1)]
 
         for ver in ["5.12", "5.15", "kde/5.15"]:
@@ -44,7 +53,6 @@ class subinfo(info.infoclass):
             branch = branchRegEx.findall(ver)[0][:-2]
             self.svnTargets[ver] = self.svnTargets[branch]
             self.patchToApply[ver] = self.patchToApply[branch]
-
 
     def setDependencies(self):
         self.runtimeDependencies["libs/sqlite"] = None
@@ -77,9 +85,11 @@ from Package.Qt5CorePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += " -DPORT=Qt -DENABLE_API_TESTS=OFF -DENABLE_TOOLS=OFF " \
-                                               "-DENABLE_NETSCAPE_PLUGIN_API=OFF -DUSE_GSTREAMER=OFF " \
-                                               "-DUSE_QT_MULTIMEDIA=ON -DUSE_MEDIA_FOUNDATION=OFF -DUSE_LIBHYPHEN=OFF"
+        self.subinfo.options.configure.args += (
+            " -DPORT=Qt -DENABLE_API_TESTS=OFF -DENABLE_TOOLS=OFF "
+            "-DENABLE_NETSCAPE_PLUGIN_API=OFF -DUSE_GSTREAMER=OFF "
+            "-DUSE_QT_MULTIMEDIA=ON -DUSE_MEDIA_FOUNDATION=OFF -DUSE_LIBHYPHEN=OFF"
+        )
         if CraftCore.compiler.isMSVC():
             if not CraftCore.compiler.isMSVC2019():
                 # TODO: find out why this is failing

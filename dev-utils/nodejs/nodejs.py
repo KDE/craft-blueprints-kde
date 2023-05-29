@@ -3,7 +3,9 @@ import info
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Windows | CraftCore.compiler.Platforms.MacOS | CraftCore.compiler.Platforms.Linux
+        self.parent.package.categoryInfo.platforms = (
+            CraftCore.compiler.Platforms.Windows | CraftCore.compiler.Platforms.MacOS | CraftCore.compiler.Platforms.Linux
+        )
 
     def setTargets(self):
         for ver in ["16.15.1"]:
@@ -16,7 +18,7 @@ class subinfo(info.infoclass):
             elif CraftCore.compiler.isLinux:
                 self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-linux-x64.tar.xz"
                 self.targetInstSrc[ver] = f"node-v{ver}-linux-x64"
-            
+
             self.targetInstallPath[ver] = os.path.join("dev-utils", "nodejs")
             self.targetDigestUrls[ver] = (f"https://nodejs.org/dist/v{ver}/SHASUMS256.txt.asc", CraftHash.HashAlgorithm.SHA256)
 
@@ -25,6 +27,7 @@ class subinfo(info.infoclass):
 
         self.defaultTarget = "16.15.1"
 
+
 from Package.BinaryPackageBase import *
 
 
@@ -32,16 +35,15 @@ class Package(BinaryPackageBase):
     def __init__(self):
         BinaryPackageBase.__init__(self)
 
-
     def install(self):
         if not super().install():
             return False
         sourceBinary = self.installDir()
         if not CraftCore.compiler.isWindows:
-            sourceBinary /= "bin" 
-        sourceBinary /= f"node{CraftCore.compiler.executableSuffix}" 
-        targetBinary = self.imageDir() /  f"dev-utils/bin/node{CraftCore.compiler.executableSuffix}"
-        
+            sourceBinary /= "bin"
+        sourceBinary /= f"node{CraftCore.compiler.executableSuffix}"
+        targetBinary = self.imageDir() / f"dev-utils/bin/node{CraftCore.compiler.executableSuffix}"
+
         return utils.createShim(targetBinary, sourceBinary)
 
     def postQmerge(self):

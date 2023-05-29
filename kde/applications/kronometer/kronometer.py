@@ -33,7 +33,7 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(self.packageDir(), "kronometer.ico")
         self.defines["icon_png"] = os.path.join(self.packageDir(), "150-apps-kronometer.png")
         self.defines["icon_png_44"] = os.path.join(self.packageDir(), "44-apps-kronometer.png")
-        self.defines["shortcuts"] = [{"name" : "Kronometer", "target" : "bin\kronometer.exe"}]
+        self.defines["shortcuts"] = [{"name": "Kronometer", "target": "bin\kronometer.exe"}]
         self.defines["website"] = "https://apps.kde.org/en/kronometer"
 
         self.addExecutableFilter(r"bin/(?!(kronometer)).*")

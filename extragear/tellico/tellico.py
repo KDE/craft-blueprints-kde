@@ -35,25 +35,26 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        self.runtimeDependencies["libs/shared-mime-info"] = None 
+        self.runtimeDependencies["libs/shared-mime-info"] = None
         # master (and 3.4) build against qtcharts and qtwebengine (MSVC)
         self.runtimeDependencies["libs/qt5/qtcharts"] = None
         if not CraftCore.compiler.isMinGW():
-            self.runtimeDependencies['libs/qt5/qtwebengine'] = None
+            self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+
 
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        
+
     def createPackage(self):
         self.defines["appname"] = "tellico"
         self.defines["website"] = "https://tellico-project.org/"
-        self.defines["shortcuts"] = [{"name" : self.subinfo.displayName, "target":"bin\\tellico.exe"}]
+        self.defines["shortcuts"] = [{"name": self.subinfo.displayName, "target": "bin\\tellico.exe"}]
         self.defines["license"] = os.path.join(self.sourceDir(), "COPYING")
         self.defines["file_types"] = [".tc"]
         self.defines["icon"] = self.buildDir() / "src/ICONS_SOURCES.ico"
         self.ignoredPackages.append("binary/mysql")
-        
-        #self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
-        
+
+        # self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+
         return TypePackager.createPackage(self)

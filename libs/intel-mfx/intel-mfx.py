@@ -2,19 +2,19 @@ import info
 
 
 class subinfo(info.infoclass):
-    def setTargets( self ):
-        self.description = 'Autotooled version of the opensource Intel media sdk dispatcher'
-        self.svnTargets['61ac4d2'] = "https://github.com/lu-zero/mfx_dispatch.git||61ac4d2ce63d0efc1a5cb37c949ea3ad44dc73e1"
-        self.defaultTarget = '61ac4d2'
+    def setTargets(self):
+        self.description = "Autotooled version of the opensource Intel media sdk dispatcher"
+        self.svnTargets["61ac4d2"] = "https://github.com/lu-zero/mfx_dispatch.git||61ac4d2ce63d0efc1a5cb37c949ea3ad44dc73e1"
+        self.defaultTarget = "61ac4d2"
 
-    def setDependencies( self ):
+    def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libva"] = None
+
 
 from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):
-
-    def __init__( self, **args ):
-        AutoToolsPackageBase.__init__( self )
+    def __init__(self, **args):
+        AutoToolsPackageBase.__init__(self)

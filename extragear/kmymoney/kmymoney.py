@@ -30,7 +30,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "a personal finance manager for KDE"
         self.displayName = "KMyMoney"
-        self.defaultTarget = '5.1'
+        self.defaultTarget = "5.1"
 
     def setDependencies(self):
         if CraftCore.compiler.isWindows:
@@ -53,7 +53,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
-        self.runtimeDependencies['libs/gpgme'] = None
+        self.runtimeDependencies["libs/gpgme"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
@@ -91,27 +91,23 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         # set env variables for AppImage run environment
-        self.defines["runenv"] = [
-                'LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH']
-        self.defines["executable"] = "bin\\kmymoney.exe"                       # Windows-only, mac is handled implicitly
+        self.defines["runenv"] = ["LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH"]
+        self.defines["executable"] = "bin\\kmymoney.exe"  # Windows-only, mac is handled implicitly
         self.defines["icon"] = os.path.join(self.packageDir(), "kmymoney.ico")
-        self.defines["mimetypes"] = ["application/x-kmymoney",
-                                     "application/x-ofx",
-                                     "application/vnd.intu.qfx",
-                                     "application/x-qfx",
-                                     "application/x-qif",
-                                     "text/csv"]
-        self.defines["file_types"] = [".kmy",
-                                      ".ofx",
-                                      ".qfx",
-                                      ".qif",
-                                      ".csv"]
+        self.defines["mimetypes"] = [
+            "application/x-kmymoney",
+            "application/x-ofx",
+            "application/vnd.intu.qfx",
+            "application/x-qfx",
+            "application/x-qif",
+            "text/csv",
+        ]
+        self.defines["file_types"] = [".kmy", ".ofx", ".qfx", ".qif", ".csv"]
 
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
 
         self.ignoredPackages.append("binary/mysql")
 
         return TypePackager.createPackage(self)
-

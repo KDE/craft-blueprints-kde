@@ -7,7 +7,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/pim/khealthcertificate.git")
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/pim/khealthcertificate.git")
         self.displayName = "KHealthCertificate"
 
         self.defaultTarget = "master"
@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+
 
 class Package(CMakePackageBase):
     def __init__(self):

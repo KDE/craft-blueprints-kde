@@ -70,17 +70,19 @@ class Package(CMakePackageBase):
 
     def preArchive(self):
         if CraftVersion(self.buildTarget) > CraftVersion("5.3.0"):
-            installColorSchemesScript = os.path.join(self.sourceDir(), 'release-scripts/install_colorschemes.py')
+            installColorSchemesScript = os.path.join(self.sourceDir(), "release-scripts/install_colorschemes.py")
             CraftCore.log.info(f"Executing: {installColorSchemesScript}")
             subprocess.check_call([sys.executable, installColorSchemesScript, os.path.join(self.archiveDir(), "bin/data")])
         return super().preArchive()
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
-        self.whitelist_file.append(os.path.join(self.packageDir(), 'whitelist.txt'))
+        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.whitelist_file.append(os.path.join(self.packageDir(), "whitelist.txt"))
 
-        self.defines["shortcuts"] = [{"name" : "KDevelop", "target" : "bin/kdevelop.exe"},
-                                     {"name" : "KDevelop - Microsoft Visual C++ compiler", "target":"bin/kdevelop-msvc.bat"}]
+        self.defines["shortcuts"] = [
+            {"name": "KDevelop", "target": "bin/kdevelop.exe"},
+            {"name": "KDevelop - Microsoft Visual C++ compiler", "target": "bin/kdevelop-msvc.bat"},
+        ]
         self.defines["icon"] = os.path.join(self.packageDir(), "kdevelop.ico")
 
         self.ignoredPackages.append("binary/mysql")

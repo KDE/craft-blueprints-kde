@@ -4,7 +4,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/network/tokodon.git")
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/network/tokodon.git")
         self.displayName = "Tokodon"
         self.description = "Tokodon is a Mastodon client"
 
@@ -28,6 +28,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/breeze"] = None
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
+
 
 class Package(CMakePackageBase):
     def __init__(self):

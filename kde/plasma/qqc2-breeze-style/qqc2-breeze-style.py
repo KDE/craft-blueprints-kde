@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
+
 from Package.CMakePackageBase import *
 
 

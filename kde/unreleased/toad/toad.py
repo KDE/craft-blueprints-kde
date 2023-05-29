@@ -4,7 +4,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://invent.kde.org/utilities/toad'
+        self.svnTargets["master"] = "https://invent.kde.org/utilities/toad"
         self.displayName = "Toad"
         self.description = "A simple task list"
         self.defaultTarget = "master"
@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/breeze"] = None
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
+
 
 class Package(CMakePackageBase):
     def __init__(self):

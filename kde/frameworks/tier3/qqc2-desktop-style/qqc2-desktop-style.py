@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier1/sonnet"] = None
 
+
 from Blueprints.CraftPackageObject import CraftPackageObject
 
 

@@ -3,20 +3,21 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://github.com/protocolbuffers/protobuf.git'
+        self.svnTargets["master"] = "https://github.com/protocolbuffers/protobuf.git"
         self.targetConfigurePath["master"] = "cmake"
         for ver in ["3.11.2"]:
             self.targets[ver] = f"https://github.com/protocolbuffers/protobuf/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"protobuf-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"protobuf-{ver}"
             self.targetConfigurePath[ver] = "cmake"
-        self.targetDigests["3.11.2"] = (['e8c7601439dbd4489fe5069c33d374804990a56c2f710e00227ee5d8fd650e67'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.11.2"] = (["e8c7601439dbd4489fe5069c33d374804990a56c2f710e00227ee5d8fd650e67"], CraftHash.HashAlgorithm.SHA256)
         self.patchLevel["3.11.2"] = 1
         self.defaultTarget = "3.11.2"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["libs/zlib"] = None
+
 
 from Package.CMakePackageBase import *
 

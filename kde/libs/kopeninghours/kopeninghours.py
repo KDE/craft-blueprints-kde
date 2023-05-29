@@ -7,7 +7,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "KOpeningHours"
-        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/libraries/kopeninghours.git")
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/libraries/kopeninghours.git")
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

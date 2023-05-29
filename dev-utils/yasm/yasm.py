@@ -27,16 +27,16 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets['1.3.0'] = "https://github.com/yasm/yasm/archive/v1.3.0.tar.gz"
+        self.targets["1.3.0"] = "https://github.com/yasm/yasm/archive/v1.3.0.tar.gz"
         self.archiveNames["1.3.0"] = "yasm-1.3.0.tar.gz"
-        self.targetDigests['1.3.0'] = (['f708be0b7b8c59bc1dbe7134153cd2f31faeebaa8eec48676c10f972a1f13df3'], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc['1.3.0'] = "yasm-1.3.0"
+        self.targetDigests["1.3.0"] = (["f708be0b7b8c59bc1dbe7134153cd2f31faeebaa8eec48676c10f972a1f13df3"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["1.3.0"] = "yasm-1.3.0"
         self.targetInstallPath["1.3.0"] = "dev-utils"
         self.patchToApply["1.3.0"] = [("yasm-1.3.0-20190723.diff", 1), ("yasm-Fix-build-with-autotools-2.70.patch", 1)]
         self.patchLevel["1.3.0"] = 2
 
         self.description = "The Yasm Modular Assembler Project"
-        self.defaultTarget = '1.3.0'
+        self.defaultTarget = "1.3.0"
 
     def setDependencies(self):
         if CraftCore.compiler.isUnix:
@@ -52,12 +52,14 @@ from Package.AutoToolsPackageBase import *
 from Package.CMakePackageBase import *
 
 if CraftCore.compiler.isGCCLike():
+
     class Package(AutoToolsPackageBase):
         def __init__(self, **args):
             AutoToolsPackageBase.__init__(self)
             self.subinfo.options.configure.autoreconfArgs += " -I m4"
 
 else:
+
     class Package(CMakePackageBase):
         def __init__(self, **args):
             CMakePackageBase.__init__(self)

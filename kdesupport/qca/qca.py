@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.registerOption("buildWithQt6", False)
 
+
 from Package.CMakePackageBase import *
 
 

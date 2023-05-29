@@ -7,10 +7,10 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         ver = "2.0.1"
-        self.targets['2.0.1'] = "https://github.com/indilib/indi/archive/refs/tags/v%s.tar.gz" % ver
+        self.targets["2.0.1"] = "https://github.com/indilib/indi/archive/refs/tags/v%s.tar.gz" % ver
         self.targetInstSrc[ver] = "indi-%s" % ver
         self.defaultTarget = ver
-        self.description = 'INDI Library'
+        self.description = "INDI Library"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/grep"] = None
@@ -27,4 +27,6 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DINDI_BUILD_SERVER=OFF -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_CLIENT=ON -DINDI_BUILD_QT5_CLIENT=OFF -DINDI_BUILD_SHARED=OFF"
+        self.subinfo.options.configure.args = (
+            "-DINDI_BUILD_SERVER=OFF -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_CLIENT=ON -DINDI_BUILD_QT5_CLIENT=OFF -DINDI_BUILD_SHARED=OFF"
+        )

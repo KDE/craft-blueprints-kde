@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         for ver in self.versionInfo.tarballs():
-            self.patchToApply[ver] = ('breeze-noWinDrag.diff', 0)
+            self.patchToApply[ver] = ("breeze-noWinDrag.diff", 0)
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier4/frameworkintegration"] = None
         if not OsUtils.isWin() and not OsUtils.isMac():
             self.runtimeDependencies["kde/plasma/kdecoration"] = None
+
 
 from Blueprints.CraftPackageObject import CraftPackageObject
 

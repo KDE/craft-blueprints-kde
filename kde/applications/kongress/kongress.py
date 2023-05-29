@@ -4,7 +4,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/utilities/kongress.git")
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/utilities/kongress.git")
         self.displayName = "Kongress"
         self.description = "Conference companion app"
 

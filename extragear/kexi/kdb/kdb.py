@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/sqlite"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
 
+
 from Package.CMakePackageBase import *
 
 

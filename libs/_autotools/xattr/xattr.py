@@ -13,13 +13,14 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.description = "Commands for Manipulating Filesystem Extended Attributes"
-        self.svnTargets['master'] = 'https://git.savannah.nongnu.org/git/attr.git'
+        self.svnTargets["master"] = "https://git.savannah.nongnu.org/git/attr.git"
         for ver in ["2.5.1"]:
             self.targets[ver] = f"https://download.savannah.nongnu.org/releases/attr/attr-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"attr-{ver}"
-        self.targetDigests["2.5.1"] = (['db448a626f9313a1a970d636767316a8da32aede70518b8050fa0de7947adc32'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.5.1"] = (["db448a626f9313a1a970d636767316a8da32aede70518b8050fa0de7947adc32"], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "2.5.1"
+
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
@@ -29,4 +30,3 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.args = "--enable-static=yes --enable-shared=no"
         else:
             self.subinfo.options.configure.args = "--enable-static=no --enable-shared=yes"
-

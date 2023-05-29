@@ -50,6 +50,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
             self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
 
+
 from Package.CMakePackageBase import *
 
 
@@ -64,20 +65,20 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
+            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
         self.defines["executable"] = r"bin\okular.exe"
         self.defines["mimetypes"] = ["application/pdf"]
         self.defines["file_types"] = [".pdf", ".mobi", ".epub", ".tiff", ".djvu"]
-        
+
         self.defines["alias"] = "okular"
-        
+
         # okular icons
         self.defines["icon"] = os.path.join(self.packageDir(), "okular.ico")
         self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-okular.png")
         self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-okular.png")
 
         # this requires an 310x150 variant in addition!
-        #self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "ui", "data", "icons", "310-apps-okular.png")
+        # self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "ui", "data", "icons", "310-apps-okular.png")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")

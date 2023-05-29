@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "0.9.5"
         self.targets[self.defaultTarget] = f"https://www.libssh.org/files/{self.defaultTarget[:3]}/libssh-{self.defaultTarget}.tar.xz"
         self.targetInstSrc[self.defaultTarget] = f"libssh-{self.defaultTarget}"
-        self.targetDigests[self.defaultTarget] = (['acffef2da98e761fc1fd9c4fddde0f3af60ab44c4f5af05cd1b2d60a3fa08718'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[self.defaultTarget] = (["acffef2da98e761fc1fd9c4fddde0f3af60ab44c4f5af05cd1b2d60a3fa08718"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

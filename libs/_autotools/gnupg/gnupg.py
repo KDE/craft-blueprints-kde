@@ -29,17 +29,16 @@ import info
 
 
 class subinfo(info.infoclass):
-    def setTargets( self ):
+    def setTargets(self):
         for ver in ["2.2.33"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"gnupg-{ver}"
 
-        self.targetDigests["2.2.33"] = (['8688836e8c043d70410bb64d72de6ae15176e09ecede8d24528b4380c000e4e3'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.2.33"] = (["8688836e8c043d70410bb64d72de6ae15176e09ecede8d24528b4380c000e4e3"], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "2.2.33"
 
-
-    def setDependencies( self ):
+    def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/gpg-error"] = None
@@ -48,12 +47,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/npth"] = None
         self.runtimeDependencies["libs/libksba"] = None
 
+
 from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):
-    def __init__( self, **args ):
-        AutoToolsPackageBase.__init__( self )
+    def __init__(self, **args):
+        AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += " --disable-doc "
-

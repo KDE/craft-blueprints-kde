@@ -27,7 +27,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
 
 
-
 from Blueprints.CraftPackageObject import CraftPackageObject
 
 

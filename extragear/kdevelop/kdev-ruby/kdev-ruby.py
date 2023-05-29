@@ -3,8 +3,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = 'https://anongit.kde.org/kdev-ruby'
-        self.defaultTarget = 'master'
+        self.svnTargets["master"] = "https://anongit.kde.org/kdev-ruby"
+        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.description = "ruby support for kdevelop"

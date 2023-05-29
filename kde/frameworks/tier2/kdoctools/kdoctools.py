@@ -62,9 +62,13 @@ class Package(CraftPackageObject.get("kde").pattern):
     def postInstall(self):
         dataDir = os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot())
         kfmajor = CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion
-        brokenFiles = [os.path.join(self.installDir(), dataDir, x) for x in [f"kf{kfmajor}/kdoctools/customization/xsl/all-l10n.xml",
-                                                                             f"kf{kfmajor}/kdoctools/customization/dtd/kdedbx45.dtd",
-                                                                             f"kf{kfmajor}/kdoctools/customization/kde-include-common.xsl",
-                                                                             f"kf{kfmajor}/kdoctools/customization/kde-include-man.xsl"]]
+        brokenFiles = [
+            os.path.join(self.installDir(), dataDir, x)
+            for x in [
+                f"kf{kfmajor}/kdoctools/customization/xsl/all-l10n.xml",
+                f"kf{kfmajor}/kdoctools/customization/dtd/kdedbx45.dtd",
+                f"kf{kfmajor}/kdoctools/customization/kde-include-common.xsl",
+                f"kf{kfmajor}/kdoctools/customization/kde-include-man.xsl",
+            ]
+        ]
         return self.patchInstallPrefix(brokenFiles, OsUtils.toUnixPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))
-

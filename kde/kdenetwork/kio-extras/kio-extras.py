@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/taglib"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        #self.runtimeDependencies["qt-libs/kdsoap"] = None # Our KDSoap version in Craft is to new for kio-extras
+        # self.runtimeDependencies["qt-libs/kdsoap"] = None # Our KDSoap version in Craft is to new for kio-extras
         self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
@@ -34,11 +34,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["kde/applications/libkexiv2"] = None
 
+
 from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         CraftPackageObject.get("kde").pattern.__init__(self)
-        self.subinfo.options.configure.args += ["-DSAMBA_FOUND=false", "-DBUILD_KDSoapWSDiscoveryClient=OFF"] # This requires KDSoap 1.9.0, but we only have a newer version in Craft
-
+        self.subinfo.options.configure.args += [
+            "-DSAMBA_FOUND=false",
+            "-DBUILD_KDSoapWSDiscoveryClient=OFF",
+        ]  # This requires KDSoap 1.9.0, but we only have a newer version in Craft

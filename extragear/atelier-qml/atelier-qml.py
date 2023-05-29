@@ -5,10 +5,9 @@ from CraftOS.osutils import OsUtils
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets[
-            'master'] = 'https://invent.kde.org/laysrodrigues/atelier-qml.git'
-        self.defaultTarget = 'master'
-        self.description = 'Atelier Printer Host QML-Version'
+        self.svnTargets["master"] = "https://invent.kde.org/laysrodrigues/atelier-qml.git"
+        self.defaultTarget = "master"
+        self.description = "Atelier Printer Host QML-Version"
         self.webpage = "https://atelier.kde.org"
         self.displayName = "Atelier"
 
@@ -31,8 +30,7 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
-        self.blacklist_file.append(
-            os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
         self.defines["executable"] = "bin\\atelier.exe"
         self.defines["icon"] = os.path.join(self.packageDir(), "atelier.ico")
 

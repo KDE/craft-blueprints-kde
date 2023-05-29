@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/utilities/ktrip.git")
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/utilities/ktrip.git")
         self.description = "Public transport assistant"
         self.displayName = "KTrip"
 
@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
+
 
 from Package.CMakePackageBase import *
 

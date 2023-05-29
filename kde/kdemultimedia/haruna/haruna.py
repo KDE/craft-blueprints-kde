@@ -3,8 +3,8 @@ from CraftConfig import *
 from CraftOS.osutils import OsUtils
 
 
-class subinfo( info.infoclass ):
-    def setTargets( self ):
+class subinfo(info.infoclass):
+    def setTargets(self):
         self.displayName = "Haruna"
         self.description = "Haruna video player"
         self.svnTargets["master"] = "https://invent.kde.org/multimedia/haruna.git"
@@ -18,7 +18,7 @@ class subinfo( info.infoclass ):
         self.targetDigests["0.10.3"] = (["4d21eaa709dd3b9f393e2252c4642127ab5da9781a74c903dafba64ae3f9d296"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.9.3"] = (["673d8db5d59e1c0f5937c3b73c11ee858fbd43d65efcde91aba9dcf70dac73e6"], CraftHash.HashAlgorithm.SHA256)
 
-    def setDependencies( self ):
+    def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
@@ -38,10 +38,11 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
+
 from Package.CMakePackageBase import *
 
 
-class Package( CMakePackageBase ):
+class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 

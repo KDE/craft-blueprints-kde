@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
 
         self.targetDigests["0.35.1"] = (["41df981b7b84e33a2ef4478aaf81d6f4f5c8b9cd2c0d337ac142fc20b387d1a9"], CraftHash.HashAlgorithm.SHA256)
 
-    def setDependencies( self ):
+    def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/lua"] = None
@@ -31,6 +31,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/lcms2"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/rubberband"] = None
+
 
 class Package(MesonPackageBase):
     def __init__(self, **args):

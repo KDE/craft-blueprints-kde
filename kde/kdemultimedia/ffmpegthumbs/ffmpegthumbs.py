@@ -3,14 +3,14 @@ from CraftConfig import *
 from CraftOS.osutils import OsUtils
 
 
-class subinfo( info.infoclass ):
-    def setTargets( self ):
+class subinfo(info.infoclass):
+    def setTargets(self):
         self.versionInfo.setDefaultValues()
 
         self.displayName = "FFmpeg Thumbnailer"
         self.description = "FFmpeg-based thumbnail creator for video files"
 
-    def setDependencies( self ):
+    def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
@@ -20,10 +20,10 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
 
+
 from Package.CMakePackageBase import *
 
 
-class Package( CMakePackageBase ):
+class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-

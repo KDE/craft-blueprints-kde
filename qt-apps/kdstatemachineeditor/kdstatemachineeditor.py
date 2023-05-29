@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.archiveNames[ver] = f"kdstatemachineeditor-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"KDStateMachineEditor-{ver}"
 
-        self.targetDigests['1.2.8'] = (['cbb3fcec7b5c6d16354aeb6c376c67a6ced32fce7bd937da0d4f591373acd374'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.2.8"] = (["cbb3fcec7b5c6d16354aeb6c376c67a6ced32fce7bd937da0d4f591373acd374"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "The KDAB State Machine Editor Library is a framework that can be used to help develop full-featured State Machine Editing graphical user interfaces and tools."
         self.webpage = "https://www.kdab.com/"
@@ -33,5 +33,3 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args += ["-DWITH_INTERNAL_GRAPHVIZ=OFF", "-DCMAKE_DISABLE_FIND_PACKAGE_Graphviz=ON"]
-
-

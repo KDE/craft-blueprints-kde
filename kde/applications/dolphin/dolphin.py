@@ -36,6 +36,7 @@ class subinfo(info.infoclass):
         # KUserFeedback yet not an official tier1 framework
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
+
 from Package.CMakePackageBase import *
 
 
@@ -43,12 +44,11 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
-
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist_mac.txt'))
-        self.defines["shortcuts"] = [{"name" : "Dolphin", "target":"bin/dolphin.exe", "description" : self.subinfo.description, "icon" : "$INSTDIR\\dolphin.ico" }]
+            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
+        self.defines["shortcuts"] = [{"name": "Dolphin", "target": "bin/dolphin.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\dolphin.ico"}]
         self.defines["icon"] = self.buildDir() / "src/dolphin.ico"
 
         self.ignoredPackages.append("binary/mysql")

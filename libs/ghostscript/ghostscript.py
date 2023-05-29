@@ -20,14 +20,17 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/fontconfig"] = None
 
     def setTargets(self):
-        self.svnTargets['master'] = 'git://git.ghostscript.com/ghostpdl.git'
-        for ver in ['9.56.1']:
+        self.svnTargets["master"] = "git://git.ghostscript.com/ghostpdl.git"
+        for ver in ["9.56.1"]:
             ver2 = ver.replace(".", "")
             self.targets[ver] = f"https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{ver2}/ghostscript-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"ghostscript-{ver}"
-            self.targetDigestUrls[ver] = ([f"https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{ver2}/SHA512SUMS" ], CraftHash.HashAlgorithm.SHA512)
+            self.targetDigestUrls[ver] = (
+                [f"https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{ver2}/SHA512SUMS"],
+                CraftHash.HashAlgorithm.SHA512,
+            )
 
-        self.defaultTarget = '9.56.1'
+        self.defaultTarget = "9.56.1"
 
 
 from Package.CMakePackageBase import *
@@ -52,9 +55,9 @@ class PackageMSVC(CMakePackageBase):
             extraArgs.append("RCOMP=rc.exe")
         if CraftCore.compiler.isMSVC2017():
             # work-around: https://bugs.ghostscript.com/show_bug.cgi?id=698426
-            vcInstallDir = os.environ['VCINSTALLDIR'].rstrip('\\')
-            extraArgs+= ["MSVC_VERSION=15", f"DEVSTUDIO=\"{vcInstallDir}\""]
-        utils.system(["nmake", "-f",  "psi\\msvc.mak"] + extraArgs)
+            vcInstallDir = os.environ["VCINSTALLDIR"].rstrip("\\")
+            extraArgs += ["MSVC_VERSION=15", f'DEVSTUDIO="{vcInstallDir}"']
+        utils.system(["nmake", "-f", "psi\\msvc.mak"] + extraArgs)
         return True
 
     def install(self):
@@ -77,14 +80,10 @@ class PackageMSVC(CMakePackageBase):
         utils.copyFile(os.path.join(src, "bin", "gsdll%s.lib" % _bit), os.path.join(dst, "lib"), False)
         utils.copyFile(os.path.join(src, "bin", "gswin%s.exe" % _bit), os.path.join(dst, "bin"), False)
         utils.copyFile(os.path.join(src, "bin", "gswin%sc.exe" % _bit), os.path.join(dst, "bin"), False)
-        utils.copyFile(os.path.join(self.sourceDir(), "psi", "iapi.h"),
-                       os.path.join(self.imageDir(), "include", "ghostscript", "iapi.h"), False)
-        utils.copyFile(os.path.join(self.sourceDir(), "psi", "ierrors.h"),
-                       os.path.join(self.imageDir(), "include", "ghostscript", "ierrors.h"), False)
-        utils.copyFile(os.path.join(self.sourceDir(), "devices", "gdevdsp.h"),
-                       os.path.join(self.imageDir(), "include", "ghostscript", "gdevdsp.h"), False)
-        utils.copyFile(os.path.join(self.sourceDir(), "base", "gserrors.h"),
-                       os.path.join(self.imageDir(), "include", "ghostscript", "gserrors.h"), False)
+        utils.copyFile(os.path.join(self.sourceDir(), "psi", "iapi.h"), os.path.join(self.imageDir(), "include", "ghostscript", "iapi.h"), False)
+        utils.copyFile(os.path.join(self.sourceDir(), "psi", "ierrors.h"), os.path.join(self.imageDir(), "include", "ghostscript", "ierrors.h"), False)
+        utils.copyFile(os.path.join(self.sourceDir(), "devices", "gdevdsp.h"), os.path.join(self.imageDir(), "include", "ghostscript", "gdevdsp.h"), False)
+        utils.copyFile(os.path.join(self.sourceDir(), "base", "gserrors.h"), os.path.join(self.imageDir(), "include", "ghostscript", "gserrors.h"), False)
         utils.copyDir(os.path.join(self.sourceDir(), "lib"), os.path.join(self.imageDir(), "lib"), False)
 
         return True
@@ -96,11 +95,18 @@ from Package.AutoToolsPackageBase import *
 class PackageMSys(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
-        #self.subinfo.options.make.supportsMultijob = False
-        self.subinfo.options.configure.args += ["--with-drivers=ALL", "--disable-cups",
-                                               "--without-x", "--disable-contrib", "--enable-freetype",
-                                               "--with-jbig2dec", "--enable-openjpeg", "--disable-gtk",
-                                               "--enable-fontconfig"]
+        # self.subinfo.options.make.supportsMultijob = False
+        self.subinfo.options.configure.args += [
+            "--with-drivers=ALL",
+            "--disable-cups",
+            "--without-x",
+            "--disable-contrib",
+            "--enable-freetype",
+            "--with-jbig2dec",
+            "--enable-openjpeg",
+            "--disable-gtk",
+            "--enable-fontconfig",
+        ]
         if not CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["--with-system-libtiff"]
         else:
@@ -128,9 +134,13 @@ class PackageMSys(AutoToolsPackageBase):
 
         return True
 
+
 if CraftCore.compiler.isGCCLike():
+
     class Package(PackageMSys):
         pass
+
 else:
+
     class Package(PackageMSVC):
         pass

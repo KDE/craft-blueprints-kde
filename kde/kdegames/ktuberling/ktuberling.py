@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
             self.runtimeDependencies["kde/kdegames/libkdegames"] = None
 
+
 from Package.CMakePackageBase import *
 
 

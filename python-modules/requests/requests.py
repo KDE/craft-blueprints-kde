@@ -7,8 +7,9 @@ from Package.PipPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets['master'] = ''
-        self.defaultTarget = 'master'
+        self.svnTargets["master"] = ""
+        self.defaultTarget = "master"
+
 
 class Package(PipPackageBase):
     def __init__(self, **args):

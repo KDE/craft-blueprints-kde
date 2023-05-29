@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
             self.archiveNames[ver] = f"putty-{ver}.zip"
             self.targetInstallPath[ver] = os.path.join("dev-utils", "bin")
 
-        self.targetDigests["0.76"] = (['48f28aa050a1b5ebe37c88d7fcf97401f931321775a3a95d983aee7097d2766d'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.76"] = (["48f28aa050a1b5ebe37c88d7fcf97401f931321775a3a95d983aee7097d2766d"], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "0.76"
 

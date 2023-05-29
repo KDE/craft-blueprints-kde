@@ -34,9 +34,9 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"ftp://ftp.gnutls.org/gcrypt/gnutls/v{ver[:3]}/gnutls-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"gnutls-{ver}"
 
-        self.targetDigests['3.7.2'] = (['646e6c5a9a185faa4cea796d378a1ba8e1148dbb197ca6605f95986a25af2752'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests['3.7.4'] = (['e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f'], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests['3.8.0'] = (['0ea0d11a1660a1e63f960f157b197abe6d0c8cb3255be24e1fb3815930b9bdc5'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.7.2"] = (["646e6c5a9a185faa4cea796d378a1ba8e1148dbb197ca6605f95986a25af2752"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.7.4"] = (["e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.8.0"] = (["0ea0d11a1660a1e63f960f157b197abe6d0c8cb3255be24e1fb3815930b9bdc5"], CraftHash.HashAlgorithm.SHA256)
         self.description = "A library which provides a secure layer over a reliable transport layer"
         self.webpage = "https://www.gnutls.org/"
         self.defaultTarget = "3.8.0"
@@ -60,19 +60,30 @@ class PackageAutoTools(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = not CraftCore.compiler.isWindows
         # 2018-02-11: without --enable-openssl-compatibility xmlmerge.exe from gwenhywfar doesn't display any console output and in effect doesn't allow compilation of aqbanking
         # 2018-02-11: --enable-nls is probably needed on the same ground as above
-        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", "--enable-cxx",
-                                                "--enable-nls", "--disable-gtk-doc", "--enable-local-libopts",
-                                                "--enable-libopts-install", "--disable-tests",
-                                                "--disable-doc",
-                                                "--enable-openssl-compatibility"]
-        if not self.subinfo.options.isActive('libs/p11kit') or CraftCore.compiler.isWindows: #TODO Remove platform check in the future. See issue #3
+        self.subinfo.options.configure.args += [
+            "--enable-shared",
+            "--disable-static",
+            "--enable-cxx",
+            "--enable-nls",
+            "--disable-gtk-doc",
+            "--enable-local-libopts",
+            "--enable-libopts-install",
+            "--disable-tests",
+            "--disable-doc",
+            "--enable-openssl-compatibility",
+        ]
+        if not self.subinfo.options.isActive("libs/p11kit") or CraftCore.compiler.isWindows:  # TODO Remove platform check in the future. See issue #3
             self.subinfo.options.configure.args += ["--without-p11-kit"]
 
+
 if not CraftCore.compiler.isMSVC():
+
     class Package(PackageAutoTools):
         def __init__(self):
             PackageAutoTools.__init__(self)
+
 else:
+
     class Package(VirtualPackageBase):
         def __init__(self):
             VirtualPackageBase.__init__(self)

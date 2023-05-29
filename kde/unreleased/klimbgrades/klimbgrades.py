@@ -3,9 +3,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-
-        self.svnTargets['master'] = 'https://invent.kde.org/utilities/klimbgrades'
-        self.defaultTarget = 'master'
+        self.svnTargets["master"] = "https://invent.kde.org/utilities/klimbgrades"
+        self.defaultTarget = "master"
 
         self.description = "Small application to quickly convert difficulty grades for rock climbing, lead and bouldering scales"
         self.displayName = "Klimbgrades"
@@ -25,6 +24,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/breeze"] = None
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
+
 
 from Package.CMakePackageBase import *
 

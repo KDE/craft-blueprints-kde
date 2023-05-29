@@ -2,25 +2,24 @@ import info
 
 
 class subinfo(info.infoclass):
-
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Platforms.All
 
-    def setTargets( self ):
+    def setTargets(self):
         self.description = "Open source multimedia framework"
         self.webpage = "https://www.mltframework.org"
-        for ver in ['7.14.0']:
-            self.targets[ ver ] = f"https://github.com/mltframework/mlt/archive/v{ver}.tar.gz"
-            self.targetInstSrc[ ver ] = "mlt-" + ver
+        for ver in ["7.14.0"]:
+            self.targets[ver] = f"https://github.com/mltframework/mlt/archive/v{ver}.tar.gz"
+            self.targetInstSrc[ver] = "mlt-" + ver
 
-        self.svnTargets['master'] = "https://github.com/mltframework/mlt.git"
-        self.patchLevel['master'] = 20221103
-        self.svnTargets['56b1f62'] = "https://github.com/mltframework/mlt.git||56b1f62fb456171fead08b421a896b3514b4b06b"
-        self.defaultTarget = '56b1f62'
+        self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
+        self.patchLevel["master"] = 20221103
+        self.svnTargets["56b1f62"] = "https://github.com/mltframework/mlt.git||56b1f62fb456171fead08b421a896b3514b4b06b"
+        self.defaultTarget = "56b1f62"
         if CraftCore.compiler.isWindows:
             self.patchToApply["56b1f62"] = [("pi_patch.diff", 1)]
 
-    def setDependencies( self ):
+    def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.buildDependencies["libs/ladspa-sdk"] = None
         self.runtimeDependencies["libs/libxml2"] = None
@@ -36,7 +35,7 @@ class subinfo(info.infoclass):
         if OsUtils.isWin():
             self.runtimeDependencies["libs/dlfcn-win32"] = None
         # ladspa-swh currently breaks MLT, making render impossible. So disable for now
-        #else:
+        # else:
         #    self.runtimeDependencies["libs/ladspa-swh"] = None
         if not CraftCore.compiler.isMacOS:
             # self.runtimeDependencies["libs/jack2"] = None
@@ -52,11 +51,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/libarchive"] = None
 
+
 from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__( self, **args ):
+    def __init__(self, **args):
         CMakePackageBase.__init__(self)
         CMakePackageBase.buildTests = False
         # enable submodule checkout to get glaximate
@@ -66,7 +66,7 @@ class Package(CMakePackageBase):
             "-DWINDOWS_DEPLOY=OFF",
             "-DMOD_OPENCV=ON",
             "-DRELOCATABLE=ON",
-            "-DMOD_GDK=OFF" # don't pull in gtk
+            "-DMOD_GDK=OFF",  # don't pull in gtk
         ]
 
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
@@ -82,6 +82,5 @@ class Package(CMakePackageBase):
         if not super().install():
             return False
         if CraftCore.compiler.isMacOS:
-            return utils.mergeTree(self.installDir()/"lib/mlt", self.installDir()/"plugins/mlt")
+            return utils.mergeTree(self.installDir() / "lib/mlt", self.installDir() / "plugins/mlt")
         return True
-

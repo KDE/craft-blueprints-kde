@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/ffmpeg"] = None
 
+
 from Package.CMakePackageBase import *
 
 

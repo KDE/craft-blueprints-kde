@@ -7,7 +7,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Text Addons (autocorrection, grammar checking, text to speak, translator support)"
-        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/libraries/ktextaddons")
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/libraries/ktextaddons")
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+
 
 from Package.CMakePackageBase import *
 

@@ -7,7 +7,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/utilities/keysmith.git")
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/utilities/keysmith.git")
         self.displayName = "Keysmith"
         self.description = "OTP client for Plasma Mobile and Desktop"
 
@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
+
 
 class Package(CMakePackageBase):
     def __init__(self):

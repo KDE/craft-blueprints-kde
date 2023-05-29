@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/qt5/qttools"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
 
+
 from Package.Qt5CorePackageBase import *
 
 
