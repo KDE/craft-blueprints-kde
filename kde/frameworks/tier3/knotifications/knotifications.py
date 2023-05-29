@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt/qtspeech"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
             self.runtimeDependencies["qt-libs/phonon"] = None
-        else:
+        elif CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             self.runtimeDependencies["libs/qt/qtandroidextras"] = None
         if OsUtils.isMac():
             self.runtimeDependencies["libs/qt/qtmacextras"] = None
