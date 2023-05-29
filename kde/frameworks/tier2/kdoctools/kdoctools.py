@@ -22,11 +22,13 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-import info
-import os
 import glob
+import os
+
+import info
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
+
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -51,6 +53,7 @@ class subinfo(info.infoclass):
 
 
 from Blueprints.CraftPackageObject import CraftPackageObject
+
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):

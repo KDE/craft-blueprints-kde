@@ -1,6 +1,6 @@
 import info
-from CraftOS.osutils import OsUtils
 from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
 
 
 class subinfo(info.infoclass):
@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
 
 
 from Blueprints.CraftPackageObject import CraftPackageObject
+
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):

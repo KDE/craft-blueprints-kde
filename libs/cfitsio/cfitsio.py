@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "library for the FITS (Flexible Image Transport System) file format"
@@ -13,6 +14,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__(self):

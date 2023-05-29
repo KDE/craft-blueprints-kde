@@ -3,6 +3,7 @@ from xml.etree import ElementTree as et
 
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = 'INDI Library 3rd Party'

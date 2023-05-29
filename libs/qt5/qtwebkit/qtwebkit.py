@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import info
-from Blueprints.CraftVersion import CraftVersion
 from Blueprints.CraftPackageObject import CraftPackageObject
+from Blueprints.CraftVersion import CraftVersion
+
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -69,8 +70,9 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/nasm"] = None
 
 
-from Package.Qt5CorePackageBase import *
 from Package.CMakePackageBase import *
+from Package.Qt5CorePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__(self, **args):

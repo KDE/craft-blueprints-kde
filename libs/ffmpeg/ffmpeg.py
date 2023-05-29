@@ -1,5 +1,6 @@
-import info
 import os
+
+import info
 from Blueprints.CraftVersion import CraftVersion
 
 
@@ -56,6 +57,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/intel-mfx"] = None
 
 from Package.AutoToolsPackageBase import *
+
 
 class Package(AutoToolsPackageBase):
     def __init__( self, **args ):

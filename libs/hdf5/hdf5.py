@@ -1,6 +1,7 @@
 import info
 from Package.CMakePackageBase import *
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = "[git]https://bitbucket.hdfgroup.org/scm/hdffv/hdf5.git"

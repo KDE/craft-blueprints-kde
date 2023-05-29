@@ -1,8 +1,9 @@
 import shutil
 
 import info
-from Package.BinaryPackageBase import *
 from CraftCompiler import CraftCompiler
+from Package.BinaryPackageBase import *
+
 
 class subinfo(info.infoclass):
     def setTargets(self):

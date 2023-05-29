@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets( self ):
         self.description = 'The SWH Plugins package for the LADSPA plugin system'
@@ -24,6 +25,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["perl-modules/list-moreutils"] = None
 
 from Package.AutoToolsPackageBase import *
+
 
 class Package(AutoToolsPackageBase):
     def __init__( self, **args ):

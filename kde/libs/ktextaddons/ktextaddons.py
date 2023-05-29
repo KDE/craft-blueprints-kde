@@ -3,6 +3,7 @@
 
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Text Addons (autocorrection, grammar checking, text to speak, translator support)"
@@ -20,6 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
 
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__(self):

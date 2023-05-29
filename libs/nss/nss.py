@@ -1,10 +1,11 @@
-import info
 import os
 import shutil
 from distutils.dir_util import copy_tree
+
+import info
+from CraftCompiler import CraftCompiler
 from Package.MakeFilePackageBase import *
 from shells import BashShell
-from CraftCompiler import CraftCompiler
 
 nss_ver = "3.86"
 nspr_ver = "4.35"

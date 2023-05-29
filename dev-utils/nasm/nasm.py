@@ -1,8 +1,8 @@
 import info
-
-from Package.BinaryPackageBase import *
-from Package.AutoToolsPackageBase import *
 from CraftCompiler import CraftCompiler
+from Package.AutoToolsPackageBase import *
+from Package.BinaryPackageBase import *
+
 
 class subinfo(info.infoclass):
 

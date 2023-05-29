@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
 
 from Package.AutoToolsPackageBase import *
 
+
 class Package(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)

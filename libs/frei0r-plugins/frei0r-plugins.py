@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Compiler.All
@@ -25,6 +26,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/gavl"] = None
 
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__(self, **args):

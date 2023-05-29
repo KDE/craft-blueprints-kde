@@ -4,6 +4,7 @@
 import info
 from Package.CMakePackageBase import *
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "KWeatherCore"

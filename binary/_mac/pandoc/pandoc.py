@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         versions = ["2.9.2.1"]
@@ -10,6 +11,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.9.2.1"
 
 from Package.BinaryPackageBase import *
+
 
 class Package(BinaryPackageBase):
     def __init__(self):

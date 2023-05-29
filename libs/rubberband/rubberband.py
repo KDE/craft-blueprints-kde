@@ -1,6 +1,6 @@
 import info
-
 from Package.MSBuildPackageBase import *
+
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["python-modules/meson"] = None
 
 from Package.MesonPackageBase import *
+
 
 class Package(MesonPackageBase):
     def __init__(self, **args):

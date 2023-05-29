@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
-from Package.PipPackageBase import *
 from CraftOS.osutils import OsUtils
+from Package.PipPackageBase import *
 
 
 class subinfo(info.infoclass):

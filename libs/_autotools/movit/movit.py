@@ -1,6 +1,7 @@
 import info
 from Package.AutoToolsPackageBase import *
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ['1.6.3']:

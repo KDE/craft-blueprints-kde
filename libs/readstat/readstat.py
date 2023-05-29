@@ -1,6 +1,7 @@
 import info
 from Package.AutoToolsPackageBase import *
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = "[git]https://github.com/WizardMac/ReadStat.git"

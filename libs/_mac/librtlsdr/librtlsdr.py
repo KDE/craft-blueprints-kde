@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ['0.6.0']:
@@ -16,6 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/_mac/libusb"] = None
         
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__(self, **args):

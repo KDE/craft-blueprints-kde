@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
 
 from Package.MSBuildPackageBase import *
 
+
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
         MSBuildPackageBase.__init__(self)
@@ -46,6 +47,7 @@ class PackageMSVC(MSBuildPackageBase):
         return True
 
 from Package.AutoToolsPackageBase import *
+
 
 class PackageGNU(AutoToolsPackageBase):
     def __init__(self, **args):

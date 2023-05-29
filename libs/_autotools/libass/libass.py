@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["0.17.1"]:
@@ -17,6 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/harfbuzz"] = None
 
 from Package.AutoToolsPackageBase import *
+
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):

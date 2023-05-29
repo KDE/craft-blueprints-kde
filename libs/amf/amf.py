@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "AMD library for accelerated H.264 and HEVC(only windows) encoding on hardware with Video Coding Engine (VCE)"
@@ -9,7 +10,8 @@ class subinfo(info.infoclass):
         self.targetDigests['1.4.29'] = (['be42e4acd973fc7a228f087313bee9eaca08df031ec4596f14fb2eabef528628'], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = '1.4.29'
 
-from Package.SourceOnlyPackageBase  import *
+from Package.SourceOnlyPackageBase import *
+
 
 class Package(SourceOnlyPackageBase ):
     

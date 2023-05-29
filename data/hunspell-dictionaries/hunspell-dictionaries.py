@@ -1,6 +1,7 @@
+import glob
+
 import info
 
-import glob
 
 class subinfo(info.infoclass):
     def setTargets(self):

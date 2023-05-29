@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
 
     def registerOptions(self):
@@ -52,6 +53,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libarchive"] = None
 
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__( self, **args ):

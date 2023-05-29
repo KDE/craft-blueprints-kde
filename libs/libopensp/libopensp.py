@@ -45,6 +45,7 @@ class subinfo(info.infoclass):
 from Package.AutoToolsPackageBase import *
 from Package.CMakePackageBase import *
 
+
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)

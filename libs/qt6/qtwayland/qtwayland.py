@@ -1,6 +1,6 @@
 import info
-
 from CraftCore import CraftCore
+
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -14,6 +14,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
 
 from Package.CMakePackageBase import *
+
+
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)

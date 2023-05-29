@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Platforms.All
@@ -18,6 +19,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/ladspa-sdk"] = None
 
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__( self, **args ):

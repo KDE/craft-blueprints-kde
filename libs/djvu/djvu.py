@@ -22,8 +22,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
 
-from Package.CMakePackageBase import *
 from Package.AutoToolsPackageBase import *
+from Package.CMakePackageBase import *
 
 
 class PackageAutoTools(AutoToolsPackageBase):

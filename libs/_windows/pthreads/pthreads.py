@@ -1,5 +1,5 @@
-import info
 import CraftCore
+import info
 
 
 class subinfo(info.infoclass):

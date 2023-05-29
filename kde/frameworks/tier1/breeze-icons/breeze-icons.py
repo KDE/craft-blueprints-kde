@@ -3,10 +3,12 @@
 # SPDX-FileCopyrightText: 2016 Kevin Funke <kfunk@kde.org>
 # SPDX-FileCopyrightText: 2015 Hannah von Reth <vonreth@kde.org>
 
-import info
 import os
+
+import info
 import utils
 from CraftCore import CraftCore
+
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -28,6 +30,7 @@ class subinfo(info.infoclass):
 
 
 from Blueprints.CraftPackageObject import CraftPackageObject
+
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):

@@ -1,6 +1,7 @@
 import info
 from CraftCore import CraftCore
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -26,6 +27,7 @@ class subinfo(info.infoclass):
 
 
 from Blueprints.CraftPackageObject import CraftPackageObject
+
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):

@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets( self ):
         self.description = 'JACK Audio Connection Kit'
@@ -20,6 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/tre"] = None
 
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__( self, **args ):

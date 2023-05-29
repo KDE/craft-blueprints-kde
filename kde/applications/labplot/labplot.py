@@ -2,6 +2,7 @@ import info
 import utils
 from Blueprints.CraftVersion import CraftVersion
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -78,6 +79,7 @@ class subinfo(info.infoclass):
 from Package.CMakePackageBase import *
 from Packager.AppxPackager import AppxPackager
 from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
+
 
 class Package(CMakePackageBase):
     def __init__(self):

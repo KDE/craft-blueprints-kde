@@ -42,6 +42,7 @@ class subinfo(info.infoclass):
 
 from Package.CMakePackageBase import *
 
+
 class Package(CMakePackageBase):
     def __init__(self):
         # we use subinfo for now too

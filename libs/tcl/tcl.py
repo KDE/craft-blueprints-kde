@@ -22,12 +22,13 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-import info
 import shutil
 import stat
 
+import info
 from Package.AutoToolsPackageBase import *
 from Package.MSBuildPackageBase import *
+
 
 class subinfo(info.infoclass):
     def setTargets(self):

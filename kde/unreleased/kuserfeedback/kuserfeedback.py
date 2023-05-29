@@ -1,6 +1,6 @@
 import info
-from Utils import CraftHash
 from CraftCore import CraftCore
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -28,6 +28,7 @@ class subinfo(info.infoclass):
 
 
 from Blueprints.CraftPackageObject import CraftPackageObject
+
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):

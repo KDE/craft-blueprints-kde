@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets( self ):
         self.description = 'Autotooled version of the opensource Intel media sdk dispatcher'
@@ -11,6 +12,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libva"] = None
 
 from Package.AutoToolsPackageBase import *
+
 
 class Package(AutoToolsPackageBase):
 

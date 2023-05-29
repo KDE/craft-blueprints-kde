@@ -1,7 +1,6 @@
 import info
-
-from Package.CMakePackageBase import *
 from Package.AutoToolsPackageBase import *
+from Package.CMakePackageBase import *
 
 
 class subinfo(info.infoclass):

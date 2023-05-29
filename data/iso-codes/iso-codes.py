@@ -3,6 +3,7 @@
 
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets( self ):
         for ver in ["4.6.0"]:
@@ -19,9 +20,11 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isAndroid:
             self.buildDependencies["libs/gettext"] = None
 
-from Package.AutoToolsPackageBase import *
 import glob
 import shutil
+
+from Package.AutoToolsPackageBase import *
+
 
 class Package(AutoToolsPackageBase):
     def __init__( self, **args ):

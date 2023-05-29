@@ -1,6 +1,7 @@
 import info
 from Packager.CollectionPackagerBase import PackagerLists
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()

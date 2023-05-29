@@ -28,6 +28,7 @@
 import info
 import utils
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = 'https://anongit.kde.org/digikam.git'
@@ -151,6 +152,7 @@ class subinfo(info.infoclass):
 from Package.CMakePackageBase import *
 from Packager.AppxPackager import AppxPackager
 from Utils import GetFiles
+
 
 class Package(CMakePackageBase):
     def __init__(self):

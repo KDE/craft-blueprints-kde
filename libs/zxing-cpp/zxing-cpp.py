@@ -2,6 +2,7 @@
 import info
 from Package.CMakePackageBase import *
 
+
 class subinfo(info.infoclass):
     def setDependencies(self):
         pass

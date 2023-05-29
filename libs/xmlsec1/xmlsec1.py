@@ -47,6 +47,7 @@ class subinfo(info.infoclass):
 from Package.AutoToolsPackageBase import *
 from Package.VirtualPackageBase import *
 
+
 class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)

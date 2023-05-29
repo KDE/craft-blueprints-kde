@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Simple DirectMedia Layer"
@@ -17,8 +18,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/iconv"] = None
 
 
-from Package.CMakePackageBase import *
 from Package.AutoToolsPackageBase import *
+from Package.CMakePackageBase import *
 
 if CraftCore.compiler.isAndroid:
 

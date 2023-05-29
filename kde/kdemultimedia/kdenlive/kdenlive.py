@@ -1,5 +1,6 @@
-import info
 import os
+
+import info
 from CraftCore import CraftCore
 
 
@@ -62,9 +63,10 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/drkonqi"] = None
 
 
-from Utils import GetFiles
 from Blueprints.CraftPackageObject import CraftPackageObject
 from Packager.AppImagePackager import AppImagePackager
+from Utils import GetFiles
+
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):

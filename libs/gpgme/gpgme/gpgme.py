@@ -22,10 +22,10 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-import info
 import re
-import CraftCore
 
+import CraftCore
+import info
 from Package.AutoToolsPackageBase import *
 from Package.BinaryPackageBase import *
 

@@ -3,6 +3,7 @@
 
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues(gitUrl = "https://invent.kde.org/pim/itinerary.git")
@@ -33,6 +34,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
 
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__(self):

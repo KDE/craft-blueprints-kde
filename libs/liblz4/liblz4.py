@@ -2,6 +2,7 @@ import info
 from Package.CMakePackageBase import *
 from Package.MakeFilePackageBase import *
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = "[git]https://github.com/lz4/lz4.git"

@@ -1,6 +1,7 @@
 import info
 from Package.CMakePackageBase import *
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["2.1.26", "2.1.28"]:
@@ -28,6 +29,7 @@ class CMakePackage(CMakePackageBase):
 
 
 from Package.AutoToolsPackageBase import *
+
 
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):

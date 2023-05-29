@@ -23,7 +23,6 @@
 # SUCH DAMAGE.
 
 import info
-
 from Package.AutoToolsPackageBase import *
 from Package.PackageBase import *
 from Package.VirtualPackageBase import VirtualPackageBase

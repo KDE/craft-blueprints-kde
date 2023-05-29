@@ -1,6 +1,8 @@
-import info
 import os
 import shutil
+
+import info
+
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -23,7 +25,6 @@ class subinfo(info.infoclass):
 
 from Package.AutoToolsPackageBase import *
 from Package.MakeFilePackageBase import *
-
 
 if CraftCore.compiler.isMSVC():
     class Package(MakeFilePackageBase):

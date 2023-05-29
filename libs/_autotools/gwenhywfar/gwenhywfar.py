@@ -23,8 +23,10 @@
 # SUCH DAMAGE.
 
 import re
+
 import info
 from Package.AutoToolsPackageBase import *
+
 
 class subinfo(info.infoclass):
     def setTargets(self):

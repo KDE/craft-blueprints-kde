@@ -1,6 +1,5 @@
 import info
 
-
 # sources are in qt.git/util/qlalr, binary is here.
 # To build qlalr yourself, go into the Qt sources,
 # cd into util/qlalr, and run the following command:

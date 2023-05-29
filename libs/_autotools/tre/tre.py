@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["0.8.0"]:
@@ -16,6 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 from Package.AutoToolsPackageBase import *
+
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):

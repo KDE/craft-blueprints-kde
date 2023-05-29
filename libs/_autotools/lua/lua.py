@@ -1,7 +1,9 @@
 import os
+
 import info
 from CraftConfig import *
 from CraftOS.osutils import OsUtils
+
 
 class subinfo( info.infoclass ):
     def setTargets( self ):
@@ -24,6 +26,7 @@ class subinfo( info.infoclass ):
         self.runtimeDependencies["virtual/base"] = None
 
 from Package.MakeFilePackageBase import *
+
 
 class Package( MakeFilePackageBase ):
     def __init__(self):

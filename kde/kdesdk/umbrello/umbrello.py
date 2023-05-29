@@ -1,5 +1,7 @@
 import info
 from Packager.CollectionPackagerBase import PackagerLists
+
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -38,6 +40,7 @@ class subinfo(info.infoclass):
 
 
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__(self):

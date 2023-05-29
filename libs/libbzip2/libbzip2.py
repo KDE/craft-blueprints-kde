@@ -1,6 +1,7 @@
 import info
 from Package.CMakePackageBase import *
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         #self.targets['1.0.6'] = 'http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz'

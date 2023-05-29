@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
 
 from Package.MesonPackageBase import *
 
+
 class Package(MesonPackageBase):
     def __init__(self):
         MesonPackageBase.__init__(self)

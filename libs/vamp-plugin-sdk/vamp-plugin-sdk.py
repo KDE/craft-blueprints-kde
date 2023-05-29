@@ -1,7 +1,7 @@
 import info
-
-from Package.MSBuildPackageBase import *
 from Package.AutoToolsPackageBase import *
+from Package.MSBuildPackageBase import *
+
 
 class subinfo(info.infoclass):
     def setTargets( self ):

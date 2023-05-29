@@ -33,7 +33,6 @@ class subinfo(info.infoclass):
 
 from Package.CMakePackageBase import *
 
-
 if CraftCore.compiler.isWindows:
     class Package(CMakePackageBase):
         def __init__(self, **args):

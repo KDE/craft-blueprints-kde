@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Platforms.All
@@ -21,6 +22,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/dlfcn-win32"] = None
 
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
 

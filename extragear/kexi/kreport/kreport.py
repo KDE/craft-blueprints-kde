@@ -1,6 +1,7 @@
 import info
 from CraftOS.osutils import OsUtils
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()

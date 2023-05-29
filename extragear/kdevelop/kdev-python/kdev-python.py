@@ -2,6 +2,7 @@ import sys
 
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()

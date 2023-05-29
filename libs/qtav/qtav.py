@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-import info
-from Blueprints.CraftVersion import CraftVersion
-
 import subprocess
 import sys
+
+import info
+from Blueprints.CraftVersion import CraftVersion
 from info import DependencyRequirementType
+
 
 class subinfo(info.infoclass):
     def setTargets(self):

@@ -1,6 +1,7 @@
 import info
 from Package.CMakePackageBase import *
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "An open, royalty-free video coding format designed for video transmissions over the Internet"

@@ -1,7 +1,9 @@
 import os
+
 import info
-from Packager.AppxPackager import *
 from Package.CMakePackageBase import *
+from Packager.AppxPackager import *
+
 
 class subinfo(info.infoclass):
     def setTargets(self):

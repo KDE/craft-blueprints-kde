@@ -4,6 +4,7 @@
 import info
 from Package.PipPackageBase import *
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = ''

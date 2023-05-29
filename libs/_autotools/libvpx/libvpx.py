@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ['1.8.0', '1.9.0']:
@@ -18,6 +19,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/nasm"] = None
 
 from Package.AutoToolsPackageBase import *
+
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):

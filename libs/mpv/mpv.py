@@ -2,6 +2,7 @@ import info
 from CraftConfig import *
 from Package.MesonPackageBase import *
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "mpv"

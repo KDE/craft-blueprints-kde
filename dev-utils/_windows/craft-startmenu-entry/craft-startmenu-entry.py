@@ -25,6 +25,7 @@
 
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.targets["3"] = ""

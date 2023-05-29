@@ -10,6 +10,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
 
 from Package.CMakePackageBase import *
+
+
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)

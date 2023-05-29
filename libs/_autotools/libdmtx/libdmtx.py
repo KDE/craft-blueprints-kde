@@ -1,5 +1,6 @@
-import info
 import shutil
+
+import info
 
 
 class subinfo(info.infoclass):
@@ -22,6 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 from Package.AutoToolsPackageBase import *
+
 
 class Package(AutoToolsPackageBase):
     def __init__( self, **args ):

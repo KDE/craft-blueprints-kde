@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
 
 from Package.AutoToolsPackageBase import *
 
+
 class Package(AutoToolsPackageBase):
     def fixLibraryFolder(self, folder):
         craftLibDir = os.path.join(CraftCore.standardDirs.craftRoot(),  'lib')

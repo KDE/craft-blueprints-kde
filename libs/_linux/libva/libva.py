@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["2.12.0", "2.18.0"]:
@@ -15,6 +16,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["python-modules/meson"] = None
 
 from Package.MesonPackageBase import *
+
 
 class Package(MesonPackageBase):
     def __init__(self, **args):

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import info
-from Package.MakeFilePackageBase import MakeFilePackageBase
 from CraftCompiler import CraftCompiler
+from Package.MakeFilePackageBase import MakeFilePackageBase
+
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -21,7 +22,6 @@ class subinfo(info.infoclass):
 
 
 from Package.AutoToolsPackageBase import *
-
 
 if CraftCore.compiler.isGCCLike():
     class Package(AutoToolsPackageBase):

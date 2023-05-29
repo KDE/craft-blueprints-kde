@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -17,6 +18,7 @@ class subinfo(info.infoclass):
 
 
 from Package.AutoToolsPackageBase import *
+
 
 class Package(AutoToolsPackageBase):
     def __init__(self):

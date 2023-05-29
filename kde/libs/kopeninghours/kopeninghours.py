@@ -3,6 +3,7 @@
 
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "KOpeningHours"
@@ -17,6 +18,7 @@ class subinfo(info.infoclass):
 
 
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__(self):

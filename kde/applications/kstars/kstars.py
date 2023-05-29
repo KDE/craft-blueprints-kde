@@ -1,6 +1,8 @@
-import info
 import os
 import subprocess
+
+import info
+
 
 class subinfo(info.infoclass):
     def setTargets(self):

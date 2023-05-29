@@ -1,5 +1,6 @@
-from Packager.AppImagePackager import AppImagePackager
 import info
+from Packager.AppImagePackager import AppImagePackager
+
 
 class subinfo(info.infoclass):
     def setTargets(self):

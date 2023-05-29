@@ -1,8 +1,8 @@
-import info
-from Blueprints.CraftVersion import CraftVersion
-
 import subprocess
 import sys
+
+import info
+from Blueprints.CraftVersion import CraftVersion
 from info import DependencyRequirementType
 
 

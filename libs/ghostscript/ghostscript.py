@@ -1,6 +1,7 @@
 import info
 from CraftCompiler import CraftCompiler
 
+
 class subinfo(info.infoclass):
     def registerOptions(self):
         if CraftCore.compiler.isMinGW():

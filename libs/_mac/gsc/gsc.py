@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-import info
 import os
+
+import info
 
 
 class subinfo(info.infoclass):
@@ -18,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 from Package.MakeFilePackageBase import *
+
 
 class Package(MakeFilePackageBase):
     def __init__(self, **args):

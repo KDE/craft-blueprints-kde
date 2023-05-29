@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets( self ):
         self.description = 'headers required to interface with Nvidias codec APIs'
@@ -15,6 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 from Package.BinaryPackageBase import *
+
 
 class Package(BinaryPackageBase):
     def install(self):

@@ -22,8 +22,10 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-import info
 import glob
+
+import info
+
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -63,6 +65,7 @@ class PackageMSBuild(MSBuildPackageBase):
         return True
 
 from Package.AutoToolsPackageBase import *
+
 
 class PackageAutotools(AutoToolsPackageBase):
     def __init__( self, **args ):

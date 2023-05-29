@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
-
 from CraftCompiler import CraftCompiler
+
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.17.1.1"
 
 from Package.BinaryPackageBase import *
+
 
 class Package(BinaryPackageBase):
     def __init__(self):

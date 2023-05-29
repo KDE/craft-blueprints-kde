@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
-from Package.MSBuildPackageBase import *
 from Package.AutoToolsPackageBase import *
+from Package.MSBuildPackageBase import *
 
 
 class subinfo(info.infoclass):

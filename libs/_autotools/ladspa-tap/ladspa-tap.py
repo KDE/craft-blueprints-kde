@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets( self ):
         self.description = "Tom's LADSPA Plugins"
@@ -15,6 +16,7 @@ class subinfo(info.infoclass):
         self.buildDependencies['libs/ladspa-sdk'] = None
 
 from Package.AutoToolsPackageBase import *
+
 
 class Package(AutoToolsPackageBase):
     def __init__( self, **args ):

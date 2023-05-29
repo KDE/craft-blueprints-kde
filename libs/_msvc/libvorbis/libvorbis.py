@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
 
 from Package.BinaryPackageBase import *
 
+
 class Package(BinaryPackageBase):
     def __init__(self, **args):
         BinaryPackageBase.__init__(self)

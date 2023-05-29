@@ -1,5 +1,5 @@
-from pathlib import Path
 import stat
+from pathlib import Path
 
 import info
 

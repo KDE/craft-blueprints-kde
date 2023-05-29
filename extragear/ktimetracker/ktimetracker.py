@@ -2,6 +2,7 @@ import info
 from CraftConfig import *
 from CraftOS.osutils import OsUtils
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets['master'] = 'https://anongit.kde.org/ktimetracker|master'
@@ -36,6 +37,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__(self):
