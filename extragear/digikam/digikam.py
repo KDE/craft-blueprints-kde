@@ -174,6 +174,7 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
             self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
             self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
+            self.subinfo.options.configure.args += f" -DENABLE_APPSTYLES=ON"
             self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=ON"
             self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=ON"
             self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=ON"
