@@ -56,6 +56,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["data/poppler-data"] = None
         self.runtimeDependencies["data/urw-base35-fonts"] = None
         self.runtimeDependencies["libs/nss"] = None
+        self.runtimeDependencies["libs/gpgme"] = None
         if self.options.dynamic.buildQtFrontend:
             self.runtimeDependencies["libs/qt/qtbase"] = None
         if self.options.dynamic.buildGlibFrontend:

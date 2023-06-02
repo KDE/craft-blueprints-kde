@@ -30,13 +30,13 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.2.33"]:
+        for ver in ["2.4.2"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"gnupg-{ver}"
 
-        self.targetDigests["2.2.33"] = (["8688836e8c043d70410bb64d72de6ae15176e09ecede8d24528b4380c000e4e3"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.4.2"] = (["97eb47df8ae5a3ff744f868005a090da5ab45cb48ee9836dbf5ee739a4e5cf49"], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "2.2.33"
+        self.defaultTarget = "2.4.2"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
