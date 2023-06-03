@@ -1,0 +1,47 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user gettext-0.21.1.orig/gettext-tools/src/msgfmt.c gettext-0.21.1/gettext-tools/src/msgfmt.c
+--- gettext-0.21.1.orig/gettext-tools/src/msgfmt.c	2022-10-09 22:46:07.000000000 +0200
++++ gettext-0.21.1/gettext-tools/src/msgfmt.c	2023-06-03 14:08:18.943267400 +0200
+@@ -69,6 +69,10 @@
+ #include "search-path.h"
+ #include "gettext.h"
+ 
++#ifdef _WIN32
++#include <windows.h>
++#endif
++
+ #define _(str) gettext (str)
+ 
+ #define SIZEOF(a) (sizeof(a) / sizeof(a[0]))
+@@ -668,8 +672,14 @@
+ 
+       its_dirs = get_search_path ("its");
+       its_locating_rules = locating_rule_list_alloc ();
+-      for (dirs = its_dirs; *dirs != NULL; dirs++)
++      for (dirs = its_dirs; *dirs != NULL; dirs++) {
++        #ifdef _WIN32
++        char buffer[256];
++        sprintf(buffer, "its_dir: %s\n", *dirs);
++        OutputDebugStringA(buffer);
++        #endif
+         locating_rule_list_add_from_directory (its_locating_rules, *dirs);
++      }
+ 
+       its_basename = locating_rule_list_locate (its_locating_rules,
+                                                 xml_template_name,
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user gettext-0.21.1.orig/gettext-tools/src/search-path.c gettext-0.21.1/gettext-tools/src/search-path.c
+--- gettext-0.21.1.orig/gettext-tools/src/search-path.c	2019-05-11 13:29:32.000000000 +0200
++++ gettext-0.21.1/gettext-tools/src/search-path.c	2023-06-03 14:03:08.754402300 +0200
+@@ -49,7 +49,12 @@
+   /* Count the number of valid elements in DIRS.  */
+   while (*start != '\0')
+     {
+-      char *end = strchrnul (start, ':');
++#ifdef _WIN32
++      const char dirsep = ';';
++#else
++      const char dirsep = ':';
++#endif
++      char *end = strchrnul (start, dirsep);
+ 
+       /* Skip empty element.  */
+       if (start != end)
