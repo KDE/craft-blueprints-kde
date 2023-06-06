@@ -103,6 +103,7 @@ class Package(CMakePackageBase):
             "text/csv",
         ]
         self.defines["file_types"] = [".kmy", ".ofx", ".qfx", ".qif", ".csv"]
+        self.defines["website"] = "https://kmymoney.org/"
 
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
         if CraftCore.compiler.isMacOS:
