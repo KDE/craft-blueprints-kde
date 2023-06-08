@@ -6,7 +6,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "KItinerary"
-        self.patchLevel["22.12.3"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

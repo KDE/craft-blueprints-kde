@@ -4,7 +4,6 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchLevel["22.12.3"] = 1
 
         self.description = "Extra plugins for KIO (thumbnail generators, archives, remote filesystems and more)"
 
