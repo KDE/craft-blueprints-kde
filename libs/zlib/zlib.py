@@ -5,9 +5,6 @@ from Package.CMakePackageBase import *
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
-
     def setTargets(self):
         for ver in ["1.2.13"]:
             self.targets[ver] = f"https://www.zlib.net/zlib-{ver}.tar.xz"
