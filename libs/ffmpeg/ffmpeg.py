@@ -77,6 +77,20 @@ class Package(AutoToolsPackageBase):
         if "CXX" in os.environ:
             self.subinfo.options.configure.args += ["--cxx=" + os.environ["CXX"]]
 
+        if CraftCore.compiler.isAndroid:
+            toolchain_path = os.path.join(CraftCore.standardDirs.tmpDir(), f"android-{CraftCore.compiler.architecture}-toolchain", "bin")
+
+            if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
+                architecture = "aarch64"
+                toolchain_prefix = "aarch64-linux-android-"
+            else:
+                architecture = CraftCore.compiler.androidArchitecture
+                toolchain_prefix = f"{CraftCore.compiler.androidArchitecture}-linux-android-"
+
+            self.subinfo.options.configure.args += ["--cc=" + f'{toolchain_path}/{toolchain_prefix}gcc']
+            self.subinfo.options.configure.args += ["--cxx=" +f'{toolchain_path}/{toolchain_prefix}g++']
+            self.subinfo.options.configure.args += ["--enable-cross-compile", "--target-os=android", f"--cross-prefix={toolchain_prefix}", f"--arch={architecture}"]
+
         if self.buildTarget < CraftVersion("5.0"):
             self.subinfo.options.configure.args += ["--enable-avresample"]
 
@@ -106,7 +120,7 @@ class Package(AutoToolsPackageBase):
 
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["--enable-rpath", "--install-name-dir=@rpath"]
-        else:
+        elif not CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["--enable-ffnvcodec", "--enable-nvdec", "--enable-nvenc", "--enable-cuvid", "--enable-amf"]
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["--enable-vaapi", "--enable-vdpau", "--enable-libmfx"]
