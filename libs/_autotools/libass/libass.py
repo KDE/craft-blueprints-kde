@@ -25,3 +25,6 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.args += " --disable-static --enable-shared "
+
+        if CraftCore.compiler.isAndroid:
+            self.subinfo.options.configure.args += " --disable-require-system-font-provider "
