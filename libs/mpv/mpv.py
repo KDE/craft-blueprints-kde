@@ -20,7 +20,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/lua"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/libass"] = None
         self.runtimeDependencies["libs/uuid"] = None
@@ -32,8 +31,15 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/rubberband"] = None
 
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/lua"] = None
 
 class Package(MesonPackageBase):
     def __init__(self, **args):
         MesonPackageBase.__init__(self)
-        self.subinfo.options.configure.args += ["-Drubberband=disabled", "-Dlua=enabled", "-Dlibmpv=true"]
+        self.subinfo.options.configure.args += ["-Drubberband=disabled", "-Dlibmpv=true"]
+
+        if CraftCore.compiler.isAndroid:
+            self.subinfo.options.configure.args += ["-Dlua=disabled"]
+        else:
+            self.subinfo.options.configure.args += ["-Dlua=enabled"]
