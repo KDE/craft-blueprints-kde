@@ -16,12 +16,13 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/glib"] = None
         self.runtimeDependencies["libs/libpng"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/freetype"] = None
         self.runtimeDependencies["libs/fontconfig"] = None
         self.runtimeDependencies["libs/pixman"] = None
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+            self.runtimeDependencies["libs/glib"] = None
 
 
 from Package.AutoToolsPackageBase import *
