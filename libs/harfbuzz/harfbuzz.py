@@ -12,11 +12,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.7.2"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/freetype"] = None
-        self.buildDependencies["libs/icu"] = None
-        if not CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["libs/glib"] = None
-            self.buildDependencies["libs/cairo"] = None
+        self.runtimeDependencies["virtual/base"] = None
 
 
 from Package.CMakePackageBase import *
