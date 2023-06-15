@@ -28,9 +28,6 @@ class subinfo(info.infoclass):
         # latest stable version
         self.defaultTarget = "2.3.5"
 
-    def registerOptions(self):
-        self.options.dynamic.registerOption("buildWithQt6", False)
-
 
 from Package.CMakePackageBase import *
 

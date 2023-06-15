@@ -7,14 +7,10 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libsecret"] = None
-        if self.options.dynamic.buildWithQt6:
-            self.buildDependencies["libs/qt6/qttools"] = None
-            self.runtimeDependencies["libs/qt6/qtbase"] = None
-        else:
-            self.buildDependencies["libs/qt5/qttools"] = None
-            self.runtimeDependencies["libs/qt5/qtbase"] = None
-            if CraftCore.compiler.isAndroid:
-                self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
+        self.buildDependencies["libs/qt/qttools"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
 
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/frankosterfeld/qtkeychain.git"
@@ -36,17 +32,14 @@ class subinfo(info.infoclass):
         ]
         self.patchLevel["0.12.0"] = 2
 
-        if self.options.dynamic.buildWithQt6:
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.defaultTarget = "841f31c"  # no release with full Qt 6 support yet
         else:
             self.defaultTarget = "0.13.1"
-
-    def registerOptions(self):
-        self.options.dynamic.registerOption("buildWithQt6", False)
 
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        if self.subinfo.options.dynamic.buildWithQt6:
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.subinfo.options.configure.args = "-DBUILD_WITH_QT6=ON"

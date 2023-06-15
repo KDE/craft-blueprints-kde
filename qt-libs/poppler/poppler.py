@@ -55,17 +55,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["data/poppler-data"] = None
         self.runtimeDependencies["data/urw-base35-fonts"] = None
         self.runtimeDependencies["libs/nss"] = None
-        if self.options.dynamic.buildQt5Frontend:
-            self.runtimeDependencies["libs/qt5/qtbase"] = None
-        if self.options.dynamic.buildQt6Frontend:
-            self.runtimeDependencies["libs/qt6/qtbase"] = None
+        if self.options.dynamic.buildQtFrontend:
+            self.runtimeDependencies["libs/qt/qtbase"] = None
         if self.options.dynamic.buildGlibFrontend:
             self.runtimeDependencies["libs/glib"] = None
             self.runtimeDependencies["libs/cairo"] = None
 
     def registerOptions(self):
-        self.options.dynamic.registerOption("buildQt5Frontend", True)
-        self.options.dynamic.registerOption("buildQt6Frontend", False)
+        self.options.dynamic.registerOption("buildQtFrontend", True)
         self.options.dynamic.registerOption("buildGlibFrontend", False)
         self.options.dynamic.registerOption("buildUtils", False)
         if CraftCore.compiler.isAndroid:
@@ -89,8 +86,10 @@ class Package(CMakePackageBase):
         if not self.subinfo.options.dynamic.buildUtils:
             self.subinfo.options.configure.args += ["-DENABLE_UTILS=OFF"]
 
-        self.subinfo.options.configure.args += ["-DENABLE_QT5=" + ("ON" if self.subinfo.options.dynamic.buildQt5Frontend else "OFF")]
-        self.subinfo.options.configure.args += ["-DENABLE_QT6=" + ("ON" if self.subinfo.options.dynamic.buildQt6Frontend else "OFF")]
+        qtMajor = CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion
+
+        self.subinfo.options.configure.args += ["-DENABLE_QT5=" + ("ON" if (self.subinfo.options.dynamic.buildQtFrontend and qtMajor == "5") else "OFF")]
+        self.subinfo.options.configure.args += ["-DENABLE_QT6=" + ("ON" if (self.subinfo.options.dynamic.buildQtFrontend and qtMajor == "6") else "OFF")]
 
         if not self.subinfo.options.dynamic.buildTests:
             self.subinfo.options.configure.args += ["-DBUILD_QT5_TESTS=OFF", "-DBUILD_QT6_TESTS=OFF", "-DBUILD_CPP_TESTS=OFF", "-DBUILD_MANUAL_TESTS=OFF"]

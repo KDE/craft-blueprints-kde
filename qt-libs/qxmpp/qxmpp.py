@@ -6,12 +6,9 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        if self.options.isActive("libs/qt5/qtbase"):
-            self.runtimeDependencies["libs/qt5/qtbase"] = None
-            self.buildDependencies["libs/qt5/qttools"] = None
-        else:
-            self.runtimeDependencies["libs/qt6/qtbase"] = None
-            self.buildDependencies["libs/qt6/qttools"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.buildDependencies["libs/qt/qttools"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.buildDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["libs/libomemo-c"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
