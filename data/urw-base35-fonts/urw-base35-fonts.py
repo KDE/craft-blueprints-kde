@@ -19,12 +19,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.SourceOnlyPackageBase import *
+from Package.BinaryPackageBase import *
 
 
-class Package(SourceOnlyPackageBase):
+class Package(BinaryPackageBase):
     def __init__(self):
-        SourceOnlyPackageBase.__init__(self)
+        BinaryPackageBase.__init__(self)
 
     def install(self):
         fontsSrcDir = os.path.join(self.sourceDir(), "fonts")
