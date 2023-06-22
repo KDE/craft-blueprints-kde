@@ -55,6 +55,7 @@ class Package(CMakePackageBase):
             "-DFEATURE_system_zlib=ON",
             "-DFEATURE_system_freetype=ON",
             "-DQT_FEATURE_brotli=OFF",
+            "-DQT_FEATURE_sql_odbc=OFF",
             "-DFEATURE_openssl_linked=ON",
             "-DQT_BUILD_EXAMPLES=OFF",
         ]
