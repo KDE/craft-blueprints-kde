@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.patchToApply["6.4.3"] = [(".craft", 1)]
-        self.patchLevel["6.4.3"] = 1
+        self.patchLevel["6.4.3"] = 2
         self.patchToApply["6.5.0"] = [(".craft", 1)]
 
     def setDependencies(self):
@@ -65,6 +65,9 @@ class Package(CMakePackageBase):
 
         if self.subinfo.options.isActive("libs/pcre2"):
             self.subinfo.options.configure.args += ["-DFEATURE_system_pcre2=ON"]
+
+        if self.subinfo.options.isActive("libs/icu"):
+            self.subinfo.options.configure.args += ["-DFEATURE_icu=ON"]
 
         if self.subinfo.options.isActive("libs/harfbuzz"):
             self.subinfo.options.configure.args += ["-DFEATURE_system_harfbuzz=ON"]
