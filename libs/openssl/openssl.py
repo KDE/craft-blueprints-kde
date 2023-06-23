@@ -29,15 +29,16 @@ from CraftCompiler import CraftCompiler
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        def addTarget(baseUrl, ver):
-            self.targets[ver] = f"{baseUrl}openssl-{ver}.tar.gz"
-            self.targetInstSrc[ver] = f"openssl-{ver}"
-            self.targetDigestUrls[ver] = ([f"{baseUrl}openssl-{ver}.tar.gz.sha256"], CraftHash.HashAlgorithm.SHA256)
-
         # latest versions -> inside source/
         for ver in ["1.1.1i", "1.1.1k", "1.1.1l", "1.1.1n", "1.1.1q", "1.1.1s", "1.1.1t", "1.1.1u"]:
-            baseUrl = "https://openssl.org/source/"
-            addTarget(baseUrl, ver)
+            self.targets[ver] = f"https://openssl.org/source/openssl-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"openssl-{ver}"
+            self.targetDigestUrls[ver] = ([f"https://openssl.org/source/openssl-{ver}.tar.gz.sha256"], CraftHash.HashAlgorithm.SHA256)
+
+        for ver in ["3.1.1"]:
+            self.targets[ver] = f"https://openssl.org/source/openssl-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"openssl-{ver}"
+            self.targetDigestUrls[ver] = ([f"https://openssl.org/source/openssl-{ver}.tar.gz.sha256"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "The OpenSSL runtime environment"
         self.webpage = "https://openssl.org"
@@ -55,7 +56,7 @@ class subinfo(info.infoclass):
             "--libdir=lib",
         ]
 
-        self.defaultTarget = "1.1.1u"
+        self.defaultTarget = "3.1.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
