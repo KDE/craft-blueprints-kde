@@ -55,7 +55,7 @@ class subinfo(info.infoclass):
             "--libdir=lib",
         ]
 
-        self.defaultTarget = "3.1.1"
+        self.defaultTarget = "1.1.1u"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
