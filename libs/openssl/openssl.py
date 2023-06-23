@@ -40,11 +40,11 @@ class subinfo(info.infoclass):
             addTarget(baseUrl, ver)
 
         self.description = "The OpenSSL runtime environment"
+        self.webpage = "https://openssl.org"
 
         # set the default config for openssl 1.1
         self.options.configure.args += [
             "shared",
-            "no-zlib",
             "threads",
             "no-rc5",
             "no-idea",
@@ -55,14 +55,14 @@ class subinfo(info.infoclass):
             "--libdir=lib",
         ]
 
-        self.defaultTarget = "1.1.1u"
+        self.defaultTarget = "3.1.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/perl"] = None
+        self.runtimeDependencies["libs/zlib"] = None
         if CraftCore.compiler.isMinGW():
             # TODO: remove when we drop < 1.1
-            self.runtimeDependencies["libs/zlib"] = None
             self.buildDependencies["dev-utils/msys"] = None
         elif CraftCore.compiler.isMSVC():
             self.buildDependencies["dev-utils/nasm"] = None
