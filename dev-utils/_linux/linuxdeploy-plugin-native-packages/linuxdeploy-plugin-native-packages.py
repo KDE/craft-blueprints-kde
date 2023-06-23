@@ -8,10 +8,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.targets[
             "continous"
-        ] = "https://github.com/linuxdeploy/linuxdeploy-plugin-native-packaging/releases/download/continuous/linuxdeploy-plugin-native-packaging-x86_64.AppImage"
+        ] = "https://github.com/linuxdeploy/linuxdeploy-plugin-native_packages/releases/download/continuous/linuxdeploy-plugin-native_packages-x86_64.AppImage"
         self.targetInstallPath["continous"] = "dev-utils/bin"
         self.description = "Experimental linuxdeploy plugin that creates native packages (`.rpm`, `.deb`) from AppDirs."
-        self.webpage = "https://github.com/linuxdeploy/linuxdeploy-plugin-native-packaging"
+        self.webpage = "https://github.com/linuxdeploy/linuxdeploy-plugin-native_packages"
         self.defaultTarget = "continous"
 
     def setDependencies(self):
