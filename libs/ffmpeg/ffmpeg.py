@@ -37,6 +37,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblame"] = None
         self.runtimeDependencies["libs/libopus"] = None
+        self.runtimeDependencies["libs/openssl"] = None
         if CraftCore.compiler.isGCCLike():
             self.runtimeDependencies["libs/libsdl2"] = None
             self.runtimeDependencies["libs/libvorbis"] = None
