@@ -35,7 +35,7 @@ class subinfo(info.infoclass):
             self.targetDigestUrls[ver] = ([f"{baseUrl}openssl-{ver}.tar.gz.sha256"], CraftHash.HashAlgorithm.SHA256)
 
         # latest versions -> inside source/
-        for ver in ["1.1.1i", "1.1.1k", "1.1.1l", "1.1.1n", "1.1.1q", "1.1.1s", "1.1.1t"]:
+        for ver in ["1.1.1i", "1.1.1k", "1.1.1l", "1.1.1n", "1.1.1q", "1.1.1s", "1.1.1t", "1.1.1u"]:
             baseUrl = "https://openssl.org/source/"
             addTarget(baseUrl, ver)
 
@@ -55,7 +55,7 @@ class subinfo(info.infoclass):
             "--libdir=lib",
         ]
 
-        self.defaultTarget = "1.1.1t"
+        self.defaultTarget = "1.1.1u"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
