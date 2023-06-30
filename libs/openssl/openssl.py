@@ -54,6 +54,7 @@ class subinfo(info.infoclass):
             "no-heartbeats",
             "no-dynamic-engine",
             "--libdir=lib",
+            f"--openssldir={CraftCore.standardDirs.craftRoot()}/etc/ssl",
         ]
 
         self.defaultTarget = "3.1.1"
