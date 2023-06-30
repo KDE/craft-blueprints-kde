@@ -39,6 +39,9 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://openssl.org/source/openssl-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"openssl-{ver}"
             self.targetDigestUrls[ver] = ([f"https://openssl.org/source/openssl-{ver}.tar.gz.sha256"], CraftHash.HashAlgorithm.SHA256)
+            self.patchToApply[ver] = [
+                ("disable-install-docs.patch", 1)
+            ]  # https://github.com/microsoft/vcpkg/blob/9055f88ba53a99f51e3c733fe9c79703dc23d57d/ports/openssl/disable-install-docs.patch
 
         self.description = "The OpenSSL runtime environment"
         self.webpage = "https://openssl.org"
