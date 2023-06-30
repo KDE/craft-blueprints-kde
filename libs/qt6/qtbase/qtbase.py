@@ -16,6 +16,9 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["6.4.3"] = [(".craft", 1)]
+        self.patchLevel["6.4.3"] = 2
+        self.patchToApply["6.5.0"] = [(".craft", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -52,6 +55,7 @@ class Package(CMakePackageBase):
             "-DFEATURE_system_zlib=ON",
             "-DFEATURE_system_freetype=ON",
             "-DQT_FEATURE_brotli=OFF",
+            "-DQT_FEATURE_sql_odbc=OFF",
             "-DFEATURE_openssl_linked=ON",
             "-DQT_BUILD_EXAMPLES=OFF",
         ]
@@ -61,6 +65,9 @@ class Package(CMakePackageBase):
 
         if self.subinfo.options.isActive("libs/pcre2"):
             self.subinfo.options.configure.args += ["-DFEATURE_system_pcre2=ON"]
+
+        if self.subinfo.options.isActive("libs/icu"):
+            self.subinfo.options.configure.args += ["-DFEATURE_icu=ON"]
 
         if self.subinfo.options.isActive("libs/harfbuzz"):
             self.subinfo.options.configure.args += ["-DFEATURE_system_harfbuzz=ON"]

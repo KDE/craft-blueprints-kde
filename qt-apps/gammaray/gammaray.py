@@ -29,8 +29,10 @@ class subinfo(info.infoclass):
         self.description = "GammaRay is a tool to poke around in a Qt-application and also to manipulate the application to some extent"
         self.webpage = "http://www.kdab.com/gammaray"
         self.displayName = "GammaRay"
-
-        self.defaultTarget = "2.11.3"
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.defaultTarget = "master"
+        else:
+            self.defaultTarget = "2.11.3"
 
     def registerOptions(self):
         self.options.dynamic.registerOption("gammarayProbeOnly", False)
@@ -38,7 +40,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["qt-apps/kdstatemachineeditor"] = None
         self.runtimeDependencies["libs/openssl"] = None

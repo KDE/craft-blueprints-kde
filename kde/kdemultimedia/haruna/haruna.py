@@ -8,13 +8,14 @@ class subinfo(info.infoclass):
         self.displayName = "Haruna"
         self.description = "Haruna video player"
         self.svnTargets["master"] = "https://invent.kde.org/multimedia/haruna.git"
-        self.defaultTarget = "0.10.3"
+        self.defaultTarget = "0.11.1"
 
-        for ver in ["0.10.3", "0.9.3"]:
+        for ver in ["0.11.1", "0.10.3", "0.9.3"]:
             self.targets[ver] = f"https://download.kde.org/stable/haruna/haruna-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"haruna-{ver}"
             self.archiveNames[ver] = f"haruna-{ver}.tar.gz"
 
+        self.targetDigests["0.11.1"] = (["bcc78373ac48e764ec54aa495d9a0bad9fd620e55bc0e28cf683a0862973bc98"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.10.3"] = (["4d21eaa709dd3b9f393e2252c4642127ab5da9781a74c903dafba64ae3f9d296"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.9.3"] = (["673d8db5d59e1c0f5937c3b73c11ee858fbd43d65efcde91aba9dcf70dac73e6"], CraftHash.HashAlgorithm.SHA256)
 

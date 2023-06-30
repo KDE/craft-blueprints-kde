@@ -40,6 +40,6 @@ class Package(MesonPackageBase):
         self.subinfo.options.configure.args += ["-Drubberband=disabled", "-Dlibmpv=true"]
 
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ["-Dlua=disabled"]
+            self.subinfo.options.configure.args += ["-Dlua=disabled", "-Ddefault_library=static"]
         else:
             self.subinfo.options.configure.args += ["-Dlua=enabled"]

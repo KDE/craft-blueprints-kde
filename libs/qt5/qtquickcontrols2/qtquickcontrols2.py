@@ -12,6 +12,8 @@ class subinfo(info.infoclass):
             self.patchToApply["5.15.5"] = [("optional-widget-dependency.diff", 1)]
             self.patchToApply["kde/5.15"] = [("optional-widget-dependency.diff", 1)]
         self.patchLevel["5.15.5"] = 1
+        self.patchLevel["kde/5.15"] = 1
+
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None

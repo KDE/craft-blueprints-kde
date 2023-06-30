@@ -37,6 +37,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblame"] = None
         self.runtimeDependencies["libs/libopus"] = None
+        self.runtimeDependencies["libs/openssl"] = None
         if CraftCore.compiler.isGCCLike():
             self.runtimeDependencies["libs/libsdl2"] = None
             self.runtimeDependencies["libs/libvorbis"] = None
@@ -69,7 +70,8 @@ class Package(AutoToolsPackageBase):
         # with msvc it does not support shadowbuilds
         self.subinfo.options.useShadowBuild = not CraftCore.compiler.isMSVC()
 
-        self.subinfo.options.configure.args = ["--enable-shared", "--disable-debug", "--disable-doc", "--enable-gpl", "--enable-version3"]
+        self.subinfo.options.configure.args = ["--enable-shared", "--disable-debug", "--disable-doc", "--enable-gpl", "--enable-version3", "--enable-nonfree", "--enable-openssl"]
+
         if not CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["--enable-libmp3lame"]
         if "CC" in os.environ:

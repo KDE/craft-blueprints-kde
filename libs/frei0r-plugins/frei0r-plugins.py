@@ -8,15 +8,13 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Minimalistic plugin API for video effects, plugins collection"
         self.webpage = "http://frei0r.dyne.org/"
-        for ver in ["1.7.0", "2.2.0"]:
+        for ver in ["2.3.0"]:
             self.targets[ver] = f"https://github.com/dyne/frei0r/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"frei0r-{ver}"
-        self.targetDigests["1.6.1"] = (["dae0ca623c83173788ce4fc74cb67ac7e50cf33a4412ee3d33bed284da1a8437"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["1.7.0"] = (["6f7cf95ea2257687cc31db0ed9c9bc0eec152e953d515f346eabec048ed2b29d"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.3.0"] = (["00aa65a887445c806b2a467abc3ccc4b0855f7eaf38ed2011a1ff41e74844fa0"], CraftHash.HashAlgorithm.SHA256)
 
         self.svnTargets["master"] = "https://github.com/dyne/frei0r.git"
-        self.svnTargets["c0bbc2f"] = "https://github.com/dyne/frei0r.git||c0bbc2fe105c0ce1270d89863eeb804e58601bd9"
-        self.defaultTarget = "c0bbc2f"
+        self.defaultTarget = "2.3.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
