@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/expat"] = None
         self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/brotli"] = None
         self.runtimeDependencies["libs/libcurl"] = None
         self.runtimeDependencies["libs/inih"] = None
         self.runtimeDependencies["virtual/base"] = None
