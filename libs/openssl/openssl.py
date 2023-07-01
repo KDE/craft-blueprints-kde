@@ -43,6 +43,8 @@ class subinfo(info.infoclass):
                 ("disable-install-docs.patch", 1)
             ]  # https://github.com/microsoft/vcpkg/blob/9055f88ba53a99f51e3c733fe9c79703dc23d57d/ports/openssl/disable-install-docs.patch
 
+        self.patchLevel["3.1.1"] = 1
+
         self.description = "The OpenSSL runtime environment"
         self.webpage = "https://openssl.org"
 
@@ -57,7 +59,7 @@ class subinfo(info.infoclass):
             "no-heartbeats",
             "no-dynamic-engine",
             "--libdir=lib",
-            f"--openssldir={CraftCore.standardDirs.craftRoot()}/etc/ssl",
+            f"--openssldir={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/etc/ssl",
         ]
 
         self.defaultTarget = "3.1.1"
@@ -111,6 +113,14 @@ class PackageCMake(CMakePackageBase):
     def compile(self):
         with utils.ScopedEnv(self.env):
             return super().compile()
+
+    def install(self):
+        if not super().install():
+            return False
+        for f in self.packageDir().glob(".pkgconfig/*.pc"):
+            if not utils.configureFile(f, self.imageDir() / "lib/pkgconfig" / f.name, {"CRAFT_ROOT" : CraftCore.standardDirs.craftRoot(), "VERSION" : self.buildTarget}):
+                return False
+        return True
 
     def postInstall(self):
         # remove API docs here as there is no build option for that
