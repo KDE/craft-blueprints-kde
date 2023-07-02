@@ -6,13 +6,16 @@ from Package.AutoToolsPackageBase import AutoToolsPackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/libssh2/libssh2.git"
-        for ver in ["1.10.0"]:
+        for ver in ["1.10.0", "1.11.0"]:
             self.targets[ver] = f"https://www.libssh2.org/download/libssh2-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libssh2-{ver}"
         self.targetDigests["1.10.0"] = (["2d64e90f3ded394b91d3a2e774ca203a4179f69aebee03003e5a6fa621e41d51"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.11.0"] = (['3736161e41e2693324deb38c26cfdc3efe6209d634ba4258db1cecff6a5ad461'], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["1.10.0"] = [("libssh2-1.10.0-20221026.diff", 1)]  # don't let pkg-config search for ws2_32
+        if CraftCore.compiler.isMSVC():
+            self.patchToApply["1.11.0"] = [("libssh2-1.11.0-MSVC-libprefix.pc.diff", 1)]
         self.patchLevel["1.10.0"] = 1
-        self.defaultTarget = "1.10.0"
+        self.defaultTarget = "1.11.0"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
