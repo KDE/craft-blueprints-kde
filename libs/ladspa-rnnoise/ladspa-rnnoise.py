@@ -28,7 +28,13 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += ["-DBUILD_VST_PLUGIN=OFF", "-DBUILD_LV2_PLUGIN=OFF"]
+        self.subinfo.options.configure.args += [
+            "-DBUILD_VST_PLUGIN=OFF",
+            "-DBUILD_VST3_PLUGIN=OFF",
+            "-DBUILD_LV2_PLUGIN=OFF",
+            "-DBUILD_AU_PLUGIN=OFF",
+            "-DBUILD_AUV3_PLUGIN=OFF",
+        ]
 
     def install(self):
         if not super().install():
