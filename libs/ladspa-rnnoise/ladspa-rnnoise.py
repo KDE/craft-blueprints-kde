@@ -34,6 +34,7 @@ class Package(CMakePackageBase):
             "-DBUILD_LV2_PLUGIN=OFF",
             "-DBUILD_AU_PLUGIN=OFF",
             "-DBUILD_AUV3_PLUGIN=OFF",
+            "-DBUILD_TESTS=OFF",
         ]
 
     def install(self):
