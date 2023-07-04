@@ -9,11 +9,12 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
-        for ver in ["0.21", "0.21.1"]:
+        for ver in ["0.21", "0.21.1", "0.22"]:
             self.targets[ver] = "http://ftp.gnu.org/pub/gnu/gettext/gettext-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "gettext-%s" % ver
         self.targetDigests["0.21"] = (["c77d0da3102aec9c07f43671e60611ebff89a996ef159497ce8e59d075786b12"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.21.1"] = (["e8c3650e1d8cee875c4f355642382c1df83058bd5a11ee8555c0cf276d646d45"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.22"] = (['49f089be11b490170bbf09ed2f51e5f5177f55be4cc66504a5861820e0fb06ab'], CraftHash.HashAlgorithm.SHA256)
 
         self.patchToApply["0.21"] = [
             ("gettext-0.21-add-missing-ruby.diff", 1),
@@ -31,6 +32,9 @@ class subinfo(info.infoclass):
             # https://raw.githubusercontent.com/microsoft/vcpkg/master/ports/gettext/parallel-gettext-tools.patch
             ("parallel-gettext-tools.patch", 1),
         ]
+        self.patchToApply["0.22"] = [
+            ("gettext-0.21.1-20230603.diff", 1),  # fix windows search path
+        ]
         if CraftCore.compiler.isMinGW():
             self.patchToApply["0.21"] += [
                 ("0011-fix-interference-between-libintl-boost-header-files.patch", 1)
@@ -44,7 +48,7 @@ class subinfo(info.infoclass):
         # 0.21.1 fails on Windows
         # libgettextsrc_la-write-catalog.obj : error LNK2019: unresolved external symbol close_used_without_requesting_gnulib_module_close referenced in function msgdomain_list_print
         # .libs\gettextsrc-0-21-1.dll : fatal error LNK1120: 1 unresolved external
-        self.defaultTarget = "0.21"
+        self.defaultTarget = "0.22"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/automake"] = None
@@ -60,6 +64,7 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.shell.useMSVCCompatEnv = True
+        self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += [
             "--disable-static",
             "--enable-shared",
@@ -90,6 +95,7 @@ class Package(AutoToolsPackageBase):
                 "ac_cv_func_wcslen=yes",
                 "ac_cv_func_memmove=yes",
                 "ac_cv_func_memset=yes",
+                "CPPFLAGS='-D_WIN32_WINNT=_WIN32_WINNT_WIN8'"
             ]
         else:
             self.subinfo.options.configure.args += ["--without-included-libxml"]
