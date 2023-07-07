@@ -42,10 +42,7 @@ class subinfo(info.infoclass):
         #    self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
-        if CraftCore.compiler.isMSVC():
-            self.runtimeDependencies["libs/mpir"] = None
-        else:
-            self.runtimeDependencies["libs/libgmp"] = None
+        self.runtimeDependencies["libs/libgmp"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.description = "A library with common classes and functionality used by finance applications for the KDE SC."
 

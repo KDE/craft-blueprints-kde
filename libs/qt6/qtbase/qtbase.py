@@ -30,6 +30,7 @@ class subinfo(info.infoclass):
             if self.options.dynamic.withDBus:
                 self.runtimeDependencies["libs/dbus"] = None
             self.runtimeDependencies["libs/icu"] = None
+            self.runtimeDependencies["libs/brotli"] = None
             self.runtimeDependencies["libs/zlib"] = None
             self.runtimeDependencies["libs/libzstd"] = None
             self.runtimeDependencies["libs/libpng"] = None
@@ -54,7 +55,6 @@ class Package(CMakePackageBase):
             "-DFEATURE_system_sqlite=ON",
             "-DFEATURE_system_zlib=ON",
             "-DFEATURE_system_freetype=ON",
-            "-DQT_FEATURE_brotli=OFF",
             "-DQT_FEATURE_sql_odbc=OFF",
             "-DFEATURE_openssl_linked=ON",
             "-DQT_BUILD_EXAMPLES=OFF",

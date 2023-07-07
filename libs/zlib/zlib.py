@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         )
 
         self.description = "The zlib compression and decompression library"
+        self.webpage = "https://www.zlib.net"
         self.patchLevel["1.2.13"] = 1
         self.defaultTarget = "1.2.13"
 

@@ -50,8 +50,13 @@ class subinfo(info.infoclass):
         self.targetDigests["3.39.2"] = (["87775784f8b22d0d0f1d7811870d39feaa7896319c7c20b849a4181c5a50609b"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["3.39.2"] = [("sqlite-3.26.0-20181216.diff", 1), ("sqlite-3.31.1-20201026.diff", 1), ("sqlite-3.39.2-20220728.diff", 1)]
 
+        self.targets["3.42.0"] = "https://sqlite.org/2023/sqlite-amalgamation-3420000.zip"
+        self.targetInstSrc["3.42.0"] = "sqlite-amalgamation-3420000"
+        self.targetDigests["3.42.0"] = (["1cc824d0f5e675829fa37018318fda833ea56f7e9de2b41eddd9f7643b5ec29e"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["3.42.0"] = [(".3.42", 1)]
+
         self.description = "a library providing a self-contained, serverless, zero-configuration, transactional SQL database engine"
-        self.defaultTarget = "3.39.2"
+        self.defaultTarget = "3.42.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

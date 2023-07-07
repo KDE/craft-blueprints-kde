@@ -29,22 +29,28 @@ from CraftCompiler import CraftCompiler
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        def addTarget(baseUrl, ver):
-            self.targets[ver] = f"{baseUrl}openssl-{ver}.tar.gz"
-            self.targetInstSrc[ver] = f"openssl-{ver}"
-            self.targetDigestUrls[ver] = ([f"{baseUrl}openssl-{ver}.tar.gz.sha256"], CraftHash.HashAlgorithm.SHA256)
-
         # latest versions -> inside source/
-        for ver in ["1.1.1i", "1.1.1k", "1.1.1l", "1.1.1n", "1.1.1q", "1.1.1s", "1.1.1t"]:
-            baseUrl = "https://openssl.org/source/"
-            addTarget(baseUrl, ver)
+        for ver in ["1.1.1i", "1.1.1k", "1.1.1l", "1.1.1n", "1.1.1q", "1.1.1s", "1.1.1t", "1.1.1u"]:
+            self.targets[ver] = f"https://openssl.org/source/openssl-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"openssl-{ver}"
+            self.targetDigestUrls[ver] = ([f"https://openssl.org/source/openssl-{ver}.tar.gz.sha256"], CraftHash.HashAlgorithm.SHA256)
+
+        for ver in ["3.1.1"]:
+            self.targets[ver] = f"https://openssl.org/source/openssl-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"openssl-{ver}"
+            self.targetDigestUrls[ver] = ([f"https://openssl.org/source/openssl-{ver}.tar.gz.sha256"], CraftHash.HashAlgorithm.SHA256)
+            self.patchToApply[ver] = [
+                ("disable-install-docs.patch", 1)
+            ]  # https://github.com/microsoft/vcpkg/blob/9055f88ba53a99f51e3c733fe9c79703dc23d57d/ports/openssl/disable-install-docs.patch
+
+        self.patchLevel["3.1.1"] = 1
 
         self.description = "The OpenSSL runtime environment"
+        self.webpage = "https://openssl.org"
 
         # set the default config for openssl 1.1
         self.options.configure.args += [
             "shared",
-            "no-zlib",
             "threads",
             "no-rc5",
             "no-idea",
@@ -53,16 +59,17 @@ class subinfo(info.infoclass):
             "no-heartbeats",
             "no-dynamic-engine",
             "--libdir=lib",
+            f"--openssldir={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/etc/ssl",
         ]
 
-        self.defaultTarget = "1.1.1t"
+        self.defaultTarget = "3.1.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/perl"] = None
+        self.runtimeDependencies["libs/zlib"] = None
         if CraftCore.compiler.isMinGW():
             # TODO: remove when we drop < 1.1
-            self.runtimeDependencies["libs/zlib"] = None
             self.buildDependencies["dev-utils/msys"] = None
         elif CraftCore.compiler.isMSVC():
             self.buildDependencies["dev-utils/nasm"] = None
@@ -106,6 +113,14 @@ class PackageCMake(CMakePackageBase):
     def compile(self):
         with utils.ScopedEnv(self.env):
             return super().compile()
+
+    def install(self):
+        if not super().install():
+            return False
+        for f in self.packageDir().glob(".pkgconfig/*.pc"):
+            if not utils.configureFile(f, self.imageDir() / "lib/pkgconfig" / f.name, {"CRAFT_ROOT" : CraftCore.standardDirs.craftRoot(), "VERSION" : self.buildTarget}):
+                return False
+        return True
 
     def postInstall(self):
         # remove API docs here as there is no build option for that

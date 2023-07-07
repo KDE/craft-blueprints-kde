@@ -30,7 +30,7 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
-        for ver in ["1.14.0", "1.14.4"]:
+        for ver in ["1.14.0", "1.14.4", "1.14.8"]:
             self.targets[ver] = f"http://dbus.freedesktop.org/releases/dbus/dbus-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"dbus-{ver}"
 
@@ -42,7 +42,7 @@ class subinfo(info.infoclass):
         self.patchToApply["1.14.0"] = [("0002-fix-macos-build.diff", 1)]
         self.description = "Freedesktop message bus system (daemon and clients)"
         self.webpage = "http://www.freedesktop.org/wiki/Software/dbus/"
-        self.defaultTarget = "1.14.4"
+        self.defaultTarget = "1.14.8"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None

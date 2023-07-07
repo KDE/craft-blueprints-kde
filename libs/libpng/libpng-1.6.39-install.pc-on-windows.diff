@@ -1,0 +1,67 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user libpng-1.6.39.orig/CMakeLists.txt libpng-1.6.39/CMakeLists.txt
+--- libpng-1.6.39.orig/CMakeLists.txt	2022-11-20 22:53:23.000000000 +0100
++++ libpng-1.6.39/CMakeLists.txt	2023-06-21 12:54:39.952700500 +0200
+@@ -584,6 +584,10 @@
+ 
+ unset(PNG_LIB_TARGETS)
+ 
++if (CMAKE_BUILD_TYPE STREQUAL "Debug")
++    set(PNGLIB_DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
++endif()
++
+ if(PNG_SHARED)
+   add_library(png SHARED ${libpng_sources})
+   set(PNG_LIB_TARGETS png)
+@@ -933,12 +937,12 @@
+ # We use the same files like ./configure, so we have to set its vars.
+ # Only do this on Windows for Cygwin - the files don't make much sense
+ # outside of a UNIX look-alike.
+-if(NOT WIN32 OR CYGWIN OR MINGW)
++#if(NOT WIN32 OR CYGWIN OR MINGW)
+   set(prefix      ${CMAKE_INSTALL_PREFIX})
+   set(exec_prefix ${CMAKE_INSTALL_PREFIX})
+   set(libdir      ${CMAKE_INSTALL_FULL_LIBDIR})
+   set(includedir  ${CMAKE_INSTALL_FULL_INCLUDEDIR})
+-  set(LIBS        "-lz -lm")
++  #set(LIBS        "-lz -lm")
+   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libpng.pc.in
+                  ${CMAKE_CURRENT_BINARY_DIR}/${PNGLIB_NAME}.pc
+                  @ONLY)
+@@ -947,7 +951,7 @@
+                  ${CMAKE_CURRENT_BINARY_DIR}/${PNGLIB_NAME}-config
+                  @ONLY)
+   create_symlink(libpng-config FILE ${PNGLIB_NAME}-config)
+-endif()
++#endif()
+ 
+ # Set up links.
+ if(PNG_SHARED)
+@@ -1017,7 +1021,7 @@
+   install(FILES png.5
+           DESTINATION ${CMAKE_INSTALL_MANDIR}/man5)
+   # Install the pkg-config files.
+-  if(NOT CMAKE_HOST_WIN32 OR CYGWIN OR MINGW)
++#  if(NOT CMAKE_HOST_WIN32 OR CYGWIN OR MINGW)
+     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libpng.pc
+             DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+     install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/libpng-config
+@@ -1027,7 +1031,7 @@
+     install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/${PNGLIB_NAME}-config
+             DESTINATION ${CMAKE_INSTALL_BINDIR})
+   endif()
+-endif()
++#endif()
+ 
+ # Create an export file that CMake users can include() to import our targets.
+ if(NOT SKIP_INSTALL_EXPORT AND NOT SKIP_INSTALL_ALL)
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user libpng-1.6.39.orig/libpng.pc.in libpng-1.6.39/libpng.pc.in
+--- libpng-1.6.39.orig/libpng.pc.in	2022-11-20 22:53:23.000000000 +0100
++++ libpng-1.6.39/libpng.pc.in	2023-06-21 12:53:18.952864400 +0200
+@@ -7,6 +7,6 @@
+ Description: Loads and saves PNG files
+ Version: @PNGLIB_VERSION@
+ Requires.private: zlib
+-Libs: -L${libdir} -lpng@PNGLIB_MAJOR@@PNGLIB_MINOR@
++Libs: -L${libdir} -l@LIBPNG_IMPORT_PREFIX@png@PNGLIB_MAJOR@@PNGLIB_MINOR@@PNGLIB_DEBUG_POSTFIX@
+ Libs.private: @LIBS@
+ Cflags: -I${includedir}
