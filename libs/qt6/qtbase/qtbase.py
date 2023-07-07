@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.patchToApply["6.4.3"] = [(".craft", 1)]
-        self.patchLevel["6.4.3"] = 3
+        self.patchLevel["6.4.3"] = 4
         self.patchToApply["6.5.0"] = [(".craft", 1)]
 
     def setDependencies(self):
