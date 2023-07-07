@@ -9,8 +9,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Libre Video Editor, by KDE community"
-        self.patchToApply["23.04.0"] = [("fix-id-corruption.patch", 1)]
-        self.patchLevel["23.04.0"] = 1
         self.patchToApply["23.04.1"] = [("fix-sequence-length.patch", 1)]
         self.patchToApply["23.04.1"] += [("fix-help.patch", 1)]
 
