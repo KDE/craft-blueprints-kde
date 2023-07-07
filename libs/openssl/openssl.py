@@ -62,7 +62,11 @@ class subinfo(info.infoclass):
             f"--openssldir={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/etc/ssl",
         ]
 
-        self.defaultTarget = "3.1.1"
+        if CraftCore.compiler.isAndroid:
+            # Qt 5 on Android isn't ready for OpenSSL3 yet
+            self.defaultTarget = "1.1.1u"
+        else:
+            self.defaultTarget = "3.1.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
