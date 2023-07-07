@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/kirigami-addons.git"
-        self.defaultTarget = "0.8.0"
+        self.defaultTarget = "0.9.0"
 
         for ver in ["0.9.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz"
