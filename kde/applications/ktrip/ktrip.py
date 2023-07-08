@@ -7,6 +7,10 @@ class subinfo(info.infoclass):
         self.description = "Public transport assistant"
         self.displayName = "KTrip"
 
+        self.patchToApply["23.04.2"] = [("0001-android-fix-ndk-version.patch", 1)]
+        self.patchLevel["23.04.2"] = 1
+        self.patchToApply["23.04.3"] = [("0001-android-fix-ndk-version.patch", 1)]
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
