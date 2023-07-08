@@ -1,0 +1,35 @@
+commit 49be98662d85d32be41104915f310c65856ca834
+Author: Volker Krause <vkrause@kde.org>
+Date:   Sat Jul 8 07:51:24 2023 +0200
+
+    Fix binary stripping of APKs with Qt 5.15.10
+    
+    This fixes APKs on binary factory having exploded in size 3x-5x after
+    the Qt 5.15.10 update. This also affects release packages and will need
+    to be backported to those (in Craft).
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0e9cc543..4fc2db0f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -17,7 +17,7 @@ project(NeoChat VERSION ${RELEASE_SERVICE_VERSION})
+ set(KF_MIN_VERSION "5.91.0")
+ set(QT_MIN_VERSION "5.15.2")
+ if (ANDROID)
+-    set(QT_MIN_VERSION "5.15.8")
++    set(QT_MIN_VERSION "5.15.10")
+ endif()
+ 
+ find_package(ECM ${KF_MIN_VERSION} REQUIRED NO_MODULE)
+diff --git a/android/build.gradle b/android/build.gradle
+index 0ed40bf5..6298a3da 100644
+--- a/android/build.gradle
++++ b/android/build.gradle
+@@ -47,6 +47,7 @@ android {
+     compileSdkVersion androidCompileSdkVersion.toInteger()
+ 
+     buildToolsVersion androidBuildToolsVersion
++    ndkVersion androidNdkVersion
+ 
+     sourceSets {
+         main {

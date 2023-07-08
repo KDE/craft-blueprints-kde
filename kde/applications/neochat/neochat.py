@@ -9,6 +9,9 @@ class subinfo(info.infoclass):
         self.displayName = "NeoChat"
         self.description = "A client for matrix, the decentralized communication protocol."
 
+        self.patchToApply["23.04.3"] = [("0001-android-fix-ndk-version.patch", 1)]
+        self.patchLevel["23.04.3"] = 1
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
