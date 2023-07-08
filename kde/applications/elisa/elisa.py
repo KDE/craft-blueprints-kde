@@ -10,6 +10,9 @@ class subinfo(info.infoclass):
         self.displayName = "Elisa"
         self.description = "the Elisa music player"
 
+        self.patchToApply["23.04.3"] = [("0001-android-fix-ndk-version.patch", 1)]
+        self.patchLevel["23.04.3"] = 1
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
