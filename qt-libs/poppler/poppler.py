@@ -36,6 +36,7 @@ class subinfo(info.infoclass):
         self.targets[ver] = f"https://poppler.freedesktop.org/poppler-{ver}.tar.xz"
         self.targetInstSrc[ver] = f"poppler-{ver}"
         self.targetDigests[ver] = (["d38c6b2f31c8f6f3727fb60a011a0e6c567ebf56ef1ccad36263ca9ed6448a65"], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["23.06.0"] = 1
         self.defaultTarget = ver
 
     def setDependencies(self):
