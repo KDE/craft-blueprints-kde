@@ -87,6 +87,7 @@ class Package(CMakePackageBase):
             self.defines[
                 "additional_capabilities"
             ] = r"""
+            <uap3:Capability Name="userNotificationListener" />
             <uap7:Capability Name="globalMediaControl" />
             """
             self.defines[
