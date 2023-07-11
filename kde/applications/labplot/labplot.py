@@ -45,6 +45,7 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
+            self.runtimeDependencies["libs/webp"] = None
         if self.buildTarget == "master":
             self.runtimeDependencies["kde/applications/cantor"] = "master"
         else:
