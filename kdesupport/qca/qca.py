@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/openssl"] = None
+        self.runtimeDependencies["libs/openssl"] = "1.1.1u"
 
         # gcrypt currently fails to build for android
         if not CraftCore.compiler.isAndroid:
