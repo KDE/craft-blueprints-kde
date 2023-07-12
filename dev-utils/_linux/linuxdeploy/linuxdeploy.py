@@ -1,6 +1,3 @@
-import stat
-from pathlib import Path
-
 import info
 
 
@@ -20,6 +17,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["dev-utils/linuxdeploy-plugin-qt"] = None
+        self.runtimeDependencies["dev-utils/linuxdeploy-plugin-appimage"] = None
 
 
 from Package.BinaryPackageBase import *
