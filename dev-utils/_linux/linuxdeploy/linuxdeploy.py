@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
             self.archiveNames[ver] = f"linuxdeploy-{ver}-x86_64.AppImage"
             self.targetInstallPath[ver] = "dev-utils/bin"
         self.targets["continous-static"] = "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-static-x86_64.AppImage"
+        self.targetInstallPath["continous-static"] = "dev-utils/bin"
         self.targetDigests["1-alpha-20230711-2"] = (["d9e7ba27f0d9a45d5ebdcb8fb363339f0cf1cfed918586a2982e4b46c342cc08"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1-alpha-20230712-1"] = (["9a86c10bce48e4570d95897092b758d306500dc58c26ce0564706caea3cbb192"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "continous-static"
