@@ -39,6 +39,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/pcre2"] = None
             self.runtimeDependencies["libs/harfbuzz"] = None
             self.runtimeDependencies["libs/freetype"] = None
+            self.runtimeDependencies["libs/fontconfig"] = None
             if CraftCore.compiler.isUnix and self.options.dynamic.withGlib:
                 self.runtimeDependencies["libs/glib"] = None
 
@@ -71,6 +72,8 @@ class Package(CMakePackageBase):
 
         if self.subinfo.options.isActive("libs/harfbuzz"):
             self.subinfo.options.configure.args += ["-DFEATURE_system_harfbuzz=ON"]
+        if self.subinfo.options.isActive("libs/fontconfig"):
+            self.subinfo.options.configure.args += ["-DFEATURE_fontconfig=ON"]
 
         if not self.subinfo.options.dynamic.withDBus:
             self.subinfo.options.configure.args += ["-DFEATURE_dbus=OFF"]

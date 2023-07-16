@@ -87,7 +87,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.12.11"] = 2
         self.patchLevel["5.15.2"] = 10
         self.patchLevel["5.15.5"] = 1
-        self.patchLevel["kde/5.15"] = 2
+        self.patchLevel["kde/5.15"] = 3
 
         self.description = "a cross-platform application framework"
 
@@ -104,6 +104,7 @@ class subinfo(info.infoclass):
                 self.runtimeDependencies["libs/dbus"] = None
             if self.options.dynamic.withMysql:
                 self.runtimeDependencies["binary/mysql"] = None
+            self.runtimeDependencies["libs/fontconfig"] = None
             self.runtimeDependencies["libs/icu"] = None
             self.runtimeDependencies["libs/zlib"] = None
             self.runtimeDependencies["libs/libzstd"] = None
@@ -199,6 +200,8 @@ class Package(Qt5CorePackageBase):
                 command += " -system-zlib "
                 if CraftCore.compiler.isMSVC():
                     command += " ZLIB_LIBS=zlib.lib "
+            if self.subinfo.options.isActive("libs/fontconfig"):
+                command += " -fontconfig "
 
             command += "-qt-doubleconversion "
 
