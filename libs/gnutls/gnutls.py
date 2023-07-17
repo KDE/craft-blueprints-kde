@@ -40,6 +40,7 @@ class subinfo(info.infoclass):
         self.description = "A library which provides a secure layer over a reliable transport layer"
         self.webpage = "https://www.gnutls.org/"
         self.defaultTarget = "3.8.0"
+        self.patchLevel["3.8.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gtk-doc"] = None
@@ -49,6 +50,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libunistring"] = None
         self.runtimeDependencies["libs/libtasn1"] = None
         self.runtimeDependencies["libs/p11kit"] = None
+        self.runtimeDependencies["libs/brotli"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
 
@@ -71,6 +73,7 @@ class PackageAutoTools(AutoToolsPackageBase):
             "--disable-tests",
             "--disable-doc",
             "--enable-openssl-compatibility",
+            "--with-brotli",
         ]
         if not self.subinfo.options.isActive("libs/p11kit") or CraftCore.compiler.isWindows:  # TODO Remove platform check in the future. See issue #3
             self.subinfo.options.configure.args += ["--without-p11-kit"]
