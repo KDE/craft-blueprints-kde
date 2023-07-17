@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtscxml"] = None
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["libs/qt/qtremoteobjects"] = None
+            self.runtimeDependencies["libs/qt5/qtremoteobjects"] = None
 
 
 from Package.CMakePackageBase import *
