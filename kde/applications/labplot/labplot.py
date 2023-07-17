@@ -73,6 +73,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/matio"] = None
             self.runtimeDependencies["libs/readstat"] = None
             self.runtimeDependencies["libs/discount"] = None
+        # needed by AppImage
+        self.runtimeDependencies["libs/brotli"] = None
 
 
 from Package.CMakePackageBase import *
