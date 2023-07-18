@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.6.39"] = (["af4fb7f260f839919e5958e5ab01a275d4fe436d45442a36ee62f73e5beb75ba"], CraftHash.HashAlgorithm.SHA256)
 
         self.patchLevel["1.6.37"] = 3
+        self.patchLevel["1.6.39"] = 1
         self.description = "A library to display png images"
         self.defaultTarget = "1.6.39"
 
