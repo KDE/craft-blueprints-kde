@@ -74,6 +74,8 @@ class Package(AutoToolsPackageBase):
 
         if not CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["--enable-libmp3lame"]
+        else:
+            self.subinfo.options.configure.args += ["--disable-programs"]
         if "CC" in os.environ:
             self.subinfo.options.configure.args += ["--cc=" + os.environ["CC"]]
         if "CXX" in os.environ:
