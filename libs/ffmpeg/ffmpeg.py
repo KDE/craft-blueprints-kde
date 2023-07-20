@@ -82,18 +82,23 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.args += ["--cxx=" + os.environ["CXX"]]
 
         if CraftCore.compiler.isAndroid:
-            toolchain_path = os.path.join(CraftCore.standardDirs.tmpDir(), f"android-{CraftCore.compiler.architecture}-toolchain", "bin")
-
             if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
                 architecture = "aarch64"
-                toolchain_prefix = "aarch64-linux-android-"
+                toolchain = "aarch64-linux-android"
+                compiler = "aarch64-linux-android"
+            elif CraftCore.compiler.architecture == CraftCompiler.Architecture.arm32:
+                architecture = "arm"
+                toolchain = "arm-linux-androideabi"
+                compiler = "armv7a-linux-androideabi"
             else:
                 architecture = CraftCore.compiler.androidArchitecture
-                toolchain_prefix = f"{CraftCore.compiler.androidArchitecture}-linux-android-"
+                toolchain = f"{CraftCore.compiler.androidArchitecture}-linux-android"
+                compiler = f"{CraftCore.compiler.androidArchitecture}-linux-android"
+            toolchain_path = os.path.join(os.environ["ANDROID_NDK"], "toolchains/llvm/prebuilt", os.environ.get("ANDROID_NDK_HOST", "linux-x86_64"), "bin")
 
-            self.subinfo.options.configure.args += ["--cc=" + f'{toolchain_path}/{toolchain_prefix}gcc']
-            self.subinfo.options.configure.args += ["--cxx=" +f'{toolchain_path}/{toolchain_prefix}g++']
-            self.subinfo.options.configure.args += ["--enable-cross-compile", "--target-os=android", f"--cross-prefix={toolchain_prefix}", f"--arch={architecture}"]
+            self.subinfo.options.configure.args += ["--cc=" + f'{toolchain_path}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang']
+            self.subinfo.options.configure.args += ["--cxx=" +f'{toolchain_path}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang++']
+            self.subinfo.options.configure.args += ["--enable-cross-compile", "--target-os=android", f"--cross-prefix={toolchain}-", f"--arch={architecture}"]
 
         if self.buildTarget < CraftVersion("5.0"):
             self.subinfo.options.configure.args += ["--enable-avresample"]
