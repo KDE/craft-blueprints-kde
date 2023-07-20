@@ -31,15 +31,16 @@ from Package.MakeFilePackageBase import *
 class Package(MakeFilePackageBase):
     def __init__(self):
         MakeFilePackageBase.__init__(self)
+        self.subinfo.options.useShadowBuild = False
         if OsUtils.isUnix():
-            self.subinfo.options.make.args += ["-C", f"{self.workDir()}/lua-5.2.4", "generic"]
+            self.subinfo.options.make.args += ["generic"]
         if OsUtils.isWin():
-            self.subinfo.options.make.args += ["-C", f"{self.workDir()}/lua-5.2.4", "mingw"]
+            self.subinfo.options.make.args += ["mingw"]
 
     def install(self):
+        self.enterSourceDir()
         if OsUtils.isUnix():
             # generate  lua5.2.pc file
-            self.enterSourceDir()
             if not utils.system(["make", "lua5.2.pc"]):
                 return False
 
@@ -49,6 +50,7 @@ class Package(MakeFilePackageBase):
 
         files = {
             "lua5.2.pc": os.path.join(self.installDir(), "lib/pkgconfig/lua5.2.pc"),
+            "lua5.2.pc": os.path.join(self.installDir(), "lib/pkgconfig/lua.pc"),
             "src/liblua.so.5.2.4": os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5.2.4"),
             "src/lua": os.path.join(self.installDir(), "bin/lua"),
             "src/luac": os.path.join(self.installDir(), "bin/luac"),
@@ -79,6 +81,7 @@ class Package(MakeFilePackageBase):
                     not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5.2"))
                     or not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5"))
                     or not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.0"))
+                    or not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so"))
                 ):
                     return False
 
