@@ -25,7 +25,7 @@ index 7bd90c7..f08fa70 100644
 +Description: An Extensible Extension Language
 +Version: 5.2.4
 +Cflags: -I$${includedir}
-+Libs: -L$${libdir} -llua5.2 -lm
++Libs: -L$${libdir} -llua -lm
 +endef
 +
 +lua5.2.pc:
