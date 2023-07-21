@@ -1,0 +1,25 @@
+run-tests:
+  stage: test
+  image: python:latest
+  tags:
+    - Linux
+  interruptible: true
+  before_script:
+    - python3 --version  # For debugging
+    - pip install virtualenv
+    - mkdir /tmp/craft_test
+    - cd /tmp/craft_test
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip install unittest-xml-reporting
+  script:
+    - cd /tmp/craft_test
+    - git clone --depth 1 https://invent.kde.org/packaging/craft.git
+    - mkdir blueprints
+    - blueprintRoot=$(pwd)/blueprints/
+    - "echo blueprintRoot: $blueprintRoot"
+    - ln -s $CI_PROJECT_DIR $blueprintRoot/craft-blueprints-kde
+    - python3 craft/bin/test/runtests.py --blueprint-root $blueprintRoot
+  artifacts:
+    reports:
+      junit: JUnit*Results.xml
