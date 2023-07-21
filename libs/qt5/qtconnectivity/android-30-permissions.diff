@@ -1,0 +1,101 @@
+commit 1c91661ccf32c8ea68fe09139fd8eded1e4a76db
+Author: Dan Leinir Turthra Jensen <admin@leinir.dk>
+Date:   Thu Jul 20 12:12:53 2023 +0100
+
+    Handle android sdk >30 for permission checking before scans
+
+diff --git a/src/bluetooth/qbluetoothdevicediscoveryagent_android.cpp b/src/bluetooth/qbluetoothdevicediscoveryagent_android.cpp
+index 2371e298..7c987d8a 100644
+--- a/src/bluetooth/qbluetoothdevicediscoveryagent_android.cpp
++++ b/src/bluetooth/qbluetoothdevicediscoveryagent_android.cpp
+@@ -151,9 +151,40 @@ void QBluetoothDeviceDiscoveryAgentPrivate::start(QBluetoothDeviceDiscoveryAgent
+         return;
+     }
+ 
+-    // check Android v23+ permissions
+-    // -> any device search requires android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION
+-    if (QtAndroid::androidSdkVersion() >= 23) {
++    if (QtAndroid::androidSdkVersion() >= 30) {
++        // check Android v30+ permissions
++        // -> any device search requires android.permission.BLUETOOTH_SCAN
++        const QString scanPermission(QLatin1String("android.permission.BLUETOOTH_SCAN"));
++        // do we have required permission already, if so nothing to do
++        if (QtAndroidPrivate::checkPermission(scanPermission) == QtAndroidPrivate::PermissionsResult::Denied) {
++            qCWarning(QT_BT_ANDROID) << "Requesting BLUETOOTH_SCAN permission";
++
++            QAndroidJniEnvironment env;
++            const QHash<QString, QtAndroidPrivate::PermissionsResult> results =
++                    QtAndroidPrivate::requestPermissionsSync(env, QStringList() << scanPermission);
++
++            bool permissionReceived = false;
++            for (const QString &permission: results.keys()) {
++                qCDebug(QT_BT_ANDROID) << permission << (results[permission] == QtAndroidPrivate::PermissionsResult::Denied);
++                if ((permission == scanPermission)
++                    && results[permission] == QtAndroidPrivate::PermissionsResult::Granted) {
++                        permissionReceived = true;
++                        break;
++                }
++            }
++            if (!permissionReceived) {
++                qCWarning(QT_BT_ANDROID) << "Search not possible due to missing permission BLUETOOTH_SCAN";
++                lastError = QBluetoothDeviceDiscoveryAgent::UnknownError;
++                errorString = QBluetoothDeviceDiscoveryAgent::tr("Missing Location permission. Search is not possible.");
++                emit q->error(lastError);
++                return;
++            }
++        }
++
++        qCWarning(QT_BT_ANDROID) << "BLUETOOTH_SCAN permission available";
++    } else if (QtAndroid::androidSdkVersion() >= 23) {
++        // check Android v23+ permissions
++        // -> any device search requires android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION
+         const QString coarsePermission(QLatin1String("android.permission.ACCESS_COARSE_LOCATION"));
+         const QString finePermission(QLatin1String("android.permission.ACCESS_FINE_LOCATION"));
+ 
+@@ -189,25 +220,27 @@ void QBluetoothDeviceDiscoveryAgentPrivate::start(QBluetoothDeviceDiscoveryAgent
+ 
+     // Double check Location service is turned on
+     bool locationTurnedOn = true; // backwards compatible behavior to previous Qt versions
+-    const  QAndroidJniObject locString = QAndroidJniObject::getStaticObjectField(
+-                "android/content/Context", "LOCATION_SERVICE", "Ljava/lang/String;");
+-    const QAndroidJniObject locService = QtAndroid::androidContext().callObjectMethod(
+-                "getSystemService",
+-                "(Ljava/lang/String;)Ljava/lang/Object;",
+-                locString.object<jstring>());
+-
+-    if (locService.isValid()) {
+-        if (QtAndroid::androidSdkVersion() >= 28) {
+-            locationTurnedOn = bool(locService.callMethod<jboolean>("isLocationEnabled"));
+-        } else {
+-            // check whether there is any enabled provider
+-            QAndroidJniObject listOfEnabledProviders =
+-                    locService.callObjectMethod("getProviders", "(Z)Ljava/util/List;", true);
+-
+-            if (listOfEnabledProviders.isValid()) {
+-                int size = listOfEnabledProviders.callMethod<jint>("size", "()I");
+-                locationTurnedOn = size > 0;
+-                qCDebug(QT_BT_ANDROID) << size << "enabled location providers detected.";
++    if (QtAndroid::androidSdkVersion() < 30) {
++        const  QAndroidJniObject locString = QAndroidJniObject::getStaticObjectField(
++                    "android/content/Context", "LOCATION_SERVICE", "Ljava/lang/String;");
++        const QAndroidJniObject locService = QtAndroid::androidContext().callObjectMethod(
++                    "getSystemService",
++                    "(Ljava/lang/String;)Ljava/lang/Object;",
++                    locString.object<jstring>());
++
++        if (locService.isValid()) {
++            if (QtAndroid::androidSdkVersion() >= 28) {
++                locationTurnedOn = bool(locService.callMethod<jboolean>("isLocationEnabled"));
++            } else {
++                // check whether there is any enabled provider
++                QAndroidJniObject listOfEnabledProviders =
++                        locService.callObjectMethod("getProviders", "(Z)Ljava/util/List;", true);
++
++                if (listOfEnabledProviders.isValid()) {
++                    int size = listOfEnabledProviders.callMethod<jint>("size", "()I");
++                    locationTurnedOn = size > 0;
++                    qCDebug(QT_BT_ANDROID) << size << "enabled location providers detected.";
++                }
+             }
+         }
+     }
