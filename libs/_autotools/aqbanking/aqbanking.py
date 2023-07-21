@@ -29,7 +29,7 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["6.5.4"] = "https://www.aquamaniac.de/rdm/attachments/499/aqbanking-6.5.4.tar.gz"
+        self.targets["6.5.4"] = "https://www.aquamaniac.de/rdm/attachments/download/499/aqbanking-6.5.4.tar.gz"
         self.targetDigests["6.5.4"] = (["0d16ceae76f0718e466638f4547a8b14927f1d8d98322079cd6481adde30ac99"], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["6.5.4"] = "aqbanking-6.5.4"
         self.defaultTarget = "6.5.4"
