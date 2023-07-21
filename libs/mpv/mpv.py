@@ -29,7 +29,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libarchive"] = None
         self.runtimeDependencies["libs/lcms2"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
-        self.runtimeDependencies["libs/rubberband"] = None
 
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/lua"] = None
