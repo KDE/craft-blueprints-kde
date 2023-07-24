@@ -73,6 +73,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/matio"] = None
             self.runtimeDependencies["libs/readstat"] = None
             self.runtimeDependencies["libs/discount"] = None
+        if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
+            self.runtimeDependencies["libs/eigen3"] = None
         # needed by AppImage
         self.runtimeDependencies["libs/brotli"] = None
 
