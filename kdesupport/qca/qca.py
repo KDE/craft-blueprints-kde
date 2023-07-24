@@ -20,13 +20,13 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://anongit.kde.org/qca.git"
 
-        for ver in ["2.3.5"]:
+        for ver in ["2.3.7"]:
             self.targets[ver] = f"https://download.kde.org/stable/qca/{ver}/qca-{ver}.tar.xz"
-            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/qca/{ver}/qca-{ver}.tar.xz.sha256"
+            self.targetDigests[ver] = (["fee2343b54687d5be3e30fb33ce296ee50ac7ae5e23d7ab725f63ffdf7af3f43"], CraftHash.HashAlgorithm.SHA256)
             self.targetInstSrc[ver] = f"qca-{ver}"
 
         # latest stable version
-        self.defaultTarget = "2.3.5"
+        self.defaultTarget = "2.3.7"
 
 
 from Package.CMakePackageBase import *
