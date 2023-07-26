@@ -14,13 +14,14 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
-        self.buildDependencies["libs/nss"] = None
-        self.buildDependencies["libs/libarchive"] = None
-        self.buildDependencies["libs/zlib"] = None
-        self.buildDependencies["libs/libbzip2"] = None
-        self.buildDependencies["libs/lua"] = None
-        self.buildDependencies["libs/gcrypt"] = None
-        self.buildDependencies["libs/gpg-error"] = None
+        self.buildDependencies["dev-utils/gtk-doc"] = None
+        self.runtimeDependencies["libs/nss"] = None
+        self.runtimeDependencies["libs/libarchive"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/libbzip2"] = None
+        self.runtimeDependencies["libs/lua"] = None
+        self.runtimeDependencies["libs/gcrypt"] = None
+        self.runtimeDependencies["libs/gpg-error"] = None
 
 
 class Package(AutoToolsPackageBase):

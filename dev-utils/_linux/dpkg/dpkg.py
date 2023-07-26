@@ -18,10 +18,10 @@ class subinfo(info.infoclass):
         self.patchToApply["1.21.22"] = [("dpkg-1.21.22-20230721.diff", 1), ("dpkg-1.21.22-20230726.diff", 1)]
 
     def setDependencies(self):
-        self.buildDependencies["virtual/base"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/gtk-doc"] = None
 
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.autoreconf = False
