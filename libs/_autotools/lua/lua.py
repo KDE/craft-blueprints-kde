@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
         if OsUtils.isUnix():
             self.patchToApply["5.2.4"] = [("0001-build-shared-library.patch", 1)]
             self.patchToApply["5.2.4"] += [("0002-generate-pc-file.patch", 1)]
+        self.patchLevel["5.2.4"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -51,7 +52,7 @@ class Package(MakeFilePackageBase):
         files = {
             "lua5.2.pc": os.path.join(self.installDir(), "lib/pkgconfig/lua5.2.pc"),
             "lua5.2.pc": os.path.join(self.installDir(), "lib/pkgconfig/lua.pc"),
-            "src/liblua.so.5.2.4": os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5.2.4"),
+            "src/liblua.so.5.2.4": os.path.join(self.installDir(), "lib/liblua.so.5.2.4"),
             "src/lua": os.path.join(self.installDir(), "bin/lua"),
             "src/luac": os.path.join(self.installDir(), "bin/luac"),
             "src/liblua.a": os.path.join(self.installDir(), "bin/liblua.a"),
@@ -75,13 +76,13 @@ class Package(MakeFilePackageBase):
                     return False
 
         if OsUtils.isUnix():
-            liblua = os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5.2.4")
+            liblua = os.path.join(self.installDir(), "lib/liblua.so.5.2.4")
             if os.path.exists(liblua):
                 if (
-                    not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5.2"))
-                    or not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.5"))
-                    or not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so.0"))
-                    or not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/lua/lua5.2/liblua.so"))
+                    not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/liblua.so.5.2"))
+                    or not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/liblua.so.5"))
+                    or not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/liblua.so.0"))
+                    or not utils.createSymlink(liblua, os.path.join(self.installDir(), "lib/liblua.so"))
                 ):
                     return False
 

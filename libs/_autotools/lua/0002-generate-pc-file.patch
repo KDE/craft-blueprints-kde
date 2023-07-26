@@ -19,7 +19,7 @@ index 7bd90c7..f08fa70 100644
 +prefix=$(KDEROOT)
 +exec_prefix=$${prefix}
 +includedir=$${prefix}/include/lua/lua5.2
-+libdir=$${exec_prefix}/lib/lua/lua5.2
++libdir=$${exec_prefix}/lib/
 +
 +Name: Lua 5.2
 +Description: An Extensible Extension Language
