@@ -38,7 +38,10 @@ class Package(AutoToolsPackageBase):
             if not utils.createShim(
                 os.path.join(self.imageDir(), "dev-utils", "bin", x),
                 os.path.join(self.imageDir(), "dev-utils", "rpm", f"bin/{x}"),
-                env={"RPM_CONFIGDIR": f"{CraftCore.standardDirs.craftRoot()}/dev-utils/rpm/lib/rpm"},
+                env={
+                    "RPM_CONFIGDIR": CraftCore.standardDirs.craftRoot() / "dev-utils/rpm/lib/rpm",
+                    "LD_LIBRARY_PATH": CraftCore.standardDirs.craftRoot() / "lib",
+                },
             ):
                 return False
         return True
