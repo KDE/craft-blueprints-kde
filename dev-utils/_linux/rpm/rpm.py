@@ -7,8 +7,10 @@ class subinfo(info.infoclass):
         for ver in ["4.18.1"]:
             self.targets[ver] = f"https://ftp.osuosl.org/pub/rpm/releases/rpm-{'.'.join(ver.split('.')[:2])}.x/rpm-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"rpm-{ver}"
+            self.targetInstallPath[ver] = "dev-utils/rpm/"
 
         self.targetDigests["4.18.1"] = (["37f3b42c0966941e2ad3f10fde3639824a6591d07197ba8fd0869ca0779e1f56"], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["4.18.1"] = 1
 
         self.defaultTarget = "4.18.1"
 
@@ -30,3 +32,13 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.args += ["--with-crypto=libgcrypt", "--disable-static", "--enable-shared"]
         # on centos it does not automagically link intl so make it explicit
         self.subinfo.options.configure.ldflags += " -lintl"
+
+    def postInstall(self):
+        for x in ["rpmbuild"]:
+            if not utils.createShim(
+                os.path.join(self.imageDir(), "dev-utils", "bin", x),
+                os.path.join(self.imageDir(), "dev-utils", "rpm", f"bin/{x}"),
+                env={"RPM_CONFIGDIR": f"{CraftCore.standardDirs.craftRoot()}/dev-utils/rpm/lib/rpm"},
+            ):
+                return False
+        return True
