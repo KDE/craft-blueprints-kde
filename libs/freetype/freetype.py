@@ -13,13 +13,14 @@ class subinfo(info.infoclass):
         self.description = "A Free, High-Quality, and Portable Font Engine"
 
         self.patchToApply["2.12.1"] = [("freetype-no-zlib-pkgconfig-android.patch", 1)]
-        self.patchLevel["2.12.1"] = 1
+        self.patchLevel["2.12.1"] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libpng"] = None
         self.runtimeDependencies["libs/libbzip2"] = None
         self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/brotli"] = None
         self.buildDependencies["dev-utils/msys"] = None
         self.buildDependencies["dev-utils/pkg-config"] = None
 
@@ -27,14 +28,14 @@ class subinfo(info.infoclass):
 class PackageCMake(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_HarfBuzz=TRUE", "-DDISABLE_FORCE_DEBUG_POSTFIX=ON", "-DFT_DISABLE_BROTLI=OFF"]
+        self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_HarfBuzz=TRUE", "-DDISABLE_FORCE_DEBUG_POSTFIX=ON", "-DFT_REQUIRE_BROTLI=ON"]
 
 
 class PackageMSys(AutoToolsPackageBase):
     def __init__(self):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-harfbuzz=off", "--with-brotli=off"]
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-harfbuzz=off", "--with-brotli=on"]
 
 
 if CraftCore.compiler.isGCCLike() and not CraftCore.compiler.isAndroid:
