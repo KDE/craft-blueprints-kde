@@ -16,6 +16,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/rpm"] = None
+        self.buildDependencies["dev-utils/dpkg"] = None
 
 
 from Package.BinaryPackageBase import *

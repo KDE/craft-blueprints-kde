@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user dpkg-1.21.22.orig/src/deb/build.c dpkg-1.21.22/src/deb/build.c
+--- dpkg-1.21.22.orig/src/deb/build.c	2023-05-11 03:54:31.000000000 +0200
++++ dpkg-1.21.22/src/deb/build.c	2023-07-21 15:21:19.937134207 +0200
+@@ -505,7 +505,7 @@
+ 
+     command_init(&cmd, TAR, "tar -cf");
+     command_add_args(&cmd, "tar", "-cf", "-", "--format=gnu",
+-                           "--mtime", mtime, "--clamp-mtime", NULL);
++                           "--mtime", mtime, NULL);
+     /* Mode might become a positional argument, pass it before -T. */
+     if (options->mode)
+       command_add_args(&cmd, "--mode", options->mode, NULL);
