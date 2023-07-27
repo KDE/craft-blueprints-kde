@@ -22,7 +22,7 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.
 -    COMMAND "${CMAKE_COMMAND}" -E create_symlink "${target}" "${name}"
 -    WORKING_DIRECTORY "${outdir}" ERROR_VARIABLE has_err)
 -  if(CMAKE_HOST_WIN32 AND has_err)
-+      COMMAND "kshimgen" --create "${name}" "${target}"
++      COMMAND "kshimgen" --create "${name}" "${target}" --keep-argv0
 +      WORKING_DIRECTORY "${outdir}")
 +  else()
      execute_process(
@@ -33,3 +33,23 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.
  
 +
  endfunction()
+
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user llvm-project-16.0.1.src.orig/llvm/lib/Support/Windows/Process.inc llvm-project-16.0.1.src/llvm/lib/Support/Windows/Process.inc
+--- llvm-project-16.0.1.src.orig/llvm/lib/Support/Windows/Process.inc	2023-04-05 05:36:38.000000000 +0200
++++ llvm-project-16.0.1.src/llvm/lib/Support/Windows/Process.inc	2023-07-27 09:52:43.193988400 +0200
+@@ -257,16 +257,6 @@
+
+   if (Args.size() == 0)
+     return std::make_error_code(std::errc::invalid_argument);
+-
+-  SmallVector<char, MAX_PATH> Arg0(Args[0], Args[0] + strlen(Args[0]));
+-  SmallVector<char, MAX_PATH> Filename;
+-  sys::path::remove_filename(Arg0);
+-  EC = GetExecutableName(Filename);
+-  if (EC)
+-    return EC;
+-  sys::path::make_preferred(Arg0);
+-  sys::path::append(Arg0, Filename);
+-  Args[0] = Saver.save(Arg0).data();
+   return std::error_code();
+ }
