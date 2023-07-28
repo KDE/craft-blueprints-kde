@@ -34,7 +34,7 @@ class Package(CMakePackageBase):
         if not self.subinfo.options.isActive("libs/dbus"):
             self.subinfo.options.configure.args += ["-DPHONON_NO_DBUS=ON"]
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DQT_MAJOR_VERSION=6", "-DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.99.0"]
+            self.subinfo.options.configure.args += ["-DQT_MAJOR_VERSION=6", "-DPHONON_BUILD_QT5=OFF", "-DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.99.0"]
 
     def postInstall(self):
         libDir = self.installDir() / "lib"

@@ -36,6 +36,9 @@ class subinfo(info.infoclass):
         # KUserFeedback yet not an official tier1 framework
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.runtimeDependencies["kde/unreleased/kmoretools"] = None
+
 
 from Package.CMakePackageBase import *
 

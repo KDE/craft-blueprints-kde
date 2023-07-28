@@ -44,3 +44,6 @@ class Package(CraftPackageObject.get("kde").pattern):
             "-DSAMBA_FOUND=false",
             "-DBUILD_KDSoapWSDiscoveryClient=OFF",
         ]  # This requires KDSoap 1.9.0, but we only have a newer version in Craft
+
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.subinfo.options.configure.args += ["-DQT_MAJOR_VERSION=6"]

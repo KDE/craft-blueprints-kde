@@ -13,7 +13,11 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["libs/shared-mime-info"] = None
+
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.runtimeDependencies["libs/qt/qtdeclarative"] = None
 
 
 from Blueprints.CraftPackageObject import CraftPackageObject
