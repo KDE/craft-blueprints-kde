@@ -38,10 +38,11 @@ class subinfo(info.infoclass):
             self.patchToApply["5.8.1"] += [("gwenhywfar-4.19.0-20180218.diff", 1)]
         self.patchLevel["5.8.1"] = 3
 
-        self.targets["5.10.1"] = "https://www.aquamaniac.de/rdm/attachments/download/465/gwenhywfar-5.10.1.tar.gz"
-        self.targetDigests["5.10.1"] = (["a2f60a9dde5da27e57e0e5ef5f8931f495c1d541ad90a841e2b6231565547160"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["5.10.1"] = "gwenhywfar-5.10.1"
-        self.defaultTarget = "5.10.1"
+        self.targets["5.10.2"] = "https://www.aquamaniac.de/rdm/attachments/download/501/gwenhywfar-5.10.2.tar.gz"
+        self.targetDigests["5.10.2"] = (["60a7da03542865501208f20e18de32b45a75e3f4aa8515ca622b391a2728a9e1"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["5.10.2"] = "gwenhywfar-5.10.2"
+        self.defaultTarget = "5.10.2"
+
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
