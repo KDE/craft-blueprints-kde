@@ -107,7 +107,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon"] = os.path.join(self.sourceDir(), "data", "icons", "kdenlive.ico")
         self.defines["icon_png"] = os.path.join(self.sourceDir(), "data", "icons", "128-apps-kdenlive.png")
         self.defines["shortcuts"] = [{"name": "Kdenlive", "target": "bin/kdenlive.exe", "description": self.subinfo.description}]
-        self.defines["mimetypes"] = ["application/x-kdenlive"]
         self.defines["file_types"] = [".kdenlive"]
         return super().createPackage()
 
