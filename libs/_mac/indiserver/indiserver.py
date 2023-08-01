@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/indilib/indi.git"
         self.targetInstSrc["master"] = ""
 
-        ver = "v2.0.2"
+        ver = "v2.0.3"
         self.svnTargets["stable"] = "https://github.com/indilib/indi/archive/refs/tags/v%s.tar.gz" % ver
         self.archiveNames["stable"] = "indi-%s.tar.gz" % ver
         self.targetInstSrc["stable"] = ""

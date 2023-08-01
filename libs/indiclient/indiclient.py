@@ -6,8 +6,8 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        ver = "2.0.2"
-        self.targets["2.0.2"] = "https://github.com/indilib/indi/archive/refs/tags/v%s.tar.gz" % ver
+        ver = "2.0.3"
+        self.targets["2.0.3"] = "https://github.com/indilib/indi/archive/refs/tags/v%s.tar.gz" % ver
         self.targetInstSrc[ver] = "indi-%s" % ver
         self.defaultTarget = ver
         self.description = "INDI Library"
