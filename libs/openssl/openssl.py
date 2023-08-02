@@ -30,12 +30,12 @@ from CraftCompiler import CraftCompiler
 class subinfo(info.infoclass):
     def setTargets(self):
         # latest versions -> inside source/
-        for ver in ["1.1.1i", "1.1.1k", "1.1.1l", "1.1.1n", "1.1.1q", "1.1.1s", "1.1.1t", "1.1.1u"]:
+        for ver in ["1.1.1i", "1.1.1k", "1.1.1l", "1.1.1n", "1.1.1q", "1.1.1s", "1.1.1t", "1.1.1u", "1.1.1v"]:
             self.targets[ver] = f"https://openssl.org/source/openssl-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"openssl-{ver}"
             self.targetDigestUrls[ver] = ([f"https://openssl.org/source/openssl-{ver}.tar.gz.sha256"], CraftHash.HashAlgorithm.SHA256)
 
-        for ver in ["3.1.1"]:
+        for ver in ["3.1.1", "3.1.2"]:
             self.targets[ver] = f"https://openssl.org/source/openssl-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"openssl-{ver}"
             self.targetDigestUrls[ver] = ([f"https://openssl.org/source/openssl-{ver}.tar.gz.sha256"], CraftHash.HashAlgorithm.SHA256)
@@ -64,9 +64,9 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isAndroid:
             # Qt 5 on Android isn't ready for OpenSSL3 yet
-            self.defaultTarget = "1.1.1u"
+            self.defaultTarget = "1.1.1v"
         else:
-            self.defaultTarget = "3.1.1"
+            self.defaultTarget = "3.1.2"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -122,7 +122,9 @@ class PackageCMake(CMakePackageBase):
         if not super().install():
             return False
         for f in self.packageDir().glob(".pkgconfig/*.pc"):
-            if not utils.configureFile(f, self.imageDir() / "lib/pkgconfig" / f.name, {"CRAFT_ROOT" : CraftCore.standardDirs.craftRoot(), "VERSION" : self.buildTarget}):
+            if not utils.configureFile(
+                f, self.imageDir() / "lib/pkgconfig" / f.name, {"CRAFT_ROOT": CraftCore.standardDirs.craftRoot(), "VERSION": self.buildTarget}
+            ):
                 return False
         return True
 
