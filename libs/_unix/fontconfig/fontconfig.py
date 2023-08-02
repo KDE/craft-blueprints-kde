@@ -21,10 +21,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/freetype"] = None
         self.runtimeDependencies["libs/gettext"] = None
+        self.runtimeDependencies["libs/expat"] = None
         self.runtimeDependencies["libs/uuid"] = None
 
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args += " --disable-static --enable-shared"
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]
