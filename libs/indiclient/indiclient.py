@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         ver = "2.0.3"
         #self.targets["2.0.3"] = "https://github.com/indilib/indi/archive/refs/tags/v%s.tar.gz" % ver
         #self.targetInstSrc[ver] = "indi-%s" % ver
-        self.targets["2.0.3"] = "https://github.com/indilib/indi.git|stable-2.0.3"
+        self.svnTargets["2.0.3"] = "https://github.com/indilib/indi.git|stable-2.0.3"
         self.defaultTarget = ver
         self.description = "INDI Library"
 
