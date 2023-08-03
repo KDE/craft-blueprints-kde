@@ -37,7 +37,7 @@ if not CraftCore.compiler.isMSVC():
 
         def setTargets(self):
             self.versionInfo.setDefaultValues()
-            self.targetDigests["1.20.0"] = (["25a5785a5da356689001440926b94e967d02e13c49eb7743e35ef0cf22e42750"], CraftHash.HashAlgorithm.SHA256)
+            self.targetDigests["1.21.0"] = (["416e174e165734d84806253f8c96bda2993fd07f258c3aad5f053a6efd463e88"], CraftHash.HashAlgorithm.SHA256)
 
         def setDependencies(self):
             self.buildDependencies["dev-utils/msys"] = None
