@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.targetInstallPath[ver] = "dev-utils/rpm/"
 
         self.targetDigests["4.18.1"] = (["37f3b42c0966941e2ad3f10fde3639824a6591d07197ba8fd0869ca0779e1f56"], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["4.18.1"] = 1
+        self.patchLevel["4.18.1"] = 2
 
         self.defaultTarget = "4.18.1"
 
@@ -34,7 +34,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.ldflags += " -lintl"
 
     def postInstall(self):
-        for x in ["rpmbuild"]:
+        for x in ["rpmbuild", "rpmsign"]:
             if not utils.createShim(
                 os.path.join(self.imageDir(), "dev-utils", "bin", x),
                 os.path.join(self.imageDir(), "dev-utils", "rpm", f"bin/{x}"),
