@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/kdegraphics/kdegraphics-mobipocket"] = None
         if not CraftCore.compiler.isAndroid:
             self.buildDependencies["libs/chm"] = None
-            self.buildDependencies["libs/libspectre"] = None
+            self.runtimeDependencies["libs/libspectre"] = None
             self.runtimeDependencies["libs/discount"] = None
             self.runtimeDependencies["libs/djvu"] = None
             self.runtimeDependencies["libs/ebook-tools"] = None
