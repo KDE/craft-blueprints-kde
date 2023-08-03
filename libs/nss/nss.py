@@ -7,7 +7,7 @@ from CraftCompiler import CraftCompiler
 from Package.MakeFilePackageBase import *
 from shells import BashShell
 
-nss_ver = "3.90"
+nss_ver = "3.92"
 nspr_ver = "4.35"
 
 
@@ -23,9 +23,9 @@ class subinfo(info.infoclass):
 
         # always try to use latest nss with all security fixes
         ver = nss_ver
-        self.targets[ver] = f"https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_90_RTM/src/nss-{ver}-with-nspr-{nspr_ver}.tar.gz"
+        self.targets[ver] = f"https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_92_RTM/src/nss-{ver}-with-nspr-{nspr_ver}.tar.gz"
         self.targetInstSrc[ver] = f"nss-{ver}"
-        self.targetDigests[ver] = (["f78ab1d911cae8bbc94758fb3bd0f731df4087423a4ff5db271ba65381f6b739"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[ver] = (["21c176bfffb6ec840b5f985c7f8f014682f4a2fb55b06924734172d5c0486dc5"], CraftHash.HashAlgorithm.SHA256)
         if CraftCore.compiler.isMSVC():
             self.patchToApply[ver] = [("install-instead-of-nsinstall.diff", 1), ("cygwin-is-windows.diff", 1)]
         self.patchLevel[ver] = 2
