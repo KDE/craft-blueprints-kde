@@ -94,6 +94,7 @@ class Package(AutoToolsPackageBase):
                 architecture = "x86"
                 toolchain = "i686-linux-android"
                 compiler = "i686-linux-android"
+                self.subinfo.options.configure.args += ["--disable-asm", "--enable-pic"]
             else:
                 architecture = CraftCore.compiler.androidArchitecture
                 toolchain = f"{CraftCore.compiler.androidArchitecture}-linux-android"
