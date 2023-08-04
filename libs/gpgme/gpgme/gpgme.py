@@ -37,13 +37,14 @@ if not CraftCore.compiler.isMSVC():
 
         def setTargets(self):
             self.versionInfo.setDefaultValues()
-            self.targetDigests["1.16.0"] = (["6c8cc4aedb10d5d4c905894ba1d850544619ee765606ac43df7405865de29ed0"], CraftHash.HashAlgorithm.SHA256)
+            self.targetDigests["1.21.0"] = (["416e174e165734d84806253f8c96bda2993fd07f258c3aad5f053a6efd463e88"], CraftHash.HashAlgorithm.SHA256)
 
         def setDependencies(self):
             self.buildDependencies["dev-utils/msys"] = None
             self.runtimeDependencies["virtual/base"] = None
             self.runtimeDependencies["libs/gpg-error"] = None
             self.runtimeDependencies["libs/assuan2"] = None
+            self.runtimeDependencies["libs/gnupg"] = None
             if self.options.dynamic.enableCPP:
                 self.runtimeDependencies["libs/qt5/qtbase"] = None
 
@@ -80,6 +81,7 @@ else:
             self.runtimeDependencies["libs/mingw-crt4msvc"] = None
             self.runtimeDependencies["libs/assuan2"] = None
             self.runtimeDependencies["libs/gpg-error"] = None
+            self.runtimeDependencies["libs/gnupg"] = None
 
     class Package(BinaryPackageBase):
         def __init__(self, **args):
