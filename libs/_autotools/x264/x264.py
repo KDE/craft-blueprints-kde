@@ -23,9 +23,11 @@ from Package.AutoToolsPackageBase import *
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args = (
-            "--enable-shared --disable-cli --disable-avs --disable-lavf --disable-swscale --disable-ffms --disable-gpac --enable-pic"
-        )
+        self.subinfo.options.configure.args = [
+            "--enable-shared", "--disable-cli", "--disable-avs", "--disable-lavf", "--disable-swscale", "--disable-ffms", "--disable-gpac", "--enable-pic"
+        ]
+        if CraftCore.compiler.isAndroid and (CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64 or CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32):
+            self.subinfo.options.configure.args += ["--disable-asm"]
 
     def configure(self):
         if self.package.isInstalled:  # this is causing rebuild every time
