@@ -30,5 +30,4 @@ class Package(CMakePackageBase):
             "-Dprotobuf_BUILD_TESTS=OFF",
             "-Dprotobuf_MSVC_STATIC_RUNTIME=OFF",
             "-DBUILD_SHARED_LIBS=ON",
-            "-DGOOGLE_PROTOBUF_NO_LOGGING=ON",
         ]
