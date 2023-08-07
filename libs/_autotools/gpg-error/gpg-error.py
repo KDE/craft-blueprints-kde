@@ -23,11 +23,11 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.bootstrap = True
-        self.subinfo.options.configure.args += " --disable-static --enable-shared "
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--enable-install-gpg-error-config"]
 
     def postInstall(self):
         return self.patchInstallPrefix(
-            [os.path.join(self.installDir(), "bin", "gpgrt-config")],
+            [os.path.join(self.installDir(), "bin", "gpg-error-config"), os.path.join(self.installDir(), "bin", "gpgrt-config")],
             OsUtils.toMSysPath(self.subinfo.buildPrefix),
             OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot()),
         )
