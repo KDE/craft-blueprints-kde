@@ -64,12 +64,6 @@ if not CraftCore.compiler.isMSVC():
                 return utils.mergeTree(self.installDir() / "libexec", self.installDir() / "bin")
             return True
 
-        def postInstall(self):
-            badFiles = [os.path.join(self.installDir(), "bin", "gpgme-config")]
-            return self.patchInstallPrefix(
-                badFiles, [OsUtils.toMSysPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(self.subinfo.buildPrefix)], CraftCore.standardDirs.craftRoot()
-            )
-
 else:
 
     class subinfo(info.infoclass):

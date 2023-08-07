@@ -1,0 +1,11 @@
+diff -Nrub  ntbtls-0.3.1.orig/src/Makefile.am ntbtls-0.3.1/src/Makefile.am
+--- ntbtls-0.3.1.orig/src/Makefile.am
++++ ntbtls-0.3.1/src/Makefile.am
+@@ -60,6 +60,7 @@ no_undefined = -no-undefined
+ export_symbols = -export-symbols $(srcdir)/libntbtls.def
+ 
+ install-def-file:
++	mkdir -p $(DESTDIR)$(libdir)
+ 	$(INSTALL) $(srcdir)/libntbtls.def $(DESTDIR)$(libdir)/libntbtls.def
+ 
+ uninstall-def-file:
