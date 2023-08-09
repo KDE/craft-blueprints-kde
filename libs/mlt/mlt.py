@@ -18,6 +18,9 @@ class subinfo(info.infoclass):
         self.defaultTarget = "3ae49b6"
         if CraftCore.compiler.isWindows:
             self.patchToApply["3ae49b6"] = [("pi_patch.diff", 1)]
+        if CraftCore.compiler.isAndroid:
+            self.patchToApply["3ae49b6"] = [("mlt-android-20230730.patch", 1)]
+
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
@@ -49,6 +52,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ladspa-tap"] = None
         self.runtimeDependencies["libs/opencv/opencv_contrib"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
+        # dependencies for glaxnimate module
         self.runtimeDependencies["libs/libarchive"] = None
 
 
@@ -60,22 +64,30 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         CMakePackageBase.buildTests = False
         # enable submodule checkout to get glaximate
-        self.subinfo.options.fetch.checkoutSubmodules = True
+        if not CraftCore.compiler.isAndroid:
+            self.subinfo.options.fetch.checkoutSubmodules = True
         self.subinfo.options.configure.args += [
             "-DMOD_DECKLINK=OFF",
             "-DWINDOWS_DEPLOY=OFF",
-            "-DMOD_OPENCV=ON",
             "-DRELOCATABLE=ON",
             "-DMOD_GDK=OFF",  # don't pull in gtk
+            "-DMOD_SDL2=ON"
         ]
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+        if self.subinfo.options.isActive("libs/opencv/opencv"):
+            self.subinfo.options.configure.args += ["-DMOD_OPENCV=ON"]
+
+        if CraftCore.compiler.isAndroid:
+            self.subinfo.options.configure.args += ["-DMOD_RTAUDIO=OFF", "-DMOD_SOX=OFF"]
+
+
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and self.subinfo.options.isActive("libs/libarchive"):
             self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE=ON"]
         else:
             self.subinfo.options.configure.args += ["-DMOD_QT=OFF", "-DMOD_QT6=ON", "-DMOD_GLAXNIMATE_QT6=ON"]
 
         if CraftCore.compiler.isWindows:
-            self.subinfo.options.configure.args += "-DCMAKE_C_FLAGS=-Wno-incompatible-pointer-types"
+            self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-Wno-incompatible-pointer-types"]
         self.subinfo.options.configure.cxxflags += f" -D_XOPEN_SOURCE=700 "
 
     def install(self):

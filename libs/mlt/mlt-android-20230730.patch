@@ -1,0 +1,86 @@
+diff --git a/src/framework/mlt_consumer.c b/src/framework/mlt_consumer.c
+index fcc210e6..e7199896 100644
+--- a/src/framework/mlt_consumer.c
++++ b/src/framework/mlt_consumer.c
+@@ -1176,7 +1176,9 @@ static void consumer_work_start(mlt_consumer self)
+         pthread_attr_init(&thread_attributes);
+         pthread_attr_setschedpolicy(&thread_attributes, SCHED_OTHER);
+         pthread_attr_setschedparam(&thread_attributes, &priority);
++#if !defined(__ANDROID__) || (defined(__ANDROID__) && __ANDROID_API__ >= 28)
+         pthread_attr_setinheritsched(&thread_attributes, PTHREAD_EXPLICIT_SCHED);
++#endif
+         pthread_attr_setscope(&thread_attributes, PTHREAD_SCOPE_SYSTEM);
+ 
+         while (n--) {
+@@ -1754,7 +1756,9 @@ static void mlt_thread_create(mlt_consumer self, mlt_thread_function_t function)
+             pthread_attr_init(&thread_attributes);
+             pthread_attr_setschedpolicy(&thread_attributes, SCHED_OTHER);
+             pthread_attr_setschedparam(&thread_attributes, &priority);
++#if !defined(__ANDROID__) || (defined(__ANDROID__) && __ANDROID_API__ >= 28) // pthread_attr_setinheritsched is not available until API level 28
+             pthread_attr_setinheritsched(&thread_attributes, PTHREAD_EXPLICIT_SCHED);
++#endif
+             pthread_attr_setscope(&thread_attributes, PTHREAD_SCOPE_SYSTEM);
+             priv->ahead_thread = malloc(sizeof(pthread_t));
+             pthread_t *handle = priv->ahead_thread;
+diff --git a/src/melt/CMakeLists.txt b/src/melt/CMakeLists.txt
+index 75a87e31..7e3e397f 100644
+--- a/src/melt/CMakeLists.txt
++++ b/src/melt/CMakeLists.txt
+@@ -6,7 +6,7 @@ target_link_libraries(melt PRIVATE mlt Threads::Threads)
+ 
+ target_compile_definitions(melt PRIVATE VERSION="${MLT_VERSION}")
+ 
+-if(TARGET PkgConfig::sdl2)
++if(TARGET PkgConfig::sdl2 AND NOT ANDROID)
+     target_link_libraries(melt PRIVATE PkgConfig::sdl2)
+     target_compile_definitions(melt PRIVATE HAVE_SDL2)
+     if(MINGW)
+diff --git a/src/modules/plusgpl/CMakeLists.txt b/src/modules/plusgpl/CMakeLists.txt
+index 4a916373..ebdfd89b 100644
+--- a/src/modules/plusgpl/CMakeLists.txt
++++ b/src/modules/plusgpl/CMakeLists.txt
+@@ -21,7 +21,7 @@ target_link_libraries(mltplusgpl PRIVATE mlt m Threads::Threads)
+ 
+ if(WIN32)
+   target_link_libraries(mltplusgpl PRIVATE ws2_32)
+-elseif(UNIX AND NOT APPLE)
++elseif(UNIX AND NOT APPLE AND NOT ANDROID)
+   target_link_libraries(mltplusgpl PRIVATE rt)
+ endif()
+ 
+diff --git a/src/modules/plusgpl/consumer_cbrts.c b/src/modules/plusgpl/consumer_cbrts.c
+index df849531..7cc8b881 100644
+--- a/src/modules/plusgpl/consumer_cbrts.c
++++ b/src/modules/plusgpl/consumer_cbrts.c
+@@ -915,7 +915,9 @@ static void start_output_thread(consumer_cbrts self)
+         priority.sched_priority = rtprio;
+         pthread_attr_setschedpolicy(&thread_attributes, SCHED_FIFO);
+         pthread_attr_setschedparam(&thread_attributes, &priority);
++#if !defined(__ANDROID__) || (defined(__ANDROID__) && __ANDROID_API__ >= 28)
+         pthread_attr_setinheritsched(&thread_attributes, PTHREAD_EXPLICIT_SCHED);
++#endif
+         pthread_attr_setscope(&thread_attributes, PTHREAD_SCOPE_SYSTEM);
+         if (pthread_create(&self->output_thread, &thread_attributes, output_thread, self) < 0) {
+             mlt_log_info(MLT_CONSUMER_SERVICE(&self->parent),
+diff --git a/src/modules/qt/common.cpp b/src/modules/qt/common.cpp
+index 639ac4d8..60ffea06 100644
+--- a/src/modules/qt/common.cpp
++++ b/src/modules/qt/common.cpp
+@@ -21,7 +21,7 @@
+ #include <QImageReader>
+ #include <QLocale>
+ 
+-#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
++#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC) && !defined(Q_OS_ANDROID)
+ #include <X11/Xlib.h>
+ #include <cstdlib>
+ #endif
+@@ -35,7 +35,7 @@ bool createQApplicationIfNeeded(mlt_service service)
+         QCoreApplication::addLibraryPath(QString(mlt_environment("MLT_APPDIR"))
+                                          + QStringLiteral("/plugins"));
+ #endif
+-#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
++#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC) && !defined(Q_OS_ANDROID)
+         if (getenv("DISPLAY") == 0) {
+             mlt_log_error(
+                 service,
