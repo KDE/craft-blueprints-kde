@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://www.mpfr.org/mpfr-{ver}/mpfr-{ver}.tar.gz"
             self.archiveNames[ver] = f"mpfr-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"mpfr-{ver}"
+        self.patchToApply["4.2.0"] = [("dll.patch", 1)]
 
         self.targetDigests["4.2.0"] = (["f1cc1c6bb14d18f0c61cc416e083f5e697b6e0e3cf9630b9b33e8e483fc960f0"], CraftHash.HashAlgorithm.SHA256)
 
@@ -19,16 +20,12 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.buildDependencies["texinfo"] = None
+        self.buildDependencies["dev-utils/texinfo"] = None
         self.runtimeDependencies["libs/libgmp"] = None
 
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-
-        if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.cflags += "-FS"
-            self.subinfo.options.configure.args += ["--disable-shared", "--enable-static"]
-        else:
-            self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]
+        self.shell.useMSVCCompatEnv = True
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]
