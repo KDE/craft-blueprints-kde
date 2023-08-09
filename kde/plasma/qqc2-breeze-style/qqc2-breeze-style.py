@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.patchToApply["5.27.5"] += [("0001-Bundle-color-definitions-on-Android.patch", 1)]
+        self.patchToApply["5.27.5"] = [("0001-Bundle-color-definitions-on-Android.patch", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
