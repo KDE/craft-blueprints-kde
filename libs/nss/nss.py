@@ -63,7 +63,9 @@ class Package(MakeFilePackageBase):
             with open(configgypi, "rt") as f:
                 content = f.read()
 
-            content = content.replace("'sqlite_libs%': ['-lsqlite3']", "'sqlite_libs%': ['" + str(CraftCore.standardDirs.craftRoot()) + "/lib/sqlite3.lib']")
+            content = content.replace(
+                "'sqlite_libs%': ['-lsqlite3']", "'sqlite_libs%': ['" + str(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())) + "/lib/sqlite3.lib']"
+            )
 
             with open(configgypi, "wt") as f:
                 f.write(content)
