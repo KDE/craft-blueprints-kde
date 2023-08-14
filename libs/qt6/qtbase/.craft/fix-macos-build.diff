@@ -1,0 +1,31 @@
+Subject: [PATCH] Fix macOS build failure related to fontdatabase
+
+This is to fix the compilation on macOS failing with
+
+qtbase-everywhere-src-6.5.0/src/plugins/platforms/minimal/qminimalintegration.cpp:24:12: fatal error: 'QtGui/private/qgenericunixfontdatabase_p.h' file not found
+#  include <QtGui/private/qgenericunixfontdatabase_p.h>
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It was created against Qt 6.5.0 but at the time of creation does probably also exist in all newer (and maybe older?) version.
+The issue has been reported upstream at https://bugreports.qt.io/browse/QTBUG-116083
+
+
+diff --git a/src/gui/CMakeLists.txt b/src/gui/CMakeLists.txt
+index 5b8bc278e9..2d0c84bfb8 100644
+--- a/src/gui/CMakeLists.txt
++++ b/src/gui/CMakeLists.txt
+@@ -684,12 +684,12 @@ qt_internal_extend_target(Gui CONDITION QT_FEATURE_freetype
+         WrapFreetype::WrapFreetype
+ )
+ 
+-qt_internal_extend_target(Gui CONDITION UNIX AND NOT APPLE
++qt_internal_extend_target(Gui CONDITION UNIX
+     SOURCES
+         text/unix/qgenericunixfontdatabase_p.h
+ )
+ 
+-qt_internal_extend_target(Gui CONDITION QT_FEATURE_fontconfig AND QT_FEATURE_freetype AND UNIX AND NOT APPLE
++qt_internal_extend_target(Gui CONDITION QT_FEATURE_fontconfig AND QT_FEATURE_freetype AND UNIX
+     SOURCES
+         text/unix/qfontconfigdatabase.cpp text/unix/qfontconfigdatabase_p.h
+         text/unix/qfontenginemultifontconfig.cpp text/unix/qfontenginemultifontconfig_p.h
