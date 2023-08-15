@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["dev-utils/python2"] = None
+        self.buildDependencies["dev-utils/python3"] = None
         self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
