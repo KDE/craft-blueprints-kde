@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         if CraftCore.compiler.isMinGW():
             self.options.dynamic.setDefault("buildType", "Release")
-        if CraftCore.compiler.isMacOS():
+        if CraftCore.compiler.isMacOS:
             self.parent.package.categoryInfo.architecture = CraftCore.compiler.Architecture.x86_64
 
 
