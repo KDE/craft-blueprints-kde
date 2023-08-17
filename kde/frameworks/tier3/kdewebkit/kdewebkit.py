@@ -2,6 +2,11 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # Same as QtWebKit as it has a hard requirement on that
+        if CraftCore.compiler.isMacOS:
+            self.parent.package.categoryInfo.architecture = CraftCore.compiler.Architecture.x86_64
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
