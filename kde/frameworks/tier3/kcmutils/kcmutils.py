@@ -28,6 +28,7 @@ class subinfo(info.infoclass):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
 
 

@@ -37,10 +37,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
             self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
-
-
 from Blueprints.CraftPackageObject import CraftPackageObject
 
 
