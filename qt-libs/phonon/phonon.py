@@ -34,7 +34,7 @@ class Package(CMakePackageBase):
         if not self.subinfo.options.isActive("libs/dbus"):
             self.subinfo.options.configure.args += ["-DPHONON_NO_DBUS=ON"]
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DQT_MAJOR_VERSION=6", "-DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.99.0"]
+            self.subinfo.options.configure.args += ["-DPHONON_BUILD_QT5=off","-DQT_MAJOR_VERSION=6", "-DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.99.0"]
 
     def postInstall(self):
         libDir = self.installDir() / "lib"
@@ -45,6 +45,7 @@ class Package(CMakePackageBase):
         qtMajor = CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion
         brokenFiles = [
             os.path.join(libDir, "cmake", f"phonon4qt{qtMajor}", f"Phonon4Qt{qtMajor}Config.cmake"),
-            os.path.join(self.installDir(), "mkspecs", "modules", f"qt_phonon4qt{qtMajor}.pri"),
         ]
+        if qtMajor == "5":
+            brokenFiles.append(os.path.join(self.installDir(), "mkspecs", "modules", f"qt_phonon4qt{qtMajor}.pri"))
         return self.patchInstallPrefix(brokenFiles, OsUtils.toUnixPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))
