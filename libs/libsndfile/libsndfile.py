@@ -16,6 +16,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libogg"] = None
         self.runtimeDependencies["libs/libvorbis"] = None
 
+        self.patchLevel["1.0.31"] = 1
+
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
