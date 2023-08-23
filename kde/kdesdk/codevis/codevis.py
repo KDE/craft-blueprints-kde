@@ -17,6 +17,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/llvm"] = None
+        self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/catch2"] = None
         self.runtimeDependencies["libs/runtime"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
@@ -27,8 +28,8 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.configure.args += "-DUSE_QT_WEBENGINE=OFF "
 
     def createPackage(self):
         self.defines["executable"] = "bin\\codevis.exe"
-        self.subinfo.options.configure.args += "-DUSE_QT_WEBENGINE=OFF "
         return TypePackager.createPackage(self)
