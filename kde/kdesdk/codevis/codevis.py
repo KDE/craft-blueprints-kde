@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
         self.description = "Codevis is a software to visualize large software architectures."
         self.displayName = "Codevis"
         self.webpage = "http://invent.kde.org/sdk/codevis"
+        self.svnTargets["master"] = "http://invent.kde.org/sdk/codevis.git"
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -19,7 +20,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/catch2"] = None
         self.runtimeDependencies["libs/runtime"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtwebengine"] = (None, DependencyRequirementType.Required)
 
 from Package.CMakePackageBase import *
 
