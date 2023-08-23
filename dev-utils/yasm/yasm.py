@@ -45,7 +45,7 @@ class subinfo(info.infoclass):
             self.buildDependencies["dev-utils/intltool"] = None
             self.buildDependencies["dev-utils/cmake"] = None
 
-        self.runtimeDependencies["virtual/bin-base"] = None
+        self.runtimeDependencies["virtual/base"] = None
 
 
 from Package.AutoToolsPackageBase import *

@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         self.addCachedBuild("https://files.kde.org/craft/prebuilt/packages/22.11", packageName="dev-utils/_autotools/grep", targetInstallPath="dev-utils")
 
     def setDependencies(self):
-        self.buildDependencies["virtual/bin-base"] = None
+        self.buildDependencies["virtual/base"] = None
 
 
 class Package(BinaryPackageBase):
