@@ -9,7 +9,7 @@ PACKAGE_PATH4 = "/bin/macosx/base/"
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["virtual/bin-base"] = None
+        self.runtimeDependencies["virtual/base"] = None
 
     def setTargets(self):
         # NOTE on choice of versions: 3.4.4 = earliest official build with R_GE_version 12

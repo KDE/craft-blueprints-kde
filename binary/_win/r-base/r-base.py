@@ -8,7 +8,7 @@ PACKAGE_PATH = "/bin/windows/base/old/"
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["virtual/bin-base"] = None
+        self.runtimeDependencies["virtual/base"] = None
 
     def setTargets(self):
         for version in ["4.2.0", "4.1.2", "3.6.2"]:

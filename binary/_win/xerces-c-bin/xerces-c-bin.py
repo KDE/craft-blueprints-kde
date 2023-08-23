@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "3.1.1"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/bin-base"] = None
+        self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["libs/xerces-c"] = None
 
 

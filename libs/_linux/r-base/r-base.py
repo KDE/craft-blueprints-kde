@@ -8,7 +8,7 @@ PACKAGE_PATH = "/src/base/R-4/"
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.runtimeDependencies["virtual/bin-base"] = None
+        self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/pcre2"] = None
         self.runtimeDependencies["libs/libbzip2"] = None
         self.runtimeDependencies["libs/liblzma"] = None

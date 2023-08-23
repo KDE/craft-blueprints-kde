@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "default"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/bin-base"] = None
+        self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["binary/python"] = None
 
 
