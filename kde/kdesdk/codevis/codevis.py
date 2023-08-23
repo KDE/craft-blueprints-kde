@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/llvm"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/catch2"] = None
+        self.runtimeDependencies["qt-libs/quazip"] = None
         self.runtimeDependencies["libs/runtime"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
 
