@@ -4,17 +4,17 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["0.1.3"]:
+        for ver in ["0.2.9"]:
             self.targets[ver] = "https://gitea.nouspiro.space/nou/libXISF/archive/v%s.tar.gz" % ver
             self.archiveNames[ver] = "libxisf-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "libxisf"
         self.description = "A C++ library that can read and write XISF files produced by PixInsight."
-        self.defaultTarget = "0.1.3"
+        self.defaultTarget = "0.2.9"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/libzstd"] = None
 
 
 from Package.CMakePackageBase import *

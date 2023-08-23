@@ -12,6 +12,9 @@ class subinfo(info.infoclass):
 
         self.defaultTarget = "1.21.0"
 
+    def setDependencies(self):
+        self.buildDependencies["python-modules/meson"] = None
+
 
 from Package.MesonPackageBase import *
 

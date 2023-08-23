@@ -72,7 +72,8 @@ class Package(CMakePackageBase):
 
         if self.subinfo.options.isActive("libs/harfbuzz"):
             self.subinfo.options.configure.args += ["-DFEATURE_system_harfbuzz=ON"]
-        if self.subinfo.options.isActive("libs/fontconfig"):
+        if self.subinfo.options.isActive("libs/fontconfig") and not CraftCore.compiler.isMacOS:
+            # We need to treat MacOS explicitely because of https://bugreports.qt.io/browse/QTBUG-116083
             self.subinfo.options.configure.args += ["-DFEATURE_fontconfig=ON"]
 
         if not self.subinfo.options.dynamic.withDBus:
