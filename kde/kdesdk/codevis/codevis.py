@@ -29,8 +29,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += "-DUSE_QT_WEBENGINE=OFF "
-        self.subinfo.options.configure.args += "-DCOMPILE_TESTS=OFF "
+        self.subinfo.options.configure.args += ["-DUSE_QT_WEBENGINE=OFF ", "-DCOMPILE_TESTS=OFF "]
 
     def createPackage(self):
         self.defines["executable"] = "bin\\codevis.exe"
