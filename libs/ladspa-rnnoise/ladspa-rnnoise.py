@@ -16,7 +16,12 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/werman/noise-suppression-for-voice.git"
 
-        self.defaultTarget = "1.03"
+        # This commit breaks deploying the ladspa plugin on Windows, so stay at version 0.91 :
+        # https://github.com/werman/noise-suppression-for-voice/commit/019673ed3bf0eedbd9b3f4d4f0a719d12fee5147
+        if CraftCore.compiler.isMinGW():
+            self.defaultTarget = "0.91"
+        else:
+            self.defaultTarget = "1.03"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
