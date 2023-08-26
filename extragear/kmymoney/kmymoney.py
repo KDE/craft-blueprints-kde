@@ -68,7 +68,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["extragear/kdiagram"] = None
         self.buildDependencies["libs/gettext"] = None
         if self.buildTarget != "master":
-            self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+            self.runtimeDependencies["libs/qt/qtwebengine"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         else:
             self.runtimeDependencies["qt-libs/qtkeychain"] = None

@@ -15,13 +15,13 @@ class subinfo(info.infoclass):
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
-        self.runtimeDependencies["libs/qt5/qtsvg"] = None
+        self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/qt5/qtdatavis3d"] = None
-        self.runtimeDependencies["libs/qt5/qtwebsockets"] = None
+        self.runtimeDependencies["libs/qt/qtwebsockets"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None

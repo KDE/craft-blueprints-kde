@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.targetDigests[self.defaultTarget] = (["3f1a1453ed0f4b5b72b0468bf8ee56887eb23d71c2518a449f4eb179471d73d1"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/sqlite"] = None
 
 

@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.patchLevel["21.12.3"] = 1
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None

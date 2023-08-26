@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -40,7 +40,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kdesupport/grantlee"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["libs/libxslt"] = None
-        self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+        self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["libs/gpgme"] = None
 
 

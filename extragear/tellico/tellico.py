@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/gettext"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -37,9 +37,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["libs/shared-mime-info"] = None
         # master (and 3.4) build against qtcharts and qtwebengine (MSVC)
-        self.runtimeDependencies["libs/qt5/qtcharts"] = None
+        self.runtimeDependencies["libs/qt/qtcharts"] = None
         if not CraftCore.compiler.isMinGW():
-            self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+            self.runtimeDependencies["libs/qt/qtwebengine"] = None
 
 
 class Package(CMakePackageBase):

@@ -43,13 +43,12 @@ class subinfo(info.infoclass):
         self.targetInstSrc["5.10.2"] = "gwenhywfar-5.10.2"
         self.defaultTarget = "5.10.2"
 
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/xmlsec1"] = None
         self.runtimeDependencies["libs/gnutls"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
 

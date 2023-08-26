@@ -66,10 +66,10 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/flexbison"] = None
         self.buildDependencies["dev-utils/python2"] = None
         self.buildDependencies["dev-utils/nodejs"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtlocation"] = None
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt5/qtwebchannel"] = None
+        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt/qtwebchannel"] = None
         if not CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/lcms2"] = None
             self.runtimeDependencies["libs/freetype"] = None

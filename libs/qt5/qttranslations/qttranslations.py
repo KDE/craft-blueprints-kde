@@ -7,8 +7,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
     def setDependencies(self):
-        self.buildDependencies["libs/qt5/qttools"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.buildDependencies["libs/qt/qttools"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
 
 
 from Package.Qt5CorePackageBase import *

@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
             self.patchToApply["kde/5.15"] = [("optional-widget-dependency.diff", 1)]
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
 
 
 from Package.Qt5CorePackageBase import *

@@ -51,7 +51,7 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["qt-libs/qtmqtt"] = None
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None

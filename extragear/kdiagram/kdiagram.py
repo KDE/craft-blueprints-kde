@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["libs/qt5/qtsvg"] = None
+        self.buildDependencies["libs/qt/qtsvg"] = None
 
 
 from Package.CMakePackageBase import *

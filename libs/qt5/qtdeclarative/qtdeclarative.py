@@ -16,8 +16,8 @@ class subinfo(info.infoclass):
         self.patchLevel["kde/5.15"] = 1
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtsvg"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/d3dcompiler"] = None
 
 

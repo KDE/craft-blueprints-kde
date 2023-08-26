@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
@@ -47,7 +47,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kontactinterface"] = None
         self.runtimeDependencies["kde/pim/libksieve"] = None
         self.runtimeDependencies["kde/pim/mailcommon"] = None
-        self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+        self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["kde/pim/kdepim-runtime"] = None

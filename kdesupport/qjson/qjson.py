@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
 
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/flavio/qjson.git"

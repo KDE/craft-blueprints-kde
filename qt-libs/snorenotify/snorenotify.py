@@ -6,12 +6,12 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["libs/qt5/qttools"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtwebsockets"] = None
-        self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt5/qtspeech"] = None
+        self.buildDependencies["libs/qt/qttools"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtwebsockets"] = None
+        self.runtimeDependencies["libs/qt/qtmultimedia"] = None
+        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt/qtspeech"] = None
         self.runtimeDependencies["libs/snoregrowl"] = None
         self.runtimeDependencies["dev-utils/snoretoast"] = None
 

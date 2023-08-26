@@ -9,9 +9,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtscript"] = None
-        self.runtimeDependencies["libs/qt5/qtsvg"] = None
+        self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None

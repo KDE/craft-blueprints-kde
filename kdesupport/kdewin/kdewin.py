@@ -10,8 +10,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         # will be moved to kdewin-qt
         if self.options.dynamic.buildWithQt:
-            self.runtimeDependencies["libs/qt5/qtbase"] = None
-            self.runtimeDependencies["libs/qt5/qtsvg"] = None
+            self.runtimeDependencies["libs/qt/qtbase"] = None
+            self.runtimeDependencies["libs/qt/qtsvg"] = None
         # will be moved to kdewin-tools
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/libpng"] = None

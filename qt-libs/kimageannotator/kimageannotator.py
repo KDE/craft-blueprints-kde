@@ -17,8 +17,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = "0.6.0"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtsvg"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["qt-libs/kcolorpicker"] = None
 
 

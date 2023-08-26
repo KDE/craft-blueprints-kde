@@ -57,7 +57,7 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args = ["-DGAMMARAY_INSTALL_QT_LAYOUT=ON", "-DGAMMARAY_BUILD_DOCS=OFF"]
 
-        nultiBuild = CraftPackageObject.get("libs/qt5/qtbase").subinfo.options.dynamic.buildReleaseAndDebug
+        nultiBuild = CraftPackageObject.get("libs/qt/qtbase").subinfo.options.dynamic.buildReleaseAndDebug
         self.subinfo.options.configure.args += [f"-DGAMMARAY_MULTI_BUILD={'ON' if nultiBuild else 'OFF'}"]
 
         if self.subinfo.options.dynamic.gammarayProbeOnly:

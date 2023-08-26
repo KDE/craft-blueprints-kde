@@ -34,7 +34,7 @@ class subinfo(info.infoclass):
             # MinGW has no qtwebengine, but we can fall back to kdewebkit
             self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = None
         else:
-            self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+            self.runtimeDependencies["libs/qt/qtwebengine"] = None
         # not strictly runtimeDependencies, but should be included in the package for plugins and extra functionality
         self.runtimeDependencies["kde/applications/kate"] = None
         if not OsUtils.isMac():
@@ -49,7 +49,7 @@ class subinfo(info.infoclass):
         if OsUtils.isLinux():
             # NOTE: the following are not actually direct dependencies, but rather an optional dependency of kate->kuserfeedback, and others
             #       Added, here, as a workaround, because kuserfeedback may have been built with the lib in the cache, without anything declaring the dependency
-            self.runtimeDependencies["libs/qt5/qtcharts"] = None
+            self.runtimeDependencies["libs/qt/qtcharts"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
             self.runtimeDependencies["libs/qt5/qtserialport"] = None
             # Needed at runtime to keep libcurl working inside the AppImage. See definition of CURL_CA_BUNDLE, below.
