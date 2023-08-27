@@ -65,12 +65,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libpng"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/webp"] = None
-        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtscript"] = None
-        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt/qtmultimedia"] = None
-        self.runtimeDependencies["libs/qt/qtwebchannel"] = None
-        self.runtimeDependencies["libs/qt/qtsensors"] = None
+        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
+        self.runtimeDependencies["libs/qt5/qtwebchannel"] = None
+        self.runtimeDependencies["libs/qt5/qtsensors"] = None
         self.runtimeDependencies["libs/qt5/qtlocation"] = None
         self.buildDependencies["dev-utils/ruby"] = None
         self.buildDependencies["dev-utils/flexbison"] = None

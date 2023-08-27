@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         self.description = "Qt 3D data visualization framework"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
 
 
 from Package.Qt5CorePackageBase import *

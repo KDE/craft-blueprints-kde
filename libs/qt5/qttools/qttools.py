@@ -11,8 +11,8 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("qdocThroughLLVM", False)
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
         if self.options.dynamic.qdocThroughLLVM:
             self.runtimeDependencies["libs/llvm"] = None
 

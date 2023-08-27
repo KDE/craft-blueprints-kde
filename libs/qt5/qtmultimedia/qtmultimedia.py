@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.15.2"] = 1
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt5/qtbase"] = None
 
 
 from Package.Qt5CorePackageBase import *
