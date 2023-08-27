@@ -89,8 +89,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
         self.runtimeDependencies["libs/qt/qtnetworkauth"] = None
 
-        if CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["libs/qt/qtandroidextras"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
 
         if CraftCore.compiler.isMinGW():
             # mingw-based builds need this

@@ -27,7 +27,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         else:
-            self.runtimeDependencies["libs/qt/qtandroidextras"] = None
+            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+                self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
 
 
 class Package(CMakePackageBase):

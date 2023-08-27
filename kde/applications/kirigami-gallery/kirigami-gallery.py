@@ -19,8 +19,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
 
-        if CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["libs/qt/qtandroidextras"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
 
 
 from Package.CMakePackageBase import *

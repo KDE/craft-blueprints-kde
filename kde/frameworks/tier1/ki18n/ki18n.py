@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         if CraftCore.compiler.isAndroid and CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["libs/qt/qtandroidextras"] = None
+            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
 
 
 from Blueprints.CraftPackageObject import CraftPackageObject

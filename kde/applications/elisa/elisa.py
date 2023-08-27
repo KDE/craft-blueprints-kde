@@ -23,7 +23,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         if CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["libs/qt/qtandroidextras"] = None
+            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+                self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
         if CraftCore.compiler.isWindows:
