@@ -43,7 +43,7 @@ class Package(AutoToolsPackageBase):
         if not super().install():
             return False
         if CraftCore.compiler.isMSVC():
-            return utils.moveFile(self.installDir() / "lib/xapian.dll.lib", self.installDir() / "lib/libxapian.lib")
+            return utils.moveFile(self.installDir() / "lib/xapian.lib", self.installDir() / "lib/libxapian.lib")
         return True
 
     def postInstall(self):
