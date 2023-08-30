@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
         # https://github.com/werman/noise-suppression-for-voice/commit/019673ed3bf0eedbd9b3f4d4f0a719d12fee5147
         if CraftCore.compiler.isMinGW():
             self.defaultTarget = "0.91"
+            self.patchLevel["0.91"] = 1
         else:
             self.defaultTarget = "1.03"
 
