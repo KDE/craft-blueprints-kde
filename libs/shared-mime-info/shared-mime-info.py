@@ -36,11 +36,13 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/{ver}/shared-mime-info-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
         self.targetDigests["2.2"] = (["418c480019d9865f67f922dfb88de00e9f38bf971205d55cdffab50432919e61"], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply["2.2"] = [("cpp.patch", 1)]
 
         self.description = "The shared-mime-info package contains the core database of common types and the update-mime-database command used to extend it"
         self.webpage = "https://www.freedesktop.org/wiki/Software/shared-mime-info/"
         self.defaultTarget = "2.2"
+
+        if CraftCore.compiler.isMSVC():
+            self.patchToApply["2.2"] = [("disable-translation.patch", 1), ("cpp.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
