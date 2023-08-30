@@ -1,0 +1,473 @@
+diff --git a/meson.build b/meson.build
+index 6d6f3f5..aceaa42 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,8 +1,9 @@
+ 
+ project('shared-mime-info',
+-    'c',
++    'c', 'cpp',
+     version: '2.2',
+-    meson_version: '>=0.49.0'
++    meson_version: '>=0.49.0',
++    default_options : ['cpp_std=c++17']
+ )
+ 
+ config = configuration_data()
+diff --git a/src/meson.build b/src/meson.build
+index 5da9ddf..d5d8f31 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -5,7 +5,7 @@ configure_file(
+ )
+ 
+ update_mime_database = executable('update-mime-database',
+-    'update-mime-database.c',
++    'update-mime-database.cpp',
+     dependencies: [
+         glib2,
+         libxml,
+diff --git a/src/update-mime-database.c b/src/update-mime-database.cpp
+similarity index 96%
+rename from src/update-mime-database.c
+rename to src/update-mime-database.cpp
+index a8d2967..0415602 100644
+--- a/src/update-mime-database.c
++++ b/src/update-mime-database.cpp
+@@ -6,19 +6,27 @@
+ #include <string.h>
+ #include <ctype.h>
+ #include <stdlib.h>
++#ifndef _MSVC
+ #include <unistd.h>
++#endif
+ #include <stdio.h>
+ #include <glib.h>
+ #include <glib/gprintf.h>
+ #include <glib/gstdio.h>
+ #include <errno.h>
+-#include <dirent.h>
+ #include <libxml/parser.h>
+ #include <libxml/tree.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
+ #include <fcntl.h>
+ 
++#include <algorithm>
++#include <filesystem>
++#include <vector>
++#include <optional>
++
++namespace fs = std::filesystem;
++
+ #define XML_NS XML_XML_NAMESPACE
+ #define XMLNS_NS "http://www.w3.org/2000/xmlns/"
+ #define FREE_NS (xmlChar *)"http://www.freedesktop.org/standards/shared-mime-info"
+@@ -166,7 +174,7 @@ static GHashTable *icon_hash = NULL;
+ static GHashTable *generic_icon_hash = NULL;
+ 
+ /* Lists enabled log levels */
+-static GLogLevelFlags enabled_log_levels = G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING;
++static GLogLevelFlags enabled_log_levels = static_cast<GLogLevelFlags>(G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
+ 
+ /* Static prototypes */
+ static Magic *magic_new(xmlNode *node, Type *type, GError **error);
+@@ -218,9 +226,9 @@ static void free_type(gpointer data)
+  */
+ static char *my_xmlGetNsProp (xmlNodePtr node, 
+ 			      const char *name,
+-			      const xmlChar *namespace)
++			      const xmlChar *nameSpace)
+ {
+-	return (char *)xmlGetNsProp (node, (xmlChar *)name, namespace);
++	return (char *)xmlGetNsProp (node, (xmlChar *)name, nameSpace);
+ }
+ 
+ /* If we've seen this type before, return the existing object.
+@@ -244,7 +252,7 @@ static Type *get_type(const char *name, GError **error)
+ 		return NULL;
+ 	}
+ 
+-	type = g_hash_table_lookup(types, name);
++	type = static_cast<Type *>(g_hash_table_lookup(types, name));
+ 	if (type)
+ 		return type;
+ 
+@@ -416,7 +424,7 @@ static gboolean process_freedesktop_node(Type *type, xmlNode *field,
+ 		{
+ 			Glob *glob;
+ 			char *pat = case_sensitive ? g_strdup (pattern) : g_ascii_strdown (pattern, -1);
+-			GList *list = g_hash_table_lookup (globs_hash, pat);
++			auto list = static_cast<GList *>(g_hash_table_lookup (globs_hash, pat));
+ 			
+ 			glob = g_new0 (Glob, 1);
+ 			glob->pattern = pat;
+@@ -440,7 +448,7 @@ static gboolean process_freedesktop_node(Type *type, xmlNode *field,
+ 	else if (strcmp((char *)field->name, "glob-deleteall") == 0)
+ 	{
+ 		Glob *glob;
+-		GList *list = g_hash_table_lookup (globs_hash, NOGLOBS);
++		auto list = static_cast<GList *>(g_hash_table_lookup (globs_hash, NOGLOBS));
+ 
+ 		glob = g_new0 (Glob, 1);
+ 		glob->pattern = g_strdup (NOGLOBS);
+@@ -511,9 +519,9 @@ static gboolean process_freedesktop_node(Type *type, xmlNode *field,
+ 		valid = other_type && strchr(other_type, '/');
+ 		if (valid)
+ 		{
+-			char *typename;
++			char *typeName;
+ 
+-			typename = g_strdup_printf("%s/%s", 
++			typeName = g_strdup_printf("%s/%s", 
+ 						   type->media,
+ 						   type->subtype);
+ 			
+@@ -523,13 +531,13 @@ static gboolean process_freedesktop_node(Type *type, xmlNode *field,
+ 				
+ 			else
+ 			{
+-				list = g_hash_table_lookup(subclass_hash, typename);
++				list = static_cast<GSList *>(g_hash_table_lookup(subclass_hash, typeName));
+ 				nlist = g_slist_append (list, g_strdup(other_type));
+ 				if (list == NULL)
+ 					g_hash_table_insert(subclass_hash, 
+-							    g_strdup(typename), nlist);
++							    g_strdup(typeName), nlist);
+ 			}
+-			g_free(typename);
++			g_free(typeName);
+ 			xmlFree(other_type);
+ 
+ 			copy_to_xml = TRUE; /* Copy through */
+@@ -560,22 +568,22 @@ static gboolean process_freedesktop_node(Type *type, xmlNode *field,
+ 		 strcmp((char *)field->name, "icon") == 0) 
+ 	{
+ 		char *icon;
+-		char *typename;
++		char *typeName;
+ 
+ 		icon = my_xmlGetNsProp(field, "name", NULL);
+ 
+ 		if (icon) 
+ 		{
+-			typename = g_strdup_printf("%s/%s",
++			typeName = g_strdup_printf("%s/%s",
+ 						   type->media,
+ 						   type->subtype);
+ 
+ 			if (strcmp((char *)field->name, "icon") == 0)
+ 				g_hash_table_insert(icon_hash,
+-						    typename, g_strdup (icon));
++						    typeName, g_strdup (icon));
+ 			else
+ 				g_hash_table_insert(generic_icon_hash,
+-						    typename, g_strdup (icon));
++						    typeName, g_strdup (icon));
+ 
+ 			xmlFree (icon);
+ 
+@@ -611,18 +619,18 @@ static gboolean has_lang(xmlNode *node, const char *lang)
+ /* We're about to add 'new' to the list of fields to be output for the
+  * type. Remove any existing nodes which it replaces.
+  */
+-static void remove_old(Type *type, xmlNode *new)
++static void remove_old(Type *type, xmlNode *newNode)
+ {
+ 	xmlNode *field, *fields;
+ 	char *lang;
+ 
+-	if (new->ns == NULL || xmlStrcmp(new->ns->href, FREE_NS) != 0)
++	if (newNode->ns == NULL || xmlStrcmp(newNode->ns->href, FREE_NS) != 0)
+ 		return;	/* No idea what we're doing -- leave it in! */
+ 
+-	if (strcmp((char *)new->name, "comment") != 0)
++	if (strcmp((char *)newNode->name, "comment") != 0)
+ 		return;
+ 
+-	lang = my_xmlGetNsProp(new, "lang", XML_NS);
++	lang = my_xmlGetNsProp(newNode, "lang", XML_NS);
+ 
+ 	fields = xmlDocGetRootElement(type->output);
+ 	for (field = fields->xmlChildrenNode; field; field = field->next)
+@@ -784,58 +792,47 @@ static gint strcmp2(gconstpointer a, gconstpointer b)
+ 	return strcmp(aa, bb);
+ }
+ 
++static bool ends_with(const std::string &str, const std::string &suffix)
++{
++    return str.size() >= suffix.size() && 0 == str.compare(str.size() - suffix.size(), suffix.size(), suffix);
++}
++
++#include <iostream>
++
+ /* 'path' should be a 'packages' directory. Loads the information from
+  * every file in the directory.
+  */
+ static void scan_source_dir(const char *path)
+ {
+-	DIR *dir;
+-	struct dirent *ent;
+-	char *filename;
+-	GPtrArray *files;
+-	int i;
+-	gboolean have_override = FALSE;
+-
+-	dir = opendir(path);
+-	if (!dir)
+-	{
++	if (!fs::is_directory(fs::status(path))) {
+ 		perror("scan_source_dir");
+ 		exit(EXIT_FAILURE);
+ 	}
+ 
+-	files = g_ptr_array_new();
+-	while ((ent = readdir(dir)))
+-	{
+-		int l;
+-		l = strlen(ent->d_name);
+-		if (l < 4 || strcmp(ent->d_name + l - 4, ".xml") != 0)
++	const fs::path dir{path};
++	std::vector<fs::path> files;
++	std::optional<fs::path> file_override;
++	for (auto const& dir_entry : std::filesystem::directory_iterator{dir}) {
++		if (!ends_with(dir_entry.path().filename().string(), ".xml")) {
+ 			continue;
+-		if (strcmp(ent->d_name, "Override.xml") == 0)
+-		{
+-			have_override = TRUE;
++		}
++
++		if (dir_entry.path().filename() == "Override.xml") {
++			file_override = dir_entry.path();
+ 			continue;
+ 		}
+-		g_ptr_array_add(files, g_strdup(ent->d_name));
+-	}
+-	closedir(dir);
+ 
+-	g_ptr_array_sort(files, strcmp2);
++		files.push_back(dir_entry.path());
++	}
+ 
+-	if (have_override)
+-		g_ptr_array_add(files, g_strdup("Override.xml"));
++	std::sort(files.begin(), files.end());
+ 
+-	for (i = 0; i < files->len; i++)
+-	{
+-		gchar *leaf = (gchar *) files->pdata[i];
++	if (file_override)
++		files.push_back(file_override.value());
+ 
+-		filename = g_strconcat(path, "/", leaf, NULL);
+-		load_source_file(filename);
+-		g_free(filename);
++	for (const auto &file : files) {
++		load_source_file(file.string().c_str());
+ 	}
+-
+-	for (i = 0; i < files->len; i++)
+-		g_free(files->pdata[i]);
+-	g_ptr_array_free(files, TRUE);
+ }
+ 
+ static gboolean save_xml_file(xmlDocPtr doc, const gchar *filename, GError **error)
+@@ -919,7 +916,7 @@ static void write_out_glob2(GList *globs, FILE *stream)
+ 
+ static void collect_glob2(gpointer key, gpointer value, gpointer data)
+ {
+-	GList **listp = data;
++	auto listp = static_cast<GList**>(data);
+ 
+ 	*listp = g_list_concat (*listp, g_list_copy ((GList *)value));
+ }
+@@ -1035,7 +1032,7 @@ static void write_out_type(gpointer key, gpointer value, gpointer data)
+ 	media = g_strconcat(mime_dir, "/", lower, NULL);
+ 	g_free(lower);
+ #ifdef _WIN32
+-	mkdir(media);
++	fs::create_directory(media);
+ #else
+ 	mkdir(media, 0755);
+ #endif
+@@ -1969,26 +1966,20 @@ static void delete_old_types(const gchar *mime_dir)
+ 
+ 	for (i = 0; i < G_N_ELEMENTS(media_types); i++)
+ 	{
+-		gchar *media_dir;
+-		DIR   *dir;
+-		struct dirent *ent;
+-		
+-		media_dir = g_strconcat(mime_dir, "/", media_types[i], NULL);
+-		dir = opendir(media_dir);
+-		g_free(media_dir);
+-		if (!dir)
++		const fs::path media_dir = g_strconcat(mime_dir, "/", media_types[i], NULL);
++
++		if (!fs::is_directory(fs::status(media_dir)))
+ 			continue;
+ 
+-		while ((ent = readdir(dir)))
++		std::vector<fs::path> files;
++		std::optional<fs::path> file_override;
++		for (auto const& dir_entry : std::filesystem::directory_iterator{media_dir})
+ 		{
+-			char *type_name;
+-			int l;
+-			l = strlen(ent->d_name);
+-			if (l < 4 || strcmp(ent->d_name + l - 4, ".xml") != 0)
++			if (!ends_with(dir_entry.path().filename().string(), ".xml"))
+ 				continue;
+ 
+-			type_name = g_strconcat(media_types[i], "/",
+-						ent->d_name, NULL);
++			char *type_name = g_strconcat(media_types[i], "/",
++						dir_entry.path().filename().string().c_str(), NULL);
+ 			type_name[strlen(type_name) - 4] = '\0';
+ 			if (!g_hash_table_lookup(types, type_name))
+ 			{
+@@ -2003,9 +1994,7 @@ static void delete_old_types(const gchar *mime_dir)
+ 				g_free(path);
+ 			}
+ 			g_free(type_name);
+-		}
+-		
+-		closedir(dir);
++        }
+ 	}
+ }
+ 
+@@ -2048,14 +2037,14 @@ static void write_namespaces(FILE *stream)
+ 
+ static void write_subclass(gpointer key, gpointer value, gpointer data)
+ {
+-	GSList *list = value;
+-	FILE *stream = data;
++	auto list = static_cast<GSList *>(value);
++	auto stream = static_cast<FILE *>(data);
+ 	GSList *l;
+ 	char *line;
+ 
+ 	for (l = list; l; l = l->next)
+ 	{
+-		line = g_strconcat (key, " ", l->data, "\n", NULL);
++		line = g_strconcat (static_cast<const gchar *>(key), " ", l->data, "\n", NULL);
+ 		fwrite(line, 1, strlen(line), stream);
+ 		g_free (line);
+ 	}
+@@ -2157,6 +2146,7 @@ static void write_icons(GHashTable *icons, FILE *stream)
+ /* Issue a warning if 'path' won't be found by applications */
+ static void check_in_path_xdg_data(const char *mime_path)
+ {
++#ifndef _MSC_VER
+ 	struct stat path_info, dir_info;
+ 	const char *env;
+ 	char **dirs;
+@@ -2213,11 +2203,12 @@ static void check_in_path_xdg_data(const char *mime_path)
+ 	g_free(dirs);
+ out:
+ 	g_free(path);
++#endif
+ }
+ 
+ static void free_string_list(gpointer data)
+ {
+-  GSList *list = data;
++  auto list = static_cast<GSList *>(data);
+ 
+   g_slist_foreach(list, (GFunc)g_free, NULL);
+   g_slist_free(list);
+@@ -2235,7 +2226,7 @@ write_data (FILE *cache, const gchar *n, gint len)
+   
+   l = ALIGN_VALUE (len, 4);
+   
+-  s = g_malloc0 (l);
++  s = static_cast<gchar *>(g_malloc0(l));
+   memcpy (s, n, len);
+ 
+   i = fwrite (s, l, 1, cache);
+@@ -2333,7 +2324,7 @@ write_map_entry (gpointer key,
+   guint offset, i;
+   guint weight;
+ 
+-  values = (* map_data->get_value) (map_data->data, key);
++  values = (* map_data->get_value) (map_data->data, static_cast<gchar *>(key));
+   for (i = 0; values[i]; i++)
+     {
+       if (map_data->weighted && (i % 3 == 2)) 
+@@ -2394,7 +2385,7 @@ count_map_entry (gpointer key,
+   CountData *count_data = (CountData *)data;
+   gchar **values;
+ 
+-  values = (* count_data->get_value) (count_data->data, key);
++  values = (* count_data->get_value) (count_data->data, static_cast<gchar *>(key));
+   count_data->count += g_strv_length (values) / (count_data->weighted ? 3 : 2);
+   g_strfreev (values);
+ }
+@@ -3649,6 +3640,7 @@ int main(int argc, char **argv)
+ 	/* Install the filtering log handler */
+ 	g_log_set_default_handler(g_log_handler, NULL);
+ 
++	#ifndef _MSC_VER
+ 	while ((opt = getopt(argc, argv, "hvVn")) != -1)
+ 	{
+ 		switch (opt)
+@@ -3665,8 +3657,8 @@ int main(int argc, char **argv)
+ 					  VERSION "\n" COPYING);
+ 				return EXIT_SUCCESS;
+ 			case 'V':
+-				enabled_log_levels |= G_LOG_LEVEL_MESSAGE
+-						      | G_LOG_LEVEL_INFO;
++				enabled_log_levels = static_cast<GLogLevelFlags>(enabled_log_levels | G_LOG_LEVEL_MESSAGE
++						      | G_LOG_LEVEL_INFO);
+ 				break;
+ 			case 'n':
+ 				if_newer = TRUE;
+@@ -3676,15 +3668,27 @@ int main(int argc, char **argv)
+ 		}
+ 	}
+ 
++
+ 	if (optind != argc - 1)
+ 	{
+ 		usage(argv[0]);
+ 		return EXIT_FAILURE;
+ 	}
+ 
+-	LIBXML_TEST_VERSION;
+ 
+ 	mime_dir = argv[optind];
++#else
++	if (strcmp(argv[argc - 1], "v")) {
++		g_fprintf(stderr,
++			  "update-mime-database (" PACKAGE ") "
++			  VERSION "\n" COPYING);
++		return EXIT_SUCCESS;
++	}
++
++	mime_dir = argv[argc - 1];
++#endif
++
++	LIBXML_TEST_VERSION;
+ 
+ 	/* Strip trailing / characters */
+ 	{
+@@ -3698,7 +3702,7 @@ int main(int argc, char **argv)
+ 
+ 	package_dir = g_strconcat(mime_dir, "/packages", NULL);
+ 
+-	if (access(mime_dir, F_OK))
++	if (fs::exists(mime_dir) && fs::is_directory(fs::status(mime_dir)))
+ 	{
+ 		g_warning(_("Directory '%s' does not exist!"), package_dir);
+ 		return EXIT_FAILURE;
+@@ -3706,7 +3710,7 @@ int main(int argc, char **argv)
+ 
+ 	g_message("Updating MIME database in %s...\n", mime_dir);
+ 
+-	if (access(package_dir, F_OK))
++	if (fs::exists(package_dir) && fs::is_directory(fs::status(package_dir)))
+ 	{
+ 		g_fprintf(stderr,
+ 			_("Directory '%s' does not exist!\n"), package_dir);
