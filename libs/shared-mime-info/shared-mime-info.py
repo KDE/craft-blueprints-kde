@@ -40,6 +40,8 @@ class subinfo(info.infoclass):
         self.description = "The shared-mime-info package contains the core database of common types and the update-mime-database command used to extend it"
         self.webpage = "https://www.freedesktop.org/wiki/Software/shared-mime-info/"
         self.defaultTarget = "2.2"
+        if CraftCore.compiler.isMSVC():
+            self.patchToApply["2.2"] = [("disable-translation.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/intltool"] = None
