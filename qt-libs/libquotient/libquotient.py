@@ -34,6 +34,6 @@ class Package(CMakePackageBase):
         # LINK : fatal error LNK1104: cannot open file 'Quotient.lib
         # And fixes crash on android
         self.subinfo.options.dynamic.buildStatic = True
-        self.subinfo.options.configure.args = "-DQuotient_ENABLE_E2EE=ON"
+        self.subinfo.options.configure.args += ["-DQuotient_ENABLE_E2EE=ON"]
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args = "-DBUILD_WITH_QT6=1"
+            self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=ON"]
