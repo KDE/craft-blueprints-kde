@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/glib"] = None  # mdb
         self.runtimeDependencies["libs/sqlite"] = None  # migration
         # TODO self.runtimeDependencies["binary/postgresql"] = None # migration
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies["kdesupport/kdewin"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None

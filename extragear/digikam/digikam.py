@@ -83,13 +83,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/libass"] = None
         self.runtimeDependencies["libs/libusb"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtsvg"] = None
-        self.runtimeDependencies["libs/qt5/qtimageformats"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtsvg"] = None
+        self.runtimeDependencies["libs/qt/qtimageformats"] = None
         self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
-        self.runtimeDependencies["libs/qt5/qtnetworkauth"] = None
+        self.runtimeDependencies["libs/qt/qtnetworkauth"] = None
 
-        if CraftCore.compiler.isAndroid:
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
 
         if CraftCore.compiler.isMinGW():
@@ -104,7 +104,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt5/qtwebkit"] = None
 
         else:
-            self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+            self.runtimeDependencies["libs/qt/qtwebengine"] = None
 
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None

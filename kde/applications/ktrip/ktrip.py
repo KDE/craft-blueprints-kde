@@ -7,15 +7,13 @@ class subinfo(info.infoclass):
         self.description = "Public transport assistant"
         self.displayName = "KTrip"
 
-        self.patchToApply["23.04.2"] = [("0001-android-fix-ndk-version.patch", 1)]
-        self.patchLevel["23.04.2"] = 1
         self.patchToApply["23.04.3"] = [("0001-android-fix-ndk-version.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
@@ -28,7 +26,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
         else:
-            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
+            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+                self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
 

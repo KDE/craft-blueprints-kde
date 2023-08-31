@@ -14,7 +14,6 @@ class subinfo(info.infoclass):
         self.patchLevel["5.15.5"] = 1
         self.patchLevel["kde/5.15"] = 1
 
-
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtdeclarative"] = None

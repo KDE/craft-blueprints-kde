@@ -14,9 +14,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
-        self.runtimeDependencies["libs/qt5/qtcharts"] = None
+        self.runtimeDependencies["libs/qt/qtcharts"] = None
 
 
 from Package.CMakePackageBase import *

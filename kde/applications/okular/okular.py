@@ -8,8 +8,8 @@ class subinfo(info.infoclass):
         self.displayName = "Okular"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtimageformats"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtimageformats"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/tiff"] = None
         self.runtimeDependencies["libs/zlib"] = None

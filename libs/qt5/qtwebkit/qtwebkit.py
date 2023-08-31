@@ -11,7 +11,6 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMacOS:
             self.parent.package.categoryInfo.architecture = CraftCore.compiler.Architecture.x86_64
 
-
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.svnTargets["5.212"] = "https://code.qt.io/qt/qtwebkit.git|5.212"

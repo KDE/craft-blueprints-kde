@@ -8,14 +8,12 @@ class subinfo(info.infoclass):
         self.displayName = "Kongress"
         self.description = "Conference companion app"
 
-        self.patchToApply["23.04.2"] = [("0001-android-fix-ndk-version.patch", 1)]
-        self.patchLevel["23.04.2"] = 1
         self.patchToApply["23.04.3"] = [("0001-android-fix-ndk-version.patch", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None

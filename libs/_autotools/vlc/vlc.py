@@ -42,7 +42,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtx11extras"] = None
         self.runtimeDependencies["libs/dbus"] = None
         self.runtimeDependencies["libs/fontconfig"] = None

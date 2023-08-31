@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             # Yes, this is correct :-) QtMultimedia is only a dependency with Qt5 for libQuotient
             # See https://github.com/quotient-im/libQuotient/issues/483
-            self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
+            self.runtimeDependencies["libs/qt/qtmultimedia"] = None
 
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["libs/olm"] = None

@@ -7,8 +7,8 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         ver = "2.0.3"
-        #self.targets["2.0.3"] = "https://github.com/indilib/indi/archive/refs/tags/v%s.tar.gz" % ver
-        #self.targetInstSrc[ver] = "indi-%s" % ver
+        # self.targets["2.0.3"] = "https://github.com/indilib/indi/archive/refs/tags/v%s.tar.gz" % ver
+        # self.targetInstSrc[ver] = "indi-%s" % ver
         self.svnTargets["2.0.3"] = "https://github.com/indilib/indi.git|stable-2.0.3"
         self.defaultTarget = ver
         self.description = "INDI Library"
@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/grep"] = None
         self.buildDependencies["libs/zlib"] = None
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/libnova"] = None
         self.runtimeDependencies["libs/cfitsio"] = None
 

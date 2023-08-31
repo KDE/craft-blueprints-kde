@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.buildDependencies["libs/qt5/qtbase"] = None
+        self.buildDependencies["libs/qt/qtbase"] = None
 
 
 class Package(CMakePackageBase):

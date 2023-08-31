@@ -46,7 +46,7 @@ if not CraftCore.compiler.isMSVC():
             self.runtimeDependencies["libs/assuan2"] = None
             self.runtimeDependencies["libs/gnupg"] = None
             if self.options.dynamic.enableCPP:
-                self.runtimeDependencies["libs/qt5/qtbase"] = None
+                self.runtimeDependencies["libs/qt/qtbase"] = None
 
     class Package(AutoToolsPackageBase):
         def __init__(self, **args):

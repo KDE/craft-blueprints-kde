@@ -9,20 +9,21 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtlocation"] = None
-        self.runtimeDependencies["libs/qt5/qtsvg"] = None
+        self.runtimeDependencies["libs/qt/qtsvg"] = None
 
         if not CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["libs/qt5/qtwebchannel"] = None
-            self.runtimeDependencies["libs/qt5/qtwebengine"] = None
+            self.runtimeDependencies["libs/qt/qtwebchannel"] = None
+            self.runtimeDependencies["libs/qt/qtwebengine"] = None
             self.runtimeDependencies["libs/qt5/qtserialport"] = None
             self.runtimeDependencies["qt-libs/phonon"] = None
             self.runtimeDependencies["libs/protobuf"] = None
         else:
-            self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
-            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
+            self.runtimeDependencies["libs/qt/qtmultimedia"] = None
+            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+                self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
             self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
 
 

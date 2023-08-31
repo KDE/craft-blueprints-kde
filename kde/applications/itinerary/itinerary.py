@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/pim/itinerary.git")
         self.description = "Digital travel assistant app"
 
-        for ver in ["23.04.2", "23.04.3"]:
+        for ver in ["23.04.3"]:
             self.patchToApply[ver] = [("0001-android-qt5-15-10-gradle-oom-fix.patch", 1), ("0002-android-qt5-15-10-ndk-fix.patch", 1)]
             self.patchLevel[ver] = 1
 
@@ -17,12 +17,12 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/openssl"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtlocation"] = None
-        if CraftCore.compiler.isAndroid:
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
-        self.runtimeDependencies["libs/qt5/qtsvg"] = None
+        self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None

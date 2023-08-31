@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         self.patchToApply["5.27.5"] = [("0001-Bundle-color-definitions-on-Android.patch", 1)]
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None

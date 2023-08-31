@@ -20,5 +20,5 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        if not self.subinfo.options.isActive("libs/qt5/qtbase"):
+        if not self.subinfo.options.isActive("libs/qt/qtbase"):
             self.subinfo.options.configure.args += ["-DQT_MAJOR_VERSION=6"]

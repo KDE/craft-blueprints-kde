@@ -36,7 +36,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/openal-soft"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/icu"] = None
-        self.runtimeDependencies["libs/qt5/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/sphinxbase"] = None
         self.runtimeDependencies["libs/pocketsphinx"] = None
 
