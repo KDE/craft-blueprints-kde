@@ -32,7 +32,7 @@ class PackageMSVC(MSBuildPackageBase):
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "msvc", "Hunspell.sln")
         self.buildTypes = {"Release": "Release_dll", "RelWithDebInfo": "Release_dll", "Debug": "Debug_dll"}
 
-    def compile(self):
+    def configure(self):
         utils.copyFile(os.path.join(self.sourceDir(), "msvc", "config.h"), os.path.join(self.sourceDir(), "config.h"))
         out = super().compile()
         utils.deleteFile(os.path.join(self.sourceDir(), "config.h"))

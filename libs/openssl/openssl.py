@@ -114,9 +114,9 @@ class PackageCMake(CMakePackageBase):
         with utils.ScopedEnv(self.env):
             return utils.system(args)
 
-    def compile(self):
+    def make(self):
         with utils.ScopedEnv(self.env):
-            return super().compile()
+            return super().make()
 
     def install(self):
         if not super().install():
