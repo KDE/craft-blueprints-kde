@@ -82,7 +82,10 @@ class Package(CMakePackageBase):
         ]
 
         if CraftCore.compiler.isLinux:
-            self.subinfo.options.configure.args += ["-DFEATURE_xcb=ON"]
+            self.subinfo.options.configure.args += [
+                "-DFEATURE_xcb=ON",
+                "-DQT_FEATURE_egl=ON",
+            ]
 
         if CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += [f"-DANDROID_ABI={CraftCore.compiler.androidAbi}", "-DECM_THREADS_WORKAROUND=OFF"]
