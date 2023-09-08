@@ -12,6 +12,8 @@ class subinfo(info.infoclass):
         for ver in ["23.04.3"]:
             self.patchToApply[ver] = [("0001-android-qt5-15-10-gradle-oom-fix.patch", 1), ("0002-android-qt5-15-10-ndk-fix.patch", 1)]
             self.patchLevel[ver] = 1
+        self.patchToApply["23.08.0"] = [("0001-Manually-manage-permissions-in-the-Android-manifest.patch", 1)]
+        self.patchLevel["23.08.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

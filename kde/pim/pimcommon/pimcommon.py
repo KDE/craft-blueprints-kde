@@ -43,6 +43,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kdesupport/grantlee"] = None
         self.runtimeDependencies["libs/libxslt"] = None
+        self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
 
 from Package.CMakePackageBase import *
