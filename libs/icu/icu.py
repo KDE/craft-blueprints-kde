@@ -48,7 +48,9 @@ class Package(AutoToolsPackageBase):
         f = open(Path(self.buildDir()) / "data/out/tmp/dirs.timestamp", "w")
         f.write("timestamp")
         f.close()
-        return super().make()
+        # ensure TARGET is not set, else the build system will try to build its content and fail
+        with utils.ScopedEnv({"TARGET": None}):
+            return super().make()
 
     def install(self):
         if not super().install():
