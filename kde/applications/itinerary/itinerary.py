@@ -38,8 +38,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kpkpass"] = None
         self.runtimeDependencies["kde/plasma-mobile/khealthcertificate"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
-        if self.buildTarget == "master":
-            self.runtimeDependencies["qt-libs/libquotient"] = None
+        self.runtimeDependencies["qt-libs/libquotient"] = None
 
 
 from Package.CMakePackageBase import *
