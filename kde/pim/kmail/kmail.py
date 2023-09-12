@@ -51,6 +51,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
+        self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
 
 from Package.CMakePackageBase import *
