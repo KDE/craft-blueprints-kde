@@ -40,4 +40,4 @@ else:
         def __init__(self, **args):
             AutoToolsPackageBase.__init__(self)
             self.subinfo.options.configure.autoreconf = False
-            self.subinfo.options.configure.args += ["--without-cyrus_sasl"]
+            self.subinfo.options.configure.args += ["--without-cyrus_sasl", "--disable-bdb", "--disable-hdb"]
