@@ -31,11 +31,11 @@ class subinfo(info.infoclass):
         self.description = "Rocket.Chat Client"
         self.webpage = "https://apps.kde.org/ruqola"
 
-        self.targets["1.9.2"] = "https://download.kde.org/stable/ruqola/ruqola-1.9.2.tar.xz"
-        self.targetDigests["1.9.2"] = (["08e4cbd4850cc9a290ec4a21ecf8b4fe609c974b245cdb47b1c63f7bb46c8fbd"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["1.9.2"] = "ruqola-1.9.2"
+        self.targets["2.0.0"] = "https://download.kde.org/stable/ruqola/ruqola-2.0.0.tar.xz"
+        self.targetDigests["2.0.0"] = (["a9649936adc3589c1e3a19a921c4b2a54bb6c4f9ffa1af50c7c02cae9f441737"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["2.0.0"] = "ruqola-2.0.0"
         self.svnTargets["master"] = "https://invent.kde.org/network/ruqola.git"
-        self.defaultTarget = "1.9.2"
+        self.defaultTarget = "2.0.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
