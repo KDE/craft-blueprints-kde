@@ -19,6 +19,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.4.45"
 
     def setDependencies(self):
+        if not CraftCore.compiler.isWindows:
+            self.buildDependencies["libs/groff"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/cyrus-sasl"] = None
         self.runtimeDependencies["libs/pcre"] = None
