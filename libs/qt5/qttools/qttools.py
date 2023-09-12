@@ -32,7 +32,7 @@ class Package(Qt5CorePackageBase):
 
     def configure(self, configureDefines=""):
         with utils.ScopedEnv(self._env):
-            return super().compile()
+            return super().configure()
 
     def make(self):
         with utils.ScopedEnv(self._env):
