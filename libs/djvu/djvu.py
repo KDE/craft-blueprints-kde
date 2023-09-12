@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["3.5.21", "3.5.23", "3.5.25.3", "3.5.27"]:
-            self.targets[ver] = "http://downloads.sourceforge.net/djvu/djvulibre-" + ver + ".tar.gz"
+            self.targets[ver] = "https://downloads.sourceforge.net/djvu/djvulibre-" + ver + ".tar.gz"
             self.targetInstSrc[ver] = "djvulibre-" + ver
         self.targetInstSrc["3.5.25.3"] = "djvulibre-3.5.25"
         if OsUtils.isWin():

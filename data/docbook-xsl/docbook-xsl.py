@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for ver in ["1.75.2", "1.78.0", "1.78.1"]:
-            self.targets[ver] = "http://downloads.sourceforge.net/docbook/docbook-xsl-" + ver + ".tar.bz2"
+            self.targets[ver] = "https://downloads.sourceforge.net/docbook/docbook-xsl-" + ver + ".tar.bz2"
             self.targetInstSrc[ver] = "docbook-xsl-%s" % ver
             self.targetInstallPath[ver] = "share/xml/docbook/xsl-stylesheets"
 

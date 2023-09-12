@@ -21,10 +21,10 @@ class subinfo(info.infoclass):
         self.targetUpdatedRepoUrl["master"] = ("https://anongit.kde.org/snorenotify", "https://invent.kde.org/libraries/snorenotify.git")
         self.targetUpdatedRepoUrl["0.7"] = ("https://anongit.kde.org/snorenotify", "https://invent.kde.org/libraries/snorenotify.git")
         for ver in ["0.6.0", "0.7.0"]:
-            self.targets[ver] = "http://download.kde.org/stable/snorenotify/%s/src/snorenotify-%s.tar.xz" % (ver, ver)
+            self.targets[ver] = "https://download.kde.org/stable/snorenotify/%s/src/snorenotify-%s.tar.xz" % (ver, ver)
             self.targetInstSrc[ver] = "snorenotify-%s" % ver
             self.targetDigestUrls[ver] = (
-                "http://download.kde.org/stable/snorenotify/%s/src/snorenotify-%s.tar.xz.sha256" % (ver, ver),
+                "https://download.kde.org/stable/snorenotify/%s/src/snorenotify-%s.tar.xz.sha256" % (ver, ver),
                 CraftHash.HashAlgorithm.SHA256,
             )
 

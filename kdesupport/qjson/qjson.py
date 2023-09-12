@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/flavio/qjson.git"
         for ver in ["0.7.1", "0.8.0", "0.8.1"]:
-            self.targets[ver] = "http://downloads.sourceforge.net/qjson/qjson-" + ver + ".tar.bz2"
+            self.targets[ver] = "https://downloads.sourceforge.net/qjson/qjson-" + ver + ".tar.bz2"
             self.targetInstSrc[ver] = "qjson-%s" % ver
 
         self.targetInstSrc["0.7.1"] = "qjson"

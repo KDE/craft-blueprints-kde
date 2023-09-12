@@ -5,7 +5,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         version = "2.31"
-        self.targets[version] = "http://ftp.gnu.org/gnu/binutils/binutils-%s.tar.bz2" % version
+        self.targets[version] = "https://ftp.gnu.org/gnu/binutils/binutils-%s.tar.bz2" % version
         self.targetInstSrc[version] = "binutils-%s/bfd" % version
         self.targetDigests[version] = ("2c49536b1ca6b8900531b9e34f211a81caf9bf85b1a71f82b81ae32fcd8ffe19", CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = version

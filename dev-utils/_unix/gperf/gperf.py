@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "GNU gperf is a perfect hash function generator. "
         for ver in ["3.1"]:
-            self.targets[ver] = f"http://ftp.gnu.org/pub/gnu/gperf/gperf-{ver}.tar.gz"
+            self.targets[ver] = f"https://ftp.gnu.org/pub/gnu/gperf/gperf-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"gperf-{ver}"
 
         self.defaultTarget = "3.1"

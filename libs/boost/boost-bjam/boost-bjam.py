@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues("", tarballInstallSrc=self.parent.package.name.replace("boost-", "").replace("-", "_"))
 
-        self.webpage = "http://www.boost.org/"
+        self.webpage = "https://www.boost.org/"
 
         self.description = "portable C++ libraries"
 

@@ -11,14 +11,14 @@ class subinfo(info.infoclass):
         self.displayName = "LabPlot2"
 
         for ver in ["2.7.0", "2.8.0", "2.8.1", "2.8.2", "2.9.0"]:
-            self.targets[ver] = "http://download.kde.org/stable/labplot/%s/labplot-%s.tar.xz" % (ver, ver)
+            self.targets[ver] = "https://download.kde.org/stable/labplot/%s/labplot-%s.tar.xz" % (ver, ver)
         for ver in ["2.10.0", "2.10.1"]:
-            self.targets[ver] = "http://download.kde.org/stable/labplot/labplot-%s.tar.xz" % ver
+            self.targets[ver] = "https://download.kde.org/stable/labplot/labplot-%s.tar.xz" % ver
         for ver in ["2.7.0", "2.8.0", "2.8.1", "2.8.2", "2.9.0", "2.10.0", "2.10.1"]:
             self.targetInstSrc[ver] = "labplot-%s" % ver
         # beta versions
         for ver in ["2.8.99"]:
-            self.targets[ver] = "http://download.kde.org/stable/labplot/2.9.0/labplot-2.9.0-beta.tar.xz"
+            self.targets[ver] = "https://download.kde.org/stable/labplot/2.9.0/labplot-2.9.0-beta.tar.xz"
             self.targetInstSrc[ver] = "labplot-2.9.0-beta"
 
         self.patchToApply["2.8.1"] = [("labplot-2.8.1.patch", 1)]

@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = ver
 
     def setMySqlTargets(self):
-        baseURL = "http://dev.mysql.com/get/Downloads/MySQL-5.7/"
+        baseURL = "https://dev.mysql.com/get/Downloads/MySQL-5.7/"
         ver = "5.7.18"
         if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             arch = "x64"

@@ -5,7 +5,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["6.1.3"]:
-            self.targets[ver] = f"http://downloads.sourceforge.net/sourceforge/qwt/qwt-{ver}.tar.bz2"
+            self.targets[ver] = f"https://downloads.sourceforge.net/sourceforge/qwt/qwt-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"qwt-{ver}"
             self.patchLevel[ver] = 1
             self.patchToApply[ver] = [("qwt-6.1.3-20180429.diff", 1)]

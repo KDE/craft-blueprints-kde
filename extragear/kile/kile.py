@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/office/kile.git"
         self.svnTargets["gitStable-2.1"] = "https://invent.kde.org/office/kile.git"
         for ver in ["2.1.1", "2.9.92", "2.9.93"]:
-            self.targets[ver] = "http://downloads.sourceforge.net/kile/kile-" + ver + ".tar.bz2"
+            self.targets[ver] = "https://downloads.sourceforge.net/kile/kile-" + ver + ".tar.bz2"
             self.targetInstSrc[ver] = "kile-" + ver
         self.description = "a user friendly TeX/LaTeX editor for KDE"
         self.displayName = "Kile"

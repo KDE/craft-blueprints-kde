@@ -5,7 +5,7 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["1.6.39", "1.6.40"]:
-            self.targets[ver] = "http://downloads.sourceforge.net/libpng/libpng-" + ver + ".tar.gz"
+            self.targets[ver] = "https://downloads.sourceforge.net/libpng/libpng-" + ver + ".tar.gz"
             self.targetInstSrc[ver] = "libpng-" + ver
 
         self.patchToApply["1.6.39"] = [("libpng-1.6.39-install.pc-on-windows.diff", 1), ("libpng-fix-android-shared-build.diff", 1)]

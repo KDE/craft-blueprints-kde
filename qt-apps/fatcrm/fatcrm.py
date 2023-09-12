@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.5.0"
 
         self.description = "Desktop Application for SugarCRM"
-        self.webpage = "http://www.kdab.com/"
+        self.webpage = "https://www.kdab.com/"
         self.displayName = "FatCRM"
 
     def setDependencies(self):
