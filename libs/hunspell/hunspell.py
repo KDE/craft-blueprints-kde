@@ -34,7 +34,7 @@ class PackageMSVC(MSBuildPackageBase):
 
     def configure(self):
         utils.copyFile(os.path.join(self.sourceDir(), "msvc", "config.h"), os.path.join(self.sourceDir(), "config.h"))
-        out = super().compile()
+        out = super().configure()
         utils.deleteFile(os.path.join(self.sourceDir(), "config.h"))
         return out
 
