@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libkleo"] = None
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
+        self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
 
 from Package.CMakePackageBase import *

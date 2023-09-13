@@ -30,6 +30,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/pimcommon"] = None
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
 
 from Package.CMakePackageBase import *

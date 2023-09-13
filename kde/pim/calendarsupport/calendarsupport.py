@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["kde/pim/pimcommon"] = None
         self.runtimeDependencies["kde/pim/akonadi-notes"] = None
+        self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
 
 from Package.CMakePackageBase import *

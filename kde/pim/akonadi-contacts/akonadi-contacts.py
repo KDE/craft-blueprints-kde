@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/grantleetheme"] = None
+        self.runtimeDependencies["kde/libs/ktextaddons"] = None
         # FIXME: Dependency on libkleo disabled right now, too broken
         # Also see: https://invent.kde.org/pim/akonadi-contacts/-/commit/0d0ff2dedaf222879d346dd8159472526cf76d7d
         if not CraftCore.compiler.isMSVC():

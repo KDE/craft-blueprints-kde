@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/sonnet"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.buildDependencies["kde/frameworks/tier3/kdesignerplugin"] = None
+        self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
 
 from Package.CMakePackageBase import *

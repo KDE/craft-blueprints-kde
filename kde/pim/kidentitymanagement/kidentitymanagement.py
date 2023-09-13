@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
+        self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
 
 from Package.CMakePackageBase import *
