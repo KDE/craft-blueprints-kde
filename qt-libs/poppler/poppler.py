@@ -24,6 +24,7 @@
 
 import info
 from Package.CMakePackageBase import *
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -55,7 +56,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["data/poppler-data"] = None
         self.runtimeDependencies["data/urw-base35-fonts"] = None
         self.runtimeDependencies["libs/nss"] = None
-        self.runtimeDependencies["libs/gpgme"] = None
+        self.runtimeDependencies["libs/gpgme/gpgme"] = None
+        if CraftCore.compiler.isMSVC():
+             self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
         if self.options.dynamic.buildQtFrontend:
             self.runtimeDependencies["libs/qt/qtbase"] = None
         if self.options.dynamic.buildGlibFrontend:

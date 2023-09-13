@@ -19,9 +19,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
-        self.runtimeDependencies["libs/gpgme/gpgme"] = None
         self.runtimeDependencies["libs/boost/boost-atomic"] = None
 
+        self.runtimeDependencies["libs/gpgme/gpgme"] = None
         if CraftCore.compiler.isMSVC():
             self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
 

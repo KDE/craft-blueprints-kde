@@ -1,4 +1,5 @@
 import info
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -21,7 +22,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
-        self.runtimeDependencies["libs/gpgme"] = None
+
+        self.runtimeDependencies["libs/gpgme/gpgme"] = None
+        if CraftCore.compiler.isMSVC():
+             self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
 
 
 from Blueprints.CraftPackageObject import CraftPackageObject

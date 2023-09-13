@@ -1,4 +1,5 @@
 import info
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -41,7 +42,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
-        self.runtimeDependencies["libs/gpgme"] = None
+
+        self.runtimeDependencies["libs/gpgme/gpgme"] = None
+        if CraftCore.compiler.isMSVC():
+             self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
 
 
 from Package.CMakePackageBase import *

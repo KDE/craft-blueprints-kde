@@ -1,4 +1,5 @@
 import info
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -22,9 +23,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/pimcommon"] = None
         self.runtimeDependencies["kde/pim/grantleetheme"] = None
         self.runtimeDependencies["kde/pim/akonadi-search"] = None
-        self.runtimeDependencies["libs/gpgme/gpgme"] = None
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
         self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
+
+        self.runtimeDependencies["libs/gpgme/gpgme"] = None
+        if CraftCore.compiler.isMSVC():
+             self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
 
 
 from Package.CMakePackageBase import *
