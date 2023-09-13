@@ -36,6 +36,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/mailimporter"] = None
         self.runtimeDependencies["kde/pim/kpkpass"] = None
         self.runtimeDependencies["kde/pim/kitinerary"] = None
+        self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
 
 from Package.CMakePackageBase import *
