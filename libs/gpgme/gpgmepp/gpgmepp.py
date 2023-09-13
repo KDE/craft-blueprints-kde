@@ -14,6 +14,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.patchToApply["1.21.0"] = ("cmake.patch", 1)
 
+        self.patchLevel["1.21.0"] = 2
+
 from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):

@@ -1,4 +1,4 @@
-From b23520407b87bb8782df3bcfb4726a6e188da847 Mon Sep 17 00:00:00 2001
+From ddd9b0d329f86316533796afd795a42bc53594e6 Mon Sep 17 00:00:00 2001
 From: Carl Schwan <carl.schwan@gnupg.com>
 Date: Tue, 1 Aug 2023 10:22:29 +0200
 Subject: [PATCH 1/3] Add Cmake integration for qt and cpp binding
@@ -12,7 +12,7 @@ Subject: [PATCH 1/3] Add Cmake integration for qt and cpp binding
   system for the qt bindings
 * lang/qt/dn.cpp, lang/qt/qgpgme_export.h: Adapt code to build with MSVC
 ---
- CMakeLists.txt                                |   8 +
+ CMakeLists.txt                                |  12 +
  lang/CMakeLists.txt                           |  46 +++
  lang/cpp/CMakeLists.txt                       |   5 +
  lang/cpp/src/CMakeLists.txt                   | 144 ++++++++++
@@ -25,11 +25,11 @@ Subject: [PATCH 1/3] Add Cmake integration for qt and cpp binding
  lang/cpp/src/key.cpp                          |   6 +-
  lang/cpp/src/key.h                            |   2 +-
  lang/qt/CMakeLists.txt                        |   5 +
- lang/qt/src/CMakeLists.txt                    | 262 ++++++++++++++++++
+ lang/qt/src/CMakeLists.txt                    | 263 ++++++++++++++++++
  lang/qt/src/dn.cpp                            |   4 +
  lang/qt/src/downloadjob.h                     |   2 +-
  lang/qt/src/qgpgme_export.h                   |   6 +-
- 17 files changed, 507 insertions(+), 7 deletions(-)
+ 17 files changed, 512 insertions(+), 7 deletions(-)
  create mode 100644 CMakeLists.txt
  create mode 100644 lang/CMakeLists.txt
  create mode 100644 lang/cpp/CMakeLists.txt
@@ -39,10 +39,14 @@ Subject: [PATCH 1/3] Add Cmake integration for qt and cpp binding
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 new file mode 100644
-index 00000000..12e3fcea
+index 00000000..0fde210f
 --- /dev/null
 +++ b/CMakeLists.txt
-@@ -0,0 +1,8 @@
+@@ -0,0 +1,12 @@
++# SPDX-FileCopyrightText: 2023 g10 Code GmbH
++# SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
++# SPDX-License-Identifier: BSD-3-Clause
++
 +cmake_minimum_required(VERSION 3.20)
 +
 +set(FULL_VERSION "1.21.0")
@@ -53,7 +57,7 @@ index 00000000..12e3fcea
 +add_subdirectory(lang)
 diff --git a/lang/CMakeLists.txt b/lang/CMakeLists.txt
 new file mode 100644
-index 00000000..7bc119d8
+index 00000000..521a0947
 --- /dev/null
 +++ b/lang/CMakeLists.txt
 @@ -0,0 +1,46 @@
@@ -68,7 +72,7 @@ index 00000000..7bc119d8
 +set(PACKAGE_STRING "${CMAKE_PROJECT_NAME} ${FULL_VERSION}")
 +set(PACKAGE_VERSION "${FULL_VERSION}")
 +
-+set(CMAKE_CXX_STANDARD 11)
++set(CMAKE_CXX_STANDARD 17)
 +set(CMAKE_CXX_STANDARD_REQUIRED ON)
 +
 +set(ENV{PKG_CONFIG_PATH} "${CMAKE_PREFIX_PATH}/lib/pkgconfig/")
@@ -116,10 +120,11 @@ index 00000000..be94e9e6
 +add_subdirectory(src)
 diff --git a/lang/cpp/src/CMakeLists.txt b/lang/cpp/src/CMakeLists.txt
 new file mode 100644
-index 00000000..bb4772ab
+index 00000000..6ba811c9
 --- /dev/null
 +++ b/lang/cpp/src/CMakeLists.txt
 @@ -0,0 +1,144 @@
++# SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
 +# SPDX-FileCopyrightText: 2023 g10 Code GmbH
 +# SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
 +# SPDX-License-Identifier: BSD-3-Clause
@@ -230,15 +235,10 @@ index 00000000..bb4772ab
 +    SOVERSION ${MAJOR}
 +)
 +
-+file(COPY ${gpgmepp_HEADERS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/gpgme++/)
-+file(COPY ${gpgmepp_interface_HEADERS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/gpgme++/interfaces)
-+
-+set(resolved_includedir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
-+set(resolved_libdir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
-+set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
-+set(libsuffix  ".dll")
-+
-+if (WIN32)
++if (MSVC)
++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfig-msvc.cmake.in.in
++                   ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake @ONLY)
++elseif (WIN32)
 +    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfig-w32.cmake.in.in
 +                   ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake @ONLY)
 +else()
@@ -255,8 +255,12 @@ index 00000000..bb4772ab
 +        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 +)
 +
-+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/gpgme++
-+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
++install(FILES ${gpgmepp_HEADERS}
++        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gpgme++)
++
++install(FILES ${gpgmepp_interface_HEADERS}
++        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gpgme++/interfaces)
++
 +install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gpgmepp_version.h
 +              ${CMAKE_CURRENT_SOURCE_DIR}/gpgmepp_export.h
 +        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gpgme++)
@@ -397,10 +401,15 @@ index 00000000..be94e9e6
 +add_subdirectory(src)
 diff --git a/lang/qt/src/CMakeLists.txt b/lang/qt/src/CMakeLists.txt
 new file mode 100644
-index 00000000..5c243c5e
+index 00000000..054d41b4
 --- /dev/null
 +++ b/lang/qt/src/CMakeLists.txt
-@@ -0,0 +1,262 @@
+@@ -0,0 +1,263 @@
++# SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
++# SPDX-FileCopyrightText: 2023 g10 Code GmbH
++# SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
++# SPDX-License-Identifier: BSD-3-Clause
++
 +add_library(qgpgme)
 +
 +target_sources(qgpgme PRIVATE
@@ -569,7 +578,6 @@ index 00000000..5c243c5e
 +    DownloadJob
 +    EncryptJob
 +    ExportJob
-+    #HierarchicalKeyListJob
 +    Job
 +    MultiDeleteJob
 +    Protocol
@@ -631,13 +639,10 @@ index 00000000..5c243c5e
 +    SOVERSION "${MAJOR}"
 +)
 +
-+set(resolved_includedir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
-+set(LIBASSUAN_LIBS "${CMAKE_INSTALL_PREFIX}/lib/assuan.lib;${CMAKE_INSTALL_PREFIX}/lib/gpg-error.lib")
-+set(resolved_libdir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
-+set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
-+set(libsuffix  ".dll")
-+
-+if (WIN32)
++if (MSVC)
++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig-msvc.cmake.in.in
++                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
++elseif (WIN32)
 +    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig-w32.cmake.in.in
 +                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
 +else()
@@ -712,7 +717,7 @@ index 72927fe3..2eef07ce 100644
 GitLab
 
 
-From 071596b193b45a3cd0cb7625829c5b51956accd5 Mon Sep 17 00:00:00 2001
+From 0feb18b1c3ddb50ca1b21baf61e3a1ad63e5fcf0 Mon Sep 17 00:00:00 2001
 From: Carl Schwan <carl.schwan@gnupg.com>
 Date: Wed, 9 Aug 2023 13:02:18 +0200
 Subject: [PATCH 2/3] cpp: Improve compatibility with MSVC
@@ -736,7 +741,7 @@ Subject: [PATCH 2/3] cpp: Improve compatibility with MSVC
  8 files changed, 24 insertions(+), 11 deletions(-)
 
 diff --git a/lang/CMakeLists.txt b/lang/CMakeLists.txt
-index 7bc119d8..7a4c306f 100644
+index 521a0947..af15fe1e 100644
 --- a/lang/CMakeLists.txt
 +++ b/lang/CMakeLists.txt
 @@ -15,6 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -748,10 +753,10 @@ index 7bc119d8..7a4c306f 100644
  include(CMakeDependentOption)
  include(CheckIncludeFile)
 diff --git a/lang/cpp/src/CMakeLists.txt b/lang/cpp/src/CMakeLists.txt
-index bb4772ab..f6cc865a 100644
+index 6ba811c9..94009ebd 100644
 --- a/lang/cpp/src/CMakeLists.txt
 +++ b/lang/cpp/src/CMakeLists.txt
-@@ -8,9 +8,6 @@ target_sources(gpgmepp PRIVATE
+@@ -9,9 +9,6 @@ target_sources(gpgmepp PRIVATE
      callbacks.cpp
      configuration.cpp
      context.cpp
@@ -853,10 +858,10 @@ index f43bd39f..8a1ff877 100644
      Signature();
  
 diff --git a/lang/qt/src/CMakeLists.txt b/lang/qt/src/CMakeLists.txt
-index 5c243c5e..3fc006c6 100644
+index 054d41b4..b3088fd8 100644
 --- a/lang/qt/src/CMakeLists.txt
 +++ b/lang/qt/src/CMakeLists.txt
-@@ -213,7 +213,7 @@ endforeach()
+@@ -217,7 +217,7 @@ endforeach()
  
  add_definitions(-DBUILDING_QGPGME)
  
@@ -869,7 +874,7 @@ index 5c243c5e..3fc006c6 100644
 GitLab
 
 
-From a7d5ca26c414de102d8b5ccaef81555b0b130e99 Mon Sep 17 00:00:00 2001
+From 034d42899ae29e35abcf46bf0a489ad6fbc3d3f4 Mon Sep 17 00:00:00 2001
 From: Carl Schwan <carl.schwan@gnupg.com>
 Date: Tue, 29 Aug 2023 17:25:56 +0200
 Subject: [PATCH 3/3] Create cmake config file for msvc build
@@ -879,30 +884,12 @@ Subject: [PATCH 3/3] Create cmake config file for msvc build
 * lang/qt/src/QGpgmeConfig-msvc.cmake.in.in,
   lang/qt/src/CMakeLists.txt: Add GpgmeppConfig for msvc build
 ---
- lang/cpp/src/CMakeLists.txt                 |   5 +-
  lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in |  99 ++++++++++++++++++
- lang/qt/src/CMakeLists.txt                  |   5 +-
  lang/qt/src/QGpgmeConfig-msvc.cmake.in.in   | 105 ++++++++++++++++++++
- 4 files changed, 212 insertions(+), 2 deletions(-)
+ 2 files changed, 204 insertions(+)
  create mode 100644 lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in
  create mode 100644 lang/qt/src/QGpgmeConfig-msvc.cmake.in.in
 
-diff --git a/lang/cpp/src/CMakeLists.txt b/lang/cpp/src/CMakeLists.txt
-index f6cc865a..bc171449 100644
---- a/lang/cpp/src/CMakeLists.txt
-+++ b/lang/cpp/src/CMakeLists.txt
-@@ -113,7 +113,10 @@ set(resolved_libdir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
- set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
- set(libsuffix  ".dll")
- 
--if (WIN32)
-+if (MSVC)
-+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfig-msvc.cmake.in.in
-+                   ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake @ONLY)
-+elseif (WIN32)
-     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfig-w32.cmake.in.in
-                    ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake @ONLY)
- else()
 diff --git a/lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in b/lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in
 new file mode 100644
 index 00000000..af0db8d7
@@ -1008,22 +995,6 @@ index 00000000..af0db8d7
 +# Commands beyond this point should not need to know the version.
 +set(CMAKE_IMPORT_FILE_VERSION)
 +cmake_policy(POP)
-diff --git a/lang/qt/src/CMakeLists.txt b/lang/qt/src/CMakeLists.txt
-index 3fc006c6..a20af0ce 100644
---- a/lang/qt/src/CMakeLists.txt
-+++ b/lang/qt/src/CMakeLists.txt
-@@ -234,7 +234,10 @@ set(resolved_libdir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
- set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
- set(libsuffix  ".dll")
- 
--if (WIN32)
-+if (MSVC)
-+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig-msvc.cmake.in.in
-+                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
-+elseif (WIN32)
-     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig-w32.cmake.in.in
-                    ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
- else()
 diff --git a/lang/qt/src/QGpgmeConfig-msvc.cmake.in.in b/lang/qt/src/QGpgmeConfig-msvc.cmake.in.in
 new file mode 100644
 index 00000000..8787253b
