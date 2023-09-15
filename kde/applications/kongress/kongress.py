@@ -8,8 +8,6 @@ class subinfo(info.infoclass):
         self.displayName = "Kongress"
         self.description = "Conference companion app"
 
-        self.patchToApply["23.04.3"] = [("0001-android-fix-ndk-version.patch", 1)]
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None

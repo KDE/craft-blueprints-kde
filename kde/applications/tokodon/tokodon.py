@@ -8,8 +8,6 @@ class subinfo(info.infoclass):
         self.displayName = "Tokodon"
         self.description = "Tokodon is a Mastodon client"
 
-        self.patchToApply["23.04.3"] = [("0001-Fix-binary-stripping-in-APKs-with-Qt-5.15.10.patch", 1)]
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
