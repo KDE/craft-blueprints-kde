@@ -21,7 +21,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/pimcommon"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None
-        self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kde/pim/kmailtransport"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
         self.runtimeDependencies["kde/pim/kimap"] = None
