@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# AppImage internal startup script for heaptrack_gui
+#
+# Copyright (c) 2023 by Milian Wolff <mail@milianw.de>
+#
+# Redistribution and use is allowed according to the terms of the BSD license.
+# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+
+this_dir="$(readlink -f "$(dirname "$0")")"
+
+# don't try to load plugins from outside the appimage
+unset QT_PLUGIN_PATH
+
+# fix: Fontconfig error: Cannot load default config file
+if [ -z "$FONTCONFIG_PATH" ]; then
+    export FONTCONFIG_PATH=/etc/fonts
+fi
+
+# prefer libraries from within the appimage, even if LD_LIBRARY_PATH is set from the outside
+LD_LIBRARY_PATH="$this_dir/../lib:$LD_LIBRARY_PATH" "$this_dir/heaptrack_gui.wrapped" "$@"
