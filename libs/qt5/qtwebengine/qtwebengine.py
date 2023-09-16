@@ -31,20 +31,16 @@ class subinfo(info.infoclass):
 
         # kde patchcollection does not support webengine
         del self.svnTargets["kde/5.15"]
-        self.svnTargets["5.15.10"] = "https://github.com/qt/qtwebengine.git||v5.15.10-lts"
-        self.patchToApply["5.15.10"] = [(".qt-5.15.10", 1)]
-        self.patchLevel["5.15.10"] = 3
-        self.svnTargets["5.15.11"] = "https://github.com/qt/qtwebengine.git||v5.15.11-lts"
-        self.patchToApply["5.15.11"] = [(".qt-5.15.11", 1)]
-        self.svnTargets["5.15.12"] = "https://github.com/qt/qtwebengine.git||v5.15.12-lts"
-        self.patchToApply["5.15.12"] = [(".qt-5.15.11", 1)]
-        self.patchLevel["5.15.12"] = 1
 
+        # Version 5.12.x
         self.patchToApply["5.12.3"] = [("0001-Fix-building-GN-with-VS-2019.patch", 1), ("c6fb532d81f405b2456c382aa0b29eef8866f993.patch", 1)]
-        self.patchToApply["5.13.0"] = [("20b5e27.diff", 1)]
 
-        # reduce windows debug lvl to prevent out of memory during linking
+        # Version 5.13.x
+        self.patchToApply["5.13.0"] = [("20b5e27.diff", 1)]
+        ## reduce windows debug lvl to prevent out of memory during linking
         self.patchToApply["5.13.2"] = [("qtwebengine-5.13.2-20191124.diff", 1)]
+
+        # Version 5.14.x
         self.patchToApply["5.14.0"] = [
             ("harfbuzz-2.6.1-gcc-9.patch", 1)
         ]  # https://gitweb.gentoo.org/repo/gentoo.git/plain/media-libs/harfbuzz/files/harfbuzz-2.6.1-gcc-9.patch?id=5e2c1c13fa388533d075554da87d3641019aa739
@@ -55,10 +51,20 @@ class subinfo(info.infoclass):
             ),  # https://gitweb.gentoo.org/repo/gentoo.git/plain/media-libs/harfbuzz/files/harfbuzz-2.6.1-gcc-9.patch?id=5e2c1c13fa388533d075554da87d3641019aa739
             ("qtwebengine-5.14.1-20200227.diff", 1),
         ]
-        self.patchLevel["5.15.5"] = 3
-        self.patchToApply["5.15.2"] = [(".qt-5.15.2", 1)]
 
-        # self.patchToApply["5.15.10"]  -- NOTE: a post-installation patch is applied in install, below!
+        # Version 5.15.x
+        # NOTE: for >= 5.15.10 a post-installation patch is applied in install, below!
+        self.patchToApply["5.15.2"] = [(".qt-5.15.2", 1)]
+        self.patchLevel["5.15.5"] = 3
+        self.svnTargets["5.15.10"] = "https://github.com/qt/qtwebengine.git||v5.15.10-lts"
+        self.patchToApply["5.15.10"] = [(".qt-5.15.10", 1)]
+        self.patchLevel["5.15.10"] = 3
+        self.svnTargets["5.15.11"] = "https://github.com/qt/qtwebengine.git||v5.15.11-lts"
+        self.patchToApply["5.15.11"] = [(".qt-5.15.11", 1)]
+        self.svnTargets["5.15.12"] = "https://github.com/qt/qtwebengine.git||v5.15.12-lts"
+        self.patchToApply["5.15.12"] = [(".qt-5.15.11", 1)]
+        self.patchLevel["5.15.12"] = 1
+
         self.defaultTarget = "5.15.12"
 
     def setDependencies(self):
