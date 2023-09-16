@@ -25,11 +25,7 @@ class subinfo(info.infoclass):
                 "0001-gettickcount64-compatibility-xp.patch",
                 1,
             ),  # https://raw.githubusercontent.com/Alexpux/MINGW-packages/2cfdf054df2c826d7c61237ee5ac2453b0f3964d/mingw-w64-qtwebkit/0001-gettickcount64-compatibility-xp.patch
-            (
-                "0004-msvc-bug-not-mingw.patch",
-                1,
-            ),  # https://raw.githubusercontent.com/Alexpux/MINGW-packages/2cfdf054df2c826d7c61237ee5ac2453b0f3964d/mingw-w64-qtwebkit/0004-msvc-bug-not-mingw.patch
-            ("fix_mac.diff", 1),  # https://raw.githubusercontent.com/OSGeo/homebrew-osgeo4mac/742b2afb6b85f9ba52d457ef63b1bb947f3dfcc0/Formula/qt5-webkit.rb
+            # ("fix_mac.diff", 1),  # https://raw.githubusercontent.com/OSGeo/homebrew-osgeo4mac/742b2afb6b85f9ba52d457ef63b1bb947f3dfcc0/Formula/qt5-webkit.rb
             (
                 "qtwebkit-5.212.0_pre20200309-icu-68.patch",
                 1,
