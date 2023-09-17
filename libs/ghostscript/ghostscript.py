@@ -118,9 +118,9 @@ class PackageMSys(AutoToolsPackageBase):
     def unpack(self):
         if not AutoToolsPackageBase.unpack(self):
             return False
-        forceSystemLibs = ["freetype", "jpeg", "libpng", "lcms", "lcms2", "zlib", "openjpeg"]
+        forceSystemLibs = ["freetype", "jpeg", "libpng", "lcms", "lcms2", "zlib"]
         if not CraftCore.compiler.isMacOS:
-            forceSystemLibs += "tiff"
+            forceSystemLibs += ["tiff", "openjpeg"]
         for d in forceSystemLibs:
             utils.rmtree(os.path.join(self.sourceDir(), d))
         return True
