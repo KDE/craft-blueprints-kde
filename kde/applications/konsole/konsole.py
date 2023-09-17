@@ -38,4 +38,5 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(konsole|update-mime-database|kioslave|kdeinit5)).*")
+        self.defines["shortcuts"] = [{"name": "Konsole", "target": "bin/konsole.exe", "description": self.subinfo.description}]
         return super().createPackage()
