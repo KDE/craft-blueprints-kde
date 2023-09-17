@@ -29,7 +29,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        self.runtimeDependencies["kde/frameworks/tier4/kdelibs4support"] = None
 
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
