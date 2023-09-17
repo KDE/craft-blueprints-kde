@@ -1,7 +1,7 @@
 diff -Nrub -x '*~' -x '*\.orig' -x'*\.o' lmdb-LMDB_0.9.16.orig/libraries/liblmdb/CMakeLists.txt lmdb-LMDB_0.9.16/libraries/liblmdb/CMakeLists.txt
 --- lmdb-LMDB_0.9.16.orig/libraries/liblmdb/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
 +++ lmdb-LMDB_0.9.16/libraries/liblmdb/CMakeLists.txt	2015-10-04 22:52:27.947936800 +0200
-@@ -0,0 +1,75 @@
+@@ -0,0 +1,76 @@
 +project(liblmdb)
 +
 +cmake_minimum_required(VERSION 2.8)
@@ -50,9 +50,10 @@ diff -Nrub -x '*~' -x '*\.orig' -x'*\.o' lmdb-LMDB_0.9.16.orig/libraries/liblmdb
 +    set(mdb_TARGETS ${mdb_TARGETS} lmdb-static)
 +endif()
 +if(BUILD_SHARED)
-+    add_library(lmdb SHARED ${mdb_SRCS})
-+    target_link_libraries(lmdb PUBLIC Threads::Threads)
-+    set(mdb_TARGETS ${mdb_TARGETS} lmdb)
++    add_library(liblmdb SHARED ${mdb_SRCS})
++    target_link_libraries(liblmdb PUBLIC Threads::Threads)
++    set_target_properties(liblmdb PROPERTIES PREFIX "")
++    set(mdb_TARGETS ${mdb_TARGETS} liblmdb)
 +endif()
 +
 +if(BUILD_TOOLS)

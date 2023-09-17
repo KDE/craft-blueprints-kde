@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
         for ver in ["0.9.16"]:
             self.targets[ver] = "https://github.com/LMDB/lmdb/archive/LMDB_" + ver + ".tar.gz"
             self.targetInstSrc[ver] = "lmdb-LMDB_" + ver + "/libraries/liblmdb"
-        self.patchToApply["0.9.16"] = [("lmdb-LMDB_0.9.16-20151004.diff", 3), ("lmdb-0.9.16-20181009.diff", 3)]
+        self.patchToApply["0.9.16"] = [("lmdb-LMDB_0.9.16-20151004.diff", 3)]
         self.targetDigests["0.9.16"] = "367182e1d9dbc314db76459a71be719209f131b4"
         self.patchLevel["0.9.16"] = 1
 
