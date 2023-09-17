@@ -89,7 +89,7 @@ class Package(CMakePackageBase):
             "-DENABLE_TOOLS=OFF",
             "-DENABLE_NETSCAPE_PLUGIN_API=OFF",
             "-DUSE_GSTREAMER=OFF",
-            "-DUSE_QT_MULTIMEDIA=ON"
+            "-DUSE_QT_MULTIMEDIA=ON",
             "-DUSE_MEDIA_FOUNDATION=OFF",
             "-DUSE_LIBHYPHEN=OFF"
             ]
