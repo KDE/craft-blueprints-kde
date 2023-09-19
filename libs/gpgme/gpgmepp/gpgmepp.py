@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
 
         self.patchToApply["1.21.0"] = ("cmake.patch", 1)
 
-        self.patchLevel["1.21.0"] = 2
+        self.patchLevel["1.21.0"] = 3
 
 
 from Package.CMakePackageBase import *
