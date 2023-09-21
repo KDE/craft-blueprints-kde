@@ -11,8 +11,9 @@ class subinfo(info.infoclass):
         for v in ["4.5.1", "4.5.3"]:
             self.patchToApply[v] = [("opencv-pkgconfig-win-install.patch", 1), ("OpenCVInstallLayout.cmake.patch", 0)]
 
-        self.targetDigests["4.8.0"] = (["cbf47ecc336d2bff36b0dcd7d6c179a9bb59e805136af6b9670ca944aef889bd"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["4.8.0"] = [("fix-macos-arm64.patch", 1)]  # https://github.com/opencv/opencv/pull/24203
 
+        self.targetDigests["4.8.0"] = (["cbf47ecc336d2bff36b0dcd7d6c179a9bb59e805136af6b9670ca944aef889bd"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
