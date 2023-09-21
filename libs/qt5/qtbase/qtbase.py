@@ -2,6 +2,7 @@
 
 import info
 from CraftCompiler import CraftCompiler
+from CraftSetupHelper import SetupHelper
 from Package.Qt5CorePackageBase import *
 
 
@@ -122,6 +123,7 @@ class Package(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
         self._qtVer = None
+        self.__qtBaseEnv = None
 
     @property
     def qtVer(self):
@@ -358,7 +360,24 @@ sudo apt build-dep qt5-default
         return True
 
     def getQtBaseEnv(self):
-        envs = Qt5CoreBuildSystem._qtCoreEnv(self)
-        envs["PATH"] = os.pathsep.join([os.path.join(self.buildDir(), "bin"), os.environ["PATH"]])
-        envs["QMAKESPEC"] = None
-        return utils.ScopedEnv(envs)
+        if not self.__qtBaseEnv:
+            self.__qtBaseEnv = Qt5CoreBuildSystem._qtCoreEnv(self)
+            self.__qtBaseEnv["PATH"] = os.pathsep.join([os.path.join(self.buildDir(), "bin"), os.environ["PATH"]])
+            self.__qtBaseEnv["QMAKESPEC"] = None
+            if CraftCore.compiler.isMinGW() and self.subinfo.options.dynamic.withDirectX and "DXSDK_DIR" not in os.environ:
+                envKeys = ["WindowsSdkVerBinPath", "WindowsSdkDir"]
+                if not any(key in os.environ for key in envKeys):
+                    # try to locate the sdk throuhg an msvc install
+                    msvcEnv = SetupHelper.getMSVCEnv()
+                    if any(key in msvcEnv for key in envKeys):
+                        for key in envKeys:
+                            if key in msvcEnv:
+                                self.__qtBaseEnv[key] = msvcEnv[key]
+                    else:
+                        raise BlueprintException(
+                            "Failed to detec a DirectX SDK\n"
+                            "Please visite https://community.kde.org/Guidelines_and_HOWTOs/Build_from_source/Windows#Direct_X_SDK for instructions\n"
+                            "Or you may set the blueprint option withDirectX=False to use only Desktop OpenGL (issue on Intel GPU)",
+                            self,
+                        )
+        return utils.ScopedEnv(self.__qtBaseEnv)
