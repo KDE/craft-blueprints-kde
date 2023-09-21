@@ -48,7 +48,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libksba"] = None
         self.runtimeDependencies["libs/sqlite"] = None
         self.runtimeDependencies["libs/ntbtls"] = None
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.isMSVC():
             self.runtimeDependencies["libs/openldap"] = None
 
 
@@ -61,5 +61,5 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += ["--disable-doc"]
 
-        if not CraftCore.compiler.isLinux and not CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += ["-disable-ldap"]
