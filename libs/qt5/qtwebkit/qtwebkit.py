@@ -102,5 +102,3 @@ class Package(CMakePackageBase):
         elif CraftCore.compiler.isGCC():
             # don't spam warnings
             self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS=\"-w\""]
-            if CraftCore.compiler.isMinGW():
-                self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS_RELEASE=\"-g0 -O3\""]
