@@ -319,6 +319,13 @@ sudo apt build-dep qt5-default
                 )
             return cfg
 
+    @property
+    def makeProgram(self):
+        if CraftCore.compiler.isMinGW():
+            return "mingw32-make"
+        else:
+            return super().makeProgram
+
     def make(self):
         with self.getQtBaseEnv():
             return super().make()
