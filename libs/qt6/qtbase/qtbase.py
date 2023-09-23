@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("withGlib", not CraftCore.compiler.isWindows and not CraftCore.compiler.isAndroid)
         self.options.dynamic.registerOption("withICU", self.options.isActive("libs/icu"))
         self.options.dynamic.registerOption("withHarfBuzz", self.options.isActive("libs/harfbuzz"))
+        self.options.dynamic.registerOption("withPCRE2", self.options.isActive("libs/pcre2"))
 
         # We need to treat MacOS explicitely because of https://bugreports.qt.io/browse/QTBUG-116083
         self.options.dynamic.registerOption("withFontConfig", self.options.isActive("libs/fontconfig") and not CraftCore.compiler.isMacOS)
@@ -38,7 +39,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libpng"] = None
             self.runtimeDependencies["libs/libjpeg-turbo"] = None
             self.runtimeDependencies["libs/sqlite"] = None
-            self.runtimeDependencies["libs/pcre2"] = None
             self.runtimeDependencies["libs/freetype"] = None
 
             if self.options.dynamic.withDBus:
@@ -56,6 +56,9 @@ class subinfo(info.infoclass):
             if CraftCore.compiler.isUnix and self.options.dynamic.withGlib:
                 self.runtimeDependencies["libs/glib"] = None
 
+            if self.options.dynamic.withPCRE2:
+                self.runtimeDependencies["libs/pcre2"] = None
+
 
 from Package.CMakePackageBase import *
 
@@ -72,7 +75,7 @@ class Package(CMakePackageBase):
             "-DQT_FEATURE_sql_odbc=OFF",
             "-DFEATURE_openssl_linked=ON",
             "-DQT_BUILD_EXAMPLES=OFF",
-            "-DFEATURE_system_pcre2=ON",
+            f"-DFEATURE_system_pcre2={'ON' if self.subinfo.options.dynamic.withPCRE2 else 'OFF'}",
             f"-DFEATURE_system_harfbuzz={'ON' if self.subinfo.options.dynamic.withHarfBuzz else 'OFF'}",
             f"-DFEATURE_icu={'ON' if  self.subinfo.options.dynamic.withICU else 'OFF'}",
             f"-DFEATURE_dbus={'ON' if  self.subinfo.options.dynamic.withDBus else 'OFF'}",
