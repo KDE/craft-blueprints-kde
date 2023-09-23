@@ -38,6 +38,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kitinerary"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
+        self.runtimeDependencies["kde/libs/kaddressbook"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/prison"] = None
+        self.runtimeDependencies["kde/pim/ktnef"] = None
 
 
 from Package.CMakePackageBase import *
