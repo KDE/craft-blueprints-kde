@@ -47,7 +47,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.args += " --disable-static --enable-shared "
         # For appImage builds the --enable-local-install is needed so that
         # the appImage is searched for aqbanking plugins
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += " --enable-local-install"
 
         # this prevents "cannot find the library libaqhbci.la or unhandled argument libaqhbci.la"

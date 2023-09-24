@@ -60,8 +60,12 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.args += " --disable-static --enable-shared --with-guis='qt5 cpp'"
         # For appImage builds the --enable-local-install is needed so that
         # the appImage is searched for gwenhywfar plugins
+        if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.args += " --enable-local-install"
+
         if CraftCore.compiler.isLinux:
-            self.subinfo.options.configure.args += " --enable-local-install --enable-binreloc"
+            self.subinfo.options.configure.args += " --enable-binreloc"
+
 
         # Disable autoreconf. Otherwise following errors prevent configuring:
         # configure.ac:618: warning: macro 'AM_PATH_LIBGCRYPT' not found in library
