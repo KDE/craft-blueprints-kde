@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for ver in ["0.21"]:
-            self.targets[ver] = "http://ftp.gnu.org/pub/gnu/gettext/gettext-%s.tar.gz" % ver
+            self.targets[ver] = "https://ftp.gnu.org/pub/gnu/gettext/gettext-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "gettext-%s" % ver
         self.targetDigests["0.21"] = (["c77d0da3102aec9c07f43671e60611ebff89a996ef159497ce8e59d075786b12"], CraftHash.HashAlgorithm.SHA256)
 

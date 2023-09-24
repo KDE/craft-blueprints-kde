@@ -23,6 +23,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/boost/boost-atomic"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
+        if CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
+
 
 from Package.CMakePackageBase import *
 

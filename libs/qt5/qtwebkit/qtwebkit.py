@@ -2,7 +2,7 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
-
+from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -25,11 +25,7 @@ class subinfo(info.infoclass):
                 "0001-gettickcount64-compatibility-xp.patch",
                 1,
             ),  # https://raw.githubusercontent.com/Alexpux/MINGW-packages/2cfdf054df2c826d7c61237ee5ac2453b0f3964d/mingw-w64-qtwebkit/0001-gettickcount64-compatibility-xp.patch
-            (
-                "0004-msvc-bug-not-mingw.patch",
-                1,
-            ),  # https://raw.githubusercontent.com/Alexpux/MINGW-packages/2cfdf054df2c826d7c61237ee5ac2453b0f3964d/mingw-w64-qtwebkit/0004-msvc-bug-not-mingw.patch
-            ("fix_mac.diff", 1),  # https://raw.githubusercontent.com/OSGeo/homebrew-osgeo4mac/742b2afb6b85f9ba52d457ef63b1bb947f3dfcc0/Formula/qt5-webkit.rb
+            # ("fix_mac.diff", 1),  # https://raw.githubusercontent.com/OSGeo/homebrew-osgeo4mac/742b2afb6b85f9ba52d457ef63b1bb947f3dfcc0/Formula/qt5-webkit.rb
             (
                 "qtwebkit-5.212.0_pre20200309-icu-68.patch",
                 1,
@@ -87,19 +83,22 @@ from Package.Qt5CorePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += (
-            " -DPORT=Qt -DENABLE_API_TESTS=OFF -DENABLE_TOOLS=OFF "
-            "-DENABLE_NETSCAPE_PLUGIN_API=OFF -DUSE_GSTREAMER=OFF "
-            "-DUSE_QT_MULTIMEDIA=ON -DUSE_MEDIA_FOUNDATION=OFF -DUSE_LIBHYPHEN=OFF"
-        )
+        self.subinfo.options.configure.args += [
+            "-DPORT=Qt",
+            "-DENABLE_API_TESTS=OFF",
+            "-DENABLE_TOOLS=OFF",
+            "-DENABLE_NETSCAPE_PLUGIN_API=OFF",
+            "-DUSE_GSTREAMER=OFF",
+            "-DUSE_QT_MULTIMEDIA=ON",
+            "-DUSE_MEDIA_FOUNDATION=OFF",
+            "-DUSE_LIBHYPHEN=OFF"
+            ]
         if CraftCore.compiler.isMSVC():
             if not CraftCore.compiler.isMSVC2019():
                 # TODO: find out why this is failing
-                self.subinfo.options.configure.args += " -DENABLE_WEBKIT2=OFF"
+                self.subinfo.options.configure.args += ["-DENABLE_WEBKIT2=OFF"]
             # TODO: why?
-            self.subinfo.options.configure.args += """ -DCMAKE_CXX_FLAGS="-D_ENABLE_EXTENDED_ALIGNED_STORAGE" """
+            self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS=\"-D_ENABLE_EXTENDED_ALIGNED_STORAGE\""]
         elif CraftCore.compiler.isGCC():
             # don't spam warnings
-            self.subinfo.options.configure.args += """ -DCMAKE_CXX_FLAGS="-w" """
-            if CraftCore.compiler.isMinGW():
-                self.subinfo.options.configure.args += """ -DCMAKE_CXX_FLAGS_RELEASE="-g0 -O3" """
+            self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS=\"-w\""]

@@ -8,12 +8,13 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "a library for real time computer vision"
 
-        for v in ["4.3.0", "4.5.1", "4.5.3"]:
+        for v in ["4.5.1", "4.5.3"]:
             self.patchToApply[v] = [("opencv-pkgconfig-win-install.patch", 1), ("OpenCVInstallLayout.cmake.patch", 0)]
 
-        self.targetDigests["4.1.2"] = (["385dd0a9c25e67ef0dd60e022d2a2d7b17e2f36819cf3cb46aa8cdff5c5282c9"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["4.2.0"] = (["9ccb2192d7e8c03c58fee07051364d94ed7599363f3b0dce1c5e6cc11c1bb0ec"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["4.3.0"] = (["68bc40cbf47fdb8ee73dfaf0d9c6494cd095cf6294d99de445ab64cf853d278a"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["4.8.0"] = [("fix-macos-arm64.patch", 1), ("OpenCVInstallLayout.cmake.patch", 0)]  # https://github.com/opencv/opencv/pull/24203
+        self.patchLevel["4.8.0"] = 1
+
+        self.targetDigests["4.8.0"] = (["cbf47ecc336d2bff36b0dcd7d6c179a9bb59e805136af6b9670ca944aef889bd"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -45,7 +46,7 @@ class Package(CMakePackageBase):
             "-DWITH_LAPACK=OFF",
             "-DWITH_V4L=OFF",
             "-DOPENCV_ENABLE_ALLOCATOR_STATS=OFF",
-            # don"t rebuild dependencies, use the ones we distribute
+            # don't rebuild dependencies, use the ones we distribute
             "-DOPENCV_BUILD_3RDPARTY_LIBS=OFF",
             "-DBUILD_NEW_PYTHON_SUPPORT=OFF",
             "-DBUILD_ZLIB=OFF",

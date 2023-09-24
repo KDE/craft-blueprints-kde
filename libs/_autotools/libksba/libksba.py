@@ -30,13 +30,13 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.6.2"]:
+        for ver in ["1.6.3"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/libksba/libksba-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"libksba-{ver}"
 
-        self.targetDigests["1.6.2"] = (["fce01ccac59812bddadffacff017dac2e4762bdb6ebc6ffe06f6ed4f6192c971"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.6.3"] = (["3f72c68db30971ebbf14367527719423f0a4d5f8103fc9f4a1c01a9fa440de5c"], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "1.6.2"
+        self.defaultTarget = "1.6.3"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None

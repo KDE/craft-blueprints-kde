@@ -5,7 +5,7 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["0.1", "0.2", "0.3", "0.4", "0.5", "0.5-1", "0.6.0", "0.7.0", "0.7.1", "0.9.0", "0.10.0", "0.11.0"]:
-            self.targets[ver] = "http://downloads.sourceforge.net/sourceforge/oscaf/shared-desktop-ontologies-" + ver + ".tar.bz2"
+            self.targets[ver] = "https://downloads.sourceforge.net/sourceforge/oscaf/shared-desktop-ontologies-" + ver + ".tar.bz2"
             self.targetInstSrc[ver] = "shared-desktop-ontologies-" + ver
         self.targetDigests["0.4"] = "7ca3522dd9d58329966f46a3b18fa57b0b2280a8"
         self.targetDigests["0.5"] = "672e10ba113314083b43702d9456a9c92e4f501f"

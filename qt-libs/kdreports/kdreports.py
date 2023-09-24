@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.0.0"
 
         self.description = "Qt library for generating printable and exportable reports from code and from XML descriptions."
-        self.webpage = "http://www.kdab.com/kd-reports/"
+        self.webpage = "https://www.kdab.com/kd-reports/"
         self.displayName = "KDReports"
 
 

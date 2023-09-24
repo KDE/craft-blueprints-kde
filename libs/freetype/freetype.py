@@ -6,7 +6,7 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["2.12.1"]:
-            self.targets[ver] = "http://downloads.sourceforge.net/freetype/freetype-" + ver + ".tar.xz"
+            self.targets[ver] = "https://downloads.sourceforge.net/freetype/freetype-" + ver + ".tar.xz"
             self.targetInstSrc[ver] = "freetype-" + ver
         self.targetDigests["2.12.1"] = (["4766f20157cc4cf0cd292f80bf917f92d1c439b243ac3018debf6b9140c41a7f"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "2.12.1"

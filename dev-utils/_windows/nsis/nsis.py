@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for ver in ["3.03"]:
-            self.targets[ver] = f"http://downloads.sourceforge.net/sourceforge/nsis/nsis-{ver}.zip"
+            self.targets[ver] = f"https://downloads.sourceforge.net/sourceforge/nsis/nsis-{ver}.zip"
             self.targetInstSrc[ver] = f"nsis-{ver}"
             self.targetInstallPath[ver] = os.path.join("dev-utils", "nsis")
 

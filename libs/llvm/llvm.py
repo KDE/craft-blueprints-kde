@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://github.com/llvm/llvm-project/releases/download/llvmorg-{ver}/llvm-project-{ver}.src.tar.xz"
             self.targetInstSrc[ver] = f"llvm-project-{ver}.src"
             self.targetConfigurePath[ver] = "llvm"
-            self.patchToApply[ver] = [("llvm-15.0.2-20221030.diff", 1)]
+            self.patchToApply[ver] = [("use-shim-for-symlink.diff", 1)]
         if CraftCore.compiler.isMSVC():
             self.patchToApply[ver] += [("llvm-15.0.2-20221107.diff", 1), ("1b9fbc81ff15f6ad5a0e7f29c486c6edd0bce94c.patch", 1)]
         self.targetDigests["15.0.2"] = (

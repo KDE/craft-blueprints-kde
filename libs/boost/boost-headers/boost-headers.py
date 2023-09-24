@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isWindows:
             self.patchToApply["1_69_0"] = [("boost-headers-1.69.0-20190621.diff", 1)]  # don't look for xlocale on windows
 
-        self.webpage = "http://www.boost.org/"
+        self.webpage = "https://www.boost.org/"
 
         self.description = "portable C++ libraries"
 

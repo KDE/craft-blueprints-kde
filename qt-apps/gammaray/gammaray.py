@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.targetDigests["3.0.0"] = (["27fb2412e9edae75de23df94cd8330ad1dd579837d47b491709c13d625e3ac68"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "GammaRay is a tool to poke around in a Qt-application and also to manipulate the application to some extent"
-        self.webpage = "http://www.kdab.com/gammaray"
+        self.webpage = "https://www.kdab.com/gammaray"
         self.displayName = "GammaRay"
         self.defaultTarget = "3.0.0"
 

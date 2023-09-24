@@ -6,7 +6,7 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["1.5.4", "1.7.0", "1.9.0", "1.10.0", "2.1.0", "2.2.0"]:
-            self.targets[ver] = "http://downloads.sourceforge.net/project/glew/glew/" + ver + "/glew-" + ver + ".zip"
+            self.targets[ver] = "https://downloads.sourceforge.net/project/glew/glew/" + ver + "/glew-" + ver + ".zip"
             self.targetInstSrc[ver] = "glew-" + ver
         self.patchToApply["1.5.4"] = [("glew-1.5.4-20100708.diff", 1)]
         self.patchToApply["1.7.0"] = [("glew-1.7.0-20120320.diff", 1)]

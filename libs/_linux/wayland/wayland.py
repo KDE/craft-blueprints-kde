@@ -3,14 +3,14 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.21.0"]:
+        for ver in ["1.22.0"]:
             self.targets[ver] = f"https://gitlab.freedesktop.org/wayland/wayland/-/releases/{ver}/downloads/wayland-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"wayland-{ver}"
-        self.targetDigests["1.21.0"] = (["6dc64d7fc16837a693a51cfdb2e568db538bfdc9f457d4656285bb9594ef11ac"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.22.0"] = (["1540af1ea698a471c2d8e9d288332c7e0fd360c8f1d12936ebb7e7cbc2425842"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Core Wayland window system code and protocol"
 
-        self.defaultTarget = "1.21.0"
+        self.defaultTarget = "1.22.0"
 
     def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None

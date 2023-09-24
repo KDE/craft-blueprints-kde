@@ -12,7 +12,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["python-modules/meson"] = None
         self.buildDependencies["python-modules/lxml"] = None
         self.buildDependencies["python-modules/pygments"] = None
-        self.buildDependencies["python-modules/pygments"] = None
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/glib"] = None
         self.runtimeDependencies["libs/libxml2"] = None

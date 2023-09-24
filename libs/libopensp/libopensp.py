@@ -27,7 +27,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["1.5.2"] = "http://downloads.sourceforge.net/project/openjade/opensp/1.5.2/OpenSP-1.5.2.tar.gz"
+        self.targets["1.5.2"] = "https://downloads.sourceforge.net/project/openjade/opensp/1.5.2/OpenSP-1.5.2.tar.gz"
         self.targetInstSrc["1.5.2"] = "OpenSP-1.5.2"
         if CraftCore.compiler.isWindows:
             self.patchToApply["1.5.2"] = ("OpenSP-1.5.2-20110111.diff", 1)

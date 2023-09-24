@@ -30,13 +30,16 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.2.33"]:
+        for ver in ["2.4.3"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"gnupg-{ver}"
 
-        self.targetDigests["2.2.33"] = (["8688836e8c043d70410bb64d72de6ae15176e09ecede8d24528b4380c000e4e3"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.4.3"] = (["a271ae6d732f6f4d80c258ad9ee88dd9c94c8fdc33c3e45328c4d7c126bd219d"], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "2.2.33"
+        self.patchToApply["2.4.3"] = [("fix-disabled-ldap.patch",1)]
+        self.patchLevel["2.4.3"] = 1
+
+        self.defaultTarget = "2.4.3"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
@@ -46,6 +49,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gcrypt"] = None
         self.runtimeDependencies["libs/npth"] = None
         self.runtimeDependencies["libs/libksba"] = None
+        self.runtimeDependencies["libs/sqlite"] = None
+        self.runtimeDependencies["libs/ntbtls"] = None
+        if not CraftCore.compiler.isWindows:
+            self.runtimeDependencies["libs/openldap"] = None
 
 
 from Package.AutoToolsPackageBase import *
@@ -55,4 +62,7 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += " --disable-doc "
+        self.subinfo.options.configure.args += ["--disable-doc"]
+
+        if CraftCore.compiler.isWindows:
+            self.subinfo.options.configure.args += ["--disable-ldap"]

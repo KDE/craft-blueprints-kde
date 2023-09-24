@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "5.0.1"
 
         for ver in ["5.0.0", "5.0.1"]:
-            self.targets[ver] = "http://download.kde.org/stable/ktimetracker/%s/src/ktimetracker-%s.tar.xz" % (ver, ver)
+            self.targets[ver] = "https://download.kde.org/stable/ktimetracker/%s/src/ktimetracker-%s.tar.xz" % (ver, ver)
             self.targetInstSrc[ver] = "ktimetracker-%s" % ver
 
         self.displayName = "KTimeTracker"

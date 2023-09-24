@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
 
         self.defaultTarget = "2.1.1"
         self.description = "A Qt-based client-side and server-side SOAP component"
-        self.webpage = "http://www.kdab.com/products/kd-soap"
+        self.webpage = "https://www.kdab.com/products/kd-soap"
         self.displayName = "KDSoap"
 
     def setDependencies(self):

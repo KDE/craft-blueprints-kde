@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         svnurl = "https://ebook-tools.svn.sourceforge.net/svnroot/ebook-tools/"
         self.svnTargets["svnHEAD"] = svnurl + "trunk/ebook-tools"
         for ver in ["0.2.1", "0.2.2"]:
-            self.targets[ver] = "http://downloads.sourceforge.net/ebook-tools/ebook-tools-" + ver + ".tar.gz"
+            self.targets[ver] = "https://downloads.sourceforge.net/ebook-tools/ebook-tools-" + ver + ".tar.gz"
             self.targetInstSrc[ver] = "ebook-tools-" + ver
             ver2 = ver.split(".")
             # no patches for versions >= 0.2.2:

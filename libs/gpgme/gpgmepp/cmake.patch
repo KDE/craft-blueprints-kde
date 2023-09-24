@@ -1,0 +1,1154 @@
+From ddd9b0d329f86316533796afd795a42bc53594e6 Mon Sep 17 00:00:00 2001
+From: Carl Schwan <carl.schwan@gnupg.com>
+Date: Tue, 1 Aug 2023 10:22:29 +0200
+Subject: [PATCH 1/3] Add Cmake integration for qt and cpp binding
+
+* lang/CMakeLists.txt: Add main CMakeLists.txt file
+* lang/cpp/CMakeLists.txt, lang/cpp/src/CMakeLists.txt: Add cmake build
+  system for the cpp bindings
+* lang/cpp/interfaces/dataprovider.h, lang/src/key.{cpp,h}: Adapt code
+  to build with MSVC
+* lang/qt/CMakeLists.txt, lang/qt/src/CMakeLists.txt: Add cmake build
+  system for the qt bindings
+* lang/qt/dn.cpp, lang/qt/qgpgme_export.h: Adapt code to build with MSVC
+---
+ CMakeLists.txt                                |  12 +
+ lang/CMakeLists.txt                           |  46 +++
+ lang/cpp/CMakeLists.txt                       |   5 +
+ lang/cpp/src/CMakeLists.txt                   | 144 ++++++++++
+ lang/cpp/src/callbacks.cpp                    |   5 +-
+ lang/cpp/src/editinteractor.cpp               |   5 +
+ .../src/gpgaddexistingsubkeyeditinteractor.h  |   1 +
+ lang/cpp/src/gpgrevokekeyeditinteractor.h     |   1 +
+ lang/cpp/src/importresult.cpp                 |   7 +-
+ lang/cpp/src/interfaces/dataprovider.h        |   5 +
+ lang/cpp/src/key.cpp                          |   6 +-
+ lang/cpp/src/key.h                            |   2 +-
+ lang/qt/CMakeLists.txt                        |   5 +
+ lang/qt/src/CMakeLists.txt                    | 263 ++++++++++++++++++
+ lang/qt/src/dn.cpp                            |   4 +
+ lang/qt/src/downloadjob.h                     |   2 +-
+ lang/qt/src/qgpgme_export.h                   |   6 +-
+ 17 files changed, 512 insertions(+), 7 deletions(-)
+ create mode 100644 CMakeLists.txt
+ create mode 100644 lang/CMakeLists.txt
+ create mode 100644 lang/cpp/CMakeLists.txt
+ create mode 100644 lang/cpp/src/CMakeLists.txt
+ create mode 100644 lang/qt/CMakeLists.txt
+ create mode 100644 lang/qt/src/CMakeLists.txt
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+new file mode 100644
+index 00000000..0fde210f
+--- /dev/null
++++ b/CMakeLists.txt
+@@ -0,0 +1,12 @@
++# SPDX-FileCopyrightText: 2023 g10 Code GmbH
++# SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
++# SPDX-License-Identifier: BSD-3-Clause
++
++cmake_minimum_required(VERSION 3.20)
++
++set(FULL_VERSION "1.21.0")
++
++string(REGEX MATCH "^[0-9]+.[0-9]+.[0-9]+" cmake_compat_version ${FULL_VERSION})
++project(gpgme VERSION ${cmake_compat_version})
++
++add_subdirectory(lang)
+diff --git a/lang/CMakeLists.txt b/lang/CMakeLists.txt
+new file mode 100644
+index 00000000..521a0947
+--- /dev/null
++++ b/lang/CMakeLists.txt
+@@ -0,0 +1,46 @@
++# SPDX-FileCopyrightText: 2023 g10 Code GmbH
++# SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
++# SPDX-License-Identifier: BSD-3-Clause
++
++set(VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
++set(VERSION_MINOR ${PROJECT_VERSION_MINOR})
++set(VERSION_MICRO ${PROJECT_VERSION_PATCH})
++
++set(PACKAGE_STRING "${CMAKE_PROJECT_NAME} ${FULL_VERSION}")
++set(PACKAGE_VERSION "${FULL_VERSION}")
++
++set(CMAKE_CXX_STANDARD 17)
++set(CMAKE_CXX_STANDARD_REQUIRED ON)
++
++set(ENV{PKG_CONFIG_PATH} "${CMAKE_PREFIX_PATH}/lib/pkgconfig/")
++find_package(PkgConfig REQUIRED)
++pkg_check_modules(GPGME REQUIRED IMPORTED_TARGET gpgme)
++
++include(CMakeDependentOption)
++include(CheckIncludeFile)
++include(CheckFunctionExists)
++include(GNUInstallDirs)
++
++option(WITH_QT "Build Qt bindings" OFF)
++
++if (WITH_QT)
++    find_package(Qt5 COMPONENTS Core)
++    set(GPGME_CONFIG_AVAIL_LANG "${GPGME_CONFIG_AVAIL_LANG} qt")
++endif()
++
++function(parse_lt name)
++    file(READ "${CMAKE_SOURCE_DIR}/configure.ac" configure_ac)
++    string(REGEX MATCH "${name}_LT_CURRENT=([0-9]+)" _ ${configure_ac})
++    set(${name}_LT_CURRENT ${CMAKE_MATCH_1} PARENT_SCOPE)
++    string(REGEX MATCH "${name}_LT_AGE=([0-9]+)" _ ${configure_ac})
++    set(${name}_LT_AGE ${CMAKE_MATCH_1} PARENT_SCOPE)
++    string(REGEX MATCH "${name}_LT_REVISION=([0-9]+)" _ ${configure_ac})
++    set(${name}_LT_REVISION ${CMAKE_MATCH_1} PARENT_SCOPE)
++endfunction()
++
++
++add_subdirectory(cpp)
++
++if (WITH_QT)
++    add_subdirectory(qt)
++endif()
+diff --git a/lang/cpp/CMakeLists.txt b/lang/cpp/CMakeLists.txt
+new file mode 100644
+index 00000000..be94e9e6
+--- /dev/null
++++ b/lang/cpp/CMakeLists.txt
+@@ -0,0 +1,5 @@
++# SPDX-FileCopyrightText: 2023 g10 Code GmbH
++# SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
++# SPDX-License-Identifier: BSD-3-Clause
++
++add_subdirectory(src)
+diff --git a/lang/cpp/src/CMakeLists.txt b/lang/cpp/src/CMakeLists.txt
+new file mode 100644
+index 00000000..6ba811c9
+--- /dev/null
++++ b/lang/cpp/src/CMakeLists.txt
+@@ -0,0 +1,144 @@
++# SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
++# SPDX-FileCopyrightText: 2023 g10 Code GmbH
++# SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
++# SPDX-License-Identifier: BSD-3-Clause
++
++add_library(gpgmepp)
++
++target_sources(gpgmepp PRIVATE
++    callbacks.cpp
++    configuration.cpp
++    context.cpp
++    context_glib.cpp
++    context_qt.cpp
++    context_vanilla.cpp
++    data.cpp
++    decryptionresult.cpp
++    defaultassuantransaction.cpp
++    editinteractor.cpp
++    encryptionresult.cpp
++    engineinfo.cpp
++    eventloopinteractor.cpp
++    exception.cpp
++    gpgaddexistingsubkeyeditinteractor.cpp
++    gpgadduserideditinteractor.cpp
++    gpgagentgetinfoassuantransaction.cpp
++    gpggencardkeyinteractor.cpp
++    gpgrevokekeyeditinteractor.cpp
++    gpgsetexpirytimeeditinteractor.cpp
++    gpgsetownertrusteditinteractor.cpp
++    gpgsignkeyeditinteractor.cpp
++    importresult.cpp
++    key.cpp
++    keygenerationresult.cpp
++    keylistresult.cpp
++    scdgetinfoassuantransaction.cpp
++    signingresult.cpp
++    statusconsumerassuantransaction.cpp
++    swdbresult.cpp
++    tofuinfo.cpp
++    trustitem.cpp
++    util.cpp
++    verificationresult.cpp
++    vfsmountresult.cpp
++)
++
++set(gpgmepp_HEADERS
++    callbacks.h
++    configuration.h
++    context.h
++    data.h
++    decryptionresult.h
++    defaultassuantransaction.h
++    editinteractor.h
++    encryptionresult.h
++    engineinfo.h
++    error.h
++    eventloopinteractor.h
++    exception.h
++    global.h
++    gpgaddexistingsubkeyeditinteractor.h
++    gpgadduserideditinteractor.h
++    gpgagentgetinfoassuantransaction.h
++    gpggencardkeyinteractor.h
++    gpgmefw.h
++    gpgmepp_export.h
++    gpgrevokekeyeditinteractor.h
++    gpgsetexpirytimeeditinteractor.h
++    gpgsetownertrusteditinteractor.h
++    gpgsignkeyeditinteractor.h
++    importresult.h
++    key.h
++    keygenerationresult.h
++    keylistresult.h
++    notation.h
++    result.h
++    scdgetinfoassuantransaction.h
++    signingresult.h
++    statusconsumerassuantransaction.h
++    swdbresult.h
++    tofuinfo.h
++    trustitem.h
++    util.h
++    verificationresult.h
++    vfsmountresult.h
++)
++
++set(gpgmepp_interface_HEADERS
++    interfaces/assuantransaction.h interfaces/dataprovider.h
++    interfaces/passphraseprovider.h interfaces/progressprovider.h
++)
++
++add_definitions(-DBUILDING_GPGMEPP)
++
++target_include_directories(gpgmepp
++    PRIVATE
++    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
++    PUBLIC
++    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
++    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
++    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>
++)
++target_link_libraries(gpgmepp PkgConfig::GPGME)
++
++parse_lt(LIBGPGMEPP)
++math(EXPR MAJOR "${LIBGPGMEPP_LT_CURRENT}-${LIBGPGMEPP_LT_AGE}")
++
++set_target_properties(gpgmepp PROPERTIES
++    VERSION "${MAJOR}.${LIBGPGMEPP_LT_AGE}.${LIBGPGMEPP_LT_REVISION}"
++    SOVERSION ${MAJOR}
++)
++
++if (MSVC)
++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfig-msvc.cmake.in.in
++                   ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake @ONLY)
++elseif (WIN32)
++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfig-w32.cmake.in.in
++                   ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake @ONLY)
++else()
++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfig.cmake.in.in
++                   ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake @ONLY)
++endif()
++configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfigVersion.cmake.in
++               ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfigVersion.cmake @ONLY)
++configure_file(${CMAKE_CURRENT_SOURCE_DIR}/gpgmepp_version.h.in
++               ${CMAKE_CURRENT_BINARY_DIR}/gpgmepp_version.h)
++
++install(TARGETS gpgmepp
++        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
++        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++)
++
++install(FILES ${gpgmepp_HEADERS}
++        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gpgme++)
++
++install(FILES ${gpgmepp_interface_HEADERS}
++        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gpgme++/interfaces)
++
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gpgmepp_version.h
++              ${CMAKE_CURRENT_SOURCE_DIR}/gpgmepp_export.h
++        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gpgme++)
++
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfigVersion.cmake
++              ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake
++        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Gpgmepp)
+diff --git a/lang/cpp/src/callbacks.cpp b/lang/cpp/src/callbacks.cpp
+index 21c2a813..7b0dc1fc 100644
+--- a/lang/cpp/src/callbacks.cpp
++++ b/lang/cpp/src/callbacks.cpp
+@@ -40,8 +40,9 @@
+ #include <cassert>
+ #include <cerrno>
+ #include <cstring>
+-#include <unistd.h>
+-#include <stdlib.h>
++#ifndef _MSC_VER
++  #include <unistd.h>
++#endif
+ 
+ static inline gpgme_error_t make_err_from_syserror()
+ {
+diff --git a/lang/cpp/src/editinteractor.cpp b/lang/cpp/src/editinteractor.cpp
+index 373a4464..ff257dc6 100644
+--- a/lang/cpp/src/editinteractor.cpp
++++ b/lang/cpp/src/editinteractor.cpp
+@@ -48,6 +48,11 @@
+ # define GPG_ERR_ALREADY_SIGNED GPG_ERR_USER_1
+ #endif
+ 
++#ifdef _MSC_VER
++#  include <BaseTsd.h> // ssize_t on Windows
++#  define ssize_t SSIZE_T
++#endif
++
+ using namespace GpgME;
+ 
+ static const char *status_to_string(unsigned int status);
+diff --git a/lang/cpp/src/gpgaddexistingsubkeyeditinteractor.h b/lang/cpp/src/gpgaddexistingsubkeyeditinteractor.h
+index c30f18e4..2a580b6e 100644
+--- a/lang/cpp/src/gpgaddexistingsubkeyeditinteractor.h
++++ b/lang/cpp/src/gpgaddexistingsubkeyeditinteractor.h
+@@ -27,6 +27,7 @@
+ #include "editinteractor.h"
+ 
+ #include <memory>
++#include <string>
+ 
+ namespace GpgME
+ {
+diff --git a/lang/cpp/src/gpgrevokekeyeditinteractor.h b/lang/cpp/src/gpgrevokekeyeditinteractor.h
+index c33a71b6..60c764d4 100644
+--- a/lang/cpp/src/gpgrevokekeyeditinteractor.h
++++ b/lang/cpp/src/gpgrevokekeyeditinteractor.h
+@@ -28,6 +28,7 @@
+ #include "global.h"
+ 
+ #include <memory>
++#include <string>
+ #include <vector>
+ 
+ namespace GpgME
+diff --git a/lang/cpp/src/importresult.cpp b/lang/cpp/src/importresult.cpp
+index 0a7ad03d..f513dc9c 100644
+--- a/lang/cpp/src/importresult.cpp
++++ b/lang/cpp/src/importresult.cpp
+@@ -35,7 +35,12 @@
+ #include <cstring>
+ 
+ #include <string.h>
+-#include <strings.h>
++#ifdef _MSC_VER
++#  define strcasecmp _stricmp
++#  define strncasecmp _strnicmp
++#else
++#  include <strings.h>
++#endif
+ #include <istream>
+ #include <iterator>
+ 
+diff --git a/lang/cpp/src/interfaces/dataprovider.h b/lang/cpp/src/interfaces/dataprovider.h
+index c8f387d6..37ca4fd7 100644
+--- a/lang/cpp/src/interfaces/dataprovider.h
++++ b/lang/cpp/src/interfaces/dataprovider.h
+@@ -26,6 +26,11 @@
+ #define __GPGMEPP_INTERFACES_DATAPROVIDER_H__
+ 
+ #include <sys/types.h>
++#ifdef _MSC_VER
++#  include <BaseTsd.h> // ssize_t on Windows
++#  define ssize_t SSIZE_T
++#endif
++
+ 
+ #include "gpgmepp_export.h"
+ 
+diff --git a/lang/cpp/src/key.cpp b/lang/cpp/src/key.cpp
+index b18cfaee..c4cec048 100644
+--- a/lang/cpp/src/key.cpp
++++ b/lang/cpp/src/key.cpp
+@@ -34,7 +34,11 @@
+ #include <gpgme.h>
+ 
+ #include <string.h>
+-#include <strings.h>
++#ifdef _MSC_VER
++#  define strcasecmp _stricmp
++#else
++#  include <strings.h>
++#endif
+ #include <cassert>
+ #include <istream>
+ #include <iterator>
+diff --git a/lang/cpp/src/key.h b/lang/cpp/src/key.h
+index 9e827f63..c0df511e 100644
+--- a/lang/cpp/src/key.h
++++ b/lang/cpp/src/key.h
+@@ -30,7 +30,7 @@
+ #include "gpgmefw.h"
+ 
+ #include <memory>
+-#include <sys/time.h>
++#include <ctime>
+ 
+ #include <vector>
+ #include <algorithm>
+diff --git a/lang/qt/CMakeLists.txt b/lang/qt/CMakeLists.txt
+new file mode 100644
+index 00000000..be94e9e6
+--- /dev/null
++++ b/lang/qt/CMakeLists.txt
+@@ -0,0 +1,5 @@
++# SPDX-FileCopyrightText: 2023 g10 Code GmbH
++# SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
++# SPDX-License-Identifier: BSD-3-Clause
++
++add_subdirectory(src)
+diff --git a/lang/qt/src/CMakeLists.txt b/lang/qt/src/CMakeLists.txt
+new file mode 100644
+index 00000000..054d41b4
+--- /dev/null
++++ b/lang/qt/src/CMakeLists.txt
+@@ -0,0 +1,263 @@
++# SPDX-FileCopyrightText: 2021 Daniel Vrátil <dvratil@kde.org>
++# SPDX-FileCopyrightText: 2023 g10 Code GmbH
++# SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
++# SPDX-License-Identifier: BSD-3-Clause
++
++add_library(qgpgme)
++
++target_sources(qgpgme PRIVATE
++    changeexpiryjob.cpp
++    cryptoconfig.cpp
++    dataprovider.cpp
++    debug.cpp
++    decryptverifyarchivejob.cpp
++    defaultkeygenerationjob.cpp
++    dn.cpp
++    encryptarchivejob.cpp
++    encryptjob.cpp
++    filelistdataprovider.cpp
++    importjob.cpp
++    job.cpp
++    listallkeysjob.cpp
++    multideletejob.cpp
++    qgpgme_debug.cpp
++    qgpgmeaddexistingsubkeyjob.cpp
++    qgpgmeadduseridjob.cpp
++    qgpgmebackend.cpp
++    qgpgmechangeexpiryjob.cpp
++    qgpgmechangeownertrustjob.cpp
++    qgpgmechangepasswdjob.cpp
++    qgpgmedecryptjob.cpp
++    qgpgmedecryptverifyarchivejob.cpp
++    qgpgmedecryptverifyjob.cpp
++    qgpgmedeletejob.cpp
++    qgpgmedownloadjob.cpp
++    qgpgmeencryptarchivejob.cpp
++    qgpgmeencryptjob.cpp
++    qgpgmeexportjob.cpp
++    qgpgmegpgcardjob.cpp
++    qgpgmeimportfromkeyserverjob.cpp
++    qgpgmeimportjob.cpp
++    qgpgmekeyformailboxjob.cpp
++    qgpgmekeygenerationjob.cpp
++    qgpgmekeylistjob.cpp
++    qgpgmelistallkeysjob.cpp
++    qgpgmenewcryptoconfig.cpp
++    qgpgmequickjob.cpp
++    qgpgmereceivekeysjob.cpp
++    qgpgmerefreshsmimekeysjob.cpp
++    qgpgmerevokekeyjob.cpp
++    qgpgmesetprimaryuseridjob.cpp
++    qgpgmesignarchivejob.cpp
++    qgpgmesignencryptarchivejob.cpp
++    qgpgmesignencryptjob.cpp
++    qgpgmesignjob.cpp
++    qgpgmesignkeyjob.cpp
++    qgpgmetofupolicyjob.cpp
++    qgpgmeverifydetachedjob.cpp
++    qgpgmeverifyopaquejob.cpp
++    qgpgmewkdlookupjob.cpp
++    qgpgmewkspublishjob.cpp
++    signarchivejob.cpp
++    signencryptarchivejob.cpp
++    signencryptjob.cpp
++    threadedjobmixin.cpp
++    util.cpp
++    wkdlookupresult.cpp
++)
++
++set(qgpgme_HEADERS
++    abstractimportjob.h
++    addexistingsubkeyjob.h
++    adduseridjob.h
++    changeexpiryjob.h
++    changeownertrustjob.h
++    changepasswdjob.h
++    cryptoconfig.h
++    dataprovider.h
++    debug.h
++    decryptjob.h
++    decryptverifyarchivejob.h
++    decryptverifyjob.h
++    defaultkeygenerationjob.h
++    deletejob.h
++    dn.h
++    downloadjob.h
++    encryptarchivejob.h
++    encryptjob.h
++    exportjob.h
++    filelistdataprovider.h
++    gpgcardjob.h
++    hierarchicalkeylistjob.h
++    importfromkeyserverjob.h
++    importjob.h
++    job.h
++    keyformailboxjob.h
++    keygenerationjob.h
++    keylistjob.h
++    listallkeysjob.h
++    multideletejob.h
++    protocol.h
++    qgpgme_debug.h
++    qgpgme_export.h
++    qgpgmeaddexistingsubkeyjob.h
++    qgpgmeadduseridjob.h
++    qgpgmebackend.h
++    qgpgmechangeexpiryjob.h
++    qgpgmechangeownertrustjob.h
++    qgpgmechangepasswdjob.h
++    qgpgmedecryptjob.h
++    qgpgmedecryptverifyarchivejob.h
++    qgpgmedecryptverifyjob.h
++    qgpgmedeletejob.h
++    qgpgmedownloadjob.h
++    qgpgmeencryptarchivejob.h
++    qgpgmeencryptjob.h
++    qgpgmeexportjob.h
++    qgpgmegpgcardjob.h
++    qgpgmeimportfromkeyserverjob.h
++    qgpgmeimportjob.h
++    qgpgmekeyformailboxjob.h
++    qgpgmekeygenerationjob.h
++    qgpgmekeylistjob.h
++    qgpgmelistallkeysjob.h
++    qgpgmenewcryptoconfig.h
++    qgpgmequickjob.h
++    qgpgmereceivekeysjob.h
++    qgpgmerefreshsmimekeysjob.h
++    qgpgmerevokekeyjob.h
++    qgpgmesetprimaryuseridjob.h
++    qgpgmesignarchivejob.h
++    qgpgmesignencryptarchivejob.h
++    qgpgmesignencryptjob.h
++    qgpgmesignjob.h
++    qgpgmesignkeyjob.h
++    qgpgmetofupolicyjob.h
++    qgpgmeverifydetachedjob.h
++    qgpgmeverifyopaquejob.h
++    qgpgmewkdlookupjob.h
++    qgpgmewkspublishjob.h
++    quickjob.h
++    receivekeysjob.h
++    refreshkeysjob.h
++    revokekeyjob.h
++    setprimaryuseridjob.h
++    signarchivejob.h
++    signencryptarchivejob.h
++    signencryptjob.h
++    signjob.h
++    signkeyjob.h
++    specialjob.h
++    threadedjobmixin.h
++    tofupolicyjob.h
++    util.h
++    verifydetachedjob.h
++    verifyopaquejob.h
++    wkdlookupjob.h
++    wkdlookupresult.h
++    wkspublishjob.h
++)
++
++set(qgpgme_CAMELCASE_HEADERS
++    AddUserIDJob
++    AbstractImportJob
++    ChangeExpiryJob
++    ChangeOwnerTrustJob
++    ChangePasswdJob
++    DataProvider
++    DecryptJob
++    DecryptVerifyJob
++    DN
++    DownloadJob
++    EncryptJob
++    ExportJob
++    Job
++    MultiDeleteJob
++    Protocol
++    QGpgMENewCryptoConfig
++    QuickJob
++    SpecialJob
++    SignJob
++    SignKeyJob
++    SignEncryptJob
++    VerifyOpaqueJob
++    RefreshKeysJob
++    CryptoConfig
++    DeleteJob
++    ImportFromKeyserverJob
++    ImportJob
++    KeyGenerationJob
++    KeyListJob
++    ListAllKeysJob
++    VerifyDetachedJob
++    KeyForMailboxJob
++    DefaultKeyGenerationJob
++    WKSPublishJob
++    TofuPolicyJob
++)
++
++set(qgpgme_MOC)
++foreach(header ${qgpgme_HEADERS})
++    get_filename_component(absolute_path ${header} ABSOLUTE)
++    get_filename_component(file_name ${header} NAME_WLE)
++
++    add_custom_command(
++        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${file_name}.moc
++        COMMAND ${QT_MOC_EXECUTABLE} ${absolute_path} -o ${CMAKE_CURRENT_BINARY_DIR}/${file_name}.moc
++    )
++    list(APPEND qgpgme_MOC "${CMAKE_CURRENT_BINARY_DIR}/${file_name}.moc")
++endforeach()
++target_sources(qgpgme PRIVATE ${qgpgme_MOC})
++
++foreach(header ${qgpgme_CAMELCASE_HEADERS})
++    string(TOLOWER ${header} header_lc)
++    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/QGpgME/${header} "#include \"qgpgme/${header_lc}.h\"")
++    list(APPEND qgpgme_HEADERS ${header_lc}.h)
++endforeach()
++
++add_definitions(-DBUILDING_QGPGME)
++
++target_link_libraries(qgpgme PUBLIC gpgmepp PkgConfig::GPGME Qt5::Core)
++target_include_directories(qgpgme
++    PUBLIC
++    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
++    PRIVATE
++    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
++)
++
++parse_lt(LIBQGPGME)
++math(EXPR MAJOR "${LIBQGPGME_LT_CURRENT} - ${LIBQGPGME_LT_AGE}")
++set_target_properties(qgpgme PROPERTIES
++    VERSION "${MAJOR}.${LIBQGPGME_LT_AGE}.${LIBQGPGME_LT_REVISION}"
++    SOVERSION "${MAJOR}"
++)
++
++if (MSVC)
++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig-msvc.cmake.in.in
++                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
++elseif (WIN32)
++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig-w32.cmake.in.in
++                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
++else()
++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig.cmake.in.in
++                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
++endif()
++configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfigVersion.cmake.in
++               ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfigVersion.cmake @ONLY)
++configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qgpgme_version.h.in
++               ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h)
++
++install(TARGETS qgpgme DESTINATION
++        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
++        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++)
++
++install(FILES ${qgpgme_HEADERS}
++              ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h
++              ${CMAKE_CURRENT_SOURCE_DIR}/qgpgme_export.h
++        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qgpgme)
++install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/QGpgME
++        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfigVersion.cmake
++              ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake
++        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/QGpgme)
+diff --git a/lang/qt/src/dn.cpp b/lang/qt/src/dn.cpp
+index 836158b0..cb1b1c2e 100644
+--- a/lang/qt/src/dn.cpp
++++ b/lang/qt/src/dn.cpp
+@@ -36,6 +36,10 @@
+  #include "config.h"
+ #endif
+ 
++#ifdef _MSC_VER
++#define strcasecmp _stricmp
++#endif
++
+ #include "dn.h"
+ 
+ #include <gpg-error.h>
+diff --git a/lang/qt/src/downloadjob.h b/lang/qt/src/downloadjob.h
+index b916c41d..cdb8bf57 100644
+--- a/lang/qt/src/downloadjob.h
++++ b/lang/qt/src/downloadjob.h
+@@ -93,7 +93,7 @@ public:
+        only empty strings or anything other than fingerprints, the
+        result is undefined.
+     */
+-    virtual QGPGME_DEPRECATED_EXPORT GpgME::Error start(const QStringList &fingerprints) = 0;
++    GPGMEPP_DEPRECATED virtual GpgME::Error start(const QStringList &fingerprints) = 0;
+ 
+ Q_SIGNALS:
+     void result(const GpgME::Error &result, const QByteArray &keyData, const QString &auditLogAsHtml = QString(), const GpgME::Error &auditLogError = GpgME::Error());
+diff --git a/lang/qt/src/qgpgme_export.h b/lang/qt/src/qgpgme_export.h
+index 72927fe3..2eef07ce 100644
+--- a/lang/qt/src/qgpgme_export.h
++++ b/lang/qt/src/qgpgme_export.h
+@@ -65,7 +65,11 @@
+ #endif
+ 
+ #ifndef QGPGME_DEPRECATED
+-#  define QGPGME_DEPRECATED __attribute__ ((__deprecated__))
++#  ifdef _MSC_VER
++#    define QGPGME_DEPRECATED __declspec(deprecated)
++#  else
++#    define QGPGME_DEPRECATED __attribute__ ((__deprecated__))
++#  endif
+ #endif
+ 
+ #ifndef QGPGME_DEPRECATED_EXPORT
+-- 
+GitLab
+
+
+From 0feb18b1c3ddb50ca1b21baf61e3a1ad63e5fcf0 Mon Sep 17 00:00:00 2001
+From: Carl Schwan <carl.schwan@gnupg.com>
+Date: Wed, 9 Aug 2023 13:02:18 +0200
+Subject: [PATCH 2/3] cpp: Improve compatibility with MSVC
+
+- lang/cpp/src/gpgmepp_export.h: Use standard [[deprecated]] instead of
+  GCC extension
+- lang/cpp/src/key.h, lang/cpp/src/verificationresult.h: Adapt to the
+  new GPGMEPP_DEPRECATED macro based on [[deprecated]]
+- lang/cpp/src/context.cpp: Ifdef GCC specific deprecation silencing
+- lang/cpp/src/data.h, lang/cpp/src/callbacks.cpp: ifdef some includes
+  that are only available in a posix system
+---
+ lang/CMakeLists.txt               |  1 +
+ lang/cpp/src/CMakeLists.txt       |  3 ---
+ lang/cpp/src/context.cpp          | 15 +++++++++++----
+ lang/cpp/src/data.h               |  6 ++++++
+ lang/cpp/src/gpgmepp_export.h     |  2 +-
+ lang/cpp/src/key.h                |  3 ++-
+ lang/cpp/src/verificationresult.h |  3 ++-
+ lang/qt/src/CMakeLists.txt        |  2 +-
+ 8 files changed, 24 insertions(+), 11 deletions(-)
+
+diff --git a/lang/CMakeLists.txt b/lang/CMakeLists.txt
+index 521a0947..af15fe1e 100644
+--- a/lang/CMakeLists.txt
++++ b/lang/CMakeLists.txt
+@@ -15,6 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ set(ENV{PKG_CONFIG_PATH} "${CMAKE_PREFIX_PATH}/lib/pkgconfig/")
+ find_package(PkgConfig REQUIRED)
+ pkg_check_modules(GPGME REQUIRED IMPORTED_TARGET gpgme)
++pkg_check_modules(GPGERROR REQUIRED IMPORTED_TARGET gpg-error)
+ 
+ include(CMakeDependentOption)
+ include(CheckIncludeFile)
+diff --git a/lang/cpp/src/CMakeLists.txt b/lang/cpp/src/CMakeLists.txt
+index 6ba811c9..94009ebd 100644
+--- a/lang/cpp/src/CMakeLists.txt
++++ b/lang/cpp/src/CMakeLists.txt
+@@ -9,9 +9,6 @@ target_sources(gpgmepp PRIVATE
+     callbacks.cpp
+     configuration.cpp
+     context.cpp
+-    context_glib.cpp
+-    context_qt.cpp
+-    context_vanilla.cpp
+     data.cpp
+     decryptionresult.cpp
+     defaultassuantransaction.cpp
+diff --git a/lang/cpp/src/context.cpp b/lang/cpp/src/context.cpp
+index bdcfabed..85601557 100644
+--- a/lang/cpp/src/context.cpp
++++ b/lang/cpp/src/context.cpp
+@@ -868,9 +868,12 @@ Error Context::startPasswd(const Key &key)
+     return Error(d->lasterr = gpgme_op_passwd_start(d->ctx, key.impl(), 0U));
+ }
+ 
+-
+-#pragma GCC diagnostic push
+-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#ifdef _MSC_VER
++#  pragma warning(disable:4995)
++#else
++#  pragma GCC diagnostic push
++#  pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#endif
+ 
+ Error Context::edit(const Key &key, std::unique_ptr<EditInteractor> func, Data &data)
+ {
+@@ -929,7 +932,11 @@ Error Context::startCardEditing(const Key &key, std::unique_ptr<EditInteractor>
+                               dp ? dp->data : nullptr));
+ }
+ 
+-#pragma GCC diagnostic pop
++#ifdef _MSC_VER
++#  pragma warning(default:4995)
++#else
++#  pragma GCC diagnostic pop
++#endif
+ 
+ EditInteractor *Context::lastCardEditInteractor() const
+ {
+diff --git a/lang/cpp/src/data.h b/lang/cpp/src/data.h
+index 178bc309..d82f4132 100644
+--- a/lang/cpp/src/data.h
++++ b/lang/cpp/src/data.h
+@@ -32,6 +32,12 @@
+ #include <algorithm>
+ #include <memory>
+ 
++#include <sys/types.h>
++#ifdef _MSC_VER
++#  include <BaseTsd.h> // ssize_t on Windows
++#  define ssize_t SSIZE_T
++#endif
++
+ namespace GpgME
+ {
+ 
+diff --git a/lang/cpp/src/gpgmepp_export.h b/lang/cpp/src/gpgmepp_export.h
+index 0e5302f2..dca86048 100644
+--- a/lang/cpp/src/gpgmepp_export.h
++++ b/lang/cpp/src/gpgmepp_export.h
+@@ -55,7 +55,7 @@
+ #endif
+ 
+ #ifndef GPGMEPP_DEPRECATED
+-#  define GPGMEPP_DEPRECATED __attribute__ ((__deprecated__))
++#  define GPGMEPP_DEPRECATED [[deprecated]]
+ #endif
+ 
+ #ifndef GPGMEPP_DEPRECATED_EXPORT
+diff --git a/lang/cpp/src/key.h b/lang/cpp/src/key.h
+index c0df511e..073b020e 100644
+--- a/lang/cpp/src/key.h
++++ b/lang/cpp/src/key.h
+@@ -451,7 +451,8 @@ private:
+ class GPGMEPP_EXPORT UserID::Signature
+ {
+ public:
+-    typedef GPGMEPP_DEPRECATED GpgME::Notation Notation;
++    GPGMEPP_DEPRECATED
++    typedef GpgME::Notation Notation;
+ 
+     Signature();
+     Signature(const shared_gpgme_key_t &key, gpgme_user_id_t uid, gpgme_key_sig_t sig);
+diff --git a/lang/cpp/src/verificationresult.h b/lang/cpp/src/verificationresult.h
+index f43bd39f..8a1ff877 100644
+--- a/lang/cpp/src/verificationresult.h
++++ b/lang/cpp/src/verificationresult.h
+@@ -87,7 +87,8 @@ class GPGMEPP_EXPORT Signature
+     friend class ::GpgME::VerificationResult;
+     Signature(const std::shared_ptr<VerificationResult::Private> &parent, unsigned int index);
+ public:
+-    typedef GPGMEPP_DEPRECATED GpgME::Notation Notation;
++    GPGMEPP_DEPRECATED
++    typedef GpgME::Notation Notation;
+ 
+     Signature();
+ 
+diff --git a/lang/qt/src/CMakeLists.txt b/lang/qt/src/CMakeLists.txt
+index 054d41b4..b3088fd8 100644
+--- a/lang/qt/src/CMakeLists.txt
++++ b/lang/qt/src/CMakeLists.txt
+@@ -217,7 +217,7 @@ endforeach()
+ 
+ add_definitions(-DBUILDING_QGPGME)
+ 
+-target_link_libraries(qgpgme PUBLIC gpgmepp PkgConfig::GPGME Qt5::Core)
++target_link_libraries(qgpgme PUBLIC gpgmepp PkgConfig::GPGME PkgConfig::GPGERROR Qt5::Core)
+ target_include_directories(qgpgme
+     PUBLIC
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+-- 
+GitLab
+
+
+From f402cb559fbb3ad49179564549f852e19f2d3f10 Mon Sep 17 00:00:00 2001
+From: Carl Schwan <carl.schwan@gnupg.com>
+Date: Tue, 29 Aug 2023 17:25:56 +0200
+Subject: [PATCH 3/3] Create cmake config file for msvc build
+
+* lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in,
+  lang/cpp/src/CMakeLists.txt: Add QGpgmeConfig for msvc build
+* lang/qt/src/QGpgmeConfig-msvc.cmake.in.in,
+  lang/qt/src/CMakeLists.txt: Add GpgmeppConfig for msvc build
+---
+ lang/cpp/src/CMakeLists.txt                 |   7 +-
+ lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in |  99 ++++++++++++++++++
+ lang/qt/src/CMakeLists.txt                  |   5 +
+ lang/qt/src/QGpgmeConfig-msvc.cmake.in.in   | 105 ++++++++++++++++++++
+ 4 files changed, 215 insertions(+), 1 deletion(-)
+ create mode 100644 lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in
+ create mode 100644 lang/qt/src/QGpgmeConfig-msvc.cmake.in.in
+
+diff --git a/lang/cpp/src/CMakeLists.txt b/lang/cpp/src/CMakeLists.txt
+index 94009ebd..ebacf771 100644
+--- a/lang/cpp/src/CMakeLists.txt
++++ b/lang/cpp/src/CMakeLists.txt
+@@ -3,7 +3,7 @@
+ # SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
+ # SPDX-License-Identifier: BSD-3-Clause
+ 
+-add_library(gpgmepp)
++add_library(gpgmepp SHARED)
+ 
+ target_sources(gpgmepp PRIVATE
+     callbacks.cpp
+@@ -106,6 +106,11 @@ set_target_properties(gpgmepp PROPERTIES
+     SOVERSION ${MAJOR}
+ )
+ 
++set(resolved_includedir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
++set(resolved_libdir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
++set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
++set(libsuffix "${CMAKE_SHARED_LIBRARY_SUFFIX}")
++
+ if (MSVC)
+     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfig-msvc.cmake.in.in
+                    ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake @ONLY)
+diff --git a/lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in b/lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in
+new file mode 100644
+index 00000000..af0db8d7
+--- /dev/null
++++ b/lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in
+@@ -0,0 +1,99 @@
++# CMake Config file for GPGMEPP.
++# Copyright (C) 2016 Intevation GmbH
++#
++# This file is part of GPGMEPP.
++#
++# GPGME-CL is free software; you can redistribute it and/or modify it
++# under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# GPGME-CL is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
++# 02111-1307, USA
++
++# based on a generated file from cmake.
++# Generated by CMake 3.0.2
++
++if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.5)
++   message(FATAL_ERROR "CMake >= 2.6.0 required")
++endif()
++cmake_policy(PUSH)
++cmake_policy(VERSION 2.6)
++#----------------------------------------------------------------
++# Generated CMake target import file.
++#----------------------------------------------------------------
++
++# Commands may need to know the format version.
++set(CMAKE_IMPORT_FILE_VERSION 1)
++
++# Protect against multiple inclusion, which would fail when already imported targets are added once more.
++set(_targetsDefined)
++set(_targetsNotDefined)
++set(_expectedTargets)
++foreach(_expectedTarget Gpgmepp)
++  list(APPEND _expectedTargets ${_expectedTarget})
++  if(NOT TARGET ${_expectedTarget})
++    list(APPEND _targetsNotDefined ${_expectedTarget})
++  endif()
++  if(TARGET ${_expectedTarget})
++    list(APPEND _targetsDefined ${_expectedTarget})
++  endif()
++endforeach()
++if("${_targetsDefined}" STREQUAL "${_expectedTargets}")
++  set(CMAKE_IMPORT_FILE_VERSION)
++  cmake_policy(POP)
++  return()
++endif()
++if(NOT "${_targetsDefined}" STREQUAL "")
++  message(FATAL_ERROR "Some (but not all) targets in this export set were already defined.\nTargets Defined: ${_targetsDefined}\nTargets not yet defined: ${_targetsNotDefined}\n")
++endif()
++unset(_targetsDefined)
++unset(_targetsNotDefined)
++unset(_expectedTargets)
++
++# Create imported target Gpgmepp
++add_library(Gpgmepp SHARED IMPORTED)
++
++set_target_properties(Gpgmepp PROPERTIES
++  IMPORTED_IMPLIB "@resolved_libdir@/gpgmepp.lib"
++  INTERFACE_INCLUDE_DIRECTORIES "@resolved_includedir@/gpgme++;@resolved_includedir@"
++  INTERFACE_LINK_LIBRARIES "@resolved_libdir@/gpgme.lib;@LIBASSUAN_LIBS@"
++  IMPORTED_LOCATION "@resolved_bindir@/gpgmepp.dll"
++)
++list(APPEND _IMPORT_CHECK_TARGETS Gpgmepp )
++list(APPEND _IMPORT_CHECK_FILES_FOR_Gpgmepp "@resolved_bindir@/gpgmepp.dll" "@resolved_libdir@/gpgmepp.lib")
++
++
++if(CMAKE_VERSION VERSION_LESS 2.8.12)
++  message(FATAL_ERROR "This file relies on consumers using CMake 2.8.12 or greater.")
++endif()
++
++# Loop over all imported files and verify that they actually exist
++foreach(target ${_IMPORT_CHECK_TARGETS} )
++  foreach(file ${_IMPORT_CHECK_FILES_FOR_${target}} )
++    if(NOT EXISTS "${file}" )
++      message(FATAL_ERROR "The imported target \"${target}\" references the file
++   \"${file}\"
++but this file does not exist.  Possible reasons include:
++* The file was deleted, renamed, or moved to another location.
++* An install or uninstall procedure did not complete successfully.
++* The installation package was faulty and contained
++   \"${CMAKE_CURRENT_LIST_FILE}\"
++but not all the files it references.
++")
++    endif()
++  endforeach()
++  unset(_IMPORT_CHECK_FILES_FOR_${target})
++endforeach()
++unset(_IMPORT_CHECK_TARGETS)
++
++# Commands beyond this point should not need to know the version.
++set(CMAKE_IMPORT_FILE_VERSION)
++cmake_policy(POP)
+diff --git a/lang/qt/src/CMakeLists.txt b/lang/qt/src/CMakeLists.txt
+index b3088fd8..10ddeee7 100644
+--- a/lang/qt/src/CMakeLists.txt
++++ b/lang/qt/src/CMakeLists.txt
+@@ -232,6 +232,11 @@ set_target_properties(qgpgme PROPERTIES
+     SOVERSION "${MAJOR}"
+ )
+ 
++set(resolved_includedir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
++set(resolved_libdir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
++set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
++set(libsuffix "${CMAKE_SHARED_LIBRARY_SUFFIX}")
++
+ if (MSVC)
+     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig-msvc.cmake.in.in
+                    ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
+diff --git a/lang/qt/src/QGpgmeConfig-msvc.cmake.in.in b/lang/qt/src/QGpgmeConfig-msvc.cmake.in.in
+new file mode 100644
+index 00000000..8787253b
+--- /dev/null
++++ b/lang/qt/src/QGpgmeConfig-msvc.cmake.in.in
+@@ -0,0 +1,105 @@
++# CMake Config file for QGPGME.
++# Copyright (C) 2016 Intevation GmbH
++#
++# This file is part of GPGME.
++#
++# GPGME-CL is free software; you can redistribute it and/or modify it
++# under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# GPGME-CL is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
++# 02111-1307, USA
++
++# based on a generated file from cmake.
++# Generated by CMake 3.0.2
++
++if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.5)
++   message(FATAL_ERROR "CMake >= 2.6.0 required")
++endif()
++cmake_policy(PUSH)
++cmake_policy(VERSION 2.6)
++#----------------------------------------------------------------
++# Generated CMake target import file.
++#----------------------------------------------------------------
++
++# Commands may need to know the format version.
++set(CMAKE_IMPORT_FILE_VERSION 1)
++
++# Protect against multiple inclusion, which would fail when already imported targets are added once more.
++set(_targetsDefined)
++set(_targetsNotDefined)
++set(_expectedTargets)
++foreach(_expectedTarget QGpgme)
++  list(APPEND _expectedTargets ${_expectedTarget})
++  if(NOT TARGET ${_expectedTarget})
++    list(APPEND _targetsNotDefined ${_expectedTarget})
++  endif()
++  if(TARGET ${_expectedTarget})
++    list(APPEND _targetsDefined ${_expectedTarget})
++  endif()
++endforeach()
++if("${_targetsDefined}" STREQUAL "${_expectedTargets}")
++  set(CMAKE_IMPORT_FILE_VERSION)
++  cmake_policy(POP)
++  return()
++endif()
++if(NOT "${_targetsDefined}" STREQUAL "")
++  message(FATAL_ERROR "Some (but not all) targets in this export set were already defined.\nTargets Defined: ${_targetsDefined}\nTargets not yet defined: ${_targetsNotDefined}\n")
++endif()
++unset(_targetsDefined)
++unset(_targetsNotDefined)
++unset(_expectedTargets)
++
++# Create imported target QGpgme
++add_library(QGpgme SHARED IMPORTED)
++
++set_target_properties(QGpgme PROPERTIES
++  IMPORTED_IMPLIB "@resolved_libdir@/qgpgme.lib"
++  INTERFACE_INCLUDE_DIRECTORIES "@resolved_includedir@/qgpgme;@resolved_includedir@"
++  INTERFACE_LINK_LIBRARIES "Gpgmepp;Qt5::Core"
++  IMPORTED_LOCATION "@resolved_bindir@/qgpgme.dll"
++)
++
++list(APPEND _IMPORT_CHECK_TARGETS QGgpme )
++list(APPEND _IMPORT_CHECK_FILES_FOR_Qgpgme "@resolved_libdir@/qgpgme.lib" "@resolved_bindir@/qgpgme.dll")
++
++if(CMAKE_VERSION VERSION_LESS 2.8.12)
++  message(FATAL_ERROR "This file relies on consumers using CMake 2.8.12 or greater.")
++endif()
++
++# Loop over all imported files and verify that they actually exist
++foreach(target ${_IMPORT_CHECK_TARGETS} )
++  foreach(file ${_IMPORT_CHECK_FILES_FOR_${target}} )
++    if(NOT EXISTS "${file}" )
++      message(FATAL_ERROR "The imported target \"${target}\" references the file
++   \"${file}\"
++but this file does not exist.  Possible reasons include:
++* The file was deleted, renamed, or moved to another location.
++* An install or uninstall procedure did not complete successfully.
++* The installation package was faulty and contained
++   \"${CMAKE_CURRENT_LIST_FILE}\"
++but not all the files it references.
++")
++    endif()
++  endforeach()
++  unset(_IMPORT_CHECK_FILES_FOR_${target})
++endforeach()
++unset(_IMPORT_CHECK_TARGETS)
++
++# This file does not depend on other imported targets which have
++# been exported from the same project but in a separate export set.
++
++# Commands beyond this point should not need to know the version.
++set(CMAKE_IMPORT_FILE_VERSION)
++cmake_policy(POP)
++
++# Gpgmepp is a requirement for qgpgme
++find_package(Gpgmepp CONFIG REQUIRED)
+-- 
+GitLab
+
