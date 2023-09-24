@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 import info
+from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import *
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # We need this as a host tool. Craft at this point isn't set up to produce both
+        # host and target binaries, so on Android we have host tools in the docker image.
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
         self.buildDependencies["dev-utils/texinfo"] = None
