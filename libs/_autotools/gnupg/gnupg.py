@@ -36,6 +36,9 @@ class subinfo(info.infoclass):
 
         self.targetDigests["2.4.3"] = (["a271ae6d732f6f4d80c258ad9ee88dd9c94c8fdc33c3e45328c4d7c126bd219d"], CraftHash.HashAlgorithm.SHA256)
 
+        self.patchToApply["2.4.3"] = [("fix-disabled-ldap.patch",1)]
+        self.patchLevel["2.4.3"] = 1
+
         self.defaultTarget = "2.4.3"
 
     def setDependencies(self):
@@ -48,7 +51,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libksba"] = None
         self.runtimeDependencies["libs/sqlite"] = None
         self.runtimeDependencies["libs/ntbtls"] = None
-        if not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/openldap"] = None
 
 
@@ -61,5 +64,5 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += ["--disable-doc"]
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.isWindows:
             self.subinfo.options.configure.args += ["--disable-ldap"]
