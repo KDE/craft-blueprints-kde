@@ -62,4 +62,4 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.args += ["--disable-doc"]
 
         if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.args += ["-disable-ldap"]
+            self.subinfo.options.configure.args += ["--disable-ldap"]
