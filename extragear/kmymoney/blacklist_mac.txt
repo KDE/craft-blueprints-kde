@@ -1,1 +1,2 @@
 .*PlugIns/kf5/org\.kde\.kwindowsystem\.platforms.*
+.*libexec/gpg-wks-client/.*
