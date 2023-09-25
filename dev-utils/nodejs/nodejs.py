@@ -13,8 +13,12 @@ class subinfo(info.infoclass):
                 self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-win-x64.zip"
                 self.targetInstSrc[ver] = f"node-v{ver}-win-x64"
             elif CraftCore.compiler.isMacOS:
-                self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-darwin-x64.tar.gz"
-                self.targetInstSrc[ver] = f"node-v{ver}-darwin-x64"
+                if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
+                    self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-darwin-x64.tar.gz"
+                    self.targetInstSrc[ver] = f"node-v{ver}-darwin-x64"
+                else:
+                    self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-darwin-arm64.tar.gz"
+                    self.targetInstSrc[ver] = f"node-v{ver}-darwin-arm64"
             elif CraftCore.compiler.isLinux:
                 self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-linux-x64.tar.xz"
                 self.targetInstSrc[ver] = f"node-v{ver}-linux-x64"
@@ -24,6 +28,8 @@ class subinfo(info.infoclass):
 
         self.description = "Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine."
         self.webpage = "https://nodejs.org"
+
+        self.patchLevel["16.15.1"] = 1
 
         self.defaultTarget = "16.15.1"
 
