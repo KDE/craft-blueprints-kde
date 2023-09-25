@@ -55,7 +55,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["data/poppler-data"] = None
         self.runtimeDependencies["data/urw-base35-fonts"] = None
         self.runtimeDependencies["libs/nss"] = None
-        self.runtimeDependencies["libs/gpgme"] = None
+        # Craft doesn't know how compile gpgme in Android
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/gpgme"] = None
         if self.options.dynamic.buildQtFrontend:
             self.runtimeDependencies["libs/qt/qtbase"] = None
         if self.options.dynamic.buildGlibFrontend:
@@ -105,7 +107,7 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCURL=ON"]
 
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ["-DENABLE_CPP=OFF"]
+            self.subinfo.options.configure.args += ["-DENABLE_CPP=OFF", "-DENABLE_GPGME=OFF"]
 
         # Craft doesn't compile NSS and gpgme with mingw
         if CraftCore.compiler.isMinGW():
