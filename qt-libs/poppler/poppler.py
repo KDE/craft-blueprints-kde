@@ -106,3 +106,7 @@ class Package(CMakePackageBase):
 
         if CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["-DENABLE_CPP=OFF"]
+
+        # Craft doesn't compile NSS and gpgme with mingw
+        if CraftCore.compiler.isMinGW():
+            self.subinfo.options.configure.args += ["-DENABLE_GPGME=OFF", "-DENABLE_NSS3=OFF"]
