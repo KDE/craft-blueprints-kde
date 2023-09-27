@@ -1,4 +1,6 @@
 import info
+from Blueprints.CraftVersion import CraftVersion
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -25,6 +27,8 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        if CraftCore.compiler.isMacOS and CraftVersion(self.buildTarget) == CraftVersion("6.5.2"):
+            self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=OFF"]
 
     def _getEnv(self):
         # webengine requires enormous amounts of ram
