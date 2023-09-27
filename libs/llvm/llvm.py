@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import info
+import os
 from Package import CMakePackageBase
 
 
@@ -92,6 +93,23 @@ class Package(CMakePackageBase):
                     if not os.path.exists(dest):
                         utils.copyFile(src, dest, False)
         elif CraftCore.compiler.isMSVC():
+            # Currently the cached LLVM / CLang is build with the Professional edition of MSVC,
+            # but the CI, and the users using craft on their own windows, *might* be compilling
+            # on Community edition, and linking against clang will fail because it looks for this specific
+            # library.
+            # I tried to fix this on a peer project basis, but my cmake is not good enough for that.
+            # I'm not sure if this is the correct place for this either, but it *seems* so.
+            professionalLibGuid = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Professional/DIA SDK/lib/amd64/diaguids.lib"
+            communityLibGuid = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/DIA SDK/lib/amd64/diaguids.lib"
+            hasProfessionalLibguid = os.path.exists(professionalLibGuid)
+            hasCommunityLibguid = os.path.exists(communityLibGuid)
+
+            if not hasProfessionalLibguid and hasCommunityLibguid:
+                utils.copyFile(
+                    communityLibGuid,
+                    professionalLibGuid
+                )
+
             utils.copyFile(
                 os.path.join(self.buildDir(), "lib", "clang.lib"),
                 os.path.join(self.installDir(), "lib", "craft_clang_plugins.lib"),
