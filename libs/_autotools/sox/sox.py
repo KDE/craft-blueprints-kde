@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libsndfile"] = None
+        self.runtimeDependencies["dev-utils/libtool"] = None
 
 
 class Package(AutoToolsPackageBase):
