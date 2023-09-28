@@ -16,7 +16,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
-        self.runtimeDependencies["kde/pim/libkdepim"] = None
+        self.runtimeDependencies["kde/pim/pimcommon"] = None
+        self.runtimeDependencies["kde/pim/akonadi-mime"] = None
 
 
 from Package.CMakePackageBase import *
