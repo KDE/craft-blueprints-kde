@@ -1,0 +1,23 @@
+From ccf8dec21cbca8a99acb4af756724268cb42386e Mon Sep 17 00:00:00 2001
+From: Hannah von Reth <vonreth@kde.org>
+Date: Wed, 3 May 2023 11:02:18 +0000
+Subject: [PATCH] KDEInstallDirs6 fix BUNDLE destination
+
+Fixes: #9
+---
+ kde-modules/KDEInstallDirs6.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kde-modules/KDEInstallDirs6.cmake b/kde-modules/KDEInstallDirs6.cmake
+index 1f7d6056..ee7ae358 100644
+--- a/kde-modules/KDEInstallDirs6.cmake
++++ b/kde-modules/KDEInstallDirs6.cmake
+@@ -292,7 +292,7 @@ set(KDE_INSTALL_TARGETS_DEFAULT_ARGS  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDI
+ )
+ if(APPLE)
+     set(KDE_INSTALL_TARGETS_DEFAULT_ARGS  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS}
+-                                          BUNDLE DESTINATION "${BUNDLE_INSTALL_DIR}" )
++                                          BUNDLE DESTINATION "${KDE_INSTALL_BUNDLEDIR}" )
+ endif()
+ 
+ set(KF_INSTALL_TARGETS_DEFAULT_ARGS RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"

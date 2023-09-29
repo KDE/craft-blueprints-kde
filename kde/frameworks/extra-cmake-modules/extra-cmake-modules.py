@@ -28,6 +28,8 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["5.110.0"] = [("KDEInstallDirs6 fix BUNDLE destination.patch", 1)]
+        self.patchLevel["5.110.0"] = 1
 
         self.tags = "ECM"
 
