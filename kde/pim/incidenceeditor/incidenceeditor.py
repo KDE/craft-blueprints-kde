@@ -21,6 +21,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/eventviews"] = None
         self.runtimeDependencies["kde/pim/kcalutils"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
+        self.runtimeDependencies["kde/pim/pimcommon"] = None
+        self.runtimeDependencies["kde/pim/libkdepim"] = None
+        self.runtimeDependencies["kde/pim/kpimtextedit"] = None
 
 
 from Package.CMakePackageBase import *
