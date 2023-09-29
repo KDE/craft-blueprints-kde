@@ -26,6 +26,8 @@ class subinfo(info.infoclass):
         self.patchToApply["6.4.3"] = [(".craft", 1)]
         self.patchLevel["6.4.3"] = 4
         self.patchToApply["6.5.0"] = [(".craft", 1)]
+        self.patchToApply["6.5.2"] = [(".craft", 1)]
+        self.patchToApply["6.5.3"] = [(".craft", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
