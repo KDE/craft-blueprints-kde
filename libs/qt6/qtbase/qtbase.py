@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("withICU", self.options.isActive("libs/icu"))
         self.options.dynamic.registerOption("withHarfBuzz", self.options.isActive("libs/harfbuzz"))
         self.options.dynamic.registerOption("withPCRE2", self.options.isActive("libs/pcre2"))
+        self.options.dynamic.registerOption("withEgl", True)
 
         # We need to treat MacOS explicitely because of https://bugreports.qt.io/browse/QTBUG-116083
         self.options.dynamic.registerOption("withFontConfig", self.options.isActive("libs/fontconfig") and not CraftCore.compiler.isMacOS)
@@ -87,7 +88,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += [
                 "-DFEATURE_xcb=ON",
-                "-DQT_FEATURE_egl=ON",
+                f"-DQT_FEATURE_egl={'ON' if  self.subinfo.options.dynamic.withEgl else 'OFF'}",
             ]
 
         if CraftCore.compiler.isAndroid:
