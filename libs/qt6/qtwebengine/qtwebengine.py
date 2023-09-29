@@ -4,9 +4,14 @@ from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.registerOption("withICU", self.options.isActive("libs/icu"))
+        self.options.dynamic.registerOption("withHarfBuzz", self.options.isActive("libs/harfbuzz"))
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.patchLevel["6.4.0"] = 1
+        self.patchToApply["6.5.3"] = [(".6.5.3", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
@@ -19,6 +24,19 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtpositioning"] = None
         self.runtimeDependencies["libs/qt6/qttools"] = None
         self.runtimeDependencies["libs/qt6/qtwebchannel"] = None
+        self.runtimeDependencies["libs/nss"] = None
+        self.runtimeDependencies["libs/cups"] = None
+        self.runtimeDependencies["libs/libxml2"] = None
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
+        self.runtimeDependencies["libs/webp"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/lcms2"] = None
+
+        if self.options.dynamic.withICU:
+            self.runtimeDependencies["libs/icu"] = None
+        if self.options.dynamic.withHarfBuzz:
+            self.runtimeDependencies["libs/harfbuzz"] = None
 
 
 from Package.CMakePackageBase import *
@@ -27,8 +45,24 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        # together with the patch based on https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/qtwebengine-6.5.2-r1.ebuild
+        self.subinfo.options.configure.args += [
+            "-DQT_FEATURE_qtwebengine_build=ON",
+            f"-DQT_FEATURE_webengine_system_icu={'ON' if self.subinfo.options.dynamic.withICU else 'OFF'}",
+            # Package harfbuzz-subset was not found
+            # f"-DQT_FEATURE_webengine_system_harfbuzz={'ON' if self.subinfo.options.dynamic.withHarfBuzz else 'OFF'}",
+            f"-DQT_FEATURE_webengine_system_zlib=ON",
+            f"-DQT_FEATURE_webengine_system_libwebp=ON",
+            f"-DQT_FEATURE_webengine_system_libjpeg=ON",
+            f"-DQT_FEATURE_webengine_system_libxml=ON",
+            f"-DQT_FEATURE_webengine_system_freetype=ON",
+            f"-DQT_FEATURE_webengine_system_glib=ON",
+            f"-DQT_FEATURE_webengine_system_lcms2=ON",
+        ]
         if CraftCore.compiler.isMacOS and CraftVersion(self.buildTarget) == CraftVersion("6.5.2"):
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=OFF"]
+        else:
+            self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=ON"]
 
     def _getEnv(self):
         # webengine requires enormous amounts of ram
