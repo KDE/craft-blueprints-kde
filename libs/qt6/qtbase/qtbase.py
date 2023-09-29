@@ -17,6 +17,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("withHarfBuzz", self.options.isActive("libs/harfbuzz"))
         self.options.dynamic.registerOption("withPCRE2", self.options.isActive("libs/pcre2"))
         self.options.dynamic.registerOption("withEgl", True)
+        self.options.dynamic.registerOption("withCUPS", CraftCore.compiler.isMacOS or self.options.isActive("libs/cups"))
 
         # We need to treat MacOS explicitely because of https://bugreports.qt.io/browse/QTBUG-116083
         self.options.dynamic.registerOption("withFontConfig", self.options.isActive("libs/fontconfig") and not CraftCore.compiler.isMacOS)
@@ -62,6 +63,9 @@ class subinfo(info.infoclass):
             if self.options.dynamic.withPCRE2:
                 self.runtimeDependencies["libs/pcre2"] = None
 
+            if self.options.dynamic.withCUPS:
+                self.runtimeDependencies["libs/cups"] = None
+
 
 from Package.CMakePackageBase import *
 
@@ -71,6 +75,8 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
         self.subinfo.options.configure.args += [
+            # sometimes qt fails to pic up the basic things
+            f"-DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES={CraftCore.standardDirs.craftRoot()}/include",
             "-DFEATURE_pkg_config=ON",
             "-DFEATURE_system_sqlite=ON",
             "-DFEATURE_system_zlib=ON",
@@ -89,6 +95,7 @@ class Package(CMakePackageBase):
 
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += [
+                f"-DFEATURE_cups={'ON' if  self.subinfo.options.dynamic.withCUPS else 'OFF'}",
                 "-DFEATURE_xcb=ON",
                 f"-DQT_FEATURE_egl={'ON' if  self.subinfo.options.dynamic.withEgl else 'OFF'}",
             ]

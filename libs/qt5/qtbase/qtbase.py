@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("withDBus", not CraftCore.compiler.isAndroid)
         self.options.dynamic.registerOption("withGlib", not CraftCore.compiler.isWindows and not CraftCore.compiler.isAndroid)
         self.options.dynamic.registerOption("withGtk", False)
+        self.options.dynamic.registerOption("withCUPS", CraftCore.compiler.isMacOS or self.options.isActive("libs/cups"))
         if CraftCore.compiler.isMinGW():
             self.options.dynamic.registerOption("withDirectX", True)
 
@@ -117,7 +118,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/harfbuzz"] = None
             if CraftCore.compiler.isUnix and self.options.dynamic.withGlib:
                 self.runtimeDependencies["libs/glib"] = None
-
+            if self.options.dynamic.withCUPS:
+                self.runtimeDependencies["libs/cups"] = None
 
 class Package(Qt5CorePackageBase):
     def __init__(self, **args):
@@ -199,6 +201,8 @@ class Package(Qt5CorePackageBase):
                     command += " ZLIB_LIBS=zlib.lib "
             if self.subinfo.options.isActive("libs/fontconfig"):
                 command += " -fontconfig "
+            if self.subinfo.options.dynamic.withCUPS:
+                command += " -cups "
 
             command += "-qt-doubleconversion "
 
