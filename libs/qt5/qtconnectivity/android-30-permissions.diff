@@ -15,7 +15,7 @@ index 2371e298..7c987d8a 100644
 -    // check Android v23+ permissions
 -    // -> any device search requires android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION
 -    if (QtAndroid::androidSdkVersion() >= 23) {
-+    if (QtAndroid::androidSdkVersion() >= 30) {
++    if (QtAndroid::androidSdkVersion() >= 31) {
 +        // check Android v30+ permissions
 +        // -> any device search requires android.permission.BLUETOOTH_SCAN
 +        const QString scanPermission(QLatin1String("android.permission.BLUETOOTH_SCAN"));
