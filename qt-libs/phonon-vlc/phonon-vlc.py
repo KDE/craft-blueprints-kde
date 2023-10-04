@@ -16,20 +16,15 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/vlc"] = None
 
     def setTargets(self):
-        for ver in ["0.10.0", "0.11.1"]:
+        for ver in ["0.11.3"]:
             self.targets[ver] = f"https://download.kde.org/stable/phonon/phonon-backend-vlc/{ver}/phonon-backend-vlc-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/phonon/phonon-backend-vlc/{ver}/phonon-backend-vlc-{ver}.tar.xz.sha256"
-            if CraftVersion(ver) >= "0.11.1":
-                self.targetInstSrc[ver] = f"phonon-backend-vlc-{ver}"
-            else:
-                self.targetInstSrc[ver] = f"phonon-vlc-{ver}"
-
-            self.patchToApply[ver] = [("qtdbus-lib-macos.diff", 1)]  # Add patch for link error of QtDBus on macOS
+            self.targetInstSrc[ver] = f"phonon-backend-vlc-{ver}"
 
         self.svnTargets["master"] = "https://anongit.kde.org/phonon-vlc"
 
         self.description = "the vlc based phonon multimedia backend"
-        self.defaultTarget = "0.11.1"
+        self.defaultTarget = "0.11.3"
 
 
 class Package(CMakePackageBase):
