@@ -19,7 +19,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
 
@@ -27,6 +28,6 @@ class subinfo(info.infoclass):
 from Package.CMakePackageBase import *
 
 
-class Package(CMakePackageBase):
-    def init(self):
-        CMakePackageBase.init(self)
+class Package(CraftPackageObject.get("kde").pattern):
+    def __init__(self):
+        CraftPackageObject.get("kde").pattern.__init__(self)
