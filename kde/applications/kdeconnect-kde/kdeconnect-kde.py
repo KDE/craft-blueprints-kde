@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["kdesupport/qca"] = None
+        self.runtimeDependencies["libs/openssl"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
@@ -161,4 +161,4 @@ class Package(CMakePackageBase):
             ):
                 return False
 
-        return utils.mergeTree(os.path.join(archiveDir, "lib/qca-qt5"), pluginPath if CraftCore.compiler.isMacOS else binPath)
+        return True
