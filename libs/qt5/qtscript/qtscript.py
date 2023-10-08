@@ -9,6 +9,12 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
 
+        # kde patchcollection does not support qtscript anymore
+        del self.svnTargets["kde/5.15"]
+        del self.svnTargets["kde/before-5.15.11-rebase"]
+
+        self.defaultTarget = "5.15.10"
+
 
 from Package.Qt5CorePackageBase import *
 
