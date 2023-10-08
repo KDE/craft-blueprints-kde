@@ -121,6 +121,7 @@ class subinfo(info.infoclass):
             if self.options.dynamic.withCUPS:
                 self.runtimeDependencies["libs/cups"] = None
 
+
 class Package(Qt5CorePackageBase):
     def __init__(self, **args):
         Qt5CorePackageBase.__init__(self)
@@ -210,7 +211,7 @@ class Package(Qt5CorePackageBase):
 
             # for the kde repo we only apply the parts of the patch
             if CraftCore.compiler.isMacOS:
-                if self.subinfo.buildTarget != "kde/5.15":
+                if self.subinfo.buildTarget not in ["kde/5.15", "kde/before-5.15.11-rebase"]:
                     command += f'-macos-additional-datadirs "{CraftCore.standardDirs.locations.data}" '
 
                 if CraftCore.compiler.architecture & CraftCompiler.Architecture.arm:
