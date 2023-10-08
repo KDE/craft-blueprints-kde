@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
             self.patchToApply["5.15.2"] = [("0001-fix-wmf-plugin.patch", 1)]
             self.patchToApply["5.15.5"] = [("0001-fix-wmf-plugin.patch", 1)]
             self.patchToApply["kde/5.15"] = [("0001-fix-wmf-plugin.patch", 1)]
+            self.patchToApply["kde/before-5.15.11-rebase"] = [("0001-fix-wmf-plugin.patch", 1)]
         self.patchLevel["5.15.2"] = 1
 
     def setDependencies(self):

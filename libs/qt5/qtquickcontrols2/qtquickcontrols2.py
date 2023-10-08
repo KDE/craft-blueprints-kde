@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
             self.patchToApply["5.15.2"] = [("optional-widget-dependency.diff", 1)]
             self.patchToApply["5.15.5"] = [("optional-widget-dependency.diff", 1)]
             self.patchToApply["kde/5.15"] = [("optional-widget-dependency.diff", 1)]
+            self.patchToApply["kde/before-5.15.11-rebase"] = [("optional-widget-dependency.diff", 1)]
         self.patchLevel["5.15.5"] = 1
         self.patchLevel["kde/5.15"] = 1
 

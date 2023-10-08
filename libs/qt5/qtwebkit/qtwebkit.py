@@ -4,6 +4,7 @@ from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 
+
 class subinfo(info.infoclass):
     def registerOptions(self):
         if CraftCore.compiler.isMinGW():
@@ -33,7 +34,7 @@ class subinfo(info.infoclass):
         ]
         self.patchToApply["dev"] = [("qtwebkit-20181022.patch", 1)]
 
-        for ver in ["5.12", "5.15", "kde/5.15"]:
+        for ver in ["5.12", "5.15", "kde/5.15", "kde/before-5.15.11-rebase"]:
             self.svnTargets[ver] = self.svnTargets["5.212"]
             self.patchToApply[ver] = self.patchToApply["5.212"]
 
@@ -91,14 +92,14 @@ class Package(CMakePackageBase):
             "-DUSE_GSTREAMER=OFF",
             "-DUSE_QT_MULTIMEDIA=ON",
             "-DUSE_MEDIA_FOUNDATION=OFF",
-            "-DUSE_LIBHYPHEN=OFF"
-            ]
+            "-DUSE_LIBHYPHEN=OFF",
+        ]
         if CraftCore.compiler.isMSVC():
             if not CraftCore.compiler.isMSVC2019():
                 # TODO: find out why this is failing
                 self.subinfo.options.configure.args += ["-DENABLE_WEBKIT2=OFF"]
             # TODO: why?
-            self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS=\"-D_ENABLE_EXTENDED_ALIGNED_STORAGE\""]
+            self.subinfo.options.configure.args += ['-DCMAKE_CXX_FLAGS="-D_ENABLE_EXTENDED_ALIGNED_STORAGE"']
         elif CraftCore.compiler.isGCC():
             # don't spam warnings
-            self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS=\"-w\""]
+            self.subinfo.options.configure.args += ['-DCMAKE_CXX_FLAGS="-w"']

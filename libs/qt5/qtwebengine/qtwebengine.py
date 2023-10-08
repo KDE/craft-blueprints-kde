@@ -31,6 +31,7 @@ class subinfo(info.infoclass):
 
         # kde patchcollection does not support webengine
         del self.svnTargets["kde/5.15"]
+        del self.svnTargets["kde/before-5.15.11-rebase"]
 
         # Version 5.12.x
         self.patchToApply["5.12.3"] = [("0001-Fix-building-GN-with-VS-2019.patch", 1), ("c6fb532d81f405b2456c382aa0b29eef8866f993.patch", 1)]

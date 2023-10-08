@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
             qtVer = CraftVersion(ver)
             if ver == "dev":
                 self.patchToApply[ver] = []
-            elif ver == "kde/5.15":
+            elif ver in ["kde/5.15", "kde/before-5.15.11-rebase"]:
                 self.patchToApply[ver] = [
                     (".qt-kde-5.15", 1),
                 ]
