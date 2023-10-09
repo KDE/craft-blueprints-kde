@@ -22,6 +22,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/gettext"] = None
+        self.runtimeDependencies["libs/libintl-lite"] = None # With only gettext it fails for some reason
+        self.runtimeDependencies["libs/glib"] = None
         self.runtimeDependencies["libs/dotconf"] = None
         self.runtimeDependencies["libs/libsndfile"] = None
 
