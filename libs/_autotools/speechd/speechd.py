@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/dotconf"] = None
+        self.runtimeDependencies["libs/libsndfile"] = None
 
 
 from Package.AutoToolsPackageBase import *
