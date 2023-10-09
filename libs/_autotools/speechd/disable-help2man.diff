@@ -1,0 +1,13 @@
+diff --git a/configure.ac b/configure.ac
+index 005b259c..89d9b300 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -65,7 +65,7 @@ AC_PROG_CC
+ AC_PROG_CXX
+ AC_PROG_INSTALL
+ AC_PROG_LN_S
+-AC_CHECK_PROGS([HELP2MAN], [help2man])
++HELP2MAN=
+ AM_CONDITIONAL([HAVE_HELP2MAN], [test "x$HELP2MAN" != "x"])
+ 
+ AC_USE_SYSTEM_EXTENSIONS
