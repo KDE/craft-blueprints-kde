@@ -1,6 +1,5 @@
 import os
 import shutil
-from distutils.dir_util import copy_tree
 
 import info
 from CraftCompiler import CraftCompiler
@@ -177,8 +176,11 @@ class Package(MakeFilePackageBase):
         if not BuildSystemBase.install(self):
             return False
 
-        copy_tree(self.sourceDir() / "dist/Release", str(self.installDir()))
-        copy_tree(self.sourceDir() / "dist/public", str(self.installDir() / "include"))
+        if not (
+            utils.copyDir(self.sourceDir() / "dist/Release", self.installDir())
+            and utils.copyDir(self.sourceDir() / "dist/public", self.installDir() / "include")
+        ):
+            return False
 
         if not self.subinfo.options.dynamic.installTools:
             utils.cleanDirectory(self.installDir() / "bin")
