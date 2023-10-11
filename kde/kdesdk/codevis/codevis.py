@@ -1,9 +1,5 @@
-import subprocess
-import sys
-
-from Blueprints.CraftVersion import CraftVersion
 import info
-from info import DependencyRequirementType
+from Packager.CollectionPackagerBase import PackagerLists
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -32,7 +28,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
 
 from Package.CMakePackageBase import *
-
 
 class Package(CMakePackageBase):
     def __init__(self):
