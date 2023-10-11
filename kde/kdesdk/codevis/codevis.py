@@ -40,5 +40,5 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DUSE_QT_WEBENGINE=OFF ", "-DCOMPILE_TESTS=OFF "]
 
     def createPackage(self):
-        self.defines["executable"] = "bin\\codevis.exe"
+        self.defines["executable"] = "bin\\codevis_desktop.exe"
         return TypePackager.createPackage(self)
