@@ -16,6 +16,13 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["kde/frameworks/kcmutils"] = None
+        self.runtimeDependencies["kde/frameworks/kdoctools"] = None
+        self.runtimeDependencies["kde/frameworks/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/kiconthemes"] = None
+        self.runtimeDependencies["kde/frameworks/knewstuff"] = None
+        self.runtimeDependencies["kde/frameworks/ktexteditor"] = None
+        self.runtimeDependencies["kde/frameworks/ktextwidgets"] = None
         self.runtimeDependencies["libs/llvm"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/boost/boost-headers"] = None
