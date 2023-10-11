@@ -58,6 +58,7 @@ class Package(CMakePackageBase):
             "-DLLVM_TARGETS_TO_BUILD=X86;AArch64",
             "-DLLVM_ENABLE_RTTI=ON",
             "-DLLVM_ENABLE_EH=ON",
+            "-DLLVM_ENABLE_DIA_SDK=OFF",
             "-DLLVM_INCLUDE_DOCS=OFF",
             "-DLLVM_INSTALL_UTILS=ON",
             "-DLLVM_OPTIMIZED_TABLEGEN=ON",
