@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://freedesktop.org/software/pulseaudio/releases/pulseaudio-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"pulseaudio-{ver}"
 
-        self.patchLevel["16.99.1"] = 2
+        self.patchLevel["16.99.1"] = 3
         self.targetDigests["16.99.1"] = (["ba02fa11e7e2b78555ad16525448fa165c03d5ff99e2f09eb49e0b7e1038b388"], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "16.99.1"
@@ -31,7 +31,6 @@ class Package(MesonPackageBase):
     def __init__(self, **args):
         MesonPackageBase.__init__(self)
         self.subinfo.options.configure.args += ["-Ddatabase=simple", "-Dx11=disabled", "-Dtests=false", "-Ddoxygen=false"]
-        self.subinfo.options.package.disableBinaryCache = True
         self.subinfo.options.configure.ldflags = " ".join(
             [f"-Wl,-rpath,'$ORIGIN/../lib/pulseaudio'", f"-Wl,-rpath,'$ORIGIN/../pulseaudio'", f"-Wl,-rpath,'$ORIGIN/../../pulseaudio'"]
         )
