@@ -31,9 +31,7 @@ class Package(MesonPackageBase):
     def __init__(self, **args):
         MesonPackageBase.__init__(self)
         self.subinfo.options.configure.args += ["-Ddatabase=simple", "-Dx11=disabled", "-Dtests=false", "-Ddoxygen=false"]
+        self.subinfo.options.package.disableBinaryCache = True
         self.subinfo.options.configure.ldflags = " ".join(
-            [
-                f"-Wl,-rpath,'$ORIGIN/../lib/pulseaudio' -L{CraftCore.standardDirs.craftRoot() / 'lib' / 'pulseaudio'}",
-                f"-Wl,-rpath,'$ORIGIN/../pulseaudio' -L{CraftCore.standardDirs.craftRoot() / 'lib' / 'pulseaudio'}",
-            ]
+            [f"-Wl,-rpath,'$ORIGIN/../lib/pulseaudio'", f"-Wl,-rpath,'$ORIGIN/../pulseaudio'", f"-Wl,-rpath,'$ORIGIN/../../pulseaudio'"]
         )
