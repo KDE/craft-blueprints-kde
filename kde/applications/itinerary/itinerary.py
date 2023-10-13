@@ -11,8 +11,8 @@ class subinfo(info.infoclass):
 
         self.patchToApply["23.08.0"] = [("0001-Manually-manage-permissions-in-the-Android-manifest.patch", 1)]
         self.patchLevel["23.08.0"] = 1
-        self.patchToApply["23.08.0"] = [("0003-android-asset-exclusion.patch", 1)]
-        self.patchLevel["23.08.2"] = 1
+        self.patchToApply["23.08.2"] = [("0003-android-asset-exclusion.patch", 1)]
+        self.patchLevel["23.08.2"] = 2
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
