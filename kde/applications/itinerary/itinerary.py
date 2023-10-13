@@ -9,11 +9,10 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/pim/itinerary.git")
         self.description = "Digital travel assistant app"
 
-        for ver in ["23.04.3"]:
-            self.patchToApply[ver] = [("0001-android-qt5-15-10-gradle-oom-fix.patch", 1), ("0002-android-qt5-15-10-ndk-fix.patch", 1)]
-            self.patchLevel[ver] = 1
         self.patchToApply["23.08.0"] = [("0001-Manually-manage-permissions-in-the-Android-manifest.patch", 1)]
         self.patchLevel["23.08.0"] = 1
+        self.patchToApply["23.08.0"] = [("0003-android-asset-exclusion.patch", 1)]
+        self.patchLevel["23.08.2"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
