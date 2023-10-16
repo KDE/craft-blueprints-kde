@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["dev-utils/libtool"] = None # For ltdl
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/libintl-lite"] = None # With only gettext it fails for some reason
         self.runtimeDependencies["libs/glib"] = None
