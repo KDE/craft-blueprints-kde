@@ -58,6 +58,10 @@ class Package(CMakePackageBase):
             "-DLLVM_TARGETS_TO_BUILD=X86;AArch64",
             "-DLLVM_ENABLE_RTTI=ON",
             "-DLLVM_ENABLE_EH=ON",
+            # The problem with the DIA SDK is that the Path to the DIA library
+            # depends on the MSVC version, so if this tool was build with Commercial
+            # and I'm using Community, clang will fail to configure as
+            # the library will be missing.
             "-DLLVM_ENABLE_DIA_SDK=OFF",
             "-DLLVM_INCLUDE_DOCS=OFF",
             "-DLLVM_INSTALL_UTILS=ON",
