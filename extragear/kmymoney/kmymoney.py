@@ -83,14 +83,14 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += "-DFETCH_TRANSLATIONS=ON"
+        self.subinfo.options.configure.args += ["-DFETCH_TRANSLATIONS=ON"]
 
         if CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += "-DENABLE_WOOB=OFF"
+            self.subinfo.options.configure.args += ["-DENABLE_WOOB=OFF"]
 
     def createPackage(self):
         # set env variables for AppImage run environment
-        self.defines["runenv"] = ["LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH"]
+        self.defines["runenv"] += ["LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH"]
         self.defines["executable"] = "bin\\kmymoney.exe"  # Windows-only, mac is handled implicitly
         self.defines["icon"] = os.path.join(self.packageDir(), "kmymoney.ico")
         self.defines["mimetypes"] = [
