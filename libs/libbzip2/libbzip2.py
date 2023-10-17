@@ -23,6 +23,15 @@ class Package(CMakePackageBase):
 
     def install(self):
         ret = CMakePackageBase.install(self)
+
+        # Install bunzip2 symlink to bzip2, the behavior is altered in bzip2.c code by checking the program name.
+        # See https://gitlab.com/bzip2/bzip2/-/blob/master/CMakeLists.txt?ref_type=heads#L378
+        # We do it here be cause it is easier than to hack our CMake patch further.
+        # CMake support has been added upstream and hopefully we can drop it all together ones version 1.1 is out
+        linkSource = self.imageDir() / "bin" / f"bzip2{CraftCore.compiler.executableSuffix}"
+        linkTarget = self.imageDir() / "bin" / f"bunzip2{CraftCore.compiler.executableSuffix}"
+        utils.createSymlink(linkSource, linkTarget)
+
         for file in glob.glob(os.path.join(self.imageDir(), "lib", "libbzip2.*")):
             utils.copyFile(file, os.path.join(self.imageDir(), "lib", "libbz2" + os.path.splitext(file)[1]), linkOnly=True)
         return ret
