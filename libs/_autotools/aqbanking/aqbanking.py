@@ -36,6 +36,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["libs/libbzip2"] = None
         self.runtimeDependencies["libs/gwenhywfar"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
@@ -44,11 +45,11 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args += " --disable-static --enable-shared "
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]
         # For appImage builds the --enable-local-install is needed so that
         # the appImage is searched for aqbanking plugins
         if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
-            self.subinfo.options.configure.args += " --enable-local-install"
+            self.subinfo.options.configure.args += ["--enable-local-install"]
 
         # this prevents "cannot find the library libaqhbci.la or unhandled argument libaqhbci.la"
         self.subinfo.options.make.supportsMultijob = False
