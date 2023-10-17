@@ -88,9 +88,14 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["-DENABLE_WOOB=OFF"]
 
+    def setDefaults(self, defines: {str: str}) -> {str: str}:
+        defines = super().setDefaults(defines)
+        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
+            # set env variables for AppImage run environment
+            defines["runenv"] += ["LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH"]
+        return defines
+
     def createPackage(self):
-        # set env variables for AppImage run environment
-        self.defines["runenv"] += ["LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH"]
         self.defines["executable"] = "bin\\kmymoney.exe"  # Windows-only, mac is handled implicitly
         self.defines["icon"] = os.path.join(self.packageDir(), "kmymoney.ico")
         self.defines["mimetypes"] = [
