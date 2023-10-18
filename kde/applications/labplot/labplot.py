@@ -10,18 +10,17 @@ class subinfo(info.infoclass):
         self.webpage = "https://labplot.kde.org/"
         self.displayName = "LabPlot2"
 
-        for ver in ["2.7.0", "2.8.0", "2.8.1", "2.8.2", "2.9.0"]:
+        for ver in ["2.9.0"]:
             self.targets[ver] = "https://download.kde.org/stable/labplot/%s/labplot-%s.tar.xz" % (ver, ver)
         for ver in ["2.10.0", "2.10.1"]:
             self.targets[ver] = "https://download.kde.org/stable/labplot/labplot-%s.tar.xz" % ver
-        for ver in ["2.7.0", "2.8.0", "2.8.1", "2.8.2", "2.9.0", "2.10.0", "2.10.1"]:
+        for ver in ["2.9.0", "2.10.0", "2.10.1"]:
             self.targetInstSrc[ver] = "labplot-%s" % ver
         # beta versions
         for ver in ["2.8.99"]:
             self.targets[ver] = "https://download.kde.org/stable/labplot/2.9.0/labplot-2.9.0-beta.tar.xz"
             self.targetInstSrc[ver] = "labplot-2.9.0-beta"
 
-        self.patchToApply["2.8.1"] = [("labplot-2.8.1.patch", 1)]
         self.patchToApply["2.9.0"] = [("labplot-2.9.0.patch", 1)]
         self.patchLevel["2.9.0"] = 1
 
@@ -46,10 +45,8 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
-        if self.buildTarget == "master":
-            self.runtimeDependencies["kde/applications/cantor"] = "master"
-        else:
-            self.runtimeDependencies["kde/applications/cantor"] = None
+
+        self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["qt-libs/qtmqtt"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
@@ -68,11 +65,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
-        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("2.8.99"):
-            self.runtimeDependencies["qt-libs/poppler"] = None
-            self.runtimeDependencies["libs/matio"] = None
-            self.runtimeDependencies["libs/readstat"] = None
-            self.runtimeDependencies["libs/discount"] = None
+        self.runtimeDependencies["qt-libs/poppler"] = None
+        self.runtimeDependencies["libs/matio"] = None
+        self.runtimeDependencies["libs/readstat"] = None
+        self.runtimeDependencies["libs/discount"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
         # needed by AppImage
@@ -87,12 +83,12 @@ from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += "-DLOCAL_DBC_PARSER=ON -DLOCAL_VECTOR_BLF=ON"
+        self.subinfo.options.configure.args += ["-DLOCAL_DBC_PARSER=ON", "-DLOCAL_VECTOR_BLF=ON"]
         if CraftCore.compiler.isMacOS:
             # readstat fails with ninja
             self.supportsNinja = False
             # cerf.h is not found when using libcerf from ports
-            self.subinfo.options.configure.args += " -DENABLE_LIBCERF=OFF"
+            self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
 
     def install(self):
         result = super().install()
@@ -119,10 +115,9 @@ class Package(CMakePackageBase):
             {"name": "LabPlot2", "target": "bin/labplot2.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\labplot2.ico"}
         ]
         self.defines["icon"] = os.path.join(self.packageDir(), "labplot2.ico")
-        if self.buildTarget == "master" or self.buildTarget >= CraftVersion("2.8.1"):
-            self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-labplot2.png")
-            self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-labplot2.png")
-            self.defines["icon_png_310"] = os.path.join(self.sourceDir(), "icons", "310-apps-labplot2.png")
+        self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-labplot2.png")
+        self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-labplot2.png")
+        self.defines["icon_png_310"] = os.path.join(self.sourceDir(), "icons", "310-apps-labplot2.png")
 
         # see NullsoftInstaller.nsi and NullsoftInstallerPackager.py
         if isinstance(self, NullsoftInstallerPackager):
