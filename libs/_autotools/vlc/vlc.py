@@ -70,3 +70,13 @@ class Package(AutoToolsPackageBase):
             "--enable-sparkle=no",
             "--enable-harfbuzz=no",  # hb-ft.h missing in harfbuzz version that we ship at the time of this writing (2.7.2)
         ]
+
+    def configure(self):
+        env = {}
+
+        if CraftCore.compiler.isGCCLike() and CraftCore.compiler.isLinux:
+            env["BUILDCC"] = "/usr/bin/gcc"
+
+        with utils.ScopedEnv(env):
+            return super().configure()
+
