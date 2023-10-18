@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://www.libssh2.org/download/libssh2-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libssh2-{ver}"
         self.targetDigests["1.10.0"] = (["2d64e90f3ded394b91d3a2e774ca203a4179f69aebee03003e5a6fa621e41d51"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["1.11.0"] = (['3736161e41e2693324deb38c26cfdc3efe6209d634ba4258db1cecff6a5ad461'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.11.0"] = (["3736161e41e2693324deb38c26cfdc3efe6209d634ba4258db1cecff6a5ad461"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["1.10.0"] = [("libssh2-1.10.0-20221026.diff", 1)]  # don't let pkg-config search for ws2_32
         if CraftCore.compiler.isMSVC():
             self.patchToApply["1.11.0"] = [("libssh2-1.11.0-MSVC-libprefix.pc.diff", 1)]
@@ -30,7 +30,8 @@ if not CraftCore.compiler.isGCCLike():
     class Package(CMakePackageBase):
         def __init__(self, **args):
             CMakePackageBase.__init__(self)
-            self.subinfo.options.configure.args += ["-DENABLE_ZLIB_COMPRESSION=ON", "-DBUILD_SHARED_LIBS=ON", "-DBUILD_EXAMPLES=OFF", "-DBUILD_TESTING=OFF"]
+            self.subinfo.options.dynamic.buildTests = False
+            self.subinfo.options.configure.args += ["-DENABLE_ZLIB_COMPRESSION=ON", "-DBUILD_SHARED_LIBS=ON", "-DBUILD_EXAMPLES=OFF"]
 
 else:
 

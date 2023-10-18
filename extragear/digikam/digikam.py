@@ -153,67 +153,72 @@ from Utils import GetFiles
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.dynamic.buildTests = False
 
         if CraftCore.compiler.isLinux:
-            self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_DBUS=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
-            self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
+            self.subinfo.options.configure.args = [
+                "-DENABLE_KFILEMETADATASUPPORT=OFF",
+                "-DENABLE_AKONADICONTACTSUPPORT=OFF",
+                "-DENABLE_MEDIAPLAYER=ON",
+                "-DENABLE_DBUS=ON",
+                "-DENABLE_QWEBENGINE=ON",
+                "-DENABLE_MYSQLSUPPORT=ON",
+                "-DENABLE_INTERNALMYSQL=ON",
+                "-DENABLE_DIGIKAM_MODELTEST=OFF",
+                "-DENABLE_DRMINGW=OFF",
+                "-DENABLE_MINGW_HARDENING_LINKER=OFF",
+                "-DDIGIKAMSC_COMPILE_PO=ON",
+                "-DDIGIKAMSC_COMPILE_DIGIKAM=ON",
+            ]
 
         if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_APPSTYLES=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
-            self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
+            self.subinfo.options.configure.args = [
+                "-DENABLE_KFILEMETADATASUPPORT=OFF",
+                "-DENABLE_AKONADICONTACTSUPPORT=OFF",
+                "-DENABLE_MEDIAPLAYER=ON",
+                "-DENABLE_DBUS=OFF",
+                "-DENABLE_APPSTYLES=ON",
+                "-DENABLE_QWEBENGINE=ON",
+                "-DENABLE_MYSQLSUPPORT=ON",
+                "-DENABLE_INTERNALMYSQL=ON",
+                "-DENABLE_DIGIKAM_MODELTEST=OFF",
+                "-DENABLE_DRMINGW=OFF",
+                "-DENABLE_MINGW_HARDENING_LINKER=OFF",
+                "-DDIGIKAMSC_COMPILE_PO=ON",
+                "-DDIGIKAMSC_COMPILE_DIGIKAM=ON",
+            ]
 
         if CraftCore.compiler.isMinGW():
-            self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=ON"
-            self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
+            self.subinfo.options.configure.args = [
+                "-DENABLE_KFILEMETADATASUPPORT=OFF",
+                "-DENABLE_AKONADICONTACTSUPPORT=OFF",
+                "-DENABLE_MEDIAPLAYER=ON",
+                "-DENABLE_DBUS=OFF",
+                "-DENABLE_QWEBENGINE=OFF",
+                "-DENABLE_MYSQLSUPPORT=ON",
+                "-DENABLE_INTERNALMYSQL=ON",
+                "-DENABLE_DIGIKAM_MODELTEST=OFF",
+                "-DENABLE_DRMINGW=ON",
+                "-DENABLE_MINGW_HARDENING_LINKER=ON",
+                "-DDIGIKAMSC_COMPILE_PO=ON",
+                "-DDIGIKAMSC_COMPILE_DIGIKAM=ON",
+            ]
 
         if CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args = " -DENABLE_KFILEMETADATASUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_AKONADICONTACTSUPPORT=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_MEDIAPLAYER=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_DBUS=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_QWEBENGINE=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_MYSQLSUPPORT=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_INTERNALMYSQL=ON"
-            self.subinfo.options.configure.args += f" -DENABLE_DIGIKAM_MODELTEST=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_DRMINGW=OFF"
-            self.subinfo.options.configure.args += f" -DENABLE_MINGW_HARDENING_LINKER=OFF"
-            self.subinfo.options.configure.args += f" -DBUILD_TESTING=OFF"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_PO=ON"
-            self.subinfo.options.configure.args += f" -DDIGIKAMSC_COMPILE_DIGIKAM=ON"
+            self.subinfo.options.configure.args = [
+                "-DENABLE_KFILEMETADATASUPPORT=OFF",
+                "-DENABLE_AKONADICONTACTSUPPORT=OFF",
+                "-DENABLE_MEDIAPLAYER=ON",
+                "-DENABLE_DBUS=OFF",
+                "-DENABLE_QWEBENGINE=ON",
+                "-DENABLE_MYSQLSUPPORT=ON",
+                "-DENABLE_INTERNALMYSQL=ON",
+                "-DENABLE_DIGIKAM_MODELTEST=OFF",
+                "-DENABLE_DRMINGW=OFF",
+                "-DENABLE_MINGW_HARDENING_LINKER=OFF",
+                "-DDIGIKAMSC_COMPILE_PO=ON",
+                "-DDIGIKAMSC_COMPILE_DIGIKAM=ON",
+            ]
 
     def createPackage(self):
         self.defines["productname"] = "digiKam"

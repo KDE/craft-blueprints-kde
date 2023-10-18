@@ -27,4 +27,4 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.useShadowBuild = False
-        self.subinfo.options.configure.args += f" --disable-static --enable-shared"
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]

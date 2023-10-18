@@ -37,6 +37,8 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.dynamic.buildTests = False
+
         self.supportsNinja = False
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.make.supportsMultijob = False
@@ -44,9 +46,9 @@ class Package(CMakePackageBase):
         hdf5dir = os.path.join(CraftStandardDirs.craftRoot(), "cmake", "hdf5")
         # -DBUILD_TESTSETS=OFF -DENABLE_PARALLEL_TESTS=OFF -DENABLE_UNIT_TESTS=OFF
         # DAP needs static libcurl
-        self.subinfo.options.configure.args = f"-DHDF5_DIR={hdf5dir} -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DENABLE_DAP=OFF"
+        self.subinfo.options.configure.args = [f"-DHDF5_DIR={hdf5dir}", "-DBUILD_SHARED_LIBS=ON", "-DENABLE_DAP=OFF"]
         if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.args += f' -DCMAKE_C_FLAGS="/D_WIN32" -DPACKAGE_VERSION={self.subinfo.buildTarget}'
+            self.subinfo.options.configure.args += ['-DCMAKE_C_FLAGS="/D_WIN32"', f"-DPACKAGE_VERSION={self.subinfo.buildTarget}"]
 
     def createPackage(self):
         return TypePackager.createPackage(self)

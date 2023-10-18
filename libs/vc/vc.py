@@ -22,7 +22,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-
-        self.subinfo.options.configure.args = " -DBUILD_TESTING=OFF "
+        self.subinfo.options.dynamic.buildTests = False
         if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.args += " -DCMAKE_CXX_FLAGS=/FS "
+            self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS=/FS"]

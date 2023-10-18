@@ -24,7 +24,8 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DWITH_TOOLS=OFF -DBUILD_TESTING=OFF"
+        self.subinfo.options.dynamic.buildTests = False
+        self.subinfo.options.configure.args += ["-DWITH_TOOLS=OFF"]
 
     def install(self):
         if not super().install():
