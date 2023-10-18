@@ -31,12 +31,12 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["3.0.17"]:
+        for ver in ["3.0.19"]:
             self.targets[ver] = f"http://get.videolan.org/vlc/{ver}/vlc-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"vlc-{ver}"
-        self.targetDigests["3.0.17"] = (["48bd9bf337aa107a1524eba57c52dc4a91e29f5a97fbdee92f6a4dba90383cd0"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.0.19"] = (["643e3294bafe922324663ca499515b7564f2794575fd7d2b7992d20896381745"], CraftHash.HashAlgorithm.SHA256)
         self.description = "VLC is a free and open source cross-platform multimedia player and framework that plays most multimedia files as well as DVDs, Audio CDs, VCDs, and various streaming protocols."
-        self.defaultTarget = "3.0.17"
+        self.defaultTarget = "3.0.19"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
