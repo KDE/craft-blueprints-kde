@@ -31,4 +31,4 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         if CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += " -DENABLE_OPENMP=OFF"
+            self.subinfo.options.configure.args += ["-DENABLE_OPENMP=OFF"]

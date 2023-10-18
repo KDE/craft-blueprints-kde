@@ -52,7 +52,7 @@ class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.noDataRootDir = True
-        self.subinfo.options.configure.args += " --disable-static --enable-shared --enable-threads --enable-64bit "
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--enable-threads", "--enable-64bit"]
 
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.configure.projectFile = "win/configure"
@@ -60,7 +60,7 @@ class PackageAutotools(AutoToolsPackageBase):
             self.subinfo.options.configure.projectFile = "unix/configure"
 
         if CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += " --enable-framework --disable-corefoundation "
+            self.subinfo.options.configure.args += ["--enable-framework", "--disable-corefoundation"]
 
     def configure(self):
         isConfigured = super().configure()

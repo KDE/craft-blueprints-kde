@@ -53,12 +53,12 @@ class subinfo(info.infoclass):
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args = " --enable-shared  --enable-public-key --enable-mini-gmp --disable-documentation"
+        self.subinfo.options.configure.args += ["--enable-shared", "--enable-public-key", "--enable-mini-gmp", "--disable-documentation"]
         if CraftCore.compiler.isMacOS:
             # for some reason the version of m4 built by craft will segfault
             # /bin/sh: line 1: 39726 Abort trap: 6
             #           /Users/alex/kde/dev-utils/bin/m4 /Users/alex/kde/build/libs/nettle/work/nettle-3.4/asm.m4 machine.m4 config.m4 aes-decrypt-internal.asm > aes-decrypt-internal.s
-            self.subinfo.options.configure.args += " M4=/usr/bin/m4"
+            self.subinfo.options.configure.args += ["M4=/usr/bin/m4"]
 
 
 if not CraftCore.compiler.isMSVC():

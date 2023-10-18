@@ -71,7 +71,7 @@ class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += " --disable-static --enable-shared "
+        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]
 
 
 if CraftCore.compiler.isMSVC():

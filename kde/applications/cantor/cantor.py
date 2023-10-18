@@ -54,11 +54,11 @@ class Package(CMakePackageBase):
 
         # R backend fail compiling on Windows
         # self.r_dir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "bin", "x64")
-        # self.subinfo.options.configure.args = "-DR_EXECUTABLE=" + OsUtils.toUnixPath(os.path.join(self.r_dir, "R.exe"))
-        # self.subinfo.options.configure.args += " -DR_R_LIBRARY=" + OsUtils.toUnixPath(os.path.join(self.r_dir, "R.dll"))
+        # self.subinfo.options.configure.args += [f"-DR_EXECUTABLE={OsUtils.toUnixPath(os.path.join(self.r_dir, "R.exe"))}"]
+        # self.subinfo.options.configure.args += [f"-DR_R_LIBRARY={OsUtils.toUnixPath(os.path.join(self.r_dir, "R.dll"))}"]
 
         # pythonPath = CraftCore.settings.get("Paths", "PYTHON")
-        # self.subinfo.options.configure.args += f" -DPYTHONLIBS3_LIBRARY=\"{pythonPath}\libs\python38.lib\" -DPYTHONLIBS3_INCLUDE_DIR=\"{pythonPath}\include\""
+        # self.subinfo.options.configure.args += [f"-DPYTHONLIBS3_LIBRARY=\"{pythonPath}\libs\python38.lib\"", f"-DPYTHONLIBS3_INCLUDE_DIR=\"{pythonPath}\include\""]
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))

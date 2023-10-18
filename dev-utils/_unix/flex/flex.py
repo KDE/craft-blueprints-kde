@@ -36,4 +36,4 @@ class Package(AutoToolsPackageBase):
         self.subinfo.shelveAble = False
         # autoreconf is not enough here
         self.subinfo.options.configure.bootstrap = True
-        self.subinfo.options.configure.args += " --disable-static --enable-shared"
+        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]

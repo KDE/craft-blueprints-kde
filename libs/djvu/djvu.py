@@ -30,16 +30,16 @@ from Package.CMakePackageBase import *
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args = " --enable-shared "
+        self.subinfo.options.configure.args = ["--enable-shared"]
         if CraftCore.compiler.isMacOS:
             # attempting to build and install the png files will fail on MacOS
-            self.subinfo.options.configure.args += " --disable-desktopfiles "
+            self.subinfo.options.configure.args += ["--disable-desktopfiles"]
 
 
 class PackageCMake(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DBUILD_TOOLS=OFF"
+        self.subinfo.options.configure.args += ["-DBUILD_TOOLS=OFF"]
 
 
 if CraftCore.compiler.isWindows:

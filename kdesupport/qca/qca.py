@@ -37,7 +37,7 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
         # tests fail to build with missing openssl header
-        self.subinfo.options.configure.args = "-DBUILD_TESTS=OFF "
+        self.subinfo.options.configure.args = ["-DBUILD_TESTS=OFF"]
 
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += "-DBUILD_WITH_QT6=ON "
+            self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=ON"]

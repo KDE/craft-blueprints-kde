@@ -63,5 +63,10 @@ from Package.AutoToolsPackageBase import *
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args += " --disable-lua --disable-a52 --enable-vpx=no --enable-sparkle=no"
-        self.subinfo.options.configure.args += " --enable-harfbuzz=no"  # hb-ft.h missing in harfbuzz version that we ship at the time of this writing (2.7.2)
+        self.subinfo.options.configure.args += [
+            "--disable-lua",
+            "--disable-a52",
+            "--enable-vpx=no",
+            "--enable-sparkle=no",
+            "--enable-harfbuzz=no",  # hb-ft.h missing in harfbuzz version that we ship at the time of this writing (2.7.2)
+        ]

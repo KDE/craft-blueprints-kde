@@ -40,7 +40,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.useShadowBuild = False
         self.subinfo.options.configure.cflags += " -Wno-implicit-function-declaration"
-        self.subinfo.options.configure.args += " --disable-dependency-tracking" " --disable-silent-rules" " --prefix=" + prefix
+        self.subinfo.options.configure.args += ["--disable-dependency-tracking", "--disable-silent-rules", f"--prefix={prefix}"]
 
     def install(self):
         ret = AutoToolsPackageBase.install(self)

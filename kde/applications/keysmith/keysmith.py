@@ -29,7 +29,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += "-DBUILD_EXTERNAL=OFF"
+        self.subinfo.options.configure.args += ["-DBUILD_EXTERNAL=OFF"]
 
     def createPackage(self):
         self.defines["executable"] = r"bin\keysmith.exe"

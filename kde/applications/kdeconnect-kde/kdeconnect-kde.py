@@ -39,7 +39,7 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         if CraftCore.compiler.isMacOS:
             # Add APPLE_IN_APP_BUNDLE flag to enable private DBus, when packing by Craft
-            self.subinfo.options.configure.args += " -DAPPLE_IN_APP_BUNDLE=ON"
+            self.subinfo.options.configure.args += ["-DAPPLE_IN_APP_BUNDLE=ON"]
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
