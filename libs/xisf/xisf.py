@@ -23,4 +23,5 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DBUILD_SHARED_LIBS=OFF -DUSE_BUNDLED_LZ4=ON -DUSE_BUNDLED_PUGIXML=ON -DUSE_BUNDLED_ZLIB=OFF"
+        self.subinfo.options.dynamic.buildStatic = True
+        self.subinfo.options.configure.args += ["-DUSE_BUNDLED_LZ4=ON", "-DUSE_BUNDLED_PUGIXML=ON", "-DUSE_BUNDLED_ZLIB=OFF"]

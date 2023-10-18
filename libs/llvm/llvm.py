@@ -70,11 +70,11 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += ["-DLLVM_EXPORT_SYMBOLS_FOR_PLUGINS=ON"]
             # CMake Error at CMakeLists.txt:555 (message): BUILD_SHARED_LIBS options is not supported on Windows
-            self.subinfo.options.configure.args += ["-DBUILD_SHARED_LIBS=OFF"]
+            self.subinfo.options.dynamic.buildStatic = True
         elif CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["-DLLVM_BUILD_LLVM_DYLIB=ON"]
         else:
-            self.subinfo.options.configure.args += ["-DBUILD_SHARED_LIBS=ON"]
+            self.subinfo.options.dynamic.buildStatic = False
 
         # lldb by default needs SWIG for the Python integration
         # disable this support until we have a swig package in Craft

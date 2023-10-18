@@ -31,4 +31,5 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += ["-DWITH_QT=ON", "-DBUILD_SHARED_LIBS=ON"]
+        self.subinfo.options.dynamic.buildStatic = False
+        self.subinfo.options.configure.args += ["-DWITH_QT=ON"]

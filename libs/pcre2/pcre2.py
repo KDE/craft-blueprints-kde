@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=ON -DPCRE2_BUILD_PCRE2_16=ON -DPCRE2_BUILD_PCRE2_32=ON"
+        self.subinfo.options.dynamic.buildStatic = False
+        self.subinfo.options.configure.args += ["-DPCRE2_BUILD_PCRE2_16=ON", "-DPCRE2_BUILD_PCRE2_32=ON"]
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += "-DPCRE2_BUILD_PCRE2GREP=OFF PCRE2_BUILD_TESTS=OFF"
+            self.subinfo.options.configure.args += ["-DPCRE2_BUILD_PCRE2GREP=OFF", "PCRE2_BUILD_TESTS=OFF"]

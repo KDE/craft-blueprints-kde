@@ -31,7 +31,8 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
         self.subinfo.options.dynamic.buildTests = False
-        self.subinfo.options.configure.args += ["-DBUILD_SHARED_LIBS=ON", "-DHDF5_ENABLE_Z_LIB_SUPPORT=ON"]
+        self.subinfo.options.dynamic.buildStatic = False
+        self.subinfo.options.configure.args += ["-DHDF5_ENABLE_Z_LIB_SUPPORT=ON"]
         # build with the 1.10 APIs
         if self.buildTarget == "1.12.1":
             self.subinfo.options.configure.args += ["-DDEFAULT_API_VERSION:STRING=v110"]
