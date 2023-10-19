@@ -96,6 +96,16 @@ class Package(CMakePackageBase):
             defines["runenv"] += ["LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH"]
         return defines
 
+    def install(self):
+        if not CMakePackageBase.install(self):
+            return False
+
+        # For AppImages create a gpgconf.ctl file that forces gpgconf to use the actual APPDIR
+        # as rootdir and not the ci build dir which causes gpg operations to fail.
+        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
+            with open(os.path.join(self.installDir(), "bin", "gpgconf.ctl"), "wt") as f:
+                f.write("rootdir=${APPDIR}/usr")
+
     def createPackage(self):
         self.defines["executable"] = "bin\\kmymoney.exe"  # Windows-only, mac is handled implicitly
         self.defines["icon"] = os.path.join(self.packageDir(), "kmymoney.ico")
