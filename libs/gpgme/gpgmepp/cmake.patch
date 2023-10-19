@@ -1,7 +1,7 @@
 From ddd9b0d329f86316533796afd795a42bc53594e6 Mon Sep 17 00:00:00 2001
 From: Carl Schwan <carl.schwan@gnupg.com>
 Date: Tue, 1 Aug 2023 10:22:29 +0200
-Subject: [PATCH 1/3] Add Cmake integration for qt and cpp binding
+Subject: [PATCH 1/4] Add Cmake integration for qt and cpp binding
 
 * lang/CMakeLists.txt: Add main CMakeLists.txt file
 * lang/cpp/CMakeLists.txt, lang/cpp/src/CMakeLists.txt: Add cmake build
@@ -720,7 +720,7 @@ GitLab
 From 0feb18b1c3ddb50ca1b21baf61e3a1ad63e5fcf0 Mon Sep 17 00:00:00 2001
 From: Carl Schwan <carl.schwan@gnupg.com>
 Date: Wed, 9 Aug 2023 13:02:18 +0200
-Subject: [PATCH 2/3] cpp: Improve compatibility with MSVC
+Subject: [PATCH 2/4] cpp: Improve compatibility with MSVC
 
 - lang/cpp/src/gpgmepp_export.h: Use standard [[deprecated]] instead of
   GCC extension
@@ -874,26 +874,26 @@ index 054d41b4..b3088fd8 100644
 GitLab
 
 
-From f402cb559fbb3ad49179564549f852e19f2d3f10 Mon Sep 17 00:00:00 2001
+From 0fc3c489ee57a844fbc6a3611d4465eb514b858f Mon Sep 17 00:00:00 2001
 From: Carl Schwan <carl.schwan@gnupg.com>
 Date: Tue, 29 Aug 2023 17:25:56 +0200
-Subject: [PATCH 3/3] Create cmake config file for msvc build
+Subject: [PATCH 3/4] Create cmake config file for msvc build
 
 * lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in,
   lang/cpp/src/CMakeLists.txt: Add QGpgmeConfig for msvc build
 * lang/qt/src/QGpgmeConfig-msvc.cmake.in.in,
   lang/qt/src/CMakeLists.txt: Add GpgmeppConfig for msvc build
 ---
- lang/cpp/src/CMakeLists.txt                 |   7 +-
+ lang/cpp/src/CMakeLists.txt                 |  14 +--
  lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in |  99 ++++++++++++++++++
- lang/qt/src/CMakeLists.txt                  |   5 +
+ lang/qt/src/CMakeLists.txt                  |  14 +--
  lang/qt/src/QGpgmeConfig-msvc.cmake.in.in   | 105 ++++++++++++++++++++
- 4 files changed, 215 insertions(+), 1 deletion(-)
+ 4 files changed, 220 insertions(+), 12 deletions(-)
  create mode 100644 lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in
  create mode 100644 lang/qt/src/QGpgmeConfig-msvc.cmake.in.in
 
 diff --git a/lang/cpp/src/CMakeLists.txt b/lang/cpp/src/CMakeLists.txt
-index 94009ebd..ebacf771 100644
+index 94009ebd..bedc10c6 100644
 --- a/lang/cpp/src/CMakeLists.txt
 +++ b/lang/cpp/src/CMakeLists.txt
 @@ -3,7 +3,7 @@
@@ -910,13 +910,31 @@ index 94009ebd..ebacf771 100644
  )
  
 +set(resolved_includedir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
-+set(resolved_libdir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
++set(resolved_libdir "${GPGME_LIBRARY_DIRS}")
 +set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
 +set(libsuffix "${CMAKE_SHARED_LIBRARY_SUFFIX}")
 +
  if (MSVC)
      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfig-msvc.cmake.in.in
                     ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake @ONLY)
+@@ -121,10 +126,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfigVersion.cmake.in
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/gpgmepp_version.h.in
+                ${CMAKE_CURRENT_BINARY_DIR}/gpgmepp_version.h)
+ 
+-install(TARGETS gpgmepp
+-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-)
++install(TARGETS gpgmepp DESTINATION ${GPGME_LIBRARY_DIRS})
+ 
+ install(FILES ${gpgmepp_HEADERS}
+         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gpgme++)
+@@ -138,4 +140,4 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gpgmepp_version.h
+ 
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfigVersion.cmake
+               ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake
+-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Gpgmepp)
++        DESTINATION ${GPGME_LIBRARY_DIRS}/cmake/Gpgmepp)
 diff --git a/lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in b/lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in
 new file mode 100644
 index 00000000..af0db8d7
@@ -1023,21 +1041,48 @@ index 00000000..af0db8d7
 +set(CMAKE_IMPORT_FILE_VERSION)
 +cmake_policy(POP)
 diff --git a/lang/qt/src/CMakeLists.txt b/lang/qt/src/CMakeLists.txt
-index b3088fd8..10ddeee7 100644
+index b3088fd8..e1915aee 100644
 --- a/lang/qt/src/CMakeLists.txt
 +++ b/lang/qt/src/CMakeLists.txt
+@@ -3,7 +3,7 @@
+ # SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
+ # SPDX-License-Identifier: BSD-3-Clause
+ 
+-add_library(qgpgme)
++add_library(qgpgme SHARED)
+ 
+ target_sources(qgpgme PRIVATE
+     changeexpiryjob.cpp
 @@ -232,6 +232,11 @@ set_target_properties(qgpgme PROPERTIES
      SOVERSION "${MAJOR}"
  )
  
 +set(resolved_includedir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
-+set(resolved_libdir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
++set(resolved_libdir "${GPGME_LIBRARY_DIRS}")
 +set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
 +set(libsuffix "${CMAKE_SHARED_LIBRARY_SUFFIX}")
 +
  if (MSVC)
      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig-msvc.cmake.in.in
                     ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
+@@ -247,10 +252,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfigVersion.cmake.in
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qgpgme_version.h.in
+                ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h)
+ 
+-install(TARGETS qgpgme DESTINATION
+-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-)
++install(TARGETS qgpgme DESTINATION ${GPGME_LIBRARY_DIRS})
+ 
+ install(FILES ${qgpgme_HEADERS}
+               ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h
+@@ -260,4 +262,4 @@ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/QGpgME
+         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfigVersion.cmake
+               ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake
+-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/QGpgme)
++        DESTINATION ${GPGME_LIBRARY_DIRS}/cmake/QGpgme)
 diff --git a/lang/qt/src/QGpgmeConfig-msvc.cmake.in.in b/lang/qt/src/QGpgmeConfig-msvc.cmake.in.in
 new file mode 100644
 index 00000000..8787253b
@@ -1116,6 +1161,317 @@ index 00000000..8787253b
 +
 +list(APPEND _IMPORT_CHECK_TARGETS QGgpme )
 +list(APPEND _IMPORT_CHECK_FILES_FOR_Qgpgme "@resolved_libdir@/qgpgme.lib" "@resolved_bindir@/qgpgme.dll")
++
++if(CMAKE_VERSION VERSION_LESS 2.8.12)
++  message(FATAL_ERROR "This file relies on consumers using CMake 2.8.12 or greater.")
++endif()
++
++# Loop over all imported files and verify that they actually exist
++foreach(target ${_IMPORT_CHECK_TARGETS} )
++  foreach(file ${_IMPORT_CHECK_FILES_FOR_${target}} )
++    if(NOT EXISTS "${file}" )
++      message(FATAL_ERROR "The imported target \"${target}\" references the file
++   \"${file}\"
++but this file does not exist.  Possible reasons include:
++* The file was deleted, renamed, or moved to another location.
++* An install or uninstall procedure did not complete successfully.
++* The installation package was faulty and contained
++   \"${CMAKE_CURRENT_LIST_FILE}\"
++but not all the files it references.
++")
++    endif()
++  endforeach()
++  unset(_IMPORT_CHECK_FILES_FOR_${target})
++endforeach()
++unset(_IMPORT_CHECK_TARGETS)
++
++# This file does not depend on other imported targets which have
++# been exported from the same project but in a separate export set.
++
++# Commands beyond this point should not need to know the version.
++set(CMAKE_IMPORT_FILE_VERSION)
++cmake_policy(POP)
++
++# Gpgmepp is a requirement for qgpgme
++find_package(Gpgmepp CONFIG REQUIRED)
+-- 
+GitLab
+
+
+From 5cad18081a19f6efee5de588874e7b6218fd9a7a Mon Sep 17 00:00:00 2001
+From: Carl Schwan <carl.schwan@gnupg.com>
+Date: Wed, 18 Oct 2023 11:12:03 +0200
+Subject: [PATCH 4/4] Add support for Qt6
+
+---
+ CMakeLists.txt                               |   3 +
+ lang/CMakeLists.txt                          |   5 -
+ lang/qt/CMakeLists.txt                       |  18 +++-
+ lang/qt/src/CMakeLists.txt                   |  80 +++++++++-----
+ lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in | 105 +++++++++++++++++++
+ 5 files changed, 176 insertions(+), 35 deletions(-)
+ create mode 100644 lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0fde210f..6af83e97 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -9,4 +9,7 @@ set(FULL_VERSION "1.21.0")
+ string(REGEX MATCH "^[0-9]+.[0-9]+.[0-9]+" cmake_compat_version ${FULL_VERSION})
+ project(gpgme VERSION ${cmake_compat_version})
+ 
++option(QGPGME_BUILD_QT5 "Build for Qt5" ON)
++option(QGPGME_BUILD_QT6 "Build for Qt6" ON)
++
+ add_subdirectory(lang)
+diff --git a/lang/CMakeLists.txt b/lang/CMakeLists.txt
+index af15fe1e..09af290b 100644
+--- a/lang/CMakeLists.txt
++++ b/lang/CMakeLists.txt
+@@ -24,11 +24,6 @@ include(GNUInstallDirs)
+ 
+ option(WITH_QT "Build Qt bindings" OFF)
+ 
+-if (WITH_QT)
+-    find_package(Qt5 COMPONENTS Core)
+-    set(GPGME_CONFIG_AVAIL_LANG "${GPGME_CONFIG_AVAIL_LANG} qt")
+-endif()
+-
+ function(parse_lt name)
+     file(READ "${CMAKE_SOURCE_DIR}/configure.ac" configure_ac)
+     string(REGEX MATCH "${name}_LT_CURRENT=([0-9]+)" _ ${configure_ac})
+diff --git a/lang/qt/CMakeLists.txt b/lang/qt/CMakeLists.txt
+index be94e9e6..6ed0c1af 100644
+--- a/lang/qt/CMakeLists.txt
++++ b/lang/qt/CMakeLists.txt
+@@ -2,4 +2,20 @@
+ # SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
+ # SPDX-License-Identifier: BSD-3-Clause
+ 
+-add_subdirectory(src)
++set(VERSIONS)
++if(QGPGME_BUILD_QT5)
++    list(APPEND VERSIONS "")
++endif()
++if(QGPGME_BUILD_QT6)
++    list(APPEND VERSIONS "6")
++endif()
++
++foreach(version ${VERSIONS})
++    if (${version} EQUAL "5")
++        set(QT_MAJOR_VERSION 5)
++    else()
++        set(QT_MAJOR_VERSION 6)
++    endif()
++
++    add_subdirectory(src src${version})
++endforeach()
+diff --git a/lang/qt/src/CMakeLists.txt b/lang/qt/src/CMakeLists.txt
+index e1915aee..cd1d3066 100644
+--- a/lang/qt/src/CMakeLists.txt
++++ b/lang/qt/src/CMakeLists.txt
+@@ -3,9 +3,16 @@
+ # SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
+ # SPDX-License-Identifier: BSD-3-Clause
+ 
+-add_library(qgpgme SHARED)
++find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS Core CoreTools)
++set(GPGME_CONFIG_AVAIL_LANG "${GPGME_CONFIG_AVAIL_LANG} qt")
+ 
+-target_sources(qgpgme PRIVATE
++if (${QT_MAJOR_VERSION} EQUAL "6")
++    get_property(QtCore_MOC_EXECUTABLE TARGET Qt6::moc PROPERTY LOCATION)
++endif()
++
++add_library(qgpgme${version} SHARED)
++
++target_sources(qgpgme${version} PRIVATE
+     changeexpiryjob.cpp
+     cryptoconfig.cpp
+     dataprovider.cpp
+@@ -201,24 +208,32 @@ foreach(header ${qgpgme_HEADERS})
+     get_filename_component(absolute_path ${header} ABSOLUTE)
+     get_filename_component(file_name ${header} NAME_WLE)
+ 
+-    add_custom_command(
+-        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${file_name}.moc
+-        COMMAND ${QT_MOC_EXECUTABLE} ${absolute_path} -o ${CMAKE_CURRENT_BINARY_DIR}/${file_name}.moc
+-    )
++    if (${QT_MAJOR_VERSION} EQUAL "6")
++        add_custom_command(
++            OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${file_name}.moc
++            COMMAND ${QtCore_MOC_EXECUTABLE} ${absolute_path} -o ${CMAKE_CURRENT_BINARY_DIR}/${file_name}.moc
++        )
++    else()
++        add_custom_command(
++            OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${file_name}.moc
++            COMMAND ${QT_MOC_EXECUTABLE} ${absolute_path} -o ${CMAKE_CURRENT_BINARY_DIR}/${file_name}.moc
++        )
++    endif()
++
+     list(APPEND qgpgme_MOC "${CMAKE_CURRENT_BINARY_DIR}/${file_name}.moc")
+ endforeach()
+-target_sources(qgpgme PRIVATE ${qgpgme_MOC})
++target_sources(qgpgme${version} PRIVATE ${qgpgme_MOC})
+ 
+ foreach(header ${qgpgme_CAMELCASE_HEADERS})
+     string(TOLOWER ${header} header_lc)
+-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/QGpgME/${header} "#include \"qgpgme/${header_lc}.h\"")
++    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/QGpgME${version}/${header} "#include \"qgpgme/${header_lc}.h\"")
+     list(APPEND qgpgme_HEADERS ${header_lc}.h)
+ endforeach()
+ 
+ add_definitions(-DBUILDING_QGPGME)
+ 
+-target_link_libraries(qgpgme PUBLIC gpgmepp PkgConfig::GPGME PkgConfig::GPGERROR Qt5::Core)
+-target_include_directories(qgpgme
++target_link_libraries(qgpgme${version} PUBLIC gpgmepp PkgConfig::GPGME PkgConfig::GPGERROR Qt${version}::Core)
++target_include_directories(qgpgme${version}
+     PUBLIC
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+     PRIVATE
+@@ -227,7 +242,7 @@ target_include_directories(qgpgme
+ 
+ parse_lt(LIBQGPGME)
+ math(EXPR MAJOR "${LIBQGPGME_LT_CURRENT} - ${LIBQGPGME_LT_AGE}")
+-set_target_properties(qgpgme PROPERTIES
++set_target_properties(qgpgme${version} PROPERTIES
+     VERSION "${MAJOR}.${LIBQGPGME_LT_AGE}.${LIBQGPGME_LT_REVISION}"
+     SOVERSION "${MAJOR}"
+ )
+@@ -237,29 +252,36 @@ set(resolved_libdir "${GPGME_LIBRARY_DIRS}")
+ set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
+ set(libsuffix "${CMAKE_SHARED_LIBRARY_SUFFIX}")
+ 
++if (${QT_MAJOR_VERSION} EQUAL 6)
++    set(config_suffix Qt6)
++endif()
++
+ if (MSVC)
+-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig-msvc.cmake.in.in
+-                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgme${config_suffix}Config-msvc.cmake.in.in
++                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgme${config_suffix}Config.cmake @ONLY)
+ elseif (WIN32)
+-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig-w32.cmake.in.in
+-                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgme${config_suffix}Config-w32.cmake.in.in
++                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgme${config_suffix}Config.cmake @ONLY)
+ else()
+-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfig.cmake.in.in
+-                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake @ONLY)
++    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgme${config_suffix}Config.cmake.in.in
++                   ${CMAKE_CURRENT_BINARY_DIR}/QGpgme${config_suffix}Config.cmake @ONLY)
+ endif()
+-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgmeConfigVersion.cmake.in
+-               ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfigVersion.cmake @ONLY)
++configure_file(${CMAKE_CURRENT_SOURCE_DIR}/QGpgme${config_suffix}ConfigVersion.cmake.in
++               ${CMAKE_CURRENT_BINARY_DIR}/QGpgme${config_suffix}ConfigVersion.cmake @ONLY)
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qgpgme_version.h.in
+                ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h)
+ 
+-install(TARGETS qgpgme DESTINATION ${GPGME_LIBRARY_DIRS})
++install(TARGETS qgpgme${version} DESTINATION ${GPGME_LIBRARY_DIRS})
++
++if (${QT_MAJOR_VERSION} EQUAL 5)
++    install(FILES ${qgpgme_HEADERS}
++                  ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h
++                  ${CMAKE_CURRENT_SOURCE_DIR}/qgpgme_export.h
++            DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qgpgme)
++    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/QGpgME
++            DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
++endif()
+ 
+-install(FILES ${qgpgme_HEADERS}
+-              ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h
+-              ${CMAKE_CURRENT_SOURCE_DIR}/qgpgme_export.h
+-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qgpgme)
+-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/QGpgME
+-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfigVersion.cmake
+-              ${CMAKE_CURRENT_BINARY_DIR}/QGpgmeConfig.cmake
+-        DESTINATION ${GPGME_LIBRARY_DIRS}/cmake/QGpgme)
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/QGpgme${config_suffix}ConfigVersion.cmake
++              ${CMAKE_CURRENT_BINARY_DIR}/QGpgme${config_suffix}Config.cmake
++        DESTINATION ${GPGME_LIBRARY_DIRS}/cmake/QGpgme${config_suffix})
+diff --git a/lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in b/lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in
+new file mode 100644
+index 00000000..94138e10
+--- /dev/null
++++ b/lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in
+@@ -0,0 +1,105 @@
++# CMake Config file for QGPGME.
++# Copyright (C) 2016 Intevation GmbH
++#
++# This file is part of GPGME.
++#
++# GPGME-CL is free software; you can redistribute it and/or modify it
++# under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# GPGME-CL is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
++# 02111-1307, USA
++
++# based on a generated file from cmake.
++# Generated by CMake 3.0.2
++
++if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.5)
++   message(FATAL_ERROR "CMake >= 2.6.0 required")
++endif()
++cmake_policy(PUSH)
++cmake_policy(VERSION 2.6)
++#----------------------------------------------------------------
++# Generated CMake target import file.
++#----------------------------------------------------------------
++
++# Commands may need to know the format version.
++set(CMAKE_IMPORT_FILE_VERSION 1)
++
++# Protect against multiple inclusion, which would fail when already imported targets are added once more.
++set(_targetsDefined)
++set(_targetsNotDefined)
++set(_expectedTargets)
++foreach(_expectedTarget QGpgmeQt6)
++  list(APPEND _expectedTargets ${_expectedTarget})
++  if(NOT TARGET ${_expectedTarget})
++    list(APPEND _targetsNotDefined ${_expectedTarget})
++  endif()
++  if(TARGET ${_expectedTarget})
++    list(APPEND _targetsDefined ${_expectedTarget})
++  endif()
++endforeach()
++if("${_targetsDefined}" STREQUAL "${_expectedTargets}")
++  set(CMAKE_IMPORT_FILE_VERSION)
++  cmake_policy(POP)
++  return()
++endif()
++if(NOT "${_targetsDefined}" STREQUAL "")
++  message(FATAL_ERROR "Some (but not all) targets in this export set were already defined.\nTargets Defined: ${_targetsDefined}\nTargets not yet defined: ${_targetsNotDefined}\n")
++endif()
++unset(_targetsDefined)
++unset(_targetsNotDefined)
++unset(_expectedTargets)
++
++# Create imported target QGpgme
++add_library(QGpgmeQt6 SHARED IMPORTED)
++
++set_target_properties(QGpgmeQt6 PROPERTIES
++  IMPORTED_IMPLIB "@resolved_libdir@/qgpgmeqt6.lib"
++  INTERFACE_INCLUDE_DIRECTORIES "@resolved_includedir@/qgpgme;@resolved_includedir@"
++  INTERFACE_LINK_LIBRARIES "Gpgmepp;Qt6::Core"
++  IMPORTED_LOCATION "@resolved_bindir@/qgpgmeqt6.dll"
++)
++
++list(APPEND _IMPORT_CHECK_TARGETS QGgpmeQt6 )
++list(APPEND _IMPORT_CHECK_FILES_FOR_QgpgmeQt6 "@resolved_libdir@/qgpgmeqt6.lib" "@resolved_bindir@/qgpgmeqt6.dll")
 +
 +if(CMAKE_VERSION VERSION_LESS 2.8.12)
 +  message(FATAL_ERROR "This file relies on consumers using CMake 2.8.12 or greater.")

@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
 
         self.patchToApply["1.21.0"] = ("cmake.patch", 1)
 
-        self.patchLevel["1.21.0"] = 3
+        self.patchLevel["1.21.0"] = 4
 
 
 from Package.CMakePackageBase import *
@@ -32,3 +32,8 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args += ["-DWITH_QT=ON", "-DBUILD_SHARED_LIBS=ON"]
+
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.subinfo.options.configure.args += ["-DQGPGME_BUILD_QT5=OFF"]
+        else:
+            self.subinfo.options.configure.args += ["-DQGPGME_BUILD_QT6=OFF"]
