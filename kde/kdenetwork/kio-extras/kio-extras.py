@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
         self.description = "Extra plugins for KIO (thumbnail generators, archives, remote filesystems and more)"
 
         self.patchToApply["23.08.2"] = [("fix-mingw-build.patch", 1)]
+        self.patchLevel["23.08.2"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
