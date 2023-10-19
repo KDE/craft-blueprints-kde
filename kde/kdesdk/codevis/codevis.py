@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/llvm"] = None
         self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/boost/boost-headers"] = None
         self.runtimeDependencies["libs/catch2"] = None
         self.runtimeDependencies["qt-libs/quazip"] = None
         self.runtimeDependencies["libs/runtime"] = None
