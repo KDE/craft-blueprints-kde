@@ -20,6 +20,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
 
+    def registerOptions(self):
+        self.options.dynamic.registerOption("buildPrograms", True)
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
@@ -30,3 +32,6 @@ class Package(CMakePackageBase):
             "-DZSTD_BUILD_TESTS=OFF",
             "-DZSTD_BUILD_CONTRIB=OFF",
         ]
+
+        if not self.subinfo.options.dynamic.buildPrograms:
+            self.subinfo.options.configure.args += ["-DZSTD_BUILD_PROGRAMS=OFF"]
