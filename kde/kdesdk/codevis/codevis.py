@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2023 Tomaz Canabrava <tcanabrava@kde.org>
+# SPDX-License-Identifier: BSD-2-Clause
+
 import subprocess
 import sys
 
@@ -19,6 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/llvm"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/boost/boost-headers"] = None
+        self.runtimeDependencies["libs/boost/boost-fusion"] = None
         self.runtimeDependencies["libs/catch2"] = None
         self.runtimeDependencies["qt-libs/quazip"] = None
         self.runtimeDependencies["libs/runtime"] = None
