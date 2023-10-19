@@ -5,7 +5,7 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["10.37", "10.42"]:
-            self.targets[ver] = f"https://github.com/PhilipHazel/pcre2/releases/download/pcre2-{ver}/pcre2-{ver}.tar.gz"
+            self.targets[ver] = f"https://github.com/PCRE2Project/pcre2/releases/download/pcre2-{ver}/pcre2-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"pcre2-{ver}"
 
         self.patchToApply["10.37"] = [("pcre2-10.37-20211120.diff", 1)]
