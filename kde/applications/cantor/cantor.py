@@ -3,6 +3,11 @@ import utils
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # The required dependedency QtWebEngine is not available on Qt5
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and CraftCore.compiler.isMinGW():
+            self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Cantor"
