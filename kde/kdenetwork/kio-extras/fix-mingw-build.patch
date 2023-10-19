@@ -1,0 +1,33 @@
+From aed0ed0e7af235614843ae3d6dd2c38bf38405c0 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <jk.kdedev@smartlab.uber.space>
+Date: Thu, 19 Oct 2023 16:20:29 +0000
+Subject: [PATCH] Fix build with MinGW
+
+BUG: 430312
+
+Inspired by https://invent.kde.org/qt/qt/qtbase/-/commit/a1bc2921a44409736a8b8576243a0c9129d7683b (which applies to MSVC only)
+
+See also https://bugreports.qt.io/browse/QTBUG-90978?subTaskView=all
+---
+ sftp/kio_sftp.cpp | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/sftp/kio_sftp.cpp b/sftp/kio_sftp.cpp
+index 302dd93c6..ba354cb21 100644
+--- a/sftp/kio_sftp.cpp
++++ b/sftp/kio_sftp.cpp
+@@ -445,7 +445,11 @@ Result SFTPWorker::createUDSEntry(SFTPAttributesPtr sb, UDSEntry &entry, const Q
+             fileType = QT_STAT_DIR;
+             break;
+         case SSH_FILEXFER_TYPE_SYMLINK:
++#if defined(Q_OS_WIN) && !defined(QT_STAT_LNK)
++            fileType = 0120000;
++#else
+             fileType = QT_STAT_LNK;
++#endif
+             break;
+         case SSH_FILEXFER_TYPE_SPECIAL:
+         case SSH_FILEXFER_TYPE_UNKNOWN:
+-- 
+GitLab
+
