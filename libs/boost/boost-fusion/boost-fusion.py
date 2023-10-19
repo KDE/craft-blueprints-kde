@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2023 Tomaz Canabrava <tcanabrava@kde.org>
+# SPDX-License-Identifier: BSD-2-Clause
+
 import info
 
 
