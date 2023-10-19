@@ -39,8 +39,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
-        if not CraftCore.compiler.isWindows:
-            self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
+        self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
