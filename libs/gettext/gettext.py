@@ -6,13 +6,16 @@ from Package.MSBuildPackageBase import *
 
 class subinfo(info.infoclass):
     def registerOptions(self):
+        # On Android we use libintl-lite instead
+        # (however gettext added Adnroid support recently so maybe we should look into switching to it?)
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
-        for ver in ["0.21"]:
+        for ver in ["0.21", "0.22.3"]:
             self.targets[ver] = "https://ftp.gnu.org/pub/gnu/gettext/gettext-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "gettext-%s" % ver
         self.targetDigests["0.21"] = (["c77d0da3102aec9c07f43671e60611ebff89a996ef159497ce8e59d075786b12"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.22.3"] = (["839a260b2314ba66274dae7d245ec19fce190a3aa67869bf31354cb558df42c7"], CraftHash.HashAlgorithm.SHA256)
 
         self.patchToApply["0.21"] = [
             ("gettext-0.21-add-missing-ruby.diff", 1),
@@ -29,7 +32,7 @@ class subinfo(info.infoclass):
             self.patchLevel["0.21"] = 2
 
         self.description = "GNU internationalization (i18n)"
-        self.defaultTarget = "0.21"
+        self.defaultTarget = "0.22.3"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/automake"] = None
