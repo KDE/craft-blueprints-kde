@@ -6,6 +6,10 @@ from Package.CMakePackageBase import *
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # On other platforms we use gettext instead
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Android
+
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/j-jorge/libintl-lite.git"
         self.defaultTarget = "master"
