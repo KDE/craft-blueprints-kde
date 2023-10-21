@@ -95,6 +95,7 @@ class Package(CMakePackageBase):
         defines = super().setDefaults(defines)
         if OsUtils.isLinux() and isinstance(self, AppImagePackager):
             defines["runenv"].append('CURL_CA_BUNDLE="$this_dir/etc/cacert.pem"')
+            defines["runenv"].append('LD_LIBRARY_PATH="$this_dir/usr/lib:$LD_LIBRARY_PATH"') # R misses custom loaded libbzip2.so without this
         return defines
 
     def install(self):
