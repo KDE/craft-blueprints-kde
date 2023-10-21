@@ -27,4 +27,4 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.useShadowBuild = False
         prefix = str(self.shell.toNativePath(CraftCore.standardDirs.craftRoot()))
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += "--disable-dependency-tracking" " --disable-examples" " --disable-sdltest" " --prefix=" + prefix
+        self.subinfo.options.configure.args += ["--disable-dependency-tracking", "--disable-examples", "--disable-sdltest", f"--prefix={prefix}"]

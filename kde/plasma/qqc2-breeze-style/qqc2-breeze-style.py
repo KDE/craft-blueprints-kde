@@ -9,8 +9,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -19,6 +17,8 @@ class subinfo(info.infoclass):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.runtimeDependencies["kde/frameworks/tier2/kcolorscheme"] = None
         else:
+            self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
+            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
 
         if not CraftCore.compiler.isAndroid:

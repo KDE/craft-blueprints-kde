@@ -29,6 +29,6 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         # AMPL not needed (avoid submodule ASL dependency)
-        self.subinfo.options.configure.args += " -DGSL_DISABLE_TESTS=ON -DNO_AMPL_BINDINGS=ON "
+        self.subinfo.options.configure.args += ["-DGSL_DISABLE_TESTS=ON -DNO_AMPL_BINDINGS=ON"]
         if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=OFF "
+            self.subinfo.options.dynamic.buildStatic = True

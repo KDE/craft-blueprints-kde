@@ -26,8 +26,13 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.supportsNinja = False
-        self.subinfo.options.configure.args += (
-            " -DENABLE_FLOAT=ON -DENABLE_SSE=ON " " -DENABLE_SSE2=ON -DENABLE_AVX=OFF " " -DENABLE_THREADS=ON -DWITH_COMBINED_THREADS=ON "
-        )
+        self.subinfo.options.configure.args += [
+            "-DENABLE_FLOAT=ON",
+            "-DENABLE_SSE=ON",
+            "-DENABLE_SSE2=ON",
+            "-DENABLE_AVX=OFF",
+            "-DENABLE_THREADS=ON",
+            "-DWITH_COMBINED_THREADS=ON",
+        ]
         if CraftCore.compiler.isWindows:
-            self.subinfo.options.configure.args += " -DWITH_OUR_MALLOC=ON -DFFTW_ENABLE_ALLOCA=OFF " " -DWINDOWS_F77_MANGLING=ON "
+            self.subinfo.options.configure.args += ["-DWITH_OUR_MALLOC=ON", "-DFFTW_ENABLE_ALLOCA=OFF", "-DWINDOWS_F77_MANGLING=ON"]

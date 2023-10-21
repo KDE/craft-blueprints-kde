@@ -26,9 +26,11 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.dynamic.buildTests = False
+        self.subinfo.options.dynamic.buildStatic = False
 
         hdf5dir = os.path.join(CraftStandardDirs.craftRoot(), "cmake", "hdf5")
-        self.subinfo.options.configure.args = f"-DHDF5_DIR={hdf5dir} -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF"
+        self.subinfo.options.configure.args = [f"-DHDF5_DIR={hdf5dir}"]
 
     def createPackage(self):
         return TypePackager.createPackage(self)

@@ -57,23 +57,23 @@ from Package.CMakePackageBase import *
 class PackageCMake(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DDBUS_BUILD_TESTS=OFF " "-DDBUS_ENABLE_XML_DOCS=OFF "
+        self.subinfo.options.configure.args = ["-DDBUS_BUILD_TESTS=OFF", "-DDBUS_ENABLE_XML_DOCS=OFF"]
 
         if self.buildType() == "Debug":
-            self.subinfo.options.configure.args += "-DDBUS_ENABLE_VERBOSE_MODE=ON "
+            self.subinfo.options.configure.args += ["-DDBUS_ENABLE_VERBOSE_MODE=ON"]
         else:
-            self.subinfo.options.configure.args += "-DDBUS_ENABLE_VERBOSE_MODE=OFF " "-DDBUS_DISABLE_ASSERT=ON "
+            self.subinfo.options.configure.args += ["-DDBUS_ENABLE_VERBOSE_MODE=OFF", "-DDBUS_DISABLE_ASSERT=ON"]
 
         if OsUtils.isWin():
             # kde uses debugger output, so dbus should do too
-            self.subinfo.options.configure.args += "-DDBUS_USE_OUTPUT_DEBUG_STRING=ON "
-            self.subinfo.options.configure.args += "-DCMAKE_INSTALL_DATADIR:STRING=bin/data "
-            self.subinfo.options.configure.args += "-DENABLE_TRADITIONAL_ACTIVATION=ON "
-            self.subinfo.options.configure.args += (
-                "-DDBUS_SESSION_BUS_LISTEN_ADDRESS:STRING=autolaunch:scope=*install-path "
-                "-DDBUS_SESSION_BUS_CONNECT_ADDRESS:STRING=autolaunch:scope=*install-path "
-                "-DDBUS_SYSTEM_BUS_DEFAULT_ADDRESS:STRING=autolaunch:scope=*install-path "
-            )
+            self.subinfo.options.configure.args += [
+                "-DDBUS_USE_OUTPUT_DEBUG_STRING=ON",
+                "-DCMAKE_INSTALL_DATADIR:STRING=bin/data",
+                "-DENABLE_TRADITIONAL_ACTIVATION=ON",
+                "-DDBUS_SESSION_BUS_LISTEN_ADDRESS:STRING=autolaunch:scope=*install-path",
+                "-DDBUS_SESSION_BUS_CONNECT_ADDRESS:STRING=autolaunch:scope=*install-path",
+                "-DDBUS_SYSTEM_BUS_DEFAULT_ADDRESS:STRING=autolaunch:scope=*install-path",
+            ]
 
     def install(self):
         if not CMakePackageBase.install(self):
@@ -100,15 +100,15 @@ class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += (
-            "--disable-dependency-tracking "
-            "--disable-static "
-            "--disable-doxygen-docs "
-            "--disable-xml-docs "
-            "--enable-verbose-mode "
-            "--without-x "
-            "--disable-tests "
-        )
+        self.subinfo.options.configure.args += [
+            "--disable-dependency-tracking",
+            "--disable-static",
+            "--disable-doxygen-docs",
+            "--disable-xml-docs",
+            "--enable-verbose-mode",
+            "--without-x",
+            "--disable-tests",
+        ]
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += (
                 "--enable-launchd " f"--with-launchd-agent-dir='{os.path.join(CraftCore.standardDirs.craftRoot(), 'Library', 'LaunchAgents')}' "

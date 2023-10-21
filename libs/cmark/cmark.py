@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += "-DCMARK_TESTS=OFF"
+        self.subinfo.options.configure.args += ["-DCMARK_TESTS=OFF"]
 
     def postInstall(self):
         # remove API docs here as there is no build option for that

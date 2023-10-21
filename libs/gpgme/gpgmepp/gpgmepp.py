@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.isMSVC() and not CraftCore.compiler.isLinux:
             # Theoretically gpgmepp supports other platforms than Windows with MSVC
             # however not with the patch for MSVC applied below and no one put effort in
             # making it work on other platforms. So if you are interested in it do it :-)
@@ -31,7 +31,8 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += ["-DWITH_QT=ON", "-DBUILD_SHARED_LIBS=ON"]
+        self.subinfo.options.dynamic.buildStatic = False
+        self.subinfo.options.configure.args += ["-DWITH_QT=ON"]
 
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.subinfo.options.configure.args += ["-DQGPGME_BUILD_QT5=OFF"]

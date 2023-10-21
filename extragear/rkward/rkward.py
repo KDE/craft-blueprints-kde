@@ -76,18 +76,15 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += [f"-DR_EXECUTABLE={OsUtils.toUnixPath(os.path.join(r_dir, 'R.exe'))}"]
         elif OsUtils.isMac():
             rhome = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "R", "R.framework", "Resources")
-            self.subinfo.options.configure.args += (
-                " -DR_EXECUTABLE="
-                + os.path.join(rhome, "R")
-                + " -DNO_CHECK_R=1 -DR_HOME="
-                + rhome
-                + " -DR_INCLUDEDIR="
-                + os.path.join(rhome, "include")
-                + " -DR_SHAREDLIBDIR="
-                + os.path.join(rhome, "lib")
-            )
-            self.subinfo.options.configure.args += " -DUSE_BINARY_PACKAGES=1"
-            self.subinfo.options.configure.args += " -DNO_QT_WEBENGINE=1"
+            self.subinfo.options.configure.args += [
+                f"-DR_EXECUTABLE={os.path.join(rhome, 'R')}",
+                "-DNO_CHECK_R=1",
+                f"-DR_HOME={rhome}",
+                f"-DR_INCLUDEDIR={os.path.join(rhome, 'include')}",
+                f"-DR_SHAREDLIBDIR={os.path.join(rhome, 'lib')}",
+                "-DUSE_BINARY_PACKAGES=1",
+                "-DNO_QT_WEBENGINE=1",
+            ]
 
     def fetch(self):
         if not CMakePackageBase.fetch(self):

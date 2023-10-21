@@ -23,8 +23,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DCMAKE_SKIP_RPATH=ON -DBUILD_TESTING=OFF -DLAPACKE_WITH_TMG=ON -DCBLAS=ON -DBUILD_DEPRECATED=ON"
-        if OsUtils.isWin():  # mingw-w64 (gfortran) 8.1 includes only static libgfortran and fails to build dll
-            self.subinfo.options.configure.args = " -DBUILD_SHARED_LIBS=OFF"
-        else:
-            self.subinfo.options.configure.args = " -DBUILD_SHARED_LIBS=ON"
+        self.subinfo.options.dynamic.buildTests = False
+        self.subinfo.options.configure.args += ["-DCMAKE_SKIP_RPATH=ON", "-DLAPACKE_WITH_TMG=ON", "-DCBLAS=ON", "-DBUILD_DEPRECATED=ON"]
+        # mingw-w64 (gfortran) 8.1 includes only static libgfortran and fails to build dll
+        self.subinfo.options.dynamic.buildStatic = True if OsUtils.isWin() else False

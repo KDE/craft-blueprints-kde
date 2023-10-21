@@ -25,7 +25,7 @@ if CraftCore.compiler.isMSVC():
     class Package(CMakePackageBase):
         def __init__(self, **args):
             CMakePackageBase.__init__(self)
-            self.subinfo.options.configure.args = "-DBUILD_SHARED_LIBS=OFF"
+            self.subinfo.options.dynamic.buildStatic = True
 
 else:
 

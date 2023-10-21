@@ -40,7 +40,7 @@ if CraftCore.compiler.isGCCLike():
         def __init__(self):
             PackageAutoTools.__init__(self)
             self.subinfo.options.useShadowBuild = False
-            self.subinfo.options.configure.args += " --disable-programs"
+            self.subinfo.options.configure.args += ["--disable-programs"]
 
 else:
 

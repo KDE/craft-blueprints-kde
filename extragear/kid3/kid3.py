@@ -32,19 +32,21 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args = "-DWITH_ID3LIB=OFF -DWITH_VORBIS=OFF -DWITH_FLAC=OFF"
-        self.subinfo.options.configure.args += " -DWITH_MP4V2=OFF -DWITH_QML=ON"
-        self.subinfo.options.configure.args += ' -DWITH_APPS="Qt;CLI"'
+        self.subinfo.options.configure.args += [
+            "-DWITH_ID3LIB=OFF",
+            "-DWITH_VORBIS=OFF",
+            "-DWITH_FLAC=OFF",
+            "-DWITH_MP4V2=OFF",
+            "-DWITH_QML=ON",
+            '-DWITH_APPS="Qt;CLI"',
+        ]
         if self.buildTarget == "master":
-            self.subinfo.options.configure.args += " -DDOWNLOAD_POS=REMOVE"
+            self.subinfo.options.configure.args += ["-DDOWNLOAD_POS=REMOVE"]
+
+        docbookdir = os.path.join(CraftStandardDirs.craftRoot(), "bin", "data", "xml", "docbook", "xsl-stylesheets")
         if CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += " -DWITH_DOCBOOKDIR=" + os.path.join(
-                CraftStandardDirs.craftRoot(), "share", "xml", "docbook", "xsl-stylesheets"
-            )
-        else:
-            self.subinfo.options.configure.args += " -DWITH_DOCBOOKDIR=" + os.path.join(
-                CraftStandardDirs.craftRoot(), "bin", "data", "xml", "docbook", "xsl-stylesheets"
-            )
+            docbookdir = os.path.join(CraftStandardDirs.craftRoot(), "share", "xml", "docbook", "xsl-stylesheets")
+        self.subinfo.options.configure.args += [f"-DWITH_DOCBOOKDIR={docbookdir}"]
         self.subinfo.options.package.movePluginsToBin = False
 
     def createPackage(self):

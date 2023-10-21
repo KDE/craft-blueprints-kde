@@ -56,14 +56,14 @@ class subinfo(info.infoclass):
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--enable-tempstore=yes"]
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.make.supportsMultijob = False
-            self.subinfo.options.configure.args += (
-                " --disable-static --enable-shared --enable-tempstore=yes CFLAGS='-DSQLITE_HAS_CODEC -I%s' "
-                % OsUtils.toMSysPath(os.path.join(CraftCore.standardDirs.craftRoot(), "include"))
-            )
+
+            includeDir = OsUtils.toMSysPath(os.path.join(CraftCore.standardDirs.craftRoot(), "include"))
+            self.subinfo.options.configure.args += [f"CFLAGS='-DSQLITE_HAS_CODEC -I{includeDir}'"]
         else:
-            self.subinfo.options.configure.args += " --disable-static --enable-shared --enable-tempstore=yes CFLAGS='-DSQLITE_HAS_CODEC' "
+            self.subinfo.options.configure.args += ["CFLAGS='-DSQLITE_HAS_CODEC'"]
 
     def configure(self):
         isConfigured = super().configure()

@@ -24,4 +24,4 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args = ""
 
 
-# self.subinfo.options.configure.args += "-DWITH_KDE=ON"
+# self.subinfo.options.configure.args += ["-DWITH_KDE=ON"]

@@ -26,4 +26,4 @@ class Package(AutoToolsPackageBase):
         prefix = str(self.shell.toNativePath(CraftCore.standardDirs.craftRoot()))
         # self.subinfo.options.configure.bootstrap = True
         self.subinfo.options.useShadowBuild = False
-        self.subinfo.options.configure.args += " --disable-dependency-tracking" " --prefix=" + prefix
+        self.subinfo.options.configure.args += ["--disable-dependency-tracking", f"--prefix={prefix}"]

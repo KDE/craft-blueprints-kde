@@ -78,19 +78,35 @@ class subinfo(info.infoclass):
 
 
 from Package.CMakePackageBase import *
+from Packager.AppImagePackager import AppImagePackager
 
 
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += "-DFETCH_TRANSLATIONS=ON"
+        self.subinfo.options.configure.args += ["-DFETCH_TRANSLATIONS=ON"]
 
         if CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += "-DENABLE_WOOB=OFF"
+            self.subinfo.options.configure.args += ["-DENABLE_WOOB=OFF"]
+
+    def setDefaults(self, defines: {str: str}) -> {str: str}:
+        defines = super().setDefaults(defines)
+        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
+            # set env variables for AppImage run environment
+            defines["runenv"] += ["LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH"]
+        return defines
+
+    def install(self):
+        if not CMakePackageBase.install(self):
+            return False
+
+        # For AppImages create a gpgconf.ctl file that forces gpgconf to use the actual APPDIR
+        # as rootdir and not the ci build dir which causes gpg operations to fail.
+        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
+            with open(os.path.join(self.installDir(), "bin", "gpgconf.ctl"), "wt") as f:
+                f.write("rootdir=${APPDIR}/usr")
 
     def createPackage(self):
-        # set env variables for AppImage run environment
-        self.defines["runenv"] = ["LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH"]
         self.defines["executable"] = "bin\\kmymoney.exe"  # Windows-only, mac is handled implicitly
         self.defines["icon"] = os.path.join(self.packageDir(), "kmymoney.ico")
         self.defines["mimetypes"] = [

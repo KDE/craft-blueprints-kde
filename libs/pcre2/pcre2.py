@@ -5,7 +5,7 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["10.37", "10.42"]:
-            self.targets[ver] = f"https://github.com/PhilipHazel/pcre2/releases/download/pcre2-{ver}/pcre2-{ver}.tar.gz"
+            self.targets[ver] = f"https://github.com/PCRE2Project/pcre2/releases/download/pcre2-{ver}/pcre2-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"pcre2-{ver}"
 
         self.patchToApply["10.37"] = [("pcre2-10.37-20211120.diff", 1)]
@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
-        self.subinfo.options.configure.args += " -DBUILD_SHARED_LIBS=ON -DPCRE2_BUILD_PCRE2_16=ON -DPCRE2_BUILD_PCRE2_32=ON"
+        self.subinfo.options.dynamic.buildStatic = False
+        self.subinfo.options.configure.args += ["-DPCRE2_BUILD_PCRE2_16=ON", "-DPCRE2_BUILD_PCRE2_32=ON"]
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += "-DPCRE2_BUILD_PCRE2GREP=OFF PCRE2_BUILD_TESTS=OFF"
+            self.subinfo.options.configure.args += ["-DPCRE2_BUILD_PCRE2GREP=OFF", "PCRE2_BUILD_TESTS=OFF"]

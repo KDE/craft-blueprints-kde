@@ -22,11 +22,8 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         CMakePackageBase.__init__(self)
+        self.subinfo.options.dynamic.buildStatic = False
 
-        defines = "-DBUILD_SHARED_LIBS=ON "
-        defines += "-DPCRE_SUPPORT_UNICODE_PROPERTIES=ON "
-        defines += "-DPCRE_SUPPORT_UTF8=ON "
-        defines += "-DPCRE_EBCDIC=OFF "
+        self.subinfo.options.configure.args += ["-DPCRE_SUPPORT_UNICODE_PROPERTIES=ON", "-DPCRE_SUPPORT_UTF8=ON", "-DPCRE_EBCDIC=OFF"]
         if CraftCore.compiler.isAndroid:
-            defines += "-DHAVE_STRTOQ=FALSE -DPCRE_BUILD_PCREGREP=FALSE -DPCRE_BUILD_TEST=FALSE"
-        self.subinfo.options.configure.args = defines
+            self.subinfo.options.configure.args += ["-DHAVE_STRTOQ=FALSE", "-DPCRE_BUILD_PCREGREP=FALSE", "-DPCRE_BUILD_TEST=FALSE"]

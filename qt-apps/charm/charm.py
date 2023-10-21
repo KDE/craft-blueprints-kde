@@ -32,7 +32,7 @@ class Package(CMakePackageBase):
         if self.subinfo.buildTarget != "master":
             self.subinfo.options.configure.args = f"-DCharm_VERSION={self.subinfo.buildTarget}"
         if self.subinfo.options.dynamic.update_check_url:
-            self.subinfo.options.configure.args += f" -DUPDATE_CHECK_URL={self.subinfo.options.dynamic.update_check_url}"
+            self.subinfo.options.configure.args += [f"-DUPDATE_CHECK_URL={self.subinfo.options.dynamic.update_check_url}"]
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
