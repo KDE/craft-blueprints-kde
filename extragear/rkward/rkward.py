@@ -94,7 +94,7 @@ class Package(CMakePackageBase):
     def setDefaults(self, defines: {str: str}) -> {str: str}:
         defines = super().setDefaults(defines)
         if OsUtils.isLinux() and isinstance(self, AppImagePackager):
-            defines["runenv"] += ["CURL_CA_BUNDLE=$this_dir/etc/cacert.pem"]
+            defines["runenv"].append('CURL_CA_BUNDLE="$this_dir/etc/cacert.pem"')
         return defines
 
     def install(self):
