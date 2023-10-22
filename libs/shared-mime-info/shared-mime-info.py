@@ -23,7 +23,8 @@
 # SUCH DAMAGE.
 
 import info
-from Package.AutoToolsPackageBase import *
+import utils
+from CraftCore import CraftCore
 from Utils.PostInstallRoutines import *
 
 
@@ -32,15 +33,14 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
-        for ver in ["1.9"]:
-            self.targets[ver] = f"http://freedesktop.org/~hadess/shared-mime-info-{ver}.tar.xz"
+        for ver in ["2.2"]:
+            self.targets[ver] = f"https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/{ver}/shared-mime-info-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
-        self.targetDigests["1.9"] = (["5c0133ec4e228e41bdf52f726d271a2d821499c2ab97afd3aa3d6cf43efcdc83"], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["1.9"] = 6
+        self.targetDigests["2.2"] = (["5c0133ec4e228e41bdf52f726d271a2d821499c2ab97afd3aa3d6cf43efcdc83"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "The shared-mime-info package contains the core database of common types and the update-mime-database command used to extend it"
         self.webpage = "https://www.freedesktop.org/wiki/Software/shared-mime-info/"
-        self.defaultTarget = "1.9"
+        self.defaultTarget = "2.2"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
@@ -52,30 +52,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/glib"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblzma"] = None
-        if CraftCore.compiler.isMSVC():
-            self.runtimeDependencies["kdesupport/kdewin"] = None
 
 
-class Package(AutoToolsPackageBase):
-    def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args += ["--disable-default-make-check", "--disable-update-mimedb"]
-        if not CraftCore.compiler.isWindows:
-            # /Users/hannah/CraftRoot/build/libs/shared-mime-info/work/shared-mime-info-1.9/configure: line 4476: syntax error near unexpected token `0.35.0'
-            # /Users/hannah/CraftRoot/build/libs/shared-mime-info/work/shared-mime-info-1.9/configure: line 4476: `IT_PROG_INTLTOOL(0.35.0)'
-            self.subinfo.options.configure.autoreconf = False
-        else:
-            # stripping a embedManifest patched binary fails
-            self.subinfo.options.package.disableStriping = True
-            if CraftCore.compiler.isMSVC():
-                root = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
-                self.subinfo.options.configure.cflags += f" -I{root}/include/msvc"
-                self.shell.useMSVCCompatEnv = True
-                self.platform = ""
-                if self.buildType() == "Debug":
-                    self.subinfo.options.configure.ldflags += " -lkdewind"
-                else:
-                    self.subinfo.options.configure.ldflags += " -lkdewin"
+from Package.MesonPackageBase import *
+
+
+class Package(MesonPackageBase):
+    def __init__(self):
+        MesonPackageBase.__init__(self)
 
     def install(self):
         if not super().install():
