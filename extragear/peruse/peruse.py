@@ -46,16 +46,3 @@ class Package(CMakePackageBase):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
 
         return TypePackager.createPackage(self)
-
-    def preArchive(self):
-        archiveDir = self.archiveDir()
-        # TODO: Can we generalize this for other apps?
-        # move everything to the location where Qt expects it
-        binPath = os.path.join(archiveDir, "bin")
-
-        utils.moveFile(os.path.join(archiveDir, "etc", "xdg", "peruse.knsrc"), os.path.join(binPath, "data", "peruse.knsrc"))
-
-        # TODO: use blacklist
-        utils.rmtree(os.path.join(self.archiveDir(), "lib"))
-
-        return True
