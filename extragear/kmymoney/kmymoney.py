@@ -105,6 +105,7 @@ class Package(CMakePackageBase):
         if OsUtils.isLinux() and isinstance(self, AppImagePackager):
             with open(os.path.join(self.installDir(), "bin", "gpgconf.ctl"), "wt") as f:
                 f.write("rootdir=${APPDIR}/usr")
+        return True
 
     def createPackage(self):
         self.defines["executable"] = "bin\\kmymoney.exe"  # Windows-only, mac is handled implicitly

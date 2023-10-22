@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
+        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["kde/applications/okular"] = None
 
 
@@ -36,6 +37,12 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
         self.subinfo.options.fetch.checkoutSubmodules = True
 
+    def setDefaults(self, defines: {str: str}) -> {str: str}:
+        defines = super().setDefaults(defines)
+        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
+            defines["runenv"] += ["LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH"]
+        return defines
+
     def createPackage(self):
         self.defines["shortcuts"] = [
             {"name": self.subinfo.displayName, "target": "bin//peruse.exe"},
@@ -45,16 +52,3 @@ class Package(CMakePackageBase):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
 
         return TypePackager.createPackage(self)
-
-    def preArchive(self):
-        archiveDir = self.archiveDir()
-        # TODO: Can we generalize this for other apps?
-        # move everything to the location where Qt expects it
-        binPath = os.path.join(archiveDir, "bin")
-
-        utils.moveFile(os.path.join(archiveDir, "etc", "xdg", "peruse.knsrc"), os.path.join(binPath, "data", "peruse.knsrc"))
-
-        # TODO: use blacklist
-        utils.rmtree(os.path.join(self.archiveDir(), "lib"))
-
-        return True
