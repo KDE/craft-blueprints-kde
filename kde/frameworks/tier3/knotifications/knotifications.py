@@ -12,14 +12,20 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            if CraftCore.compiler.isAndroid:
+                self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
+            else:
+                self.runtimeDependencies["qt-libs/phonon"] = None
+            if OsUtils.isMac():
+                self.runtimeDependencies["libs/qt5/qtmacextras"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.runtimeDependencies["libs/lbcanberra"] = None
+
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/qt/qtspeech"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
-            self.runtimeDependencies["qt-libs/phonon"] = None
-        elif CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
-        if OsUtils.isMac() and CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["libs/qt5/qtmacextras"] = None
+
         if OsUtils.isWin():
             self.runtimeDependencies["dev-utils/snoretoast"] = None
 
