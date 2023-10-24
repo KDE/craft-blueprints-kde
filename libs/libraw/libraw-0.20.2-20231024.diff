@@ -1,0 +1,14 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user LibRaw-0.20.2.orig/CMakeLists.txt LibRaw-0.20.2/CMakeLists.txt
+--- LibRaw-0.20.2.orig/CMakeLists.txt	2021-01-06 20:51:09.000000000 +0000
++++ LibRaw-0.20.2/CMakeLists.txt	2023-10-24 17:36:21.185641255 +0000
+@@ -664,10 +664,6 @@
+         ARCHIVE DESTINATION lib${LIB_SUFFIX}
+        )
+ 
+-# Install find cmake script to the system for client applications.
+-INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/FindLibRaw.cmake
+-        DESTINATION ${INSTALL_CMAKE_MODULE_PATH})
+-
+ # Install doc data files.
+ IF(NOT WIN32)
+     INSTALL(FILES       ${LIBRAW_PATH}/COPYRIGHT

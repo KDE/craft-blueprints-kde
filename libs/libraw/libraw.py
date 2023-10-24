@@ -15,6 +15,12 @@ class subinfo(info.infoclass):
         self.targets["0.20.2"] = "https://www.indilib.org/jdownloads/libraw/LibRaw-0.20.2.tar.gz"
         self.archiveNames["0.20.2"] = "LibRaw-0.20.2.tar.gz"
         self.targetInstSrc["0.20.2"] = "LibRaw-0.20.2"
+
+        # Disable installation of FindLibRaw.cmake: We don't need this as consumers usually provide them self
+        # Moreover it is been installed to the system CMake location which is an .app bundle on macOS and hence fails
+        self.patchToApply["0.20.2"] = [("libraw-0.20.2-20231024.diff", 1)]
+        self.patchLevel["0.20.2"] = 1
+
         self.targetDigests["0.20.2"] = (["d5eba8cc57c4f6f6a1267de5967d2627f2bb27d12b9e89f65400fb76a22fc6f4"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "LibRaw is a library for reading RAW files obtained from digital photo cameras (CRW/CR2, NEF, RAF, DNG, and others)."
