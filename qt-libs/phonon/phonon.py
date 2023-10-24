@@ -8,6 +8,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         # qtquick1 is optional
         # self.runtimeDependencies["libs/qtquick1"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.buildDependencies["libs/qt6/qt5compat"] = None
 
     def setTargets(self):
         self.svnTargets["master"] = "https://anongit.kde.org/phonon"
@@ -34,7 +36,9 @@ class Package(CMakePackageBase):
         if not self.subinfo.options.isActive("libs/dbus"):
             self.subinfo.options.configure.args += ["-DPHONON_NO_DBUS=ON"]
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DQT_MAJOR_VERSION=6", "-DEXCLUDE_DEPRECATED_BEFORE_AND_AT=5.99.0"]
+            self.subinfo.options.configure.args += ["-DQT_MAJOR_VERSION=6", "-DPHONON_BUILD_QT6=ON", "-DPHONON_BUILD_QT5=OFF"]
+        else:
+            self.subinfo.options.configure.args += ["-DPHONON_BUILD_QT5=ON", "-DPHONON_BUILD_QT5=OFF"]
 
     def postInstall(self):
         libDir = self.installDir() / "lib"
@@ -43,8 +47,7 @@ class Package(CMakePackageBase):
         if (libDir / "x86_64-linux-gnu").is_dir():
             libDir = libDir / "x86_64-linux-gnu"
         qtMajor = CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion
-        brokenFiles = [
-            os.path.join(libDir, "cmake", f"phonon4qt{qtMajor}", f"Phonon4Qt{qtMajor}Config.cmake"),
-            os.path.join(self.installDir(), "mkspecs", "modules", f"qt_phonon4qt{qtMajor}.pri"),
-        ]
+        brokenFiles = [os.path.join(libDir, "cmake", f"phonon4qt{qtMajor}", f"Phonon4Qt{qtMajor}Config.cmake")]
+        if qtMajor == 5:
+            brokenFiles += [os.path.join(self.installDir(), "mkspecs", "modules", f"qt_phonon4qt{qtMajor}.pri")]
         return self.patchInstallPrefix(brokenFiles, OsUtils.toUnixPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))
