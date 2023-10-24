@@ -41,7 +41,7 @@ class subinfo(info.infoclass):
         self.targets["5.10.2"] = "https://www.aquamaniac.de/rdm/attachments/download/501/gwenhywfar-5.10.2.tar.gz"
         self.targetDigests["5.10.2"] = (["60a7da03542865501208f20e18de32b45a75e3f4aa8515ca622b391a2728a9e1"], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["5.10.2"] = "gwenhywfar-5.10.2"
-        self.patchToApply["5.10.2"] = [("0047982d2a2b83cdd3405732b84a3ee8788e0269.patch", 0)]  # Fix build on Windows
+        self.patchToApply["5.10.2"] = [("gwenhywfar-5.10.2-20231024.diff", 1)] # https://github.com/aqbanking/gwenhywfar/commit/0047982d2a2b83cdd3405732b84a3ee8788e0269
         self.patchLevel["5.10.2"] = 1
         self.defaultTarget = "5.10.2"
 
