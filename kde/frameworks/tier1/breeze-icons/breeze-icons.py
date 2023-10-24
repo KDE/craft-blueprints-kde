@@ -36,6 +36,9 @@ class Package(CraftPackageObject.get("kde").pattern):
         CraftPackageObject.get("kde").pattern.__init__(self)
         if self.subinfo.options.dynamic.useIconResource:
             self.subinfo.options.configure.args += ["-DBINARY_ICONS_RESOURCE=ON", "-DSKIP_INSTALL_ICONS=ON", "-DICONS_LIBRARY=ON"]
+            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+                # TODO: Remove ones https://invent.kde.org/frameworks/breeze-icons/-/merge_requests/294 is merged
+                self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS=-fPIC"]
 
     def install(self):
         if not CraftPackageObject.get("kde").pattern.install(self):
