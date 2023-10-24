@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
             if OsUtils.isMac():
                 self.runtimeDependencies["libs/qt5/qtmacextras"] = None
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["libs/lbcanberra"] = None
+            self.runtimeDependencies["libs/libcanberra"] = None
 
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/qt/qtspeech"] = None
