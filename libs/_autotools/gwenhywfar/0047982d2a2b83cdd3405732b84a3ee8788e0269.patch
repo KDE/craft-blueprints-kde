@@ -1,0 +1,22 @@
+From 0047982d2a2b83cdd3405732b84a3ee8788e0269 Mon Sep 17 00:00:00 2001
+From: Martin Preuss <martin@aquamaniac.de>
+Date: Mon, 22 Aug 2022 18:03:30 +0200
+Subject: [PATCH] Fixed #274 (on Windows it's _MAX_PATH, not MAX_PATH).
+
+---
+ src/sio/syncio_tls.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/sio/syncio_tls.c b/src/sio/syncio_tls.c
+index d5715c79..7e45ffa4 100644
+--- a/src/sio/syncio_tls.c
++++ b/src/sio/syncio_tls.c
+@@ -530,7 +530,7 @@ int GWEN_SyncIo_Tls_Prepare(GWEN_SYNCIO *sio)
+     /* try to find OpenSSL certificates */
+ # ifdef OS_WIN32
+     if (trustFileSet==0) {
+-      char defaultPath[2*MAX_PATH+1];
++      char defaultPath[2*_MAX_PATH+1];
+       const char *defaultFile = "ca-bundle.crt";
+       GWEN_STRINGLIST *paths;
+       GWEN_BUFFER *nbuf;
