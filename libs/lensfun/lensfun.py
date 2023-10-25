@@ -29,12 +29,13 @@ class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
 
+        disableSSE = (CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64)
+
         self.subinfo.options.configure.args = [
             "-DBUILD_STATIC=OFF",
             "-DBUILD_TESTS=OFF",
             "-DBUILD_AUXFUN=OFF",
+            f"-DBUILD_FOR_SSE={'OFF' if disableSSE else 'ON'}",
+            f"-DBUILD_FOR_SSE2={'OFF' if disableSSE else 'ON'}"
             "-DBUILD_DOC=OFF",
         ]
-
-        if not (CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64):
-            self.subinfo.options.configure.args += ["-DBUILD_FOR_SSE=ON", "-DBUILD_FOR_SSE2=ON"]
