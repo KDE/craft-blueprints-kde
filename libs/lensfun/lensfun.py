@@ -33,7 +33,8 @@ class Package(CMakePackageBase):
             "-DBUILD_STATIC=OFF",
             "-DBUILD_TESTS=OFF",
             "-DBUILD_AUXFUN=OFF",
-            "-DBUILD_FOR_SSE=ON",
-            "-DBUILD_FOR_SSE2=ON",
             "-DBUILD_DOC=OFF",
         ]
+
+        if not (CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64):
+            self.subinfo.options.configure.args += ["-DBUILD_FOR_SSE=ON", "-DBUILD_FOR_SSE2=ON"]
