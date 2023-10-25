@@ -69,11 +69,23 @@ diff -Nru CMakeLists.txt CMakeLists.txt
 +                                ARCHIVE DESTINATION lib)
 +endif(BUILD_examples)
 diff -Nru src/chm_lib.c src/chm_lib.c
+--- src/chm_lib.c	2023-10-25 17:31:03
++++ src/chm_lib.c	2023-10-25 17:29:34
+@@ -164,7 +164,7 @@
+
+ /* x86-64 */
+ /* Note that these may be appropriate for other 64-bit machines. */
+-#elif __x86_64__ || __ia64__
++#elif __x86_64__ || __ia64__ || __aarch64__
+ typedef unsigned char           UChar;
+ typedef short                   Int16;
+ typedef unsigned short          UInt16;
+diff -Nru src/chm_lib.c src/chm_lib.c
 --- src/chm_lib.c	2007-01-25 03:12:58.000000000 +0100
 +++ src/chm_lib.c	2008-12-17 02:03:26.779767700 +0100
 @@ -180,7 +180,7 @@
  #endif
- 
+
  /* GCC */
 -#ifdef __GNUC__
 +#if defined(__GNUC__) && !defined(WIN32)
