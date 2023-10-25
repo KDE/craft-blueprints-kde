@@ -2,6 +2,9 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.FreeBSD
+
     def setTargets(self):
         for ver in ["0.30"]:
             self.targets[ver] = f"http://0pointer.de/lennart/projects/libcanberra/libcanberra-{ver}.tar.xz"
