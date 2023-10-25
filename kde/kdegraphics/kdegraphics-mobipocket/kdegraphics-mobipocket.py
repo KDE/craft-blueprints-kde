@@ -14,11 +14,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
 
 
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
-        if not self.subinfo.options.isActive("libs/qt/qtbase"):
-            self.subinfo.options.configure.args += ["-DQT_MAJOR_VERSION=6"]
+        CraftPackageObject.get("kde").pattern.__init__(self)
