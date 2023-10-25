@@ -36,6 +36,6 @@ class Package(CMakePackageBase):
             "-DBUILD_TESTS=OFF",
             "-DBUILD_AUXFUN=OFF",
             f"-DBUILD_FOR_SSE={'OFF' if disableSSE else 'ON'}",
-            f"-DBUILD_FOR_SSE2={'OFF' if disableSSE else 'ON'}"
+            f"-DBUILD_FOR_SSE2={'OFF' if disableSSE else 'ON'}",
             "-DBUILD_DOC=OFF",
         ]
