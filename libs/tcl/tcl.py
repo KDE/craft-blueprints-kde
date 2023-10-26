@@ -93,7 +93,7 @@ class PackageAutotools(AutoToolsPackageBase):
 
         if isInstalled:
             if CraftCore.compiler.isMinGW():
-                shutil.copy(os.path.join(self.installDir(), "bin", "tclsh8.6"), os.path.join(self.installDir(), "bin", "tclsh"))
+                shutil.copy(os.path.join(self.installDir(), "bin", "tclsh86.exe"), os.path.join(self.installDir(), "bin", "tclsh.exe"))
 
             if CraftCore.compiler.isLinux:
                 os.chmod(
