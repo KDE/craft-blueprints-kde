@@ -73,6 +73,8 @@ class Package(AutoToolsPackageBase):
         # configure.ac:633: warning: macro 'AM_PATH_GPG_ERROR' not found in library
         self.subinfo.options.configure.autoreconf = False
 
+        self.subinfo.options.configure.ldflags += " -lintl"
+
     def configure(self):
         if CraftCore.compiler.isMinGW():
             _, includedir = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_HEADERS")
