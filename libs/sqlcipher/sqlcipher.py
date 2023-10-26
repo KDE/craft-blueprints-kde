@@ -60,10 +60,7 @@ class PackageAutotools(AutoToolsPackageBase):
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.make.supportsMultijob = False
 
-            includeDir = OsUtils.toMSysPath(os.path.join(CraftCore.standardDirs.craftRoot(), "include"))
-            self.subinfo.options.configure.args += [f"CFLAGS='-DSQLITE_HAS_CODEC -I{includeDir}'"]
-        else:
-            self.subinfo.options.configure.args += ["CFLAGS='-DSQLITE_HAS_CODEC'"]
+        self.subinfo.options.configure.args += ["CFLAGS='-DSQLITE_HAS_CODEC'"]
 
     def configure(self):
         isConfigured = super().configure()
