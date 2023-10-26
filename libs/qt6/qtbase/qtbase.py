@@ -24,11 +24,12 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply["6.4.3"] = [(".craft", 1)]
+        for ver in ["6.4.3", "6.5.0", "6.5.2", "6.5.3", "6.6.0"]:
+            # These are patches that we can't submit upstream
+            # Apply them to all future versions
+            self.patchToApply[ver] = [(".craft", 1)]
+
         self.patchLevel["6.4.3"] = 4
-        self.patchToApply["6.5.0"] = [(".craft", 1)]
-        self.patchToApply["6.5.2"] = [(".craft", 1)]
-        self.patchToApply["6.5.3"] = [(".craft", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
