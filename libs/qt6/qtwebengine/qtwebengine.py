@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.patchLevel["6.4.0"] = 1
         self.patchToApply["6.5.3"] = [(".6.5.3", 1)]
+        self.patchToApply["6.6.0"] = [(".6.5.3", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
