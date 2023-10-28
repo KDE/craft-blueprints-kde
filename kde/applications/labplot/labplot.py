@@ -166,5 +166,4 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".lml"]
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("libs/dbus")
         return TypePackager.createPackage(self)
