@@ -29,6 +29,10 @@ class subinfo(info.infoclass):
             # Apply them to all future versions
             self.patchToApply[ver] = [(".craft", 1)]
 
+        if CraftCore.compiler.isMinGW():
+            # Fix finding pcre2 on MinGW
+            self.patchToApply["6.6.0"] = [("qtbase-6.6.0-20231028.diff", 1)]
+
         self.patchLevel["6.4.3"] = 4
 
     def setDependencies(self):
