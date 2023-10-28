@@ -66,6 +66,7 @@ class Package(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.platform = ""
         self.subinfo.options.configure.noDataRootDir = True
+        self.subinfo.options.configure.noCacheFile = True
         self.subinfo.options.configure.autoreconf = False
         # with msvc it does not support shadowbuilds
         self.subinfo.options.useShadowBuild = not CraftCore.compiler.isMSVC()
