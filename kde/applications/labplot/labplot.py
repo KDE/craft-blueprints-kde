@@ -78,6 +78,7 @@ class subinfo(info.infoclass):
 from Package.CMakePackageBase import *
 from Packager.AppxPackager import AppxPackager
 from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
+from Packager.AppImagePackager import AppImagePackager
 
 
 class Package(CMakePackageBase):
