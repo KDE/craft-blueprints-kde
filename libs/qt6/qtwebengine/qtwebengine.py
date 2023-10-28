@@ -60,7 +60,8 @@ class Package(CMakePackageBase):
             f"-DQT_FEATURE_webengine_system_glib=ON",
             f"-DQT_FEATURE_webengine_system_lcms2=ON",
         ]
-        if CraftCore.compiler.isMacOS and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2"):
+        if (CraftCore.compiler.isMacOS or CraftCore.compiler.isMinGW()) and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2"):
+            # See https://bugreports.qt.io/browse/QTBUG-115357
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=OFF"]
         else:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=ON"]
