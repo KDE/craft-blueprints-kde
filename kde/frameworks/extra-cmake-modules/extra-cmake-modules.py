@@ -31,6 +31,10 @@ class subinfo(info.infoclass):
         self.patchToApply["5.110.0"] = [("KDEInstallDirs6 fix BUNDLE destination.patch", 1)]
         self.patchLevel["5.110.0"] = 1
 
+        # Fix Windows target version, see https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/399
+        self.patchToApply["master"] = [("b772021d88b86926788e104c031f7ee642c704b1.patch", 1)]
+        self.patchLevel["master"] = 1
+
         self.tags = "ECM"
 
     def setDependencies(self):
