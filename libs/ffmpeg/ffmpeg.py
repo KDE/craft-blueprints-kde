@@ -23,6 +23,10 @@ class subinfo(info.infoclass):
         else:
             self.patchLevel["4.4"] = 1
 
+        # https://github.com/FFmpeg/FFmpeg/commit/effadce6c756247ea8bae32dc13bb3e6f464f0eb
+        # Fix assembling with binutil >= 2.41
+        self.patchToApply["6.0"] = [("effadce6c756247ea8bae32dc13bb3e6f464f0eb.diff", 1)]
+
         self.patchLevel["5.0.1"] = 4
         self.patchLevel["6.0"] = 3
 
