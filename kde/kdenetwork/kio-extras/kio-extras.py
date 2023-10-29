@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
         self.patchLevel["23.08.2"] = 1
 
         self.patchToApply["master"] = [("fix-mingw-build.patch", 1)]
+        self.patchToApply["kf6"] = [("fix-mingw-build.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
