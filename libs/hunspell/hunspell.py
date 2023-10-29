@@ -4,15 +4,14 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = f"https://github.com/hunspell/hunspell.git"
-        for ver in ["1.6.2", "1.7.0"]:
-            self.targets[ver] = f"https://github.com/hunspell/hunspell/archive/v{ver}.tar.gz"
+        for ver in ["1.7.2"]:
+            self.targets[ver] = f"https://github.com/hunspell/hunspell/releases/download/v{ver}/hunspell-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"hunspell-{ver}"
-        self.targetDigests["1.6.2"] = (["3cd9ceb062fe5814f668e4f22b2fa6e3ba0b339b921739541ce180cac4d6f4c4"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["1.7.0"] = (["bb27b86eb910a8285407cf3ca33b62643a02798cf2eef468c0a74f6c3ee6bc8a"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.7.2"] = (["11ddfa39afe28c28539fe65fc4f1592d410c1e9b6dd7d8a91ca25d85e9ec65b8"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Hunspell is the spell checker of LibreOffice, OpenOffice.org, Mozilla Firefox 3 & Thunderbird, Google Chrome, and it is also used by proprietary software packages, like macOS, InDesign, memoQ, Opera and SDL Trados."
         self.webpage = "http://hunspell.github.io/"
-        self.defaultTarget = "1.7.0"
+        self.defaultTarget = "1.7.2"
 
     def setDependencies(self):
         if CraftCore.compiler.isMinGW():
@@ -54,6 +53,8 @@ class PackageGNU(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.bootstrap = True
+        if CraftCore.compiler.isMinGW():
+            self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]
 
 
