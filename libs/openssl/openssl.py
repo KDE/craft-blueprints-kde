@@ -152,6 +152,7 @@ class PackageMSys(AutoToolsPackageBase):
             self.platform = ""
         self.supportsCCACHE = False
         self.subinfo.options.configure.noDataRootDir = True
+        self.subinfo.options.configure.noCacheFile = True
         self.subinfo.options.configure.noLibDir = True
         self.subinfo.options.install.args += ["install_sw"]
 
