@@ -67,6 +67,9 @@ from Package.MesonPackageBase import *
 class Package(MesonPackageBase):
     def __init__(self):
         MesonPackageBase.__init__(self)
+        if CraftCore.compiler.isMSVC():
+            self.subinfo.options.dynamic.buildTests = False
+
         if CraftCore.compiler.isWindows:
             # stripping a embedManifest patched binary fails
             self.subinfo.options.package.disableStriping = True
