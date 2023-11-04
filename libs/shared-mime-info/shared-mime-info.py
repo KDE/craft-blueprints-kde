@@ -52,6 +52,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/glib"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblzma"] = None
+        if CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["kdesupport/kdewin"] = None
+
 
 
 from Package.MesonPackageBase import *
