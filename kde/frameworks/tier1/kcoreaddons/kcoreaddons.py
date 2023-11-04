@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         # https://invent.kde.org/frameworks/kcoreaddons/-/merge_requests/327
-        for ver in ["5.105.0", "5.106.0"]:
+        for ver in ["5.106.0"]:
             self.patchToApply[ver] = [("327.patch", 1)]
         self.description = "KCoreAddons"
 
