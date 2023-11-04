@@ -4,12 +4,14 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "[git]https://github.com/sparkle-project/Sparkle.git"
-        for ver in ["1.22.0", "1.24.0"]:
-            self.svnTargets[ver] = f"[git]https://github.com/sparkle-project/Sparkle.git||{ver}"
-        self.patchToApply["1.24.0"] = [("sparkle-20201119.patch", 1)]
+        for ver in ["2.5.1"]:
+            self.targets[ver] = f"https://github.com/sparkle-project/Sparkle/archive/refs/tags/{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"Sparkle-{ver}"
+
+        self.targetDigests["2.5.1"] = (["efe2aa283e8c4f0a7ca3071bd7810f371e442ff44ebb350ad45e06cd71a59e27"], CraftHash.HashAlgorithm.SHA256)
         self.description = "A software update framework for macOS"
         self.webpage = "https://sparkle-project.org"
-        self.defaultTarget = "1.24.0"
+        self.defaultTarget = "2.5.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

@@ -71,6 +71,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/discount"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         # needed by AppImage
         self.runtimeDependencies["libs/brotli"] = None
 
@@ -78,6 +79,7 @@ class subinfo(info.infoclass):
 from Package.CMakePackageBase import *
 from Packager.AppxPackager import AppxPackager
 from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
+from Packager.AppImagePackager import AppImagePackager
 
 
 class Package(CMakePackageBase):
@@ -165,5 +167,4 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".lml"]
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("libs/dbus")
         return TypePackager.createPackage(self)

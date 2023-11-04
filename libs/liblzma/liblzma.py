@@ -42,6 +42,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
 
+    def registerOptions(self):
+        self.options.dynamic.registerOption("buildPrograms", True)
 
 from Package.MSBuildPackageBase import *
 
@@ -72,7 +74,8 @@ class PackageAutotools(AutoToolsPackageBase):
         AutoToolsPackageBase.__init__(self)
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]
-
+        if not self.subinfo.options.dynamic.buildPrograms:
+            self.subinfo.options.configure.args += ["--disable-xz", "--disable-lzmadec", "--disable-lzmainfo", "--disable-scripts", "--disable-xzdec"]
 
 if CraftCore.compiler.isMSVC():
 
