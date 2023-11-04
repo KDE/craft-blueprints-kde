@@ -66,7 +66,7 @@ class subinfo(info.infoclass):
         self.patchToApply["5.15.12"] = [(".qt-5.15.11", 1)]
         self.patchLevel["5.15.12"] = 1
         self.svnTargets["5.15.15"] = "https://github.com/qt/qtwebengine.git||v5.15.15-lts"
-        self.patchToApply["5.15.15"] = [(".qt-5.15.11", 1)]
+        self.patchToApply["5.15.15"] = [(".qt-5.15.11", 1), ("03-ffmpeg-binutils-2.41.patch", 1)]
         self.patchLevel["5.15.15"] = 1
 
         self.defaultTarget = "5.15.15"
