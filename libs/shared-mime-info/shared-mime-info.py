@@ -33,14 +33,14 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
-        for ver in ["2.2"]:
+        for ver in ["2.3"]:
             self.targets[ver] = f"https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/{ver}/shared-mime-info-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
-        self.targetDigests["2.2"] = (["418c480019d9865f67f922dfb88de00e9f38bf971205d55cdffab50432919e61"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.3"] = (["96ac085d82e2e654e40e34c13d97b74f6657357ee6b443d922695adcf548961c"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "The shared-mime-info package contains the core database of common types and the update-mime-database command used to extend it"
         self.webpage = "https://www.freedesktop.org/wiki/Software/shared-mime-info/"
-        self.defaultTarget = "2.2"
+        self.defaultTarget = "2.3"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
@@ -52,8 +52,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/glib"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblzma"] = None
-        if CraftCore.compiler.isMSVC():
-            self.runtimeDependencies["kdesupport/kdewin"] = None
 
 
 
