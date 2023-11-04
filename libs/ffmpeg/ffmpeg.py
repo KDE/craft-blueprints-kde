@@ -15,17 +15,17 @@ class subinfo(info.infoclass):
         self.targetDigests["5.0.1"] = (["28df33d400a1c1c1b20d07a99197809a3b88ef765f5f07dc1ff067fac64c59d6"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["6.0"] = (["47d062731c9f66a78380e35a19aac77cebceccd1c7cc309b9c82343ffc430c3d"], CraftHash.HashAlgorithm.SHA256)
 
+        # https://github.com/FFmpeg/FFmpeg/commit/effadce6c756247ea8bae32dc13bb3e6f464f0eb
+        # Fix assembling with binutil >= 2.41
+        self.patchToApply["6.0"] = [("effadce6c756247ea8bae32dc13bb3e6f464f0eb.diff", 1)]
+
         if CraftCore.compiler.isMSVC():
             self.patchToApply["4.2"] = [("ffmpeg-4.1-20190507.diff", 1)]
             self.patchToApply["4.4"] = [("ffmpeg-4.4-20210413.diff", 1)]
             self.patchToApply["5.0.1"] = [("ffmpeg-4.4-20210413.diff", 1)]
-            self.patchToApply["6.0"] = [("ffmpeg-4.4-20210413.diff", 1)]
+            self.patchToApply["6.0"] += [("ffmpeg-4.4-20210413.diff", 1)]
         else:
             self.patchLevel["4.4"] = 1
-
-        # https://github.com/FFmpeg/FFmpeg/commit/effadce6c756247ea8bae32dc13bb3e6f464f0eb
-        # Fix assembling with binutil >= 2.41
-        self.patchToApply["6.0"] = [("effadce6c756247ea8bae32dc13bb3e6f464f0eb.diff", 1)]
 
         self.patchLevel["5.0.1"] = 4
         self.patchLevel["6.0"] = 3
