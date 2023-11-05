@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://download.gnome.org/sources/glib/{majorMinorStr}/glib-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"glib-{ver}"
         self.targetDigests["2.68.4"] = (["62fd061d08a75492617e625a73e2c05e259f831acbb8e1f8b9c81f23f7993a3b"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["2.68.4"] = [("glib-2.68.4-20231105.diff", 1)]
         self.patchLevel["2.68.4"] = 1
 
         self.defaultTarget = "2.68.4"
@@ -17,6 +18,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/python3"] = None
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.buildDependencies["python-modules/meson"] = None
+        self.buildDependencies["python-modules/packaging"] = None
         self.runtimeDependencies["libs/libffi"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/iconv"] = None

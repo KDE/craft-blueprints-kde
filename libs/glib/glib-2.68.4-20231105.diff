@@ -1,0 +1,18 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user glib-2.68.4.orig/gio/gdbus-2.0/codegen/utils.py glib-2.68.4/gio/gdbus-2.0/codegen/utils.py
+--- glib-2.68.4.orig/gio/gdbus-2.0/codegen/utils.py	2021-08-19 17:27:25.686339400 +0200
++++ glib-2.68.4/gio/gdbus-2.0/codegen/utils.py	2023-11-05 17:58:32.379559800 +0100
+@@ -19,7 +19,7 @@
+ #
+ # Author: David Zeuthen <davidz@redhat.com>
+ 
+-import distutils.version
++from packaging.version import Version
+ import os
+ import sys
+ 
+@@ -162,4 +162,4 @@
+         v = str(key[0])
+     else:
+         v = "0"
+-    return (distutils.version.LooseVersion(v), key[1])
++    return (Version(v), key[1])
