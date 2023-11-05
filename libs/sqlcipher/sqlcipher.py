@@ -48,6 +48,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/openssl"] = None
         self.runtimeDependencies["libs/tcl"] = None
         self.runtimeDependencies["libs/icu"] = None
+        self.runtimeDependencies["libs/sqlite"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
 
@@ -61,7 +62,7 @@ class PackageAutotools(AutoToolsPackageBase):
             self.subinfo.options.make.supportsMultijob = False
             self.subinfo.options.configure.args += ["CFLAGS='-DSQLITE_HAS_CODEC'"]
         else:
-            self.subinfo.options.configure.cflags += " -DSQLITE_HAS_CODEC"
+            self.subinfo.options.configure.args += ['CFLAGS=-DSQLITE_HAS_CODEC']
 
     def configure(self):
         isConfigured = super().configure()
