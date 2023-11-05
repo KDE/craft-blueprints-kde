@@ -14,7 +14,12 @@ run-tests:
     - pip install unittest-xml-reporting
   script:
     - cd /tmp/craft_test
-    - git clone --depth 1 https://invent.kde.org/packaging/craft.git
+    - craftBranch=master
+    - |
+      if [ $CI_COMMIT_REF_NAME = "dev" ]; then
+        craftBranch=dev
+      fi
+    - git clone --depth 1 -b $craftBranch https://invent.kde.org/packaging/craft.git
     - mkdir blueprints
     - blueprintRoot=$(pwd)/blueprints/
     - "echo blueprintRoot: $blueprintRoot"
