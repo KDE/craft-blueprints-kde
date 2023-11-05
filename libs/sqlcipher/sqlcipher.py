@@ -59,8 +59,9 @@ class PackageAutotools(AutoToolsPackageBase):
         self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--enable-tempstore=yes"]
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.make.supportsMultijob = False
-
-        self.subinfo.options.configure.args += ["CFLAGS='-DSQLITE_HAS_CODEC'"]
+            self.subinfo.options.configure.args += ["CFLAGS='-DSQLITE_HAS_CODEC'"]
+        else:
+            self.subinfo.options.configure.cflags += " -DSQLITE_HAS_CODEC"
 
     def configure(self):
         isConfigured = super().configure()
