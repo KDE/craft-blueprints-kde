@@ -51,7 +51,7 @@ class subinfo(info.infoclass):
 from Package.AutoToolsPackageBase import *
 from Package.CMakePackageBase import *
 
-if CraftCore.compiler.isGCCLike() and not CraftCore.compiler.isMacOS:
+if CraftCore.compiler.isGCCLike() and CraftCore.compiler.isWindows:
 
     class Package(AutoToolsPackageBase):
         def __init__(self, **args):
