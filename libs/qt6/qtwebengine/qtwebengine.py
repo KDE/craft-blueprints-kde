@@ -52,7 +52,6 @@ class Package(CMakePackageBase):
             f"-DQT_FEATURE_webengine_system_icu={'ON' if self.subinfo.options.dynamic.withICU else 'OFF'}",
             # Package harfbuzz-subset was not found
             # f"-DQT_FEATURE_webengine_system_harfbuzz={'ON' if self.subinfo.options.dynamic.withHarfBuzz else 'OFF'}",
-            f"-DQT_FEATURE_webengine_system_zlib=ON",
             f"-DQT_FEATURE_webengine_system_libwebp=ON",
             f"-DQT_FEATURE_webengine_system_libjpeg=ON",
             f"-DQT_FEATURE_webengine_system_libxml=ON",
@@ -61,11 +60,16 @@ class Package(CMakePackageBase):
             f"-DQT_FEATURE_webengine_system_lcms2=ON",
             f"-DQT_FEATURE_webengine_system_pulseaudio=OFF",
         ]
-        if (CraftCore.compiler.isMacOS or CraftCore.compiler.isMinGW()) and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2"):
+        if not CraftCore.compiler.isLinux and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2"):
             # See https://bugreports.qt.io/browse/QTBUG-115357
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=OFF"]
         else:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=ON"]
+
+        if CraftCore.compiler.isMSVC() and CraftVersion(self.buildTarget) >= CraftVersion("6.6.0"):
+            self.subinfo.options.configure.args += [f"-DQT_FEATURE_webengine_system_zlib=OFF"]
+        else:
+            self.subinfo.options.configure.args += [f"-DQT_FEATURE_webengine_system_zlib=ON"]
 
     def _getEnv(self):
         # webengine requires enormous amounts of ram
