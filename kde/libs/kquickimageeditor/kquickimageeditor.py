@@ -1,5 +1,5 @@
 import info
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -19,6 +19,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
 
-class Package(CMakePackageBase):
-    def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+class Package(CraftPackageObject.get("kde").pattern):
+    def __init__(self):
+        CraftPackageObject.get("kde").pattern.__init__(self)
