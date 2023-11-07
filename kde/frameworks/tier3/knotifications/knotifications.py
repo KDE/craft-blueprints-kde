@@ -7,6 +7,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        # Fix macOS build, see https://invent.kde.org/frameworks/knotifications/-/merge_requests/118
+        self.patchToApply["master"] = [("fix-macos-build.patch", 1)]
+        self.patchLevel["master"] = 1
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
