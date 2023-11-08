@@ -23,8 +23,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        if self.options.dynamic.useDesignerPlugin:
-            self.runtimeDependencies["kde/frameworks/tier3/kdesignerplugin"] = None
 
 
 from Package.CMakePackageBase import *

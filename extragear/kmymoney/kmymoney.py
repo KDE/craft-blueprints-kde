@@ -126,6 +126,5 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("kde/frameworks/kdesignerplugin")
 
         return TypePackager.createPackage(self)

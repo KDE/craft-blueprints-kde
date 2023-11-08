@@ -30,7 +30,6 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(self.packageDir(), "kolourpaint.ico")
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("kde/frameworks/kdesignerplugin")
         self.ignoredPackages.append("kde/frameworks/kemoticons")
 
         return TypePackager.createPackage(self)

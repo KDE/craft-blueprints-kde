@@ -1,6 +1,7 @@
 import info
 from Packager.CollectionPackagerBase import PackagerLists
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -31,7 +32,9 @@ class subinfo(info.infoclass):
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
+
 from Package.CMakePackageBase import *
+
 
 class Package(CMakePackageBase):
     def __init__(self):
@@ -44,10 +47,7 @@ class Package(CMakePackageBase):
         # we have multiple codevis executables, we need to copy all of them.
         self.addExecutableFilter(r"bin/(?!((codevis*)|kbuildsycoca5|update-mime-database|kioslave)).*")
 
-        self.defines["shortcuts"] = [{
-            "name": "Codevis",
-            "target": "bin/codevis_desktop.exe",
-            "description": self.subinfo.description}]
+        self.defines["shortcuts"] = [{"name": "Codevis", "target": "bin/codevis_desktop.exe", "description": self.subinfo.description}]
 
         self.defines["file_types"] = [".lks"]
         self.defines["alias"] = "codevis"
@@ -56,7 +56,6 @@ class Package(CMakePackageBase):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")
-        self.ignoredPackages.append("kde/frameworks/kdesignerplugin")
         self.ignoredPackages.append("kde/frameworks/kemoticons")
 
         return TypePackager.createPackage(self)

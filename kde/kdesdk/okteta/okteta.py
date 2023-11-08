@@ -45,7 +45,6 @@ class Package(CMakePackageBase):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")
-        self.ignoredPackages.append("kde/frameworks/kdesignerplugin")
         self.ignoredPackages.append("kde/frameworks/kemoticons")
 
         return TypePackager.createPackage(self)

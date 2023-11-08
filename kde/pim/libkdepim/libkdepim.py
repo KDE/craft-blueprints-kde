@@ -28,9 +28,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
 
-        if self.options.dynamic.useDesignerPlugin:
-            self.runtimeDependencies["kde/frameworks/tier3/kdesignerplugin"] = None
-
 
 from Package.CMakePackageBase import *
 
