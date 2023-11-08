@@ -22,10 +22,10 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-import glob
 import os
 
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
 
@@ -52,12 +52,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["data/docbook-xsl"] = None
 
 
-from Blueprints.CraftPackageObject import CraftPackageObject
-
-
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CraftPackageObject.get("kde").pattern.__init__(self)
+        super().__init__()
 
     def postInstall(self):
         dataDir = os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot())

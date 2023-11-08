@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -14,9 +15,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
 
 
-from Blueprints.CraftPackageObject import CraftPackageObject
-
-
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CraftPackageObject.get("kde").pattern.__init__(self)
+        super().__init__()

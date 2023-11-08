@@ -1,7 +1,12 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Unix
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
@@ -12,23 +17,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
 
 
-from Package.CMakePackageBase import *
-from Package.VirtualPackageBase import VirtualPackageBase
-
-
-class UnixPackage(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
-
-
-if OsUtils.isUnix():
-
-    class Package(UnixPackage):
-        def __init__(self):
-            UnixPackage.__init__(self)
-
-else:
-
-    class Package(VirtualPackageBase):
-        def __init__(self):
-            VirtualPackageBase.__init__(self)
+        super().__init__()
