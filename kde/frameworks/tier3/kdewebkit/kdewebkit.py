@@ -1,10 +1,15 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        # Same as QtWebKit as it has a hard requirement on that
-        if CraftCore.compiler.isMacOS:
+        if not CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            # Removed in KDE Frameworks 6
+            self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
+        elif CraftCore.compiler.isMacOS:
+            # Same as QtWebKit as it has a hard requirement on that
             self.parent.package.categoryInfo.architecture = CraftCore.compiler.Architecture.x86_64
 
     def setTargets(self):

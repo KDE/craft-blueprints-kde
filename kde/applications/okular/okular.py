@@ -40,7 +40,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier2/kpty"] = None
             if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
                 self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/kjs"] = None
+                self.runtimeDependencies["kde/frameworks/tier3/kjs"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
