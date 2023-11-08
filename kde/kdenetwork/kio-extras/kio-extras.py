@@ -7,12 +7,17 @@ class subinfo(info.infoclass):
 
         self.description = "Extra plugins for KIO (thumbnail generators, archives, remote filesystems and more)"
 
+        # kio-extras is a special case, it releases different tarballs for Qt5 and Qt6
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            for ver in ["24.01.75"]:
+                self.targets[ver] = f"https://download.kde.org/unstable/release-service/{ver}/src/kio-extras-kf6-{ver}.tar.xz"
+                self.targetDigestUrls[ver] = f"https://download.kde.org/unstable/release-service/{ver}/src/kio-extras-kf6-{ver}.tar.xz.sha256"
+                self.targetInstSrc[ver] = f"kio-extras-kf6-{ver}"
+
+
         # https://invent.kde.org/network/kio-extras/-/merge_requests/297
         self.patchToApply["23.08.2"] = [("fix-mingw-build.patch", 1)]
         self.patchLevel["23.08.2"] = 1
-
-        self.patchToApply["master"] = [("fix-mingw-build.patch", 1)]
-        self.patchToApply["kf6"] = [("fix-mingw-build.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
