@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 
 
@@ -20,12 +21,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/hunspell"] = None
 
 
-from Blueprints.CraftPackageObject import CraftPackageObject
-
-
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CraftPackageObject.get("kde").pattern.__init__(self)
+        super().__init__()
 
         # always use just hunspell, if at all!
         self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_ASPELL=ON"]

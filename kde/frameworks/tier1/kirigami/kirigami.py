@@ -1,13 +1,17 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(
-            tarballUrl="https://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/kirigami2-${VERSION}.tar.xz",
-            tarballDigestUrl="https://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/kirigami2-${VERSION}.tar.xz.sha1",
-            tarballInstallSrc="kirigami2-${VERSION}",
-        )
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.versionInfo.setDefaultValues(
+                tarballUrl="https://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/kirigami2-${VERSION}.tar.xz",
+                tarballDigestUrl="https://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/kirigami2-${VERSION}.tar.xz.sha1",
+                tarballInstallSrc="kirigami2-${VERSION}",
+            )
+        else:
+            self.versionInfo.setDefaultValues()
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -21,9 +25,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt/qttools"] = None
 
 
-from Blueprints.CraftPackageObject import CraftPackageObject
-
-
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CraftPackageObject.get("kde").pattern.__init__(self)
+        super().__init__()

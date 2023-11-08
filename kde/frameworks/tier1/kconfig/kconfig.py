@@ -1,5 +1,5 @@
 import info
-from CraftCore import CraftCore
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -15,9 +15,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/qt/qttools"] = None
 
 
-from Blueprints.CraftPackageObject import CraftPackageObject
-
-
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CraftPackageObject.get("kde").pattern.__init__(self)
+        super().__init__()
