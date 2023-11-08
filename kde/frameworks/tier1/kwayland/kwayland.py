@@ -1,9 +1,14 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows & CraftCore.compiler.Platforms.NotMacOS
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            # Moved from KF5 to Plasma 6
+            self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
+        else:
+            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows & CraftCore.compiler.Platforms.NotMacOS
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -18,9 +23,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/wayland"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__(self)

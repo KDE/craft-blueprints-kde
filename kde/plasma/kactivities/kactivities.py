@@ -5,24 +5,28 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            # Moved from KF5 to Plasma 6
+        if not CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            # Moved to Plasma 6 from KF5
             self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
         else:
-            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows & CraftCore.compiler.Platforms.NotMacOS
+            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.description = "A library for accessing the usage data collected by the activities system"
+
+        self.description = "Runtime and library to organize the user work in separate activities"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["libs/boost/boost-headers"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        super().__init__(self)
+        CraftPackageObject.get("kde").pattern.__init__(self)
+        self.subinfo.options.configure.args += ["-DKACTIVITIES_LIBRARY_ONLY=YES"]

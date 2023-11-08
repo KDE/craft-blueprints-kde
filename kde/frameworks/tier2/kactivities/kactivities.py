@@ -1,10 +1,15 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            # Moved from KF5 to Plasma 6
+            self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
+        else:
+            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -21,10 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/boost/boost-headers"] = None
 
 
-from Blueprints.CraftPackageObject import CraftPackageObject
-
-
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CraftPackageObject.get("kde").pattern.__init__(self)
+        super().__init__(self)
         self.subinfo.options.configure.args += ["-DKACTIVITIES_LIBRARY_ONLY=YES"]

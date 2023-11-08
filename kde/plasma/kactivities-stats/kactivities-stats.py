@@ -5,8 +5,8 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            # Moved from KF5 to Plasma 6
+        if not CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            # Moved to Plasma 6 from KF5
             self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
         else:
             self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows & CraftCore.compiler.Platforms.NotMacOS
@@ -18,8 +18,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+        self.runtimeDependencies["kde/plasma/kactivities"] = None
         self.runtimeDependencies["libs/boost/boost-headers"] = None
 
 
