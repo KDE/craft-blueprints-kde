@@ -25,4 +25,4 @@ class subinfo(info.infoclass):
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        super().__init__(self)
+        super().__init__()
