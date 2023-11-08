@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -23,9 +24,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CraftPackageObject.get("kde").pattern):

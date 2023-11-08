@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -12,9 +13,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
-
-
-from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class Package(CraftPackageObject.get("kde").pattern):

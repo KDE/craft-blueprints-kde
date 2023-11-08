@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -46,9 +47,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kdnssd"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["kde/applications/libkexiv2"] = None
-
-
-from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class Package(CraftPackageObject.get("kde").pattern):

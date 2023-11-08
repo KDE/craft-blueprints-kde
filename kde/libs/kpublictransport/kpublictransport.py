@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2019 Nicolas Fella <nicolas.fella@gmx.de>
 
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -13,9 +14,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CraftPackageObject.get("kde").pattern):

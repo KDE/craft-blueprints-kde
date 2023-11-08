@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftOS.osutils import OsUtils
 
 
@@ -25,9 +26,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier4/frameworkintegration"] = None
         if not OsUtils.isWin() and not OsUtils.isMac():
             self.runtimeDependencies["kde/plasma/kdecoration"] = None
-
-
-from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class Package(CraftPackageObject.get("kde").pattern):

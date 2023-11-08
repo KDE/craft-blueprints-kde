@@ -1,8 +1,11 @@
 import os
 
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
+from Packager.AppImagePackager import AppImagePackager
+from Utils import GetFiles
 
 
 class subinfo(info.infoclass):
@@ -57,11 +60,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/drmingw"] = None
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["kde/plasma/drkonqi"] = None
-
-
-from Blueprints.CraftPackageObject import CraftPackageObject
-from Packager.AppImagePackager import AppImagePackager
-from Utils import GetFiles
 
 
 class Package(CraftPackageObject.get("kde").pattern):

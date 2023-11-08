@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -10,9 +11,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/exiv2"] = None
         self.runtimeDependencies["kde/frameworks/extra-cmake-modules"] = None
-
-
-from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class Package(CraftPackageObject.get("kde").pattern):

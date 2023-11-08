@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 
 
@@ -26,9 +27,6 @@ class subinfo(info.infoclass):
             if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
                 self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
-
-
-from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class Package(CraftPackageObject.get("kde").pattern):

@@ -1,5 +1,5 @@
 import info
-from CraftCore import CraftCore
+from Blueprints.CraftPackageObject import CraftPackageObject
 from Utils import CraftHash
 
 
@@ -23,9 +23,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.runtimeDependencies["libs/qt6/qtcharts"] = None
-
-
-from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class Package(CraftPackageObject.get("kde").pattern):
