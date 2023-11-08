@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 from Package.CMakePackageBase import *
 
 
@@ -20,7 +21,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["kde/applications/okular"] = None
         self.runtimeDependencies["kde/applications/kate"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
 
 
 class Package(CMakePackageBase):

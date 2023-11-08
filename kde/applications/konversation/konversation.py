@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 from Package.CMakePackageBase import *
 from Packager.CollectionPackagerBase import PackagerLists
 
@@ -17,7 +18,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kemoticons"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.runtimeDependencies["kde/frameworks/tier3/kemoticons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kidletime"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
