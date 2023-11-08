@@ -14,7 +14,6 @@ class subinfo(info.infoclass):
                 self.targetDigestUrls[ver] = f"https://download.kde.org/unstable/release-service/{ver}/src/kio-extras-kf6-{ver}.tar.xz.sha256"
                 self.targetInstSrc[ver] = f"kio-extras-kf6-{ver}"
 
-
         # https://invent.kde.org/network/kio-extras/-/merge_requests/297
         self.patchToApply["23.08.2"] = [("fix-mingw-build.patch", 1)]
         self.patchLevel["23.08.2"] = 1
@@ -54,7 +53,7 @@ from Blueprints.CraftPackageObject import CraftPackageObject
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CraftPackageObject.get("kde").pattern.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += [
             "-DSAMBA_FOUND=false",
             "-DBUILD_KDSoapWSDiscoveryClient=OFF",

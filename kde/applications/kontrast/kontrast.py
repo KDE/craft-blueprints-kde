@@ -33,7 +33,7 @@ from Blueprints.CraftPackageObject import CraftPackageObject
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CraftPackageObject.get("kde").pattern.__init__(self)
+        super().__init__()
         self.defines["executable"] = r"bin\kontrast.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(kontrast|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")

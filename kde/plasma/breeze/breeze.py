@@ -32,7 +32,7 @@ from Blueprints.CraftPackageObject import CraftPackageObject
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CraftPackageObject.get("kde").pattern.__init__(self)
+        super().__init__()
         if OsUtils.isWin():
             self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF5FrameworkIntegration=ON", "-DWITH_DECORATIONS=OFF"]
 
@@ -40,5 +40,4 @@ class Package(CraftPackageObject.get("kde").pattern):
             self.subinfo.options.configure.args += ["-DWITH_DECORATIONS=OFF"]
 
         qtMajor = CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion
-        self.subinfo.options.configure.args += [f"-DBUILD_QT5={'ON' if qtMajor == '5' else 'OFF'}",
-                                                f"-DBUILD_QT6={'ON' if qtMajor == '6' else 'OFF'}"]
+        self.subinfo.options.configure.args += [f"-DBUILD_QT5={'ON' if qtMajor == '5' else 'OFF'}", f"-DBUILD_QT6={'ON' if qtMajor == '6' else 'OFF'}"]

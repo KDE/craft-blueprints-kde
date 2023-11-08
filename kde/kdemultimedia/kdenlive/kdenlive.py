@@ -66,7 +66,7 @@ from Utils import GetFiles
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CraftPackageObject.get("kde").pattern.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["-DNODBUS=ON"]
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += ["-DRELEASE_BUILD=OFF"]

@@ -1,5 +1,6 @@
 import info
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/kquickimageeditor.git"
@@ -19,6 +20,7 @@ class subinfo(info.infoclass):
 
 from Blueprints.CraftPackageObject import CraftPackageObject
 
+
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CraftPackageObject.get("kde").pattern.__init__(self)
+        super().__init__()
