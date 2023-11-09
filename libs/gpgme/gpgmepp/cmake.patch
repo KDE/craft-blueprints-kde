@@ -1198,7 +1198,7 @@ index 00000000..8787253b
 GitLab
 
 
-From 0b1682f01552612460f360a637293ebb44c8c98d Mon Sep 17 00:00:00 2001
+From 946f2bdf6c372b19749fc6df539ae29bf4724144 Mon Sep 17 00:00:00 2001
 From: Carl Schwan <carl.schwan@gnupg.com>
 Date: Wed, 18 Oct 2023 11:12:03 +0200
 Subject: [PATCH 4/4] Add support for Qt6
@@ -1206,12 +1206,13 @@ Subject: [PATCH 4/4] Add support for Qt6
 ---
  CMakeLists.txt                               |   3 +
  lang/CMakeLists.txt                          |   5 -
+ lang/cpp/src/CMakeLists.txt                  |   6 +-
  lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in  |   4 +-
  lang/qt/CMakeLists.txt                       |  12 ++-
- lang/qt/src/CMakeLists.txt                   |  81 +++++++++-----
- lang/qt/src/QGpgmeConfig-msvc.cmake.in.in    |   2 +-
+ lang/qt/src/CMakeLists.txt                   |  85 ++++++++++-----
+ lang/qt/src/QGpgmeConfig-msvc.cmake.in.in    |   4 +-
  lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in | 105 +++++++++++++++++++
- 7 files changed, 174 insertions(+), 38 deletions(-)
+ 8 files changed, 184 insertions(+), 40 deletions(-)
  create mode 100644 lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
@@ -1242,20 +1243,40 @@ index af15fe1e..09af290b 100644
  function(parse_lt name)
      file(READ "${CMAKE_SOURCE_DIR}/configure.ac" configure_ac)
      string(REGEX MATCH "${name}_LT_CURRENT=([0-9]+)" _ ${configure_ac})
+diff --git a/lang/cpp/src/CMakeLists.txt b/lang/cpp/src/CMakeLists.txt
+index bedc10c6..0483bca9 100644
+--- a/lang/cpp/src/CMakeLists.txt
++++ b/lang/cpp/src/CMakeLists.txt
+@@ -126,7 +126,11 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GpgmeppConfigVersion.cmake.in
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/gpgmepp_version.h.in
+                ${CMAKE_CURRENT_BINARY_DIR}/gpgmepp_version.h)
+ 
+-install(TARGETS gpgmepp DESTINATION ${GPGME_LIBRARY_DIRS})
++if (MSVC)
++    install(TARGETS gpgmepp DESTINATION ${resolved_bindir})
++else()
++    install(TARGETS gpgmepp DESTINATION ${GPGME_LIBRARY_DIRS})
++endif()
+ 
+ install(FILES ${gpgmepp_HEADERS}
+         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gpgme++)
 diff --git a/lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in b/lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in
-index af0db8d7..71838065 100644
+index af0db8d7..72c1ec32 100644
 --- a/lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in
 +++ b/lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in
-@@ -65,10 +65,10 @@ set_target_properties(Gpgmepp PROPERTIES
-   IMPORTED_IMPLIB "@resolved_libdir@/gpgmepp.lib"
+@@ -62,13 +62,13 @@ unset(_expectedTargets)
+ add_library(Gpgmepp SHARED IMPORTED)
+ 
+ set_target_properties(Gpgmepp PROPERTIES
+-  IMPORTED_IMPLIB "@resolved_libdir@/gpgmepp.lib"
++  IMPORTED_IMPLIB "@resolved_bindir@/gpgmepp.lib"
    INTERFACE_INCLUDE_DIRECTORIES "@resolved_includedir@/gpgme++;@resolved_includedir@"
    INTERFACE_LINK_LIBRARIES "@resolved_libdir@/gpgme.lib;@LIBASSUAN_LIBS@"
--  IMPORTED_LOCATION "@resolved_bindir@/gpgmepp.dll"
-+  IMPORTED_LOCATION "@resolved_libdir@/gpgmepp.dll"
+   IMPORTED_LOCATION "@resolved_bindir@/gpgmepp.dll"
  )
  list(APPEND _IMPORT_CHECK_TARGETS Gpgmepp )
 -list(APPEND _IMPORT_CHECK_FILES_FOR_Gpgmepp "@resolved_bindir@/gpgmepp.dll" "@resolved_libdir@/gpgmepp.lib")
-+list(APPEND _IMPORT_CHECK_FILES_FOR_Gpgmepp "@resolved_libdir@/gpgmepp.dll" "@resolved_libdir@/gpgmepp.lib")
++list(APPEND _IMPORT_CHECK_FILES_FOR_Gpgmepp "@resolved_bindir@/gpgmepp.dll" "@resolved_bindir@/gpgmepp.lib")
  
  
  if(CMAKE_VERSION VERSION_LESS 2.8.12)
@@ -1280,7 +1301,7 @@ index be94e9e6..090d085b 100644
 +    add_subdirectory(src src6)
 +endif()
 diff --git a/lang/qt/src/CMakeLists.txt b/lang/qt/src/CMakeLists.txt
-index e1915aee..9a00568d 100644
+index e1915aee..6e2afd2e 100644
 --- a/lang/qt/src/CMakeLists.txt
 +++ b/lang/qt/src/CMakeLists.txt
 @@ -3,9 +3,17 @@
@@ -1353,7 +1374,7 @@ index e1915aee..9a00568d 100644
      VERSION "${MAJOR}.${LIBQGPGME_LT_AGE}.${LIBQGPGME_LT_REVISION}"
      SOVERSION "${MAJOR}"
  )
-@@ -237,29 +253,36 @@ set(resolved_libdir "${GPGME_LIBRARY_DIRS}")
+@@ -237,29 +253,40 @@ set(resolved_libdir "${GPGME_LIBRARY_DIRS}")
  set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
  set(libsuffix "${CMAKE_SHARED_LIBRARY_SUFFIX}")
  
@@ -1385,7 +1406,11 @@ index e1915aee..9a00568d 100644
                 ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h)
  
 -install(TARGETS qgpgme DESTINATION ${GPGME_LIBRARY_DIRS})
-+install(TARGETS qgpgme${version} DESTINATION ${GPGME_LIBRARY_DIRS})
++if (MSVC)
++    install(TARGETS qgpgme${version} DESTINATION ${resolved_bindir})
++else()
++    install(TARGETS qgpgme${version} DESTINATION ${GPGME_LIBRARY_DIRS})
++endif()
 +
 +if (${QT_MAJOR_VERSION} EQUAL 5)
 +    install(FILES ${qgpgme_HEADERS}
@@ -1409,21 +1434,29 @@ index e1915aee..9a00568d 100644
 +              ${CMAKE_CURRENT_BINARY_DIR}/QGpgme${config_suffix}Config.cmake
 +        DESTINATION ${GPGME_LIBRARY_DIRS}/cmake/QGpgme${config_suffix})
 diff --git a/lang/qt/src/QGpgmeConfig-msvc.cmake.in.in b/lang/qt/src/QGpgmeConfig-msvc.cmake.in.in
-index 8787253b..35a3c7cf 100644
+index 8787253b..d1a34d31 100644
 --- a/lang/qt/src/QGpgmeConfig-msvc.cmake.in.in
 +++ b/lang/qt/src/QGpgmeConfig-msvc.cmake.in.in
-@@ -65,7 +65,7 @@ set_target_properties(QGpgme PROPERTIES
-   IMPORTED_IMPLIB "@resolved_libdir@/qgpgme.lib"
+@@ -62,14 +62,14 @@ unset(_expectedTargets)
+ add_library(QGpgme SHARED IMPORTED)
+ 
+ set_target_properties(QGpgme PROPERTIES
+-  IMPORTED_IMPLIB "@resolved_libdir@/qgpgme.lib"
++  IMPORTED_IMPLIB "@resolved_bindir@/qgpgme.lib"
    INTERFACE_INCLUDE_DIRECTORIES "@resolved_includedir@/qgpgme;@resolved_includedir@"
    INTERFACE_LINK_LIBRARIES "Gpgmepp;Qt5::Core"
--  IMPORTED_LOCATION "@resolved_bindir@/qgpgme.dll"
-+  IMPORTED_LOCATION "@resolved_libdir@/qgpgme.dll"
+   IMPORTED_LOCATION "@resolved_bindir@/qgpgme.dll"
  )
  
  list(APPEND _IMPORT_CHECK_TARGETS QGgpme )
+-list(APPEND _IMPORT_CHECK_FILES_FOR_Qgpgme "@resolved_libdir@/qgpgme.lib" "@resolved_bindir@/qgpgme.dll")
++list(APPEND _IMPORT_CHECK_FILES_FOR_Qgpgme "@resolved_bindir@/qgpgme.lib" "@resolved_bindir@/qgpgme.dll")
+ 
+ if(CMAKE_VERSION VERSION_LESS 2.8.12)
+   message(FATAL_ERROR "This file relies on consumers using CMake 2.8.12 or greater.")
 diff --git a/lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in b/lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in
 new file mode 100644
-index 00000000..022752c1
+index 00000000..50e61d38
 --- /dev/null
 +++ b/lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in
 @@ -0,0 +1,105 @@
@@ -1491,14 +1524,14 @@ index 00000000..022752c1
 +add_library(QGpgmeQt6 SHARED IMPORTED)
 +
 +set_target_properties(QGpgmeQt6 PROPERTIES
-+  IMPORTED_IMPLIB "@resolved_libdir@/qgpgmeqt6.lib"
++  IMPORTED_IMPLIB "@resolved_bindir@/qgpgmeqt6.lib"
 +  INTERFACE_INCLUDE_DIRECTORIES "@resolved_includedir@/qgpgme;@resolved_includedir@"
 +  INTERFACE_LINK_LIBRARIES "Gpgmepp;Qt6::Core"
-+  IMPORTED_LOCATION "@resolved_libdir@/qgpgmeqt6.dll"
++  IMPORTED_LOCATION "@resolved_bindir@/qgpgmeqt6.dll"
 +)
 +
 +list(APPEND _IMPORT_CHECK_TARGETS QGgpmeQt6 )
-+list(APPEND _IMPORT_CHECK_FILES_FOR_QgpgmeQt6 "@resolved_libdir@/qgpgmeqt6.lib" "@resolved_bindir@/qgpgmeqt6.dll")
++list(APPEND _IMPORT_CHECK_FILES_FOR_QgpgmeQt6 "@resolved_bindir@/qgpgmeqt6.lib" "@resolved_bindir@/qgpgmeqt6.dll")
 +
 +if(CMAKE_VERSION VERSION_LESS 2.8.12)
 +  message(FATAL_ERROR "This file relies on consumers using CMake 2.8.12 or greater.")

@@ -17,10 +17,12 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["libs/libgmp"] = None
-        self.runtimeDependencies["libs/gpgme"] = None
+        self.runtimeDependencies["libs/gpgme/gpgme"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
         self.buildDependencies["libs/gettext"] = None
 
+        if CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
 
 class Package(CMakePackageBase):
     def __init__(self):

@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if not CraftCore.compiler.isMSVC() and not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.isMSVC():
             # Theoretically gpgmepp supports other platforms than Windows with MSVC
             # however not with the patch for MSVC applied below and no one put effort in
             # making it work on other platforms. So if you are interested in it do it :-)

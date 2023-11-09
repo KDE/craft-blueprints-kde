@@ -24,7 +24,6 @@ class subinfo(info.infoclass):
 
         self.runtimeDependencies["kde/pim/libkleo"] = None
         self.runtimeDependencies["kde/pim/kmime"] = None
-        self.runtimeDependencies["libs/gpgme"] = None
         self.buildDependencies["libs/assuan2"] = None
 
 
