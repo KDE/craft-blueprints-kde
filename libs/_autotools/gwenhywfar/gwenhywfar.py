@@ -42,7 +42,7 @@ class subinfo(info.infoclass):
         self.targetDigests["5.10.2"] = (["60a7da03542865501208f20e18de32b45a75e3f4aa8515ca622b391a2728a9e1"], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["5.10.2"] = "gwenhywfar-5.10.2"
         self.patchToApply["5.10.2"] = [("0047982d2a2b83cdd3405732b84a3ee8788e0269.patch", 0)]  # Fix build on Windows
-        self.patchLevel["5.10.2"] = 1
+        self.patchLevel["5.10.2"] = 2
         self.defaultTarget = "5.10.2"
 
     def setDependencies(self):
@@ -59,7 +59,8 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-guis='qt5 cpp'"]
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-guis=qt5"]
+
         # For appImage builds the --enable-local-install is needed so that
         # the appImage is searched for gwenhywfar plugins
         if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
