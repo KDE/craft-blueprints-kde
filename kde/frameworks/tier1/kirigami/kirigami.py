@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["libs/qt/qtsvg"] = None
             self.runtimeDependencies["libs/qt/qttools"] = None
+            self.runtimeDependencies["libs/qt6/qt5compat"] = None
 
 
 from Blueprints.CraftPackageObject import CraftPackageObject
