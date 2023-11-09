@@ -52,7 +52,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
-        self.runtimeDependencies["libs/gpgme/gpgme"] = None
+        self.runtimeDependencies["libs/gpgme"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
@@ -75,9 +75,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
         if CraftCore.compiler.isMinGW():
             self.runtimeDependencies["kdesupport/kdewin"] = None
-
-        if CraftCore.compiler.isMSVC():
-            self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
 
 
 from Package.CMakePackageBase import *

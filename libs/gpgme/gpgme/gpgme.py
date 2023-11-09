@@ -33,6 +33,7 @@ if not CraftCore.compiler.isMSVC():
 
     class subinfo(info.infoclass):
         def registerOptions(self):
+            # Be aware that ther is also gpgmepp to provide C++
             self.options.dynamic.registerOption("enableCPP", False)
 
         def setTargets(self):

@@ -3,8 +3,8 @@ import info
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if not CraftCore.compiler.isMSVC():
-            # Theoretically gpgmepp supports other platforms than Windows with MSVC
+        if not CraftCore.compiler.isMSVC() and not CraftCore.compiler.isLinux:
+            # Theoretically gpgmepp supports other platforms as well
             # however not with the patch for MSVC applied below and no one put effort in
             # making it work on other platforms. So if you are interested in it do it :-)
             self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
