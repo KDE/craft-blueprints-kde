@@ -3,10 +3,8 @@ import info
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if not CraftCore.compiler.isMSVC() and not CraftCore.compiler.isLinux:
-            # Theoretically gpgmepp supports other platforms as well
-            # however not with the patch for MSVC applied below and no one put effort in
-            # making it work on other platforms. So if you are interested in it do it :-)
+        if CraftCore.compiler.isMinGW():
+            # Theoretically gpgmepp supports mingw but the cmake patches are incomplete
             self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
 
     def setTargets(self):
@@ -20,7 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gnupg"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
 
-        self.patchToApply["1.21.0"] = ("cmake.patch", 1)
+        self.patchToApply["1.21.0"] = [("cmake.patch", 1), ("gpgmepp-1.21.0-20231109.diff", 1)]
 
         self.patchLevel["1.21.0"] = 6
 
