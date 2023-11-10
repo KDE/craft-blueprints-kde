@@ -38,6 +38,8 @@ class subinfo(info.infoclass):
         self.targetDigests[ver] = (["80d1d44dd8bdf4ac1a47d56c5065075eb9991790974b1ed7d14b972acde88e55"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = ver
 
+        self.patchLevel["23.09.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.buildDependencies["libs/boost/boost-headers"] = None
