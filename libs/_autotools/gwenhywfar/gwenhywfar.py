@@ -59,7 +59,8 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-guis='qt5 cpp'"]
+        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-guis=qt5"]
+
         # For appImage builds the --enable-local-install is needed so that
         # the appImage is searched for gwenhywfar plugins
         if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
