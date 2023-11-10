@@ -34,10 +34,11 @@ from Package.MesonPackageBase import *
 class Package(MesonPackageBase):
     def __init__(self):
         MesonPackageBase.__init__(self)
-        self.subinfo.options.configure.cflags += (
-            f"-I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'include/dbus-1.0')}"
-            f" -I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'lib/dbus-1.0/include')}"
-        )
+        if self.options.isActive("libs/dbus"):
+            self.subinfo.options.configure.cflags += (
+                f"-I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'include/dbus-1.0')}"
+                f" -I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'lib/dbus-1.0/include')}"
+            )
         # cmake pcre does not provide .pc files
         self.subinfo.options.configure.args += ["-Dinternal_pcre=true", "-Diconv=external", "--wrap-mode=nodownload"]
         if CraftCore.compiler.isUnix:

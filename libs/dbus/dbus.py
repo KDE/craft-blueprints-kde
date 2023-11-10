@@ -48,7 +48,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/expat"] = None
-        self.runtimeDependencies["libs/glib"] = None
 
 
 from Package.CMakePackageBase import *
