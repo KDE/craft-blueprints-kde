@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["libs/libgmp"] = None
-        self.runtimeDependencies["extragear/libktorrent"] = None
+        self.runtimeDependencies["kde/libs/libktorrent"] = None
         self.buildDependencies["libs/gettext"] = None
 
 
