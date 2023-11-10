@@ -41,6 +41,6 @@ class Package(MesonPackageBase):
         # cmake pcre does not provide .pc files
         self.subinfo.options.configure.args += ["-Dinternal_pcre=true", "-Diconv=external", "--wrap-mode=nodownload"]
         if CraftCore.compiler.isUnix:
-            self.subinfo.options.configure.ldflags += " -lintl"
+            self.subinfo.options.configure.ldflags += f" -lintl -L{CraftStandardDirs.craftRoot()}/lib"
         if CraftCore.compiler.isFreeBSD:
             self.subinfo.options.configure.args += ["-Dxattr=false", "-Dlibmount=disabled", "-Dselinux=disabled", "-Db_lundef=false"]
