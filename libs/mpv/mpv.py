@@ -22,13 +22,15 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/libass"] = None
-        self.runtimeDependencies["libs/uuid"] = None
-        self.runtimeDependencies["libs/libva"] = None
-        self.runtimeDependencies["libs/libvdpau"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/libarchive"] = None
         self.runtimeDependencies["libs/lcms2"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
+
+        if CraftCore.compiler.isLinux:
+            self.runtimeDependencies["libs/libvdpau"] = None
+            self.runtimeDependencies["libs/libva"] = None
+            self.runtimeDependencies["libs/uuid"] = None
 
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/lua"] = None
