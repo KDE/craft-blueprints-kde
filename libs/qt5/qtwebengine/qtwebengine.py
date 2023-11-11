@@ -118,6 +118,9 @@ class Package(Qt5CorePackageBase):
         if CraftCore.compiler.isMacOS:
             # we need mac's version of libtool here
             env["PATH"] = f"/usr/bin/:{os.environ['PATH']}"
+        elif CraftCore.compiler.isLinux:
+            # this build system is broken and ignore ldflags
+            env["LD_LIBRARY_PATH"] = CraftCore.standardDirs.craftRoot() / "lib"
         if CraftCore.compiler.isWindows:
             # shorten the path to python2 which is passed to gn...
             shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/").shortPath
