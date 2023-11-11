@@ -1,0 +1,11 @@
+diff --git a/examples/contactlistqml.cpp b/examples/contactlistqml.cpp
+index 18a72e0..5543c32 100644
+--- a/examples/contactlistqml.cpp
++++ b/examples/contactlistqml.cpp
+@@ -13,5 +13,5 @@ int main(int argc, char **argv)
+ 
+     QQmlApplicationEngine engine(QUrl(QStringLiteral("qrc:/qml/Main.qml")));
+ 
+-    app.exec();
++    return app.exec();
+ }
