@@ -1,0 +1,12 @@
+diff -Nrub -x *~ -x *\.rej -x *\.orig -x *\.o -x *\.pyc -x CMakeLists.txt.user kwallet-5.245.0.orig/src/runtime/kwalletd/backend/backendpersisthandler.cpp kwallet-5.245.0/src/runtime/kwalletd/backend/backendpersisthandler.cpp
+--- kwallet-5.245.0.orig/src/runtime/kwalletd/backend/backendpersisthandler.cpp	2023-11-08 15:45:40
++++ kwallet-5.245.0/src/runtime/kwalletd/backend/backendpersisthandler.cpp	2023-11-11 17:04:08
+@@ -544,7 +544,7 @@
+     dataStream << hashes;
+     dataStream << values;
+ 
+-    GpgME::Data decryptedData(dataBuffer.data(), dataBuffer.size(), false);
++    GpgME::Data decryptedData(dataBuffer.data(), size_t(dataBuffer.size()), false);
+     GpgME::Data encryptedData;
+     std::vector<GpgME::Key> keys;
+     keys.push_back(wb->_gpgKey);
