@@ -125,6 +125,13 @@ class PackageMSys(AutoToolsPackageBase):
             utils.rmtree(os.path.join(self.sourceDir(), d))
         return True
 
+    def make(self):
+        env = {}
+        if CraftCore.compiler.isLinux:
+            env["LD_LIBRARY_PATH"] = CraftCore.standardDirs.craftRoot() / "lib"
+        with utils.ScopedEnv(env):
+            return super().make()
+
     def install(self):
         if not super().install():
             return False
