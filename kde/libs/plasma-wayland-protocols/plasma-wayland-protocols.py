@@ -17,6 +17,8 @@ class subinfo(info.infoclass):
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/plasma-wayland-protocols/plasma-wayland-protocols-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"plasma-wayland-protocols-{ver}"
 
+        self.patchToApply["1.11.0"] = [("fd5cda99a8c673f20de27ae73fbf244b5c8420d4.diff", 1)]
+
         self.defaultTarget = "1.11.0"
 
     def setDependencies(self):
