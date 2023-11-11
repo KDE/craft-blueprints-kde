@@ -1,0 +1,54 @@
+diff -Nrub -x *~ -x *\.rej -x *\.orig -x *\.o -x *\.pyc -x CMakeLists.txt.user kdeclarative-5.245.0.orig/CMakeLists.txt kdeclarative-5.245.0/CMakeLists.txt
+--- kdeclarative-5.245.0.orig/CMakeLists.txt	2023-11-08 15:42:07
++++ kdeclarative-5.245.0/CMakeLists.txt	2023-11-11 15:17:00
+@@ -32,7 +32,7 @@
+ find_package(KF6GuiAddons ${KF_DEP_VERSION} REQUIRED)
+ 
+ 
+-if(NOT WIN32)
++if(NOT WIN32 AND NOT APPLE)
+     find_package(KF6GlobalAccel ${KF_DEP_VERSION} REQUIRED)
+ endif()
+ 
+diff -Nrub -x *~ -x *\.rej -x *\.orig -x *\.o -x *\.pyc -x CMakeLists.txt.user kdeclarative-5.245.0.orig/src/qmlcontrols/kquickcontrols/private/CMakeLists.txt kdeclarative-5.245.0/src/qmlcontrols/kquickcontrols/private/CMakeLists.txt
+--- kdeclarative-5.245.0.orig/src/qmlcontrols/kquickcontrols/private/CMakeLists.txt	2023-11-08 15:42:08
++++ kdeclarative-5.245.0/src/qmlcontrols/kquickcontrols/private/CMakeLists.txt	2023-11-11 15:17:40
+@@ -20,7 +20,7 @@
+     KF6::WidgetsAddons
+ )
+ 
+-if (NOT WIN32)
++if (NOT WIN32 AND NOT APPLE)
+     target_link_libraries(kquickcontrolsprivateplugin KF6::GlobalAccel)
+ endif()
+ 
+diff -Nrub -x *~ -x *\.rej -x *\.orig -x *\.o -x *\.pyc -x CMakeLists.txt.user kdeclarative-5.245.0.orig/src/qmlcontrols/kquickcontrols/private/keysequencehelper.cpp kdeclarative-5.245.0/src/qmlcontrols/kquickcontrols/private/keysequencehelper.cpp
+--- kdeclarative-5.245.0.orig/src/qmlcontrols/kquickcontrols/private/keysequencehelper.cpp	2023-11-08 15:42:08
++++ kdeclarative-5.245.0/src/qmlcontrols/kquickcontrols/private/keysequencehelper.cpp	2023-11-11 15:22:29
+@@ -21,7 +21,7 @@
+ #include <KMessageBox>
+ #include <KStandardShortcut>
+ 
+-#ifndef Q_OS_WIN
++#if !defined(Q_OS_WIN) && !defined(Q_OS_DARWIN)
+ #include <KGlobalAccel>
+ #include <KGlobalShortcutInfo>
+ #endif
+@@ -123,7 +123,7 @@
+         KMessageBox::error(nullptr, message, title);
+     }
+     return false;
+-#else
++#elif !defined(Q_OS_DARWIN)
+     if (!(checkAgainstShortcutTypes & KeySequenceHelper::GlobalShortcuts)) {
+         return false;
+     }
+@@ -171,6 +171,8 @@
+     // most likely the first action that is done in the slot
+     // listening to keySequenceChanged().
+     KGlobalAccel::stealShortcutSystemwide(keySequence);
++    return false;
++#else
+     return false;
+ #endif
+ }
