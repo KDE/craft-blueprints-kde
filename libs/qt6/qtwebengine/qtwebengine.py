@@ -79,6 +79,9 @@ class Package(CMakePackageBase):
             # shorten the path to python
             shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/").shortPath
             env["PATH"] = f"{shortDevUtils}/bin;{os.environ['PATH']}"
+        elif CraftCore.compiler.isLinux:
+            # this build system is broken and ignore ldflags
+            env["LD_LIBRARY_PATH"] = CraftCore.standardDirs.craftRoot() / "lib"
         return env
 
     def configure(self):
