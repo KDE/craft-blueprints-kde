@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         # https://invent.kde.org/network/kio-extras/-/merge_requests/297
         self.patchToApply["23.08.2"] = [("fix-mingw-build.patch", 1)]
         self.patchToApply["23.08.3"] = [("fix-mingw-build.patch", 1)]
+        self.patchToApply["24.01.75"] = [("fix-mingw-build.patch", 1)]
         self.patchLevel["23.08.2"] = 1
 
     def setDependencies(self):
