@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows & CraftCore.compiler.Platforms.NotAndroid
         else:
-            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Linux & CraftCore.compiler.Platforms.FreeBSD
+            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.FreeBSD
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
