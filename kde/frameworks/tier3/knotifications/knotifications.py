@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         for ver in ["master", "5.245.0"]:
             # Fix macOS build, see https://invent.kde.org/frameworks/knotifications/-/merge_requests/118
             self.patchToApply[ver] = [("fix-macos-build.patch", 1)]
-            self.patchToApply[ver] = [("knotifications-5.245.0-20231111.diff", 1)]
+            self.patchToApply[ver] += [("knotifications-5.245.0-20231111.diff", 1)]
 
         self.patchLevel["master"] = 1
 
