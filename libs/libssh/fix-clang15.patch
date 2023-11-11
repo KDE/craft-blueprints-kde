@@ -1,0 +1,40 @@
+From 22f0f0dd60907ee7bcf30a5e32638ef12b8f0457 Mon Sep 17 00:00:00 2001
+From: Jakub Jelen <jjelen@redhat.com>
+Date: Wed, 12 Oct 2022 13:03:45 +0200
+Subject: examples: Fix build issue with new clang 15
+
+The error was  the following
+
+/builds/libssh/libssh-mirror/examples/sshnetcat.c:241:18: error: a function
+declaration without a prototype is deprecated in all versions of C
+[-Werror,-Wstrict-prototypes]
+void cleanup_pcap(){
+                 ^
+                  void
+
+and similar
+
+Signed-off-by: Jakub Jelen <jjelen@redhat.com>
+Reviewed-by: Anderson Toshiyuki Sasaki <ansasaki@redhat.com>
+---
+ src/init.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+(limited to 'src/init.c')
+
+diff --git a/src/init.c b/src/init.c
+index 7f184b9c..36911a42 100644
+--- a/src/init.c
++++ b/src/init.c
+@@ -278,7 +278,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,
+  *
+  * @see ssh_init()
+  */
+-bool is_ssh_initialized() {
++bool is_ssh_initialized(void) {
+ 
+     bool is_initialized = false;
+ 
+-- 
+cgit v1.2.3
+
