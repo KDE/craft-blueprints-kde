@@ -29,14 +29,15 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.patchToApply["5.110.0"] = [("KDEInstallDirs6 fix BUNDLE destination.patch", 1)]
-        self.patchLevel["5.110.0"] = 1
+        self.patchToApply["5.245.0"] = [("KDEInstallDirs6 fix BUNDLE destination.patch", 1)]
 
         # Fix Windows target version, see https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/399
-        self.patchToApply["5.245.0"] = [("399.diff", 1)]
+        self.patchToApply["5.245.0"] += [("399.diff", 1)]
         self.patchToApply["master"] = [("399.diff", 1)]
-        self.patchLevel["master"] = 1
 
-        self.tags = "ECM"
+        self.patchLevel["5.110.0"] = 1
+        self.patchLevel["5.245.0"] = 1
+        self.patchLevel["master"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
