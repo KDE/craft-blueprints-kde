@@ -42,7 +42,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
-        self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            # Yet the Qt6 version of kio-extras is too broken for us, consider to re-enable later
+            self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
