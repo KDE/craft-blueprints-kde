@@ -8,6 +8,9 @@ class subinfo(info.infoclass):
 
         self.description = "Credential Storage"
 
+        # https://invent.kde.org/frameworks/kwallet/-/merge_requests/71
+        self.patchToApply["5.245.0"] = [("kwallet-5.245.0-20231111.diff", 1)]
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
