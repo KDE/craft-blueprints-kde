@@ -23,6 +23,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
         self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
