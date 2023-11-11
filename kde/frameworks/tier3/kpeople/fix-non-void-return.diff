@@ -3,9 +3,47 @@ index 18a72e0..5543c32 100644
 --- a/examples/contactlistqml.cpp
 +++ b/examples/contactlistqml.cpp
 @@ -13,5 +13,5 @@ int main(int argc, char **argv)
- 
+
      QQmlApplicationEngine engine(QUrl(QStringLiteral("qrc:/qml/Main.qml")));
- 
+
 -    app.exec();
 +    return app.exec();
  }
+diff --git a/examples/contactlistwidgets.cpp b/examples/contactlistwidgets.cpp
+index 5a8004b..8cca954 100644
+--- a/examples/contactlistwidgets.cpp
++++ b/examples/contactlistwidgets.cpp
+@@ -150,7 +150,7 @@ int main(int argc, char **argv)
+
+     ContactListApp widget;
+     widget.show();
+-    app.exec();
++    return app.exec();
+ }
+
+ #include "contactlistwidgets.moc"
+diff --git a/examples/duplicates.cpp b/examples/duplicates.cpp
+index 652693c..e920340 100644
+--- a/examples/duplicates.cpp
++++ b/examples/duplicates.cpp
+@@ -113,7 +113,7 @@ int main(int argc, char **argv)
+     QObject::connect(&model, SIGNAL(rowsInserted(QModelIndex, int, int)), t, SLOT(start()));
+     QObject::connect(t, SIGNAL(timeout()), f, SLOT(start()));
+
+-    app.exec();
++    return app.exec();
+ }
+
+ #include "duplicates.moc"
+diff --git a/examples/personwidget.cpp b/examples/personwidget.cpp
+index b5ca508..f4e60ae 100644
+--- a/examples/personwidget.cpp
++++ b/examples/personwidget.cpp
+@@ -26,5 +26,5 @@ int main(int argc, char **argv)
+
+     w.show();
+
+-    app.exec();
++    return app.exec();
+ }
+
