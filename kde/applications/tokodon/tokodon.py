@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["libs/qt/qtwebview"] = None
         self.runtimeDependencies["libs/qt/qtwebsockets"] = None
-        self.runtimeDependencies["libs/mpv"] = None
+        self.runtimeDependencies["kde/unreleased/mpvqt"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
