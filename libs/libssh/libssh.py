@@ -34,6 +34,8 @@ class subinfo(info.infoclass):
         self.targetInstSrc[self.defaultTarget] = f"libssh-{self.defaultTarget}"
         self.targetDigests[self.defaultTarget] = (["acffef2da98e761fc1fd9c4fddde0f3af60ab44c4f5af05cd1b2d60a3fa08718"], CraftHash.HashAlgorithm.SHA256)
 
+        self.patchToApply["0.9.5"] = [("fix-clang15.patch", 1)]
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/zlib"] = None
