@@ -303,9 +303,7 @@ class Package(Qt5CorePackageBase):
             if self.supportsCCACHE:
                 command += "-ccache "
 
-            if CraftCore.compiler.isLinux:
-                command += """-R "../lib" """
-            elif CraftCore.compiler.isMacOS:
+            if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
                 command += f"""-R "{CraftCore.standardDirs.craftRoot()}/lib" """
 
             if CraftCore.compiler.isMinGW() and self.qtVer < "5.10":
