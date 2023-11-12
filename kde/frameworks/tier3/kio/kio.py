@@ -39,7 +39,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
 
 
-class Package(CraftPackageObject.get("kde").pattern):
+class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self):
         super().__init__()
         self.subinfo.options.configure.args += [f"-DKIO_ASSERT_SLAVE_STATES={'ON' if self.buildType() == 'Debug' else 'OFF'}"]
