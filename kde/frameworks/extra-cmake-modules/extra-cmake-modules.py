@@ -23,6 +23,8 @@
 # SUCH DAMAGE.
 
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -55,9 +57,6 @@ class subinfo(info.infoclass):
             self.buildDependencies["python-modules/pyyaml"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
