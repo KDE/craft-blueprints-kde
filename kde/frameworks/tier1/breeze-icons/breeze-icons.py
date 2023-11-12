@@ -31,7 +31,7 @@ class subinfo(info.infoclass):
 from Blueprints.CraftPackageObject import CraftPackageObject
 
 
-class Package(CraftPackageObject.get("kde").pattern):
+class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self):
         super().__init__()
         if self.subinfo.options.dynamic.useIconResource:

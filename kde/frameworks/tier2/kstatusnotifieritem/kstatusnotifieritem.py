@@ -11,6 +11,9 @@ class subinfo(info.infoclass):
         else:
             self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
 
+        # https://invent.kde.org/frameworks/kstatusnotifieritem/-/merge_requests/6
+        self.patchToApply["5.245.0"] = [("mr-6.patch", 1)]
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
@@ -23,6 +26,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
 
-class Package(CraftPackageObject.get("kde").pattern):
+class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self):
         super().__init__()

@@ -38,6 +38,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["dev-utils/snoretoast"] = None
 
 
-class Package(CraftPackageObject.get("kde").pattern):
+class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self):
         super().__init__()

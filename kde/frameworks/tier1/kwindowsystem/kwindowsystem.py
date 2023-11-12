@@ -24,6 +24,6 @@ class subinfo(info.infoclass):
                 self.runtimeDependencies["libs/qt5/qtwinextras"] = None
 
 
-class Package(CraftPackageObject.get("kde").pattern):
+class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self):
         super().__init__()
