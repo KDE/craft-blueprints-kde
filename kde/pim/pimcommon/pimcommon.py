@@ -39,7 +39,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None
-        self.runtimeDependencies["kdesupport/grantlee"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
