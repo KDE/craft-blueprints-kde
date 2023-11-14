@@ -18,7 +18,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
-        self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["libs/gpgme"] = None
         self.runtimeDependencies["libs/boost/boost-atomic"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
