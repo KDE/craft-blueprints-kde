@@ -1,5 +1,6 @@
 import info
 from Package.CMakePackageBase import *
+from Packager.CollectionPackagerBase import PackagerLists
 
 
 class subinfo(info.infoclass):
@@ -32,6 +33,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.blacklist_file.append(self.packageDir() / "blacklist.txt")
 
     def createPackage(self):
         self.defines["executable"] = r"bin\kongress.exe"
