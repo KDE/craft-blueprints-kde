@@ -1,0 +1,30 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user qtbase-everywhere-src-6.6.0.orig/src/corelib/io/qstandardpaths_mac.mm qtbase-everywhere-src-6.6.0/src/corelib/io/qstandardpaths_mac.mm
+--- qtbase-everywhere-src-6.6.0.orig/src/corelib/io/qstandardpaths_mac.mm	2023-09-13 18:02:48.000000000 +0200
++++ qtbase-everywhere-src-6.6.0/src/corelib/io/qstandardpaths_mac.mm	2023-11-15 11:29:23.874930791 +0100
+@@ -159,6 +159,26 @@
+         dirs << writableLocation(PicturesLocation) << "assets-library://"_L1;
+ #endif
+ 
++#if !defined(QT_BOOTSTRAPPED) && defined(Q_OS_MACOS)
++    if (type == AppDataLocation || type == AppLocalDataLocation || type == GenericDataLocation) {
++        // Allow to add dirs through the environment variable QT_DATA_DIRS.
++        // We need this in KDE Craft to search for generic data in $CRAFTROOT/share instead of
++        // requiring it to be in /Library/Application Support which is not writable for Craft.
++        // QT_DATA_DIRS is set for the Craft env in CraftSetupHelper.py
++        QByteArray qtDataDirsEnv = qgetenv("QT_DATA_DIRS");
++        QStringList extraDataDirs;
++        if (!qtDataDirsEnv.isEmpty()) {
++            extraDataDirs = QFile::decodeName(qtDataDirsEnv).split(QLatin1Char(':'), Qt::SkipEmptyParts);
++        }
++        if (type == AppDataLocation || type == AppLocalDataLocation) {
++            for (QString &dir : extraDataDirs) {
++                appendOrganizationAndApp(dir);
++            }
++        }
++        dirs << extraDataDirs;
++    }
++#endif
++
+     if (type == GenericDataLocation || type == FontsLocation || type == ApplicationsLocation
+             || type == AppDataLocation || type == AppLocalDataLocation
+             || type == GenericCacheLocation || type == CacheLocation) {
