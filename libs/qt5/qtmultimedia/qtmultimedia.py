@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
+from Package.Qt5CorePackageBase import Qt5CorePackageBase
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -11,15 +13,14 @@ class subinfo(info.infoclass):
             self.patchToApply["kde/5.15"] = [("0001-fix-wmf-plugin.patch", 1)]
             self.patchToApply["kde/before-5.15.11-rebase"] = [("0001-fix-wmf-plugin.patch", 1)]
         self.patchLevel["5.15.2"] = 1
+        self.patchLevel["kde/before-5.15.11-rebase"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
-
-
-from Package.Qt5CorePackageBase import *
+        self.runtimeDependencies["libs/pulseaudio"] = None
 
 
 class Package(Qt5CorePackageBase):
     def __init__(self, **args):
-        Qt5CorePackageBase.__init__(self)
-        self.subinfo.options.dynamic.featureArguments += ["-no-gstreamer"]
+        super().__init__()
+        self.subinfo.options.dynamic.featureArguments += ["-no-gstreamer", "-pulseaudio"]
