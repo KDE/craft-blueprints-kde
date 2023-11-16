@@ -66,15 +66,24 @@ class subinfo(info.infoclass):
         self.patchToApply["5.15.12"] = [(".qt-5.15.11", 1)]
         self.patchLevel["5.15.12"] = 1
         self.svnTargets["5.15.15"] = "https://github.com/qt/qtwebengine.git||v5.15.15-lts"
-        self.patchToApply["5.15.15"] = [(".qt-5.15.11", 1), ("03-ffmpeg-binutils-2.41.patch", 1)]
-        self.patchLevel["5.15.15"] = 1
+        self.patchToApply["5.15.15"] = [
+            (".qt-5.15.11", 1),
+            ("03-ffmpeg-binutils-2.41.patch", 1),
+            # Port buildsystem to python3
+            # https://salsa.debian.org/qt-kde-team/qt/qtwebengine/-/tree/082c7f7e9ee899ff5ab68a166819e2f0aaa87617/debian/patches
+            ("python3.patch", 1),
+            ("chromium-python3.patch", 1),
+            ("python3.11.patch", 1),
+            ("disable-catapult.patch", 1),
+        ]
+        self.patchLevel["5.15.15"] = 2
 
         self.defaultTarget = "5.15.15"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
-        self.buildDependencies["dev-utils/python2"] = None
+        self.buildDependencies["dev-utils/python3"] = None
         self.buildDependencies["dev-utils/nodejs"] = None
         self.runtimeDependencies["libs/qt5/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtlocation"] = None
