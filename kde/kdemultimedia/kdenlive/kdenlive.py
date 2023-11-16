@@ -89,6 +89,8 @@ class Package(CraftPackageObject.get("kde").pattern):
                 "MLT_PRESETS_PATH=$this_dir/usr/share/mlt-7/presets/",
                 "QT_QPA_PLATFORM=xcb",
                 "SDL_AUDIODRIVER=pulseaudio",
+                "ALSA_CONFIG_DIR=/usr/share/alsa",
+                "ALSA_PLUGIN_DIR=/usr/lib/x86_64-linux-gnu/alsa-lib"
             ]
         return defines
 
