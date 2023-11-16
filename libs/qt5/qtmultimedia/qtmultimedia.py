@@ -23,4 +23,6 @@ class subinfo(info.infoclass):
 class Package(Qt5CorePackageBase):
     def __init__(self, **args):
         super().__init__()
-        self.subinfo.options.dynamic.featureArguments += ["-no-gstreamer", "-pulseaudio"]
+        self.subinfo.options.dynamic.featureArguments += ["-no-gstreamer"]
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.dynamic.featureArguments += ["-pulseaudio"]
