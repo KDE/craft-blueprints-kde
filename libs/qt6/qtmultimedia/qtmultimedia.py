@@ -1,4 +1,6 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -9,13 +11,15 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt6/qtshadertools"] = None
+        self.runtimeDependencies["libs/pulseaudio"] = None
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/ffmpeg"] = None
 
-
-from Package.CMakePackageBase import *
+        self.patchLevel["6.6.0"] = 1
 
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.args += ["-DQT_FEATURE_pulseaudio=ON"]

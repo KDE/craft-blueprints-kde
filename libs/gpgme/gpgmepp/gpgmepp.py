@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/assuan2"] = None
         self.runtimeDependencies["libs/gpg-error"] = None
         self.runtimeDependencies["libs/gpgme/gpgme"] = None
+        self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/gnupg"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None

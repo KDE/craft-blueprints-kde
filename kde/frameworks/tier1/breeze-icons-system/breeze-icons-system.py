@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
 
-class Package(CraftPackageObject.get("kde/frameworks").pattern):
+class CMakePackage(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self):
         super().__init__()
 
@@ -29,4 +29,4 @@ class Package(MaybeVirtualPackageBase):
     def __init__(self):
         # we skip this package if the icons are already installed
         useRcc = CraftPackageObject.get("kde/frameworks/tier1/breeze-icons").subinfo.options.dynamic.useIconResource
-        MaybeVirtualPackageBase.__init__(self, useRcc, classA=CraftPackageObject.get("kde").pattern)
+        MaybeVirtualPackageBase.__init__(self, useRcc, classA=CMakePackage)
