@@ -1,0 +1,9 @@
+# data files for ki18n that we don't need
+share/iso-codes/.*
+share/locale/.*/LC_MESSAGES/iso_.*\.mo
+
+# other KF6 data files we don't need
+share/mime/packages/kde6\.xml
+
+# kongressac isn't built on Android, so we don't need its translations there either
+share/locale/.*/LC_MESSAGES/kongressac\.mo

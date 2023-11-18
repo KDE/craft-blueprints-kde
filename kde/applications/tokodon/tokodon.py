@@ -17,10 +17,11 @@ class subinfo(info.infoclass):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
             self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+            self.runtimeDependencies["libs/mpv"] = None
         else:
             self.runtimeDependencies["libs/qt/qtwebview"] = None
+            self.runtimeDependencies["kde/unreleased/mpvqt"] = None
         self.runtimeDependencies["libs/qt/qtwebsockets"] = None
-        self.runtimeDependencies["kde/unreleased/mpvqt"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
