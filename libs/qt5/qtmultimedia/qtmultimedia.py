@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None
-        self.runtimeDependencies["libs/_linux/pulseaudio"] = None
+        self.runtimeDependencies["libs/pulseaudio"] = None
 
 
 class Package(Qt5CorePackageBase):

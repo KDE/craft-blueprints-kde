@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libsamplerate"] = None
         self.runtimeDependencies["libs/iconv"] = None
         if CraftCore.compiler.isLinux:
-            self.runtimeDependencies["libs/_linux/pulseaudio"] = None
+            self.runtimeDependencies["libs/pulseaudio"] = None
 
 
 from Package.CMakePackageBase import *
