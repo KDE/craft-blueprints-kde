@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/ffmpeg"] = None
 
-        self.patchLevel["6.6.0"] = 1
+        self.patchLevel["6.6.0"] = 2
 
 
 class Package(CMakePackageBase):
