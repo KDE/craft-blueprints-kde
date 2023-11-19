@@ -2,7 +2,8 @@
 # SPDX-FileCopyrightText: 2023 Julius Künzel <jk.kdedev@smartlab.uber.space>
 
 import info
-from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -15,14 +16,14 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://potrace.sourceforge.net/download/{ver}/potrace-{ver}.tar.gz"
             self.targetInstSrc[ver] = "potrace-" + ver
 
+        self.patchToApply["1.16"] = [("potrace-1.16-add-cmake.diff", 1), ("potrace-1.16-fix-msvc.diff", 1)]
+        self.patchLevel["1.16"] = 1
+
         self.defaultTarget = "1.16"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
 
-
-class Package(AutoToolsPackageBase):
+class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
-        self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += ["--with-libpotrace"]
