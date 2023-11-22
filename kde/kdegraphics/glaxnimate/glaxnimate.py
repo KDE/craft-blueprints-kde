@@ -25,12 +25,14 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["kde/frameworks/kcoreaddons"] = None
-        self.buildDependencies["kde/frameworks/kcrash"] = None
-        self.buildDependencies["kde/frameworks/kconfigwidgets"] = None
-        self.buildDependencies["kde/frameworks/karchive"] = None
-        self.buildDependencies["kde/frameworks/kxmlgui"] = None
-        self.buildDependencies["kde/frameworks/kcompletion"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/qt/qttools"] = None
