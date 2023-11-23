@@ -1,0 +1,49 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user potrace-1.16.orig/src/bitmap_io.c potrace-1.16/src/bitmap_io.c
+--- potrace-1.16.orig/src/bitmap_io.c	2019-09-17 04:46:17.000000000 +0200
++++ potrace-1.16/src/bitmap_io.c	2023-11-19 14:47:03.330415200 +0100
+@@ -10,6 +10,7 @@
+ #endif
+ 
+ #include <stdio.h>
++#include <stdint.h>
+ #ifdef HAVE_INTTYPES_H
+ #include <inttypes.h>
+ #endif
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user potrace-1.16.orig/src/decompose.c potrace-1.16/src/decompose.c
+--- potrace-1.16.orig/src/decompose.c	2019-09-17 04:46:17.000000000 +0200
++++ potrace-1.16/src/decompose.c	2023-11-19 14:47:03.339944800 +0100
+@@ -8,6 +8,7 @@
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <stdint.h>
+ #include <string.h>
+ #include <limits.h>
+ #ifdef HAVE_INTTYPES_H
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user potrace-1.16.orig/src/greymap.c potrace-1.16/src/greymap.c
+--- potrace-1.16.orig/src/greymap.c	2019-09-17 04:46:17.000000000 +0200
++++ potrace-1.16/src/greymap.c	2023-11-19 14:47:03.350816900 +0100
+@@ -11,6 +11,7 @@
+ #endif
+ 
+ #include <stdlib.h>
++#include <stdint.h>
+ #include <string.h>
+ #include <math.h>
+ #include <errno.h>
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user potrace-1.16.orig/src/main.c potrace-1.16/src/main.c
+--- potrace-1.16.orig/src/main.c	2019-09-17 04:46:17.000000000 +0200
++++ potrace-1.16/src/main.c	2023-11-19 14:47:03.358919100 +0100
+@@ -10,7 +10,12 @@
+ #include <stdlib.h>
+ #include <errno.h>
+ #include <string.h>
++#ifdef _MSC_VER
++#define strncasecmp _strnicmp
++#define strcasecmp _stricmp
++#else
+ #include <strings.h>
++#endif
+ #include <getopt.h>
+ #include <math.h>
+ 

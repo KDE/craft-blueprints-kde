@@ -1,0 +1,117 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user potrace-1.16.orig/CMakeLists.txt potrace-1.16/CMakeLists.txt
+--- potrace-1.16.orig/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
++++ potrace-1.16/CMakeLists.txt	2023-11-19 14:49:47.624905400 +0100
+@@ -0,0 +1,97 @@
++project(potrace)
++
++
++set(PACKAGE_NAME "potrace")
++set(PACKAGE_VERSION "1.16")
++set(PACKAGE_BUGREPORT "selinger at users.sourceforge.net")
++
++set(MKBITMAP "mkbitmap")
++
++set(PACKAGE ${PACKAGE_NAME})
++set(POTRACE ${PACKAGE_NAME})
++set(VERSION ${PACKAGE_VERSION})
++set(PACKAGE_STRING "${PACKAGE_NAME} ${PACKAGE_VERSION}")
++set(PACKAGE_TARNAME ${PACKAGE_NAME})
++
++
++cmake_minimum_required(VERSION 3.16)
++
++# configure checks:
++include(CheckIncludeFile)
++
++CHECK_INCLUDE_FILE("string.h" HAVE_STRING_H)
++
++include_directories( ${CMAKE_CURRENT_BINARY_DIR}
++                     ${CMAKE_CURRENT_SOURCE_DIR}
++                     ${CMAKE_CURRENT_SOURCE_DIR}/src
++                     ${CMAKE_CURRENT_SOURCE_DIR}/src/include/getopt)
++
++configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
++add_definitions(-DHAVE_CONFIG_H)
++add_definitions(-D_USE_MATH_DEFINES)
++
++# libpotrace
++add_library(libpotrace STATIC
++src/curve.c
++src/trace.c
++src/decompose.c
++src/potracelib.c
++)
++if(NOT MSVC)
++    target_link_libraries(libpotrace m)
++endif()
++
++# potrace executable
++add_executable(potrace
++src/trans.c
++src/backend_dxf.c
++src/backend_eps.c
++src/backend_geojson.c
++src/backend_pdf.c
++src/backend_pgm.c
++src/backend_svg.c
++src/backend_xfig.c
++src/bbox.c
++src/bitmap_io.c
++src/flate.c
++src/getopt.c
++src/getopt1.c
++src/greymap.c
++src/lzw.c
++src/main.c
++src/progress_bar.c
++src/render.c
++)
++
++find_package(ZLIB REQUIRED)
++target_link_libraries(potrace libpotrace ZLIB::ZLIB)
++if(NOT MSVC)
++    target_link_libraries(potrace m)
++endif()
++
++# mkbitmap executable
++add_executable(mkbitmap
++src/mkbitmap.c
++src/bitmap_io.c
++src/greymap.c
++src/getopt.c
++src/getopt1.c
++)
++if(NOT MSVC)
++    target_link_libraries(mkbitmap m)
++endif()
++
++# potracelib_demo executable
++add_executable(potracelib_demo src/potracelib_demo.c)
++target_link_libraries(potracelib_demo libpotrace)
++if(NOT MSVC)
++    target_link_libraries(potracelib_demo m)
++endif()
++
++# installation
++set(INSTALL_TARGETS_DEFAULT_ARGS RUNTIME DESTINATION bin
++                                 LIBRARY DESTINATION lib
++                                 ARCHIVE DESTINATION lib)
++
++install(FILES src/potracelib.h DESTINATION include)
++install(TARGETS libpotrace potrace mkbitmap ${INSTALL_TARGETS_DEFAULT_ARGS})
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user potrace-1.16.orig/config.h.cmake potrace-1.16/config.h.cmake
+--- potrace-1.16.orig/config.h.cmake	1970-01-01 01:00:00.000000000 +0100
++++ potrace-1.16/config.h.cmake	2023-11-19 14:47:03.328485400 +0100
+@@ -0,0 +1,12 @@
++#cmakedefine PACKAGE_NAME "@PACKAGE_NAME@"
++#cmakedefine PACKAGE_TARNAME "@PACKAGE_TARNAME@"
++#cmakedefine PACKAGE_VERSION "@PACKAGE_VERSION@"
++#cmakedefine PACKAGE_STRING "@PACKAGE_STRING@"
++#cmakedefine PACKAGE_BUGREPORT "@PACKAGE_BUGREPORT@"
++#cmakedefine PACKAGE "@PACKAGE@"
++#cmakedefine VERSION "@VERSION@"
++#cmakedefine POTRACE "@POTRACE@"
++#cmakedefine MKBITMAP "@MKBITMAP@"
++
++/* Define to 1 if you have the <string.h> header file. */
++#cmakedefine HAVE_STRING_H 1

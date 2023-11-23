@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
             self.patchToApply["kde/5.15"] = [("0001-fix-wmf-plugin.patch", 1)]
             self.patchToApply["kde/before-5.15.11-rebase"] = [("0001-fix-wmf-plugin.patch", 1)]
         self.patchLevel["5.15.2"] = 1
-        self.patchLevel["kde/before-5.15.11-rebase"] = 1
+        self.patchLevel["kde/before-5.15.11-rebase"] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt5/qtbase"] = None

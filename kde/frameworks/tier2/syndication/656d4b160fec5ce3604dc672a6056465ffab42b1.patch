@@ -1,0 +1,130 @@
+From 656d4b160fec5ce3604dc672a6056465ffab42b1 Mon Sep 17 00:00:00 2001
+From: Volker Krause <vkrause@kde.org>
+Date: Mon, 20 Nov 2023 16:47:58 +0100
+Subject: [PATCH] De-virtualize RDF::Node comparison operator
+
+This fails to build with MSVC, and it's only relied on in one place
+anyway that is straightforward to change.
+---
+ src/rdf/literal.cpp  | 13 ++++---------
+ src/rdf/literal.h    |  2 +-
+ src/rdf/model.cpp    |  2 +-
+ src/rdf/node.h       |  8 --------
+ src/rdf/resource.cpp | 13 ++++---------
+ src/rdf/resource.h   |  2 +-
+ 6 files changed, 11 insertions(+), 29 deletions(-)
+
+diff --git a/src/rdf/literal.cpp b/src/rdf/literal.cpp
+index 272a4245..73f0c0a7 100644
+--- a/src/rdf/literal.cpp
++++ b/src/rdf/literal.cpp
+@@ -65,18 +65,13 @@ Literal &Literal::operator=(const Literal &other)
+     return *this;
+ }
+ 
+-bool Literal::operator==(const Node &other) const
++bool Literal::operator==(const Literal &other) const
+ {
+-    const Literal *o2 = dynamic_cast<const Literal *>(&other);
+-    if (!o2) {
+-        return false;
++    if (!d || !other.d) {
++        return d == other.d;
+     }
+ 
+-    if (!d || !o2->d) {
+-        return d == o2->d;
+-    }
+-
+-    return *d == *(o2->d);
++    return *d == *(other.d);
+ }
+ 
+ bool Literal::isNull() const
+diff --git a/src/rdf/literal.h b/src/rdf/literal.h
+index 9dd0b2e8..ae6bbd0f 100644
+--- a/src/rdf/literal.h
++++ b/src/rdf/literal.h
+@@ -63,7 +63,7 @@ public:
+      * two literal nodes are equal iff their text _and_ ID's
+      * are equal.
+      */
+-    bool operator==(const Node &other) const override;
++    bool operator==(const Literal &other) const;
+ 
+     /**
+      * clones the literal node.
+diff --git a/src/rdf/model.cpp b/src/rdf/model.cpp
+index 805e764a..e9553146 100644
+--- a/src/rdf/model.cpp
++++ b/src/rdf/model.cpp
+@@ -250,7 +250,7 @@ QList<ResourcePtr> Model::resourcesWithType(ResourcePtr type) const
+ 
+     for (const StatementPtr &stmtPtr : std::as_const(d->statements)) {
+         if (*(stmtPtr->predicate()) == *(RDFVocab::self()->type()) //
+-            && *(stmtPtr->object()) == *type) {
++            && stmtPtr->object()->isResource() && *(dynamic_cast<Resource *>(stmtPtr->object().data())) == *type) {
+             list.append(stmtPtr->subject());
+         }
+     }
+diff --git a/src/rdf/node.h b/src/rdf/node.h
+index 5c78f594..8b545470 100644
+--- a/src/rdf/node.h
++++ b/src/rdf/node.h
+@@ -44,14 +44,6 @@ public:
+      */
+     virtual void accept(NodeVisitor *visitor, NodePtr ptr);
+ 
+-    /**
+-     * checks whether two nodes are equal. The meaning of equality
+-     * is defined per subclass (e.g. equality of URIs, IDs etc.)
+-     *
+-     * @param other the node to compare to
+-     */
+-    virtual bool operator==(const Node &other) const = 0;
+-
+     /**
+      * returns a copy of the object. Must be implemented
+      * by subclasses to return a copy using the concrete
+diff --git a/src/rdf/resource.cpp b/src/rdf/resource.cpp
+index 5a683aa8..b2464347 100644
+--- a/src/rdf/resource.cpp
++++ b/src/rdf/resource.cpp
+@@ -74,17 +74,12 @@ Resource &Resource::operator=(const Resource &other)
+     return *this;
+ }
+ 
+-bool Resource::operator==(const Node &other) const
++bool Resource::operator==(const Resource &other) const
+ {
+-    const Resource *o2 = dynamic_cast<const Resource *>(&other);
+-    if (!o2) {
+-        return false;
+-    }
+-
+-    if (!d || !o2->d) {
+-        return d == o2->d;
++    if (!d || !other.d) {
++        return d == other.d;
+     }
+-    return *d == *(o2->d);
++    return *d == *(other.d);
+ }
+ 
+ bool Resource::hasProperty(PropertyPtr property) const
+diff --git a/src/rdf/resource.h b/src/rdf/resource.h
+index 9c829aeb..4273de16 100644
+--- a/src/rdf/resource.h
++++ b/src/rdf/resource.h
+@@ -76,7 +76,7 @@ public:
+      *
+      * @param other the node to compare this node to
+      */
+-    bool operator==(const Node &other) const override;
++    bool operator==(const Resource &other) const;
+ 
+     /**
+      * Used by visitors for double dispatch. See NodeVisitor
+-- 
+GitLab
+
