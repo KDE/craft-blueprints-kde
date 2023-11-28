@@ -54,22 +54,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         args = self.makeOptions("translations")
         return super().make() and utils.system([self.makeProgram, args])
 
-    def install(self):
-        if not super().install():
-            return False
-        if CraftCore.compiler.isLinux:
-            utils.copyFile(self.buildDir() / "external/Qt-Color-Widgets/libQtColorWidgets.so.2.2.0", self.installDir() / "lib/libQtColorWidgets.so.2.2.0")
-            utils.copyFile(self.buildDir() / "external/Qt-Color-Widgets/libQtColorWidgets.so.2", self.installDir() / "lib/libQtColorWidgets.so.2")
-            utils.copyFile(self.buildDir() / "external/Qt-Color-Widgets/libQtColorWidgets.so", self.installDir() / "lib/libQtColorWidgets.so")
-        if CraftCore.compiler.isAndroid:
-            utils.copyFile(
-                self.buildDir() / "android-build/libs" / CraftCore.compiler.androidAbi / f"libQtColorWidgets_{CraftCore.compiler.androidAbi}.so",
-                self.installDir() / f"lib/libQtColorWidgets_{CraftCore.compiler.androidAbi}.so",
-            )
-        if CraftCore.compiler.isWindows:
-            utils.copyFile(self.buildDir() / "external/Qt-Color-Widgets/libQtColorWidgets.dll", self.installDir() / "bin/libQtColorWidgets.dll")
-        return True
-
     def createPackage(self):
         self.defines["executable"] = r"bin\glaxnimate.exe"
         # self.addExecutableFilter(r"(bin|libexec)/(?!(glaxnimate|update-mime-database)).*")

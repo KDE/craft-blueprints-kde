@@ -1198,7 +1198,7 @@ index 00000000..8787253b
 GitLab
 
 
-From 946f2bdf6c372b19749fc6df539ae29bf4724144 Mon Sep 17 00:00:00 2001
+From 046f40b9ce1fd7d4056fe7038212c9d5b489c5d2 Mon Sep 17 00:00:00 2001
 From: Carl Schwan <carl.schwan@gnupg.com>
 Date: Wed, 18 Oct 2023 11:12:03 +0200
 Subject: [PATCH 4/4] Add support for Qt6
@@ -1209,10 +1209,10 @@ Subject: [PATCH 4/4] Add support for Qt6
  lang/cpp/src/CMakeLists.txt                  |   6 +-
  lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in  |   4 +-
  lang/qt/CMakeLists.txt                       |  12 ++-
- lang/qt/src/CMakeLists.txt                   |  85 ++++++++++-----
+ lang/qt/src/CMakeLists.txt                   |  86 ++++++++++-----
  lang/qt/src/QGpgmeConfig-msvc.cmake.in.in    |   4 +-
  lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in | 105 +++++++++++++++++++
- 8 files changed, 184 insertions(+), 40 deletions(-)
+ 8 files changed, 185 insertions(+), 40 deletions(-)
  create mode 100644 lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
@@ -1301,7 +1301,7 @@ index be94e9e6..090d085b 100644
 +    add_subdirectory(src src6)
 +endif()
 diff --git a/lang/qt/src/CMakeLists.txt b/lang/qt/src/CMakeLists.txt
-index e1915aee..6e2afd2e 100644
+index e1915aee..d027477b 100644
 --- a/lang/qt/src/CMakeLists.txt
 +++ b/lang/qt/src/CMakeLists.txt
 @@ -3,9 +3,17 @@
@@ -1374,7 +1374,7 @@ index e1915aee..6e2afd2e 100644
      VERSION "${MAJOR}.${LIBQGPGME_LT_AGE}.${LIBQGPGME_LT_REVISION}"
      SOVERSION "${MAJOR}"
  )
-@@ -237,29 +253,40 @@ set(resolved_libdir "${GPGME_LIBRARY_DIRS}")
+@@ -237,29 +253,41 @@ set(resolved_libdir "${GPGME_LIBRARY_DIRS}")
  set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
  set(libsuffix "${CMAKE_SHARED_LIBRARY_SUFFIX}")
  
@@ -1412,7 +1412,8 @@ index e1915aee..6e2afd2e 100644
 +    install(TARGETS qgpgme${version} DESTINATION ${GPGME_LIBRARY_DIRS})
 +endif()
 +
-+if (${QT_MAJOR_VERSION} EQUAL 5)
++if ((${QT_MAJOR_VERSION} EQUAL 5) OR (NOT ${QGPGME_BUILD_QT5}))
++    # Install headers only once
 +    install(FILES ${qgpgme_HEADERS}
 +                  ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h
 +                  ${CMAKE_CURRENT_SOURCE_DIR}/qgpgme_export.h

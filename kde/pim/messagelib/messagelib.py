@@ -34,7 +34,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kmailtransport"] = None
         self.runtimeDependencies["kde/pim/kmbox"] = None
         self.runtimeDependencies["kde/pim/pimcommon"] = None
-        self.runtimeDependencies["kde/pim/kldap"] = None
         self.runtimeDependencies["kde/pim/libgravatar"] = None
         self.runtimeDependencies["kde/pim/libkleo"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None

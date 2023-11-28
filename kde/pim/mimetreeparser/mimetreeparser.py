@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: g10 Code GmbH
+# SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
+# SPDX-License-Identifier: BSD-2-Clauses
+
 import info
 
 
@@ -5,22 +9,22 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.description = "Evenviews library"
+        self.description = "Mime parsing and viewer library"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
-        self.runtimeDependencies["kde/pim/kcalutils"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
-        self.runtimeDependencies["kde/pim/akonadi-calendar"] = None
+        self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kde/pim/kmime"] = None
-        self.runtimeDependencies["kde/pim/calendarsupport"] = None
-        self.runtimeDependencies["extragear/kdiagram"] = None
-        self.runtimeDependencies["kde/pim/libkdepim"] = None
+        self.runtimeDependencies["kde/pim/kmbox"] = None
+        self.runtimeDependencies["kde/pim/libkleo"] = None
+        self.runtimeDependencies["libs/gpgme/gpgme"] = None
+
 
 
 from Package.CMakePackageBase import *
