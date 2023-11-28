@@ -24,6 +24,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/pimcommon"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
+        self.runtimeDependencies["extragear/kdiagram"] = None
+
 
 
 from Package.CMakePackageBase import *
