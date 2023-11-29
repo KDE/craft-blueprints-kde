@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
     def registerOptions(self):
-        self.options.dynamic.registerOption("buildPrograms", True)
+        self.options.dynamic.registerOption("buildPrograms", CraftCore.compiler.Platforms.NotAndroid)
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
