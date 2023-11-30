@@ -28,6 +28,12 @@ from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
+    def __init__(self):
+        super().__init__()
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            # version 5.246.0 was skipped for ECM
+            self.subinfo.defaultTarget = "5.246.1"
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.patchToApply["5.110.0"] = [("KDEInstallDirs6 fix BUNDLE destination.patch", 1)]
@@ -46,10 +52,6 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://download.kde.org/unstable/frameworks/{ver}/extra-cmake-modules-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/unstable/frameworks/{ver}/extra-cmake-modules-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"extra-cmake-modules-{ver}"
-
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            # version 5.246.0 was skipped for ECM
-            self.defaultTarget = "5.246.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
