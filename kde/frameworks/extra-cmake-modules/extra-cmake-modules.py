@@ -35,6 +35,7 @@ class subinfo(info.infoclass):
 
         # Fix Windows target version, see https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/399
         self.patchToApply["5.245.0"] += [("399.diff", 1)]
+        self.patchToApply["5.246.0"] = [("399.diff", 1)]
         self.patchToApply["master"] = [("399.diff", 1)]
 
         self.patchLevel["5.110.0"] = 1
