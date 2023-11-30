@@ -28,12 +28,6 @@ from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
-    def __init__(self):
-        super().__init__()
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            # version 5.246.0 was skipped for ECM
-            self.subinfo.defaultTarget = "5.246.1"
-
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.patchToApply["5.110.0"] = [("KDEInstallDirs6 fix BUNDLE destination.patch", 1)]
@@ -72,3 +66,6 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self):
         super().__init__()
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            # version 5.246.0 was skipped for ECM
+            self.subinfo.defaultTarget = "5.246.1"
