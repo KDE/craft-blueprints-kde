@@ -1198,7 +1198,7 @@ index 00000000..8787253b
 GitLab
 
 
-From 946f2bdf6c372b19749fc6df539ae29bf4724144 Mon Sep 17 00:00:00 2001
+From d5ef5d87c0da4a9f26b95e5020b35674453bf15c Mon Sep 17 00:00:00 2001
 From: Carl Schwan <carl.schwan@gnupg.com>
 Date: Wed, 18 Oct 2023 11:12:03 +0200
 Subject: [PATCH 4/4] Add support for Qt6
@@ -1209,10 +1209,10 @@ Subject: [PATCH 4/4] Add support for Qt6
  lang/cpp/src/CMakeLists.txt                  |   6 +-
  lang/cpp/src/GpgmeppConfig-msvc.cmake.in.in  |   4 +-
  lang/qt/CMakeLists.txt                       |  12 ++-
- lang/qt/src/CMakeLists.txt                   |  85 ++++++++++-----
+ lang/qt/src/CMakeLists.txt                   |  83 ++++++++++-----
  lang/qt/src/QGpgmeConfig-msvc.cmake.in.in    |   4 +-
  lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in | 105 +++++++++++++++++++
- 8 files changed, 184 insertions(+), 40 deletions(-)
+ 8 files changed, 183 insertions(+), 39 deletions(-)
  create mode 100644 lang/qt/src/QGpgmeQt6Config-msvc.cmake.in.in
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
@@ -1301,7 +1301,7 @@ index be94e9e6..090d085b 100644
 +    add_subdirectory(src src6)
 +endif()
 diff --git a/lang/qt/src/CMakeLists.txt b/lang/qt/src/CMakeLists.txt
-index e1915aee..6e2afd2e 100644
+index e1915aee..53785f08 100644
 --- a/lang/qt/src/CMakeLists.txt
 +++ b/lang/qt/src/CMakeLists.txt
 @@ -3,9 +3,17 @@
@@ -1324,7 +1324,7 @@ index e1915aee..6e2afd2e 100644
      changeexpiryjob.cpp
      cryptoconfig.cpp
      dataprovider.cpp
-@@ -201,24 +209,32 @@ foreach(header ${qgpgme_HEADERS})
+@@ -201,13 +209,21 @@ foreach(header ${qgpgme_HEADERS})
      get_filename_component(absolute_path ${header} ABSOLUTE)
      get_filename_component(file_name ${header} NAME_WLE)
  
@@ -1351,10 +1351,7 @@ index e1915aee..6e2afd2e 100644
  
  foreach(header ${qgpgme_CAMELCASE_HEADERS})
      string(TOLOWER ${header} header_lc)
--    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/QGpgME/${header} "#include \"qgpgme/${header_lc}.h\"")
-+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/QGpgME${version}/${header} "#include \"qgpgme/${header_lc}.h\"")
-     list(APPEND qgpgme_HEADERS ${header_lc}.h)
- endforeach()
+@@ -217,8 +233,8 @@ endforeach()
  
  add_definitions(-DBUILDING_QGPGME)
  
@@ -1412,7 +1409,7 @@ index e1915aee..6e2afd2e 100644
 +    install(TARGETS qgpgme${version} DESTINATION ${GPGME_LIBRARY_DIRS})
 +endif()
 +
-+if (${QT_MAJOR_VERSION} EQUAL 5)
++if ((${QT_MAJOR_VERSION} EQUAL 5) OR (NOT ${QGPGME_BUILD_QT5}))
 +    install(FILES ${qgpgme_HEADERS}
 +                  ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h
 +                  ${CMAKE_CURRENT_SOURCE_DIR}/qgpgme_export.h
