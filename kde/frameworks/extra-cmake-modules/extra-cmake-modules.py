@@ -49,7 +49,7 @@ class subinfo(info.infoclass):
 
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             # version 5.246.0 was skipped for ECM
-            self.subinfo.defaultTarget = "5.246.1"
+            self.defaultTarget = "5.246.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
