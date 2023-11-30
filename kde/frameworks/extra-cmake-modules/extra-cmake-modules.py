@@ -42,9 +42,9 @@ class subinfo(info.infoclass):
         self.patchLevel["5.245.0"] = 2
         self.patchLevel["master"] = 1
 
-        for ver in ["5.246.1"]:
-            self.targets[ver] = f"https://download.kde.org/unstable/frameworks/{ver}/extra-cmake-modules-{ver}.tar.xz"
-            self.targetDigestUrls[ver] = f"https://download.kde.org/unstable/frameworks/{ver}/extra-cmake-modules-{ver}.tar.xz.sha256"
+        for mainver, ver in [("5.246.0", "5.246.1")]:
+            self.targets[ver] = f"https://download.kde.org/unstable/frameworks/{mainver}/extra-cmake-modules-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/unstable/frameworks/{mainver}/extra-cmake-modules-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"extra-cmake-modules-{ver}"
 
     def setDependencies(self):
