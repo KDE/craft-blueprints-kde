@@ -63,7 +63,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["kde/plasma/drkonqi"] = None
         # Appimage
-        self.buildDependencies["dev-utils/linuxdeploy-plugin-checkrt"]
+        self.buildDependencies["dev-utils/linuxdeploy-plugin-checkrt"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
