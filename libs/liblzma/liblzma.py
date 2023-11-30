@@ -43,7 +43,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
     def registerOptions(self):
-        self.options.dynamic.registerOption("buildPrograms", True)
+        self.options.dynamic.registerOption("buildPrograms", not CraftCore.compiler.isAndroid)
 
 from Package.MSBuildPackageBase import *
 
