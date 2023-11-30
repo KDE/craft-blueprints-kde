@@ -1,6 +1,6 @@
 import info
 from CraftOS.osutils import OsUtils
-
+from Packager.AppImagePackager import AppImagePackager
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -47,6 +47,14 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+
+    def setDefaults(self, defines: {str: str}) -> {str: str}:
+        defines = super().setDefaults(defines)
+        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
+            defines["runenv"] += [
+                "LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH",
+            ]
+        return defines
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
