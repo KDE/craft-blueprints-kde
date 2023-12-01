@@ -5,6 +5,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        self.displayName = "Konsole"
         self.description = "the KDE terminal emulator"
 
     def setDependencies(self):

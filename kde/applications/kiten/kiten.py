@@ -5,7 +5,8 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.description = "Kiten"
+        self.displayName = "Kiten"
+        self.description = "Japanese reference and study tool"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
