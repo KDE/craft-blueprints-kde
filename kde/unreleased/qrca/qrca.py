@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/prison"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
+        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["libs/zxing-cpp"] = None
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
