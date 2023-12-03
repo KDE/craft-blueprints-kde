@@ -110,7 +110,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["executable"] = "bin\\kmymoney.exe"  # Windows-only, mac is handled implicitly
-        self.defines["icon"] = os.path.join(self.packageDir(), "kmymoney.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "kmymoney.ico")
         self.defines["mimetypes"] = [
             "application/x-kmymoney",
             "application/x-ofx",
@@ -122,9 +122,9 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".kmy", ".ofx", ".qfx", ".qif", ".csv"]
         self.defines["website"] = "https://kmymoney.org/"
 
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
         self.ignoredPackages.append("binary/mysql")
 
