@@ -9,12 +9,12 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = "libpng-" + ver
 
         self.patchToApply["1.6.39"] = [("libpng-1.6.39-install.pc-on-windows.diff", 1), ("libpng-fix-android-shared-build.diff", 1)]
-        self.patchToApply["1.6.40"] = [("libpng-1.6.40-install.pc-on-windows.diff", 1)]
+        self.patchToApply["1.6.40"] = [("libpng-1.6.40-install.pc-on-windows.diff", 1), ("libpng-android-remove-zlib-dependency.diff", 1)]
         self.targetDigests["1.6.39"] = (["af4fb7f260f839919e5958e5ab01a275d4fe436d45442a36ee62f73e5beb75ba"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.6.40"] = (["8f720b363aa08683c9bf2a563236f45313af2c55d542b5481ae17dd8d183bb42"], CraftHash.HashAlgorithm.SHA256)
 
         self.patchLevel["1.6.39"] = 1
-        self.patchLevel["1.6.40"] = 1
+        self.patchLevel["1.6.40"] = 2
         self.description = "A library to display png images"
         self.defaultTarget = "1.6.40"
 
