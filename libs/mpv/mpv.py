@@ -8,14 +8,14 @@ class subinfo(info.infoclass):
         self.displayName = "mpv"
         self.description = "Command line video player"
         self.svnTargets["master"] = "https://github.com/mpv-player/mpv.git"
-        self.defaultTarget = "0.35.1"
+        self.defaultTarget = "0.37.0"
 
-        for ver in ["0.35.1"]:
+        for ver in ["0.37.0"]:
             self.targets[ver] = f"https://github.com/mpv-player/mpv/archive/refs/tags/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"mpv-{ver}"
             self.archiveNames[ver] = f"mpv-{ver}.tar.gz"
 
-        self.targetDigests["0.35.1"] = (["41df981b7b84e33a2ef4478aaf81d6f4f5c8b9cd2c0d337ac142fc20b387d1a9"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.37.0"] = (["1d2d4adbaf048a2fa6ee134575032c4b2dad9a7efafd5b3e69b88db935afaddf"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None
@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/liblzma"] = None
         self.runtimeDependencies["libs/lcms2"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
+        self.runtimeDependencies["libs/libplacebo"] = None
 
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/libvdpau"] = None
