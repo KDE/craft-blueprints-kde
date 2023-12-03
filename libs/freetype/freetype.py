@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.description = "A Free, High-Quality, and Portable Font Engine"
 
         self.patchToApply["2.12.1"] = [("freetype-no-zlib-pkgconfig-android.patch", 1)]
-        self.patchLevel["2.12.1"] = 2
+        self.patchLevel["2.12.1"] = 3
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
