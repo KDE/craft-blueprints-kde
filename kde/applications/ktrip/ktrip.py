@@ -38,7 +38,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file.append(self.packageDir() / "blacklist.txt")
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["executable"] = r"bin\ktrip.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(ktrip|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")

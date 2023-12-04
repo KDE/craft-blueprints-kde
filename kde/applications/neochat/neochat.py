@@ -54,7 +54,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.dynamic.buildTests = False
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
         self.defines["shortcuts"] = [{"name": "NeoChat", "target": "bin/neochat.exe", "appId": "neochat", "icon": self.buildDir() / "src/NEOCHAT_ICON.ico"}]
         self.defines["icon"] = self.buildDir() / "src/NEOCHAT_ICON.ico"
         # set the icons for the appx bundle
@@ -62,8 +62,8 @@ class Package(CMakePackageBase):
             self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-neochat.png")
             self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-neochat.png")
         else:
-            self.defines["icon_png"] = os.path.join(self.packageDir(), "150-apps-neochat.png")
-            self.defines["icon_png_44"] = os.path.join(self.packageDir(), "44-apps-neochat.png")
+            self.defines["icon_png"] = os.path.join(self.blueprintDir(), "150-apps-neochat.png")
+            self.defines["icon_png_44"] = os.path.join(self.blueprintDir(), "44-apps-neochat.png")
         self.addExecutableFilter(r"(bin|libexec)/(?!(neochat|update-mime-database|snoretoast)).*")
         self.ignoredPackages.append("binary/mysql")
         if not CraftCore.compiler.isLinux:

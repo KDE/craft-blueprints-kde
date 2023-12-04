@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file.append(self.packageDir() / "blacklist.txt")
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.subinfo.options.configure.args += ["-DBUILD_EXTERNAL=OFF"]
 
     def createPackage(self):
