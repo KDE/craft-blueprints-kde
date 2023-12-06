@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
             if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
                 self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
+        self.runtimeDependencies["qt-libs/qcoro"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
