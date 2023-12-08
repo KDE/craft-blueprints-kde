@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.targetInstallPath[ver] = "dev-utils/bin"
         self.targets["continous-static"] = "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-static-x86_64.AppImage"
         self.targetInstallPath["continous-static"] = "dev-utils/bin"
-        self.targetDigests["1-alpha-20231206-1"] = (["d267004cb3c583a73f85c94b056ccc2304be91d2fcf68b10351223eca0c02743"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1-alpha-20231206-1"] = (["80de10fa339564d78e50cbde8dd27d012b7c2274291006506d22b4eb494bc7a3"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "1-alpha-20231206-1"
 
         self.description = "AppDir creation and maintenance tool. Featuring flexible plugin system."
