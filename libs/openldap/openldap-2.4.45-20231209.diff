@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user openldap-2.4.45.orig/configure.in openldap-2.4.45/configure.in
+--- openldap-2.4.45.orig/configure.in	2017-06-01 20:01:07.000000000 +0000
++++ openldap-2.4.45/configure.in	2023-12-09 18:33:58.994225011 +0000
+@@ -69,7 +69,7 @@
+ dnl		we try not to use this for much
+ AC_CANONICAL_TARGET([])
+ 
+-AM_INIT_AUTOMAKE([$OL_PACKAGE],[$OL_VERSION], [no defines])dnl
++AC_PROG_MAKE_SET
+ AC_SUBST(PACKAGE)dnl
+ AC_SUBST(VERSION)dnl
+ AC_DEFINE_UNQUOTED(OPENLDAP_PACKAGE,"$PACKAGE",Package)
