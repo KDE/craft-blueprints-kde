@@ -96,7 +96,7 @@ class Package(CMakePackageBase):
         result = super().install()
         if CraftCore.compiler.isWindows:
             pythonPath = CraftCore.settings.get("Paths", "PYTHON")
-            utils.copyFile(os.path.join(pythonPath, "python310.dll"), os.path.join(self.imageDir(), "bin"), linkOnly=False)
+            utils.copyFile(os.path.join(pythonPath, "python311.dll"), os.path.join(self.imageDir(), "bin"), linkOnly=False)
         return result
 
     def createPackage(self):
