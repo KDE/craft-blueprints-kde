@@ -1,5 +1,6 @@
 import os
 
+import CraftCore
 import info
 from Blueprints.CraftVersion import CraftVersion
 
@@ -75,7 +76,15 @@ class Package(AutoToolsPackageBase):
         # with msvc it does not support shadowbuilds
         self.subinfo.options.useShadowBuild = not CraftCore.compiler.isMSVC()
 
-        self.subinfo.options.configure.args = ["--enable-shared", "--disable-debug", "--disable-doc", "--enable-gpl", "--enable-version3", "--enable-nonfree", "--enable-openssl"]
+        self.subinfo.options.configure.args = [
+            "--enable-shared",
+            "--disable-debug",
+            "--disable-doc",
+            "--enable-gpl",
+            "--enable-version3",
+            "--enable-nonfree",
+            "--enable-openssl",
+        ]
 
         if not CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["--enable-libmp3lame"]
@@ -106,8 +115,8 @@ class Package(AutoToolsPackageBase):
                 compiler = f"{CraftCore.compiler.androidArchitecture}-linux-android"
             toolchain_path = os.path.join(os.environ["ANDROID_NDK"], "toolchains/llvm/prebuilt", os.environ.get("ANDROID_NDK_HOST", "linux-x86_64"), "bin")
 
-            self.subinfo.options.configure.args += ["--cc=" + f'{toolchain_path}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang']
-            self.subinfo.options.configure.args += ["--cxx=" +f'{toolchain_path}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang++']
+            self.subinfo.options.configure.args += ["--cc=" + f"{toolchain_path}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang"]
+            self.subinfo.options.configure.args += ["--cxx=" + f"{toolchain_path}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang++"]
             self.subinfo.options.configure.args += ["--enable-cross-compile", "--target-os=android", f"--cross-prefix={toolchain}-", f"--arch={architecture}"]
 
         if self.buildTarget < CraftVersion("5.0"):
@@ -142,7 +151,9 @@ class Package(AutoToolsPackageBase):
         elif not CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["--enable-ffnvcodec", "--enable-nvdec", "--enable-nvenc", "--enable-cuvid", "--enable-amf"]
         if CraftCore.compiler.isLinux:
-            self.subinfo.options.configure.args += ["--enable-vaapi", "--enable-vdpau", "--enable-libmfx"]
+            self.subinfo.options.configure.args += ["--enable-vaapi", "--enable-vdpau"]
+            if CraftCore.compiler.architecture & CraftCore.compiler.Architecture.x86:
+                self.subinfo.options.configure.args += ["--enable-libmfx"]
 
     def configure(self):
         with utils.ScopedEnv(self._ffmpegEnv()):
