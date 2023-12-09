@@ -7,8 +7,6 @@ class subinfo(info.infoclass):
         self.description = "Public transport assistant"
         self.displayName = "KTrip"
 
-        self.patchToApply["23.04.3"] = [("0001-android-fix-ndk-version.patch", 1)]
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -38,6 +36,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["executable"] = r"bin\ktrip.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(ktrip|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")

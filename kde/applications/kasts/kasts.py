@@ -12,7 +12,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+        else:
+            self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/taglib"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
@@ -39,6 +42,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):
         self.defines["executable"] = r"bin\kasts.exe"

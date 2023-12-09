@@ -10,9 +10,6 @@ class subinfo(info.infoclass):
         self.displayName = "Elisa"
         self.description = "the Elisa music player"
 
-        self.patchToApply["23.04.3"] = [("0001-android-fix-ndk-version.patch", 1)]
-        self.patchLevel["23.04.3"] = 1
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -20,7 +17,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtgraphicaleffects"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+        else:
+            self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         if CraftCore.compiler.isAndroid:
             if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":

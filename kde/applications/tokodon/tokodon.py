@@ -8,8 +8,6 @@ class subinfo(info.infoclass):
         self.displayName = "Tokodon"
         self.description = "Tokodon is a Mastodon client"
 
-        self.patchToApply["23.04.3"] = [("0001-Fix-binary-stripping-in-APKs-with-Qt-5.15.10.patch", 1)]
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
@@ -21,12 +19,14 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["libs/qt/qtwebview"] = None
             self.runtimeDependencies["kde/unreleased/mpvqt"] = None
+            self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["libs/qt/qtwebsockets"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         if not CraftCore.compiler.isAndroid:
@@ -40,6 +40,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):
         self.defines["executable"] = r"bin\tokodon.exe"

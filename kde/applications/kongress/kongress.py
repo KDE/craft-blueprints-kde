@@ -9,8 +9,6 @@ class subinfo(info.infoclass):
         self.displayName = "Kongress"
         self.description = "Conference companion app"
 
-        self.patchToApply["23.04.3"] = [("0001-android-fix-ndk-version.patch", 1)]
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
@@ -28,12 +26,14 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
+        else:
+            self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file.append(self.packageDir() / "blacklist.txt")
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):
         self.defines["executable"] = r"bin\kongress.exe"

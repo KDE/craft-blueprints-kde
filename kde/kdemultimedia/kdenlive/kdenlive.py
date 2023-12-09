@@ -62,6 +62,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/drmingw"] = None
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["kde/plasma/drkonqi"] = None
+        # Appimage
+        self.buildDependencies["dev-utils/linuxdeploy-plugin-checkrt"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
@@ -90,7 +92,7 @@ class Package(CraftPackageObject.get("kde").pattern):
                 "QT_QPA_PLATFORM=xcb",
                 "SDL_AUDIODRIVER=pulseaudio",
                 "ALSA_CONFIG_DIR=/usr/share/alsa",
-                "ALSA_PLUGIN_DIR=/usr/lib/x86_64-linux-gnu/alsa-lib"
+                "ALSA_PLUGIN_DIR=/usr/lib/x86_64-linux-gnu/alsa-lib",
             ]
         return defines
 
@@ -107,6 +109,8 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon_png"] = os.path.join(self.sourceDir(), "data", "icons", "128-apps-kdenlive.png")
         self.defines["shortcuts"] = [{"name": "Kdenlive", "target": "bin/kdenlive.exe", "description": self.subinfo.description}]
         self.defines["file_types"] = [".kdenlive"]
+        # Appimage
+        self.defines["appimage_extra_plugins"] = ["checkrt"]
         return super().createPackage()
 
     def postInstall(self):

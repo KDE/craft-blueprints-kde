@@ -35,11 +35,17 @@ class subinfo(info.infoclass):
 
         # Fix Windows target version, see https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/399
         self.patchToApply["5.245.0"] += [("399.diff", 1)]
+        self.patchToApply["5.246.1"] = [("399.diff", 1)]
         self.patchToApply["master"] = [("399.diff", 1)]
 
         self.patchLevel["5.110.0"] = 1
         self.patchLevel["5.245.0"] = 2
         self.patchLevel["master"] = 1
+
+        for mainver, ver in [("5.246.0", "5.246.1")]:
+            self.targets[ver] = f"https://download.kde.org/unstable/frameworks/{mainver}/extra-cmake-modules-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/unstable/frameworks/{mainver}/extra-cmake-modules-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = f"extra-cmake-modules-{ver}"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -60,3 +66,6 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self):
         super().__init__()
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            # version 5.246.0 was skipped for ECM
+            self.subinfo.defaultTarget = "5.246.1"

@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/ffmpeg"] = None
 
-        self.patchLevel["6.6.0"] = 2
+        self.patchLevel["6.6.0"] = 3
 
 
 class Package(CMakePackageBase):
@@ -23,3 +23,5 @@ class Package(CMakePackageBase):
         super().__init__()
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_pulseaudio=ON"]
+        if CraftCore.compiler.isAndroid:
+            self.subinfo.options.configure.args += ["-DQT_FEATURE_ffmpeg=OFF"]
