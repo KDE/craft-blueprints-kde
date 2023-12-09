@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: 2023 George Florea Bănuș <georgefb899@gmail.com>
+# SPDX-License-Identifier: BSD-2-Clause
+
 import info
 from Package.PipPackageBase import *
 
