@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: BSD-2-Clause
 
 import info
-from CraftConfig import *
 from Package.MesonPackageBase import *
 
 class subinfo(info.infoclass):
@@ -27,5 +26,3 @@ class Package(MesonPackageBase):
     def __init__(self, **args):
         MesonPackageBase.__init__(self)
         self.subinfo.options.configure.args += ["-Ddemos=False"]
-
-
