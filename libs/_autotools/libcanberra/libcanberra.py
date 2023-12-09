@@ -17,6 +17,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/libvorbis"] = None
 
 
 from Package.AutoToolsPackageBase import *
