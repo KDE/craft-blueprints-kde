@@ -1,7 +1,13 @@
+import CraftCore
 import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault(
+            "buildTests", not CraftCore.compiler.isMacOS and not CraftCore.compiler.architecture & CraftCore.compiler.Architecture.arm
+        )
+
     def setTargets(self):
         for ver in ["2.78.1"]:
             majorMinorStr = ".".join(ver.split(".")[0:2])
@@ -42,5 +48,6 @@ class Package(MesonPackageBase):
             self.subinfo.options.configure.ldflags += f" -lintl -liconv"
         if CraftCore.compiler.isFreeBSD:
             self.subinfo.options.configure.args += ["-Dxattr=false", "-Dlibmount=disabled", "-Dselinux=disabled", "-Db_lundef=false"]
-        elif CraftCore.compiler.isMacOS:
+
+        if not self.subinfo.options.dynamic.buildTests:
             self.subinfo.options.configure.args += ["-Dtests=false"]
