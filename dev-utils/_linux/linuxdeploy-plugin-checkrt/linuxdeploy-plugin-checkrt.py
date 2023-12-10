@@ -11,6 +11,8 @@ class subinfo(info.infoclass):
         self.description = "Have your AppImage check libgcc and libstdc++ dependencies at runtime. "
         self.webpage = "https://github.com/darealshinji/linuxdeploy-plugin-checkrt"
         self.defaultTarget = "continous"
+        self.patchToApply["continous"] = [("fix-ldlibrarypath.diff", 1)]
+        self.patchLevel["continous"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
