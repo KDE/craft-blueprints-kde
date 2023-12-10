@@ -67,6 +67,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/cairo"] = None
 
     def registerOptions(self):
+        self.options.dynamic.registerOption("buildCppFrontend", not CraftCore.compiler.isAndroid)
         self.options.dynamic.registerOption("buildQtFrontend", True)
         self.options.dynamic.registerOption("buildGlibFrontend", False)
         self.options.dynamic.registerOption("buildUtils", False)
@@ -105,12 +106,13 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBOPENJPEG=openjpeg2"]
         else:
             self.subinfo.options.configure.args += ["-DENABLE_LIBOPENJPEG=unmaintained"]
-        if self.subinfo.options.isActive("libs/libcurl"):
-            self.subinfo.options.configure.args += ["-DENABLE_LIBCURL=ON"]
 
-        if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ["-DENABLE_CPP=OFF", "-DENABLE_GPGME=OFF"]
+        self.subinfo.options.configure.args += ["-DENABLE_LIBCURL=" + ("ON" if self.subinfo.options.isActive("libs/libcurl") else "OFF")]
+        self.subinfo.options.configure.args += ["-DENABLE_CPP=" + ("ON" if self.subinfo.options.dynamic.buildCppFrontend else "OFF")]
+        self.subinfo.options.configure.args += ["-DENABLE_LIBTIFF=" + ("ON" if self.subinfo.options.isActive("libs/tiff") else "OFF")]
+        self.subinfo.options.configure.args += ["-DENABLE_LCMS=" + ("ON" if self.subinfo.options.isActive("libs/lcms2") else "OFF")]
+        self.subinfo.options.configure.args += ["-DENABLE_BOOST=" + ("ON" if self.subinfo.options.isActive("libs/boost/boost-headers") else "OFF")]
 
         # Craft doesn't compile NSS and gpgme with mingw
-        if CraftCore.compiler.isMinGW():
-            self.subinfo.options.configure.args += ["-DENABLE_GPGME=OFF", "-DENABLE_NSS3=OFF"]
+        self.subinfo.options.configure.args += ["-DENABLE_NSS3=" + ("ON" if (self.subinfo.options.isActive("libs/nss") and not CraftCore.compiler.isMinGW()) else "OFF")]
+        self.subinfo.options.configure.args += ["-DENABLE_GPGME=" + ("ON" if (self.subinfo.options.isActive("libs/gpgme") and not CraftCore.compiler.isMinGW()) else "OFF")]
