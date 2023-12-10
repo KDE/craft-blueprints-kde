@@ -26,6 +26,10 @@ class Package(BinaryPackageBase):
         BinaryPackageBase.__init__(self)
 
     def unpack(self):
+        patches = self.subinfo.patchesToApply()
+        for patch in patches:
+            patchfile = self.packageDir() / patch[0]
+            utils.applyPatch(self.localFilePath()[0].parent, patchfile, patch[1])
         return True
 
     def install(self):
