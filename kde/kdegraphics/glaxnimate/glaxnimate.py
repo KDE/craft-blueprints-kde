@@ -51,7 +51,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.subinfo.options.fetch.checkoutSubmodules = True
 
     def make(self):
-        args = self.makeOptions("translations")
         return super().make() and utils.system([self.makeProgram, args])
 
     def createPackage(self):
