@@ -3,3 +3,10 @@
 # .*PlugIns/kf5/org\.kde\.kwindowsystem\.platforms.*
 # .*PlugIns/org\.kde\.kdecoration2.*
 # .*PlugIns/styles/libqmacstyle.dylib
+
+# rcodesign does not like the following files and we probably
+# do not need them
+# TODO: investigate why rcodesign does not like them
+.*MacOS/gpg-wks-client
+.*MacOS/p11-kit/trust-extract-compat
+.*Frameworks/systemd/user/plasma-kglobalaccel.service
