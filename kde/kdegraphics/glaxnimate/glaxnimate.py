@@ -50,9 +50,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         # enable submodule checkout
         self.subinfo.options.fetch.checkoutSubmodules = True
 
-    def make(self):
-        return super().make() and utils.system([self.makeProgram, args])
-
     def createPackage(self):
         self.defines["executable"] = r"bin\glaxnimate.exe"
         # self.addExecutableFilter(r"(bin|libexec)/(?!(glaxnimate|update-mime-database)).*")
