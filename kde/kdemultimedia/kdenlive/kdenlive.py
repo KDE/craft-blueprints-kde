@@ -98,7 +98,9 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         if not CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "exclude.list"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "exclude.list"))
+        else:
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "exclude_macos.list"))
         self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioslave|melt|update-mime-database|drmingw|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm")
         self.ignoredPackages.append("data/hunspell-dictionaries")
