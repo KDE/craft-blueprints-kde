@@ -7,9 +7,17 @@ plugins/plasma/.*
 # rcodesign does not like the following files and we probably
 # do not need them
 # TODO: investigate why rcodesign does not like them
+## Qt5
 (libexec|bin)/gpg-wks-client
 libexec/p11-kit/trust-extract-compat
 lib/systemd/user/plasma-kglobalaccel.service
+## Qt6
+libexec/qt-cmake-standalone-test
+libexec/qt-testrunner.py
+libexec/android_emulator_launcher.sh
+libexec/qt-internal-configure-tests
+libexec/sanitizer-testrunner.py
+libexec/MacOS/qt-cmake-private
 
 # Qt 6.6 bug: on macOS object files get installed
 # libs/qt6/qtbase: plugins/permissions/objects-RelWithDebInfo/QDarwinCalendarPermissionPlugin_init/QDarwinCalendarPermissionPlugin_init.cpp.o
