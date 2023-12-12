@@ -51,7 +51,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
             self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
-            self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
+            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+                self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
 
 
 from Package.CMakePackageBase import *
