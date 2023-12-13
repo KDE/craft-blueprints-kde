@@ -1,7 +1,3 @@
-# we use the Breeze style, so anything related to Material is unnecessary
-qml/QtQuick/Controls/Material/.*
-lib/qml/org/kde/kirigami/styles/Material/.*
-
 # data files for ki18n that we don't need
 share/iso-codes/.*
 share/locale/.*/LC_MESSAGES/iso_.*\.mo
