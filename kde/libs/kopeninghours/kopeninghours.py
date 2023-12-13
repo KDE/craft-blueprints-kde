@@ -22,4 +22,4 @@ from Package.CMakePackageBase import *
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
