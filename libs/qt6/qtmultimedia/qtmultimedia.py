@@ -6,6 +6,8 @@ from CraftCore import CraftCore
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["6.6.0"] = [("qtmultimedia-android-suspend-crash-fix.diff", 1)]
+        self.patchLevel["6.6.0"] = 4
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
@@ -14,8 +16,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/pulseaudio"] = None
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/ffmpeg"] = None
-
-        self.patchLevel["6.6.0"] = 3
 
 
 class Package(CMakePackageBase):

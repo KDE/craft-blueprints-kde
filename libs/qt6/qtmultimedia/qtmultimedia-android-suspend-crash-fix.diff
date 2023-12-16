@@ -1,0 +1,45 @@
+commit d17a6099610b813b1556c788ccc73cebd8fe46d5
+Author: Volker Krause <vkrause@kde.org>
+Date:   Thu Dec 14 17:26:43 2023 +0100
+
+    Reset RHI state on application suspend
+    
+    This fixes a crash on Android when mapping a QVideoFrame from the camera
+    after the application has been resumed from suspension.
+    
+    Pick-to: 6.7 6.6
+    Change-Id: If107c7e8b9595f638034ea0bb05995ce5f096c0d
+
+diff --git a/src/multimedia/video/qvideoframeconverter.cpp b/src/multimedia/video/qvideoframeconverter.cpp
+index 5060ee9ab..bb8a063d1 100644
+--- a/src/multimedia/video/qvideoframeconverter.cpp
++++ b/src/multimedia/video/qvideoframeconverter.cpp
+@@ -35,6 +35,7 @@ struct State
+     QOffscreenSurface *fallbackSurface = nullptr;
+ #endif
+     bool cpuOnly = false;
++    bool initialized = false;
+     ~State() {
+         delete rhi;
+ #if QT_CONFIG(opengl)
+@@ -159,6 +160,20 @@ static QRhi *initializeRHI(QRhi *videoFrameRhi)
+                 if (backend == QRhi::OpenGLES2)
+                     params.shareContext = static_cast<const QRhiGles2NativeHandles*>(videoFrameRhi->nativeHandles())->context;
+                 g_state.localData().rhi = QRhi::create(QRhi::OpenGLES2, &params);
++
++                // reset RHI state on application suspension, as this will be invalid after resuming
++                if (!g_state.localData().initialized) {
++                    g_state.localData().initialized = true;
++                    QObject::connect(qApp, &QGuiApplication::applicationStateChanged, [](auto state) {
++                        if (state == Qt::ApplicationSuspended) {
++                            delete g_state.localData().rhi;
++                            g_state.localData().rhi = nullptr;
++                            delete g_state.localData().fallbackSurface;
++                            g_state.localData().fallbackSurface = nullptr;
++                            g_shaderCache.clear();
++                        }
++                    });
++                }
+             }
+         }
+ #endif

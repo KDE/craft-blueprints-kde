@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/libs/futuresql"] = None
+        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
@@ -33,6 +34,7 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["executable"] = r"bin\kontrast.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(kontrast|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")

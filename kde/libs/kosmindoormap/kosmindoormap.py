@@ -28,7 +28,8 @@ class subinfo(info.infoclass):
 from Package.CMakePackageBase import *
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.subinfo.options.configure.args += ["-DBUILD_STANDALONE_APP=ON"]
