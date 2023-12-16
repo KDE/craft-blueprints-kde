@@ -37,7 +37,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         if not CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/kcmUtils"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         # KTimeTracker forces Breeze style on Windows
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
