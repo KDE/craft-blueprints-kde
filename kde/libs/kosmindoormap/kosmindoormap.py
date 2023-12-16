@@ -24,6 +24,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/openssl"] = None
 
+    def registerOptions(self):
+        self.options.dynamic.registerOption("buildStandaloneApp", False)
 
 from Package.CMakePackageBase import *
 
@@ -32,4 +34,4 @@ class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        self.subinfo.options.configure.args += ["-DBUILD_STANDALONE_APP=ON"]
+        self.subinfo.options.configure.args += ["-DBUILD_STANDALONE_APP=" + ("ON" if self.subinfo.options.dynamic.buildStandaloneApp else "OFF")]
