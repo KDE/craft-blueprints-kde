@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/openssl"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt5/qtlocation"] = None
+        self.runtimeDependencies["libs/qt/qtlocation"] = None
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
