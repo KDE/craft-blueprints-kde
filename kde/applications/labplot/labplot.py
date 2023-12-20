@@ -29,8 +29,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        if CraftCore.compiler.isMSVC():
-            self.buildDependencies["dev-utils/python3"] = None
         self.runtimeDependencies["libs/gsl"] = None
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/libfftw"] = None
@@ -71,6 +69,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/matio"] = None
         self.runtimeDependencies["libs/readstat"] = None
         self.runtimeDependencies["libs/discount"] = None
+        self.runtimeDependencies["libs/python"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
@@ -79,9 +78,9 @@ class subinfo(info.infoclass):
 
 
 from Package.CMakePackageBase import *
+from Packager.AppImagePackager import AppImagePackager
 from Packager.AppxPackager import AppxPackager
 from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
-from Packager.AppImagePackager import AppImagePackager
 
 
 class Package(CMakePackageBase):
@@ -93,15 +92,6 @@ class Package(CMakePackageBase):
             self.supportsNinja = False
             # cerf.h is not found when using libcerf from ports
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
-
-    def install(self):
-        result = super().install()
-        if CraftCore.compiler.isWindows:
-            pythonPath = CraftCore.settings.get("Paths", "Python")
-            utils.copyFile(os.path.join(pythonPath, "python311.dll"), os.path.join(self.imageDir(), "bin"), linkOnly=False)
-            # fall back
-            utils.copyFile(os.path.join("C:\\", "Python311", "python311.dll"), os.path.join(self.imageDir(), "bin"), linkOnly=False)
-        return result
 
     def createPackage(self):
         self.defines["appname"] = "labplot2"

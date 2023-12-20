@@ -86,13 +86,13 @@ if CraftCore.compiler.isMSVC():
             return super().configure()
 
         def make(self):
-            with utils.ScopedEnv({"PythonForBuild": CraftCore.standardDirs.craftRoot() / "dev-utils/bin/python3.exe"}):
+            with utils.ScopedEnv({"PythonForBuild": sys.executable}):
                 return super().make()
 
         def install(self):
             self.cleanImage()
             verMinor = self.subinfo.buildTarget.split(".")[1]
-            for p in ["python.exe", "pythonw.exe"]:
+            for p in ["python.exe", "pythonw.exe", "venvlauncher.exe", "venvwlauncher.exe"]:
                 if not utils.copyFile(self.sourceDir() / f"PCbuild/amd64/{p}", self.imageDir() / f"bin/{p}"):
                     return False
             if not self._globCopy(self.sourceDir() / "PCbuild/amd64/", self.imageDir() / "bin", ["*.dll"]):
