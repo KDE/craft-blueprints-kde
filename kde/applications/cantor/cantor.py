@@ -1,5 +1,7 @@
+import CraftCore
 import info
 import utils
+from CraftOS.osutils import OsUtils
 
 
 class subinfo(info.infoclass):
@@ -20,6 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
+        self.runtimeDependencies["libs/python"] = None
         # required on macOS
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
@@ -63,7 +66,13 @@ class Package(CMakePackageBase):
         # self.subinfo.options.configure.args += [f"-DR_R_LIBRARY={OsUtils.toUnixPath(os.path.join(self.r_dir, "R.dll"))}"]
 
         # pythonPath = CraftCore.settings.get("Paths", "PYTHON")
-        # self.subinfo.options.configure.args += [f"-DPYTHONLIBS3_LIBRARY=\"{pythonPath}\libs\python38.lib\"", f"-DPYTHONLIBS3_INCLUDE_DIR=\"{pythonPath}\include\""]
+        if CraftCore.compiler.isMSVC():
+            self.subinfo.options.configure.args += [
+                f"-DPython3_EXECUTABLE:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/bin/python.exe",
+                f"-DPython3_LIBRARY:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib/python311.lib",
+                f"-DPython3_INCLUDE_DIR:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/python3.11",
+                "-DPython3_FIND_REGISTRY=NEVER",
+            ]
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
