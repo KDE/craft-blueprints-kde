@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["extragear/kdevelop/kdevelop"] = None
         self.runtimeDependencies["extragear/kdevelop/kdev-php"] = None
-        self.runtimeDependencies["lib/python"] = None
+        self.runtimeDependencies["libs/python"] = None
 
 
 from Package.CMakePackageBase import *
