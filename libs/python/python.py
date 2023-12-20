@@ -102,7 +102,7 @@ if CraftCore.compiler.isMSVC():
                     return False
             if not self._globCopy(self.sourceDir() / "PCbuild/amd64/", self.imageDir() / f"bin/DLLs", ["*.pyd"]):
                 return False
-            if not self._globCopy(self.sourceDir() / "Include/", self.imageDir() / f"include/python3.{verMinor}", ["*.h"]):
+            if not utils.copyDir(self.sourceDir() / "Include/", self.imageDir() / f"include/python3.{verMinor}"):
                 return False
             if not utils.copyFile(self.sourceDir() / "PC/pyconfig.h", self.imageDir() / f"include/python3.{verMinor}/pyconfig.h"):
                 return False
