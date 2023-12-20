@@ -1,0 +1,72 @@
+From 0d8aa43dc3d4b958afa437c51831360d29305b9e Mon Sep 17 00:00:00 2001
+From: Hannah von Reth <vonreth@kde.org>
+Date: Wed, 20 Dec 2023 13:34:03 +0100
+Subject: [PATCH] Fix Windows build with python3
+
+---
+ chromium/build/toolchain/win/tool_wrapper.py | 4 ++--
+ chromium/gpu/config/process_json.py          | 4 ++--
+ chromium/third_party/mako/mako/compat.py     | 3 ---
+ 3 files changed, 4 insertions(+), 7 deletions(-)
+
+diff --git a/chromium/build/toolchain/win/tool_wrapper.py b/chromium/build/toolchain/win/tool_wrapper.py
+index 1dffafe3cef..09ea4e65776 100644
+--- a/src/3rdparty/chromium/build/toolchain/win/tool_wrapper.py
++++ b/src/3rdparty/chromium/build/toolchain/win/tool_wrapper.py
+@@ -137,7 +137,7 @@ class WinTool(object):
+       if m:
+         pe_name = m.group('out')
+     link = subprocess.Popen(args, shell=sys.platform == 'win32', env=env,
+-                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
++                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+     # Read output one line at a time as it shows up to avoid OOM failures when
+     # GBs of output is produced.
+     for line in link.stdout:
+@@ -156,7 +156,7 @@ class WinTool(object):
+       args = list(args) # *args is a tuple by default, which is read-only
+       args[0] = args[0].replace('/', '\\')
+     popen = subprocess.Popen(args, shell=True, env=env,
+-                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
++                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+     out, _ = popen.communicate()
+     for line in out.splitlines():
+       if not line.startswith(' Assembling: '):
+diff --git a/chromium/gpu/config/process_json.py b/chromium/gpu/config/process_json.py
+index 6a609fe9321..cbf1af39b41 100755
+--- a/src/3rdparty/chromium/gpu/config/process_json.py
++++ b/src/3rdparty/chromium/gpu/config/process_json.py
+@@ -606,7 +606,7 @@ def write_conditions(entry_id, is_exception, exception_id, entry,
+                   'Intel' in driver_vendor)
+       assert is_intel, 'Intel driver schema is only for Intel GPUs'
+       valid_version = check_intel_driver_version(driver_version['value'])
+-      if driver_version.has_key('value2'):
++      if 'value2' in driver_version:
+         valid_version = (valid_version and
+                          check_intel_driver_version(driver_version['value2']))
+       assert valid_version, INTEL_DRIVER_VERSION_SCHEMA
+@@ -616,7 +616,7 @@ def write_conditions(entry_id, is_exception, exception_id, entry,
+       is_nvidia = (format(vendor_id, '#04x') == '0x10de')
+       assert is_nvidia, 'Nvidia driver schema is only for Nvidia GPUs'
+       valid_version = check_nvidia_driver_version(driver_version['value'])
+-      if driver_version.has_key('value2'):
++      if 'value2' in driver_version:
+         valid_version = (valid_version and
+                          check_nvidia_driver_version(driver_version['value2']))
+       assert valid_version, NVIDIA_DRIVER_VERSION_SCHEMA
+diff --git a/chromium/third_party/mako/mako/compat.py b/chromium/third_party/mako/mako/compat.py
+index a3b1fd0acb6..93e6501364c 100644
+--- a/src/3rdparty/chromium/third_party/mako/mako/compat.py
++++ b/src/3rdparty/chromium/third_party/mako/mako/compat.py
+@@ -141,9 +141,6 @@ except ImportError:
+     else:
+         import dummy_thread as thread  # noqa
+ 
+-if win32 or jython:
+-    time_func = time.clock
+-else:
+     time_func = time.time
+ 
+ try:
+-- 
+2.42.0.windows.2
+
