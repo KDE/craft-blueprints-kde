@@ -1,0 +1,11 @@
+--- .a/src/multimedia/CMakeLists2.txt	2023-12-23 16:19:51.464676822 +0100
++++ .b/src/multimedia/CMakeLists.txt	2023-12-23 16:19:59.664395427 +0100
+@@ -206,7 +206,7 @@
+         asound
+ )
+ 
+-qt_internal_extend_target(Multimedia CONDITION QT_FEATURE_wmf
++qt_internal_extend_target(Multimedia CONDITION QT_FEATURE_wmf OR MINGW
+     SOURCES
+         windows/qwindowsaudiodevice.cpp windows/qwindowsaudiodevice_p.h
+         windows/qwindowsaudiosource.cpp windows/qwindowsaudiosource_p.h
