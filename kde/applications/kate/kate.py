@@ -31,9 +31,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/kdeutils/markdownpart"] = None
         self.runtimeDependencies["kde/applications/konsole"] = None
 
-        if OsUtils.isUnix():
-            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
-
         # KUserFeedback yet not an official tier1 framework
         self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
