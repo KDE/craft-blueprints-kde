@@ -46,7 +46,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
-        self.subinfo.options.configure.args += [f"-DBUILD_PHP_IMPORT={'ON' if self.options.dynamic.buildPHPImport else 'OFF'}"]
+        self.subinfo.options.configure.args += [f"-DBUILD_PHP_IMPORT={'ON' if self.subinfo.options.dynamic.buildPHPImport else 'OFF'}"]
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):
