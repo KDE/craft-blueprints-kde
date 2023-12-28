@@ -27,11 +27,15 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
         self.runtimeDependencies["kde/pim/kpeoplevcard"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
+        self.runtimeDependencies["libs/qt/qtconnectivity"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
         self.runtimeDependencies["kde/plasma/breeze"] = None
+
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
 
 
 class Package(CMakePackageBase):
@@ -40,6 +44,9 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMacOS:
             # Add APPLE_IN_APP_BUNDLE flag to enable private DBus, when packing by Craft
             self.subinfo.options.configure.args += ["-DAPPLE_IN_APP_BUNDLE=ON"]
+
+        # Since KF PulseAudioQt is not (yet) a craft package, build without it.
+        self.subinfo.options.configure.args += ["-DWITH_PULSEAUDIO=OFF"]
 
     def createPackage(self):
         self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
