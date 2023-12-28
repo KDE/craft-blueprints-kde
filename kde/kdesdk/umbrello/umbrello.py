@@ -1,5 +1,6 @@
 import info
 from Packager.CollectionPackagerBase import PackagerLists
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -9,13 +10,15 @@ class subinfo(info.infoclass):
         self.description = "Umbrello is a UML modelling application."
         self.displayName = "Umbrello"
 
+    def registerOptions(self):
+        self.options.dynamic.registerOption("buildPHPImport", True)
+
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/dbus"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
@@ -33,18 +36,18 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        # for php support
-        self.runtimeDependencies["extragear/kdevelop-pg-qt"] = None
-        self.runtimeDependencies["extragear/kdevelop/kdev-php"] = None
-
-
-from Package.CMakePackageBase import *
+        
+        if self.options.dynamic.buildPHPImport:
+            # for php support
+            self.runtimeDependencies["extragear/kdevelop-pg-qt"] = None
+            self.runtimeDependencies["extragear/kdevelop/kdev-php"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
-        self.blacklist_file = [PackagerLists.runtimeBlacklist, os.path.join(os.path.dirname(__file__), "blacklist.txt")]
+        super().__init__()
+        self.subinfo.options.configure.args += [f"-DBUILD_PHP_IMPORT={'ON' if self.options.dynamic.buildPHPImport else 'OFF'}"]
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):
         self.defines["executable"] = "bin\\umbrello5.exe"
@@ -54,4 +57,4 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("dev-utils/sed")
         self.ignoredPackages.append("kde/frameworks/kemoticons")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()
