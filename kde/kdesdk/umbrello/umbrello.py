@@ -50,6 +50,7 @@ class Package(CMakePackageBase):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):
+        self.defines["appname"] = "umbrello5"
         self.defines["executable"] = "bin\\umbrello5.exe"
         # self.defines["icon"] = os.path.join(self.packageDir(), "umbrello.ico")
 
