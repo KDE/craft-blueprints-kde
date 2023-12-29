@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.patchLevel["6.4.0"] = 1
         self.patchToApply["6.5.3"] = [(".6.5.3", 1)]
         self.patchToApply["6.6.0"] = [(".6.5.3", 1)]
+        self.patchToApply["6.6.1"] = [(".6.5.3", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
@@ -60,7 +61,11 @@ class Package(CMakePackageBase):
             f"-DQT_FEATURE_webengine_system_lcms2=ON",
             f"-DQT_FEATURE_webengine_system_pulseaudio=OFF",
         ]
-        if not CraftCore.compiler.isLinux and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2"):
+        if (
+            not CraftCore.compiler.isLinux
+            and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2")
+            and CraftVersion(self.buildTarget) < CraftVersion("6.6.2")
+        ):
             # See https://bugreports.qt.io/browse/QTBUG-115357
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=OFF"]
         else:
