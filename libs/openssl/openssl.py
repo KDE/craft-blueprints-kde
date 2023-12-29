@@ -26,6 +26,7 @@ import os
 
 import info
 import utils
+from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
@@ -47,9 +48,10 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://openssl.org/source/openssl-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"openssl-{ver}"
             self.targetDigestUrls[ver] = ([f"https://openssl.org/source/openssl-{ver}.tar.gz.sha256"], CraftHash.HashAlgorithm.SHA256)
-            self.patchToApply[ver] = [
-                ("disable-install-docs.patch", 1)
-            ]  # https://github.com/microsoft/vcpkg/blob/9055f88ba53a99f51e3c733fe9c79703dc23d57d/ports/openssl/disable-install-docs.patch
+            if CraftVersion(ver) < CraftVersion("3.2.0"):
+                self.patchToApply[ver] = [
+                    ("disable-install-docs.patch", 1)
+                ]  # https://github.com/microsoft/vcpkg/blob/9055f88ba53a99f51e3c733fe9c79703dc23d57d/ports/openssl/disable-install-docs.patch
 
         self.patchLevel["3.1.1"] = 1
 
@@ -126,7 +128,7 @@ class PackageCMake(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        for f in self.packageDir().glob(".pkgconfig/*.pc"):
+        for f in self.blueprintDir().glob(".pkgconfig/*.pc"):
             if not utils.configureFile(
                 f, self.imageDir() / "lib/pkgconfig" / f.name, {"CRAFT_ROOT": CraftCore.standardDirs.craftRoot(), "VERSION": self.buildTarget}
             ):
