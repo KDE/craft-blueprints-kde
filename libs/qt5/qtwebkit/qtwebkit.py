@@ -73,7 +73,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/flexbison"] = None
         self.buildDependencies["dev-utils/gperf"] = None
         self.buildDependencies["dev-utils/perl"] = None
-        self.buildDependencies["dev-utils/python2"] = None
+        self.buildDependencies["dev-utils/python3"] = None
         self.buildDependencies["dev-utils/nasm"] = None
 
 
@@ -83,7 +83,7 @@ from Package.Qt5CorePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += [
             "-DPORT=Qt",
             "-DENABLE_API_TESTS=OFF",
