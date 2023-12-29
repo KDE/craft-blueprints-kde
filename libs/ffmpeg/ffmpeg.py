@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
             self.patchToApply["4.4"] = [("ffmpeg-4.4-20210413.diff", 1)]
             self.patchToApply["5.0.1"] = [("ffmpeg-4.4-20210413.diff", 1)]
             self.patchToApply["6.0"] += [("ffmpeg-4.4-20210413.diff", 1)]
-            self.patchToApply["6.1"] += [("ffmpeg-4.4-20210413.diff", 1)]
+            self.patchToApply["6.1"] = [("ffmpeg-4.4-20210413.diff", 1)]
         else:
             self.patchLevel["4.4"] = 1
 
