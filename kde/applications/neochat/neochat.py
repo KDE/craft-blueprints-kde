@@ -37,6 +37,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
+            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+                self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 

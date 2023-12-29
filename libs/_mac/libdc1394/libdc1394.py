@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/_mac/libusb"] = None
+        self.runtimeDependencies["libs/libusb"] = None
 
 
 from Package.AutoToolsPackageBase import *

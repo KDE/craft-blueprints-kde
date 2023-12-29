@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/openssl"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt5/qtlocation"] = None
+        self.runtimeDependencies["libs/qt/qtlocation"] = None
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
@@ -38,11 +38,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/plasma-mobile/khealthcertificate"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["qt-libs/libquotient"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6" and CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
 
 from Package.CMakePackageBase import *
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")

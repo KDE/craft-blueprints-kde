@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.buildDependencies["libs/swig"] = None
-        self.buildDependencies["libs/_mac/libusb"] = None
+        self.buildDependencies["libs/libusb"] = None
         self.runtimeDependencies["virtual/base"] = None
 
 

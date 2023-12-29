@@ -41,12 +41,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/wcslib"] = None
 
         if CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["libs/_mac/xplanet"] = None
-            self.runtimeDependencies["libs/_mac/gsc"] = None
+            self.runtimeDependencies["libs/xplanet"] = None
+            self.runtimeDependencies["libs/gsc"] = None
             # Making these dependencies casues an issue where you can't have KStars and INDI both be the latest version or both be stable
             # You have to comment these out if you want stable, this basically hard codes it to be the latest version.
-            self.runtimeDependencies["libs/_mac/indiserver"] = None
-            self.runtimeDependencies["libs/_mac/indiserver-3rdparty"] = None
+            self.runtimeDependencies["libs/indiserver"] = None
+            self.runtimeDependencies["libs/indiserver-3rdparty"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/indiclient"] = None
 

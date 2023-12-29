@@ -24,15 +24,15 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libnova"] = None
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/libcurl"] = None
-        self.runtimeDependencies["libs/_mac/libgphoto2"] = None
-        self.runtimeDependencies["libs/_mac/libftdi"] = None
-        self.runtimeDependencies["libs/_mac/libdc1394"] = None
+        self.runtimeDependencies["libs/libgphoto2"] = None
+        self.runtimeDependencies["libs/libftdi"] = None
+        self.runtimeDependencies["libs/libdc1394"] = None
         self.runtimeDependencies["libs/libraw"] = None
         self.runtimeDependencies["libs/tiff"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
-        self.runtimeDependencies["libs/_mac/indiserver"] = None
-        self.runtimeDependencies["libs/_mac/librtlsdr"] = None
+        self.runtimeDependencies["libs/indiserver"] = None
+        self.runtimeDependencies["libs/librtlsdr"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
 
 
