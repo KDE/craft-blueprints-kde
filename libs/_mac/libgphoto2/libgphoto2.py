@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/gettext"] = None
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/_mac/libusb-compat"] = None
+        self.runtimeDependencies["libs/libusb-compat"] = None
         self.runtimeDependencies["dev-utils/libtool"] = None
         # gd and libexif might be needed too
 
