@@ -1,6 +1,5 @@
 import os
 
-import CraftCore
 import info
 import utils
 from Blueprints.CraftVersion import CraftVersion

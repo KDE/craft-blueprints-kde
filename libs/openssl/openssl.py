@@ -22,9 +22,17 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
+import os
+
 import info
-from Blueprints.CraftVersion import CraftVersion
+import utils
 from CraftCompiler import CraftCompiler
+from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
+from Utils.Arguments import Arguments
 
 
 class subinfo(info.infoclass):
@@ -79,12 +87,9 @@ class subinfo(info.infoclass):
             self.buildDependencies["dev-utils/nasm"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class PackageCMake(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.staticBuild = False
         self.supportsNinja = False
         self.subinfo.options.make.supportsMultijob = False
@@ -134,12 +139,9 @@ class PackageCMake(CMakePackageBase):
         return utils.rmtree(baseDir / "doc") and utils.rmtree(baseDir / "man") and utils.rmtree(self.installDir() / "html")
 
 
-from Package.AutoToolsPackageBase import *
-
-
 class PackageMSys(AutoToolsPackageBase):
     def __init__(self):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         # https://github.com/openssl/openssl/issues/18720
         self.subinfo.options.configure.cflags += "-Wno-error=implicit-function-declaration"
         if CraftCore.compiler.isMinGW():
