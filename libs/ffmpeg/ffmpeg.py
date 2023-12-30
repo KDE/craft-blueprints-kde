@@ -5,6 +5,7 @@ import utils
 from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
+from CraftStandardDirs import CraftStandardDirs
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
 
