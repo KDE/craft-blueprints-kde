@@ -30,6 +30,7 @@ from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
+from CraftStandardDirs import CraftStandardDirs
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
