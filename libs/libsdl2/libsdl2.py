@@ -1,16 +1,18 @@
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Simple DirectMedia Layer"
         self.webpage = "https://www.libsdl.org"
-        for ver in ["2.26.4", "2.28.4"]:
+        for ver in ["2.28.5"]:
             self.targets[ver] = f"https://www.libsdl.org/release/SDL2-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"SDL2-{ver}"
-        self.targetDigests["2.26.4"] = (["1a0f686498fb768ad9f3f80b39037a7d006eac093aad39cb4ebcc832a8887231"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["2.28.4"] = (["888b8c39f36ae2035d023d1b14ab0191eb1d26403c3cf4d4d5ede30e66a4942c"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "2.28.4"
+        self.targetDigests["2.28.5"] = (["332cb37d0be20cb9541739c61f79bae5a477427d79ae85e352089afdaf6666e4"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "2.28.5"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libsamplerate"] = None
@@ -19,11 +21,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/pulseaudio"] = None
 
 
-from Package.CMakePackageBase import *
-
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["-DSDL_STATIC=OFF", "-DSDL_THREADS=ON", "-DSDL_DIRECTX=ON", "-DSDL_LIBSAMPLERATE=ON"]
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["-DSDL_PULSEAUDIO=ON"]
