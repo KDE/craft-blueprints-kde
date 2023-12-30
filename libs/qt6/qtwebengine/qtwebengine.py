@@ -1,6 +1,12 @@
+import multiprocessing
+from pathlib import Path
+
 import info
+import utils
 from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils.CraftShortPath import CraftShortPath
 
 
 class subinfo(info.infoclass):
@@ -41,9 +47,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/harfbuzz"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
@@ -72,9 +75,9 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=ON"]
 
         if CraftCore.compiler.isMSVC() and CraftVersion(self.buildTarget) >= CraftVersion("6.6.0"):
-            self.subinfo.options.configure.args += [f"-DQT_FEATURE_webengine_system_zlib=OFF"]
+            self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_zlib=OFF"]
         else:
-            self.subinfo.options.configure.args += [f"-DQT_FEATURE_webengine_system_zlib=ON"]
+            self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_zlib=ON"]
 
     def _getEnv(self):
         # webengine requires enormous amounts of ram
