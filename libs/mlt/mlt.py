@@ -1,9 +1,13 @@
 import info
+import utils
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Platforms.All
+        self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.GCCLike
 
     def setTargets(self):
         self.description = "Open source multimedia framework"
@@ -32,7 +36,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libasound2"] = None
             self.runtimeDependencies["libs/libexif"] = None
             self.runtimeDependencies["libs/movit"] = None
-        if OsUtils.isWin():
+        if CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/dlfcn-win32"] = None
         # ladspa-swh currently breaks MLT, making render impossible. So disable for now
         # else:
@@ -53,13 +57,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libarchive"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
-        CMakePackageBase.buildTests = False
+        super().__init__()
+        self.subinfo.options.dynamic.buildTests = False
         # enable submodule checkout to get glaximate
         if not CraftCore.compiler.isAndroid:
             self.subinfo.options.fetch.checkoutSubmodules = True
@@ -68,7 +69,7 @@ class Package(CMakePackageBase):
             "-DWINDOWS_DEPLOY=OFF",
             "-DRELOCATABLE=ON",
             "-DMOD_GDK=OFF",  # don't pull in gtk
-            "-DMOD_SDL2=ON"
+            "-DMOD_SDL2=ON",
         ]
 
         if self.subinfo.options.isActive("libs/opencv/opencv"):
@@ -77,7 +78,6 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["-DMOD_RTAUDIO=OFF", "-DMOD_SOX=OFF"]
 
-
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and self.subinfo.options.isActive("libs/libarchive"):
             self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE=ON"]
         else:
@@ -85,7 +85,7 @@ class Package(CMakePackageBase):
 
         if CraftCore.compiler.isWindows:
             self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-Wno-incompatible-pointer-types"]
-        self.subinfo.options.configure.cxxflags += f" -D_XOPEN_SOURCE=700 "
+        self.subinfo.options.configure.cxxflags += " -D_XOPEN_SOURCE=700 "
 
     def install(self):
         if not super().install():

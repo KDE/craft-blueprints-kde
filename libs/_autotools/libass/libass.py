@@ -1,4 +1,7 @@
 import info
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -18,12 +21,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/harfbuzz"] = None
 
 
-from Package.AutoToolsPackageBase import *
-
-
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]
 
         if CraftCore.compiler.isAndroid:

@@ -1,4 +1,8 @@
 import info
+from CraftCompiler import CraftCompiler
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.PackageBase import PackageBase
 
 
 class subinfo(info.infoclass):
@@ -17,16 +21,22 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.AutoToolsPackageBase import *
-
-
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args = [
-            "--enable-shared", "--disable-cli", "--disable-avs", "--disable-lavf", "--disable-swscale", "--disable-ffms", "--disable-gpac", "--enable-pic"
+            "--enable-shared",
+            "--disable-cli",
+            "--disable-avs",
+            "--disable-lavf",
+            "--disable-swscale",
+            "--disable-ffms",
+            "--disable-gpac",
+            "--enable-pic",
         ]
-        if CraftCore.compiler.isAndroid and (CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64 or CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32):
+        if CraftCore.compiler.isAndroid and (
+            CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64 or CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32
+        ):
             self.subinfo.options.configure.args += ["--disable-asm"]
 
     def configure(self):
