@@ -1,7 +1,8 @@
 import stat
 from pathlib import Path
-
 import info
+from Package.BinaryPackageBase import BinaryPackageBase
+import utils
 
 
 class subinfo(info.infoclass):
@@ -11,19 +12,15 @@ class subinfo(info.infoclass):
         self.description = "Have your AppImage check libgcc and libstdc++ dependencies at runtime. "
         self.webpage = "https://github.com/darealshinji/linuxdeploy-plugin-checkrt"
         self.defaultTarget = "continous"
-        self.patchToApply["continous"] = [("fix-ldlibrarypath.diff", 1)]
         self.patchLevel["continous"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.BinaryPackageBase import *
-
-
 class Package(BinaryPackageBase):
     def __init__(self, **args):
-        BinaryPackageBase.__init__(self)
+        super().__init__()
 
     def unpack(self):
         patches = self.subinfo.patchesToApply()
