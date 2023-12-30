@@ -41,7 +41,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["executable"] = "bin\\okteta.exe"
-        # self.defines["icon"] = os.path.join(self.packageDir(), "okular.ico")
+        # self.defines["icon"] = os.path.join(self.blueprintDir(), "okular.ico")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")

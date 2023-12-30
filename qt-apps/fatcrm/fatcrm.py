@@ -39,6 +39,6 @@ class Package(CMakePackageBase):
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\fatcrm.exe"
         self.defines["license"] = os.path.join(self.sourceDir(), "LICENSE.GPL.txt")
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
         self.ignoredPackages.append("binary/mysql")
         return TypePackager.createPackage(self)

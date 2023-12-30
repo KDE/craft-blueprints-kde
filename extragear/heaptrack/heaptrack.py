@@ -40,13 +40,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
+
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
         self.subinfo.options.configure.args += ["-DAPPIMAGE_BUILD=ON"]
 
     def createPackage(self):
-        self.blacklist_file.append(self.packageDir() / "blacklist.txt")
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
         # override AppRun behavior in AppImage point
 
@@ -54,9 +55,7 @@ class Package(CMakePackageBase):
         # - run heaptrack instead of heaptrack_gui as entry
         # - then don't continue, or we would run the normal AppRun.wrapped,
         #   which would point at heaptrack_gui
-        self.defines["runenv"] = [
-            'PATH="$this_dir/usr/bin:$PATH"; "$this_dir/usr/bin/heaptrack" "$@"; exit;'
-        ]
+        self.defines["runenv"] = ['PATH="$this_dir/usr/bin:$PATH"; "$this_dir/usr/bin/heaptrack" "$@"; exit;']
 
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
@@ -67,7 +66,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isLinux:
             # --- Manage files under AppImage bundle
 
-            packageDir = self.packageDir()
+            packageDir = self.blueprintDir()
             archiveDir = self.archiveDir()
 
             print(packageDir, archiveDir)

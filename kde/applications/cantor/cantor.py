@@ -75,10 +75,10 @@ class Package(CMakePackageBase):
             ]
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
         # Some plugins files break code signing on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
@@ -87,7 +87,7 @@ class Package(CMakePackageBase):
         self.defines["website"] = "https://cantor.kde.org/"
         self.defines["executable"] = "bin\\cantor.exe"
         self.defines["shortcuts"] = [{"name": "Cantor", "target": "bin/cantor.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\cantor.ico"}]
-        self.defines["icon"] = os.path.join(self.packageDir(), "cantor.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "cantor.ico")
         if self.buildTarget == "master":
             self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-cantor.png")
             self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-cantor.png")

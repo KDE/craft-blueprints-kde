@@ -74,16 +74,16 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
         self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|dbus|snoretoast)).*")
         self.defines["shortcuts"] = [{"name": "Ruqola", "target": "bin/ruqola.exe", "description": self.subinfo.description, "appId": "ruqola"}]
 
         self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "appIcons.ico")
 
-        self.defines["icon_png"] = os.path.join(self.packageDir(), "150-apps-ruqola.png")
-        self.defines["icon_png_44"] = os.path.join(self.packageDir(), "44-apps-ruqola.png")
+        self.defines["icon_png"] = os.path.join(self.blueprintDir(), "150-apps-ruqola.png")
+        self.defines["icon_png_44"] = os.path.join(self.blueprintDir(), "44-apps-ruqola.png")
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

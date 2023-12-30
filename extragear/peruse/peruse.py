@@ -50,6 +50,6 @@ class Package(CMakePackageBase):
             {"name": "Peruse Creator", "target": "bin//perusecreator.exe"},
         ]
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "peruse.ico")
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
 
         return TypePackager.createPackage(self)

@@ -42,7 +42,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["executable"] = "bin\\StellarSolverTester.exe"
-        self.defines["icon"] = os.path.join(self.packageDir(), "StellarSolverInstallIcon.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "StellarSolverInstallIcon.ico")
         if isinstance(self, AppxPackager):
             self.defines["display_name"] = "StellarSolverTester"
         return TypePackager.createPackage(self)

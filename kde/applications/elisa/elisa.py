@@ -55,14 +55,14 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["executable"] = "bin\\elisa.exe"
 
-        self.defines["icon"] = os.path.join(self.packageDir(), "elisa.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "elisa.ico")
         self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "44-apps-elisa.png")
         self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-elisa.png")
 
         self.defines["mimetypes"] = ["audio/mpeg", "audio/mp4"]
         self.defines["file_types"] = [".mp3", ".ogg", ".m4a", ".flac", ".wav", ".m3u", ".opus"]
 
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")

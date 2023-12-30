@@ -55,6 +55,6 @@ class Package(CMakePackageBase):
         self.defines["icon"] = self.buildDir() / "src/ICONS_SOURCES.ico"
         self.ignoredPackages.append("binary/mysql")
 
-        # self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        # self.blacklist_file.append(os.path.join(self.blueprintDir(), 'blacklist.txt'))
 
         return TypePackager.createPackage(self)

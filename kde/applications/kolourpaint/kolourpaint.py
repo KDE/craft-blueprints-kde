@@ -27,7 +27,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["executable"] = "bin\\kolourpaint.exe"
-        self.defines["icon"] = os.path.join(self.packageDir(), "kolourpaint.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "kolourpaint.ico")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("kde/frameworks/kemoticons")

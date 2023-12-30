@@ -38,7 +38,7 @@ class Package(BinaryPackageBase):
         utils.mergeTree(os.path.join(self.installDir(), "bin", "sdk", "lib"), os.path.join(self.installDir(), "lib"))
         utils.rmtree(os.path.join(self.installDir(), "bin", "sdk"))
         os.makedirs(os.path.join(self.installDir(), "share", "applications"))
-        utils.copyFile(os.path.join(self.packageDir(), "vlc.desktop"), os.path.join(self.installDir(), "share", "applications", "vlc.desktop"))
+        utils.copyFile(os.path.join(self.blueprintDir(), "vlc.desktop"), os.path.join(self.installDir(), "share", "applications", "vlc.desktop"))
         if CraftCore.compiler.isMSVC():
             utils.deleteFile(os.path.join(self.installDir(), "lib", "vlccore.lib"))
             utils.deleteFile(os.path.join(self.installDir(), "lib", "vlc.lib"))

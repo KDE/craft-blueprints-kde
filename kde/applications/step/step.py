@@ -32,7 +32,7 @@ class Package(CMakePackageBase):
         CMakePackageBase.__init__(self)
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
@@ -41,6 +41,6 @@ class Package(CMakePackageBase):
         self.defines["website"] = "https://apps.kde.org/step"
         self.defines["executable"] = "bin\\step.exe"
         self.defines["shortcuts"] = [{"name": "Step", "target": "bin/step.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\step.ico"}]
-        self.defines["icon"] = os.path.join(self.packageDir(), "step.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "step.ico")
 
         return TypePackager.createPackage(self)

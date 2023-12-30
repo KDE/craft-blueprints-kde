@@ -50,7 +50,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.package.movePluginsToBin = False
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
         self.defines["executable"] = "kid3.exe"
         self.defines["icon"] = os.path.join(self.sourceDir(), "src", "app", "qt", "kid3.ico")
         return super().createPackage()

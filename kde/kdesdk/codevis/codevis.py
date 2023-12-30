@@ -53,7 +53,7 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".lks"]
         self.defines["alias"] = "codevis"
 
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")

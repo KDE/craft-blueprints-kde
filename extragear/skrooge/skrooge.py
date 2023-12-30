@@ -43,11 +43,11 @@ class Package(CMakePackageBase):
         # self.subinfo.options.configure.args = "-DSKG_WEBENGINE=ON"
         self.blacklist_file = [
             PackagerLists.runtimeBlacklist,
-            # os.path.join(self.packageDir(), 'blacklist.txt')
+            # os.path.join(self.blueprintDir(), 'blacklist.txt')
         ]
 
     def createPackage(self):
         self.defines["website"] = "https://skrooge.org/"
-        # self.defines["icon"] = os.path.join(self.packageDir(), "skrooge.ico")
+        # self.defines["icon"] = os.path.join(self.blueprintDir(), "skrooge.ico")
 
         return TypePackager.createPackage(self)

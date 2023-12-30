@@ -35,7 +35,7 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += [f"-DUPDATE_CHECK_URL={self.subinfo.options.dynamic.update_check_url}"]
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\Charm.exe"
         self.defines["license"] = os.path.join(self.sourceDir(), "License.txt")

@@ -49,12 +49,12 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DWITH_PULSEAUDIO=OFF"]
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
         self.addExecutableFilter(
             r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioslave|SnoreToast).*)"
         )
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
@@ -128,10 +128,10 @@ class Package(CMakePackageBase):
                     "description": self.subinfo.description,
                 }
             ]
-            self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "Square150x150Logo.scale-100.png")
-            self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "Square44x44Logo.scale-100.png")
-            self.defines["icon_png_310x150"] = os.path.join(self.packageDir(), ".assets", "Wide310x150Logo.scale-100.png")
-            self.defines["icon_png_310x310"] = os.path.join(self.packageDir(), ".assets", "Square310x310Logo.scale-100.png")
+            self.defines["icon_png"] = os.path.join(self.blueprintDir(), ".assets", "Square150x150Logo.scale-100.png")
+            self.defines["icon_png_44"] = os.path.join(self.blueprintDir(), ".assets", "Square44x44Logo.scale-100.png")
+            self.defines["icon_png_310x150"] = os.path.join(self.blueprintDir(), ".assets", "Wide310x150Logo.scale-100.png")
+            self.defines["icon_png_310x310"] = os.path.join(self.blueprintDir(), ".assets", "Square310x310Logo.scale-100.png")
 
         self.ignoredPackages.append("binary/mysql")
         return TypePackager.createPackage(self)

@@ -2,6 +2,7 @@ import info
 from CraftOS.osutils import OsUtils
 from Packager.AppImagePackager import AppImagePackager
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -54,9 +55,9 @@ class Package(CMakePackageBase):
         return defines
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
         self.addExecutableFilter(r"bin/(?!(kate|update-mime-database|kioslave)).*")
         self.defines["shortcuts"] = [{"name": "Kate", "target": "bin/kate.exe", "description": self.subinfo.description}]
 

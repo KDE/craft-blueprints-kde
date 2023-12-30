@@ -67,9 +67,9 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DFORCE_NOT_REQUIRED_DEPENDENCIES=LibSpectre"]
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
         self.defines["executable"] = r"bin\okular.exe"
         self.defines["mimetypes"] = ["application/pdf"]
         self.defines["file_types"] = [".pdf", ".mobi", ".epub", ".tiff", ".djvu"]
@@ -77,7 +77,7 @@ class Package(CMakePackageBase):
         self.defines["alias"] = "okular"
 
         # okular icons
-        self.defines["icon"] = os.path.join(self.packageDir(), "okular.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "okular.ico")
         self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-okular.png")
         self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-okular.png")
 

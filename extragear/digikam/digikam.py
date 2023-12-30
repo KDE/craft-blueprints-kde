@@ -227,7 +227,7 @@ class Package(CMakePackageBase):
         self.defines["license"] = os.path.join(self.sourceDir(), "COPYING")
 
         # Not yet supported by Craft with NSIS
-        # self.defines["readme"]      = os.path.join(self.packageDir(), "ABOUT.txt")
+        # self.defines["readme"]      = os.path.join(self.blueprintDir(), "ABOUT.txt")
 
         # In AppImage, run the new startup script sctip with advanced features.
 
@@ -241,7 +241,7 @@ class Package(CMakePackageBase):
 
         # Windows-only
 
-        self.defines["icon"] = os.path.join(self.packageDir(), "digikam.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "digikam.ico")
 
         # Windows-only extra icons
 
@@ -256,16 +256,16 @@ class Package(CMakePackageBase):
 
         # Files to drop from the bundles
 
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_common.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_common.txt"))
 
         if CraftCore.compiler.isWindows:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_win.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_win.txt"))
 
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
         if CraftCore.compiler.isLinux:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_lin.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_lin.txt"))
 
         # Drop dbus support for non Linux target
 
@@ -278,7 +278,7 @@ class Package(CMakePackageBase):
         # Copy More application icons in Windows bundle.
 
         if CraftCore.compiler.isWindows:
-            if not utils.copyFile(os.path.join(self.packageDir(), "showfoto.ico"), os.path.join(self.archiveDir(), "showfoto.ico")):
+            if not utils.copyFile(os.path.join(self.blueprintDir(), "showfoto.ico"), os.path.join(self.archiveDir(), "showfoto.ico")):
                 print("Could not copy showfoto.ico file")
                 return False
 
@@ -446,7 +446,7 @@ class Package(CMakePackageBase):
 
             # Replace AppImage AppRun script by own one with advanced features.
 
-            if not utils.copyFile(os.path.join(self.packageDir(), "AppRun"), os.path.join(binPath, "AppRun.digiKam")):
+            if not utils.copyFile(os.path.join(self.blueprintDir(), "AppRun"), os.path.join(binPath, "AppRun.digiKam")):
                 print("Could not copy AppImage startup script")
                 return False
 

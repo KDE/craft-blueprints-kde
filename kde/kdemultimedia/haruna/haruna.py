@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/multimedia/haruna.git"
         self.defaultTarget = "0.12.1"
 
-        for ver in ["0.12.1","0.11.3", "0.10.3", "0.9.3"]:
+        for ver in ["0.12.1", "0.11.3", "0.10.3", "0.9.3"]:
             self.targets[ver] = f"https://download.kde.org/stable/haruna/haruna-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"haruna-{ver}"
             self.archiveNames[ver] = f"haruna-{ver}.tar.gz"
@@ -55,7 +55,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["executable"] = "bin\\haruna.exe"
 
-        self.defines["icon"] = os.path.join(self.packageDir(), "haruna.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "haruna.ico")
 
         self.defines["mimetypes"] = ["video/mkv", "video/mp4", "video/ogm", "video/avi"]
         self.defines["file_types"] = [".mkv", ".mp4", ".ogm", ".avi"]

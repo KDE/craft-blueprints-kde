@@ -1,6 +1,6 @@
 import info
-from Packager.CollectionPackagerBase import PackagerLists
 from Package.CMakePackageBase import CMakePackageBase
+from Packager.CollectionPackagerBase import PackagerLists
 
 
 class subinfo(info.infoclass):
@@ -36,7 +36,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        
+
         if self.options.dynamic.buildPHPImport:
             # for php support
             self.runtimeDependencies["extragear/kdevelop-pg-qt"] = None
@@ -52,7 +52,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["appname"] = "umbrello5"
         self.defines["executable"] = "bin\\umbrello5.exe"
-        # self.defines["icon"] = os.path.join(self.packageDir(), "umbrello.ico")
+        # self.defines["icon"] = os.path.join(self.blueprintDir(), "umbrello.ico")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")

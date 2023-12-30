@@ -60,7 +60,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/liblzma"] = None
 
 
-
 from Package.MesonPackageBase import *
 
 
@@ -82,7 +81,7 @@ class Package(MesonPackageBase):
             return False
         # must be called before we sign
         if CraftCore.compiler.isWindows:
-            manifest = os.path.join(self.packageDir(), "update-mime-database.exe.manifest")
+            manifest = os.path.join(self.blueprintDir(), "update-mime-database.exe.manifest")
             executable = os.path.join(self.installDir(), "bin", "update-mime-database.exe")
             utils.embedManifest(executable, manifest)
         return True

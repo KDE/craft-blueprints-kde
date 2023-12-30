@@ -29,10 +29,10 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
         self.defines["executable"] = r"bin\kdiff3.exe"
-        self.defines["icon"] = os.path.join(self.packageDir(), "kdiff3.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "kdiff3.ico")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")

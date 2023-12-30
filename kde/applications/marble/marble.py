@@ -39,8 +39,8 @@ class Package(CMakePackageBase):
         self.defines["productname"] = "Marble"
         self.defines["executable"] = "bin\\marble-qt.exe"
         self.defines["icon"] = os.path.join(self.sourceDir(), "data", "ico", "marble.ico")
-        self.defines["icon_png"] = os.path.join(self.packageDir(), "150-apps-marble.png")
-        self.defines["icon_png_44"] = os.path.join(self.packageDir(), "44-apps-marble.png")
+        self.defines["icon_png"] = os.path.join(self.blueprintDir(), "150-apps-marble.png")
+        self.defines["icon_png_44"] = os.path.join(self.blueprintDir(), "44-apps-marble.png")
         self.defines["shortcuts"] = [{"name": "Marble", "target": "bin\marble-qt.exe"}]
         self.defines["website"] = "https://marble.kde.org/"
 

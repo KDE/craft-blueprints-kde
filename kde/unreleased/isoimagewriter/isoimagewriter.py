@@ -52,5 +52,5 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["shortcuts"] = [{"name": "KDE ISO Image Writer", "target": "bin/isoimagewriter.exe", "description": self.subinfo.description}]
-        self.defines["icon"] = os.path.join(self.packageDir(), "isoimagewriter.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "isoimagewriter.ico")
         return super().createPackage()

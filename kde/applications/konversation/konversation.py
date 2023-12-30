@@ -41,11 +41,11 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         CMakePackageBase.__init__(self)
-        self.blacklist_file = [PackagerLists.runtimeBlacklist, os.path.join(self.packageDir(), "blacklist.txt")]
+        self.blacklist_file = [PackagerLists.runtimeBlacklist, os.path.join(self.blueprintDir(), "blacklist.txt")]
 
     def createPackage(self):
         self.defines["executable"] = "bin\\konversation.exe"
-        self.defines["icon"] = os.path.join(self.packageDir(), "konversation.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "konversation.ico")
 
         self.ignoredPackages.append("binary/mysql")
 

@@ -96,10 +96,10 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["appname"] = "labplot2"
 
-        self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist.txt"))
+        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
         # Some plugin files brake codesigning on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
         self.addExecutableFilter(r"bin/(?!(labplot|cantor_|QtWebEngineProcess)).*")
 
         # set env variables for AppImage run environment
@@ -110,7 +110,7 @@ class Package(CMakePackageBase):
         self.defines["shortcuts"] = [
             {"name": "LabPlot2", "target": "bin/labplot2.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\labplot2.ico"}
         ]
-        self.defines["icon"] = os.path.join(self.packageDir(), "labplot2.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "labplot2.ico")
         self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-labplot2.png")
         self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-labplot2.png")
         self.defines["icon_png_310"] = os.path.join(self.sourceDir(), "icons", "310-apps-labplot2.png")

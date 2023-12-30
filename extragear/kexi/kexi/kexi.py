@@ -50,11 +50,11 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         # TODO
-        # self.blacklist_file.append(os.path.join(self.packageDir(), 'blacklist.txt'))
+        # self.blacklist_file.append(os.path.join(self.blueprintDir(), 'blacklist.txt'))
         self.defines["executable"] = "bin\\kexi.exe"
-        # self.defines["icon"] = os.path.join(self.packageDir(), "kexi.ico")
+        # self.defines["icon"] = os.path.join(self.blueprintDir(), "kexi.ico")
         # TODO:  find a way to extend the default script
-        # self.scriptname = os.path.join(self.packageDir(), "NullsoftInstaller.nsi")
+        # self.scriptname = os.path.join(self.blueprintDir(), "NullsoftInstaller.nsi")
         # self.ignoredPackages.append("binary/mysql")
 
         return TypePackager.createPackage(self)

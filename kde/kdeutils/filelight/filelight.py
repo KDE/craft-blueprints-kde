@@ -39,9 +39,9 @@ class Package(CMakePackageBase):
         self.defines["executable"] = "bin\\filelight.exe"
 
         # filelight icons
-        self.defines["icon"] = os.path.join(self.packageDir(), "filelight.ico")
-        self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "150-apps-filelight.png")
-        self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "44-apps-filelight.png")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "filelight.ico")
+        self.defines["icon_png"] = os.path.join(self.blueprintDir(), ".assets", "150-apps-filelight.png")
+        self.defines["icon_png_44"] = os.path.join(self.blueprintDir(), ".assets", "44-apps-filelight.png")
 
         self.ignoredPackages.append("binary/mysql")
 

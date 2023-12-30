@@ -71,9 +71,9 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/llvm")
         if CraftCore.compiler.isWindows:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "win-blacklist.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "win-blacklist.txt"))
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.packageDir(), "mac-blacklist.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "mac-blacklist.txt"))
         self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF"]
 
     def make(self):
@@ -88,7 +88,7 @@ class Package(CMakePackageBase):
         # 	Defining Craft Directories
         buildDir = str(self.buildDir())
         sourceDir = str(self.sourceDir())
-        packageDir = str(self.packageDir())
+        packageDir = str(self.blueprintDir())
         imageDir = str(self.imageDir())
         craftRoot = str(CraftCore.standardDirs.craftRoot())
         craftLibDir = os.path.join(craftRoot, "lib")
@@ -114,17 +114,17 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["executable"] = "bin\\kstars.exe"
         # self.defines["setupname"] = "kstars-latest-win64.exe"
-        self.defines["icon"] = os.path.join(self.packageDir(), "kstars.ico")
+        self.defines["icon"] = os.path.join(self.blueprintDir(), "kstars.ico")
         # TODO: support dpi scaling
         # TODO: use assets from src with the next release
         # self.defines["icon_png"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Square150x150Logo.scale-100.png")
         # self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Square44x44Logo.scale-100.png")
         # self.defines["icon_png_310x150"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Wide310x150Logo.scale-100.png")
         # self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "packaging", "windows", "assets", "Square310x310Logo.scale-100.png")
-        self.defines["icon_png"] = os.path.join(self.packageDir(), ".assets", "Square150x150Logo.scale-100.png")
-        self.defines["icon_png_44"] = os.path.join(self.packageDir(), ".assets", "Square44x44Logo.scale-100.png")
-        self.defines["icon_png_310x150"] = os.path.join(self.packageDir(), ".assets", "Wide310x150Logo.scale-100.png")
-        self.defines["icon_png_310x310"] = os.path.join(self.packageDir(), ".assets", "Square310x310Logo.scale-100.png")
+        self.defines["icon_png"] = os.path.join(self.blueprintDir(), ".assets", "Square150x150Logo.scale-100.png")
+        self.defines["icon_png_44"] = os.path.join(self.blueprintDir(), ".assets", "Square44x44Logo.scale-100.png")
+        self.defines["icon_png_310x150"] = os.path.join(self.blueprintDir(), ".assets", "Wide310x150Logo.scale-100.png")
+        self.defines["icon_png_310x310"] = os.path.join(self.blueprintDir(), ".assets", "Square310x310Logo.scale-100.png")
         if isinstance(self, AppxPackager):
             self.defines["display_name"] = "KStars"
 

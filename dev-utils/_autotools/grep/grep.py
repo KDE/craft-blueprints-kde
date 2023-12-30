@@ -29,5 +29,5 @@ class Package(AutoToolsPackageBase):
 
     def createPackage(self):
         self.addExecutableFilter(r"bin/(?!(grep)).*")
-        self.blacklist_file.append(self.packageDir() / "blacklist.txt")
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         return super().createPackage()

@@ -136,10 +136,10 @@ class Package(CMakePackageBase):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("data/hunspell-dictionaries")
-        self.whitelist_file.append(os.path.join(self.packageDir(), "whitelist.txt"))
+        self.whitelist_file.append(os.path.join(self.blueprintDir(), "whitelist.txt"))
         # Certain plugin files defeat codesigning on mac, which is picky about file names
         if OsUtils.isMac():
-            self.blacklist_file.append(os.path.join(self.packageDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
         return TypePackager.createPackage(self)
 
