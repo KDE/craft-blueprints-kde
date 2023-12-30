@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
 
         for ver in ["3.0.5"]:
             # We need to use git tags because the GitHub release archives to not contain the submodules
-            self.svnTargets[ver] = f"https://github.com/sekrit-twc/zimg.git|release-{ver}"
+            self.svnTargets[ver] = f"https://github.com/sekrit-twc/zimg.git||release-{ver}"
 
         self.svnTargets["master"] = "https://github.com/sekrit-twc/zimg.git"
         self.defaultTarget = "3.0.5"
