@@ -1,22 +1,26 @@
 import info
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.description = "z image library"
-        self.svnTargets["20220622"] = "https://github.com/sekrit-twc/zimg.git||51c3c7f750c2af61955377faad56e3ba1b03589f"
-        self.defaultTarget = "20220622"
+        self.description = "z image library: scaling, colorspace conversion, and dithering library"
+
+        for ver in ["3.0.5"]:
+            # We need to use git tags because the GitHub release archives to not contain the submodules
+            self.svnTargets[ver] = f"https://github.com/sekrit-twc/zimg.git|release-{ver}"
+
+        self.svnTargets["master"] = "https://github.com/sekrit-twc/zimg.git"
+        self.defaultTarget = "3.0.5"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.AutoToolsPackageBase import *
-
-
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
+        self.subinfo.options.fetch.checkoutSubmodules = True
         # if self.package.isInstalled: # this is causing rebuild every time
         #     PackageBase.unmerge(self) # else build picks old incompatible includes
 
