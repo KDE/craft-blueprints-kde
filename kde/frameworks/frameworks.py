@@ -7,4 +7,4 @@ class Pattern(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.defaultTarget = "5.246.0"
+            self.subinfo.defaultTarget = "5.247.0"
