@@ -36,14 +36,14 @@ class subinfo(info.infoclass):
         # Fix Windows target version, see https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/399
         self.patchToApply["5.245.0"] += [("399.diff", 1)]
         self.patchToApply["5.246.1"] = [("399.diff", 1)]
-        self.patchToApply["5.247.0"] = [("399.diff", 1)]
+        self.patchToApply["5.246.1"] = [("399.diff", 1)]
         self.patchToApply["master"] = [("399.diff", 1)]
 
         self.patchLevel["5.110.0"] = 1
         self.patchLevel["5.245.0"] = 2
         self.patchLevel["master"] = 1
 
-        for mainver, ver in [("5.246.0", "5.246.1", "5.247.0")]:
+        for mainver, ver in [("5.246.0", "5.246.1")]:
             self.targets[ver] = f"https://download.kde.org/unstable/frameworks/{mainver}/extra-cmake-modules-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/unstable/frameworks/{mainver}/extra-cmake-modules-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"extra-cmake-modules-{ver}"
