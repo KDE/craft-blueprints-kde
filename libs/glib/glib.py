@@ -9,12 +9,12 @@ class subinfo(info.infoclass):
         )
 
     def setTargets(self):
-        for ver in ["2.78.1"]:
+        for ver in ["2.79.0"]:
             majorMinorStr = ".".join(ver.split(".")[0:2])
             self.targets[ver] = f"https://download.gnome.org/sources/glib/{majorMinorStr}/glib-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"glib-{ver}"
-        self.targetDigests["2.78.1"] = (["915bc3d0f8507d650ead3832e2f8fb670fce59aac4d7754a7dab6f1e6fed78b2"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "2.78.1"
+        self.targetDigests["2.79.0"] = (["d7ebde5505f5c4741a04ffe32f6927bd165b13caaabe18e962ddc58c811f84c9"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "2.79.0"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -37,7 +37,7 @@ from Package.MesonPackageBase import *
 
 class Package(MesonPackageBase):
     def __init__(self):
-        MesonPackageBase.__init__(self)
+        super().__init__()
         if self.subinfo.options.isActive("libs/dbus"):
             self.subinfo.options.configure.cflags += (
                 f"-I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'include/dbus-1.0')}"
