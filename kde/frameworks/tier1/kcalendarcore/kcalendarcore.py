@@ -8,6 +8,10 @@ class subinfo(info.infoclass):
 
         self.description = "The KDE calendar access library"
 
+        # Fix "no return statement in function returning non-void"
+        # https://invent.kde.org/frameworks/kcalendarcore/-/merge_requests/164
+        self.patchToApply["5.247.0"] = ("164.patch", 1)
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
