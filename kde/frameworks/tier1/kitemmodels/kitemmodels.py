@@ -8,6 +8,9 @@ class subinfo(info.infoclass):
 
         self.description = "KItemModels"
 
+        # Fix non-void return
+        self.patchToApply["2.47.0"] = [("e4d0b0bc6b110b3c942f66d209d9eff6999251c2.patch", 1)]
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
