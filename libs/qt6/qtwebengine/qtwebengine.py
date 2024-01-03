@@ -20,6 +20,11 @@ class subinfo(info.infoclass):
         self.patchLevel["6.4.0"] = 1
         self.patchToApply["6.5.3"] = [(".6.5.3", 1)]
         self.patchToApply["6.6.0"] = [(".6.5.3", 1)]
+        self.patchToApply["6.6.1"] = [
+            # while the patch is undocumented it apparently fixes
+            # qtwebengine-everywhere-src-6.6.1\src\3rdparty\chromium\third_party\highway\src\hwy\ops\emu128-inl.h(69) : fatal error C1002: compiler is out of heap space in pass 2
+            ("msvc-template.patch", 1),
+          ]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
@@ -64,9 +69,6 @@ class Package(CMakePackageBase):
             f"-DQT_FEATURE_webengine_system_lcms2=ON",
             f"-DQT_FEATURE_webengine_system_pulseaudio=OFF",
         ]
-        if CraftCore.compiler.isMSVC():
-            # Disable jumbo build to reduce memory consumption
-            self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_jumbo_build=0"]
         if (
             not CraftCore.compiler.isLinux
             and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2")
