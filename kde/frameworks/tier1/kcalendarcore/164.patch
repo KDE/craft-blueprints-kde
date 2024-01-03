@@ -1,7 +1,7 @@
 From 4ec6fe80680d2bfb9b9197fd3f5d4517f613cd9d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <jk.kdedev@smartlab.uber.space>
 Date: Wed, 3 Jan 2024 09:57:29 +0000
-Subject: [PATCH] Fix non-void return
+Subject: [PATCH 1/2] Fix non-void return
 
 ---
  autotests/incidencestest.cpp | 3 +++
@@ -85,6 +85,37 @@ index e2b02d5de..55925baf9 100644
 @@ -50,4 +51,5 @@ int main(int, char **)
      for (auto it = props.cbegin(); it != props.cend(); ++it) {
          qDebug() << it.key() << ": " << it.value();
+     }
++    return EXIT_SUCCESS;
+ }
+-- 
+GitLab
+
+
+From 7c040aef6bb54d713749f519009f7c134495fc90 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <jk.kdedev@smartlab.uber.space>
+Date: Wed, 3 Jan 2024 10:50:14 +0000
+Subject: [PATCH 2/2] Fix one more non-void return
+
+---
+ autotests/testtostring.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/autotests/testtostring.cpp b/autotests/testtostring.cpp
+index ec012eb04..716d97d30 100644
+--- a/autotests/testtostring.cpp
++++ b/autotests/testtostring.cpp
+@@ -12,6 +12,7 @@
+ #include <QDebug>
+ 
+ #include <iostream>
++#include <stdlib.h>
+ 
+ using namespace KCalendarCore;
+ 
+@@ -31,4 +32,5 @@ int main(int, char **)
+     } else {
+         qDebug() << "Could not read incidence";
      }
 +    return EXIT_SUCCESS;
  }
