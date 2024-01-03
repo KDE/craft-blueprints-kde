@@ -64,6 +64,9 @@ class Package(CMakePackageBase):
             f"-DQT_FEATURE_webengine_system_lcms2=ON",
             f"-DQT_FEATURE_webengine_system_pulseaudio=OFF",
         ]
+        if CraftCore.compiler.isMSVC():
+            # Lower the jumbo build value (default is 8) to reduce memory consumption
+            self.subinfo.options.configure.args += ["-DFEATURE_webengine_jumbo_build=4"]
         if (
             not CraftCore.compiler.isLinux
             and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2")
