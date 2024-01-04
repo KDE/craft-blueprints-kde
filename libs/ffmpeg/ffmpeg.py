@@ -88,6 +88,10 @@ class Package(AutoToolsPackageBase):
             "--enable-openssl",
         ]
 
+        if not CraftCore.compiler.isMacOS:
+            # Workaround linker bug with clang 15, see  https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/issues/140
+            self.subinfo.options.configure.ldflags += " -Wl,-ld_classic"
+
         if not CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["--enable-libmp3lame"]
         else:
