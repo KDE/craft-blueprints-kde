@@ -92,6 +92,9 @@ class Package(CMakePackageBase):
         jobs = int(CraftCore.settings.get("Compile", "Jobs", multiprocessing.cpu_count()))
         env = {"NINJAFLAGS": f"-j{int(jobs/2)}"}
         if CraftCore.compiler.isWindows:
+            # use a single job on windows, the ci fails with
+            # fatal error C1002: compiler is out of heap space in pass 2
+            env["NINJAFLAGS"] = "-j1"
             # shorten the path to python
             shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/").shortPath
             env["PATH"] = f"{shortDevUtils}/bin;{os.environ['PATH']}"
