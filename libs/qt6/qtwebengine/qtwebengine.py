@@ -24,6 +24,8 @@ class subinfo(info.infoclass):
             # while the patch is undocumented it apparently fixes
             # qtwebengine-everywhere-src-6.6.1\src\3rdparty\chromium\third_party\highway\src\hwy\ops\emu128-inl.h(69) : fatal error C1002: compiler is out of heap space in pass 2
             ("msvc-template.patch", 1),
+            # don't confuse gn
+            ("qtwebengine-6.6.1-20240105.diff", 1),
         ]
 
     def setDependencies(self):
@@ -31,6 +33,9 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/flexbison"] = None
         self.buildDependencies["dev-utils/nodejs"] = None
         self.buildDependencies["python-modules/html5lib"] = None
+
+        if CraftCore.compiler.isMSVC():
+            self.buildDependencies["libs/llvm"] = None
 
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
@@ -70,8 +75,13 @@ class Package(CMakePackageBase):
             f"-DQT_FEATURE_webengine_system_pulseaudio=OFF",
         ]
         if CraftCore.compiler.isMSVC():
-            # Disable jumbo build to reduce memory consumption
-            self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_jumbo_build=0"]
+            self.subinfo.options.configure.args += [
+                "-DCMAKE_CXX_COMPILER=clang-cl",
+                "-DCMAKE_C_COMPILER=clang-cl",
+                "-DCMAKE_C_LINK_EXECUTABLE=lld-link",
+                "-DCMAKE_CXX_LINK_EXECUTABLE=lld-link",
+            ]
+
         if (
             not CraftCore.compiler.isLinux
             and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2")
@@ -92,9 +102,6 @@ class Package(CMakePackageBase):
         jobs = int(CraftCore.settings.get("Compile", "Jobs", multiprocessing.cpu_count()))
         env = {"NINJAFLAGS": f"-j{int(jobs/2)}"}
         if CraftCore.compiler.isWindows:
-            # use a single job on windows, the ci fails with
-            # fatal error C1002: compiler is out of heap space in pass 2
-            env["NINJAFLAGS"] = "-j1"
             # shorten the path to python
             shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/").shortPath
             env["PATH"] = f"{shortDevUtils}/bin;{os.environ['PATH']}"

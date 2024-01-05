@@ -1,0 +1,14 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user qtwebengine-everywhere-src-6.6.1.orig/src/gn/CMakeLists.txt qtwebengine-everywhere-src-6.6.1/src/gn/CMakeLists.txt
+--- qtwebengine-everywhere-src-6.6.1.orig/src/gn/CMakeLists.txt	2023-11-20 17:08:07.000000000 +0100
++++ qtwebengine-everywhere-src-6.6.1/src/gn/CMakeLists.txt	2024-01-05 14:45:03.825905800 +0100
+@@ -31,10 +31,6 @@
+ 
+ if(WIN32)
+     set(GN_EXECUTABLE gn.exe)
+-    if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND NOT MINGW)
+-        # Use lld-link instead of clang-cl.
+-        set(GN_LINKER ${CMAKE_LINKER})
+-    endif()
+ else()
+     set(GN_EXECUTABLE gn)
+ endif()
