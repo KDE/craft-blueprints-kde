@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
             ("a05ac7eb6f6198c3f478bd7b5b4bfc062a8d63cc.patch", 1),  # llvm16
         ]
         self.patchLevel["1.11"] = 1
-        self.defaultTarget = "1.11"
+        self.defaultTarget = "master"
 
 
 class Package(CMakePackageBase):
