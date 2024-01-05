@@ -8,13 +8,15 @@ class subinfo(info.infoclass):
         self.options.dynamic.setDefault("buildType", "Release")
 
     def setTargets(self):
-        for ver in ["15.0.2", "15.0.7", "16.0.1"]:
+        for ver in ["15.0.2", "15.0.7", "16.0.1", "17.0.6"]:
             self.targets[ver] = f"https://github.com/llvm/llvm-project/releases/download/llvmorg-{ver}/llvm-project-{ver}.src.tar.xz"
             self.targetInstSrc[ver] = f"llvm-project-{ver}.src"
             self.targetConfigurePath[ver] = "llvm"
-            self.patchToApply[ver] = [("use-shim-for-symlink.diff", 1)]
+            self.patchToApply[ver] = []
         if CraftCore.compiler.isMSVC():
-            self.patchToApply[ver] += [("llvm-15.0.2-20221107.diff", 1), ("1b9fbc81ff15f6ad5a0e7f29c486c6edd0bce94c.patch", 1)]
+            self.patchToApply[ver] += [("llvm-15.0.2-20221107.diff", 1)]
+        self.patchToApply["16.0.1"] += [(".16.0.1", 1)]
+        self.patchToApply["17.0.6"] += [(".17.0.6", 1)]
         self.targetDigests["15.0.2"] = (
             ["7877cd67714728556a79e5ec0cc72d66b6926448cf73b12b2cb901b268f7a872"],
             CraftHash.HashAlgorithm.SHA256,
@@ -23,13 +25,17 @@ class subinfo(info.infoclass):
             ["ab7e3b95adb88fd5b669ca8c1d3c1e8d2a601c4478290d3ae31d8d70e96f2064"],
             CraftHash.HashAlgorithm.SHA256,
         )
+        self.targetDigests["17.0.6"] = (
+            ["58a8818c60e6627064f312dbf46c02d9949956558340938b71cf731ad8bc0813"],
+            CraftHash.HashAlgorithm.SHA256,
+        )
         self.patchLevel["15.0.2"] = 3
         self.patchLevel["16.0.1"] = 2
 
         self.description = "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines."
         self.webpage = "http://llvm.org/"
         self.tags = "clang, clang-tools-extra"
-        self.defaultTarget = "16.0.1"
+        self.defaultTarget = "17.0.6"
 
     def setDependencies(self):
         # workaround, ensure system clang is used to build bjam
@@ -68,6 +74,8 @@ class Package(CMakePackageBase):
             "-DLLVM_OPTIMIZED_TABLEGEN=ON",
             # Limit the maximum number of concurrent link jobs to 1. This should fix low amount of memory issue for link.
             "-DLLVM_PARALLEL_LINK_JOBS=1",
+            # we use kshimgen on Windows
+            "-DLLVM_USE_SYMLINKS=ON"
         ]
         # allow gcc < 5
         self.subinfo.options.configure.args += ["-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=ON"]
