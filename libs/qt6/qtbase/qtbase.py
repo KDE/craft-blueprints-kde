@@ -34,8 +34,11 @@ class subinfo(info.infoclass):
             for ver in ["6.6.0", "6.6.1"]:
                 self.patchToApply[ver] += [("qtbase-6.6.0-mingw-find-pcre2.diff", 1)]
 
+        # backport of https://codereview.qt-project.org/c/qt/qtbase/+/528067
+        self.patchToApply["6.6.0"] += [("android-fix-temporary-content-uri-access.diff", 1)]
+
         self.patchLevel["6.4.3"] = 4
-        self.patchLevel["6.6.0"] = 2
+        self.patchLevel["6.6.0"] = 3
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

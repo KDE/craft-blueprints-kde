@@ -25,17 +25,22 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kpeople"] = None
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
-        self.runtimeDependencies["kde/pim/kpeoplevcard"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt/qtconnectivity"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
+
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            # kpeoplevcard is merged into KPeople in KF6 (KPeople MR !45)
+            # Keep the dependency for old versions for now, so that we can build the Qt5 release branch until it's retired.
+            self.runtimeDependencies["kde/pim/kpeoplevcard"] = None
+
+            self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
+            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
 
 
 class Package(CMakePackageBase):
