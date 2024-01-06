@@ -17,6 +17,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["python-modules/meson"] = None
+        self.buildDependencies["dev-utils/nasm"] = None
 
 
 class Package(MesonPackageBase):
