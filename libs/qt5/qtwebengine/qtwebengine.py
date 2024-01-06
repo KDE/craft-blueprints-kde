@@ -78,6 +78,7 @@ class subinfo(info.infoclass):
             self.patchToApply[ver] += [
                 ("python3.patch", 1),
                 ("chromium-python3.patch", 1),
+                ("chromium-python3-macos.patch", 1),
                 ("python3.11.patch", 1),
                 ("disable-catapult.patch", 1),
                 ("0001-Fix-Windows-build-with-python3.patch", 1),
