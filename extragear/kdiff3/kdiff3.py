@@ -22,6 +22,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
 
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+             self.runtimeDependencies["libs/qt6/qt5compat"]
+             self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=ON"]
+        else:
+             self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=OFF"]
 
 class Package(CMakePackageBase):
     def __init__(self):
