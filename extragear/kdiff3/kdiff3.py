@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
              self.runtimeDependencies["libs/qt6/qt5compat"]
              self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=ON"]
-        else:
+        elif CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
              self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=OFF"]
 
 class Package(CMakePackageBase):
@@ -104,10 +104,6 @@ class Package(CMakePackageBase):
                     """
             )
         else:
-            # Windows app store has special requirements for the version format
-            # Craft attempts to alter the second and third number so we have to adjust to craft's logic as well.
-
-            self.defines["version"] = "1.0.110"
             self.defines[
                 "un_sections"
             ] = r"""
