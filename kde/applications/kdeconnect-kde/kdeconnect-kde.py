@@ -14,7 +14,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/openssl"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
@@ -33,11 +32,13 @@ class subinfo(info.infoclass):
 
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
+            self.runtimeDependencies["libs/openssl"] = None
 
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             # kpeoplevcard is merged into KPeople in KF6 (KPeople MR !45)
             # Keep the dependency for old versions for now, so that we can build the Qt5 release branch until it's retired.
             self.runtimeDependencies["kde/pim/kpeoplevcard"] = None
+            self.runtimeDependencies["kdesupport/qca"] = None
 
             self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
             self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None

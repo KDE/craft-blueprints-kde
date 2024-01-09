@@ -22,6 +22,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
 
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+             self.runtimeDependencies["libs/qt6/qt5compat"]
+             self.options.configure.args += ["-DBUILD_WITH_QT6=ON"]
+        elif CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+             self.options.configure.args += ["-DBUILD_WITH_QT6=OFF"]
 
 class Package(CMakePackageBase):
     def __init__(self):
@@ -99,10 +104,7 @@ class Package(CMakePackageBase):
                     """
             )
         else:
-            # Windows app store has special requirements for the version format
-            # Craft attempts to alter the second and third number so we have to adjust to craft's logic as well.
-
-            self.defines["version"] = "1.0.110"
+            self.defines["file_types"] = ["*"]
             self.defines[
                 "un_sections"
             ] = r"""
