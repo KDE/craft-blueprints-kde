@@ -24,9 +24,9 @@ class subinfo(info.infoclass):
 
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
              self.runtimeDependencies["libs/qt6/qt5compat"]
-             self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=ON"]
+             self.options.configure.args += ["-DBUILD_WITH_QT6=ON"]
         elif CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-             self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=OFF"]
+             self.options.configure.args += ["-DBUILD_WITH_QT6=OFF"]
 
 class Package(CMakePackageBase):
     def __init__(self):
@@ -104,6 +104,7 @@ class Package(CMakePackageBase):
                     """
             )
         else:
+            self.defines["file_types"] = ["*"]
             self.defines[
                 "un_sections"
             ] = r"""
