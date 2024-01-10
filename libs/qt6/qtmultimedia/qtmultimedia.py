@@ -6,8 +6,10 @@ from CraftCore import CraftCore
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply["6.6.0"] = [("qtmultimedia-android-suspend-crash-fix.diff", 1)]
+        for ver in ["6.6.0", "6.6.1"]:
+            self.patchToApply[ver] = [("qtmultimedia-android-suspend-crash-fix.diff", 1)]
         self.patchLevel["6.6.0"] = 4
+        self.patchLevel["6.6.1"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
