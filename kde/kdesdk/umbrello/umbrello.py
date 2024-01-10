@@ -1,7 +1,6 @@
 import info
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
-from Packager.CollectionPackagerBase import PackagerLists
 
 
 class subinfo(info.infoclass):

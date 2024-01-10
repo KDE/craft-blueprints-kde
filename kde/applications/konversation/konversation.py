@@ -2,7 +2,6 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from Package.CMakePackageBase import *
-from Packager.CollectionPackagerBase import PackagerLists
 
 
 class subinfo(info.infoclass):
@@ -41,7 +40,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
-        self.blacklist_file = [PackagerLists.runtimeBlacklist, self.blueprintDir() / "blacklist.txt"]
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):
         self.defines["executable"] = "bin\\konversation.exe"

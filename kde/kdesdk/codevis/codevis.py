@@ -1,5 +1,4 @@
 import info
-from Packager.CollectionPackagerBase import PackagerLists
 
 
 class subinfo(info.infoclass):

@@ -1,5 +1,4 @@
 import info
-from Packager.CollectionPackagerBase import PackagerLists
 
 
 class subinfo(info.infoclass):
@@ -37,7 +36,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
-        self.blacklist_file = [PackagerLists.runtimeBlacklist, os.path.join(os.path.dirname(__file__), "blacklist.txt")]
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):
         self.defines["executable"] = "bin\\okteta.exe"
