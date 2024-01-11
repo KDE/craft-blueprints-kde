@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
 
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-             self.runtimeDependencies["libs/qt6/qt5compat"]
+             self.runtimeDependencies["libs/qt6/qt5compat"] = None
              self.options.configure.args += ["-DBUILD_WITH_QT6=ON"]
         elif CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
              self.options.configure.args += ["-DBUILD_WITH_QT6=OFF"]

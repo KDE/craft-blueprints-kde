@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["python-modules/meson"] = None
-        self.runtimeDependencies["perl-modules/xml-parser"] = None
+        self.buildDependencies["perl-modules/xml-parser"] = None
         self.runtimeDependencies["libs/libsndfile"] = None
 
 
