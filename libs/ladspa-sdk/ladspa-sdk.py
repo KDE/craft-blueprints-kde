@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"ladspa_sdk_{ver}/src"
             self.patchToApply[ver] = ("ladspa-sdk-cmake.patch", 0)
         self.targetDigests["1.17"] = (["27d24f279e4b81bd17ecbdcc38e4c42991bb388826c0b200067ce0eb59d3da5b"], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["1.17"] = 1
         self.defaultTarget = "1.17"
 
     def setDependencies(self):

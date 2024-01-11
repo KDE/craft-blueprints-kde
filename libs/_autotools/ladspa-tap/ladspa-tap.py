@@ -1,6 +1,6 @@
 import info
 from CraftOS.osutils import OsUtils
-from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.MakeFilePackageBase import MakeFilePackageBase
 
 
 class subinfo(info.infoclass):
@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/ladspa-sdk"] = None
 
 
-class Package(AutoToolsPackageBase):
+class Package(MakeFilePackageBase):
     def __init__(self, **args):
         super().__init__()
         self.subinfo.options.useShadowBuild = False
