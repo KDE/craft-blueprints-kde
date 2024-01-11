@@ -1,4 +1,6 @@
 import info
+import utils
+from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
 from Package.MakeFilePackageBase import MakeFilePackageBase
 
@@ -35,3 +37,10 @@ class Package(MakeFilePackageBase):
 
     def configure(self):
         return True
+
+    def make(self):
+        env = {}
+        env["C_INCLUDE_PATH"] = CraftCore.standardDirs.craftRoot() / "include"
+
+        with utils.ScopedEnv(env):
+            return super().make()
