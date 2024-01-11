@@ -1,5 +1,6 @@
 import info
-from Package.AutoToolsPackageBase import *
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 
 class subinfo(info.infoclass):
@@ -15,6 +16,10 @@ class subinfo(info.infoclass):
         for ver in ["1.1.6", "1.1.8"]:
             if CraftCore.compiler.isMSVC():
                 self.patchToApply[ver] = [("readstat-1.1.6-compiler-flags.diff", 1)]
+
+        self.patchToApply["1.1.8"] = [("211c342a1cfe46fb7fb984730dd7a29ff4752f35.patch", 1)]
+        self.patchLevel["1.1.8"] = 1
+
         self.defaultTarget = "1.1.8"
 
     def setDependencies(self):
@@ -24,7 +29,7 @@ class subinfo(info.infoclass):
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
-        self.subinfo.options.configure.args = " --disable-shared"
+        super().__init__()
+        self.subinfo.options.configure.args += ["--disable-shared"]
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.make.supportsMultijob = False
