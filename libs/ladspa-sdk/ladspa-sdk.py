@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/libsndfile"] = None
         if CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/dlfcn-win32"] = None
 

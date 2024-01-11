@@ -76,7 +76,7 @@
 +mark_as_advanced(SNDFILE_INCLUDE_DIRS SNDFILE_LIBRARIES)
 --- /dev/null	2024-01-11 16:00:00.000000000 +0100
 +++ CMakeLists.txt	2024-01-11 16:00:00.000000000 +0100
-@@ -0,0 +1,38 @@
+@@ -0,0 +1,39 @@
 +cmake_minimum_required(VERSION 3.16)
 +
 +project(ladspa-sdk VERSION 1.17)
@@ -87,6 +87,7 @@
 +# Dl
 +find_package(Dl REQUIRED)
 +include_directories(${DL_INCLUDE_DIR})
++link_libraries(dl)
 +
 +# SndFile
 +find_package(SndFile REQUIRED)
