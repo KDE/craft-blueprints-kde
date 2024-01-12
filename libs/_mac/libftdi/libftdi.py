@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 import info
+import utils
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["1.4"]:
-            self.targets[ver] = "https://www.intra2net.com/en/developer/libftdi/download/libftdi1-%s.tar.bz2" % ver
-            self.archiveNames[ver] = "libftdi1-%s.tar.bz2" % ver
-            self.targetInstSrc[ver] = "libftdi1-" + ver
+            self.targets[ver] = f"https://www.intra2net.com/en/developer/libftdi/download/libftdi1-{ver}.tar.bz2"
+            self.archiveNames[ver] = f"libftdi1-{ver}.tar.bz2"
+            self.targetInstSrc[ver] = f"libftdi1-{ver}"
         self.description = "Library to talk to FTDI chips"
         self.defaultTarget = "1.4"
 
@@ -18,16 +21,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
-        root = str(CraftCore.standardDirs.craftRoot())
-        self.subinfo.options.configure.args = "-DPYTHON_BINDINGS=OFF -DEXAMPLES=OFF -DBUILD_TESTS=OFF"
-        # self.subinfo.options.configure.cflags = f"-I{root}/include"
-        # self.subinfo.options.configure.cxxflags = f"-I{root}/include"
+        self.subinfo.options.configure.args += ["-DPYTHON_BINDINGS=OFF", "-DEXAMPLES=OFF", "-DBUILD_TESTS=OFF"]
 
     def postQmerge(self):
         packageName = "libftdi1"

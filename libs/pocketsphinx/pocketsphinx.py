@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
+import re
+
 import info
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Lightweight speech recognition engine."
-        self.webpage = "http://cmusphinx.sourceforge.net/"
+        self.webpage = "https://cmusphinx.sourceforge.net/"
         self.displayName = "PocketSphinx"
         self.patchToApply["e40da77a85edbb5d79b92bf1dcb927d94e43e07d"] = [
             ("0001-fix-static-lapack-link.patch", 1),
@@ -17,18 +20,15 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/sphinxbase"] = None
 
 
-from Package.AutoToolsPackageBase import *
-
-
 class Package(AutoToolsPackageBase):
     def __init__(self):
         super().__init__()
-        self.subinfo.options.configure.args = "--enable-shared --disable-static --without-python"
+        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", "--without-python"]
 
     def configure(self):
         if not super().configure():
             return False
-        fileName = os.path.join(self.buildDir(), "Makefile")
+        fileName = self.buildDir() / "Makefile"
         with open(fileName, "rt") as f:
             content = f.read()
         with open(fileName, "wt") as f:

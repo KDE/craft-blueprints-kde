@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import info
-from Package.CMakePackageBase import *
+from CraftStandardDirs import CraftStandardDirs
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -17,4 +18,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
-        self.subinfo.options.configure.args = "-DQt5_DIR=%s -DBUILD_STANDALONE=OFF" % CraftStandardDirs.craftRoot()
+        self.subinfo.options.configure.args += [f"-DQt5_DIR={CraftStandardDirs.craftRoot()}", "-DBUILD_STANDALONE=OFF"]

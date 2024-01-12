@@ -1,10 +1,11 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["0.29.6", "0.30.0"]:
-            self.targets[ver] = "http://www.webdav.org/neon/neon-" + ver + ".tar.gz"
+            self.targets[ver] = f"https://www.webdav.org/neon/neon-{ver}.tar.gz"
             self.targetInstSrc[ver] = "neon-" + ver
         self.targetDigests["0.29.6"] = "ae1109923303f67ed3421157927bc4bc29c58961"
         self.patchToApply["0.29.6"] = [("neon-cmake.diff", 1)]
@@ -18,12 +19,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
 
         # do not install docs
-        self.subinfo.options.configure.args = "-DINSTALL_DOCS=OFF"
+        self.subinfo.options.configure.args += ["-DINSTALL_DOCS=OFF"]

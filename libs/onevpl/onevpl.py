@@ -1,4 +1,6 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -15,10 +17,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/nasm"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
-        self.subinfo.options.configure.args = "-DINSTALL_EXAMPLE_CODE=OFF -DBUILD_TOOLS=OFF -DENABLE_WAYLAND=OFF"
+        self.subinfo.options.configure.args += ["-DINSTALL_EXAMPLE_CODE=OFF", "-DBUILD_TOOLS=OFF", "-DENABLE_WAYLAND=OFF"]

@@ -6,7 +6,7 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://anongit.kde.org/peruse|master"
         self.defaultTarget = "master"
         self.description = "Peruse Comic Book Viewer and Creator"
-        self.webpage = "http://peruse.kde.org"
+        self.webpage = "https://peruse.kde.org"
         self.displayName = "Peruse Comic Book Viewer"
 
     def setDependencies(self):

@@ -1,11 +1,12 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/lastfm/liblastfm.git"
         for ver in ["1.0.0", "1.0.1", "1.0.2", "1.0.3", "1.0.8", "1.0.9"]:
-            self.targets[ver] = "https://github.com/lastfm/liblastfm/archive/%s.tar.gz" % ver
+            self.targets[ver] = f"https://github.com/lastfm/liblastfm/archive/{ver}.tar.gz"
             self.archiveNames[ver] = "liblastfm-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "liblastfm-%s" % ver
         self.targetDigests["1.0.0"] = "1947b1a6397ea188151572da33edc7699bf10164"
@@ -22,10 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libsamplerate"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
-        self.subinfo.options.configure.args = " -DBUILD_FINGERPRINT=OFF -DBUILD_TESTS=OFF"
+        self.subinfo.options.configure.args += ["-DBUILD_FINGERPRINT=OFF", "-DBUILD_TESTS=OFF"]

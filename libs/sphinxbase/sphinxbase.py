@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+import re
+
 import info
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 
 class subinfo(info.infoclass):
@@ -17,18 +20,15 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/lapack"] = None
 
 
-from Package.AutoToolsPackageBase import *
-
-
 class Package(AutoToolsPackageBase):
     def __init__(self):
         super().__init__()
-        self.subinfo.options.configure.args = "--enable-shared --disable-static --without-python"
+        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", "--without-python"]
 
     def configure(self):
         if not super().configure():
             return False
-        fileName = os.path.join(self.buildDir(), "Makefile")
+        fileName = self.buildDir() / "Makefile"
         with open(fileName, "rt") as f:
             content = f.read()
         with open(fileName, "wt") as f:

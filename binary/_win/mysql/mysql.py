@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
             self.setMySqlTargets()
 
     def setMariaDbTargets(self):
-        baseURL = "http://mariadb.kisiek.net/"
+        baseURL = "https://mariadb.kisiek.net/"
         ver = "10.2.12"
         arch = "x64" if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64 else "32"
         self.targets[ver] = f"{baseURL}mariadb-{ver}/win{arch}-packages/mariadb-{ver}-win{arch}.zip"

@@ -4,7 +4,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["0.2.0"] = "http://download.sourceforge.net/libwpg/libwpg-0.2.0.tar.bz2"
+        self.targets["0.2.0"] = "https://download.sourceforge.net/libwpg/libwpg-0.2.0.tar.bz2"
         self.targetInstSrc["0.2.0"] = "libwpg-0.2.0"
         self.patchToApply["0.2.0"] = ("libwpg-0.2.0-20110722.diff", 1)
 

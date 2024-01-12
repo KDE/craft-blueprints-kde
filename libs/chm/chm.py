@@ -1,21 +1,22 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["0.40"] = "http://www.jedrea.com/chmlib/chmlib-0.40.tar.bz2"
+        self.description = "a library for dealing with Microsoft ITSS/CHM format files"
+
+        for ver in ["0.40"]:
+            self.targets[ver] = f"https://www.jedrea.com/chmlib/chmlib-{ver}.tar.bz2"
+            self.targetInstSrc[ver] = f"chmlib-{ver}"
         self.patchToApply["0.40"] = ("chm-cmake.diff", 0)
         self.patchLevel["0.40"] = 1
-        self.targetInstSrc["0.40"] = "chmlib-0.40"
         self.targetDigests["0.40"] = "5231d7531e8808420d7f89fd1e4fdbac1ed7a167"
-        self.description = "a library for dealing with Microsoft ITSS/CHM format files"
+
         self.defaultTarget = "0.40"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
@@ -23,4 +24,4 @@ class Package(CMakePackageBase):
         super().__init__()
 
         # building examples and debugging tools
-        self.subinfo.options.configure.args = "-DBUILD_examples=OFF"
+        self.subinfo.options.configure.args += ["-DBUILD_examples=OFF"]

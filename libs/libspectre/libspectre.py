@@ -1,5 +1,8 @@
 import info
+from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -12,8 +15,8 @@ class subinfo(info.infoclass):
     def setTargets(self):
         """ """
         for ver in ["0.2.1", "0.2.6", "0.2.7", "0.2.8"]:
-            self.targets[ver] = "http://libspectre.freedesktop.org/releases/libspectre-" + ver + ".tar.gz"
-            self.targetInstSrc[ver] = "libspectre-" + ver
+            self.targets[ver] = f"https://libspectre.freedesktop.org/releases/libspectre-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"libspectre-{ver}"
         self.patchToApply["0.2.1"] = ("spectre-0.2.1-cmake.diff", 1)
         self.patchToApply["0.2.6"] = ("libspectre-0.2.6-20101117.diff", 1)
         if CraftCore.compiler.isWindows:
@@ -31,8 +34,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.CMakePackageBase import *
-
 if CraftCore.compiler.isWindows:
 
     class Package(CMakePackageBase):
@@ -45,4 +46,4 @@ else:
         def __init__(self, **args):
             super().__init__()
             self.subinfo.options.useShadowBuild = False
-            self.subinfo.options.configure.args = " --disable-static --enable-shared"
+            self.subinfo.options.configure.args += [" --disable-static", "--enable-shared"]

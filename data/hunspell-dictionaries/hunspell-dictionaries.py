@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         for ver in ["7.6.2.1"]:
             mainVersion = ".".join(ver.split(".")[:3])
             self.targets[ver] = f"https://download.documentfoundation.org/libreoffice/src/{mainVersion}/libreoffice-dictionaries-{ver}.tar.xz"
-            self.targetDigestUrls[ver] = f"http://download.documentfoundation.org/libreoffice/src/{mainVersion}/libreoffice-dictionaries-{ver}.tar.xz.sha256"
+            self.targetDigestUrls[ver] = f"https://download.documentfoundation.org/libreoffice/src/{mainVersion}/libreoffice-dictionaries-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"libreoffice-{ver}"
 
         self.webpage = "https://cgit.freedesktop.org/libreoffice/dictionaries/"

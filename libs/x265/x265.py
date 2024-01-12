@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["3.4", "3.5"]:
-            self.targets[ver] = f"http://deb.debian.org/debian/pool/main/x/x265/x265_{ver}.orig.tar.gz"
+            self.targets[ver] = f"https://deb.debian.org/debian/pool/main/x/x265/x265_{ver}.orig.tar.gz"
             self.targetInstSrc[ver] = f"x265_{ver}/source"
             self.patchToApply[ver] = [
                 ("disable-install-pdb.patch", 1)

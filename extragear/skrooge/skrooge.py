@@ -1,13 +1,15 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 from Packager.CollectionPackagerBase import PackagerLists
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://anongit.kde.org/skrooge|master"
         for ver in ["2.27.0"]:
-            self.targets[ver] = "https://download.kde.org/stable/skrooge/skrooge-" + ver + ".tar.xz"
-            self.targetInstSrc[ver] = "skrooge-%s" % ver
+            self.targets[ver] = f"https://download.kde.org/stable/skrooge/skrooge-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"skrooge-{ver}"
         self.targetDigests["2.27.0"] = (["c649745322440ce7983aaa977f7c2808331bf19c82d9ce428507431451116711"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "2.27.0"
         self.description = "personal finance manager for KDE"
@@ -34,13 +36,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
-        # self.subinfo.options.configure.args = "-DSKG_WEBENGINE=ON"
+        # self.subinfo.options.configure.args += ["-DSKG_WEBENGINE=ON"]
         self.blacklist_file = [
             PackagerLists.runtimeBlacklist,
             # os.path.join(self.blueprintDir(), 'blacklist.txt')
@@ -48,6 +47,6 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["website"] = "https://skrooge.org/"
-        # self.defines["icon"] = os.path.join(self.blueprintDir(), "skrooge.ico")
+        # self.defines["icon"] = self.blueprintDir() / "skrooge.ico"
 
         return super().createPackage()

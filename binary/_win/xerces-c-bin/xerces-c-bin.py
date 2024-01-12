@@ -7,7 +7,7 @@ from Package.BinaryPackageBase import *
 class subinfo(info.infoclass):
     def setTargets(self):
         for version in ["3.1.1"]:
-            self.targets[version] = "http://archive.apache.org/dist/xerces/c/3/binaries/xerces-c-3.1.1-x86-windows-vc-10.0.zip"
+            self.targets[version] = "https://archive.apache.org/dist/xerces/c/3/binaries/xerces-c-3.1.1-x86-windows-vc-10.0.zip"
         self.targetDigests["3.1.1"] = "34df759e1ffe4acce301887007cccb62f9496ea0"
 
         self.description = "A Validating XML Parser"

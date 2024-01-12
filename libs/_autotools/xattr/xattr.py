@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 # SPDX-FileCopyrightText: 2023 Julius Künzel <jk.kdedev@smartlab.uber.space>
 import info
-from Package.AutoToolsPackageBase import *
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -28,6 +29,6 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.dynamic.buildStatic = True
         self.subinfo.options.configure.ldflags += " -lintl"
         if self.subinfo.options.buildStatic:
-            self.subinfo.options.configure.args = "--enable-static=yes --enable-shared=no"
+            self.subinfo.options.configure.args += ["--enable-static=yes", "--enable-shared=no"]
         else:
-            self.subinfo.options.configure.args = "--enable-static=no --enable-shared=yes"
+            self.subinfo.options.configure.args += ["--enable-static=no", "--enable-shared=yes"]

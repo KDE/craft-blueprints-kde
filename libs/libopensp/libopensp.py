@@ -23,12 +23,17 @@
 # SUCH DAMAGE.
 
 import info
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["1.5.2"] = "https://downloads.sourceforge.net/project/openjade/opensp/1.5.2/OpenSP-1.5.2.tar.gz"
-        self.targetInstSrc["1.5.2"] = "OpenSP-1.5.2"
+        for ver in ["1.5.2"]:
+            self.targets[ver] = f"https://downloads.sourceforge.net/project/openjade/opensp/{ver}/OpenSP-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"OpenSP-{ver}"
+
         if CraftCore.compiler.isWindows:
             self.patchToApply["1.5.2"] = ("OpenSP-1.5.2-20110111.diff", 1)
         # elif CraftCore.compiler.isMinGW():
@@ -43,14 +48,10 @@ class subinfo(info.infoclass):
         #     self.buildDependencies["dev-utils/msys"] = None
 
 
-from Package.AutoToolsPackageBase import *
-from Package.CMakePackageBase import *
-
-
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
         super().__init__()
-        self.subinfo.options.configure.args = "--enable-shared --disable-static --disable-doc-build "
+        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", "--disable-doc-build"]
 
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.configure.noDataRootDir = True

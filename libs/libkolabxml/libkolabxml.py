@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import info
-from Package.CMakePackageBase import *
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["0.8.2", "0.8.4", "1.0.1"]:
-            self.targets[ver] = "http://git.kolab.org/libkolabxml/snapshot/libkolabxml-" + ver + ".tar.gz"
-            self.targetInstSrc[ver] = "libkolabxml-" + ver
+            self.targets[ver] = f"https://git.kolab.org/libkolabxml/snapshot/libkolabxml-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"libkolabxml-{ver}"
         self.patchToApply["0.8.2"] = [("libkolabxml-fixes.diff", 1)]
         self.patchToApply["0.8.4"] = [("libkolabxml-fixes.diff", 1)]
         self.patchToApply["1.0.1"] = [("libkolabxml-1.0.1-fixes.diff", 1)]
@@ -29,4 +29,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
-        self.subinfo.options.configure.args = "-DBUILD_TESTS=OFF"
+        self.subinfo.options.configure.args += ["-DBUILD_TESTS=OFF"]

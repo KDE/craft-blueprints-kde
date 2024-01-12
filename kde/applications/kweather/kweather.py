@@ -2,7 +2,9 @@
 # SPDX-FileCopyrightText: 2021 Tobias Fella <fella@posteo.de>
 
 import info
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -37,7 +39,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
-        self.subinfo.options.configure.args = " -DBUILD_PLASMOID=OFF"
+        self.subinfo.options.configure.args += ["-DBUILD_PLASMOID=OFF"]
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):

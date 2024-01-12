@@ -8,8 +8,8 @@ class subinfo(info.infoclass):
 
         self.description = "Codevis is a software to visualize large software architectures."
         self.displayName = "Codevis"
-        self.webpage = "http://invent.kde.org/sdk/codevis"
-        self.svnTargets["master"] = "http://invent.kde.org/sdk/codevis.git"
+        self.webpage = "https://invent.kde.org/sdk/codevis"
+        self.svnTargets["master"] = "https://invent.kde.org/sdk/codevis.git"
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

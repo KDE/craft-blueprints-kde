@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["3.1.1"]:
-            self.targets[ver] = "http://archive.apache.org/dist/xerces/c/3/sources/xerces-c-" + ver + ".tar.gz"
+            self.targets[ver] = "https://archive.apache.org/dist/xerces/c/3/sources/xerces-c-" + ver + ".tar.gz"
             self.targetInstSrc[ver] = "xerces-c-" + ver
         self.targetDigests["3.1.1"] = "177ec838c5119df57ec77eddec9a29f7e754c8b2"
 

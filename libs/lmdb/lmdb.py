@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["0.9.16"]:
-            self.targets[ver] = "https://github.com/LMDB/lmdb/archive/LMDB_" + ver + ".tar.gz"
+            self.targets[ver] = f"https://github.com/LMDB/lmdb/archive/LMDB_{ver}.tar.gz"
             self.targetInstSrc[ver] = "lmdb-LMDB_" + ver + "/libraries/liblmdb"
         self.patchToApply["0.9.16"] = [("lmdb-LMDB_0.9.16-20151004.diff", 3)]
         self.targetDigests["0.9.16"] = "367182e1d9dbc314db76459a71be719209f131b4"
@@ -18,10 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
-        self.subinfo.options.configure.args = "-DBUILD_TESTS=OFF -DBUILD_TOOLS=OFF -DBUILD_STATIC=OFF"
+        self.subinfo.options.configure.args += ["-DBUILD_TESTS=OFF", "-DBUILD_TOOLS=OFF", "-DBUILD_STATIC=OFF"]

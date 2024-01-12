@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import info
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -27,4 +29,4 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
 
-        self.subinfo.options.configure.args = "-DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DBUILD_OMEMO=ON"
+        self.subinfo.options.configure.args += ["-DBUILD_EXAMPLES=OFF", "-DBUILD_TESTS=OFF", "-DBUILD_OMEMO=ON"]

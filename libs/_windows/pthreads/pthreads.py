@@ -1,5 +1,6 @@
 import CraftCore
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -9,8 +10,8 @@ class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["2.8.0", "2.9.1"]:
             ver2 = ver.replace(".", "-")
-            self.targets[ver] = "ftp://sourceware.org/pub/pthreads-win32/pthreads-w32-" + ver2 + "-release.tar.gz"
-            self.targetInstSrc[ver] = "pthreads-w32-" + ver2 + "-release"
+            self.targets[ver] = f"ftp://sourceware.org/pub/pthreads-win32/pthreads-w32-{ver2}-release.tar.gz"
+            self.targetInstSrc[ver] = f"pthreads-w32-{ver2}-release"
 
         self.patchToApply["2.8.0"] = [("pthreads-w32-2-8-0-release-20110729.diff", 1)]
         self.patchToApply["2.9.1"] = [("pthreads-w32-2-9-1-release-20130901.diff", 1)]
@@ -24,11 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.CMakePackageBase import *
-from Package.VirtualPackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
-        self.subinfo.options.configure.args = " -DBUILD_TESTS=OFF"
+        self.subinfo.options.configure.args += ["-DBUILD_TESTS=OFF"]

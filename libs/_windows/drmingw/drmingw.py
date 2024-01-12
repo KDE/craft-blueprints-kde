@@ -1,5 +1,7 @@
 import info
-from Package.CMakePackageBase import *
+from CraftCompiler import CraftCompiler
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -10,9 +12,9 @@ class subinfo(info.infoclass):
         for ver in ["0.9.7"]:
             # self.targets[ver] = 'https://github.com/jrfonseca/drmingw/archive/' + ver + '.tar.gz'
             # self.targetInstSrc[ver] = 'drmingw-' + ver
-            # We need to use git instead of the tars, becuase at the moment
-            # the tars to not contain the git submodule that are required
-            self.svnTargets[ver] = "https://github.com/jrfonseca/drmingw.git||" + ver
+            # We need to use git instead of the tars, because at the moment
+            # the tars do not contain the git submodules that are required
+            self.svnTargets[ver] = f"https://github.com/jrfonseca/drmingw.git||{ver}"
         self.targetDigests["0.9.7"] = (["79f62ab2411b54021c71af7ed6c92487ec0019af61ecfe62a2466048402ec81e"], CraftHash.HashAlgorithm.SHA256)
 
         self.svnTargets["master"] = "https://github.com/jrfonseca/drmingw.git"
@@ -28,4 +30,4 @@ class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
         self.subinfo.options.fetch.checkoutSubmodules = True
-        self.subinfo.options.configure.args = " -DPOSIX_THREADS=ON "
+        self.subinfo.options.configure.args += ["-DPOSIX_THREADS=ON"]
