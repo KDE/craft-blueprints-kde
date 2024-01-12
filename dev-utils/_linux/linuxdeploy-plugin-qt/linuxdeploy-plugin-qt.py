@@ -1,16 +1,26 @@
 import stat
 from pathlib import Path
 
+import CraftCore
 import info
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["continous"] = "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage"
+        for ver in ["1-alpha-20240109-1"]:
+            self.targets[
+                ver
+            ] = f"https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/{ver}/linuxdeploy-plugin-qt-{CraftCore.compiler.appImageArchitecture}.AppImage"
+            # add version to file name to allow downloading multiple versions
+            self.archiveNames[ver] = f"linuxdeploy-plugin-appimage-{ver}-{CraftCore.compiler.appImageArchitecture}.AppImage"
+            self.targetInstallPath[ver] = "dev-utils/bin"
+        self.targets[
+            "continous"
+        ] = f"https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-{CraftCore.compiler.appImageArchitecture}.AppImage"
         self.targetInstallPath["continous"] = "dev-utils/bin"
         self.description = "AppDir creation and maintenance tool. Featuring flexible plugin system."
         self.webpage = "https://github.com/linuxdeploy/linuxdeploy"
-        self.defaultTarget = "continous"
+        self.defaultTarget = "1-alpha-20240109-1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
