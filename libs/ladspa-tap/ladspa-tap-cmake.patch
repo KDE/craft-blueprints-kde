@@ -13,7 +13,7 @@
 +# m
 +link_libraries(m)
 +
-+if(NOT APPLE)
++if(NOT APPLE AND NOT WIN32)
 +    link_libraries(rt)
 +endif()
 +
