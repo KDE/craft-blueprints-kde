@@ -15,12 +15,14 @@ run-tests:
   script:
     - cd /tmp/craft_test
     - craftBranch=master
+    - echo "CI_COMMIT_REF_NAME=$CI_COMMIT_REF_NAME"
     - |
-      if [ $CI_COMMIT_REF_NAME = "dev" ]; then
+      if [ "$CI_COMMIT_REF_NAME" = "dev" ]; then
         craftBranch=dev
       fi
+    - echo "CI_MERGE_REQUEST_TARGET_BRANCH_NAME=$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
     - |
-      if [ $CI_MERGE_REQUEST_TARGET_BRANCH_NAME = "dev" ]; then
+      if [ "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" = "dev" ]; then
         craftBranch=dev
       fi
     - echo "Going to checkout branch $craftBranch of craft-core"
