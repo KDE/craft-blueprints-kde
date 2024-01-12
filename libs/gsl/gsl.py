@@ -27,7 +27,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         # AMPL not needed (avoid submodule ASL dependency)
         self.subinfo.options.configure.args += ["-DGSL_DISABLE_TESTS=ON", "-DNO_AMPL_BINDINGS=ON"]
         if CraftCore.compiler.isMSVC():

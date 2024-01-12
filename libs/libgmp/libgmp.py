@@ -52,7 +52,7 @@ from Package.VirtualPackageBase import *
 
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.shell.useMSVCCompatEnv = True
         self.subinfo.options.package.withCompiler = False
         self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--enable-cxx", "--with-pic", "--with-readline=no"]

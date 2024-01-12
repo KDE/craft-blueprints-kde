@@ -84,7 +84,7 @@ from Packager.AppImagePackager import AppImagePackager
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["-DFETCH_TRANSLATIONS=ON"]
 
         if CraftCore.compiler.isMacOS:
@@ -122,10 +122,10 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".kmy", ".ofx", ".qfx", ".qif", ".csv"]
         self.defines["website"] = "https://kmymoney.org/"
 
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
         self.ignoredPackages.append("binary/mysql")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

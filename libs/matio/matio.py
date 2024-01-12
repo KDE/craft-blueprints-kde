@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.dynamic.buildTests = False
         self.subinfo.options.dynamic.buildStatic = False
 
@@ -33,4 +33,4 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args = [f"-DHDF5_DIR={hdf5dir}"]
 
     def createPackage(self):
-        return TypePackager.createPackage(self)
+        return super().createPackage()

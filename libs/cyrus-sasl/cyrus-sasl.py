@@ -5,7 +5,9 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def registerOptions(self):
         # cyrus-sasl on MinGW does not work out of the box. It needs someone how cares
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+        self.parent.package.categoryInfo.platforms = (
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+        )
 
     def setTargets(self):
         for ver in ["2.1.26", "2.1.28"]:
@@ -27,7 +29,7 @@ class subinfo(info.infoclass):
 
 class CMakePackage(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["-DSTATIC_LIBRARY=OFF"]
 
 
@@ -36,7 +38,7 @@ from Package.AutoToolsPackageBase import *
 
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.bootstrap = True
         self.subinfo.options.configure.args += ["--disable-macos-framework"]
 

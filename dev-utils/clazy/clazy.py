@@ -31,7 +31,7 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.supportsClang = False
         if CraftCore.compiler.isMSVC():
             clangLib = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "craft_clang_plugins.lib")

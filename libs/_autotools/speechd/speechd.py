@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["dev-utils/libtool"] = None # For ltdl
+        self.runtimeDependencies["dev-utils/libtool"] = None  # For ltdl
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/glib"] = None
         self.runtimeDependencies["libs/dotconf"] = None
@@ -34,5 +34,5 @@ from Package.AutoToolsPackageBase import *
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.ldflags += " -lintl"

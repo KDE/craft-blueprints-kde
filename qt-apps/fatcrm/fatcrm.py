@@ -33,12 +33,12 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
     def createPackage(self):
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\fatcrm.exe"
         self.defines["license"] = os.path.join(self.sourceDir(), "LICENSE.GPL.txt")
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.ignoredPackages.append("binary/mysql")
-        return TypePackager.createPackage(self)
+        return super().createPackage()

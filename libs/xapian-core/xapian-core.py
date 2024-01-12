@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]
         if CraftCore.compiler.isMSVC():
             self.shell.useMSVCCompatEnv = True

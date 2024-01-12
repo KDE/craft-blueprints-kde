@@ -40,7 +40,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args = ["-DGAMMARAY_INSTALL_QT_LAYOUT=ON", "-DGAMMARAY_BUILD_DOCS=OFF"]
 
         nultiBuild = CraftPackageObject.get("libs/qt/qtbase").subinfo.options.dynamic.buildReleaseAndDebug
@@ -59,4 +59,4 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(self.sourceDir(), "ui", "resources", "gammaray", "GammaRay.ico")
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
-        return TypePackager.createPackage(self)
+        return super().createPackage()

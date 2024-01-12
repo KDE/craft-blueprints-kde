@@ -46,7 +46,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
     def createPackage(self):
         # TODO
@@ -57,4 +57,4 @@ class Package(CMakePackageBase):
         # self.scriptname = os.path.join(self.blueprintDir(), "NullsoftInstaller.nsi")
         # self.ignoredPackages.append("binary/mysql")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

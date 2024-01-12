@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.blacklist_file.append(os.path.join(os.path.dirname(__file__), "blacklist.txt"))
 
     def createPackage(self):
@@ -32,4 +32,4 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("kde/frameworks/kemoticons")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

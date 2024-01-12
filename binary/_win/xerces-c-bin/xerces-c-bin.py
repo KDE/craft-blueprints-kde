@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
 
 class PackageBin(BinaryPackageBase):
     def __init__(self):
-        BinaryPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.package.withCompiler = False
         self.subinfo.options.package.withSources = False
 
@@ -46,4 +46,4 @@ else:
 
     class Package(VirtualPackageBase):
         def __init__(self):
-            VirtualPackageBase.__init__(self)
+            super().__init__()

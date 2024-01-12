@@ -23,7 +23,7 @@ from Package.AutoToolsPackageBase import *
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.useShadowBuild = False
         prefix = str(self.shell.toNativePath(CraftCore.standardDirs.craftRoot()))
         self.subinfo.options.configure.autoreconf = False

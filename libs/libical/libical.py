@@ -30,7 +30,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["-DUSE_BUILTIN_TZDATA=ON", "-DICAL_UNIX_NEWLINE=OFF", "-DICAL_GLIB=OFF"]
         if self.subinfo.options.buildStatic:
             self.subinfo.options.configure.args += ["-DSTATIC_ONLY=ON"]

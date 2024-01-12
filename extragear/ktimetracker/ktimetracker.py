@@ -52,6 +52,6 @@ class Package(CMakePackageBase):
         self.defines["executable"] = "bin\\ktimetracker.exe"
         self.defines["icon"] = os.path.join(self.blueprintDir(), "ktimetracker.ico")
 
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
         return super().createPackage()

@@ -21,7 +21,7 @@ from Package.BinaryPackageBase import *
 
 class Package(BinaryPackageBase):
     def __init__(self, **args):
-        BinaryPackageBase.__init__(self)
+        super().__init__()
 
     def install(self):
         if not super().install():

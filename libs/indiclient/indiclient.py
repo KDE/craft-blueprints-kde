@@ -27,7 +27,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args = (
             "-DINDI_BUILD_SERVER=OFF -DINDI_BUILD_DRIVERS=OFF -DINDI_BUILD_CLIENT=ON -DINDI_BUILD_QT5_CLIENT=OFF -DINDI_BUILD_SHARED=OFF"
         )

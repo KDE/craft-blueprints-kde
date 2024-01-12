@@ -23,9 +23,10 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.registerOption("buildPrograms", not CraftCore.compiler.isAndroid)
 
+
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += [
             "-DZSTD_LEGACY_SUPPORT=ON",
             "-DZSTD_MULTITHREAD_SUPPORT=ON",

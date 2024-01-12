@@ -51,13 +51,16 @@ class Package(CMakePackageBase):
             utils.system(["install_name_tool", "-add_rpath", craftLibDir, library])
 
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.package.disableStriping = True
         root = str(CraftCore.standardDirs.craftRoot())
         craftLibDir = os.path.join(root, "lib")
         # Avalon Universal Drivers is off because we do not have recipe yet for libzmq3 library.
         self.subinfo.options.configure.args = (
-            "-DCMAKE_INSTALL_PREFIX=" + root + " -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_AVALONUD=Off -DCMAKE_MACOSX_RPATH=1 -DCMAKE_INSTALL_RPATH=" + craftLibDir
+            "-DCMAKE_INSTALL_PREFIX="
+            + root
+            + " -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_AVALONUD=Off -DCMAKE_MACOSX_RPATH=1 -DCMAKE_INSTALL_RPATH="
+            + craftLibDir
         )
 
     def install(self):

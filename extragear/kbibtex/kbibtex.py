@@ -35,7 +35,7 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
     def createPackage(self):
         self.defines["productname"] = "KBibTeX"
@@ -43,4 +43,4 @@ class Package(CMakePackageBase):
         self.defines["executable"] = "bin\\kbibtex.exe"
         self.defines["icon"] = os.path.join(self.blueprintDir(), "kbibtex.ico")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

@@ -34,7 +34,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
         # tests fail to build with missing openssl header
         self.subinfo.options.configure.args = ["-DBUILD_TESTS=OFF"]

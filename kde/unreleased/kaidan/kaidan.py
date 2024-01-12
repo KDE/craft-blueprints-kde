@@ -42,7 +42,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
         self.subinfo.options.fetch.checkoutSubmodules = True
 
@@ -52,4 +52,4 @@ class Package(CMakePackageBase):
 
         self.defines["executable"] = r"bin\kaidan.exe"
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

@@ -48,7 +48,7 @@ from Package.AutoToolsPackageBase import *
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
 
     def install(self):
         self.subinfo.options.make.supportsMultijob = False

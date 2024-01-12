@@ -56,13 +56,13 @@ class subinfo(info.infoclass):
 # warning: empty sqlite3.h can prevent successfull build
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--enable-tempstore=yes"]
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.make.supportsMultijob = False
             self.subinfo.options.configure.args += ["CFLAGS='-DSQLITE_HAS_CODEC'"]
         else:
-            self.subinfo.options.configure.args += ['CFLAGS=-DSQLITE_HAS_CODEC']
+            self.subinfo.options.configure.args += ["CFLAGS=-DSQLITE_HAS_CODEC"]
 
     def configure(self):
         isConfigured = super().configure()

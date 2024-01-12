@@ -30,4 +30,4 @@ from Package.MesonPackageBase import *
 
 class Package(MesonPackageBase):
     def __init__(self, **args):
-        MesonPackageBase.__init__(self)
+        super().__init__()

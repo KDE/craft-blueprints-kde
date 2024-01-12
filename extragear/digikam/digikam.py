@@ -152,7 +152,7 @@ from Utils import GetFiles
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.dynamic.buildTests = False
 
         if CraftCore.compiler.isLinux:
@@ -272,7 +272,7 @@ class Package(CMakePackageBase):
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()
 
     def preArchive(self):
         # Copy More application icons in Windows bundle.

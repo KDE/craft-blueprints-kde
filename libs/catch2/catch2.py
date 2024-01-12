@@ -15,8 +15,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"Catch2-{ver}"
 
         # 3.4.0
-        self.targetDigests["3.4.0"] = (["122928b814b75717316c71af69bd2b43387643ba076a6ec16e7882bfb2dfacbb"],
-                                        CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.4.0"] = (["122928b814b75717316c71af69bd2b43387643ba076a6ec16e7882bfb2dfacbb"], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "3.4.0"
 
@@ -26,4 +25,4 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()

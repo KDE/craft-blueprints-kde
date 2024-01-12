@@ -36,5 +36,5 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args = ["-DEXPORT_C_API=ON", "-DENABLE_SHARED=ON", "-DENABLE_ASSEMBLY=ON", "-DENABLE_CLI=OFF"]

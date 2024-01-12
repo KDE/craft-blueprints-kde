@@ -66,7 +66,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         CMakePackageBase.buildTests = False
 
     def createPackage(self):
@@ -78,9 +78,9 @@ class Package(CMakePackageBase):
             {"name": "Calligra Words", "target": "bin/calligrawords.exe"},
             {"name": "Calligra Karbon", "target": "bin/karbon.exe"},
         ]
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

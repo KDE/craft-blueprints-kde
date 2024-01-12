@@ -29,10 +29,10 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
@@ -43,4 +43,4 @@ class Package(CMakePackageBase):
         self.defines["shortcuts"] = [{"name": "Step", "target": "bin/step.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\step.ico"}]
         self.defines["icon"] = os.path.join(self.blueprintDir(), "step.ico")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

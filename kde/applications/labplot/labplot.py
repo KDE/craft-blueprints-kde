@@ -85,7 +85,7 @@ from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["-DLOCAL_DBC_PARSER=ON", "-DLOCAL_VECTOR_BLF=ON"]
         if CraftCore.compiler.isMacOS:
             # readstat fails with ninja
@@ -96,7 +96,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["appname"] = "labplot2"
 
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         # Some plugin files brake codesigning on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
@@ -161,4 +161,4 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".lml"]
 
         self.ignoredPackages.append("binary/mysql")
-        return TypePackager.createPackage(self)
+        return super().createPackage()

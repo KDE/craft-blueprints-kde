@@ -46,7 +46,7 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         if CraftCore.compiler.isMacOS:
             # Add APPLE_IN_APP_BUNDLE flag to enable private DBus, when packing by Craft
             self.subinfo.options.configure.args += ["-DAPPLE_IN_APP_BUNDLE=ON"]
@@ -55,7 +55,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DWITH_PULSEAUDIO=OFF"]
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.addExecutableFilter(
             r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioslave|SnoreToast).*)"
         )
@@ -140,7 +140,7 @@ class Package(CMakePackageBase):
             self.defines["icon_png_310x310"] = os.path.join(self.blueprintDir(), ".assets", "Square310x310Logo.scale-100.png")
 
         self.ignoredPackages.append("binary/mysql")
-        return TypePackager.createPackage(self)
+        return super().createPackage()
 
     def preArchive(self):
         archiveDir = self.archiveDir()

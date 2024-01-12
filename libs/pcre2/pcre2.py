@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.dynamic.buildStatic = False
         self.subinfo.options.configure.args += ["-DPCRE2_BUILD_PCRE2_16=ON", "-DPCRE2_BUILD_PCRE2_32=ON"]
         if CraftCore.compiler.isAndroid:

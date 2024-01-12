@@ -24,7 +24,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.supportsNinja = False
         self.subinfo.options.configure.args += [
             "-DENABLE_FLOAT=ON",

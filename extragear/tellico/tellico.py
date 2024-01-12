@@ -44,7 +44,7 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
     def createPackage(self):
         self.defines["appname"] = "tellico"
@@ -57,4 +57,4 @@ class Package(CMakePackageBase):
 
         # self.blacklist_file.append(os.path.join(self.blueprintDir(), 'blacklist.txt'))
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

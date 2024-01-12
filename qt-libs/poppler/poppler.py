@@ -78,7 +78,7 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         # we use -DRUN_GPERF_IF_PRESENT=OFF to avoid running in gperf issues on windows during linking
         self.subinfo.options.configure.args += [
             "-DENABLE_XPDF_HEADERS=ON",
@@ -114,5 +114,10 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DENABLE_BOOST=" + ("ON" if self.subinfo.options.isActive("libs/boost/boost-headers") else "OFF")]
 
         # Craft doesn't compile NSS and gpgme with mingw
-        self.subinfo.options.configure.args += ["-DENABLE_NSS3=" + ("ON" if (self.subinfo.options.isActive("libs/nss") and not CraftCore.compiler.isMinGW()) else "OFF")]
-        self.subinfo.options.configure.args += ["-DENABLE_GPGME=" + ("ON" if (self.subinfo.options.isActive("libs/gpgme") and not CraftCore.compiler.isMinGW() and not CraftCore.compiler.isAndroid) else "OFF")]
+        self.subinfo.options.configure.args += [
+            "-DENABLE_NSS3=" + ("ON" if (self.subinfo.options.isActive("libs/nss") and not CraftCore.compiler.isMinGW()) else "OFF")
+        ]
+        self.subinfo.options.configure.args += [
+            "-DENABLE_GPGME="
+            + ("ON" if (self.subinfo.options.isActive("libs/gpgme") and not CraftCore.compiler.isMinGW() and not CraftCore.compiler.isAndroid) else "OFF")
+        ]

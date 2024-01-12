@@ -30,7 +30,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         root = str(CraftCore.standardDirs.craftRoot())
         craftLibDir = os.path.join(root, "lib")
         self.subinfo.options.configure.args = (
@@ -45,4 +45,4 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(self.blueprintDir(), "StellarSolverInstallIcon.ico")
         if isinstance(self, AppxPackager):
             self.defines["display_name"] = "StellarSolverTester"
-        return TypePackager.createPackage(self)
+        return super().createPackage()

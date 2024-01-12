@@ -22,7 +22,7 @@ from Package.BoostPackageBase import *
 
 class Package(BoostPackageBase):
     def __init__(self, **args):
-        BoostPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.package.packSources = True
         # we can't cache this as we might need the src for the uncached boost modules
         self.subinfo.options.package.disableBinaryCache = True

@@ -29,7 +29,7 @@ if not CraftCore.compiler.isGCCLike():
 
     class Package(CMakePackageBase):
         def __init__(self, **args):
-            CMakePackageBase.__init__(self)
+            super().__init__()
             self.subinfo.options.dynamic.buildTests = False
             self.subinfo.options.dynamic.buildStatic = False
             self.subinfo.options.configure.args += ["-DENABLE_ZLIB_COMPRESSION=ON", "-DBUILD_EXAMPLES=OFF"]
@@ -38,7 +38,7 @@ else:
 
     class Package(AutoToolsPackageBase):
         def __init__(self, **args):
-            AutoToolsPackageBase.__init__(self)
+            super().__init__()
             # configure.ac:129: error: m4_undefine: undefined macro: backend
             self.subinfo.options.configure.autoreconf = False
             self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]

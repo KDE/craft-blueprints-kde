@@ -24,7 +24,7 @@ from Package.MesonPackageBase import *
 
 class Package(MesonPackageBase):
     def __init__(self, **args):
-        MesonPackageBase.__init__(self)
+        super().__init__()
         if CraftCore.compiler.isMacOS:
             # disable neon on arm64 https://gitlab.freedesktop.org/pixman/pixman/-/issues/59
             self.subinfo.options.configure.args += ["-Da64-neon=disabled"]

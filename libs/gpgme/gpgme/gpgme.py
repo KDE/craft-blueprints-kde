@@ -51,7 +51,7 @@ if not CraftCore.compiler.isMSVC():
 
     class Package(AutoToolsPackageBase):
         def __init__(self, **args):
-            AutoToolsPackageBase.__init__(self)
+            super().__init__()
             self.subinfo.options.configure.args += ["--disable-gpg-test"]
             if not self.subinfo.options.dynamic.enableCPP:
                 self.subinfo.options.configure.args += ["--enable-languages=no"]
@@ -80,4 +80,4 @@ else:
 
     class Package(BinaryPackageBase):
         def __init__(self, **args):
-            BinaryPackageBase.__init__(self)
+            super().__init__()

@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
 
 class Package(BinaryPackageBase):
     def __init__(self):
-        BinaryPackageBase.__init__(self)
+        super().__init__()
 
     def postInstall(self):
         return utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "grep.exe"), os.path.join(self.installDir(), "bin", "grep.exe"))

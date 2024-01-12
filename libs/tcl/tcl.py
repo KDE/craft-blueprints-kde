@@ -50,7 +50,7 @@ class subinfo(info.infoclass):
 
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--enable-threads", "--enable-64bit"]
 

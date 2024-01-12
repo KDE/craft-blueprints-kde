@@ -30,7 +30,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
         # ensure the more recent PCRE2 is used, per default it will pick up PCRE1 if found otherwise
         self.subinfo.options.configure.args += ["-DBUILD_CLAR=OFF", "-DREGEX_BACKEND=pcre2"]

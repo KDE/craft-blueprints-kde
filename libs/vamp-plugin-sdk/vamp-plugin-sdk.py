@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
 
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
 
 
 class PackageMSVC(MSBuildPackageBase):

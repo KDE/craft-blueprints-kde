@@ -51,7 +51,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.supportsClang = False
         self.subinfo.options.configure.args += [
             "-DLLVM_ENABLE_PROJECTS=clang;clang-tools-extra;lld",
@@ -75,7 +75,7 @@ class Package(CMakePackageBase):
             # Limit the maximum number of concurrent link jobs to 1. This should fix low amount of memory issue for link.
             "-DLLVM_PARALLEL_LINK_JOBS=1",
             # we use kshimgen on Windows
-            "-DLLVM_USE_SYMLINKS=ON"
+            "-DLLVM_USE_SYMLINKS=ON",
         ]
         # allow gcc < 5
         self.subinfo.options.configure.args += ["-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=ON"]

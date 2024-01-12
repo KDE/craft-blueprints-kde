@@ -49,7 +49,7 @@ class subinfo(info.infoclass):
 
 class Package(BinaryPackageBase):
     def __init__(self):
-        BinaryPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.package.disableStriping = True
         self.subinfo.options.package.packSources = False
 

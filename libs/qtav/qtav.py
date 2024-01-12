@@ -30,5 +30,5 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["-DBUILD_EXAMPLES=OFF", "-DBUILD_PLAYERS=OFF", "-DBUILD_TESTS=OFF"]

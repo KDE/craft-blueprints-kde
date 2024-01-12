@@ -35,9 +35,10 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/lua"] = None
 
+
 class Package(MesonPackageBase):
     def __init__(self, **args):
-        MesonPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["-Drubberband=disabled", "-Dlibmpv=true"]
 
         if CraftCore.compiler.isAndroid:

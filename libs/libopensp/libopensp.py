@@ -49,7 +49,7 @@ from Package.CMakePackageBase import *
 
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args = "--enable-shared --disable-static --disable-doc-build "
 
         if CraftCore.compiler.isMinGW():
@@ -72,4 +72,4 @@ else:
 
     class Package(CMakePackageBase):
         def __init__(self):
-            CMakePackageBase.__init__(self)
+            super().__init__()

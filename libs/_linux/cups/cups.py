@@ -28,19 +28,23 @@ from Package.AutoToolsPackageBase import *
 
 class Package(AutoToolsPackageBase):
     def __init__(self):
-        AutoToolsPackageBase.__init__(self)
-        #autoheader: warning: missing template: CUPS_DEFAULT_ACCESS_LOG_LEVEL
+        super().__init__()
+        # autoheader: warning: missing template: CUPS_DEFAULT_ACCESS_LOG_LEVEL
         # autoheader: warning: Use AC_DEFINE([CUPS_DEFAULT_ACCESS_LOG_LEVEL], [], [Description])
         # autoheader: warning: missing template: HAVE_ABS
         # autoheader: warning: missing template: HAVE_MALLINFO
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.useShadowBuild = False
-        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared",
-                                                "--with-cupsd-file-perm=0755","--with-exe-file-perm=755", "--with-log-file-perm=0640"]
+        self.subinfo.options.configure.args += [
+            "--disable-static",
+            "--enable-shared",
+            "--with-cupsd-file-perm=0755",
+            "--with-exe-file-perm=755",
+            "--with-log-file-perm=0640",
+        ]
         self.subinfo.options.install.args = ["install-headers", "install-libs"]
 
     def install(self):
         if not super().install():
             return False
         return utils.copyFile(self.buildDir() / "cups-config", self.imageDir() / "bin/cups-config")
-

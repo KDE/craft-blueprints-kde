@@ -29,7 +29,7 @@ from Package.CMakePackageBase import *
 
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args = ["--enable-shared"]
         if CraftCore.compiler.isMacOS:
             # attempting to build and install the png files will fail on MacOS
@@ -38,7 +38,7 @@ class PackageAutoTools(AutoToolsPackageBase):
 
 class PackageCMake(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["-DBUILD_TOOLS=OFF"]
 
 

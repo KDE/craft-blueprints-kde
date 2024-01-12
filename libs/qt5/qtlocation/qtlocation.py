@@ -29,7 +29,7 @@ from Package.Qt5CorePackageBase import *
 
 class Package(Qt5CorePackageBase):
     def __init__(self, **args):
-        Qt5CorePackageBase.__init__(self)
+        super().__init__()
         if not self.subinfo.options.dynamic.enableProprietaryPlugins:
             self.subinfo.options.dynamic.featureArguments += [
                 "-no-feature-geoservices_esri",

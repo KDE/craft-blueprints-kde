@@ -30,7 +30,7 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.contrib = CraftPackageObject.get("libs/opencv/opencv_contrib").instance
         self.subinfo.options.configure.args += [
             f"-DOPENCV_EXTRA_MODULES_PATH={OsUtils.toUnixPath(self.contrib.sourceDir() / 'modules')}",

@@ -13,4 +13,4 @@ class subinfo(info.infoclass):
 
 class Package(VirtualPackageBase):
     def __init__(self):
-        VirtualPackageBase.__init__(self)
+        super().__init__()

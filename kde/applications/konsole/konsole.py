@@ -35,7 +35,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
     def createPackage(self):
         self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(konsole|update-mime-database|kioslave|kdeinit5)).*")

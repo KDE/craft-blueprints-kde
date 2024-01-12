@@ -19,7 +19,7 @@ from Package.BoostPackageBase import *
 
 class Package(BoostPackageBase):
     def __init__(self, **args):
-        BoostPackageBase.__init__(self)
+        super().__init__()
 
     def install(self):
         src = CraftPackageObject.get("libs/boost/boost-headers").instance.sourceDir() / "tools/build/src/engine"

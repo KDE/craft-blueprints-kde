@@ -23,7 +23,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         root = str(CraftCore.standardDirs.craftRoot())
         self.subinfo.options.configure.args = "-DPYTHON_BINDINGS=OFF -DEXAMPLES=OFF -DBUILD_TESTS=OFF"
         # self.subinfo.options.configure.cflags = f"-I{root}/include"

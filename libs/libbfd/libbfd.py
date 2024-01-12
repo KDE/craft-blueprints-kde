@@ -22,7 +22,7 @@ from Package.VirtualPackageBase import *
 
 class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args = "--with-system-zlib "
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.configure.autoreconf = False
@@ -38,4 +38,4 @@ else:
 
     class Package(VirtualPackageBase):
         def __init__(self):
-            VirtualPackageBase.__init__(self)
+            super().__init__()

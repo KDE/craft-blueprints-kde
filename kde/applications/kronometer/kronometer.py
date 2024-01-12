@@ -25,7 +25,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
     def createPackage(self):
         self.defines["productname"] = "Kronometer"
@@ -37,4 +37,4 @@ class Package(CMakePackageBase):
         self.defines["website"] = "https://apps.kde.org/en/kronometer"
 
         self.addExecutableFilter(r"bin/(?!(kronometer)).*")
-        return TypePackager.createPackage(self)
+        return super().createPackage()

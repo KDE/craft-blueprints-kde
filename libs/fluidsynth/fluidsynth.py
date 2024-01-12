@@ -26,6 +26,6 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         # dbus support needs a small patch on windows but I have no idea why you would want dbus here
         self.subinfo.options.configure.args = "-DLIB_SUFFIX='' -Denable-dbus=OFF"

@@ -21,11 +21,11 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
     def createPackage(self):
         self.defines["executable"] = "bin\\falkon.exe"
 
         self.ignoredPackages.append("binary/mysql")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

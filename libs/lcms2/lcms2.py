@@ -28,7 +28,7 @@ if not CraftCore.compiler.isWindows:
 
     class Package(AutoToolsPackageBase):
         def __init__(self):
-            AutoToolsPackageBase.__init__(self)
+            super().__init__()
 
         def configure(self):
             if CraftCore.compiler.isAndroid:
@@ -43,7 +43,7 @@ else:
 
     class Package(CMakePackageBase):
         def __init__(self):
-            CMakePackageBase.__init__(self)
+            super().__init__()
             if self.subinfo.options.buildStatic:
                 self.subinfo.options.configure.args += ["-DBUILD_STATIC=ON", "-DBUILD_TESTS=ON", "-DBUILD_UTILS=ON"]
             else:

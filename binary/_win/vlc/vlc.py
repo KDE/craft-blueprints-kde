@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
 
 class Package(BinaryPackageBase):
     def __init__(self):
-        BinaryPackageBase.__init__(self)
+        super().__init__()
 
     def install(self):
         utils.copyDir(self.sourceDir(), os.path.join(self.installDir(), "bin"))

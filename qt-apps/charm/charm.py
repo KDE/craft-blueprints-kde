@@ -28,18 +28,18 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         if self.subinfo.buildTarget != "master":
             self.subinfo.options.configure.args = f"-DCharm_VERSION={self.subinfo.buildTarget}"
         if self.subinfo.options.dynamic.update_check_url:
             self.subinfo.options.configure.args += [f"-DUPDATE_CHECK_URL={self.subinfo.options.dynamic.update_check_url}"]
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\Charm.exe"
         self.defines["license"] = os.path.join(self.sourceDir(), "License.txt")
         self.defines["icon"] = os.path.join(self.sourceDir(), "Charm", "Icons", "Charm.ico")
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
-        return TypePackager.createPackage(self)
+        return super().createPackage()

@@ -57,7 +57,7 @@ class subinfo(info.infoclass):
 
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         # gtk-doc is missing
         self.subinfo.options.configure.autoreconf = not CraftCore.compiler.isWindows
         # 2018-02-11: without --enable-openssl-compatibility xmlmerge.exe from gwenhywfar doesn't display any console output and in effect doesn't allow compilation of aqbanking
@@ -89,4 +89,4 @@ else:
 
     class Package(VirtualPackageBase):
         def __init__(self):
-            VirtualPackageBase.__init__(self)
+            super().__init__()

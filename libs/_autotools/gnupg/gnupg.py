@@ -36,7 +36,7 @@ class subinfo(info.infoclass):
 
         self.targetDigests["2.4.3"] = (["a271ae6d732f6f4d80c258ad9ee88dd9c94c8fdc33c3e45328c4d7c126bd219d"], CraftHash.HashAlgorithm.SHA256)
 
-        self.patchToApply["2.4.3"] = [("fix-disabled-ldap.patch",1)]
+        self.patchToApply["2.4.3"] = [("fix-disabled-ldap.patch", 1)]
         self.patchLevel["2.4.3"] = 1
 
         self.defaultTarget = "2.4.3"
@@ -60,7 +60,7 @@ from Package.AutoToolsPackageBase import *
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += ["--disable-doc"]
 

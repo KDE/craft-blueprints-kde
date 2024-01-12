@@ -35,7 +35,7 @@ from Packager.AppImagePackager import AppImagePackager
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.fetch.checkoutSubmodules = True
 
     def setDefaults(self, defines: {str: str}) -> {str: str}:
@@ -50,6 +50,6 @@ class Package(CMakePackageBase):
             {"name": "Peruse Creator", "target": "bin//perusecreator.exe"},
         ]
         self.defines["icon"] = os.path.join(os.path.dirname(__file__), "peruse.ico")
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

@@ -5,7 +5,9 @@ from Package.CMakePackageBase import *
 class subinfo(info.infoclass):
     def registerOptions(self):
         # netcdf on MinGW does not work out of the box. It is a dependency of labplot which uses MSVC anyways. Needs someone how cares.
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+        self.parent.package.categoryInfo.platforms = (
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+        )
 
     def setTargets(self):
         self.svnTargets["master"] = "[git]https://github.com/Unidata/netcdf-c.git"
@@ -40,7 +42,7 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.dynamic.buildTests = False
         self.subinfo.options.dynamic.buildStatic = False
 
@@ -56,4 +58,4 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ['-DCMAKE_C_FLAGS="/D_WIN32"', f"-DPACKAGE_VERSION={self.subinfo.buildTarget}"]
 
     def createPackage(self):
-        return TypePackager.createPackage(self)
+        return super().createPackage()

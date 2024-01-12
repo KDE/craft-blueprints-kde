@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["-DDISCOUNT_ONLY_LIBRARY=ON"]
         if CraftCore.compiler.isWindows:
             self.subinfo.options.dynamic.buildStatic = True

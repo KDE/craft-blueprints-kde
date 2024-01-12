@@ -22,7 +22,7 @@ from Package.BinaryPackageBase import *
 
 class Package(BinaryPackageBase):
     def __init__(self, **args):
-        BinaryPackageBase.__init__(self)
+        super().__init__()
 
     def postInstall(self):
         dev_utils = Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/bin"

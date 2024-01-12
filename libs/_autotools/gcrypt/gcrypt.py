@@ -23,5 +23,5 @@ from Package.AutoToolsPackageBase import *
 
 class Package(AutoToolsPackageBase):
     def __init__(self):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--disable-asm", "--disable-padlock-support"]

@@ -12,16 +12,15 @@ class subinfo(info.infoclass):
                     self.patchToApply[ver] = []
                 elif ver == "kde/5.15":
                     self.patchToApply[ver] = [
-                        ("android-30-permissions.diff", 1), # Ensures that correct permissions are checked depending on sdk version
+                        ("android-30-permissions.diff", 1),  # Ensures that correct permissions are checked depending on sdk version
                     ]
                 elif qtVer >= "5.15.2":
                     self.patchToApply[ver] = [
-                        ("android-30-permissions.diff", 1), # Ensures that correct permissions are checked depending on sdk version
+                        ("android-30-permissions.diff", 1),  # Ensures that correct permissions are checked depending on sdk version
                     ]
             self.patchLevel["5.15.2"] = 1
             self.patchLevel["5.15.5"] = 1
             self.patchLevel["kde/5.15"] = 1
-
 
     def setDependencies(self):
         if CraftCore.compiler.isAndroid:
@@ -34,4 +33,4 @@ from Package.Qt5CorePackageBase import *
 
 class Package(Qt5CorePackageBase):
     def __init__(self, **args):
-        Qt5CorePackageBase.__init__(self)
+        super().__init__()

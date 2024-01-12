@@ -44,7 +44,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
     def setDefaults(self, defines: {str: str}) -> {str: str}:
         defines = super().setDefaults(defines)
@@ -55,7 +55,7 @@ class Package(CMakePackageBase):
         return defines
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
         self.addExecutableFilter(r"bin/(?!(kate|update-mime-database|kioslave)).*")
@@ -89,4 +89,4 @@ class Package(CMakePackageBase):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
-        return TypePackager.createPackage(self)
+        return super().createPackage()

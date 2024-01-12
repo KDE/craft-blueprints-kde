@@ -45,11 +45,11 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.dynamic.buildTests = False
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["shortcuts"] = [{"name": "NeoChat", "target": "bin/neochat.exe", "appId": "neochat", "icon": self.buildDir() / "src/NEOCHAT_ICON.ico"}]
         self.defines["icon"] = self.buildDir() / "src/NEOCHAT_ICON.ico"
         # set the icons for the appx bundle

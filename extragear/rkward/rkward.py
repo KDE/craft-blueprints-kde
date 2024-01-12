@@ -68,7 +68,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
         if OsUtils.isWin():
             # Usually found, automatically, but make extra sure, never to pick up a separate installation of R
@@ -141,7 +141,7 @@ class Package(CMakePackageBase):
         if OsUtils.isMac():
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()
 
     def reinplace(self, filename, old, new):
         CraftCore.log.info(f"patching {old} -> {new} in {filename}")

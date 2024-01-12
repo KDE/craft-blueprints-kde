@@ -24,7 +24,7 @@ from Package.MakeFilePackageBase import *
 
 class Package(MakeFilePackageBase):
     def __init__(self, **args):
-        MakeFilePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.useShadowBuild = False
 
     def configure(self):

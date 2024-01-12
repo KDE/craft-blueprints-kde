@@ -27,13 +27,13 @@ class subinfo(info.infoclass):
 
 class PackageCMake(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_HarfBuzz=TRUE", "-DDISABLE_FORCE_DEBUG_POSTFIX=ON", "-DFT_REQUIRE_BROTLI=ON"]
 
 
 class PackageMSys(AutoToolsPackageBase):
     def __init__(self):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-harfbuzz=off", "--with-brotli=on"]
 

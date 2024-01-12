@@ -39,7 +39,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["-DUSE_QT_WEBENGINE=OFF ", "-DCOMPILE_TESTS=OFF "]
 
     def createPackage(self):
@@ -53,10 +53,10 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".lks"]
         self.defines["alias"] = "codevis"
 
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")
         self.ignoredPackages.append("kde/frameworks/kemoticons")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

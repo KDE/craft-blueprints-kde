@@ -56,7 +56,7 @@ from Packager.AppxPackager import AppxPackager
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         # if CraftCore.compiler.isWindows:
         # self.subinfo.options.make.supportsMultijob = False
 
@@ -75,7 +75,7 @@ class Package(CMakePackageBase):
             ]
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         # Some plugins files break code signing on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
@@ -98,4 +98,4 @@ class Package(CMakePackageBase):
 
         # see labplot.py for more
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

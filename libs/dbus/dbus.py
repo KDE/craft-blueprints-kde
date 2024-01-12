@@ -55,7 +55,7 @@ from Package.CMakePackageBase import *
 
 class PackageCMake(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args = ["-DDBUS_BUILD_TESTS=OFF", "-DDBUS_ENABLE_XML_DOCS=OFF"]
 
         if self.buildType() == "Debug":
@@ -97,7 +97,7 @@ from Package.AutoToolsPackageBase import *
 
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += [
             "--disable-dependency-tracking",

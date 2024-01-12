@@ -27,9 +27,9 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
-        disableSSE = (CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64)
+        disableSSE = CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64
 
         self.subinfo.options.configure.args = [
             "-DBUILD_STATIC=OFF",

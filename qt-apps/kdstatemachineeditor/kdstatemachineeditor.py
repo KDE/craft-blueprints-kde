@@ -36,7 +36,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += ["-DWITH_INTERNAL_GRAPHVIZ=OFF", "-DCMAKE_DISABLE_FIND_PACKAGE_Graphviz=ON"]
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.subinfo.options.configure.args += ["-DBUILD_QT6=ON"]

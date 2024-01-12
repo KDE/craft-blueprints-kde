@@ -22,7 +22,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         root = str(CraftCore.standardDirs.craftRoot())
         craftLibDir = os.path.join(root, "lib")
         # both examples and tests can be run here

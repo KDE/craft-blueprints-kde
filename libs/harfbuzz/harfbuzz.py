@@ -20,6 +20,6 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.dynamic.buildStatic = False
         self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS=-DHB_NO_PRAGMA_GCC_DIAGNOSTIC_ERROR=1"]

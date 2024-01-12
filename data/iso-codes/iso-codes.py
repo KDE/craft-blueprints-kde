@@ -29,7 +29,7 @@ from Package.AutoToolsPackageBase import *
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
 
     def postInstall(self):
         # remove deprecated and unused XML copy of the JSON data

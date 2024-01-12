@@ -29,7 +29,7 @@ from Package.BinaryPackageBase import *
 # http://cran.r-project.org/doc/manuals/R-admin.html#Installing-R-under-Windows for details.
 class Package(BinaryPackageBase):
     def __init__(self):
-        BinaryPackageBase.__init__(self)
+        super().__init__()
         # don't use shortcut to unpack into imageDir()
         self.buildSystemType = "custom"
         # create combined package

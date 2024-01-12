@@ -124,7 +124,7 @@ class subinfo(info.infoclass):
 
 class Package(Qt5CorePackageBase):
     def __init__(self, **args):
-        Qt5CorePackageBase.__init__(self)
+        super().__init__()
         self._qtVer = None
         self.__qtBaseEnv = None
 

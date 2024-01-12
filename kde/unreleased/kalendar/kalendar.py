@@ -36,5 +36,5 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.defines["executable"] = r"bin\kalendar.exe"

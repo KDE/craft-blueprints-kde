@@ -19,6 +19,6 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         # Make sure we get a .pc, even on Windows, as we'll be looking for it
         self.subinfo.options.configure.args += ["-DOPENEXR_INSTALL_PKG_CONFIG=ON"]

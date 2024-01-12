@@ -19,7 +19,6 @@ class subinfo(info.infoclass):
         self.targetInstSrc["2.6"] = "leo_sutic-bigsh0t-d973312f2c1f"
         self.patchToApply["2.6"] = [("cmake-install-plugins-2.6.diff", 1)]
 
-
         self.defaultTarget = "2.6"
 
     def setDependencies(self):
@@ -31,4 +30,4 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self, **args):
-        CMakePackageBase.__init__(self)
+        super().__init__()

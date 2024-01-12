@@ -25,4 +25,4 @@ from Package.Qt5CorePackageBase import *
 
 class Package(Qt5CorePackageBase):
     def __init__(self, **args):
-        Qt5CorePackageBase.__init__(self)
+        super().__init__()

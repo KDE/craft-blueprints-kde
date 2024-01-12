@@ -48,7 +48,7 @@ class Package(CMakePackageBase):
             utils.system(["install_name_tool", "-add_rpath", craftLibDir, library])
 
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         root = str(CraftCore.standardDirs.craftRoot())
         craftLibDir = os.path.join(root, "lib")
         self.subinfo.options.configure.args = (

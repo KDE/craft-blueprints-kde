@@ -14,4 +14,4 @@ class subinfo(info.infoclass):
 
 class Package(PipPackageBase):
     def __init__(self, **args):
-        PipPackageBase.__init__(self)
+        super().__init__()

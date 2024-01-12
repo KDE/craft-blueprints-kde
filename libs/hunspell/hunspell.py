@@ -18,8 +18,6 @@ class subinfo(info.infoclass):
         else:
             self.targetDigests["1.7.2"] = (["11ddfa39afe28c28539fe65fc4f1592d410c1e9b6dd7d8a91ca25d85e9ec65b8"], CraftHash.HashAlgorithm.SHA256)
 
-
-
         self.description = "Hunspell is the spell checker of LibreOffice, OpenOffice.org, Mozilla Firefox 3 & Thunderbird, Google Chrome, and it is also used by proprietary software packages, like macOS, InDesign, memoQ, Opera and SDL Trados."
         self.webpage = "http://hunspell.github.io/"
         self.defaultTarget = "1.7.2"
@@ -62,7 +60,7 @@ from Package.AutoToolsPackageBase import *
 
 class PackageGNU(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.bootstrap = True
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.configure.autoreconf = False

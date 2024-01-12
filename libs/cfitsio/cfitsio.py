@@ -22,6 +22,6 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["-DUSE_CURL=OFF"]

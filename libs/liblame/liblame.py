@@ -26,14 +26,14 @@ if CraftCore.compiler.isGCCLike():
 
     class Package(AutoToolsPackageBase):
         def __init__(self, **args):
-            AutoToolsPackageBase.__init__(self)
+            super().__init__()
             self.subinfo.options.configure.args = " --disable-static --disable-gtktest --disable-frontend --enable-nasm "
 
 else:
 
     class Package(MakeFilePackageBase):
         def __init__(self):
-            MakeFilePackageBase.__init__(self)
+            super().__init__()
             self.subinfo.options.useShadowBuild = False
             self.subinfo.options.make.supportsMultijob = False
             self.subinfo.options.make.args += f"-f Makefile.MSVC dll comp=msvc GTK=NO CRAFT_ARCH=x{CraftCore.compiler.bits}"

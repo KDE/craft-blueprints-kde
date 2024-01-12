@@ -59,7 +59,7 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         # together with the patch based on https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/qtwebengine-6.5.2-r1.ebuild
         self.subinfo.options.configure.args += [
             "-DQT_FEATURE_qtwebengine_build=ON",

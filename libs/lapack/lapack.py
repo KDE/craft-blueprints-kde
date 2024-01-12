@@ -22,7 +22,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.dynamic.buildTests = False
         self.subinfo.options.configure.args += ["-DCMAKE_SKIP_RPATH=ON", "-DLAPACKE_WITH_TMG=ON", "-DCBLAS=ON", "-DBUILD_DEPRECATED=ON"]
         # mingw-w64 (gfortran) 8.1 includes only static libgfortran and fails to build dll

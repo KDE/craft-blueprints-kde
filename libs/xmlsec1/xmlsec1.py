@@ -50,7 +50,7 @@ from Package.VirtualPackageBase import *
 
 class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args = " --enable-shared --disable-static --without-openssl --disable-crypto-dl"
         self.subinfo.options.configure.ldflags += "-lgcrypt "
 
@@ -65,4 +65,4 @@ else:
 
     class Package(VirtualPackageBase):
         def __init__(self):
-            VirtualPackageBase.__init__(self)
+            super().__init__()

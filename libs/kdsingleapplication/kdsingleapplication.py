@@ -27,7 +27,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         if self.subinfo.options.dynamic.buildTests:
             self.subinfo.options.configure.args += ["-DKDSingleApplication_TESTS=ON"]
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":

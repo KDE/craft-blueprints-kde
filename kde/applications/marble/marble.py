@@ -32,7 +32,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args = "-DBUILD_MARBLE_TESTS=OFF -DWITH_KF5=OFF"
 
     def createPackage(self):
@@ -46,4 +46,4 @@ class Package(CMakePackageBase):
 
         self.addExecutableFilter(r"bin/(?!(marble-qt|QtWebEngineProcess)).*")
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

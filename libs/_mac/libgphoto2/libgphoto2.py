@@ -35,7 +35,7 @@ class Package(AutoToolsPackageBase):
             utils.system(["install_name_tool", "-add_rpath", craftLibDir, library])
 
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         prefix = str(self.shell.toNativePath(CraftCore.standardDirs.craftRoot()))
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.useShadowBuild = False

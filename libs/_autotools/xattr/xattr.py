@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **args):
-        AutoToolsPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.dynamic.buildStatic = True
         self.subinfo.options.configure.ldflags += " -lintl"
         if self.subinfo.options.buildStatic:

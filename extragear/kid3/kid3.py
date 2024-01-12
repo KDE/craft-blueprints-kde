@@ -31,7 +31,7 @@ class subinfo(info.infoclass):
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.args += [
             "-DWITH_ID3LIB=OFF",
             "-DWITH_VORBIS=OFF",
@@ -50,7 +50,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.package.movePluginsToBin = False
 
     def createPackage(self):
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["executable"] = "kid3.exe"
         self.defines["icon"] = os.path.join(self.sourceDir(), "src", "app", "qt", "kid3.ico")
         return super().createPackage()

@@ -67,7 +67,7 @@ from Packager.AppxPackager import AppxPackager
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/llvm")
         if CraftCore.compiler.isWindows:
@@ -128,4 +128,4 @@ class Package(CMakePackageBase):
         if isinstance(self, AppxPackager):
             self.defines["display_name"] = "KStars"
 
-        return TypePackager.createPackage(self)
+        return super().createPackage()

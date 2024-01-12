@@ -50,7 +50,7 @@ from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self):
-        CMakePackageBase.__init__(self)
+        super().__init__()
 
     def createPackage(self):
         self.defines["executable"] = "bin\\elisa.exe"
@@ -62,7 +62,7 @@ class Package(CMakePackageBase):
         self.defines["mimetypes"] = ["audio/mpeg", "audio/mp4"]
         self.defines["file_types"] = [".mp3", ".ogg", ".m4a", ".flac", ".wav", ".m3u", ".opus"]
 
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
