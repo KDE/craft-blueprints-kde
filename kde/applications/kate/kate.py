@@ -46,14 +46,6 @@ class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
 
-    def setDefaults(self, defines: {str: str}) -> {str: str}:
-        defines = super().setDefaults(defines)
-        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
-            defines["runenv"] += [
-                "LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH",
-            ]
-        return defines
-
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isMacOS:

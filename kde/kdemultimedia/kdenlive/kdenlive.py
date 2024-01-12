@@ -83,7 +83,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         if OsUtils.isLinux() and isinstance(self, AppImagePackager):
             defines["runenv"] += [
                 "PACKAGE_TYPE=appimage",
-                "LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH",
                 "MLT_REPOSITORY=$this_dir/usr/lib/mlt-7/",
                 "MLT_DATA=$this_dir/usr/share/mlt-7/",
                 "MLT_ROOT_DIR=$this_dir/usr/",

@@ -38,12 +38,6 @@ class Package(CMakePackageBase):
         super().__init__()
         self.subinfo.options.fetch.checkoutSubmodules = True
 
-    def setDefaults(self, defines: {str: str}) -> {str: str}:
-        defines = super().setDefaults(defines)
-        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
-            defines["runenv"] += ["LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH"]
-        return defines
-
     def createPackage(self):
         self.defines["shortcuts"] = [
             {"name": self.subinfo.displayName, "target": "bin//peruse.exe"},

@@ -90,13 +90,6 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["-DENABLE_WOOB=OFF"]
 
-    def setDefaults(self, defines: {str: str}) -> {str: str}:
-        defines = super().setDefaults(defines)
-        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
-            # set env variables for AppImage run environment
-            defines["runenv"] += ["LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH"]
-        return defines
-
     def install(self):
         if not CMakePackageBase.install(self):
             return False

@@ -102,9 +102,6 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
         self.addExecutableFilter(r"bin/(?!(labplot|cantor_|QtWebEngineProcess)).*")
 
-        # set env variables for AppImage run environment
-        self.defines["runenv"] = ["LD_LIBRARY_PATH=$this_dir/usr/lib/:$LD_LIBRARY_PATH"]
-
         self.defines["website"] = "https://labplot.kde.org/"
         self.defines["executable"] = "bin\\labplot2.exe"
         self.defines["shortcuts"] = [
