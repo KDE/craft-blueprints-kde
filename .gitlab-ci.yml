@@ -19,6 +19,10 @@ run-tests:
       if [ $CI_COMMIT_REF_NAME = "dev" ]; then
         craftBranch=dev
       fi
+    - |
+      if [ $CI_MERGE_REQUEST_TARGET_BRANCH_NAME = "dev" ]; then
+        craftBranch=dev
+      fi
     - git clone --depth 1 -b $craftBranch https://invent.kde.org/packaging/craft.git
     - mkdir blueprints
     - blueprintRoot=$(pwd)/blueprints/
