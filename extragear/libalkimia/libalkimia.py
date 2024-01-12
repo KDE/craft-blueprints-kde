@@ -28,7 +28,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["7.0.1", "7.0.2", "8.0.1", "8.0.2", "8.0.3", "8.0.4", "8.1.0", "8.1.1"]:
+        for ver in ["7.0.2", "8.0.4", "8.1.1", "8.1.2"]:
             self.targets[ver] = f"https://download.kde.org/stable/alkimia/{ver}/alkimia-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/alkimia/{ver}/alkimia-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"alkimia-{ver}"
