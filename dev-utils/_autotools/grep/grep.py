@@ -30,6 +30,8 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
 
     def createPackage(self):
+        # a dep of gettext but not of libintl
+        self.ignoredPackages.append("libs/libxml2")
         self.addExecutableFilter(r"bin/(?!(grep)).*")
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         return super().createPackage()
