@@ -1,3 +1,11 @@
+# SPDX-FileCopyrightText: none
+# SPDX-License-Identifier: CC0-1.0
+
+include:
+  - project: sysadmin/ci-utilities
+    file:
+      - /gitlab-templates/blocks/workflow.yml
+
 run-tests:
   stage: test
   image: python:latest
