@@ -76,7 +76,7 @@
 +mark_as_advanced(SNDFILE_INCLUDE_DIRS SNDFILE_LIBRARIES)
 --- /dev/null	2024-01-11 16:00:00.000000000 +0100
 +++ CMakeLists.txt	2024-01-11 16:00:00.000000000 +0100
-@@ -0,0 +1,39 @@
+@@ -0,0 +1,46 @@
 +cmake_minimum_required(VERSION 3.16)
 +
 +project(ladspa-sdk VERSION 1.17)
@@ -84,10 +84,12 @@
 +set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 +include(GNUInstallDirs)
 +
++option(BUILD_PROGRAMS "Build the analyseplugin, applyplugin and listplugins executables" OFF)
++
 +# Dl
 +find_package(Dl REQUIRED)
 +include_directories(${DL_INCLUDE_DIR})
-+link_libraries(dl)
++link_libraries(${DL_LIBRARY})
 +
 +# SndFile
 +find_package(SndFile REQUIRED)
@@ -104,15 +106,20 @@
 +add_library(filter MODULE plugins/filter.c)
 +add_library(noise MODULE plugins/noise.c)
 +add_library(sine MODULE plugins/sine.cpp)
-+add_executable (analyseplugin analyseplugin.c load.c default.c)
-+add_executable (applyplugin applyplugin.c load.c default.c)
-+add_executable (listplugins listplugins.c search.c)
-+target_link_libraries (listplugins ${DL_LIBRARY})
++if(BUILD_PROGRAMS)
++    add_executable (analyseplugin analyseplugin.c load.c default.c)
++    add_executable (applyplugin applyplugin.c load.c default.c)
++    add_executable (listplugins listplugins.c search.c)
++endif()
 +
 +install(TARGETS amp LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/ladspa")
 +install(TARGETS delay LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/ladspa")
 +install(TARGETS filter LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/ladspa")
 +install(TARGETS noise LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/ladspa")
 +install(TARGETS sine LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/ladspa")
-+install(TARGETS listplugins DESTINATION "${CMAKE_INSTALL_BINDIR}")
++if(BUILD_PROGRAMS)
++    install(TARGETS analyseplugin DESTINATION "${CMAKE_INSTALL_BINDIR}")
++    install(TARGETS applyplugin DESTINATION "${CMAKE_INSTALL_BINDIR}")
++    install(TARGETS listplugins DESTINATION "${CMAKE_INSTALL_BINDIR}")
++endif()
 +install(FILES ladspa.h DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
