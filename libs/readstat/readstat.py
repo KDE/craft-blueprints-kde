@@ -18,9 +18,10 @@ class subinfo(info.infoclass):
             if CraftCore.compiler.isMSVC():
                 self.patchToApply[ver] = [("readstat-1.1.6-compiler-flags.diff", 1)]
 
-        self.patchToApply["1.1.8"] += [
-            ("211c342a1cfe46fb7fb984730dd7a29ff4752f35.patch", 1), # Add missing `void` to make Clang happy (*.c files)
-            ("5ad80040b94b667e2fef74e9b8d865f142fec820", 1)]  # Add missing `void` to make Clang happy (*.h files)
+        self.patchToApply["1.1.8"] = [
+            ("211c342a1cfe46fb7fb984730dd7a29ff4752f35.patch", 1),  # Add missing `void` to make Clang happy (*.c files)
+            ("5ad80040b94b667e2fef74e9b8d865f142fec820", 1),  # Add missing `void` to make Clang happy (*.h files)
+        ]
         self.patchLevel["1.1.8"] = 1
 
         self.defaultTarget = "1.1.8"
