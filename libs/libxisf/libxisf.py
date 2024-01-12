@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 import info
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
