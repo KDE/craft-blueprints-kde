@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
 
         self.patchToApply["1.1.8"] = [
             ("211c342a1cfe46fb7fb984730dd7a29ff4752f35.patch", 1),  # Add missing `void` to make Clang happy (*.c files)
-            ("5ad80040b94b667e2fef74e9b8d865f142fec820", 1),  # Add missing `void` to make Clang happy (*.h files)
+            ("5ad80040b94b667e2fef74e9b8d865f142fec820.patch", 1),  # Add missing `void` to make Clang happy (*.h files)
         ]
         self.patchLevel["1.1.8"] = 1
 
