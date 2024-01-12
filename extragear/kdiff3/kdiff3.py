@@ -104,7 +104,6 @@ class Package(CMakePackageBase):
                     """
             )
         else:
-            self.defines["file_types"] = ["*"]
             self.defines[
                 "un_sections"
             ] = r"""
