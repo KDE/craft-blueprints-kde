@@ -1,0 +1,86 @@
+From 5ad80040b94b667e2fef74e9b8d865f142fec820 Mon Sep 17 00:00:00 2001
+From: Adriaan de Groot <groot@kde.org>
+Date: Sun, 19 Feb 2023 16:46:11 +0100
+Subject: [PATCH] Add strict prototypes for functions with no arguments. (#295)
+
+Using compile flags `-Werror -Wstrict-prototypes` (with Clang at least),
+the "prototypes" of some functions are flagged as an error. This is
+because of the difference between:
+```
+	int no_args_please(void);
+```
+and
+```
+	int no_args_please();
+```
+Where the former is a strict prototype that says "no arguments are
+allowed". With the compile flags mentioned, ReadStat fails to
+compile with error messages like this:
+
+```
+In file included from src/readstat_bits.c:9:
+src/readstat_bits.h:10:29: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+int machine_is_little_endian();
+```
+
+This PR adds the missing `void` in a handful of places where Clang
+complains about it with those strict compile flags.
+---
+ src/readstat_bits.h     | 2 +-
+ src/readstat_variable.c | 2 +-
+ src/sas/ieee.c          | 2 +-
+ src/spss/readstat_por.h | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/readstat_bits.h b/src/readstat_bits.h
+index 9cfcadd9..a89d9a2c 100644
+--- a/src/readstat_bits.h
++++ b/src/readstat_bits.h
+@@ -7,7 +7,7 @@
+ #undef READSTAT_MACHINE_IS_TWOS_COMPLEMENT
+ #define READSTAT_MACHINE_IS_TWOS_COMPLEMENT 0
+ 
+-int machine_is_little_endian();
++int machine_is_little_endian(void);
+ 
+ char ones_to_twos_complement1(char num);
+ int16_t ones_to_twos_complement2(int16_t num);
+diff --git a/src/readstat_variable.c b/src/readstat_variable.c
+index 0f730f8e..6172abdc 100644
+--- a/src/readstat_variable.c
++++ b/src/readstat_variable.c
+@@ -2,7 +2,7 @@
+ #include <stdlib.h>
+ #include "readstat.h"
+ 
+-static readstat_value_t make_blank_value();
++static readstat_value_t make_blank_value(void);
+ static readstat_value_t make_double_value(double dval);
+ 
+ static readstat_value_t make_blank_value() {
+diff --git a/src/sas/ieee.c b/src/sas/ieee.c
+index 44233c7a..f6b7d87f 100644
+--- a/src/sas/ieee.c
++++ b/src/sas/ieee.c
+@@ -16,7 +16,7 @@ static void ieee2xpt(unsigned char *ieee, unsigned char *xport);
+ 
+ #ifndef FLOATREP
+ #define FLOATREP get_native()
+-int get_native();
++int get_native(void);
+ #endif
+ 
+ void memreverse(void *intp_void, int l) {
+diff --git a/src/spss/readstat_por.h b/src/spss/readstat_por.h
+index 07dbce09..e169d687 100644
+--- a/src/spss/readstat_por.h
++++ b/src/spss/readstat_por.h
+@@ -31,7 +31,7 @@ typedef struct por_ctx_s {
+     ck_hash_table_t *var_dict;
+ } por_ctx_t;
+ 
+-por_ctx_t *por_ctx_init();
++por_ctx_t *por_ctx_init(void);
+ void por_ctx_free(por_ctx_t *ctx);
+ ssize_t por_utf8_encode(const unsigned char *input, size_t input_len, 
+         char *output, size_t output_len, uint16_t lookup[256]);
