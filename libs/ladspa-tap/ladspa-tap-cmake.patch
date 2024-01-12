@@ -42,7 +42,7 @@
 +
 +
 +set(INSTALL_PLUGINS_DIR "${CMAKE_INSTALL_LIBDIR}/ladspa")
-+set(INSTALL_LRDF_DIR "${DATAROOTDIR}/ladspa/rdf")
++set(INSTALL_LRDF_DIR "${CMAKE_INSTALL_DATAROOTDIR}/ladspa/rdf")
 +
 +install(
 +    TARGETS
@@ -73,6 +73,6 @@
 +    FILES
 +        tap-plugins.rdf
 +        tap_reverb.rdf
-+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++    DESTINATION "${INSTALL_LRDF_DIR}"
 +)
 

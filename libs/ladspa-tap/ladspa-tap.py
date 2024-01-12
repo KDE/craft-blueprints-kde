@@ -1,8 +1,5 @@
 import info
-import utils
-from CraftCore import CraftCore
-from CraftOS.osutils import OsUtils
-from Package.MakeFilePackageBase import MakeFilePackageBase
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -29,19 +26,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/ladspa-sdk"] = None
 
 
-class Package(MakeFilePackageBase):
+class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
-        self.subinfo.options.useShadowBuild = False
-        inst = OsUtils.toMSysPath(self.installDir())
-        self.subinfo.options.install.args += [f"INSTALL_PLUGINS_DIR={inst}/lib/ladspa/", f"INSTALL_LRDF_DIR={inst}/share/ladspa/rdf/"]
-
-    def configure(self):
-        return True
-
-    def make(self):
-        env = {}
-        env["C_INCLUDE_PATH"] = CraftCore.standardDirs.craftRoot() / "include"
-
-        with utils.ScopedEnv(env):
-            return super().make()
