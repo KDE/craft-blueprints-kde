@@ -1,0 +1,78 @@
+--- /dev/null	2024-01-12 16:00:00.000000000 +0100
++++ CMakeLists.txt	2024-01-12 16:00:00.000000000 +0100
+@@ -0,0 +1,74 @@
++cmake_minimum_required(VERSION 3.16)
++
++project(ladspa-tap VERSION 1.0.1)
++
++include(GNUInstallDirs)
++
++set(CMAKE_POSITION_INDEPENDENT_CODE ON)
++add_compile_options(-Wall -fomit-frame-pointer -funroll-loops -ffast-math)
++
++# m
++link_libraries(m)
++
++if(NOT APPLE)
++    link_libraries(rt)
++endif()
++
++#include_directories(${CMAKE_CURRENT_SOURCE_DIR})
++
++add_library(tap_reverb SHARED tap_reverb.c tap_reverb.h tap_reverb_presets.h tap_utils.h)
++add_library(tap_dynamics_m SHARED tap_dynamics_m.c tap_dynamics_presets.h tap_utils.h)
++add_library(tap_dynamics_st SHARED tap_dynamics_st.c tap_dynamics_presets.h tap_utils.h)
++
++add_library(tap_autopan SHARED tap_autopan.c tap_utils.h)
++add_library(tap_deesser SHARED tap_deesser.c tap_utils.h)
++add_library(tap_echo SHARED tap_echo.c tap_utils.h)
++add_library(tap_eq SHARED tap_eq.c tap_utils.h)
++add_library(tap_pinknoise SHARED tap_pinknoise.c tap_utils.h)
++add_library(tap_reflector SHARED tap_reflector.c tap_utils.h)
++add_library(tap_rotspeak SHARED tap_rotspeak.c tap_utils.h)
++add_library(tap_tremolo SHARED tap_tremolo.c tap_utils.h)
++add_library(tap_vibrato SHARED tap_vibrato.c tap_utils.h)
++add_library(tap_chorusflanger SHARED tap_chorusflanger.c tap_utils.h)
++add_library(tap_doubler SHARED tap_doubler.c tap_utils.h)
++add_library(tap_eqbw SHARED tap_eqbw.c tap_utils.h)
++add_library(tap_limiter SHARED tap_limiter.c tap_utils.h)
++add_library(tap_pitch SHARED tap_pitch.c tap_utils.h)
++add_library(tap_sigmoid SHARED tap_sigmoid.c tap_utils.h)
++add_library(tap_tubewarmth SHARED tap_tubewarmth.c tap_utils.h)
++
++
++set(INSTALL_PLUGINS_DIR "${CMAKE_INSTALL_LIBDIR}/ladspa")
++set(INSTALL_LRDF_DIR "${DATAROOTDIR}/ladspa/rdf")
++
++install(
++    TARGETS
++        tap_autopan
++        tap_deesser
++        tap_dynamics_m
++        tap_echo
++        tap_eq
++        tap_pinknoise
++        tap_reflector
++        tap_rotspeak
++        tap_tremolo
++        tap_vibrato
++        tap_chorusflanger
++        tap_doubler
++        tap_dynamics_st
++        tap_eqbw
++        tap_limiter
++        tap_pitch
++        tap_reverb
++        tap_sigmoid
++        tap_tubewarmth
++    LIBRARY
++    DESTINATION "${INSTALL_PLUGINS_DIR}"
++)
++
++install(
++    FILES
++        tap-plugins.rdf
++        tap_reverb.rdf
++    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++)
+
