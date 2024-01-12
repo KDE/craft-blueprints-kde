@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2021 Volker Krause <vkrause@kde.org>
 
 import info
-from Package.CMakePackageBase import *
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -11,9 +11,13 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Android
 
     def setTargets(self):
-        self.svnTargets["master"] = "https://github.com/j-jorge/libintl-lite.git"
-        self.defaultTarget = "master"
+
         self.description = "libintl lite - gettext replacement for Android"
+
+        self.svnTargets["ba15146"] = "https://github.com/j-jorge/libintl-lite.git||ba1514607d02ce3711d828e784a7e9e2bb25aa84"
+        self.svnTargets["master"] = "https://github.com/j-jorge/libintl-lite.git"
+
+        self.defaultTarget = "ba15146"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
