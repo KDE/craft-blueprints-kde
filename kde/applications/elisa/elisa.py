@@ -14,10 +14,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtgraphicaleffects"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.runtimeDependencies["libs/qt5/qtgraphicaleffects"] = None
+            self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
             self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         else:
             self.runtimeDependencies["libs/qt6/qt5compat"] = None
