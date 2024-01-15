@@ -72,6 +72,7 @@ class subinfo(info.infoclass):
             self.patchToApply[ver] = [
                 (".qt-5.15.11", 1),
                 ("03-ffmpeg-binutils-2.41.patch", 1),
+                ("chromium-119.0.6045.159-icu-74.patch", 1),
             ]
             # Port buildsystem to python3
             # https://salsa.debian.org/qt-kde-team/qt/qtwebengine/-/tree/082c7f7e9ee899ff5ab68a166819e2f0aaa87617/debian/patches
