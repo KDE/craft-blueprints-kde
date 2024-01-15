@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/liblzma"] = None
         self.buildDependencies["libs/libbzip2"] = None
         self.buildDependencies["libs/zlib"] = None
-        self.buildDependencies["libs/zstd"] = None
+        self.buildDependencies["libs/libzstd"] = None
         self.buildDependencies["libs/openssl"] = None
         self.buildDependencies["libs/libxml2"] = None
         self.buildDependencies["libs/pcre"] = None
