@@ -77,6 +77,11 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
 
         self.subinfo.options.configure.ldflags += " -lintl"
+        if CraftCore.compiler.isMinGW():
+            self.subinfo.options.configure.autoreconf = True
+            # it tires to locate qt but used native windows paths for -l
+            # those are not supported by libtool
+            self.subinfo.options.configure.ldflags += f" -lQt5Widgets -lQt5Gui -lQt5Core -lqtmain"
 
     def configure(self):
         if CraftCore.compiler.isMinGW():
@@ -88,55 +93,3 @@ class Package(AutoToolsPackageBase):
 
             self.subinfo.options.configure.cxxflags += f"-I{widgetsdir} -I{guidir} -I{coredir} -I{includedir} "
         return super().configure()
-
-        # def postInstall(self):
-        #     versionWithoutPatch = ".".join(self.subinfo.buildTarget.split(".")[0:2])
-        #     cmakes = [
-        #         os.path.join(self.installDir(), "lib", "cmake", f"gwengui-cpp-{versionWithoutPatch}", "gwengui-cpp-config.cmake"),
-        #         os.path.join(self.installDir(), "lib", "cmake", f"gwengui-qt5-{versionWithoutPatch}", "gwengui-qt5-config.cmake"),
-        #         os.path.join(self.installDir(), "lib", "cmake", f"gwenhywfar-{versionWithoutPatch}", "gwenhywfar-config.cmake"),
-        #     ]
-        #     for cmake in cmakes:
-        #         with open(cmake, "rt") as f:
-        #             cmakeFileContents = f.readlines()
-        #
-        #         for i in range(len(cmakeFileContents)):
-        #             if CraftCore.compiler.isMinGW():
-        #                 m = re.search('set_and_check\(prefix "(?P<root>[^"]*)"\)', cmakeFileContents[i])
-        #                 if m is not None:
-        #                     # somehow this doesn't produce forward slash path in CI
-        #                     # craftRoot = OsUtils.toUnixPath(CraftStandardDirs.craftRoot())
-        #                     craftRoot = CraftStandardDirs.craftRoot()
-        #                     craftRoot = craftRoot.replace("\\", "/")
-        #                     if craftRoot.endswith("/"):
-        #                         craftRoot = craftRoot[:-1]
-        #                     cmakeFileContents[i] = cmakeFileContents[i].replace(m.group("root"), craftRoot)
-        #
-        #                 m2 = re.search("libgwenhywfar.so.(?P<number>[\d]*)", cmakeFileContents[i])
-        #                 if m2 is not None:
-        #                     cmakeFileContents[i] = cmakeFileContents[i].replace("lib/" + m2.group(0), "bin/libgwenhywfar-" + m2.group("number") + ".dll")
-        #
-        #                 m3 = re.search("libgwengui-cpp.so", cmakeFileContents[i])
-        #                 if m3 is not None:
-        #                     cmakeFileContents[i] = cmakeFileContents[i].replace("lib/libgwengui-cpp.so", "bin/libgwengui-cpp-0.dll")
-        #
-        #                 m4 = re.search("libgwengui-qt5.so", cmakeFileContents[i])
-        #                 if m4 is not None:
-        #                     cmakeFileContents[i] = cmakeFileContents[i].replace("lib/libgwengui-qt5.so", "lib/libgwengui-qt5.a")
-        #             elif CraftCore.compiler.isMacOS:
-        #                 m2 = re.search("libgwenhywfar.so.(?P<number>[\d]*)", cmakeFileContents[i])
-        #                 if m2 is not None:
-        #                     cmakeFileContents[i] = cmakeFileContents[i].replace(m2.group(0), "libgwenhywfar." + m2.group("number") + ".dylib")
-        #
-        #                 m3 = re.search("libgwengui-cpp.so", cmakeFileContents[i])
-        #                 if m3 is not None:
-        #                     cmakeFileContents[i] = cmakeFileContents[i].replace("libgwengui-cpp.so", "libgwengui-cpp.dylib")
-        #
-        #                 m4 = re.search("libgwengui-qt5.so", cmakeFileContents[i])
-        #                 if m4 is not None:
-        #                     cmakeFileContents[i] = cmakeFileContents[i].replace("libgwengui-qt5.so", "libgwengui-qt5.dylib")
-        #
-        #             with open(cmake, "wt") as f:
-        #                 f.write("".join(cmakeFileContents))
-
-        return AutoToolsPackageBase.postInstall(self)
