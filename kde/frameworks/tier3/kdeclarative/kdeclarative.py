@@ -10,9 +10,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        # https://invent.kde.org/frameworks/kdeclarative/-/merge_requests/223
-        self.patchToApply["5.245.0"] = [("kdeclarative-5.245.0-20231111.diff", 1)]
-
         self.description = "Provides integration of QML and KDE Frameworks"
 
     def setDependencies(self):

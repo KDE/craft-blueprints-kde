@@ -11,9 +11,6 @@ class subinfo(info.infoclass):
         else:
             self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
 
-        # https://invent.kde.org/frameworks/kstatusnotifieritem/-/merge_requests/6
-        self.patchToApply["5.245.0"] = [("mr-6.patch", 1)]
-
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 

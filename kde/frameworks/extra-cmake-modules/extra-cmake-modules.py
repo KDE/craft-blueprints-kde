@@ -31,23 +31,14 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.patchToApply["5.110.0"] = [("KDEInstallDirs6 fix BUNDLE destination.patch", 1)]
-        self.patchToApply["5.245.0"] = [("extra-cmake-modules-5.245.0-20231111.diff", 1)]
 
         # Fix Windows target version, see https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/399
-        self.patchToApply["5.245.0"] += [("399.diff", 1)]
-        self.patchToApply["5.246.1"] = [("399.diff", 1)]
         self.patchToApply["5.247.0"] = [("399.diff", 1)]
         self.patchToApply["master"] = [("399.diff", 1)]
 
         self.patchLevel["5.110.0"] = 1
-        self.patchLevel["5.245.0"] = 2
         self.patchLevel["5.247.0"] = 1
         self.patchLevel["master"] = 1
-
-        for mainver, ver in [("5.246.0", "5.246.1")]:
-            self.targets[ver] = f"https://download.kde.org/unstable/frameworks/{mainver}/extra-cmake-modules-{ver}.tar.xz"
-            self.targetDigestUrls[ver] = f"https://download.kde.org/unstable/frameworks/{mainver}/extra-cmake-modules-{ver}.tar.xz.sha256"
-            self.targetInstSrc[ver] = f"extra-cmake-modules-{ver}"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
