@@ -51,6 +51,9 @@ class Package(AutoToolsPackageBase):
         if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["--enable-local-install"]
 
+        if not self.subinfo.options.isActive("libs/gwenhywfar"):
+            self.subinfo.options.configure.args += [f"--enable-gwenhywfar=no"]
+
         # this prevents "cannot find the library libaqhbci.la or unhandled argument libaqhbci.la"
         self.subinfo.options.make.supportsMultijob = False
 
