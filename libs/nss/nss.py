@@ -162,6 +162,11 @@ class Package(MakeFilePackageBase):
             # Remove useless toolchain mangling
             content = content.replace('android_tool_prefix="i686-android-linux"', ":")
 
+            # Adapt to NDK >= r25 having no GCC binutils anymore
+            content = content.replace('AR="$android_toolchain"/bin/"$android_tool_prefix"-ar', 'AR="$android_toolchain"/bin/llvm-ar')
+            content = content.replace('RANLIB="$android_toolchain"/bin/"$android_tool_prefix"-ranlib', 'RANLIB="$android_toolchain"/bin/llvm-ranlib')
+            content = content.replace('STRIP="$android_toolchain"/bin/"$android_tool_prefix"-strip', 'STRIP="$android_toolchain"/bin/llvm-strip')
+
             # No cpp tool
             content = content.replace('CPP="$android_toolchain"/bin/"$android_tool_prefix"-cpp', "CPP=")
             # Remove -mandroid in CFLAGS/CXXFLAGS/LDFLAGS
