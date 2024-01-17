@@ -36,9 +36,12 @@ class subinfo(info.infoclass):
         self.patchToApply["5.247.0"] = [("399.diff", 1)]
         self.patchToApply["master"] = [("399.diff", 1)]
 
+        self.patchToApply["5.248.0"] = [("Fix-APK-packaging-with-Android-NDK-r25.patch", 1)]
+
         self.patchLevel["5.110.0"] = 1
         self.patchLevel["5.247.0"] = 1
         self.patchLevel["master"] = 1
+        self.patchLevel["5.248.0"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
