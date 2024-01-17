@@ -29,6 +29,10 @@ from Package.AutoToolsPackageBase import *
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # Disable on MinGW as it is broken, needs someone to care
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
+
     def setTargets(self):
         self.targets["5.8.1"] = "https://www.aquamaniac.de/rdm/attachments/download/402/gwenhywfar-5.8.1.tar.gz"
         self.targetDigests["5.8.1"] = (["05397618b9cae0197a181835f67e19ba09652cf30e2c9d1fbb98f3f34dbf4e1f"], CraftHash.HashAlgorithm.SHA256)
