@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
             # don't confuse gn
             ("qtwebengine-6.6.1-20240105.diff", 1),
         ]
+        self.patchLevel["6.6.1"] = 1
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
