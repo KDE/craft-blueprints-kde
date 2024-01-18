@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
             ("msvc-template.patch", 1),
             # don't confuse gn
             ("qtwebengine-6.6.1-20240105.diff", 1),
+            ("chromium-119.0.6045.159-icu-74.patch"),
         ]
         self.patchLevel["6.6.1"] = 1
 
