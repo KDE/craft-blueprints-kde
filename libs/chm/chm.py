@@ -7,7 +7,8 @@ class subinfo(info.infoclass):
         self.description = "a library for dealing with Microsoft ITSS/CHM format files"
 
         for ver in ["0.40"]:
-            self.targets[ver] = f"https://www.jedrea.com/chmlib/chmlib-{ver}.tar.bz2"
+            # the server does not support https
+            self.targets[ver] = f"http://www.jedrea.com/chmlib/chmlib-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"chmlib-{ver}"
         self.patchToApply["0.40"] = ("chm-cmake.diff", 0)
         self.patchLevel["0.40"] = 1
