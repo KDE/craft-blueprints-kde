@@ -61,7 +61,12 @@ class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
         # together with the patch based on https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/qtwebengine-6.5.2-r1.ebuild
+
+        # use a short path for Windows
+        shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/").shortPath
         self.subinfo.options.configure.args += [
+            # no idea why cmake ignores the path env
+            f"-DPython3_EXECUTABLE={shortDevUtils / 'bin/python3'}{CraftCore.compiler.executableSuffix}",
             "-DQT_FEATURE_qtwebengine_build=ON",
             f"-DQT_FEATURE_webengine_system_icu={'ON' if self.subinfo.options.dynamic.withICU else 'OFF'}",
             # Package harfbuzz-subset was not found
@@ -101,11 +106,7 @@ class Package(CMakePackageBase):
         # webengine requires enormous amounts of ram
         jobs = int(CraftCore.settings.get("Compile", "Jobs", multiprocessing.cpu_count()))
         env = {"NINJAFLAGS": f"-j{int(jobs/2)}"}
-        if CraftCore.compiler.isWindows:
-            # shorten the path to python
-            shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/").shortPath
-            env["PATH"] = f"{shortDevUtils}/bin;{os.environ['PATH']}"
-        elif CraftCore.compiler.isLinux:
+        if CraftCore.compiler.isLinux:
             # this build system is broken and ignore ldflags
             env["LD_LIBRARY_PATH"] = CraftCore.standardDirs.craftRoot() / "lib"
         return env
