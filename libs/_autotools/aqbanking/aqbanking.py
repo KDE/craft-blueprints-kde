@@ -28,6 +28,10 @@ from Package.AutoToolsPackageBase import *
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # Disable on MinGW as gwenhywfar is broken but apparently a mandatory dep, needs someone to care
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
+
     def setTargets(self):
         self.targets["6.5.4"] = "https://www.aquamaniac.de/rdm/attachments/download/499/aqbanking-6.5.4.tar.gz"
         self.targetDigests["6.5.4"] = (["0d16ceae76f0718e466638f4547a8b14927f1d8d98322079cd6481adde30ac99"], CraftHash.HashAlgorithm.SHA256)
