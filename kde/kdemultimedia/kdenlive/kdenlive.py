@@ -62,8 +62,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
         if CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/drmingw"] = None
-        if CraftCore.compiler.isLinux:
-            self.runtimeDependencies["kde/plasma/drkonqi"] = None
+        # DrKonqi disabled for now as it needs polkit since KF6 and this requires lots of other dependencies
+        # if CraftCore.compiler.isLinux:
+        #    self.runtimeDependencies["kde/plasma/drkonqi"] = None
         # Appimage
         self.buildDependencies["dev-utils/linuxdeploy-plugin-checkrt"] = None
 
