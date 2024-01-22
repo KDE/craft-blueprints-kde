@@ -5,13 +5,13 @@ Date:   Thu Jul 20 12:12:53 2023 +0100
     Handle android sdk >30 for permission checking before scans
 
 diff --git a/src/bluetooth/qbluetoothdevicediscoveryagent_android.cpp b/src/bluetooth/qbluetoothdevicediscoveryagent_android.cpp
-index 2371e298..7c987d8a 100644
+index 53bd856b..94f50643 100644
 --- a/src/bluetooth/qbluetoothdevicediscoveryagent_android.cpp
 +++ b/src/bluetooth/qbluetoothdevicediscoveryagent_android.cpp
-@@ -151,9 +151,40 @@ void QBluetoothDeviceDiscoveryAgentPrivate::start(QBluetoothDeviceDiscoveryAgent
+@@ -182,9 +182,40 @@ void QBluetoothDeviceDiscoveryAgentPrivate::start(QBluetoothDeviceDiscoveryAgent
+     if (setErrorIfPowerOff())
          return;
-     }
- 
+
 -    // check Android v23+ permissions
 -    // -> any device search requires android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION
 -    if (QtAndroid::androidSdkVersion() >= 23) {
@@ -51,9 +51,9 @@ index 2371e298..7c987d8a 100644
 +        // -> any device search requires android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION
          const QString coarsePermission(QLatin1String("android.permission.ACCESS_COARSE_LOCATION"));
          const QString finePermission(QLatin1String("android.permission.ACCESS_FINE_LOCATION"));
- 
-@@ -189,25 +220,27 @@ void QBluetoothDeviceDiscoveryAgentPrivate::start(QBluetoothDeviceDiscoveryAgent
- 
+
+@@ -220,25 +251,27 @@ void QBluetoothDeviceDiscoveryAgentPrivate::start(QBluetoothDeviceDiscoveryAgent
+
      // Double check Location service is turned on
      bool locationTurnedOn = true; // backwards compatible behavior to previous Qt versions
 -    const  QAndroidJniObject locString = QAndroidJniObject::getStaticObjectField(
