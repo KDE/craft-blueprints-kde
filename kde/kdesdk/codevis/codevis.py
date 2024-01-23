@@ -52,8 +52,6 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".lks"]
         self.defines["alias"] = "codevis"
 
-        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")
         self.ignoredPackages.append("kde/frameworks/kemoticons")
