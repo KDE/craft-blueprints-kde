@@ -35,8 +35,7 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://invent.kde.org/office/alkimia.git"
         self.targetUpdatedRepoUrl["master"] = ("https://anongit.kde.org/alkimia", "https://invent.kde.org/office/alkimia.git")
-
-        self.defaultTarget = "8.1.2"
+        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
