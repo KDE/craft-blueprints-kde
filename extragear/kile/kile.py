@@ -1,6 +1,6 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
-from Package.CMakePackageBase import *
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/office/kile.git"
         self.svnTargets["gitStable-2.1"] = "https://invent.kde.org/office/kile.git"
         for ver in ["2.1.1", "2.9.92", "2.9.93"]:
-            self.targets[ver] = "https://downloads.sourceforge.net/kile/kile-" + ver + ".tar.bz2"
+            self.targets[ver] = f"https://downloads.sourceforge.net/kile/kile-{ver}.tar.bz2"
             self.targetInstSrc[ver] = "kile-" + ver
         self.description = "a user friendly TeX/LaTeX editor for KDE"
         self.displayName = "Kile"
@@ -25,20 +25,20 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.defines["executable"] = "bin\\kile.exe"
 
         # kile icons
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "kile.ico")
-        self.defines["icon_png"] = os.path.join(self.sourceDir(), "src", "data", "icons", "150-apps-kile.png")
-        self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "src", "data", "icons", "44-apps-kile.png")
+        self.defines["icon"] = self.blueprintDir() / "kile.ico"
+        self.defines["icon_png"] = self.sourceDir() / "src/data/icons/150-apps-kile.png"
+        self.defines["icon_png_44"] = self.sourceDir() / "src/data/icons/44-apps-kile.png"
 
         # this requires an 310x150 variant in addition!
         # self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "src", "data", "icons", "310-apps-kile.png")
