@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -24,24 +25,23 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kdesupport/kdewin"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
-        self.blacklist_file.append(os.path.join(os.path.dirname(__file__), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):
         self.defines["website"] = "https://apps.kde.org/filelight/"
         self.defines["executable"] = "bin\\filelight.exe"
 
         # filelight icons
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "filelight.ico")
-        self.defines["icon_png"] = os.path.join(self.blueprintDir(), ".assets", "150-apps-filelight.png")
-        self.defines["icon_png_44"] = os.path.join(self.blueprintDir(), ".assets", "44-apps-filelight.png")
+        self.defines["icon"] = self.blueprintDir() / "filelight.ico"
+        self.defines["icon_png"] = self.blueprintDir() / ".assets/150-apps-filelight.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / ".assets/44-apps-filelight.png"
 
         self.ignoredPackages.append("binary/mysql")
 
