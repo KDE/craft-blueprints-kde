@@ -2,19 +2,19 @@
 # SPDX-FileCopyrightText: 2023 Laurent Montel <montel@kde.org>
 
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Text Addons (autocorrection, grammar checking, text to speak, translator support)"
 
-        for ver in ["1.5.2"]:
+        for ver in ["1.5.3"]:
             self.targets[ver] = f"https://download.kde.org/stable/ktextaddons/ktextaddons-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/ktextaddons/ktextaddons-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"ktextaddons-{ver}"
 
-        self.targetDigests["1.5.2"] = (["288bbb1cefb1e8b570a383c792eba5fca291c46dd0155dbc2531f0a36684a7db"], CraftHash.HashAlgorithm.SHA256)
-
-        self.defaultTarget = "1.5.2"
+        self.defaultTarget = "1.5.3"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -29,9 +29,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
