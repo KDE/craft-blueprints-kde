@@ -1,5 +1,5 @@
 import info
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -20,14 +20,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
-        self.blacklist_file.append(os.path.join(os.path.dirname(__file__), "blacklist.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):
         self.defines["executable"] = "bin\\kolourpaint.exe"
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "kolourpaint.ico")
+        self.defines["icon"] = self.blueprintDir() / "kolourpaint.ico"
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("kde/frameworks/kemoticons")
