@@ -23,6 +23,8 @@
 # SUCH DAMAGE.
 
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -31,9 +33,11 @@ class subinfo(info.infoclass):
         self.description = "Rocket.Chat Client"
         self.webpage = "https://apps.kde.org/ruqola"
 
-        self.targets["2.0.0"] = "https://download.kde.org/stable/ruqola/ruqola-2.0.0.tar.xz"
-        self.targetDigests["2.0.0"] = (["a9649936adc3589c1e3a19a921c4b2a54bb6c4f9ffa1af50c7c02cae9f441737"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["2.0.0"] = "ruqola-2.0.0"
+        for ver in ["2.0.0"]:
+            self.targets[ver] = f"https://download.kde.org/stable/ruqola/ruqola-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/ruqola/ruqola-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = f"ruqola-{ver}"
+
         self.svnTargets["master"] = "https://invent.kde.org/network/ruqola.git"
         self.defaultTarget = "2.0.0"
 
@@ -66,24 +70,21 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|dbus|snoretoast)).*")
         self.defines["shortcuts"] = [{"name": "Ruqola", "target": "bin/ruqola.exe", "description": self.subinfo.description, "appId": "ruqola"}]
 
-        self.defines["icon"] = os.path.join(self.buildDir(), "src", "apps", "appIcons.ico")
+        self.defines["icon"] = self.buildDir() / "src/apps/appIcons.ico"
 
-        self.defines["icon_png"] = os.path.join(self.blueprintDir(), "150-apps-ruqola.png")
-        self.defines["icon_png_44"] = os.path.join(self.blueprintDir(), "44-apps-ruqola.png")
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-ruqola.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-ruqola.png"
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
         return super().createPackage()
