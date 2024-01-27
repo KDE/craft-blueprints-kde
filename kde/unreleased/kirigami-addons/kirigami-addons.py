@@ -7,9 +7,15 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/kirigami-addons.git"
         self.defaultTarget = "0.11.0"
 
-        for ver in ["0.11.0", "0.11.75"]:
+        # stable
+        for ver in ["0.11.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = "kirigami-addons-" + ver
+
+        for ver in ["0.11.75", "0.11.90"]:
+            self.targets[ver] = f"https://download.kde.org/unstable/kirigami-addons/kirigami-addons-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/unstable/kirigami-addons/kirigami-addons-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = "kirigami-addons-" + ver
 
         self.description = "Addons for the Kirigami Framework"
