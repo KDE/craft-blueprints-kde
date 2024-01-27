@@ -41,6 +41,8 @@ class subinfo(info.infoclass):
                 self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
+        if CraftCore.compiler.isLinux:
+            self.runtimeDependencies["dev-utils/libtool"] = None
 
 
 class Package(CMakePackageBase):
