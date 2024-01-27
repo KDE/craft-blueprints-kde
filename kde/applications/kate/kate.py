@@ -1,6 +1,6 @@
 import info
-from CraftOS.osutils import OsUtils
-from Packager.AppImagePackager import AppImagePackager
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -39,17 +39,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.addExecutableFilter(r"bin/(?!(kate|update-mime-database|kioslave)).*")
         self.defines["shortcuts"] = [{"name": "Kate", "target": "bin/kate.exe", "description": self.subinfo.description}]
 
@@ -57,8 +54,8 @@ class Package(CMakePackageBase):
         self.defines["icon"] = self.buildDir() / "apps/kate/ICONS_SOURCES.ico"
 
         # use special windows icons
-        self.defines["icon_png"] = os.path.join(self.sourceDir(), "apps", "kate", "icons", "windows", "150-apps-kate.png")
-        self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "apps", "kate", "icons", "windows", "44-apps-kate.png")
+        self.defines["icon_png"] = self.sourceDir() / "apps/kate/icons/windows/150-apps-kate.png"
+        self.defines["icon_png_44"] = self.sourceDir() / "apps/kate/icons/windows/44-apps-kate.png"
 
         self.defines["registry_hook"] = (
             """WriteRegStr SHCTX "Software\\Classes\\*\\shell\\EditWithKate" "" "Edit with Kate"\n"""
