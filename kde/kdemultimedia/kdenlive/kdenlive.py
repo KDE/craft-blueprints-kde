@@ -95,6 +95,7 @@ class Package(CraftPackageObject.get("kde").pattern):
                 "SDL_AUDIODRIVER=pulseaudio",
                 "ALSA_CONFIG_DIR=/usr/share/alsa",
                 "ALSA_PLUGIN_DIR=/usr/lib/x86_64-linux-gnu/alsa-lib",
+                "LIBVA_DRIVERS_PATH=/usr/lib/dri:/usr/lib64/dri:/usr/lib/x86_64-linux-gnu/dri:/usr/lib/aarch64-linux-gnu/dri",
             ]
         return defines
 
