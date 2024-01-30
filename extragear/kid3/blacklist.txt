@@ -17,6 +17,7 @@ plugins/imageformats/libqjpeg.dylib
 plugins/mediaservice/libqavfmediaplayer.dylib
 plugins/styles/libqmacstyle.dylib
 plugins/tls/libqsecuretransportbackend.dylib
+plugins/tls/libqopensslbackend.dylib
 lib/.*\.dylib
 lib/Qt.*framework.*
 
