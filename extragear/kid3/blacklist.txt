@@ -19,6 +19,7 @@ plugins/styles/libqmacstyle.dylib
 plugins/tls/libqsecuretransportbackend.dylib
 plugins/tls/libqopensslbackend.dylib
 plugins/tls/libqcertonlybackend.dylib
+plugins/networkinformation/libqglib.dylib
 plugins/multimedia/.*\.dylib
 lib/.*\.dylib
 lib/Qt.*framework.*
