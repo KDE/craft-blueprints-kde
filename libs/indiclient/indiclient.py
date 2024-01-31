@@ -6,10 +6,10 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        ver = "2.0.5"
+        ver = "2.0.6"
         # self.targets["2.0.3"] = "https://github.com/indilib/indi/archive/refs/tags/v%s.tar.gz" % ver
         # self.targetInstSrc[ver] = "indi-%s" % ver
-        self.svnTargets["2.0.5"] = "https://github.com/indilib/indi.git|stable-2.0.5"
+        self.svnTargets["2.0.6"] = "https://github.com/indilib/indi.git|stable-2.0.6"
         self.defaultTarget = ver
         self.description = "INDI Library"
 
