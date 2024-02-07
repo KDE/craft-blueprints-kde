@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/cmake"] = None
         self.buildDependencies["dev-utils/perl"] = None
-        self.buildDependencies["dev-utils/yasm"] = None
+        self.buildDependencies["dev-utils/nasm"] = None
         self.runtimeDependencies["virtual/base"] = None
 
 
@@ -22,4 +22,4 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
         self.subinfo.options.dynamic.buildStatic = False
-        self.subinfo.options.configure.args += ["-DENABLE_DOCS=OFF"]
+        self.subinfo.options.configure.args += ["-DENABLE_DOCS=OFF","-DENABLE_NASM=ON","-DCONFIG_PIC=1","-DENABLE_EXAMPLES=OFF"]
