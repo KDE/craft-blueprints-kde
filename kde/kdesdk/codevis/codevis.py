@@ -39,7 +39,12 @@ from Package.CMakePackageBase import *
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
-        self.subinfo.options.configure.args += ["-DUSE_QT_WEBENGINE=OFF ", "-DCOMPILE_TESTS=OFF "]
+
+        self.subinfo.options.configure.args += [
+            "-DUSE_QT_WEBENGINE=OFF ",
+            "-DCOMPILE_TESTS=OFF ",
+            f"-DPython_ROOT_DIR={CraftCore.standardDirs.craftRoot()}"
+        ]
 
     def createPackage(self):
         # This is Mac Only
