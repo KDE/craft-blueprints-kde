@@ -35,8 +35,8 @@ class subinfo(info.infoclass):
 
 from Package.CMakePackageBase import *
 
-
-class Package(CMakePackageBase):
+# This is needed for the CI
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
         self.subinfo.options.configure.args += ["-DUSE_QT_WEBENGINE=OFF ", "-DCOMPILE_TESTS=OFF "]
