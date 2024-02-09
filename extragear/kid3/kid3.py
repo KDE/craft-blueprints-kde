@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["data/docbook-xsl"] = None
+        self.buildDependencies["libs/libxslt"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
