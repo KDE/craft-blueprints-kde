@@ -65,8 +65,8 @@ class subinfo(info.infoclass):
         # DrKonqi disabled for now as it needs polkit since KF6 and this requires lots of other dependencies
         # if CraftCore.compiler.isLinux:
         #    self.runtimeDependencies["kde/plasma/drkonqi"] = None
-        # Appimage
-        self.buildDependencies["dev-utils/linuxdeploy-plugin-checkrt"] = None
+        # Appimage - warning, causes external process crashes
+        # self.buildDependencies["dev-utils/linuxdeploy-plugin-checkrt"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
@@ -115,7 +115,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["shortcuts"] = [{"name": "Kdenlive", "target": "bin/kdenlive.exe", "description": self.subinfo.description}]
         self.defines["file_types"] = [".kdenlive"]
         # Appimage
-        self.defines["appimage_extra_plugins"] = ["checkrt"]
+        # self.defines["appimage_extra_plugins"] = ["checkrt"]
         return super().createPackage()
 
     def postInstall(self):
