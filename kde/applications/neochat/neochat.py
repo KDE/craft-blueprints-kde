@@ -65,4 +65,7 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
+        else:
+            self.subinfo.options.configure.args += ["-DNEOCHAT_APPIMAGE=ON"]
+
         return super().createPackage()
