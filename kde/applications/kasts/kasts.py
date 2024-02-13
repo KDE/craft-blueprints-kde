@@ -14,8 +14,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
-        else:
-            self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/taglib"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
