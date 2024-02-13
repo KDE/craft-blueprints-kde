@@ -35,12 +35,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblz4"] = None
         self.runtimeDependencies["libs/hdf5"] = None
-        # netcdf disabled for MSVC until build is stable on Binary Factory
-        # netcdf links to libzip if installed (not on macOS); make sure that zip.dll is included
-        if not CraftCore.compiler.isMSVC():
-            if not CraftCore.compiler.isMacOS:
-                self.runtimeDependencies["libs/libzip"] = None
-            self.runtimeDependencies["libs/netcdf"] = None
+        self.runtimeDependencies["libs/libzip"] = None
+        self.runtimeDependencies["libs/netcdf"] = None
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
