@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libass"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/libarchive"] = None
+        self.runtimeDependencies["libs/liblzma"] = None
         self.runtimeDependencies["libs/lcms2"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
 
