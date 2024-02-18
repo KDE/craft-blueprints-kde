@@ -451,7 +451,7 @@ class Package(CMakePackageBase):
                 return False
 
         if CraftCore.compiler.isMacOS:
-            # --- Manage files under MacOS package
+            # --- Manage files under macOS package
 
             archiveDir = self.archiveDir()
             binPath = os.path.join(archiveDir, "bin")

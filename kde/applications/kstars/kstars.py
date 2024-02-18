@@ -83,7 +83,7 @@ class Package(CMakePackageBase):
         if not CraftCore.compiler.isMacOS:
             return True
 
-        # 	Copying things needed for MacOS KStars
+        # 	Copying things needed for macOS KStars
 
         # 	Defining Craft Directories
         buildDir = str(self.buildDir())
