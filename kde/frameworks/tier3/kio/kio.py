@@ -39,9 +39,10 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
             self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["libs/qt6/qt5compat"] = None
+        if not CraftCore.compiler.isAndroid and not CraftCore.compiler.isWindows and not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
 
 
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
