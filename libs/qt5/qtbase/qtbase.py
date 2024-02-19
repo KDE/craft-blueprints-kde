@@ -175,7 +175,7 @@ class Package(Qt5CorePackageBase):
             ):
                 command += "-pkg-config "
 
-            # Android: androiddeployqt fails to deploy the Android QPA plugin correctly when depending against a system Freetype
+            # Android: androiddeployqt fails to deploy the Android QPA plugin correctly when depending on a system Freetype
             if self.subinfo.options.isActive("libs/freetype") and not CraftCore.compiler.isAndroid:
                 command += "-system-freetype "
             else:
@@ -377,7 +377,7 @@ sudo apt build-dep qt5-default
             if CraftCore.compiler.isMinGW() and self.subinfo.options.dynamic.withDirectX and "DXSDK_DIR" not in os.environ:
                 envKeys = ["WindowsSdkVerBinPath", "WindowsSdkDir"]
                 if not any(key in os.environ for key in envKeys):
-                    # try to locate the sdk throuhg an msvc install
+                    # try to locate the sdk in an MSVC install
                     msvcEnv = SetupHelper.getMSVCEnv()
                     if any(key in msvcEnv for key in envKeys):
                         for key in envKeys:

@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.archiveNames[self.defaultTarget] = "cmark-%s.tar.gz" % self.defaultTarget
         self.targetInstSrc[self.defaultTarget] = "cmark-%s" % self.defaultTarget
 
-        # fix clash of bin artifacts and lib artifacs
+        # fix clash of bin artifacts and lib artifacts
         self.patchToApply[self.defaultTarget] = ("cmark-no-exe.diff", 1)
         self.patchLevel["0.30.2"] = 1
 

@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("withEgl", True)
         self.options.dynamic.registerOption("withCUPS", CraftCore.compiler.isMacOS or self.options.isActive("libs/cups"))
 
-        # We need to treat MacOS explicitely because of https://bugreports.qt.io/browse/QTBUG-116083
+        # We need to treat MacOS explicitly because of https://bugreports.qt.io/browse/QTBUG-116083
         self.options.dynamic.registerOption("withFontConfig", self.options.isActive("libs/fontconfig") and not CraftCore.compiler.isMacOS)
 
     def setTargets(self):

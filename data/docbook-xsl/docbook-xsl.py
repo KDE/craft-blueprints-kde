@@ -4,6 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["data/docbook-dtd"] = None
 
     def setTargets(self):
         for ver in ["1.75.2", "1.78.0", "1.78.1"]:
@@ -19,9 +20,6 @@ class subinfo(info.infoclass):
 
         self.description = "document translation defintions for docbook format"
         self.defaultTarget = "1.78.1"
-
-    def setDependencies(self):
-        self.runtimeDependencies["data/docbook-dtd"] = None
 
 
 from Package.BinaryPackageBase import *

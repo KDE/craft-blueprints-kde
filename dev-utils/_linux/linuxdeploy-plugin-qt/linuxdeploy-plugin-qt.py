@@ -41,7 +41,7 @@ class Package(BinaryPackageBase):
         for f in self.localFilePath():
             src = Path(f)
             dest = Path(self.installDir()) / src.name
-            # we move the files so that on a reinstall the continous target gets redownloaded
+            # we move the files so that on a reinstall the continuous target gets redownloaded
             if not utils.moveFile(src, dest):
                 return False
             dest.chmod(dest.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)

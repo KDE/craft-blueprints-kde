@@ -4,7 +4,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        # netcdf on MinGW does not work out of the box. It is a dependency of labplot which uses MSVC anyways. Needs someone how cares.
+        # netcdf on MinGW does not work out of the box. It is a dependency of labplot which uses MSVC. Needs someone who cares.
         self.parent.package.categoryInfo.platforms = (
             CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
         )

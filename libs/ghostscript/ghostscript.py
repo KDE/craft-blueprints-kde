@@ -137,7 +137,7 @@ class PackageMSys(AutoToolsPackageBase):
         if not super().install():
             return False
         if CraftCore.compiler.isLinux:
-            # only the sym links get installed...
+            # only the symlinks get installed...
             return utils.copyFile(f"{self.buildDir()}/sobin/libgs.so.10", f"{self.installDir()}/lib/libgs.so.10")
 
         return True

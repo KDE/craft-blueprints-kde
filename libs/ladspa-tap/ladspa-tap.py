@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         #     self.patchToApply[ver] = ("tap-mingw.patch", 0)
         # self.targetDigests["1.0.1"] = (["89c932bea903589db2717ca4d87013fea404b4123fc71acba5bc7cba18d3ecbb"], CraftHash.HashAlgorithm.SHA256)
 
-        # The project was removed from GitHub. There is a blog post about this that announcences, tar.gz files will still be available
+        # The project was removed from GitHub. There is a blog post about this that announces, tar.gz files will still be available
         # but I could not find them so maybe this will be added back later and we can use them again
         # See https://tomscii.sig7.se/2024/01/Ditching-GitHub
         self.svnTargets["8564022"] = "https://git.hq.sig7.se/tap-plugins.git||85640223047d49a305e90ba1b92303eb066ba474"

@@ -5,7 +5,6 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        # Theoretically it should work on Windows, but in fact it doesn't needs someone to care upstream
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows
 
     def setTargets(self):

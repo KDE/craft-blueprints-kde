@@ -103,7 +103,7 @@ class Package(CMakePackageBase):
             # Work on old machines
             "-DCPU_BASELINE=SSE2",
             "-DCPU_DISPATCH=SSE2",
-            # its broken on msvc
+            # it is broken on MSVC
             "-DWITH_OPENJPEG=OFF",
         ]
 

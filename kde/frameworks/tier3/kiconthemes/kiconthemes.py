@@ -7,7 +7,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        # enforce iconengine plugin is there on mac and windows, on Linux this kills e.g. other Qt apps
+        # enforce iconengine plugin is there on mac and Windows, on Linux this kills e.g. other Qt apps
         if CraftCore.compiler.isMacOS or CraftCore.compiler.isWindows:
             for ver in ["master"] + self.versionInfo.tarballs():
                 self.patchToApply[ver] = [("svgiconengine.diff", 1)]
