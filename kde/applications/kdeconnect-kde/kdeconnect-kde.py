@@ -27,8 +27,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt/qtconnectivity"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
-        # try to use Breeze style as Windows style has severe issues for e.g. scaling
-        self.runtimeDependencies["kde/plasma/breeze"] = None
 
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
