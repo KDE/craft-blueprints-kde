@@ -29,7 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        # FIXME kf6 hack self.runtimeDependencies["kde/kdeutils/markdownpart"] = None
+        self.runtimeDependencies["kde/kdeutils/markdownpart"] = None
         self.runtimeDependencies["kde/applications/konsole"] = None
 
         # KUserFeedback yet not an official tier1 framework
