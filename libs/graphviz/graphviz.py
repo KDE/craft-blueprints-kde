@@ -2,8 +2,7 @@
 # SPDX-FileCopyrightText: 2024 Julius Künzel <jk.kdedev@smartlab.uber.space>
 
 import info
-from Package.CMakePackageBase import CMakePackageBase
-from Utils import CraftHash
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 
 class subinfo(info.infoclass):
@@ -11,10 +10,8 @@ class subinfo(info.infoclass):
         self.description = "Graph Visualization Tools"
         self.webpage = "https://graphviz.org"
         for ver in ["10.0.1"]:
-            self.targets[ver] = f"https://gitlab.com/graphviz/graphviz/-/archive/{ver}/graphviz-{ver}.tar.gz"
-            self.targetInstSrc[ver] = f"graphviz-{ver}"
-
-        self.targetDigests["10.0.1"] = (["28f452ef1cb12288c8758a62f8c3fcfefdb91b251f7aae61d0d703f851bde931"], CraftHash.HashAlgorithm.SHA256)
+            # We need to use git since the tarballs do not contain the submudules needed on Windows
+            self.svnTargets[ver] = f"https://gitlab.com/graphviz/graphviz.git||{ver}"
 
         self.svnTargets["master"] = "https://gitlab.com/graphviz/graphviz.git"
 
@@ -24,6 +21,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/bison"] = None
 
 
-class Package(CMakePackageBase):
+class Package(AutoToolsPackageBase):
     def __init__(self, **args):
         super().__init__()
+        self.subinfo.options.fetch.checkoutSubmodules = True
