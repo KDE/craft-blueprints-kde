@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
             # We need to use git since the tarballs do not contain the submudules needed on Windows
             self.svnTargets[ver] = f"https://gitlab.com/graphviz/graphviz.git||{ver}"
 
-           self.patchToApply["10.0.1"] = [("fix-windows-install.diff", 1)]
+        self.patchToApply["10.0.1"] = [("fix-windows-install.diff", 1)]
         self.patchLevel["10.0.1"] = 1
 
         self.svnTargets["master"] = "https://gitlab.com/graphviz/graphviz.git"
