@@ -27,4 +27,5 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
+        self.subinfo.options.fetch.checkoutSubmodules = True
         self.subinfo.options.configure.args = ["-Dwith_gvedit=OFF"]
