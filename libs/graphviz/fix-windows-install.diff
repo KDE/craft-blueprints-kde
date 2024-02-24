@@ -1,0 +1,20 @@
+diff --git a/cmake/configure_plugins.cmake.in b/cmake/configure_plugins.cmake.in
+index d0c8f0f95..da837954c 100644
+--- a/cmake/configure_plugins.cmake.in
++++ b/cmake/configure_plugins.cmake.in
+@@ -27,7 +27,14 @@
+ #   https://cmake.org/cmake/help/latest/module/CPack.html#variable:CPACK_INSTALL_SCRIPTS (cannot use for this. Runs too early)
+ #   https://stackoverflow.com/questions/43875499/do-post-processing-after-make-install-in-cmake (no useful answer)
+ 
+-set(ROOT $ENV{DESTDIR}${CMAKE_INSTALL_PREFIX})
++if(WIN32)
++  # On Windows strip the drive letter (eg. C:) 
++  string(SUBSTRING ${CMAKE_INSTALL_PREFIX} 2 -1 FIXED_PREFIX)
++else()
++  set(FIXED_PREFIX ${CMAKE_INSTALL_PREFIX})
++endif()
++
++set(ROOT $ENV{DESTDIR}${FIXED_PREFIX})
+ 
+ if(APPLE)
+   set(ENV{DYLD_LIBRARY_PATH} "${ROOT}/@LIBRARY_INSTALL_DIR@")
