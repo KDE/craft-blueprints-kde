@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/bison"] = None
+        self.buildDependencies["libs/cairo"] = None
 
 
 class Package(CMakePackageBase):
