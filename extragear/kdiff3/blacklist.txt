@@ -1,0 +1,37 @@
+# blacklist for kdiff3
+
+# common app stuff
+share/apps/ark/.*
+share/apps/kgpg/.*
+share/kf5/kdoctools/.*
+lib/.*
+
+# Build only depency
+.*/gettext.*/*
+
+# Unused Qt modules
+qml/QtLocation/.*
+qml/QtPositioning/.*
+qml/QtMultimedia/.*
+qml/QtWebChannel/.*
+qml/QtWebEngine/.*
+qml/QtWebKit/.*
+qml/QtWinExtras/.*
+qml/QtTest/.*
+bin/QtTest/.*
+bin/Qt[0-9]*Designer[a-zA-Z]*\.dll
+bin/QtQuick/Controls/designerdesigner/.*
+
+
+# unneeded LLVM artifacts
+tools/msbuild/.*
+bin/LTO\.dll
+
+# other files
+bin/dbus-env\.bat
+bin/android_emulator_launcher\.sh
+bin/qt-cmake.*
+bin/.*test.*
+
+# strip most executables
+bin/(?!(kdiff3|kbuildsycoca5|update-mime-database|kioslave|QtWebEngineProcess)).*\.exe
