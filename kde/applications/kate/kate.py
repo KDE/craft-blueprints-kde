@@ -77,6 +77,4 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["alias"] = "kate"
 
         self.ignoredPackages.append("binary/mysql")
-        if not CraftCore.compiler.isMacOS:
-            self.ignoredPackages.append("libs/dbus")
         return super().createPackage()
