@@ -37,7 +37,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
         self.runtimeDependencies["libs/eigen3"] = None
         self.runtimeDependencies["libs/cfitsio"] = None
-        self.runtimeDependencies["libs/xisf"] = None
+        self.runtimeDependencies["libs/libxisf"] = None
         self.runtimeDependencies["libs/wcslib"] = None
 
         if CraftCore.compiler.isMacOS:
