@@ -87,6 +87,4 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-ruqola.png"
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-ruqola.png"
         self.ignoredPackages.append("binary/mysql")
-        if not CraftCore.compiler.isMacOS:
-            self.ignoredPackages.append("libs/dbus")
         return super().createPackage()
