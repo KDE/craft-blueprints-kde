@@ -77,5 +77,4 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["alias"] = "kate"
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

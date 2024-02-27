@@ -37,10 +37,13 @@ class subinfo(info.infoclass):
         # backport of https://codereview.qt-project.org/c/qt/qtbase/+/528067
         for ver in ["6.6.0", "6.6.1"]:
             self.patchToApply[ver] += [("android-fix-temporary-content-uri-access.diff", 1)]
+        # backport of https://codereview.qt-project.org/c/qt/qtbase/+/537693
+        for ver in ["6.6.0", "6.6.1"]:
+            self.patchToApply[ver] += [("android-fix-qtimezone-performance.diff", 1)]
 
         self.patchLevel["6.4.3"] = 4
-        self.patchLevel["6.6.0"] = 3
-        self.patchLevel["6.6.1"] = 1
+        self.patchLevel["6.6.0"] = 4
+        self.patchLevel["6.6.1"] = 3
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

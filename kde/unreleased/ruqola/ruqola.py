@@ -33,13 +33,13 @@ class subinfo(info.infoclass):
         self.description = "Rocket.Chat Client"
         self.webpage = "https://apps.kde.org/ruqola"
 
-        for ver in ["2.0.0"]:
+        for ver in ["2.1.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/ruqola/ruqola-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/ruqola/ruqola-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"ruqola-{ver}"
 
         self.svnTargets["master"] = "https://invent.kde.org/network/ruqola.git"
-        self.defaultTarget = "2.0.0"
+        self.defaultTarget = "2.1.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -87,5 +87,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-ruqola.png"
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-ruqola.png"
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("libs/dbus")
+        if not CraftCore.compiler.isMacOS:
+            self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

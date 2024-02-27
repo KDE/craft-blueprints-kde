@@ -34,6 +34,7 @@ class Package(CMakePackageBase):
         super().__init__()
 
     def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
@@ -41,8 +42,6 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(self.blueprintDir(), "kdiff3.ico")
 
         self.ignoredPackages.append("binary/mysql")
-        if not CraftCore.compiler.isMacOS:
-            self.ignoredPackages.append("libs/dbus")
         # Only attempt to install shell extention in standalone mode
         if not isinstance(self, AppxPackager):
             self.defines["version"] = self.subinfo.buildTarget

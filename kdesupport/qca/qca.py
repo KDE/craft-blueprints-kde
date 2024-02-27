@@ -15,6 +15,10 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isMinGW() and not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/cyrus-sasl"] = None
 
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.runtimeDependencies["libs/qt6/qt5compat"] = None
+
+
     def setTargets(self):
         self.description = "Qt Cryptographic Architecture (QCA)"
 

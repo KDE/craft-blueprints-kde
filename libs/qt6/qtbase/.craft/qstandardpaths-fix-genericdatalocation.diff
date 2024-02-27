@@ -1,0 +1,12 @@
+diff -Nrub -x *~ -x *\.rej -x *\.orig -x *\.o -x *\.pyc -x CMakeLists.txt.user qtbase-everywhere-src-6.6.1.orig/src/corelib/io/qstandardpaths_mac.mm qtbase-everywhere-src-6.6.1/src/corelib/io/qstandardpaths_mac.mm
+--- qtbase-everywhere-src-6.6.1.orig/src/corelib/io/qstandardpaths_mac.mm	2024-02-21 20:15:22
++++ qtbase-everywhere-src-6.6.1/src/corelib/io/qstandardpaths_mac.mm	2024-02-21 20:14:58
+@@ -195,7 +195,7 @@
+         }
+     }
+ 
+-    if (type == AppDataLocation || type == AppLocalDataLocation) {
++    if (type == AppDataLocation || type == AppLocalDataLocation || type == GenericDataLocation) {
+         CFBundleRef mainBundle = CFBundleGetMainBundle();
+         if (mainBundle) {
+             if (QCFType<CFURLRef> resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle)) {

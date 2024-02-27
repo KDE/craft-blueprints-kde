@@ -42,6 +42,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/libarchive"] = None
         self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/python"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
@@ -49,15 +50,19 @@ class Package(CraftPackageObject.get("kde").pattern):
         super().__init__()
         # enable submodule checkout
         self.subinfo.options.fetch.checkoutSubmodules = True
+        self.subinfo.options.configure.args += [f"-DPython3_ROOT_DIR={CraftCore.standardDirs.craftRoot()}"]
 
     def createPackage(self):
         self.defines["executable"] = r"bin\glaxnimate.exe"
         # self.addExecutableFilter(r"(bin|libexec)/(?!(glaxnimate|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")
-        if not CraftCore.compiler.isLinux:
-            self.ignoredPackages.append("libs/dbus")
+        # if not CraftCore.compiler.isLinux:
+        #     self.ignoredPackages.append("libs/dbus")
 
-        self.defines["appname"] = "Glaxnimate"
+        if CraftCore.compiler.isMacOS:
+            self.defines["appname"] = "glaxnimate"
+        else:
+            self.defines["appname"] = "Glaxnimate"
         # self.defines["icon"] = os.path.join(self.sourceDir(), "data", "icons", "kdenlive.ico")
         # self.defines["icon_png"] = os.path.join(self.sourceDir(), "logo.png")
         return super().createPackage()

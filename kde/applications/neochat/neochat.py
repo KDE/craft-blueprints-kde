@@ -49,6 +49,8 @@ class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
         self.subinfo.options.dynamic.buildTests = False
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.args += ["-DNEOCHAT_APPIMAGE=ON"]
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
@@ -65,4 +67,5 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
+
         return super().createPackage()
