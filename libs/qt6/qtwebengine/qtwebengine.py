@@ -1,5 +1,4 @@
 import multiprocessing
-import os
 from pathlib import Path
 
 import info
@@ -20,14 +19,17 @@ class subinfo(info.infoclass):
         self.patchLevel["6.4.0"] = 1
         self.patchToApply["6.5.3"] = [(".6.5.3", 1)]
         self.patchToApply["6.6.0"] = [(".6.5.3", 1)]
-        self.patchToApply["6.6.1"] = [
-            # while the patch is undocumented it apparently fixes
-            # qtwebengine-everywhere-src-6.6.1\src\3rdparty\chromium\third_party\highway\src\hwy\ops\emu128-inl.h(69) : fatal error C1002: compiler is out of heap space in pass 2
-            ("msvc-template.patch", 1),
-            # don't confuse gn
-            ("qtwebengine-6.6.1-20240105.diff", 1),
-            ("chromium-119.0.6045.159-icu-74.patch", 1),
-        ]
+
+        for ver in ["6.6.1", "6.6.2"]:
+            self.patchToApply[ver] = [
+                # while the patch is undocumented it apparently fixes
+                # qtwebengine-everywhere-src-6.6.1\src\3rdparty\chromium\third_party\highway\src\hwy\ops\emu128-inl.h(69) : fatal error C1002: compiler is out of heap space in pass 2
+                ("msvc-template.patch", 1),
+                # don't confuse gn
+                ("qtwebengine-6.6.1-20240105.diff", 1),
+                ("chromium-119.0.6045.159-icu-74.patch", 1),
+            ]
+
         self.patchLevel["6.6.1"] = 1
 
     def setDependencies(self):

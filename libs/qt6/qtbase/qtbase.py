@@ -1,8 +1,6 @@
-import os
-
 import info
-import utils
 from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -24,21 +22,21 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        for ver in ["6.4.3", "6.5.0", "6.5.2", "6.5.3", "6.6.0", "6.6.1"]:
+        for ver in ["6.4.3", "6.5.0", "6.5.2", "6.5.3", "6.6.0", "6.6.1", "6.6.2"]:
             # These are patches that we can't submit upstream
             # Apply them to all future versions
             self.patchToApply[ver] = [(".craft", 1)]
 
         if CraftCore.compiler.isMinGW():
             # Fix finding pcre2 on MinGW
-            for ver in ["6.6.0", "6.6.1"]:
+            for ver in ["6.6.0", "6.6.1", "6.6.2"]:
                 self.patchToApply[ver] += [("qtbase-6.6.0-mingw-find-pcre2.diff", 1)]
 
         # backport of https://codereview.qt-project.org/c/qt/qtbase/+/528067
         for ver in ["6.6.0", "6.6.1"]:
             self.patchToApply[ver] += [("android-fix-temporary-content-uri-access.diff", 1)]
         # backport of https://codereview.qt-project.org/c/qt/qtbase/+/537693
-        for ver in ["6.6.0", "6.6.1"]:
+        for ver in ["6.6.0", "6.6.1", "6.6.2"]:
             self.patchToApply[ver] += [("android-fix-qtimezone-performance.diff", 1)]
 
         self.patchLevel["6.4.3"] = 4
@@ -80,9 +78,6 @@ class subinfo(info.infoclass):
 
             if self.options.dynamic.withCUPS:
                 self.runtimeDependencies["libs/cups"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
