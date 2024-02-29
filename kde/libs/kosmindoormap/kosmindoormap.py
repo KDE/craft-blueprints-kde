@@ -2,12 +2,16 @@
 # SPDX-FileCopyrightText: 2021 Volker Krause <vkrause@kde.org>
 
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "KDE OSM Indoor Map"
         self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/libraries/kosmindoormap.git")
+
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.defaultTarget = "23.08.5"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -27,8 +31,6 @@ class subinfo(info.infoclass):
 
     def registerOptions(self):
         self.options.dynamic.registerOption("buildStandaloneApp", False)
-
-from Package.CMakePackageBase import *
 
 
 class Package(CraftPackageObject.get("kde").pattern):
