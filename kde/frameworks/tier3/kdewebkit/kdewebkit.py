@@ -23,6 +23,8 @@ class subinfo(info.infoclass):
                 "https://download.kde.org/stable/frameworks/${VERSION_MAJOR}.${VERSION_MINOR}/portingAids/${PACKAGE_NAME}-${VERSION}.tar.xz.sha256", ver
             )
 
+        self.patchToApply["5.115.0"] = [("fix-build.patch", 1)]
+
         self.description = "KDE Integration for QtWebKit"
 
     def setDependencies(self):
