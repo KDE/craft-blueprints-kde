@@ -30,16 +30,6 @@ from CraftCore import CraftCore
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply["5.110.0"] = [("KDEInstallDirs6 fix BUNDLE destination.patch", 1)]
-
-        # Fix Windows target version, see https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/399
-        self.patchToApply["5.247.0"] = [("399.diff", 1)]
-
-        self.patchToApply["5.248.0"] = [("Fix-APK-packaging-with-Android-NDK-r25.patch", 1)]
-
-        self.patchLevel["5.110.0"] = 1
-        self.patchLevel["5.247.0"] = 1
-        self.patchLevel["5.248.0"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

@@ -2,17 +2,14 @@
 # SPDX-FileCopyrightText: 2021 Volker Krause <vkrause@kde.org>
 
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/pim/itinerary.git")
         self.description = "Digital travel assistant app"
-
-        self.patchToApply["23.08.0"] = [("0001-Manually-manage-permissions-in-the-Android-manifest.patch", 1)]
-        self.patchLevel["23.08.0"] = 1
-        self.patchToApply["23.08.2"] = [("0003-android-asset-exclusion.patch", 1)]
-        self.patchLevel["23.08.2"] = 2
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -40,9 +37,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/libquotient"] = None
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6" and CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CraftPackageObject.get("kde").pattern):

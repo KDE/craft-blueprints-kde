@@ -1,11 +1,11 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-
-        self.patchToApply["5.27.8"] = [("0001-Bundle-color-definitions-on-Android.patch", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
@@ -25,9 +25,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde/plasma").pattern):
     def __init__(self):
         super().__init__()

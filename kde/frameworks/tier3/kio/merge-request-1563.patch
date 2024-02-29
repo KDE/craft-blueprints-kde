@@ -1,0 +1,292 @@
+From fd2202eb2a39c0f01dc2347a9e3e38989a159a82 Mon Sep 17 00:00:00 2001
+From: Harald Sitter <sitter@kde.org>
+Date: Tue, 27 Feb 2024 15:41:45 +0100
+Subject: [PATCH] connectionbackend: improve jumbo packet handling
+
+(also should fix things on windows)
+
+jumbo handling was a bit weird in that we kept bumping the buffer size
+sky high. and then eventually (hopefully) would be able to read
+everything in one go and emit. In practice that seems to have not worked
+out on windows. do partial reads instead.
+
+to facilitate this change the existing Task struct is now serving as
+container we read into so it becomes a bit easier to manage the state.
+
+this should also make the code a bit easier to reason about. when we
+have no task we now start a new task. if we have a task we always read
+as much data as possible into the task. when we read all data then the
+task gets emitted.
+
+BUG: 481311
+---
+ autotests/CMakeLists.txt            |  9 +++++
+ autotests/connectionbackendtest.cpp | 53 +++++++++++++++++++++++++++++
+ src/core/CMakeLists.txt             |  9 +++++
+ src/core/connectionbackend.cpp      | 47 ++++++++++++-------------
+ src/core/connectionbackend_p.h      | 13 +++----
+ 5 files changed, 100 insertions(+), 31 deletions(-)
+ create mode 100644 autotests/connectionbackendtest.cpp
+
+diff --git a/autotests/CMakeLists.txt b/autotests/CMakeLists.txt
+index eacf4e3dc3..fcf9e9f2bc 100644
+--- a/autotests/CMakeLists.txt
++++ b/autotests/CMakeLists.txt
+@@ -45,6 +45,15 @@ target_link_libraries(threadtest Qt6::Concurrent)
+ 
+ target_link_libraries(deleteortrashjobtest KF6::KIOWidgets)
+ 
++ecm_add_test(
++    connectionbackendtest.cpp
++    ../src/core/connectionbackend.cpp
++    ../src/core/kiocoreconnectiondebug.cpp
++    TEST_NAME connectionbackendtest
++    NAME_PREFIX "kiocore-"
++    LINK_LIBRARIES KF6::KIOCore Qt6::Test Qt6::Network KF6::I18n
++)
++
+ # as per sysadmin request these are limited to linux only! https://invent.kde.org/frameworks/kio/-/merge_requests/1008
+ if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND USE_FTPD_WSGIDAV_UNITTEST)
+     include(FindGem)
+diff --git a/autotests/connectionbackendtest.cpp b/autotests/connectionbackendtest.cpp
+new file mode 100644
+index 0000000000..1f695e6bd9
+--- /dev/null
++++ b/autotests/connectionbackendtest.cpp
+@@ -0,0 +1,53 @@
++// SPDX-License-Identifier: LGPL-2.0-or-later
++// SPDX-FileCopyrightText: 2024 Harald Sitter <sitter@kde.org>
++
++#include <cstdlib>
++
++#include <QSignalSpy>
++#include <QTest>
++
++#include <connectionbackend_p.h>
++
++class ConnectionBackendTest : public QObject
++{
++    Q_OBJECT
++private Q_SLOTS:
++    void testJumboPackets()
++    {
++        KIO::ConnectionBackend server;
++        KIO::ConnectionBackend clientConnection;
++
++        QVERIFY(server.listenForRemote());
++        auto spy = std::make_unique<QSignalSpy>(&server, &KIO::ConnectionBackend::newConnection);
++        QVERIFY(clientConnection.connectToRemote(server.address));
++        spy->wait();
++        QVERIFY(!spy->isEmpty());
++        auto serverConnection = std::unique_ptr<KIO::ConnectionBackend>(server.nextPendingConnection());
++        QVERIFY(serverConnection);
++
++        spy = std::make_unique<QSignalSpy>(&clientConnection, &KIO::ConnectionBackend::commandReceived);
++        constexpr auto cmd = 64;
++        const auto data = randomByteArray(clientConnection.StandardBufferSize * 4L);
++        serverConnection->sendCommand(cmd, data);
++        spy->wait();
++        QVERIFY(!spy->isEmpty());
++
++        auto task = spy->at(0).at(0).value<KIO::Task>();
++        QCOMPARE(task.data.size(), data.size());
++    }
++
++private:
++    QByteArray randomByteArray(qsizetype size)
++    {
++        QByteArray data;
++        data.reserve(size);
++        for (int i = 0; i < size; i++) {
++            data.append(std::rand() % std::max(1, std::numeric_limits<char>::digits10));
++        }
++        return data;
++    }
++};
++
++QTEST_MAIN(ConnectionBackendTest)
++
++#include "connectionbackendtest.moc"
+diff --git a/src/core/CMakeLists.txt b/src/core/CMakeLists.txt
+index 073ed75dbd..210bbbd76f 100644
+--- a/src/core/CMakeLists.txt
++++ b/src/core/CMakeLists.txt
+@@ -134,6 +134,15 @@ ecm_qt_export_logging_category(
+     EXPORT KIO
+ )
+ 
++ecm_qt_declare_logging_category(KF6KIOCore
++    HEADER kiocoreconnectiondebug.h
++    IDENTIFIER KIO_CORE_CONNECTION
++    CATEGORY_NAME kf.kio.core.connection
++    DEFAULT_SEVERITY Warning
++    DESCRIPTION "Connection (KIO)"
++    EXPORT KIO
++)
++
+ if (UNIX)
+    target_sources(KF6KIOCore PRIVATE
+       kioglobal_p_unix.cpp
+diff --git a/src/core/connectionbackend.cpp b/src/core/connectionbackend.cpp
+index ef86e49052..e982cab2e5 100644
+--- a/src/core/connectionbackend.cpp
++++ b/src/core/connectionbackend.cpp
+@@ -3,6 +3,7 @@
+     SPDX-FileCopyrightText: 2000 Stephan Kulow <coolo@kde.org>
+     SPDX-FileCopyrightText: 2000 David Faure <faure@kde.org>
+     SPDX-FileCopyrightText: 2007 Thiago Macieira <thiago@kde.org>
++    SPDX-FileCopyrightText: 2024 Harald Sitter <sitter@kde.org>
+ 
+     SPDX-License-Identifier: LGPL-2.0-or-later
+ */
+@@ -19,7 +20,7 @@
+ #include <QTemporaryFile>
+ #include <cerrno>
+ 
+-#include "kiocoredebug.h"
++#include "kiocoreconnectiondebug.h"
+ 
+ using namespace KIO;
+ 
+@@ -27,8 +28,6 @@ ConnectionBackend::ConnectionBackend(QObject *parent)
+     : QObject(parent)
+     , state(Idle)
+     , socket(nullptr)
+-    , len(-1)
+-    , cmd(0)
+     , signalEmitted(false)
+ {
+     localServer = nullptr;
+@@ -196,11 +195,12 @@ ConnectionBackend *ConnectionBackend::nextPendingConnection()
+     Q_ASSERT(localServer);
+     Q_ASSERT(!socket);
+ 
+-    // qCDebug(KIO_CORE) << "Got a new connection";
++    qCDebug(KIO_CORE_CONNECTION) << "Got a new connection";
+ 
+     QLocalSocket *newSocket = localServer->nextPendingConnection();
+ 
+     if (!newSocket) {
++        qCDebug(KIO_CORE_CONNECTION) << "... nevermind";
+         return nullptr; // there was no connection...
+     }
+ 
+@@ -224,8 +224,8 @@ void ConnectionBackend::socketReadyRead()
+             return;
+         }
+ 
+-        // qCDebug(KIO_CORE) << this << "Got" << socket->bytesAvailable() << "bytes";
+-        if (len == -1) {
++        qCDebug(KIO_CORE_CONNECTION) << this << "Got" << socket->bytesAvailable() << "bytes";
++        if (!pendingTask.has_value()) {
+             // We have to read the header
+             char buffer[HeaderSize];
+ 
+@@ -241,34 +241,31 @@ void ConnectionBackend::socketReadyRead()
+             while (*p == ' ') {
+                 p++;
+             }
+-            len = strtol(p, nullptr, 16);
++            auto len = strtol(p, nullptr, 16);
+ 
+             p = buffer + 7;
+             while (*p == ' ') {
+                 p++;
+             }
+-            cmd = strtol(p, nullptr, 16);
++            auto cmd = strtol(p, nullptr, 16);
+ 
+-            // qCDebug(KIO_CORE) << this << "Beginning of command" << hex << cmd << "of size" << len;
++            pendingTask = Task{.cmd = static_cast<int>(cmd), .len = len};
++
++            qCDebug(KIO_CORE_CONNECTION) << this << "Beginning of command" << pendingTask->cmd << "of size" << pendingTask->len;
+         }
+ 
+         QPointer<ConnectionBackend> that = this;
+ 
+-        // qCDebug(KIO_CORE) << socket << "Want to read" << len << "bytes";
+-        if (socket->bytesAvailable() >= len) {
+-            Task task;
+-            task.cmd = cmd;
+-            if (len) {
+-                task.data = socket->read(len);
+-            }
+-            len = -1;
++        const auto toRead = std::min<off_t>(socket->bytesAvailable(), pendingTask->len - pendingTask->data.size());
++        qCDebug(KIO_CORE_CONNECTION) << socket << "Want to read" << toRead << "bytes; appending to already existing bytes" << pendingTask->data.size();
++        pendingTask->data += socket->read(toRead);
+ 
++        if (pendingTask->data.size() == pendingTask->len) { // read all data of this task -> emit it and reset
+             signalEmitted = true;
+-            Q_EMIT commandReceived(task);
+-        } else if (len > StandardBufferSize) {
+-            qCDebug(KIO_CORE) << socket << "Jumbo packet of" << len << "bytes";
+-            // Calling setReadBufferSize from a readyRead slot leads to a bug in Qt, fixed in 13c246ee119
+-            socket->setReadBufferSize(len + 1);
++            qCDebug(KIO_CORE_CONNECTION) << "emitting task" << pendingTask->cmd << pendingTask->data.size();
++            Q_EMIT commandReceived(pendingTask.value());
++
++            pendingTask = {};
+         }
+ 
+         // If we're dead, better don't try anything.
+@@ -277,10 +274,10 @@ void ConnectionBackend::socketReadyRead()
+         }
+ 
+         // Do we have enough for an another read?
+-        if (len == -1) {
++        if (!pendingTask.has_value()) {
+             shouldReadAnother = socket->bytesAvailable() >= HeaderSize;
+-        } else {
+-            shouldReadAnother = socket->bytesAvailable() >= len;
++        } else { // NOTE: if we don't have data pending we may still have a pendingTask that gets resumed when we get more data!
++            shouldReadAnother = socket->bytesAvailable();
+         }
+     } while (shouldReadAnother);
+ }
+diff --git a/src/core/connectionbackend_p.h b/src/core/connectionbackend_p.h
+index 39c3504c4f..f06fb1856a 100644
+--- a/src/core/connectionbackend_p.h
++++ b/src/core/connectionbackend_p.h
+@@ -1,6 +1,7 @@
+ /*
+     This file is part of the KDE libraries
+     SPDX-FileCopyrightText: 2007 Thiago Macieira <thiago@kde.org>
++    SPDX-FileCopyrightText: 2024 Harald Sitter <sitter@kde.org>
+ 
+     SPDX-License-Identifier: LGPL-2.0-or-later
+ */
+@@ -19,7 +20,8 @@ class QTcpServer;
+ namespace KIO
+ {
+ struct Task {
+-    int cmd;
++    int cmd = -1;
++    long len = 0;
+     QByteArray data;
+ };
+ 
+@@ -32,16 +34,15 @@ public:
+     QUrl address;
+     QString errorString;
+ 
++    static const int HeaderSize = 10;
++    static const int StandardBufferSize = 32 * 1024;
++
+ private:
+     QLocalSocket *socket;
+     QLocalServer *localServer;
+-    long len;
+-    int cmd;
++    std::optional<Task> pendingTask = std::nullopt;
+     bool signalEmitted;
+ 
+-    static const int HeaderSize = 10;
+-    static const int StandardBufferSize = 32 * 1024;
+-
+ Q_SIGNALS:
+     void disconnected();
+     void commandReceived(const KIO::Task &task);
+-- 
+GitLab
+

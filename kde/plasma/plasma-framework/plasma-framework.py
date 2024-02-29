@@ -38,6 +38,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
 
 
-class Package(CraftPackageObject.get("kde").pattern):
+class Package(CraftPackageObject.get("kde/plasma").pattern):
     def __init__(self):
         super().__init__()

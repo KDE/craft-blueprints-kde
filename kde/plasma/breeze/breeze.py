@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/kdecoration"] = None
 
 
-class Package(CraftPackageObject.get("kde").pattern):
+class Package(CraftPackageObject.get("kde/plasma").pattern):
     def __init__(self):
         super().__init__()
         if OsUtils.isWin():

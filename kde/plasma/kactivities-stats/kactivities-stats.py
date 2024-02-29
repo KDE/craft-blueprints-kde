@@ -22,6 +22,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/boost/boost-headers"] = None
 
 
-class Package(CraftPackageObject.get("kde").pattern):
+class Package(CraftPackageObject.get("kde/plasma").pattern):
     def __init__(self):
         super().__init__()

@@ -8,13 +8,6 @@ class subinfo(info.infoclass):
 
         self.description = "KContacts library"
 
-        self.patchToApply["5.247.0"] = [
-            # Fix non-void return
-            ("517672e703b92835e554094c915dbc9ebee1b486.patch", 1),
-            # Fix undefined reference to qMain(int, char**)
-            ("86e98a593672858429675422861770c9ae04f224.patch", 1),
-        ]
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
