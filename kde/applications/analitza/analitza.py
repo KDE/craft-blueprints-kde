@@ -1,4 +1,6 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -6,6 +8,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "Analitza Library"
+
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.defaultTarget = "23.08.5"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -19,9 +24,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/glew"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
