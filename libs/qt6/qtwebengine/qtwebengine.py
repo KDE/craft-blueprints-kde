@@ -106,7 +106,7 @@ class Package(CMakePackageBase):
         else:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=ON"]
 
-        if CraftCore.compiler.isMSVC() and CraftVersion(self.buildTarget) >= CraftVersion("6.6.0") and CraftVersion(self.buildTarget) < CraftVersion("6.6.2"):
+        if CraftCore.compiler.isMSVC() and CraftVersion(self.buildTarget) >= CraftVersion("6.6.0"):
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_zlib=OFF"]
         else:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_zlib=ON"]
