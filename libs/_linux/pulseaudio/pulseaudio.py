@@ -32,3 +32,4 @@ class Package(MesonPackageBase):
         super().__init__()
         self.subinfo.options.configure.args += ["-Ddatabase=simple", "-Dx11=disabled", "-Dtests=false", "-Ddoxygen=false"]
         self.subinfo.options.configure.ldflags += " -lintl"
+        self.subinfo.options.package.disableBinaryCache = True
