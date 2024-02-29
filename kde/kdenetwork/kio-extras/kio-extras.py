@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
 
         # kio-extras is a special case, it releases different tarballs for Qt5 and Qt6
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            ver = self.subinfo.defaultTarget
+            ver = self.defaultTarget
             self.targets[ver] = f"https://download.kde.org/stable/release-service/{ver}/src/kio-extras-kf5-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/release-service/{ver}/src/kio-extras-kf5-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"kio-extras-kf5-{ver}"
