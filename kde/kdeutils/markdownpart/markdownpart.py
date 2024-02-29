@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
 
         self.description = "a Markdown viewer KParts plugin, which allows KParts-using applications to display files in Markdown format in the target format"
 
-        if not CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             self.defaultVersion = "23.08.5"
 
     def setDependencies(self):
