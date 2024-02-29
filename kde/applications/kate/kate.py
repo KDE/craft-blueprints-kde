@@ -11,6 +11,9 @@ class subinfo(info.infoclass):
         self.description = "Modern text editor built on the KDE Frameworks and Qt"
         self.webpage = "https://kate-editor.org/"
 
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.defaultTarget = "23.08.5"
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

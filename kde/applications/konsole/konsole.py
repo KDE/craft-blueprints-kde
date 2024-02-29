@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -7,6 +8,9 @@ class subinfo(info.infoclass):
 
         self.displayName = "Konsole"
         self.description = "the KDE terminal emulator"
+
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.defaultTarget = "23.08.5"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -30,10 +34,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
 
