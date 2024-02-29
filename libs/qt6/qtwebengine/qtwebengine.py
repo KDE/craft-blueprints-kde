@@ -100,6 +100,11 @@ class Package(CMakePackageBase):
             not CraftCore.compiler.isLinux
             and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2")
             and CraftVersion(self.buildTarget) < CraftVersion("6.6.2")
+        ) or
+        (
+            # macOS is fixed with 6.6.2, Windows still not :-(
+            CraftCore.compiler.isWindows
+            and CraftVersion(self.buildTarget) >= CraftVersion("6.6.2") 
         ):
             # See https://bugreports.qt.io/browse/QTBUG-115357
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=OFF"]
