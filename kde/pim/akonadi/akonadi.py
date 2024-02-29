@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -7,6 +8,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "A storage service for PIM data and meta data"
+
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
+            self.defaultTarget = "23.08.5"
 
     def registerOptions(self):
         self.options.dynamic.registerOption("useDesignerPlugin", True)
@@ -25,10 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
         self.subinfo.options.dynamic.buildTests = False
