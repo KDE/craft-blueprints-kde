@@ -9,21 +9,15 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/kirigami-addons.git"
 
         # stable
-        for ver in ["0.11.0"]:
+        for ver in ["0.11.0", "1.0.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = "kirigami-addons-" + ver
 
-        for ver in ["0.11.75", "0.11.90"]:
-            self.targets[ver] = f"https://download.kde.org/unstable/kirigami-addons/kirigami-addons-{ver}.tar.xz"
-            self.targetDigestUrls[ver] = f"https://download.kde.org/unstable/kirigami-addons/kirigami-addons-{ver}.tar.xz.sha256"
-            self.targetInstSrc[ver] = "kirigami-addons-" + ver
-
-
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.defaultTarget = "0.11.90"
-        else:
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             self.defaultTarget = "0.11.0"
+        else:
+            self.defaultTarget = "1.0.1"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
