@@ -4,7 +4,6 @@
 share/apps/ark/.*
 share/apps/kgpg/.*
 share/kf5/kdoctools/.*
-lib/.*
 
 # Build only depency
 .*/gettext.*/*
