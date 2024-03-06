@@ -27,6 +27,9 @@ class subinfo(info.infoclass):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.runtimeDependencies["qt-libs/qcoro"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
+            self.runtimeDependencies["kde/plasma/kactivities-stats"] = None
+        else:
+            self.runtimeDependencies["kde/frameworks/tier3/kactivities-stats"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
