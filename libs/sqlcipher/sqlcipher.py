@@ -25,9 +25,11 @@
 import os
 import re
 
-import CraftCore
 import info
 import utils
+from CraftCompiler import CraftCompiler
+from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Package.MSBuildPackageBase import MSBuildPackageBase
 from Utils import CraftHash
