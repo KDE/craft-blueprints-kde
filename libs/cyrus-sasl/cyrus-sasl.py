@@ -10,7 +10,6 @@ class subinfo(info.infoclass):
         )
 
     def setTargets(self):
-
         self.description = "Cyrus SASL implementation"
 
         for ver in ["2.1.26", "2.1.28"]:

@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
 
+
 class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()

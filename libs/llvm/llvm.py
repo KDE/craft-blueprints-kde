@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
+import os
+
 import info
-from Package import CMakePackageBase
+import utils
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -44,9 +49,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/libxml2"] = None
         self.buildDependencies["libs/libzstd"] = None
         self.buildDependencies["dev-utils/python3"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
@@ -94,20 +96,20 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DLLDB_DISABLE_PYTHON=ON"]
 
     def install(self):
-        if not CMakePackageBase.install(self):
+        if not super().install():
             return False
         if CraftCore.compiler.isMinGW():
-            files = os.listdir(os.path.join(self.buildDir(), "lib"))
+            files = os.listdir(self.buildDir() / "lib")
             for f in files:
                 if f.endswith("dll.a"):
-                    src = os.path.join(self.buildDir(), "lib", f)
-                    dest = os.path.join(self.installDir(), "lib", f)
+                    src = self.buildDir() / "lib" / f
+                    dest = self.installDir() / "lib" / f
                     if not os.path.exists(dest):
                         utils.copyFile(src, dest, False)
         elif CraftCore.compiler.isMSVC():
             utils.copyFile(
-                os.path.join(self.buildDir(), "lib", "clang.lib"),
-                os.path.join(self.installDir(), "lib", "craft_clang_plugins.lib"),
+                self.buildDir() / "lib/clang.lib",
+                self.installDir() / "lib/craft_clang_plugins.lib",
             )
 
         return True
@@ -115,9 +117,9 @@ class Package(CMakePackageBase):
     def postInstall(self):
         if CraftCore.compiler.isWindows:
             # wrapper for python scripts
-            root = Path(CraftCore.standardDirs.craftRoot())
+            root = CraftCore.standardDirs.craftRoot()
             if not utils.createShim(
-                os.path.join(self.installDir(), "bin", "git-clang-format.exe"),
+                self.installDir() / "bin/git-clang-format.exe",
                 root / "dev-utils/bin/python3.exe",
                 [root / "bin/git-clang-format"],
                 useAbsolutePath=True,

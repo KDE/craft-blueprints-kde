@@ -97,11 +97,7 @@ class Package(CMakePackageBase):
             ]
 
         if (
-            (
-                CraftCore.compiler.isMacOS
-                and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2")
-                and CraftVersion(self.buildTarget) < CraftVersion("6.6.2")
-            )
+            (CraftCore.compiler.isMacOS and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2") and CraftVersion(self.buildTarget) < CraftVersion("6.6.2"))
             # macOS is fixed with 6.6.2, Windows still not :-(
             or CraftCore.compiler.isWindows
         ):

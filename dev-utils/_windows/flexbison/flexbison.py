@@ -22,7 +22,7 @@ class Package(BinaryPackageBase):
         self.subinfo.shelveAble = False
 
     def install(self):
-        if not BinaryPackageBase.install(self):
+        if not super().install():
             return False
         return utils.copyFile(os.path.join(self.installDir(), "win_flex.exe"), os.path.join(self.installDir(), "flex.exe")) and utils.copyFile(
             os.path.join(self.installDir(), "win_bison.exe"), os.path.join(self.installDir(), "bison.exe")

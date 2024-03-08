@@ -22,18 +22,23 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
+import os
+import re
+
 import CraftCore
 import info
-from Package.AutoToolsPackageBase import *
-from Package.MSBuildPackageBase import *
+import utils
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.MSBuildPackageBase import MSBuildPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["3.4.2"]:
-            self.targets[ver] = "https://github.com/sqlcipher/sqlcipher/archive/v%s.zip" % ver
-            self.archiveNames[ver] = "sqlcipher-%s.zip" % ver
-            self.targetInstSrc[ver] = "sqlcipher-%s" % ver
+            self.targets[ver] = f"https://github.com/sqlcipher/sqlcipher/archive/v{ver}.zip"
+            self.archiveNames[ver] = f"sqlcipher-{ver}.zip"
+            self.targetInstSrc[ver] = f"sqlcipher-{ver}"
             self.patchLevel[ver] = 6
 
         self.targetDigests["3.4.2"] = (["f2afbde554423fd3f8e234d21e91a51b6f6ba7fc4971e73fdf5d388a002f79f1"], CraftHash.HashAlgorithm.SHA256)
@@ -67,7 +72,7 @@ class PackageAutotools(AutoToolsPackageBase):
     def configure(self):
         isConfigured = super().configure()
         if isConfigured and CraftCore.compiler.isMinGW():
-            Makefile = os.path.join(self.buildDir(), "Makefile")
+            Makefile = self.buildDir() / "Makefile"
 
             with open(Makefile, "rt") as f:
                 content = f.read()
@@ -93,7 +98,7 @@ class PackageAutotools(AutoToolsPackageBase):
 
     def postInstall(self):
         if CraftCore.compiler.isMinGW():
-            cmakes = [os.path.join(self.installDir(), "lib", "pkgconfig", "sqlcipher.pc")]
+            cmakes = [self.installDir() / "lib/pkgconfig/sqlcipher.pc"]
         else:
             cmakes = []
         return self.patchInstallPrefix(cmakes, OsUtils.toMSysPath(self.subinfo.buildPrefix)[:-1], OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())[:-1])
@@ -101,7 +106,7 @@ class PackageAutotools(AutoToolsPackageBase):
 
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
-        MSBuildPackageBase.__init__(self)
+        super.__init__()
 
     def configure(self):
         self.enterSourceDir()
@@ -115,15 +120,14 @@ class PackageMSVC(MSBuildPackageBase):
         # and __declspec(dllimport) while linking to this library
         defines = "TCC = $(TCC) -DSQLITE_HAS_CODEC -Dlibsqlcipher_EXPORTS\n" "RCC = $(RCC) -DSQLITE_HAS_CODEC -Dlibsqlcipher_EXPORTS\n"
 
-        includeDir = os.path.join(CraftCore.standardDirs.craftRoot(), "include")
-        libDir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib")
-        binDir = os.path.join(CraftCore.standardDirs.craftRoot(), "bin")
+        includeDir = CraftCore.standardDirs.craftRoot() / "include"
+        libDir = CraftCore.standardDirs.craftRoot() / "lib"
+        binDir = CraftCore.standardDirs.craftRoot() / "bin"
         includeDirs = f"TCC = $(TCC) -I{includeDir}\n" f"RCC = $(RCC) -I{includeDir}\n"
 
         index = content.find("TCC = $(TCC) -DSQLITE_TEMP_STORE=1")
         content = content[:index] + defines + includeDirs + content[index:]
 
-        libDir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib")
         includeLibs = f"LTLIBPATHS = $(LTLIBPATHS) /LIBPATH:{libDir}\n" "LTLIBS = $(LTLIBS) libssl.lib libcrypto.lib tcl86.lib\n"
 
         index = content.find("# If ICU support is enabled, add the linker options for it.")
@@ -168,16 +172,16 @@ class PackageMSVC(MSBuildPackageBase):
         isInstalled = super().install()
         if isInstalled:
             # move sqlcipher headers to sqlcipher directory to not conflit with sqlite3
-            includeDir = os.path.join(self.installDir(), "include")
-            utils.moveFile(includeDir, os.path.join(self.installDir(), "sqlcipher"))
+            includeDir = self.installDir() / "include"
+            utils.moveFile(includeDir, self.installDir() / "sqlcipher")
             utils.createDir(includeDir)
-            utils.moveFile(os.path.join(self.installDir(), "sqlcipher"), os.path.join(includeDir, "sqlcipher"))
+            utils.moveFile(self.installDir() / "sqlcipher", includeDir / "sqlcipher")
 
             # allow finding sqlcipher library by pkgconfig module
-            pkgConfigDir = os.path.join(self.installDir(), "lib", "pkgconfig")
-            pkgConfigFile = fileName = os.path.join(pkgConfigDir, "sqlcipher.pc")
+            pkgConfigDir = self.installDir() / "lib/pkgconfig"
+            pkgConfigFile = pkgConfigDir / "sqlcipher.pc"
             utils.createDir(pkgConfigDir)
-            utils.copyFile(os.path.join(self.sourceDir(), "sqlcipher.pc.in"), pkgConfigFile)
+            utils.copyFile(self.sourceDir() / "sqlcipher.pc.in", pkgConfigFile)
             with open(pkgConfigFile, "rt") as f:
                 content = f.read()
             content = content.replace(r"@prefix@", str(CraftCore.standardDirs.craftRoot()))
@@ -190,8 +194,8 @@ class PackageMSVC(MSBuildPackageBase):
                 f.write(content)
 
             # remove a dummy library and replace it with the real one
-            utils.rmtree(os.path.join(self.installDir(), "lib", "sqlcipher.lib"))
-            utils.copyFile(os.path.join(self.installDir(), "lib", "libsqlcipher.lib"), os.path.join(self.installDir(), "lib", "sqlcipher.lib"))
+            utils.rmtree(self.installDir() / "lib/sqlcipher.lib")
+            utils.copyFile(self.installDir() / "lib/libsqlcipher.lib", self.installDir() / "lib/sqlcipher.lib")
 
         return isInstalled
 

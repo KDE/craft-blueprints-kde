@@ -1,8 +1,13 @@
+import os
 import shutil
 
 import info
+import utils
 from CraftCompiler import CraftCompiler
-from Package.BinaryPackageBase import *
+from CraftCore import CraftCore
+from CraftStandardDirs import CraftStandardDirs
+from Package.BinaryPackageBase import BinaryPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -56,29 +61,29 @@ class Package(BinaryPackageBase):
     def install(self):
         libname = "mariadb" if self.subinfo.options.dynamic.useMariaDB else "mysql"
         shutil.copytree(
-            os.path.join(self.sourceDir(), "bin"),
-            os.path.join(self.installDir(), "bin"),
+            self.sourceDir() / "bin",
+            self.installDir() / "bin",
             ignore=shutil.ignore_patterns("*.map", "*test*", "mysqld-debug.exe", "*.pl", "debug*"),
         )
-        utils.copyFile(os.path.join(self.sourceDir(), "lib", f"lib{libname}.dll"), os.path.join(self.installDir(), "bin"))
+        utils.copyFile(self.sourceDir() / "lib/lib{libname}.dll", self.installDir() / "bin")
         if not self.subinfo.options.dynamic.useMariaDB:
-            utils.copyFile(os.path.join(self.sourceDir(), "lib", f"lib{libname}d.dll"), os.path.join(self.installDir(), "bin"))
+            utils.copyFile(self.sourceDir() / f"lib/lib{libname}d.dll", self.installDir() / "bin")
         shutil.copytree(
-            os.path.join(self.sourceDir(), "lib"),
-            os.path.join(self.installDir(), "lib"),
+            self.sourceDir() / "lib",
+            self.installDir() / "lib",
             ignore=shutil.ignore_patterns("*.map", "debug*", f"lib{libname}.dll", f"lib{libname}.dll", f"{libname}*"),
         )
         if CraftCore.compiler.isMinGW():
             utils.createImportLibs(f"lib{libname}d", self.installDir())
             utils.createImportLibs(f"lib{libname}", self.installDir())
-        shutil.copytree(os.path.join(self.sourceDir(), "include"), os.path.join(self.installDir(), "include"), ignore=shutil.ignore_patterns("*.def"))
-        shutil.copytree(os.path.join(self.sourceDir(), "share"), os.path.join(self.installDir(), "share"), ignore=shutil.ignore_patterns("Makefile*"))
+        shutil.copytree(self.sourceDir() / "include", self.installDir() / "include", ignore=shutil.ignore_patterns("*.def"))
+        shutil.copytree(self.sourceDir() / "share", self.installDir() / "share", ignore=shutil.ignore_patterns("Makefile*"))
         return True
 
     def qmerge(self):
-        if not BinaryPackageBase.qmerge(self):
+        if not super().qmerge():
             return False
-        datadir = os.path.join(os.path.join(CraftStandardDirs.craftRoot(), "data"))
+        datadir = CraftStandardDirs.craftRoot() / "data"
         if self.subinfo.options.dynamic.useMariaDB:
             return utils.system(["mysql_install_db", f"--datadir={datadir}"])
         else:

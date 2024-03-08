@@ -32,7 +32,7 @@ class Package(BinaryPackageBase):
         super().__init__()
 
     def install(self):
-        if not BinaryPackageBase.install(self):
+        if not super().install():
             return False
         if OsUtils.isUnix():
             return True

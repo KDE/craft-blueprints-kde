@@ -1,6 +1,8 @@
 import info
-from Package.AutoToolsPackageBase import *
-from Package.MSBuildPackageBase import *
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.MSBuildPackageBase import MSBuildPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -23,15 +25,17 @@ class subinfo(info.infoclass):
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **args):
         super().__init__()
+        self.subinfo.options.useShadowBuild = False
+        self.subinfo.options.configure.args += ["--disable-programs"]
 
 
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
-        MSBuildPackageBase.__init__(self)
-        self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "build", "VampSDK.sln")
+        super().__init__()
+        self.subinfo.options.configure.projectFile = self.sourceDir() / "build/VampSDK.sln"
 
     def install(self):
-        return MSBuildPackageBase.install(self, installHeaders=False, buildDirs=[os.path.join(self.sourceDir(), "build")])
+        return super.install(installHeaders=False, buildDirs=[self.sourceDir() / "build"])
 
 
 if CraftCore.compiler.isGCCLike():
@@ -39,8 +43,6 @@ if CraftCore.compiler.isGCCLike():
     class Package(PackageAutoTools):
         def __init__(self):
             PackageAutoTools.__init__(self)
-            self.subinfo.options.useShadowBuild = False
-            self.subinfo.options.configure.args += ["--disable-programs"]
 
 else:
 

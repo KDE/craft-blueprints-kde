@@ -5,7 +5,6 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-
         self.description = "portable regex matching library"
 
         for ver in ["0.8.0"]:

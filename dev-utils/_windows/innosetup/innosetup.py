@@ -26,7 +26,7 @@ class Package(BinaryPackageBase):
         self.subinfo.options.configure.args = f'/DIR="{self.workDir()}" /SILENT /CURRENTUSER'
 
     def install(self):
-        if not BinaryPackageBase.install(self):
+        if not super().install():
             return False
         CraftCore.cache.clear()
         for name in ["ISCC"]:

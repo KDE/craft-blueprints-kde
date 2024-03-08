@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2021 Volker Krause <vkrause@kde.org>
 
 import info
-from Package.PipPackageBase import *
+from Package.PipPackageBase import PipPackageBase
 
 
 class subinfo(info.infoclass):

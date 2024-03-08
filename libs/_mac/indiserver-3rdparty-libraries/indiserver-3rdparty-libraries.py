@@ -1,7 +1,9 @@
-import glob
-from xml.etree import ElementTree as et
+import os
 
 import info
+import utils
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -11,8 +13,8 @@ class subinfo(info.infoclass):
         self.targetInstSrc["master"] = ""
 
         ver = "v2.0.6"
-        self.svnTargets["stable"] = "https://github.com/indilib/indi-3rdparty/archive/refs/tags/v%s.tar.gz" % ver
-        self.archiveNames["stable"] = "indi-%s.tar.gz" % ver
+        self.svnTargets["stable"] = f"https://github.com/indilib/indi-3rdparty/archive/refs/tags/v{ver}.tar.gz"
+        self.archiveNames["stable"] = f"indi-{ver}.tar.gz"
         self.targetInstSrc["stable"] = ""
 
         self.defaultTarget = "master"
@@ -36,12 +38,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/opencv/opencv"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def fixLibraryFolder(self, folder):
-        craftLibDir = os.path.join(CraftCore.standardDirs.craftRoot(), "lib")
+        craftLibDir = CraftCore.standardDirs.craftRoot() / "lib"
         for library in utils.filterDirectoryContent(str(folder)):
             for path in utils.getLibraryDeps(str(library)):
                 if path.startswith(craftLibDir):
@@ -61,15 +60,19 @@ class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
         self.subinfo.options.package.disableStriping = True
-        root = str(CraftCore.standardDirs.craftRoot())
-        craftLibDir = os.path.join(root, "lib")
-        self.subinfo.options.configure.args = (
-            "-DCMAKE_INSTALL_PREFIX=" + root + " -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_MACOSX_RPATH=1 -DBUILD_LIBS=1 -DCMAKE_INSTALL_RPATH=" + craftLibDir
-        )
+        root = CraftCore.standardDirs.craftRoot()
+        craftLibDir = root / "lib"
+        self.subinfo.options.configure.args += [
+            f"-DCMAKE_INSTALL_PREFIX={root}",
+            "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+            "-DCMAKE_MACOSX_RPATH=1",
+            f"-DCMAKE_INSTALL_RPATH={craftLibDir}",
+            "-DBUILD_LIBS=1",
+        ]
 
     def install(self):
-        ret = CMakePackageBase.install(self)
-        if OsUtils.isMac():
-            self.fixLibraryFolder(os.path.join(str(self.imageDir()), "bin"))
-            self.fixLibraryFolder(os.path.join(str(self.imageDir()), "lib"))
+        ret = super().install()
+        if CraftCore.compiler.isMacOS:
+            self.fixLibraryFolder(self.imageDir() / "bin")
+            self.fixLibraryFolder(self.imageDir() / "lib")
         return ret

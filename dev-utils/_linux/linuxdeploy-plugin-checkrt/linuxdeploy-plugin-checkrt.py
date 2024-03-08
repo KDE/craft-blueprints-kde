@@ -1,8 +1,9 @@
 import stat
 from pathlib import Path
+
 import info
-from Package.BinaryPackageBase import BinaryPackageBase
 import utils
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):

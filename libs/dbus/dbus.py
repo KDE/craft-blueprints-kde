@@ -75,7 +75,7 @@ class PackageCMake(CMakePackageBase):
             ]
 
     def install(self):
-        if not CMakePackageBase.install(self):
+        if not super().install():
             return False
         # TODO: fix
         if self.buildType() == "Debug":

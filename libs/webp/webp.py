@@ -1,4 +1,6 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -17,9 +19,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/tiff"] = None
         self.runtimeDependencies["libs/libpng"] = None
         self.runtimeDependencies["libs/giflib"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

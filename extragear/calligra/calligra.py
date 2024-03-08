@@ -1,5 +1,7 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -61,17 +63,14 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/runtime"] = None  # mingw-based builds need this
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
-        CMakePackageBase.buildTests = False
+        self.subinfo.options.dynamic.buildTests = False
 
     def createPackage(self):
         self.defines["appname"] = "calligragemini"
-        self.defines["icon"] = os.path.join(self.sourceDir(), "gemini", "calligragemini.ico")
+        self.defines["icon"] = self.sourceDir() / "gemini/calligragemini.ico"
         self.defines["shortcuts"] = [
             {"name": self.subinfo.displayName, "target": "bin/calligragemini.exe"},
             {"name": "Calligra Sheets", "target": "bin/calligrasheets.exe"},

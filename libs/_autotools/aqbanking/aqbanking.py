@@ -84,4 +84,4 @@ class Package(AutoToolsPackageBase):
                         cmakeFileContents[i] = cmakeFileContents[i].replace(m2.group(1), "libaqbanking.%s.dylib" % m2.group(2))
             with open(cmake, "wt") as f:
                 f.write("".join(cmakeFileContents))
-        return AutoToolsPackageBase.postInstall(self)
+        return super().postInstall()

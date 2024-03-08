@@ -23,6 +23,9 @@
 # SUCH DAMAGE.
 
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Packager.AppImagePackager import AppImagePackager
 
 
 class subinfo(info.infoclass):
@@ -78,10 +81,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kdesupport/kdewin"] = None
 
 
-from Package.CMakePackageBase import *
-from Packager.AppImagePackager import AppImagePackager
-
-
 class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
@@ -91,19 +90,19 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_WOOB=OFF"]
 
     def install(self):
-        if not CMakePackageBase.install(self):
+        if not super().install():
             return False
 
         # For AppImages create a gpgconf.ctl file that forces gpgconf to use the actual APPDIR
         # as rootdir and not the ci build dir which causes gpg operations to fail.
-        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
-            with open(os.path.join(self.installDir(), "bin", "gpgconf.ctl"), "wt") as f:
+        if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
+            with open(self.installDir() / "bin/gpgconf.ctl", "wt") as f:
                 f.write("rootdir=${APPDIR}/usr")
         return True
 
     def createPackage(self):
         self.defines["executable"] = "bin\\kmymoney.exe"  # Windows-only, mac is handled implicitly
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "kmymoney.ico")
+        self.defines["icon"] = self.blueprintDir() / "kmymoney.ico"
         self.defines["mimetypes"] = [
             "application/x-kmymoney",
             "application/x-ofx",
@@ -117,7 +116,7 @@ class Package(CMakePackageBase):
 
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         self.ignoredPackages.append("binary/mysql")
 

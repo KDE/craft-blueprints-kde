@@ -2,8 +2,9 @@
 # SPDX-FileCopyrightText: 2023 Daniel Novomesky <dnovomesky@gmail.com>
 
 import info
-from Utils import CraftHash
 from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
+
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -18,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/aom"] = None
         self.runtimeDependencies["libs/dav1d"] = None
         self.runtimeDependencies["virtual/base"] = None
+
 
 class Package(CMakePackageBase):
     def __init__(self, **args):

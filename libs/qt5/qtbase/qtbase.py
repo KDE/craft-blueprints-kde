@@ -335,7 +335,7 @@ sudo apt build-dep qt5-default
 
     def install(self):
         with self.getQtBaseEnv():
-            if not Qt5CorePackageBase.install(self):
+            if not super().install():
                 return False
             parser = configparser.ConfigParser()
             parser.optionxform = str

@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
+import os
+
 import info
+import utils
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["2.5.27"]:
-            self.targets[ver] = "https://downloads.sourceforge.net/project/gphoto/libgphoto/" + ver + "/libgphoto2-" + ver + ".tar.bz2"
-            self.archiveNames[ver] = "libgphoto2-%s.tar.gz" % ver
-            self.targetInstSrc[ver] = "libgphoto2-" + ver
+            self.targets[ver] = f"https://downloads.sourceforge.net/project/gphoto/libgphoto/{ver}/libgphoto2-{ver}.tar.bz2"
+            self.archiveNames[ver] = f"libgphoto2-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"libgphoto2-{ver}"
         self.description = "Gphoto2 digital camera library"
         self.defaultTarget = "2.5.27"
 
@@ -18,9 +23,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libusb-compat"] = None
         self.runtimeDependencies["dev-utils/libtool"] = None
         # gd and libexif might be needed too
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):
@@ -43,9 +45,9 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.args += ["--disable-dependency-tracking", "--disable-silent-rules", f"--prefix={prefix}"]
 
     def install(self):
-        ret = AutoToolsPackageBase.install(self)
-        if OsUtils.isMac():
-            self.fixLibraryFolder(os.path.join(self.imageDir(), "lib"))
-            self.fixLibraryFolder(os.path.join(self.imageDir(), "lib", "libgphoto2", "2.5.27"))
-            self.fixLibraryFolder(os.path.join(self.imageDir(), "lib", "libgphoto2_port", "0.12.0"))
+        ret = super().install()
+        if CraftCore.compiler.isMacOS:
+            self.fixLibraryFolder(self.imageDir() / "lib")
+            self.fixLibraryFolder(self.imageDir() / "lib/libgphoto2/2.5.27")
+            self.fixLibraryFolder(self.imageDir() / "lib/libgphoto2_port/0.12.0")
         return ret

@@ -5,7 +5,6 @@ from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-
         for ver in ["2.0.2"]:
             self.targets[ver] = f"https://sparsehash.googlecode.com/files/sparsehash-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"sparsehash-{ver}"

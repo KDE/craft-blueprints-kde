@@ -35,16 +35,13 @@ class subinfo(info.infoclass):
 
 from Package.CMakePackageBase import *
 
+
 # This is needed for the CI
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
 
-        self.subinfo.options.configure.args += [
-            "-DUSE_QT_WEBENGINE=OFF ",
-            "-DCOMPILE_TESTS=OFF ",
-            f"-DPython_ROOT_DIR={CraftCore.standardDirs.craftRoot()}"
-        ]
+        self.subinfo.options.configure.args += ["-DUSE_QT_WEBENGINE=OFF ", "-DCOMPILE_TESTS=OFF ", f"-DPython_ROOT_DIR={CraftCore.standardDirs.craftRoot()}"]
 
     def createPackage(self):
         # This is Mac Only
@@ -56,7 +53,6 @@ class Package(CraftPackageObject.get("kde").pattern):
 
         # we have multiple codevis executables, we need to copy all of them.
         self.addExecutableFilter(r"bin/(?!((codevis*)|kbuildsycoca5|update-mime-database|kioslave)).*")
-
 
         self.defines["file_types"] = [".lks"]
         self.defines["alias"] = "codevis"

@@ -36,7 +36,7 @@ from Package.MSBuildPackageBase import *
 
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
-        MSBuildPackageBase.__init__(self)
+        super().__init__()
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "msvc", "Hunspell.sln")
         self.buildTypes = {"Release": "Release_dll", "RelWithDebInfo": "Release_dll", "Debug": "Debug_dll"}
 
@@ -47,7 +47,7 @@ class PackageMSVC(MSBuildPackageBase):
         return out
 
     def install(self):
-        if not MSBuildPackageBase.install(self, installHeaders=False):
+        if not super().install(installHeaders=False):
             return False
 
         for h in ["atypes.hxx", "hunspell.h", "hunspell.hxx", "hunvisapi.h", "w_char.hxx"]:

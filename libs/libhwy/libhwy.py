@@ -2,8 +2,9 @@
 # SPDX-FileCopyrightText: 2024 Daniel Novomesky <dnovomesky@gmail.com>
 
 import info
-from Utils import CraftHash
 from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
+
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -16,6 +17,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+
 
 class Package(CMakePackageBase):
     def __init__(self, **args):

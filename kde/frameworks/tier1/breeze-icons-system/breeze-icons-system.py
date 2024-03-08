@@ -29,4 +29,4 @@ class Package(MaybeVirtualPackageBase):
     def __init__(self):
         # we skip this package if the icons are already installed
         useRcc = CraftPackageObject.get("kde/frameworks/tier1/breeze-icons").subinfo.options.dynamic.useIconResource
-        MaybeVirtualPackageBase.__init__(self, useRcc, classA=CMakePackage)
+        super().__init__(useRcc, classA=CMakePackage)

@@ -18,7 +18,6 @@ class subinfo(info.infoclass):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.runtimeDependencies["libs/qt6/qt5compat"] = None
 
-
     def setTargets(self):
         self.description = "Qt Cryptographic Architecture (QCA)"
 

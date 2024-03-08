@@ -49,7 +49,7 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
-        CMakePackageBase.buildTests = False
+        self.subinfo.options.dynamic.buildTests = False
 
     def createPackage(self):
         self.defines["shortcuts"] = [

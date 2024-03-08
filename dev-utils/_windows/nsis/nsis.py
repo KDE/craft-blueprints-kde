@@ -26,7 +26,7 @@ class Package(BinaryPackageBase):
         super().__init__()
 
     def install(self):
-        if not BinaryPackageBase.install(self):
+        if not super().install():
             return False
         CraftCore.cache.clear()
         for name in ["makensis", "makensisw", "nsis"]:

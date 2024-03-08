@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import info
-from Package.PipPackageBase import *
+from Package.PipPackageBase import PipPackageBase
 
 
 class subinfo(info.infoclass):

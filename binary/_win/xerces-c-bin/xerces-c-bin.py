@@ -25,7 +25,7 @@ class PackageBin(BinaryPackageBase):
         self.subinfo.options.package.withSources = False
 
     def unpack(self):
-        if not BinaryPackageBase.unpack(self):
+        if not super().unpack():
             return False
         os.renames(os.path.join(self.sourceDir(), "xerces-c-3.1.1-x86-windows-vc-10.0", "include"), os.path.join(self.sourceDir(), "include"))
         os.renames(os.path.join(self.sourceDir(), "xerces-c-3.1.1-x86-windows-vc-10.0", "bin"), os.path.join(self.sourceDir(), "bin"))

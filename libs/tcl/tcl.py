@@ -26,8 +26,10 @@ import shutil
 import stat
 
 import info
+from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import *
 from Package.MSBuildPackageBase import *
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -111,7 +113,7 @@ class PackageAutotools(AutoToolsPackageBase):
 
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
-        MSBuildPackageBase.__init__(self)
+        super().__init__()
 
     def make(self):
         os.chdir(os.path.join(self.sourceDir(), "win"))

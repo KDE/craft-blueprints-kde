@@ -108,7 +108,7 @@ class Package(CMakePackageBase):
         ]
 
     def fetch(self):
-        return CMakePackageBase.fetch(self) and self.contrib.fetch(noop=False)
+        return super().fetch() and self.contrib.fetch(noop=False)
 
     def unpack(self):
-        return CMakePackageBase.unpack(self) and self.contrib.unpack(noop=False)
+        return super().unpack() and self.contrib.unpack(noop=False)

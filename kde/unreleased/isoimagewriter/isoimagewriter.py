@@ -1,4 +1,7 @@
 import info
+import utils
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 from Packager.AppImagePackager import AppImagePackager
 
 
@@ -7,8 +10,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.svnTargets["master"] = "https://invent.kde.org/utilities/isoimagewriter.git"
         for ver in ["1.0.0"]:
-            self.targets[ver] = "https://download.kde.org/stable/isoimagewriter/%s/isoimagewriter-%s.tar.xz" % (ver, ver)
-            self.targetInstSrc[ver] = "isoimagewriter-%s" % ver
+            self.targets[ver] = f"https://download.kde.org/stable/isoimagewriter/{ver}/isoimagewriter-{ver}.tar.xz"
+            self.targetInstSrc[ver] = "isoimagewriter-{ver}"
         self.defaultTarget = "1.0.0"
 
         self.displayName = "ISO Image Writer"
@@ -27,10 +30,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/tier1/breeze-icons-system"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
 
@@ -38,19 +38,19 @@ class Package(CMakePackageBase):
         if not super().install():
             return False
         if CraftCore.compiler.isWindows:
-            manifest = os.path.join(self.sourceDir(), "res", "isoimagewriter.manifest")
-            app = os.path.join(self.installDir(), "bin", "isoimagewriter.exe")
+            manifest = self.sourceDir() / "res/isoimagewriter.manifest"
+            app = self.installDir(), "bin/isoimagewriter.exe"
             self.addExecutableFilter(r"bin/(?!(isoimagewriter|update-mime-database|kioslave)).*")
             return utils.embedManifest(app, manifest)
-        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
+        if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
             utils.copyFile(
-                "/home/appimage/Craft/BinaryFactory/linux-64-gcc/build/kde/frameworks/tier1/breeze-icons-system/image-RelWithDebInfo-5.105.0/home/appimage/Craft/BinaryFactory/linux-64-gcc/share/icons/breeze/devices/64/drive-removable-media.svg",
-                "/home/appimage/Craft/BinaryFactory/linux-64-gcc/build/kde/unreleased/isoimagewriter/archive/usr/share/breeze/apps/64/drive-removable-media.svg",
+                CraftCore.standardDirs.craftRoot() / "share/icons/breeze/devices/64/drive-removable-media.svg",
+                self.installDir() / "share/breeze/apps/64/drive-removable-media.svg",
             )
 
         return True
 
     def createPackage(self):
         self.defines["shortcuts"] = [{"name": "KDE ISO Image Writer", "target": "bin/isoimagewriter.exe", "description": self.subinfo.description}]
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "isoimagewriter.ico")
+        self.defines["icon"] = self.blueprintDir() / "isoimagewriter.ico"
         return super().createPackage()

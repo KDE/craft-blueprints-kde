@@ -1,5 +1,7 @@
 import info
-from Package.MSBuildPackageBase import *
+from CraftCore import CraftCore
+from Package.MesonPackageBase import MesonPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -23,9 +25,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libsamplerate"] = None
         self.runtimeDependencies["libs/libsndfile"] = None
         self.buildDependencies["python-modules/meson"] = None
-
-
-from Package.MesonPackageBase import *
 
 
 class Package(MesonPackageBase):

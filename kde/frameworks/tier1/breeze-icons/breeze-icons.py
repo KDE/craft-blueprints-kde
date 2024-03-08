@@ -43,10 +43,10 @@ class Package(CraftPackageObject.get("kde/frameworks").pattern):
             if not os.path.exists(dest):
                 os.makedirs(dest)
             if not self.subinfo.options.dynamic.useBreezeDark:
-                theme = os.path.join(self.buildDir(), "icons", "breeze-icons.rcc")
+                theme = self.buildDir() / "icons/breeze-icons.rcc"
             else:
-                theme = os.path.join(self.buildDir(), "icons-dark", "breeze-icons-dark.rcc")
+                theme = self.buildDir() / "icons-dark/breeze-icons-dark.rcc"
 
-            return utils.copyFile(theme, os.path.join(dest, "icontheme.rcc"))
+            return utils.copyFile(theme, dest / "icontheme.rcc")
         else:
             return True

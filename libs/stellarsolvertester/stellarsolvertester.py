@@ -1,7 +1,7 @@
-import glob
-from xml.etree import ElementTree as et
-
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Packager.AppxPackager import AppxPackager
 
 
 class subinfo(info.infoclass):
@@ -9,9 +9,9 @@ class subinfo(info.infoclass):
         self.description = "StellarSolver Sextractor and Astrometry.net based Library Tester Program"
         self.svnTargets["master"] = "https://github.com/rlancaste/stellarsolver.git"
         for ver in ["2.5"]:
-            self.targets[ver] = "https://github.com/rlancaste/stellarsolver/archive/refs/tags/%s.tar.gz" % ver
-            self.archiveNames[ver] = "stellarsolver-tester-%s.tar.gz" % ver
-            self.targetInstSrc[ver] = "stellarsolver-%s" % ver
+            self.targets[ver] = f"https://github.com/rlancaste/stellarsolver/archive/refs/tags/{ver}.tar.gz"
+            self.archiveNames[ver] = f"stellarsolver-tester-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"stellarsolver-{ver}"
         self.defaultTarget = "2.5"
 
     def setDependencies(self):
@@ -25,24 +25,22 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/wcslib"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
-        root = str(CraftCore.standardDirs.craftRoot())
-        craftLibDir = os.path.join(root, "lib")
-        self.subinfo.options.configure.args = (
-            "-DCMAKE_INSTALL_PREFIX="
-            + root
-            + " -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_MACOSX_RPATH=1 -DBUILD_TESTER=ON -DCMAKE_INSTALL_RPATH="
-            + craftLibDir
-        )
+        root = CraftCore.standardDirs.craftRoot()
+        craftLibDir = root / "lib"
+        self.subinfo.options.configure.args += [
+            f"-DCMAKE_INSTALL_PREFIX={root}",
+            "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+            "-DCMAKE_MACOSX_RPATH=1",
+            "-DBUILD_TESTER=ON",
+            f"-DCMAKE_INSTALL_RPATH={craftLibDir}",
+        ]
 
     def createPackage(self):
         self.defines["executable"] = "bin\\StellarSolverTester.exe"
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "StellarSolverInstallIcon.ico")
+        self.defines["icon"] = self.blueprintDir() / "StellarSolverInstallIcon.ico"
         if isinstance(self, AppxPackager):
             self.defines["display_name"] = "StellarSolverTester"
         return super().createPackage()

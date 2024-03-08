@@ -21,7 +21,7 @@ class Package(BinaryPackageBase):
         super().__init__()
 
     def install(self):
-        if not BinaryPackageBase.install(self):
+        if not super().install():
             return False
         return utils.createShim(
             os.path.join(self.imageDir(), "dev-utils", "bin", "xsd.exe"), os.path.join(self.imageDir(), "dev-utils", "xsd", "bin", "xsd.exe")

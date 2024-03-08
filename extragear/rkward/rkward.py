@@ -87,7 +87,7 @@ class Package(CMakePackageBase):
             ]
 
     def fetch(self):
-        if not CMakePackageBase.fetch(self):
+        if not super().fetch():
             return False
         return True
 
@@ -98,7 +98,7 @@ class Package(CMakePackageBase):
         return defines
 
     def install(self):
-        ret = CMakePackageBase.install(self)
+        ret = super().install()
         if OsUtils.isWin() or OsUtils.isLinux():
             # Make installation movable, by providing rkward.ini with relative path to R
             rkward_ini = open(os.path.join(self.imageDir(), "bin", "rkward.ini"), "w")

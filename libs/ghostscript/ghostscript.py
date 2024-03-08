@@ -1,5 +1,12 @@
+import os
+
 import info
+import utils
 from CraftCompiler import CraftCompiler
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -33,9 +40,6 @@ class subinfo(info.infoclass):
         self.defaultTarget = "10.01.2"
 
 
-from Package.CMakePackageBase import *
-
-
 class PackageMSVC(CMakePackageBase):
     def __init__(self):
         super().__init__()
@@ -66,30 +70,27 @@ class PackageMSVC(CMakePackageBase):
 
         if not os.path.isdir(dst):
             os.mkdir(dst)
-        if not os.path.isdir(os.path.join(dst, "bin")):
-            os.mkdir(os.path.join(dst, "bin"))
-        if not os.path.isdir(os.path.join(dst, "lib")):
-            os.mkdir(os.path.join(dst, "lib"))
-        if not os.path.isdir(os.path.join(dst, "include")):
-            os.mkdir(os.path.join(dst, "include"))
-        if not os.path.isdir(os.path.join(dst, "include", "ghostscript")):
-            os.mkdir(os.path.join(dst, "include", "ghostscript"))
+        if not os.path.isdir(dst / "bin"):
+            os.mkdir(dst / "bin")
+        if not os.path.isdir(dst / "lib"):
+            os.mkdir(dst / "lib")
+        if not os.path.isdir(dst / "include"):
+            os.mkdir(dst / "include")
+        if not os.path.isdir(dst / "include", "ghostscript"):
+            os.mkdir(dst / "include", "ghostscript")
 
         _bit = CraftCore.compiler.bits
-        utils.copyFile(os.path.join(src, "bin", "gsdll%s.dll" % _bit), os.path.join(dst, "bin"), False)
-        utils.copyFile(os.path.join(src, "bin", "gsdll%s.lib" % _bit), os.path.join(dst, "lib"), False)
-        utils.copyFile(os.path.join(src, "bin", "gswin%s.exe" % _bit), os.path.join(dst, "bin"), False)
-        utils.copyFile(os.path.join(src, "bin", "gswin%sc.exe" % _bit), os.path.join(dst, "bin"), False)
-        utils.copyFile(os.path.join(self.sourceDir(), "psi", "iapi.h"), os.path.join(self.imageDir(), "include", "ghostscript", "iapi.h"), False)
-        utils.copyFile(os.path.join(self.sourceDir(), "psi", "ierrors.h"), os.path.join(self.imageDir(), "include", "ghostscript", "ierrors.h"), False)
-        utils.copyFile(os.path.join(self.sourceDir(), "devices", "gdevdsp.h"), os.path.join(self.imageDir(), "include", "ghostscript", "gdevdsp.h"), False)
-        utils.copyFile(os.path.join(self.sourceDir(), "base", "gserrors.h"), os.path.join(self.imageDir(), "include", "ghostscript", "gserrors.h"), False)
-        utils.copyDir(os.path.join(self.sourceDir(), "lib"), os.path.join(self.imageDir(), "lib"), False)
+        utils.copyFile(src / f"bin/gsdll{_bit}.dll", dst / "bin", False)
+        utils.copyFile(src / f"bin/gsdll{_bit}.lib", dst / "lib", False)
+        utils.copyFile(src / f"bin/gswin{_bit}.exe", dst / "bin", False)
+        utils.copyFile(src / f"bin/gswin{_bit}c.exe", dst / "bin", False)
+        utils.copyFile(self.sourceDir() / "psi/iapi.h", self.imageDir() / "include/ghostscript/iapi.h", False)
+        utils.copyFile(self.sourceDir() / "psi/ierrors.h", self.imageDir() / "include/ghostscript/ierrors.h", False)
+        utils.copyFile(self.sourceDir() / "devices/gdevdsp.h", self.imageDir() / "include/ghostscript/gdevdsp.h", False)
+        utils.copyFile(self.sourceDir() / "base/gserrors.h", self.imageDir() / "include/ghostscript/gserrors.h", False)
+        utils.copyDir(self.sourceDir() / "lib", self.imageDir() / "lib", False)
 
         return True
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class PackageMSys(AutoToolsPackageBase):
@@ -116,13 +117,13 @@ class PackageMSys(AutoToolsPackageBase):
         self.subinfo.options.useShadowBuild = False
 
     def unpack(self):
-        if not AutoToolsPackageBase.unpack(self):
+        if not super().unpack():
             return False
         forceSystemLibs = ["freetype", "jpeg", "libpng", "lcms", "lcms2", "zlib"]
         if not CraftCore.compiler.isMacOS:
             forceSystemLibs += ["tiff", "openjpeg"]
         for d in forceSystemLibs:
-            utils.rmtree(os.path.join(self.sourceDir(), d))
+            utils.rmtree(self.sourceDir() / d)
         return True
 
     def make(self):

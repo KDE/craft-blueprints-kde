@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
+import os
+
 import info
+import utils
 from CraftCompiler import CraftCompiler
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -15,23 +21,20 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.17.1.1"
 
 
-from Package.BinaryPackageBase import *
-
-
 class Package(BinaryPackageBase):
     def __init__(self):
         super().__init__()
 
     def install(self):
-        if not BinaryPackageBase.install(self):
+        if not super().install():
             return False
 
-        libdir = os.path.join(self.installDir(), "lib", "pandoc")
+        libdir = self.installDir() / "lib/pandoc"
         dirs = os.listdir(self.installDir())
         if len(dirs) != 1:
             return False
         extractdir = os.path.join(self.installDir(), dirs[0])
         utils.moveFile(extractdir, libdir)
-        utils.createShim(os.path.join(self.installDir(), "bin", "pandoc.exe"), os.path.join(libdir, "pandoc.exe"))
+        utils.createShim(self.installDir() / "bin/pandoc.exe", libdir / "pandoc.exe")
 
         return True

@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.patchToApply["10.0.1"] = [
             ("fix-windows-install.diff", 1),
             # https://github.com/microsoft/vcpkg/blob/master/ports/graphviz/disable-pragma-lib.patch
-            ("disable-pragma-lib.patch", 1)
+            ("disable-pragma-lib.patch", 1),
         ]
 
         self.patchLevel["10.0.1"] = 2
@@ -40,5 +40,5 @@ class Package(CMakePackageBase):
             "-DCMAKE_REQUIRE_FIND_PACKAGE_CAIRO=ON",
             "-DCMAKE_REQUIRE_FIND_PACKAGE_EXPAT=ON",
             "-DCMAKE_REQUIRE_FIND_PACKAGE_LTDL=ON",
-            "-DCMAKE_REQUIRE_FIND_PACKAGE_PANGOCAIRO=ON"
+            "-DCMAKE_REQUIRE_FIND_PACKAGE_PANGOCAIRO=ON",
         ]
