@@ -108,7 +108,7 @@ class PackageAutotools(AutoToolsPackageBase):
 
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **args):
-        super.__init__()
+        super().__init__()
 
     def configure(self):
         self.enterSourceDir()
