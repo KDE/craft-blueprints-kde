@@ -60,10 +60,8 @@ class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
         self.subinfo.options.package.disableStriping = True
-        root = CraftCore.standardDirs.craftRoot()
-        craftLibDir = root / "lib"
+        craftLibDir = CraftCore.standardDirs.craftRoot() / "lib"
         self.subinfo.options.configure.args += [
-            f"-DCMAKE_INSTALL_PREFIX={root}",
             "-DCMAKE_MACOSX_RPATH=1",
             f"-DCMAKE_INSTALL_RPATH={craftLibDir}",
             "-DBUILD_LIBS=1",
