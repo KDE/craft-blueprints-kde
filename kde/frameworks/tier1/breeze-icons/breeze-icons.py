@@ -7,6 +7,7 @@ import os
 
 import info
 import utils
+from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 
 
@@ -28,17 +29,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
 
-from Blueprints.CraftPackageObject import CraftPackageObject
-
-
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self):
         super().__init__()
         if self.subinfo.options.dynamic.useIconResource:
             self.subinfo.options.configure.args += ["-DBINARY_ICONS_RESOURCE=ON", "-DSKIP_INSTALL_ICONS=ON", "-DICONS_LIBRARY=ON"]
-            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-                # TODO: Remove ones https://invent.kde.org/frameworks/breeze-icons/-/merge_requests/294 is merged
-                self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS=-fPIC"]
 
     def install(self):
         if not CraftPackageObject.get("kde").pattern.install(self):
