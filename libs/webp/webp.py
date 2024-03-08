@@ -25,3 +25,5 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
+        # see setDependencies
+        self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_TIFF=ON"]
