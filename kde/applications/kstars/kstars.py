@@ -1,5 +1,4 @@
 import os
-import subprocess
 
 import info
 
@@ -43,12 +42,10 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/xplanet"] = None
             self.runtimeDependencies["libs/gsc"] = None
-            # Making these dependencies casues an issue where you can't have KStars and INDI both be the latest version or both be stable
-            # You have to comment these out if you want stable, this basically hard codes it to be the latest version.
-            self.runtimeDependencies["libs/indiserver"] = None
-            self.runtimeDependencies["libs/indiserver-3rdparty"] = None
-        if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["libs/indiclient"] = None
+
+        # Making this dependencies casues an issue where you can't have KStars and INDI both be the latest version or both be stable
+        # You have to comment this out if you want stable, this basically hard codes it to be the latest version.
+        self.runtimeDependencies["libs/indilib/indi"] = None
 
         self.runtimeDependencies["libs/libraw"] = None
         self.runtimeDependencies["libs/gsl"] = None
