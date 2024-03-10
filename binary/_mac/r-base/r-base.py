@@ -25,8 +25,8 @@ from Package.BinaryPackageBase import *
 
 
 # Apologies: This is a terrible HACK, but the alternatives are not any good, either.
-# Buidling from source requires a) fortran b) specific versions of bzip2, and pcre. And
-# c) It will result in an installation that cannot install offical R binar packages.
+# Building from source requires a) fortran b) specific versions of bzip2, and pcre. And
+# c) It will result in an installation that cannot install official R binary packages.
 #
 # So, instead, we hack the R installation to run from our path, which works - for the time being.
 class Package(BinaryPackageBase):

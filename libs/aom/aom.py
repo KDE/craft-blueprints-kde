@@ -22,4 +22,10 @@ class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
         self.subinfo.options.dynamic.buildStatic = False
-        self.subinfo.options.configure.args += ["-DENABLE_DOCS=OFF", "-DENABLE_NASM=ON", "-DCONFIG_PIC=1", "-DENABLE_EXAMPLES=OFF"]
+        self.subinfo.options.configure.args += [
+            "-DENABLE_DOCS=OFF",
+            "-DENABLE_NASM=ON",
+            "-DCONFIG_PIC=1",
+            "-DENABLE_EXAMPLES=OFF",
+            f"-DAOM_TARGET_CPU={CraftCore.compiler.architecture.name.lower()}",
+        ]

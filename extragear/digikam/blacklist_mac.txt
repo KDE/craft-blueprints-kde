@@ -1,4 +1,4 @@
-# Blacklist for MacOS package
+# Blacklist for macOS package
 
 .*PlugIns/kf5/org\.kde\.kwindowsystem\.platforms.*
 

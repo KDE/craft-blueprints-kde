@@ -77,7 +77,7 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.isWindows:
             self.runtimeDependencies["kdesupport/kdewin"] = None
 
 

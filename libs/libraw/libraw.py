@@ -1,5 +1,7 @@
 import info
-from Package.CMakePackageBase import *
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -17,7 +19,7 @@ class subinfo(info.infoclass):
         self.targetInstSrc["0.20.2"] = "LibRaw-0.20.2"
 
         # Disable installation of FindLibRaw.cmake: We don't need this as consumers usually provide them self
-        # Moreover it is been installed to the system CMake location which is an .app bundle on macOS and hence fails
+        # Moreover it is being installed to the system CMake location which is an .app bundle on macOS and hence fails
         self.patchToApply["0.20.2"] = [("libraw-0.20.2-20231024.diff", 1)]
         self.patchLevel["0.20.2"] = 1
 

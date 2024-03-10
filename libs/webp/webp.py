@@ -16,7 +16,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
-        self.runtimeDependencies["libs/tiff"] = None
+        # we have a circular dependency here and might link to random system libs
+        #self.runtimeDependencies["libs/tiff"] = None
         self.runtimeDependencies["libs/libpng"] = None
         self.runtimeDependencies["libs/giflib"] = None
 
@@ -24,3 +25,5 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
+        # see setDependencies
+        self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_TIFF=ON"]

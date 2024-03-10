@@ -26,5 +26,5 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **args):
         super().__init__()
-        # dbus support needs a small patch on windows but I have no idea why you would want dbus here
+        # dbus support needs a small patch on Windows but I have no idea why you would want dbus here
         self.subinfo.options.configure.args += ["-DLIB_SUFFIX=''", "-Denable-dbus=OFF"]

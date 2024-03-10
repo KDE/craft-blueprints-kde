@@ -32,7 +32,7 @@ class PackageAutoTools(AutoToolsPackageBase):
         super().__init__()
         self.subinfo.options.configure.args = ["--enable-shared"]
         if CraftCore.compiler.isMacOS:
-            # attempting to build and install the png files will fail on MacOS
+            # attempting to build and install the png files will fail on macOS
             self.subinfo.options.configure.args += ["--disable-desktopfiles"]
 
 

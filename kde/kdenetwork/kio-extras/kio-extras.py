@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/taglib"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        # self.runtimeDependencies["qt-libs/kdsoap"] = None # Our KDSoap version in Craft is to new for kio-extras
+        # self.runtimeDependencies["qt-libs/kdsoap"] = None # Our KDSoap version in Craft is too new for kio-extras
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.runtimeDependencies["qt-libs/qcoro"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None

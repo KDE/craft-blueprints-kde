@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["python-modules/meson"] = None
         self.buildDependencies["perl-modules/xml-parser"] = None
         self.runtimeDependencies["libs/libsndfile"] = None
+        self.runtimeDependencies["dev-utils/libtool"] = None # For libltdl
 
 
 from Package.MesonPackageBase import *

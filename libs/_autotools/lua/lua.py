@@ -51,7 +51,7 @@ class Package(MakeFilePackageBase):
 
         files = {
             "lua5.2.pc": os.path.join(self.installDir(), "lib/pkgconfig/lua5.2.pc"),
-            "lua5.2.pc": os.path.join(self.installDir(), "lib/pkgconfig/lua.pc"),
+            "lua.pc": os.path.join(self.installDir(), "lib/pkgconfig/lua.pc"),
             "src/liblua.so.5.2.4": os.path.join(self.installDir(), "lib/liblua.so.5.2.4"),
             "src/lua": os.path.join(self.installDir(), "bin/lua"),
             "src/luac": os.path.join(self.installDir(), "bin/luac"),

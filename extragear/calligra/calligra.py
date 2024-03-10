@@ -17,8 +17,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
-        # Qt WebEngine doesn't work with MinGW, because reasons, i guess, derp
-        # No DropBox support for you, until we can get that made prettier
+        # Qt WebEngine doesn't work with MinGW.
         if not CraftCore.compiler.isMinGW():
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["libs/boost/boost-system"] = None

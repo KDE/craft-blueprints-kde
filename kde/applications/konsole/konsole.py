@@ -1,5 +1,6 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -40,5 +41,8 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(konsole|update-mime-database|kioslave|kdeinit5)).*")
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(self.blueprintDir() / "excludelist.txt")
+
         self.defines["shortcuts"] = [{"name": "Konsole", "target": "bin/konsole.exe", "description": self.subinfo.description}]
         return super().createPackage()

@@ -34,6 +34,7 @@ class Package(CMakePackageBase):
         super().__init__()
 
     def createPackage(self):
+        self.addExecutableFilter(r"bin/(?!(kdiff3|kbuildsycoca5|update-mime-database|kioslave|QtWebEngineProcess)).*")
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))

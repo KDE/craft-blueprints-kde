@@ -1,6 +1,7 @@
 import info
-from CraftConfig import *
+from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftOS.osutils import OsUtils
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -45,17 +46,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
 
     def createPackage(self):
         self.defines["executable"] = "bin\\haruna.exe"
 
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "haruna.ico")
+        self.defines["icon"] = self.blueprintDir() / "haruna.ico"
 
         self.defines["mimetypes"] = ["video/mkv", "video/mp4", "video/ogm", "video/avi"]
         self.defines["file_types"] = [".mkv", ".mp4", ".ogm", ".avi"]

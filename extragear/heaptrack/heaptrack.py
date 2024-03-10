@@ -71,7 +71,7 @@ class Package(CMakePackageBase):
 
             print(packageDir, archiveDir)
 
-            # Replace heaptrack_gui with script to setup env
+            # Replace heaptrack_gui with script to set up the env
 
             if not utils.moveFile(os.path.join(archiveDir, "bin/heaptrack_gui"), os.path.join(archiveDir, "bin/heaptrack_gui.wrapped")):
                 return False

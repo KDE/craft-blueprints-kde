@@ -143,12 +143,12 @@ class PackageMSVC(MSBuildPackageBase):
         content = content.replace(r"DYNAMIC_SHELL = 0", r"DYNAMIC_SHELL = 1")
 
         content = content.replace(r"USE_ICU = 0", r"USE_ICU = 1")
-        content = content.replace(r"c:\icu\include", includeDir)
-        content = content.replace(r"c:\icu\lib", libDir)
-        content = content.replace(r"c:\tcl\bin", binDir)
+        content = content.replace(r"c:\icu\include", str(includeDir))
+        content = content.replace(r"c:\icu\lib", str(libDir))
+        content = content.replace(r"c:\tcl\bin", str(binDir))
 
-        content = content.replace(r"c:\tcl\include", includeDir)
-        content = content.replace(r"c:\tcl\lib", libDir)
+        content = content.replace(r"c:\tcl\include", str(includeDir))
+        content = content.replace(r"c:\tcl\lib", str(libDir))
 
         # sqlite3.lib will be picked by next replace method
         content = content.replace(r"libsqlite3.lib", r"sqlite3.lib")

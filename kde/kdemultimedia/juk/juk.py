@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -6,7 +7,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.displayName = "JuK"
-        self.patchToApply["18.08.1"] = [("juk-18.08.1-20181029.diff", 1)]
         self.description = "JuK is a simple music player and helps manage your music collection"
         self.webpage = "https://juk.kde.org/"
 
@@ -37,9 +37,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()

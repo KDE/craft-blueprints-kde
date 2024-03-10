@@ -31,6 +31,3 @@ bin/dbus-env\.bat
 bin/android_emulator_launcher\.sh
 bin/qt-cmake.*
 bin/.*test.*
-
-# strip most executables
-bin/(?!(kdiff3|kbuildsycoca5|update-mime-database|kioslave|QtWebEngineProcess)).*\.exe

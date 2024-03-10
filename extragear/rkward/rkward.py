@@ -38,7 +38,7 @@ class subinfo(info.infoclass):
         # not strictly runtimeDependencies, but should be included in the package for plugins and extra functionality
         self.runtimeDependencies["kde/applications/kate"] = None
         if not OsUtils.isMac():
-            # kbibtex does not properly build on mac, yet, and is optional
+            # kbibtex does not properly build on macOS, yet, and is optional
             self.runtimeDependencies["extragear/kbibtex"] = None
         # optional, but should be in the package
         self.runtimeDependencies["binary/pandoc"] = None
@@ -136,7 +136,7 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.whitelist_file.append(os.path.join(self.blueprintDir(), "whitelist.txt"))
-        # Certain plugin files defeat codesigning on mac, which is picky about file names
+        # Certain plugin files defeat codesigning on macOS, which is picky about file names
         if OsUtils.isMac():
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 

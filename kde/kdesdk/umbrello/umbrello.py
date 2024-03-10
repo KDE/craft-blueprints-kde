@@ -1,6 +1,6 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
-from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -43,7 +43,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["extragear/kdevelop/kdev-php"] = None
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
         self.subinfo.options.configure.args += [f"-DBUILD_PHP_IMPORT={'ON' if self.subinfo.options.dynamic.buildPHPImport else 'OFF'}"]

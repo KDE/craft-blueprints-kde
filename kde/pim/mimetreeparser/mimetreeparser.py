@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: g10 Code GmbH
 # SPDX-FileContributor: Carl Schwan <carl.schwan@gnupg.com>
-# SPDX-License-Identifier: BSD-2-Clauses
+# SPDX-License-Identifier: BSD-2-Clause
 
 import info
 

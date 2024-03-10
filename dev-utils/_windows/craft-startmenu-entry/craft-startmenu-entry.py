@@ -57,7 +57,7 @@ class Package(BinaryPackageBase):
     @property
     def windowsTerminal(self):
         wt = Path(os.environ["APPDATA"]).parent / "Local/Microsoft/WindowsApps/wt.exe"
-        # its a symlink/junction path.exists() crashes
+        # If it is a symlink/junction path.exists() crashes.
         if os.path.lexists(wt):
             return wt
         return None

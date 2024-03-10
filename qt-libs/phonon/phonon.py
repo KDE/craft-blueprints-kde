@@ -1,4 +1,8 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -12,16 +16,13 @@ class subinfo(info.infoclass):
             self.buildDependencies["libs/qt6/qt5compat"] = None
 
     def setTargets(self):
-        self.svnTargets["master"] = "https://anongit.kde.org/phonon"
+        self.svnTargets["master"] = "https://invent.kde.org/libraries/phonon.git"
         for ver in ["4.12.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/phonon/{ver}/phonon-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/phonon/{ver}/phonon-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"phonon-{ver}"
         self.description = "a Qt based multimedia framework"
         self.defaultTarget = "4.12.0"
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
@@ -42,7 +43,7 @@ class Package(CMakePackageBase):
         if (libDir / "x86_64-linux-gnu").is_dir():
             libDir = libDir / "x86_64-linux-gnu"
         qtMajor = CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion
-        brokenFiles = [os.path.join(libDir, "cmake", f"phonon4qt{qtMajor}", f"Phonon4Qt{qtMajor}Config.cmake")]
+        brokenFiles = [libDir / f"cmake/phonon4qt{qtMajor}/Phonon4Qt{qtMajor}Config.cmake"]
         if qtMajor == 5:
-            brokenFiles += [os.path.join(self.installDir(), "mkspecs", "modules", f"qt_phonon4qt{qtMajor}.pri")]
+            brokenFiles += [self.installDir() / f"mkspecs/modules/qt_phonon4qt{qtMajor}.pri"]
         return self.patchInstallPrefix(brokenFiles, OsUtils.toUnixPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))

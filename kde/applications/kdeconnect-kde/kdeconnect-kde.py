@@ -1,5 +1,8 @@
 import info
-from Package.CMakePackageBase import *
+import utils
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 from Packager.AppxPackager import AppxPackager
 from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
 
@@ -53,15 +56,16 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DWITH_PULSEAUDIO=OFF"]
 
     def createPackage(self):
+        self.whitelist_file.append(self.blueprintDir() / "includelist.txt")
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.addExecutableFilter(
             r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioslave|SnoreToast).*)"
         )
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
-        self.defines["icon"] = os.path.join(os.path.dirname(__file__), "icon.ico")
+        self.defines["icon"] = self.blueprintDir() / "icon.ico"
         self.defines["appname"] = "kdeconnect-indicator"
         self.defines["AppUserModelID"] = "kdeconnect.daemon"
         self.defines["executable"] = r"bin/kdeconnect-app.exe"
@@ -132,10 +136,10 @@ class Package(CMakePackageBase):
                     "description": self.subinfo.description,
                 }
             ]
-            self.defines["icon_png"] = os.path.join(self.blueprintDir(), ".assets", "Square150x150Logo.scale-100.png")
-            self.defines["icon_png_44"] = os.path.join(self.blueprintDir(), ".assets", "Square44x44Logo.scale-100.png")
-            self.defines["icon_png_310x150"] = os.path.join(self.blueprintDir(), ".assets", "Wide310x150Logo.scale-100.png")
-            self.defines["icon_png_310x310"] = os.path.join(self.blueprintDir(), ".assets", "Square310x310Logo.scale-100.png")
+            self.defines["icon_png"] = self.blueprintDir() / ".assets/Square150x150Logo.scale-100.png"
+            self.defines["icon_png_44"] = self.blueprintDir() / ".assets/Square44x44Logo.scale-100.png"
+            self.defines["icon_png_310x150"] = self.blueprintDir() / ".assets/Wide310x150Logo.scale-100.png"
+            self.defines["icon_png_310x310"] = self.blueprintDir() / ".assets/Square310x310Logo.scale-100.png"
 
         self.ignoredPackages.append("binary/mysql")
         return super().createPackage()
@@ -144,30 +148,28 @@ class Package(CMakePackageBase):
         archiveDir = self.archiveDir()
 
         # move everything to the location where Qt expects it
-        pluginPath = os.path.join(archiveDir, "plugins")
-        binPath = os.path.join(archiveDir, "bin")
 
         if CraftCore.compiler.isMacOS:
             # Move kdeconnect, kdeconnect-sms to the package
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
             if not utils.copyFile(
-                os.path.join(archiveDir, "Applications", "KDE", "kdeconnect-app.app", "Contents", "MacOS", "kdeconnect-app"),
-                os.path.join(appPath, "Contents", "MacOS"),
+                archiveDir / "Applications/KDE/kdeconnect-app.app/Contents/MacOS/kdeconnect-app",
+                appPath / "Contents/MacOS",
                 linkOnly=False,
             ):
                 return False
 
             if not utils.copyFile(
-                os.path.join(archiveDir, "Applications", "KDE", "kdeconnect-sms.app", "Contents", "MacOS", "kdeconnect-sms"),
-                os.path.join(appPath, "Contents", "MacOS"),
+                archiveDir / "Applications/KDE/kdeconnect-sms.app/Contents/MacOS/kdeconnect-sms",
+                appPath / "Contents/MacOS",
                 linkOnly=False,
             ):
                 return False
 
             if not utils.copyFile(
-                os.path.join(archiveDir, "Applications", "KDE", "kdeconnect-handler.app", "Contents", "MacOS", "kdeconnect-handler"),
-                os.path.join(appPath, "Contents", "MacOS"),
+                archiveDir / "Applications/KDE/kdeconnect-handler.app/Contents/MacOS/kdeconnect-handler",
+                appPath / "Contents/MacOS",
                 linkOnly=False,
             ):
                 return False
