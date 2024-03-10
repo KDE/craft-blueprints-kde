@@ -39,7 +39,7 @@ class Package(CraftPackageObject.get("kde/frameworks").pattern):
         if not CraftPackageObject.get("kde").pattern.install(self):
             return False
         if self.subinfo.options.dynamic.useIconResource:
-            dest = os.path.join(self.installDir(), os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot()))
+            dest = self.installDir() / os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot())
             if not os.path.exists(dest):
                 os.makedirs(dest)
             if not self.subinfo.options.dynamic.useBreezeDark:
