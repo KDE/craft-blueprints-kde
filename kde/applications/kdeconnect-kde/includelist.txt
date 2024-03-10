@@ -1,0 +1,2 @@
+# Plasma KCM's are blocked globally on macOS, so we explicitely need to enable what we need
+plugins/plasma/kcms/systemsettings_qwidgets/kcm_kdeconnect.*
