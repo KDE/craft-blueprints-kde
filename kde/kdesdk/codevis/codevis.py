@@ -1,4 +1,6 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -31,9 +33,6 @@ class subinfo(info.infoclass):
 
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
         self.runtimeDependencies["kde/plasma/breeze"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 # This is needed for the CI

@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -20,9 +21,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
