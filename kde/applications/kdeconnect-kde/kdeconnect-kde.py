@@ -1,5 +1,8 @@
 import info
-from Package.CMakePackageBase import *
+import utils
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 from Packager.AppxPackager import AppxPackager
 from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
 
