@@ -1,7 +1,7 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
-from CraftConfig import *
 from CraftOS.osutils import OsUtils
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
