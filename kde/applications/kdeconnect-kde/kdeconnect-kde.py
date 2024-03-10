@@ -59,7 +59,6 @@ class Package(CMakePackageBase):
             r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioslave|SnoreToast).*)"
         )
         if CraftCore.compiler.isMacOS:
-            includelist.txt
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
