@@ -155,17 +155,16 @@ class Package(CMakePackageBase):
                 appPath / "Contents/MacOS",
                 linkOnly=False,
             ):
-                return False
 
             if not utils.copyFile(
-                archiveDir / "Applications/KDE/kdeconnect-app.app/Contents/MacOS/kdeconnect-sms",
+                archiveDir / "Applications/KDE/kdeconnect-sms.app/Contents/MacOS/kdeconnect-sms",
                 appPath / "Contents/MacOS",
                 linkOnly=False,
             ):
                 return False
 
             if not utils.copyFile(
-                archiveDir / "Applications/KDE/kdeconnect-app.app/Contents/MacOS/kdeconnect-handler",
+                archiveDir / "Applications/KDE/kdeconnect-handler.app/Contents/MacOS/kdeconnect-handler",
                 appPath / "Contents/MacOS",
                 linkOnly=False,
             ):
