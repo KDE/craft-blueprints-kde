@@ -32,8 +32,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
         self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
         self.runtimeDependencies["kde/kdemultimedia/ffmpegthumbs"] = None
-        # KUserFeedback yet not an official tier1 framework
-        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
+        else:
+            self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

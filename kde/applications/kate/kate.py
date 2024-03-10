@@ -35,8 +35,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/kdeutils/markdownpart"] = None
         self.runtimeDependencies["kde/applications/konsole"] = None
 
-        # KUserFeedback yet not an official tier1 framework
-        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
+        else:
+            self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
 
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
         self.runtimeDependencies["kde/plasma/breeze"] = None

@@ -1,6 +1,10 @@
 import info
-import utils
+from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Packager.AppxPackager import AppxPackager
+from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
 
 
 class subinfo(info.infoclass):
@@ -59,7 +63,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
-        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
+            self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
+        else:
+            self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/matio"] = None
@@ -72,12 +79,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         # needed by AppImage
         self.runtimeDependencies["libs/brotli"] = None
-
-
-from Package.CMakePackageBase import *
-from Packager.AppImagePackager import AppImagePackager
-from Packager.AppxPackager import AppxPackager
-from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
 
 
 class Package(CMakePackageBase):
@@ -96,7 +97,7 @@ class Package(CMakePackageBase):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         # Some plugin files brake codesigning on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.addExecutableFilter(r"bin/(?!(labplot|cantor_|QtWebEngineProcess)).*")
 
         self.defines["website"] = "https://labplot.kde.org/"
@@ -104,10 +105,10 @@ class Package(CMakePackageBase):
         self.defines["shortcuts"] = [
             {"name": "LabPlot2", "target": "bin/labplot2.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\labplot2.ico"}
         ]
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "labplot2.ico")
-        self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-labplot2.png")
-        self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-labplot2.png")
-        self.defines["icon_png_310"] = os.path.join(self.sourceDir(), "icons", "310-apps-labplot2.png")
+        self.defines["icon"] = self.blueprintDir() / "labplot2.ico"
+        self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-labplot2.png"
+        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-labplot2.png"
+        self.defines["icon_png_310"] = self.sourceDir() / "icons/310-apps-labplot2.png"
 
         # see NullsoftInstaller.nsi and NullsoftInstallerPackager.py
         if isinstance(self, NullsoftInstallerPackager):
