@@ -1,5 +1,6 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -55,10 +56,7 @@ class subinfo(info.infoclass):
                 self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
         if CraftCore.compiler.isAndroid:
@@ -69,7 +67,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.defines["executable"] = r"bin\okular.exe"
         self.defines["mimetypes"] = ["application/pdf"]
         self.defines["file_types"] = [".pdf", ".mobi", ".epub", ".tiff", ".djvu"]
@@ -77,9 +75,9 @@ class Package(CMakePackageBase):
         self.defines["alias"] = "okular"
 
         # okular icons
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "okular.ico")
-        self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-okular.png")
-        self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-okular.png")
+        self.defines["icon"] = self.blueprintDir() / "okular.ico"
+        self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-okular.png"
+        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-okular.png"
 
         # this requires an 310x150 variant in addition!
         # self.defines["icon_png_310x310"] = os.path.join(self.sourceDir(), "ui", "data", "icons", "310-apps-okular.png")
