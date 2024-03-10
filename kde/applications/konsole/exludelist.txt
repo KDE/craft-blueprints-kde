@@ -1,0 +1,2 @@
+# This is a bash script, the signer doesn't like it
+.*bin/konsoleprofile
