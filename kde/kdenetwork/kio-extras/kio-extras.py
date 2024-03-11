@@ -27,10 +27,11 @@ class subinfo(info.infoclass):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
             self.runtimeDependencies["qt-libs/qcoro"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
-            self.runtimeDependencies["kde/plasma/kactivities-stats"] = None
+            self.runtimeDependencies["kde/plasma/plasma-activities"] = None
+            self.runtimeDependencies["kde/plasma/plasma-activities-stats"] = None
         else:
             self.runtimeDependencies["kde/frameworks/tier3/kactivities-stats"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -57,7 +58,9 @@ class Package(CraftPackageObject.get("kde").pattern):
         ]  # This requires KDSoap 1.9.0, but we only have a newer version in Craft
 
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DBUILD_ACTIVITIES=" + ("ON" if self.subinfo.options.isActive("kde/plasma/kactivities-stats") else "OFF")]
+            self.subinfo.options.configure.args += [
+                "-DBUILD_ACTIVITIES=" + ("ON" if self.subinfo.options.isActive("kde/plasma/plasma-activities-stats") else "OFF")
+            ]
         else:
             self.subinfo.options.configure.args += [
                 "-DBUILD_ACTIVITIES=" + ("ON" if self.subinfo.options.isActive("kde/frameworks/tier3/kactivities-stats") else "OFF")
