@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2024 Daniel Novomesky <dnovomesky@gmail.com>
 
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
 
@@ -40,3 +41,10 @@ class Package(CMakePackageBase):
             "-DJPEGXL_FORCE_SYSTEM_HWY=ON",
             "-DBUILD_TESTING=OFF",
         ]
+
+        if CraftCore.compiler.isMinGW():
+            self.subinfo.options.configure.args += [
+                # necessary to avoid crashes
+                "-DCMAKE_C_FLAGS=-DHWY_COMPILE_ONLY_SCALAR",
+                "-DCMAKE_CXX_FLAGS=-DHWY_COMPILE_ONLY_SCALAR"
+            ]
