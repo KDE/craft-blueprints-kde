@@ -29,3 +29,6 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
+
+    def createPackage(self):
+        self.addExecutableFilter(r"bin/(?!(kig|update-mime-database|kioslave)).*")
