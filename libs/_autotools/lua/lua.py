@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
         self.patchToApply["5.2.4"] = [("0002-generate-pc-file.patch", 1)]
         if OsUtils.isUnix():
             self.patchToApply["5.2.4"] += [("0001-build-shared-library.patch", 1)]
-        self.patchLevel["5.2.4"] = 1
+        self.patchLevel["5.2.4"] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
