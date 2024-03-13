@@ -3,6 +3,7 @@
 
 import info
 from Package.MesonPackageBase import MesonPackageBase
+from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def registerOptions(self):
