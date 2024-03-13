@@ -5,6 +5,9 @@ import info
 from Package.MesonPackageBase import MesonPackageBase
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.GCCLike
+
     def setTargets(self):
         self.displayName = "libplacebo"
         self.description = "Reusable library for GPU-accelerated image/video processing primitives and shaders, as well a batteries-included, extensible, high-quality rendering pipeline (similar to mpv's vo_gpu). Supports Vulkan, OpenGL, Metal (via MoltenVK) and Direct3D 11."
