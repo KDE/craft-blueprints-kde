@@ -32,3 +32,4 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         self.addExecutableFilter(r"bin/(?!(kig|update-mime-database|kioslave)).*")
+        return super().createPackage()
