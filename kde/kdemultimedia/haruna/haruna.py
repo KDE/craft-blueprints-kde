@@ -1,29 +1,27 @@
+# SPDX-FileCopyrightText: 2024 George Florea Bănuș <georgefb899@gmail.com>
+# SPDX-License-Identifier: BSD-2-Clause
+
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
-from CraftOS.osutils import OsUtils
 from Utils import CraftHash
-
+from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.GCCLike
+
     def setTargets(self):
         self.displayName = "Haruna"
-        self.description = "Haruna video player"
+        self.description = "Media player built with Qt/QML, KDE Frameworks and libmpv"
         self.svnTargets["master"] = "https://invent.kde.org/multimedia/haruna.git"
-        self.defaultTarget = "0.12.1"
+        self.defaultTarget = "1.0.1"
 
-        for ver in ["0.12.1", "0.11.3", "0.10.3", "0.9.3"]:
+        for ver in ["1.0.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/haruna/haruna-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"haruna-{ver}"
             self.archiveNames[ver] = f"haruna-{ver}.tar.gz"
 
-        self.targetDigests["0.12.1"] = (["0435b336d9a19097920f1d92fe5df2e352a9431bd84ce6a34fe225930ea38ede"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["0.11.3"] = (["f7a2823601e0e76f7eb65d0b41eb644f5ae6ab8037d309b253d8b9baebba6f75"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["0.10.3"] = (["4d21eaa709dd3b9f393e2252c4642127ab5da9781a74c903dafba64ae3f9d296"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["0.9.3"] = (["673d8db5d59e1c0f5937c3b73c11ee858fbd43d65efcde91aba9dcf70dac73e6"], CraftHash.HashAlgorithm.SHA256)
-
-        if OsUtils.isWin():
-            self.patchToApply["0.12.1"] = [("0001-fix-Windows-build.patch", 1)]
-            self.patchLevel["0.12.1"] = 1
+        self.targetDigests["1.0.1"] = (["f791f4b5da51ffd4c0e62cd71e819a8a003c0c79fb23047161b56bbc6d68407d"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -31,20 +29,19 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/dbus"] = None
-        self.runtimeDependencies["libs/mpv"] = None
-        self.runtimeDependencies["libs/qt5/qtgraphicaleffects"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+        self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
+        self.runtimeDependencies["kde/unreleased/mpvqt"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcolorscheme"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
-
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
