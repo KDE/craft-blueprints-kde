@@ -10,8 +10,8 @@ class subinfo(info.infoclass):
         self.description = "INDI Library"
 
     def registerOptions(self):
-        self.options.dynamic.registerOption("buildClient", not CraftCore.compiler.isMacOS)
-        self.options.dynamic.registerOption("buildServer", CraftCore.compiler.isMacOS)
+        self.options.dynamic.registerOption("buildClient", True)
+        self.options.dynamic.registerOption("buildServer", CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux)
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/grep"] = None
