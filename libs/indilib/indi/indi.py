@@ -9,6 +9,11 @@ class subinfo(info.infoclass):
 
         self.description = "INDI Library"
 
+        self.patchToApply["2.0.6"] = [
+                ("0001-patch-indiclient-include.patch", 1),
+                ("0002-patch-indidriver-library.patch", 1)
+        ]
+
     def registerOptions(self):
         self.options.dynamic.registerOption("buildClient", True)
         self.options.dynamic.registerOption("buildServer", CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux)
@@ -49,7 +54,7 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
         ]
 
     def install(self):
-        ret = super.install()
+        ret = super().install()
         if CraftCore.compiler.isMacOS:
             self.fixLibraryFolder(self.imageDir() / "lib")
             self.fixLibraryFolder(self.imageDir() / "lib/indi/MathPlugins")
