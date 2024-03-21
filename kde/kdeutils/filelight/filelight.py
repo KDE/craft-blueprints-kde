@@ -32,9 +32,10 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
-        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.addExecutableFilter(r"bin/(?!(filelight|update-mime-database|kioslave)).*")
         self.defines["website"] = "https://apps.kde.org/filelight/"
         self.defines["executable"] = "bin\\filelight.exe"
 

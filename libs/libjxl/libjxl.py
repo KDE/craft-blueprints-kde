@@ -2,15 +2,16 @@
 # SPDX-FileCopyrightText: 2024 Daniel Novomesky <dnovomesky@gmail.com>
 
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["0.9.1"]:
+        for ver in ["0.9.2"]:
             self.svnTargets[ver] = f"https://github.com/libjxl/libjxl.git||v{ver}"
         self.description = "JPEG XL image format reference implementation"
-        self.defaultTarget = "0.9.1"
+        self.defaultTarget = "0.9.2"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/brotli"] = None
@@ -40,3 +41,10 @@ class Package(CMakePackageBase):
             "-DJPEGXL_FORCE_SYSTEM_HWY=ON",
             "-DBUILD_TESTING=OFF",
         ]
+
+        if CraftCore.compiler.isMinGW():
+            self.subinfo.options.configure.args += [
+                # necessary to avoid crashes
+                "-DCMAKE_C_FLAGS=-DHWY_COMPILE_ONLY_SCALAR",
+                "-DCMAKE_CXX_FLAGS=-DHWY_COMPILE_ONLY_SCALAR"
+            ]

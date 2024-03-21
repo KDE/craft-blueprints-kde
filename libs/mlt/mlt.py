@@ -18,10 +18,10 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20221103
-        self.svnTargets["3011561"] = "https://github.com/mltframework/mlt.git||30115615b3a4487724c6878ee70c3ec0fd890426"
-        self.defaultTarget = "3011561"
+        self.svnTargets["6a06b32"] = "https://github.com/mltframework/mlt.git||6a06b3218fcbeae44ab20145a0308360059012b6"
+        self.defaultTarget = "6a06b32"
         if CraftCore.compiler.isWindows:
-            self.patchToApply["3011561"] = [("pi_patch.diff", 1)]
+            self.patchToApply["6a06b32"] = [("pi_patch.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
@@ -65,7 +65,7 @@ class Package(CMakePackageBase):
         if not CraftCore.compiler.isAndroid:
             self.subinfo.options.fetch.checkoutSubmodules = True
         self.subinfo.options.configure.args += [
-            "-DMOD_DECKLINK=OFF",
+            "-DMOD_DECKLINK=ON",
             "-DWINDOWS_DEPLOY=OFF",
             "-DRELOCATABLE=ON",
             "-DMOD_GDK=OFF",  # don't pull in gtk

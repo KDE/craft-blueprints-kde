@@ -3,6 +3,7 @@
 
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -28,6 +29,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/openssl"] = None
+        if CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
     def registerOptions(self):
         self.options.dynamic.registerOption("buildStandaloneApp", False)
@@ -36,5 +39,4 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
-        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.subinfo.options.configure.args += ["-DBUILD_STANDALONE_APP=" + ("ON" if self.subinfo.options.dynamic.buildStandaloneApp else "OFF")]
