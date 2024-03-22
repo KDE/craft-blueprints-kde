@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
@@ -22,14 +23,14 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        for ver in ["6.4.3", "6.5.0", "6.5.2", "6.5.3", "6.6.0", "6.6.1", "6.6.2"]:
+        for ver in self.targets.keys():
             # These are patches that we can't submit upstream
             # Apply them to all future versions
             self.patchToApply[ver] = [(".craft", 1)]
-
-        if CraftCore.compiler.isMinGW():
-            # Fix finding pcre2 on MinGW
-            for ver in ["6.6.0", "6.6.1", "6.6.2"]:
+            if CraftVersion(ver) < "6.6.999999":
+                self.patchToApply[ver] = [(".craft_before_6.7", 1)]
+            if CraftCore.compiler.isMinGW():
+                # Fix finding pcre2 on MinGW
                 self.patchToApply[ver] += [("qtbase-6.6.0-mingw-find-pcre2.diff", 1)]
 
         # backport of https://codereview.qt-project.org/c/qt/qtbase/+/528067
