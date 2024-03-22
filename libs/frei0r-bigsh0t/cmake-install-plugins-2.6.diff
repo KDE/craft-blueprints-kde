@@ -1,11 +1,12 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -139,3 +139,17 @@
+@@ -139,3 +139,18 @@
  build_plugin(bigsh0t_eq_cap EqCap.cpp)
  build_plugin(bigsh0t_eq_wrap EqWrap.cpp)
  build_test()
 +
++include(GNUInstallDirs)
 +
 +install (TARGETS
 +    bigsh0t_hemi_to_eq
