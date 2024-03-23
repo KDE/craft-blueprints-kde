@@ -53,7 +53,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
-        self.runtimeDependencies["kde/kdemultimedia/ffmpegthumbs"]
+        self.runtimeDependencies["kde/kdemultimedia/ffmpegthumbs"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
