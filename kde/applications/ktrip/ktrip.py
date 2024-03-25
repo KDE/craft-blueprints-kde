@@ -1,4 +1,6 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -30,10 +32,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
@@ -42,4 +41,4 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
         self.defines["icon"] = self.buildDir() / "src/ktrip.ico"
-        self.defines["icon_png"] = os.path.join(self.sourceDir(), "src", "150-org.kde.ktrip.png")
+        self.defines["icon_png"] = self.sourceDir() / "src" / "150-org.kde.ktrip.png"
