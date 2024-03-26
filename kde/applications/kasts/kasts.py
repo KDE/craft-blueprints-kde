@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
-        else:
+        elif not CraftCore.compiler.isMSVC(): # no mpv on MSVC
             self.runtimeDependencies["kde/unreleased/mpvqt"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/taglib"] = None
