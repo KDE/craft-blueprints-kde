@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/libs/kpublictransport"] = None
         self.runtimeDependencies["kde/pim/kitinerary"] = None
         self.runtimeDependencies["kde/pim/kpkpass"] = None
-        self.runtimeDependencies["kde/plasma-mobile/khealthcertificate"] = None
+        self.runtimeDependencies["kde/pim/khealthcertificate"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["qt-libs/libquotient"] = None
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6" and CraftCore.compiler.isAndroid:
