@@ -14,14 +14,14 @@ class subinfo(info.infoclass):
         self.displayName = "Haruna"
         self.description = "Media player built with Qt/QML, KDE Frameworks and libmpv"
         self.svnTargets["master"] = "https://invent.kde.org/multimedia/haruna.git"
-        self.defaultTarget = "1.0.1"
+        self.defaultTarget = "1.0.2"
 
-        for ver in ["1.0.1"]:
+        for ver in ["1.0.2"]:
             self.targets[ver] = f"https://download.kde.org/stable/haruna/haruna-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"haruna-{ver}"
             self.archiveNames[ver] = f"haruna-{ver}.tar.gz"
 
-        self.targetDigests["1.0.1"] = (["f791f4b5da51ffd4c0e62cd71e819a8a003c0c79fb23047161b56bbc6d68407d"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.0.2"] = (["656acdc4729d369ecccafdb270899244952baa237700335cae887048dd3faef1"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -56,6 +56,5 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["file_types"] = [".mkv", ".mp4", ".ogm", ".avi"]
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("libs/dbus")
 
         return super().createPackage()
