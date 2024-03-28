@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.webpage = "https://kdevelop.org"
         self.displayName = "KDevelop"
         self.patchToApply["5.6.2"] = ("fix-finding-clang17.patch", 1)
-
+        self.patchLevel["5.6.2"] = 1
 
     def registerOptions(self):
         self.options.dynamic.registerOption("fullKDevelop", False)
