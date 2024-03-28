@@ -8,8 +8,15 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         for ver in ["6.6.0", "6.6.1"]:
             self.patchToApply[ver] = [("qtmultimedia-android-suspend-crash-fix.diff", 1)]
+        # TODO also needed in 6.7.0 once that exists!
+        for ver in ["6.6.2", "6.6.3"]:
+            self.patchToApply[ver] = [("change-551770-backport.diff", 1)]
         self.patchLevel["6.6.0"] = 4
         self.patchLevel["6.6.1"] = 1
+        self.patchLevel["6.6.2"] = 1
+        self.patchLevel["6.6.3"] = 1
+        # TODO also needed in 6.7.0 once that exists!
+        # self.patchLevel["6.7.0"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
