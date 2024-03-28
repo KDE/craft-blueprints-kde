@@ -68,7 +68,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isMSVC():
             self.runtimeDependencies["libs/aqbanking"] = None
         self.runtimeDependencies["libs/gettext"] = None
-        self.runtimeDependencies["extragear/libalkimia"] = None
+        self.runtimeDependencies["extragear/alkimia"] = None
         self.runtimeDependencies["extragear/kdiagram"] = None
         self.buildDependencies["libs/gettext"] = None
         if self.buildTarget != "master":
