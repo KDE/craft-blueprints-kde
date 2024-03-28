@@ -33,6 +33,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "a personal finance manager for KDE"
         self.displayName = "KMyMoney"
+        self.patchLevel["5.1"] = 1
+        self.patchLevel["master"] = 1
         self.defaultTarget = "5.1"
 
     def setDependencies(self):
