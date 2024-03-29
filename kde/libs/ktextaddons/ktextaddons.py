@@ -9,12 +9,12 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Text Addons (autocorrection, grammar checking, text to speak, translator support)"
 
-        for ver in ["1.5.3"]:
+        for ver in ["1.5.4"]:
             self.targets[ver] = f"https://download.kde.org/stable/ktextaddons/ktextaddons-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/ktextaddons/ktextaddons-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"ktextaddons-{ver}"
 
-        self.defaultTarget = "1.5.3"
+        self.defaultTarget = "1.5.4"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
