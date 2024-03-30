@@ -18,13 +18,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/prison"] = None
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+        self.runtimeDependencies["kde/plasma/plasma-activities"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kunitconversion"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kactivities-stats"] = None
+        self.runtimeDependencies["kde/plasma/plasma-activities-stats"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kdesu"] = None
@@ -38,7 +38,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/krunner"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
+        self.runtimeDependencies["kde/plasma/plasma-framework"] = None
         self.runtimeDependencies["kde/plasma/kwin"] = None
 
 

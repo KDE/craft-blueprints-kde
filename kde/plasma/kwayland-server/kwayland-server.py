@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kwayland"] = None
+        self.runtimeDependencies["kde/plasma/kwayland"] = None
 
 
 class Package(CraftPackageObject.get("kde/plasma").pattern):

@@ -40,8 +40,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        # if self.buildTarget == "master" or self.buildTarget >= CraftVersion("8.0"):
-        #    self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["libs/libgmp"] = None

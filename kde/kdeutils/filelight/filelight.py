@@ -14,7 +14,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kquickcharts"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
@@ -25,8 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kdesupport/kdewin"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
+        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

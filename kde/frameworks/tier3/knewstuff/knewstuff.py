@@ -16,8 +16,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None

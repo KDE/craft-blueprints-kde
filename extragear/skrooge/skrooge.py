@@ -20,8 +20,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
-        self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None

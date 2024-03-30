@@ -21,9 +21,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtimageformats"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtnetworkauth"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
-            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -38,8 +35,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier2/kcolorscheme"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcolorscheme"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
@@ -74,8 +70,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += ["-DRELEASE_BUILD=OFF"]
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DKF_MAJOR=6"]
+        self.subinfo.options.configure.args += ["-DKF_MAJOR=6"]
 
     def setDefaults(self, defines: {str: str}) -> {str: str}:
         defines = super().setDefaults(defines)

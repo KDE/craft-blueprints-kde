@@ -19,8 +19,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["libs/zlib"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
 
 
 from Package.CMakePackageBase import *

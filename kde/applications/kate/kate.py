@@ -11,9 +11,6 @@ class subinfo(info.infoclass):
         self.description = "Modern text editor built on the KDE Frameworks and Qt"
         self.webpage = "https://kate-editor.org/"
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.defaultTarget = "23.08.5"
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -34,11 +31,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/kdeutils/markdownpart"] = None
         self.runtimeDependencies["kde/applications/konsole"] = None
-
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
-        else:
-            self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
 
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
         self.runtimeDependencies["kde/plasma/breeze"] = None

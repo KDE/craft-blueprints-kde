@@ -33,8 +33,4 @@ class Package(CMakePackageBase):
         super().__init__()
         self.subinfo.options.dynamic.buildStatic = False
         self.subinfo.options.configure.args += ["-DWITH_QT=ON"]
-
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DQGPGME_BUILD_QT5=OFF"]
-        else:
-            self.subinfo.options.configure.args += ["-DQGPGME_BUILD_QT6=OFF"]
+        self.subinfo.options.configure.args += ["-DQGPGME_BUILD_QT5=OFF"]

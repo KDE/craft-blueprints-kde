@@ -16,7 +16,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         # Qt WebEngine doesn't work with MinGW.
         if not CraftCore.compiler.isMinGW():
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
@@ -42,7 +41,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+        self.runtimeDependencies["kde/plasma/plasma-activities"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None

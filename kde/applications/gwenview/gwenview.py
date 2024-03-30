@@ -12,14 +12,13 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        self.runtimeDependencies["libs/qt5/qtx11extras"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+        self.runtimeDependencies["kde/plasma/plasma-activities"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier3/baloo"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None

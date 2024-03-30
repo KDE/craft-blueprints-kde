@@ -1,4 +1,3 @@
-import info
 from Package.CMakePackageBase import *
 
 
@@ -13,10 +12,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
-        else:
-            self.runtimeDependencies["kde/unreleased/mpvqt"] = None
+        self.runtimeDependencies["kde/unreleased/mpvqt"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/taglib"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
@@ -32,8 +28,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
         else:
-            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-                self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
         if CraftCore.compiler.isWindows:

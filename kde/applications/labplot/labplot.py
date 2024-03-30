@@ -47,9 +47,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/webp"] = None
 
         self.runtimeDependencies["kde/applications/cantor"] = None
-        self.runtimeDependencies["qt-libs/qtmqtt"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt5/qtserialport"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
@@ -63,10 +61,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
-        else:
-            self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/matio"] = None

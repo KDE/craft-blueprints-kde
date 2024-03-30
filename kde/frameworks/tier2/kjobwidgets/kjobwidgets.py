@@ -14,8 +14,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
 
 
 class Package(CraftPackageObject.get("kde/frameworks").pattern):

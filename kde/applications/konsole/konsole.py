@@ -10,9 +10,6 @@ class subinfo(info.infoclass):
         self.displayName = "Konsole"
         self.description = "the KDE terminal emulator"
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.defaultTarget = "23.08.5"
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

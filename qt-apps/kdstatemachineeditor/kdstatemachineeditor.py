@@ -16,10 +16,7 @@ class subinfo(info.infoclass):
         self.webpage = "https://www.kdab.com/"
         self.displayName = "KDStateMachineEditor"
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.defaultTarget = "master"
-        else:
-            self.defaultTarget = "1.2.8"
+        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -27,8 +24,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtscxml"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["libs/qt5/qtremoteobjects"] = None
 
 
 from Package.CMakePackageBase import *
@@ -38,5 +33,4 @@ class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
         self.subinfo.options.configure.args += ["-DWITH_INTERNAL_GRAPHVIZ=OFF", "-DCMAKE_DISABLE_FIND_PACKAGE_Graphviz=ON"]
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DBUILD_QT6=ON"]
+        self.subinfo.options.configure.args += ["-DBUILD_QT6=ON"]

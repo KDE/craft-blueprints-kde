@@ -21,8 +21,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtwinextras"] = None
-        self.runtimeDependencies["libs/qt5/qtmacextras"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
 

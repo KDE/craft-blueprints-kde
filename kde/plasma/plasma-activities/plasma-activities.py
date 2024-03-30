@@ -5,11 +5,7 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if not CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            # Moved to Plasma 6 from KF5
-            self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
-        else:
-            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()

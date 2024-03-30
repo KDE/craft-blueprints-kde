@@ -58,7 +58,7 @@ class Package(CraftPackageObject.get("kde/frameworks").pattern):
 
     def postInstall(self):
         dataDir = os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot())
-        kfmajor = CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion
+        kfmajor = "6"
         brokenFiles = [
             os.path.join(self.installDir(), dataDir, x)
             for x in [

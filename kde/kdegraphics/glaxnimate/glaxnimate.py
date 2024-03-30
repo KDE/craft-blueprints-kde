@@ -36,8 +36,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/qt/qttools"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
         self.runtimeDependencies["libs/potrace"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/libarchive"] = None

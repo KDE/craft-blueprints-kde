@@ -49,10 +49,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libksieve"] = None
         self.runtimeDependencies["kde/pim/mailcommon"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
-        else:
-            self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
 
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["kde/pim/kdepim-runtime"] = None

@@ -5,6 +5,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["libs/openssl"] = None
 
         # gcrypt currently fails to build for android
@@ -14,9 +15,6 @@ class subinfo(info.infoclass):
         # cyrus-sasl currently fails to build with mingw / for android
         if not CraftCore.compiler.isMinGW() and not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/cyrus-sasl"] = None
-
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["libs/qt6/qt5compat"] = None
 
     def setTargets(self):
         self.description = "Qt Cryptographic Architecture (QCA)"
@@ -41,6 +39,4 @@ class Package(CMakePackageBase):
 
         # tests fail to build with missing openssl header
         self.subinfo.options.configure.args = ["-DBUILD_TESTS=OFF"]
-
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=ON"]
+        self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=ON"]

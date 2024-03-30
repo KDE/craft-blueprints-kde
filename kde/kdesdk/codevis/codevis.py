@@ -58,6 +58,4 @@ class Package(CraftPackageObject.get("kde").pattern):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")
-        self.ignoredPackages.append("kde/frameworks/kemoticons")
-
         return super().createPackage()

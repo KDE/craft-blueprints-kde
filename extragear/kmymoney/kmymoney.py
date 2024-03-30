@@ -48,7 +48,7 @@ class subinfo(info.infoclass):
         if self.buildTarget != "master":
             self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+        self.runtimeDependencies["kde/plasma/plasma-activities"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
@@ -76,7 +76,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         else:
             self.runtimeDependencies["qt-libs/qtkeychain"] = None
-        self.runtimeDependencies["libs/qt5/qtserialport"] = None
         if CraftCore.compiler.isWindows:
             self.runtimeDependencies["kdesupport/kdewin"] = None
 

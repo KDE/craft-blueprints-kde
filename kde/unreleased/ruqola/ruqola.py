@@ -63,9 +63,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["kde/frameworks/tier1/prison"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
-
-        # KUserFeedback yet not an official tier1 framework
-        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
 
         self.runtimeDependencies["kde/frameworks/tier1/kidletime"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None

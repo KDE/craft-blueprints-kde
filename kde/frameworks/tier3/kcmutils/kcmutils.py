@@ -20,17 +20,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
-            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
-            self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
+        self.runtimeDependencies["kde/plasma/plasma-activities"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
 
 
 class Package(CraftPackageObject.get("kde/frameworks").pattern):

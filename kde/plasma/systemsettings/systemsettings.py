@@ -18,9 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier4/frameworkintegration"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
+        self.runtimeDependencies["kde/plasma/plasma-activities"] = None
 
 
 class Package(CraftPackageObject.get("kde/plasma").pattern):

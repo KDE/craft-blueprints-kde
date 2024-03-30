@@ -30,5 +30,5 @@ class Package(CMakePackageBase):
         super().__init__()
         if self.subinfo.options.dynamic.buildTests:
             self.subinfo.options.configure.args += ["-DKDSingleApplication_TESTS=ON"]
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DKDSingleApplication_QT6=ON"]
+
+        self.subinfo.options.configure.args += ["-DKDSingleApplication_QT6=ON"]

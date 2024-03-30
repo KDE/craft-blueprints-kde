@@ -29,12 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
-        self.runtimeDependencies["libs/qt5/qtscript"] = None
-        if CraftCore.compiler.isMinGW() or OsUtils.isMac() and CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            # MinGW has no qtwebengine, but we can fall back to kdewebkit
-            self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = None
-        else:
-            self.runtimeDependencies["libs/qt/qtwebengine"] = None
+        self.runtimeDependencies["libs/qt/qtwebengine"] = None
         # not strictly runtimeDependencies, but should be included in the package for plugins and extra functionality
         self.runtimeDependencies["kde/applications/kate"] = None
         if not OsUtils.isMac():
@@ -51,7 +46,6 @@ class subinfo(info.infoclass):
             #       Added, here, as a workaround, because kuserfeedback may have been built with the lib in the cache, without anything declaring the dependency
             self.runtimeDependencies["libs/qt/qtcharts"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
-            self.runtimeDependencies["libs/qt5/qtserialport"] = None
             # Needed at runtime to keep libcurl working inside the AppImage. See definition of CURL_CA_BUNDLE, below.
             self.runtimeDependencies["core/cacert"] = None
             # Needed for building some R packages
@@ -60,7 +54,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/baloo"] = None
         elif OsUtils.isMac():
             # indirectly required by kate, but not declared as dependency, there
-            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+            self.runtimeDependencies["kde/plasma/plasma-activities"] = None
 
 
 from Package.CMakePackageBase import *

@@ -30,6 +30,4 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon"] = self.blueprintDir() / "kolourpaint.ico"
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("kde/frameworks/kemoticons")
-
         return super().createPackage()

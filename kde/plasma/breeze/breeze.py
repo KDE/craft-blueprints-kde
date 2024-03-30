@@ -36,6 +36,4 @@ class Package(CraftPackageObject.get("kde/plasma").pattern):
 
         if OsUtils.isMac():
             self.subinfo.options.configure.args += ["-DWITH_DECORATIONS=OFF"]
-
-        qtMajor = CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion
-        self.subinfo.options.configure.args += [f"-DBUILD_QT5={'ON' if qtMajor == '5' else 'OFF'}", f"-DBUILD_QT6={'ON' if qtMajor == '6' else 'OFF'}"]
+        self.subinfo.options.configure.args += f"-DBUILD_QT6=ON"

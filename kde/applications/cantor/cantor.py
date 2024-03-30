@@ -5,11 +5,6 @@ from CraftOS.osutils import OsUtils
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        # The required dependedency QtWebEngine is not available on Qt5
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and CraftCore.compiler.isMinGW():
-            self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
-
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Cantor"
@@ -18,7 +13,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None

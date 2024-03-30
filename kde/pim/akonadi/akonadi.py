@@ -9,9 +9,6 @@ class subinfo(info.infoclass):
 
         self.description = "A storage service for PIM data and meta data"
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.defaultTarget = "23.08.5"
-
     def registerOptions(self):
         self.options.dynamic.registerOption("useDesignerPlugin", True)
 

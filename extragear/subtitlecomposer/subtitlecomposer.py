@@ -25,8 +25,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["kde/frameworks/tier3/kross"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
