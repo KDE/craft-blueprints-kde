@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.description = "xplanet, Create HQ wallpapers of planet Earth and time-updated images of other planets"
 
         for ver in ["1.3.1"]:
-            self.targets[ver] = f"https://downloads.sourceforge.net/project/xplanet/xplanet/{ver}xplanet-{ver}.tar.gz"
+            self.targets[ver] = f"https://downloads.sourceforge.net/project/xplanet/xplanet/{ver}/xplanet-{ver}.tar.gz"
             self.archiveNames[ver] = f"xplanet-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"xplanet-{ver}"
 
