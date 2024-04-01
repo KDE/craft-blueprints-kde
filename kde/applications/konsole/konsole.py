@@ -13,6 +13,9 @@ class subinfo(info.infoclass):
         if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
             self.defaultTarget = "23.08.5"
 
+        # Fix macOS build, see https://invent.kde.org/utilities/konsole/-/merge_requests/950
+        self.patchToApply["24.02.1"] = [("950.patch", 1)]
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
