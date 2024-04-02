@@ -99,6 +99,7 @@ class Package(CMakePackageBase):
             f"-DFEATURE_system_harfbuzz={'ON' if self.subinfo.options.dynamic.withHarfBuzz else 'OFF'}",
             f"-DFEATURE_icu={'ON' if  self.subinfo.options.dynamic.withICU else 'OFF'}",
             f"-DFEATURE_dbus={'ON' if  self.subinfo.options.dynamic.withDBus else 'OFF'}",
+            f"-DFEATURE_dbus_linked=OFF",
             f"-DFEATURE_glib={'ON' if  self.subinfo.options.dynamic.withGlib else 'OFF'}",
             f"-DFEATURE_fontconfig={'ON' if  self.subinfo.options.dynamic.withFontConfig else 'OFF'}",
             f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={'ON' if  self.subinfo.options.dynamic.useLtcg else 'OFF'}",
