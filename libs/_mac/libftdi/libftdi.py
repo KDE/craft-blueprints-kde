@@ -26,12 +26,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
-        self.subinfo.options.configure.args += ["-DPYTHON_BINDINGS=OFF", "-DEXAMPLES=OFF", "-DBUILD_TESTS=OFF"]
-
-    def postQmerge(self):
-        packageName = "libftdi1"
-        root = str(CraftCore.standardDirs.craftRoot())
-        craftLibDir = os.path.join(root, "lib")
-        utils.system("install_name_tool -add_rpath " + craftLibDir + " " + craftLibDir + "/" + packageName + ".dylib")
-        utils.system("install_name_tool -id @rpath/" + packageName + ".dylib " + craftLibDir + "/" + packageName + ".dylib")
-        return True
+        self.subinfo.options.configure.args += ["-DPYTHON_BINDINGS=OFF", "-DEXAMPLES=OFF", "-DFTDI_EEPROM=OFF"]
+        if not self.subinfo.options.dynamic.buildTests:
+            self.subinfo.options.configure.args += ["-DBUILD_TESTS=OFF"]

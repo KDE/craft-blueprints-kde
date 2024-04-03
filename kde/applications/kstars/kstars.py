@@ -1,5 +1,4 @@
 import os
-import subprocess
 
 import info
 
@@ -10,8 +9,9 @@ class subinfo(info.infoclass):
 
         self.description = "a desktop planetarium"
         self.svnTargets["3.6.9"] = "https://invent.kde.org/education/kstars.git|stable-3.6.9"
+        self.svnTargets["3.7.0"] = "https://invent.kde.org/education/kstars.git|stable-3.7.0"
         self.svnTargets["master"] = "https://github.com/KDE/kstars.git"
-        self.defaultTarget = "3.6.9"
+        self.defaultTarget = "3.7.0"
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
@@ -39,24 +39,20 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/libxisf"] = None
         self.runtimeDependencies["libs/wcslib"] = None
-
-        if CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["libs/xplanet"] = None
-            self.runtimeDependencies["libs/gsc"] = None
-            # Making these dependencies casues an issue where you can't have KStars and INDI both be the latest version or both be stable
-            # You have to comment these out if you want stable, this basically hard codes it to be the latest version.
-            self.runtimeDependencies["libs/indiserver"] = None
-            self.runtimeDependencies["libs/indiserver-3rdparty"] = None
-        if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["libs/indiclient"] = None
-
         self.runtimeDependencies["libs/libraw"] = None
         self.runtimeDependencies["libs/gsl"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/stellarsolver"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
-        if not CraftCore.compiler.isMacOS:
+        # MacOS and Linux build indi client/server, Windows builds indi client only
+        self.runtimeDependencies["libs/indilib/indi"] = None
+
+        if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
+            self.runtimeDependencies["libs/xplanet"] = None
+            self.runtimeDependencies["libs/gsc"] = None
+
+        if CraftCore.compiler.isLinux:
             self.runtimeDependencies["qt-libs/phonon-vlc"] = None
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
 
@@ -80,34 +76,31 @@ class Package(CMakePackageBase):
         if not super().make():
             return False
 
-        if not CraftCore.compiler.isMacOS:
-            return True
+        if CraftCore.compiler.isMacOS:
 
-        # 	Copying things needed for macOS KStars
+            # 	Defining Craft Directories
+            buildDir = str(self.buildDir())
+            sourceDir = str(self.sourceDir())
+            packageDir = str(self.blueprintDir())
+            imageDir = str(self.imageDir())
+            craftRoot = str(CraftCore.standardDirs.craftRoot())
+            craftLibDir = os.path.join(craftRoot, "lib")
+            KSTARS_APP = os.path.join(buildDir, "bin", "KStars.app")
+            KSTARS_RESOURCES = os.path.join(KSTARS_APP, "Contents", "Resources")
+            KSTARS_PLUGINS = os.path.join(KSTARS_APP, "Contents", "Plugins")
 
-        # 	Defining Craft Directories
-        buildDir = str(self.buildDir())
-        sourceDir = str(self.sourceDir())
-        packageDir = str(self.blueprintDir())
-        imageDir = str(self.imageDir())
-        craftRoot = str(CraftCore.standardDirs.craftRoot())
-        craftLibDir = os.path.join(craftRoot, "lib")
-        KSTARS_APP = os.path.join(buildDir, "bin", "KStars.app")
-        KSTARS_RESOURCES = os.path.join(KSTARS_APP, "Contents", "Resources")
-        KSTARS_PLUGINS = os.path.join(KSTARS_APP, "Contents", "Plugins")
+            # KIO Slave and it's parts (For loading thumbnail images)
+            utils.system("cp -rf " + craftRoot + "/lib/libexec/kf5/kioslave5 " + KSTARS_APP + "/Contents/MacOS/")
+            utils.system("mkdir -p " + KSTARS_PLUGINS + "/kf5/kio")
+            utils.system("cp -f " + craftRoot + "/plugins/kf5/kio/kio_file.so " + KSTARS_PLUGINS + "/kf5/kio/")
+            utils.system("cp -f " + craftRoot + "/plugins/kf5/kio/kio_http.so " + KSTARS_PLUGINS + "/kf5/kio/")
 
-        # KIO Slave and it's parts (For loading thumbnail images)
-        utils.system("cp -rf " + craftRoot + "/lib/libexec/kf5/kioslave5 " + KSTARS_APP + "/Contents/MacOS/")
-        utils.system("mkdir -p " + KSTARS_PLUGINS + "/kf5/kio")
-        utils.system("cp -f " + craftRoot + "/plugins/kf5/kio/kio_file.so " + KSTARS_PLUGINS + "/kf5/kio/")
-        utils.system("cp -f " + craftRoot + "/plugins/kf5/kio/kio_http.so " + KSTARS_PLUGINS + "/kf5/kio/")
+            # The Translations Directory
+            utils.system("cp -rf " + craftRoot + "/share/locale " + KSTARS_RESOURCES)
 
-        # 	The Translations Directory
-        utils.system("cp -rf " + craftRoot + "/share/locale " + KSTARS_RESOURCES)
-
-        for path in utils.getLibraryDeps(str(KSTARS_APP + "/Contents/MacOS/kstars")):
-            if path.startswith(craftLibDir):
-                utils.system(["install_name_tool", "-change", path, os.path.join("@rpath", os.path.basename(path)), KSTARS_APP + "/Contents/MacOS/kstars"])
+            for path in utils.getLibraryDeps(str(KSTARS_APP + "/Contents/MacOS/kstars")):
+                if path.startswith(craftLibDir):
+                    utils.system(["install_name_tool", "-change", path, os.path.join("@rpath", os.path.basename(path)), KSTARS_APP + "/Contents/MacOS/kstars"])
 
         return True
 

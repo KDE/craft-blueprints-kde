@@ -1,23 +1,17 @@
-import os
-
 import info
-import utils
+from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
-from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
+        self.versionInfo.setDefaultValues()
+
         self.description = "INDI Library 3rd Party"
-        self.svnTargets["master"] = "https://github.com/indilib/indi-3rdparty.git"
-        self.targetInstSrc["master"] = ""
 
-        ver = "v2.0.6"
-        self.svnTargets["stable"] = f"https://github.com/indilib/indi-3rdparty/archive/refs/tags/v{ver}.tar.gz"
-        self.archiveNames["stable"] = f"indi-{ver}.tar.gz"
-        self.targetInstSrc["stable"] = ""
-
-        self.defaultTarget = "master"
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.MacOS | CraftCore.compiler.Platforms.Linux
+        self.options.dynamic.registerOption("buildLibraries", True)
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/grep"] = None
@@ -33,35 +27,27 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/tiff"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
-        self.runtimeDependencies["libs/indiserver"] = None
-        self.runtimeDependencies["libs/indiserver-3rdparty-libraries"] = None
         self.runtimeDependencies["libs/librtlsdr"] = None
         self.runtimeDependencies["libs/limesuite"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
 
+        self.runtimeDependencies["libs/indilib/indi"] = None
 
-class Package(CMakePackageBase):
-    def fixLibraryFolder(self, folder):
-        craftLibDir = CraftCore.standardDirs.craftRoot() / "lib"
-        for library in utils.filterDirectoryContent(str(folder)):
-            for path in utils.getLibraryDeps(str(library)):
-                if path.startswith(craftLibDir):
-                    utils.system(["install_name_tool", "-change", path, os.path.join("@rpath", os.path.basename(path)), library])
-            utils.system(["install_name_tool", "-add_rpath", craftLibDir, library])
 
+class Package(CraftPackageObject.get("libs/indilib").pattern):
     def __init__(self):
         super().__init__()
         self.subinfo.options.package.disableStriping = True
-        craftLibDir = CraftCore.standardDirs.craftRoot() / "lib"
         self.subinfo.options.configure.args += [
-            "-DCMAKE_MACOSX_RPATH=1",
-            f"-DCMAKE_INSTALL_RPATH={craftLibDir}",
             # Avalon Universal Drivers is off because we do not have recipe yet for libzmq3 library.
-            "-DWITH_AVALONUD=Off",
+            "-DWITH_AVALONUD=OFF",
+            f"-DBUILD_LIBS={'ON' if self.subinfo.options.dynamic.buildLibraries else 'OFF'}",
         ]
 
     def install(self):
         ret = super.install()
         if CraftCore.compiler.isMacOS:
             self.fixLibraryFolder(self.imageDir() / "bin")
+            if self.subinfo.options.dynamic.buildLibraries:
+                self.fixLibraryFolder(self.imageDir() / "lib")
         return ret
