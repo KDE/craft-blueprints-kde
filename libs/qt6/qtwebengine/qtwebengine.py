@@ -58,6 +58,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/webp"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/tiff"] = None
         self.runtimeDependencies["libs/lcms2"] = None
 
         if self.options.dynamic.withICU:

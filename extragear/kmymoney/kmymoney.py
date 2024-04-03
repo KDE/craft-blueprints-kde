@@ -33,6 +33,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "a personal finance manager for KDE"
         self.displayName = "KMyMoney"
+        self.patchLevel["5.1"] = 1
+        self.patchLevel["master"] = 1
         self.defaultTarget = "5.1"
 
     def setDependencies(self):
@@ -68,7 +70,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isMSVC():
             self.runtimeDependencies["libs/aqbanking"] = None
         self.runtimeDependencies["libs/gettext"] = None
-        self.runtimeDependencies["extragear/libalkimia"] = None
+        self.runtimeDependencies["extragear/alkimia"] = None
         self.runtimeDependencies["extragear/kdiagram"] = None
         self.buildDependencies["libs/gettext"] = None
         if self.buildTarget != "master":

@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
         self.patchToApply["5.2.4"] = [("0002-generate-pc-file.patch", 1)]
         if OsUtils.isUnix():
             self.patchToApply["5.2.4"] += [("0001-build-shared-library.patch", 1)]
-        self.patchLevel["5.2.4"] = 2
+        self.patchLevel["5.2.4"] = 3
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -55,7 +55,7 @@ class Package(MakeFilePackageBase):
             ("src/liblua.so.5.2.4", self.installDir() / "lib/liblua.so.5.2.4"),
             ("src/lua", self.installDir() / "bin/lua"),
             ("src/luac", self.installDir() / "bin/luac"),
-            ("src/liblua.a", self.installDir() / "bin/liblua.a"),
+            ("src/liblua.a", self.installDir() / "lib/liblua.a"),
             ("src/lua52.dll", self.installDir() / "bin/lua52.dll"),
             ("src/lua.exe", self.installDir() / "bin/lua.exe"),
             ("src/luac.exe", self.installDir() / "bin/luac.exe"),

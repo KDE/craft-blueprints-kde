@@ -59,7 +59,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
+        if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["kde/frameworks/tier1/prison"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
@@ -85,4 +86,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-ruqola.png"
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-ruqola.png"
         self.ignoredPackages.append("binary/mysql")
+        if CraftCore.compiler.isMacOS:
+            self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

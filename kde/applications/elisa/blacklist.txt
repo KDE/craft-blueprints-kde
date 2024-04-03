@@ -22,7 +22,6 @@ share/apps/cmake/.*
 share/apps/ark/.*
 share/apps/kgpg/.*
 share/kf5/kdoctools/.*
-lib/.*
 bin/data/kpackage/kcms/(?!kcm_elisa_local_file).*
 bin/data/applications/.*
 bin/data/doc/.*

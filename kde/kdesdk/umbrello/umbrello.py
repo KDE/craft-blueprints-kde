@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
