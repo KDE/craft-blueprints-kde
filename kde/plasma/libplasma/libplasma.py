@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.description = "Plugin based UI runtime used to write primary user interfaces"
+        self.description = "Plasma library and runtime components"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

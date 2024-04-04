@@ -52,7 +52,7 @@ class subinfo(info.infoclass):
 
         if self.options.dynamic.fullPlasma:
             self.runtimeDependencies["kde/frameworks/tier3/krunner"] = None
-            self.runtimeDependencies["kde/plasma/plasma-framework"] = None
+            self.runtimeDependencies["kde/plasma/libplasma"] = None
         if self.options.dynamic.fullKDevelop:
             self.packagingDependencies["extragear/kdevelop/kdev-python"] = None
             self.packagingDependencies["extragear/kdevelop/kdev-php"] = None

@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        self.runtimeDependencies["kde/plasma/plasma-framework"] = None
+        self.runtimeDependencies["kde/plasma/libplasma"] = None
         self.runtimeDependencies["kde/plasma/kscreenlocker"] = None
         self.runtimeDependencies["kde/plasma/kwayland-server"] = None
 
