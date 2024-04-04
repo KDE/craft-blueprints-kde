@@ -26,8 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/applications/libkeduvocdocument"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
+        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
