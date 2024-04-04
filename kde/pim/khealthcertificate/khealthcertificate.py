@@ -7,9 +7,8 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/pim/khealthcertificate.git")
         self.displayName = "KHealthCertificate"
-
-        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
