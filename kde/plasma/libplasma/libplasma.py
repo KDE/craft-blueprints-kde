@@ -34,6 +34,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/ksvg"] = None
 
 
 class Package(CraftPackageObject.get("kde/plasma").pattern):
