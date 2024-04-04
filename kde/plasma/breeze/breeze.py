@@ -12,8 +12,6 @@ class subinfo(info.infoclass):
         for ver in self.versionInfo.tarballs():
             self.patchToApply[ver] = ("breeze-noWinDrag.diff", 0)
 
-        self.patchLevel["6.0.2"] = 1
-
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/libfftw"] = None
