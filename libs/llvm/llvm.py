@@ -45,7 +45,7 @@ class subinfo(info.infoclass):
         self.description = "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines."
         self.webpage = "http://llvm.org/"
         self.tags = "clang, clang-tools-extra"
-        self.defaultTarget = "17.0.6"
+        self.defaultTarget = "18.1.2"
 
     def setDependencies(self):
         # workaround, ensure system clang is used to build bjam
