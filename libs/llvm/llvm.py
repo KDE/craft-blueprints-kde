@@ -41,6 +41,7 @@ class subinfo(info.infoclass):
         )
         self.patchLevel["15.0.2"] = 3
         self.patchLevel["16.0.1"] = 2
+        self.patchLevel["18.1.2"] = 1
 
         self.description = "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines."
         self.webpage = "http://llvm.org/"
@@ -68,6 +69,8 @@ class Package(CMakePackageBase):
             "-DLLVM_INCLUDE_GO_TESTS=OFF",
             "-DLLVM_INCLUDE_EXAMPLES=OFF",
             "-DLLVM_BUILD_EXAMPLES=OFF",
+            "-DLLVM_INCLUDE_BENCHMARKS=OFF",
+            "-DLLVM_BUILD_BENCHMARKS=OFF",
             "-DLLVM_TARGETS_TO_BUILD=X86;AArch64",
             "-DLLVM_ENABLE_RTTI=ON",
             "-DLLVM_ENABLE_EH=ON",
@@ -79,22 +82,20 @@ class Package(CMakePackageBase):
             "-DLLVM_INCLUDE_DOCS=OFF",
             "-DLLVM_INSTALL_UTILS=ON",
             "-DLLVM_OPTIMIZED_TABLEGEN=ON",
-            # Limit the maximum number of concurrent link jobs to 1. This should fix low amount of memory issue for link.
-            "-DLLVM_PARALLEL_LINK_JOBS=1",
             # we use kshimgen on Windows
             "-DLLVM_USE_SYMLINKS=ON",
         ]
         # allow gcc < 5
         self.subinfo.options.configure.args += ["-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=ON"]
 
+        # build static in general
+        self.subinfo.options.dynamic.buildStatic = True
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += ["-DLLVM_EXPORT_SYMBOLS_FOR_PLUGINS=ON"]
             # CMake Error at CMakeLists.txt:555 (message): BUILD_SHARED_LIBS options is not supported on Windows
-            self.subinfo.options.dynamic.buildStatic = True
-        elif CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += ["-DLLVM_BUILD_LLVM_DYLIB=ON"]
         else:
-            self.subinfo.options.dynamic.buildStatic = False
+            # generate a shared lib from the gathered static libs
+            self.subinfo.options.configure.args += ["-DLLVM_BUILD_LLVM_DYLIB=ON", "-DLLVM_LINK_LLVM_DYLIB=ON"]
 
         # lldb by default needs SWIG for the Python integration
         # disable this support until we have a swig package in Craft
