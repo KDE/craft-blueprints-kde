@@ -68,29 +68,22 @@ class PackageMSVC(CMakePackageBase):
         src = self.sourceDir()
         dst = self.imageDir()
 
-        if not os.path.isdir(dst):
-            os.mkdir(dst)
-        if not os.path.isdir(dst / "bin"):
-            os.mkdir(dst / "bin")
-        if not os.path.isdir(dst / "lib"):
-            os.mkdir(dst / "lib")
-        if not os.path.isdir(dst / "include"):
-            os.mkdir(dst / "include")
-        if not os.path.isdir(dst / "include", "ghostscript"):
-            os.mkdir(dst / "include", "ghostscript")
-
         _bit = CraftCore.compiler.bits
-        utils.copyFile(src / f"bin/gsdll{_bit}.dll", dst / "bin", False)
-        utils.copyFile(src / f"bin/gsdll{_bit}.lib", dst / "lib", False)
-        utils.copyFile(src / f"bin/gswin{_bit}.exe", dst / "bin", False)
-        utils.copyFile(src / f"bin/gswin{_bit}c.exe", dst / "bin", False)
-        utils.copyFile(self.sourceDir() / "psi/iapi.h", self.imageDir() / "include/ghostscript/iapi.h", False)
-        utils.copyFile(self.sourceDir() / "psi/ierrors.h", self.imageDir() / "include/ghostscript/ierrors.h", False)
-        utils.copyFile(self.sourceDir() / "devices/gdevdsp.h", self.imageDir() / "include/ghostscript/gdevdsp.h", False)
-        utils.copyFile(self.sourceDir() / "base/gserrors.h", self.imageDir() / "include/ghostscript/gserrors.h", False)
-        utils.copyDir(self.sourceDir() / "lib", self.imageDir() / "lib", False)
-
-        return True
+        return (
+            utils.createDir(dst / "bin")
+            and utils.createDir(dst / "lib")
+            and utils.createDir(dst / "include")
+            and utils.createDir(dst / "include/ghostscript")
+            and utils.copyFile(src / f"bin/gsdll{_bit}.dll", dst / "bin", False)
+            and utils.copyFile(src / f"bin/gsdll{_bit}.lib", dst / "lib", False)
+            and utils.copyFile(src / f"bin/gswin{_bit}.exe", dst / "bin", False)
+            and utils.copyFile(src / f"bin/gswin{_bit}c.exe", dst / "bin", False)
+            and utils.copyFile(self.sourceDir() / "psi/iapi.h", self.imageDir() / "include/ghostscript/iapi.h", False)
+            and utils.copyFile(self.sourceDir() / "psi/ierrors.h", self.imageDir() / "include/ghostscript/ierrors.h", False)
+            and utils.copyFile(self.sourceDir() / "devices/gdevdsp.h", self.imageDir() / "include/ghostscript/gdevdsp.h", False)
+            and utils.copyFile(self.sourceDir() / "base/gserrors.h", self.imageDir() / "include/ghostscript/gserrors.h", False)
+            and utils.copyDir(self.sourceDir() / "lib", self.imageDir() / "lib", False)
+        )
 
 
 class PackageMSys(AutoToolsPackageBase):
