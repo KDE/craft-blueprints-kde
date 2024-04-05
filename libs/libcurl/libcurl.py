@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.targetDigests["7.84.0"] = (["702fb26e73190a3bd77071aa146f507b9817cc4dfce218d2ab87f00cd3bc059d"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "a free and easy-to-use client-side URL transfer library"
+        self.patchLevel["7.84.0"] = 1
         self.defaultTarget = "7.84.0"
 
     def setDependencies(self):
@@ -29,3 +30,11 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.testDefine = Arguments(["-DBUILD_CURL_TESTS=ON"])
         self.subinfo.options.configure.toolsDefine = Arguments(["-DBUILD_CURL_EXE=ON"])
         self.subinfo.options.configure.staticArgs += ["-DCURL_STATICLIB=ON"]
+
+    def install(self):
+        if not super().install():
+            return False
+        if CraftCore.compiler.isLinux and self.buildType() == "Debug":
+            if not utils.createSymlink(self.installDir() / "lib/libcurl-d.so", self.installDir() / "lib/libcurl.so"):
+                return False
+        return True
