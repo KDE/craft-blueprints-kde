@@ -89,7 +89,7 @@ class Package(CMakePackageBase):
             f"-DQT_FEATURE_webengine_system_lcms2=ON",
             f"-DQT_FEATURE_webengine_system_pulseaudio=OFF",
         ]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.isMSVC() and CraftVersion(self.buildTarget) < CraftVersion("6.7.0"):
             self.subinfo.options.configure.args += [
                 "-DCMAKE_CXX_COMPILER=clang-cl",
                 "-DCMAKE_C_COMPILER=clang-cl",
