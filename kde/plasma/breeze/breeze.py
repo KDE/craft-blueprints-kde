@@ -38,7 +38,7 @@ class Package(CraftPackageObject.get("kde/plasma").pattern):
 
         if OsUtils.isMac():
             self.subinfo.options.configure.args += ["-DWITH_DECORATIONS=OFF"]
-        self.subinfo.options.configure.args += f"-DBUILD_QT6=ON"
+        self.subinfo.options.configure.args += f"-DBUILD_QT5=OFF"
 
     def install(self):
         status = super().install()
