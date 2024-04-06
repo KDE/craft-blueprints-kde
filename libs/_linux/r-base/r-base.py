@@ -15,10 +15,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libcurl"] = None
 
     def setTargets(self):
-        for version in ["4.2.0", "4.1.2"]:
+        for version in ["4.3.3", "4.2.3"]:
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "R-" + version + ".tar.gz"
             self.targetInstSrc[version] = "R-%s" % version
-        self.defaultTarget = "4.2.0"
+        self.defaultTarget = "4.3.3"
 
 
 from Package.AutoToolsPackageBase import *
