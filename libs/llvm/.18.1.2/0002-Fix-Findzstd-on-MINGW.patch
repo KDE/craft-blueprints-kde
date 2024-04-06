@@ -1,9 +1,10 @@
---- a/cmake/modules/Findzstd.cmake
-+++ b/cmake/modules/Findzstd.cmake
+Origin: https://github.com/msys2/MINGW-packages/blob/master/mingw-w64-llvm/0002-Fix-Findzstd-on-MINGW.patch
+--- a/llvm/cmake/modules/Findzstd.cmake
++++ b/llvm/cmake/modules/Findzstd.cmake
 @@ -16,6 +16,8 @@
    set(zstd_STATIC_LIBRARY_SUFFIX "\\${CMAKE_STATIC_LIBRARY_SUFFIX}$")
  endif()
- 
+
 +find_package(zstd CONFIG QUIET)
 +if(NOT zstd_FOUND)
  find_path(zstd_INCLUDE_DIR NAMES zstd.h)
@@ -14,7 +15,7 @@
     zstd_LIBRARY zstd_INCLUDE_DIR
  )
 +endif()
- 
+
  if(zstd_FOUND)
 -  if(zstd_LIBRARY MATCHES "${zstd_STATIC_LIBRARY_SUFFIX}$")
 +  if(zstd_LIBRARY MATCHES "${zstd_STATIC_LIBRARY_SUFFIX}$" AND NOT MINGW)
