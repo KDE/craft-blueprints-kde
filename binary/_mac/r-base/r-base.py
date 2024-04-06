@@ -3,8 +3,7 @@
 import info
 
 PACKAGE_CRAN_MIRROR = "https://ftp.gwdg.de/pub/misc/cran"
-PACKAGE_PATH3 = "/bin/macosx/"
-PACKAGE_PATH4 = "/bin/macosx/base/"
+PACKAGE_PATH = "/bin/macosx/"
 
 
 class subinfo(info.infoclass):
@@ -12,13 +11,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
     def setTargets(self):
-        # NOTE on choice of versions: 3.4.4 = earliest official build with R_GE_version 12
-        #                             3.3.3 = last official build to work with MacOS < 10.11
-        for version in ["3.4.4.", "3.3.3"]:
-            self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH3 + "R-" + version + ".pkg"
-        for version in ["4.2.0", "4.1.2"]:
-            self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH4 + "R-" + version + ".pkg"
-        self.defaultTarget = "4.2.0"
+        for version in ["4.2.3", "4.2.0"]:
+            self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "base/R-" + version + ".pkg"
+        for version in ["4.3.3"]:
+            if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
+                self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "big-sur-arm64/base/R-" + version + "-arm64.pkg"
+            else:
+                self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "big-sur-x86_64/base/R-" + version + "-x86_64.pkg"
+        self.defaultTarget = "4.3.3"
 
 
 from Package.BinaryPackageBase import *
