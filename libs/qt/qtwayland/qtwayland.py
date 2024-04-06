@@ -10,9 +10,8 @@ class subinfo(info.infoclass):
         self.targets["latest"] = ""
         self.defaultTarget = "latest"
 
-
-def setDependencies(self):
-    self.runtimeDependencies[f"libs/qt6/{self.parent.package.name}"] = None
+    def setDependencies(self):
+        self.runtimeDependencies[f"libs/qt6/{self.parent.package.name}"] = None
 
 
 class Package(VirtualPackageBase):
