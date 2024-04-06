@@ -15,9 +15,9 @@ class subinfo(info.infoclass):
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "base/R-" + version + ".pkg"
         for version in ["4.3.3"]:
             if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
-                self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "big-sur-arm64/R-" + version + "-arm64.pkg"
+                self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "big-sur-arm64/base/R-" + version + "-arm64.pkg"
             else:
-                self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "big-sur-x86_64/R-" + version + "-x86_64.pkg"
+                self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "big-sur-x86_64/base/R-" + version + "-x86_64.pkg"
         self.defaultTarget = "4.3.3"
 
 
