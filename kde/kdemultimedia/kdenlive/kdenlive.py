@@ -55,6 +55,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
         self.runtimeDependencies["kde/kdemultimedia/ffmpegthumbs"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
+        self.runtimeDependencies["libs/ladspa-tap"] = None
         self.runtimeDependencies["libs/mlt"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if not CraftCore.compiler.isMacOS:
