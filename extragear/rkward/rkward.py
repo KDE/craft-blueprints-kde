@@ -37,9 +37,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
         # not strictly runtimeDependencies, but should be included in the package for plugins and extra functionality
         self.runtimeDependencies["kde/applications/kate"] = None
-        if not OsUtils.isMac():
-            # kbibtex does not properly build on macOS, yet, and is optional
-            self.runtimeDependencies["extragear/kbibtex"] = None
+        #if not OsUtils.isMac():
+        #   kbibtex does not properly build on macOS, yet, and is optional: TODO: Does not currently build for Qt 6 on Linux, either.
+        #   self.runtimeDependencies["extragear/kbibtex"] = None
         # optional, but should be in the package
         self.runtimeDependencies["binary/pandoc"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
