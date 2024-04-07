@@ -40,7 +40,7 @@ class subinfo(info.infoclass):
         self.description = "A library which provides a secure layer over a reliable transport layer"
         self.webpage = "https://www.gnutls.org/"
         self.defaultTarget = "3.8.0"
-        self.patchLevel["3.8.0"] = 1
+        self.patchLevel["3.8.0"] = 2
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gtk-doc"] = None
