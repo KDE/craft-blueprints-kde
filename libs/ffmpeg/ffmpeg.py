@@ -107,6 +107,7 @@ class Package(AutoToolsPackageBase):
                 cxx = f"{cxx} -arch {CraftCore.compiler.architecture.name.lower()}"
             self.subinfo.options.configure.args += [f"--cxx={cxx}"]
 
+        architecture = CraftCore.compiler.architecture.name.lower()
         if CraftCore.compiler.isAndroid:
             if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
                 architecture = "aarch64"
@@ -129,10 +130,11 @@ class Package(AutoToolsPackageBase):
 
             self.subinfo.options.configure.args += ["--cc=" + f"{toolchain_path}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang"]
             self.subinfo.options.configure.args += ["--cxx=" + f"{toolchain_path}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang++"]
-            self.subinfo.options.configure.args += ["--enable-cross-compile", "--target-os=android", "--cross-prefix=llvm-", f"--arch={architecture}"]
+            self.subinfo.options.configure.args += ["--enable-cross-compile", "--target-os=android", "--cross-prefix=llvm-"]
             # needed with NDK r25, otherwise build fails due to not finding vulkan_beta.h
             self.subinfo.options.configure.args += ["--extra-cflags=-DVK_ENABLE_BETA_EXTENSIONS=0"]
 
+            self.subinfo.options.configure.args += [f"--arch={architecture}"]
         if self.buildTarget < CraftVersion("5.0"):
             self.subinfo.options.configure.args += ["--enable-avresample"]
 
