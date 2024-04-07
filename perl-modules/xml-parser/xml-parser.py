@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.targetDigests["2.44"] = (["1ae9d07ee9c35326b3d9aad56eae71a6730a73a116b9fe9e8a4758b7cc033216"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["2.47"] = (["ad4aae643ec784f489b956abe952432871a622d4e2b5c619e8855accbfc4d1d8"], CraftHash.HashAlgorithm.SHA256)
         self.patchLevel["2.44"] = 1
+        self.patchLevel["2.47"] = 2
 
         self.tags = "XML::Parser"
         self.defaultTarget = "2.47"
