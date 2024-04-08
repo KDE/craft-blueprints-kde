@@ -8,13 +8,13 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "a library for real time computer vision"
 
-        for v in ["4.5.1", "4.5.3"]:
+        for v in ["4.5.3"]:
             self.patchToApply[v] = [("opencv-pkgconfig-win-install.patch", 1), ("OpenCVInstallLayout.cmake.patch", 0)]
 
         self.patchToApply["4.8.0"] = [("fix-macos-arm64.patch", 1), ("OpenCVInstallLayout.cmake.patch", 0)]  # https://github.com/opencv/opencv/pull/24203
         self.patchLevel["4.8.0"] = 1
 
-        self.targetDigests["4.8.0"] = (["cbf47ecc336d2bff36b0dcd7d6c179a9bb59e805136af6b9670ca944aef889bd"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.9.0"] = (["ddf76f9dffd322c7c3cb1f721d0887f62d747b82059342213138dc190f28bc6c"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
