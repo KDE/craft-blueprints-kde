@@ -20,8 +20,10 @@ class subinfo(info.infoclass):
         self.svnTargets["8f18e3a"] = "https://bitbucket.org/multicoreware/x265_git.git||8f18e3ad32684eee95e885e718655f93951128c3"
         self.targetConfigurePath["8f18e3a"] = "source"
         self.patchToApply["8f18e3a"] = [
-            ("disable-install-pdb.patch", 1)
-        ]  # Adjusted version of https://github.com/microsoft/vcpkg/blob/master/ports/x265/disable-install-pdb.patch
+            # Adjusted version of https://github.com/microsoft/vcpkg/blob/master/ports/x265/disable-install-pdb.patch
+            ("disable-install-pdb.patch", 1),
+            ("0001-Fix-.pc-for-msvc.patch", 1),
+        ]
 
         self.description = "H.265/HEVC video stream encoder"
         self.defaultTarget = "8f18e3a"
