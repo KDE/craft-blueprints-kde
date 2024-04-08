@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
             ("disable-install-pdb.patch", 1),
             ("0001-Fix-.pc-for-msvc.patch", 1),
         ]
+        self.patchLevel["8f18e3a"] = 1
 
         self.description = "H.265/HEVC video stream encoder"
         self.defaultTarget = "8f18e3a"
