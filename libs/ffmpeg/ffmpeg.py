@@ -48,16 +48,16 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/liblame"] = None
         self.runtimeDependencies["libs/libopus"] = None
         self.runtimeDependencies["libs/openssl"] = None
+        self.runtimeDependencies["libs/x265"] = None
+        self.runtimeDependencies["libs/libvorbis"] = None
+        self.runtimeDependencies["libs/libsdl2"] = None
+        self.runtimeDependencies["libs/aom"] = None
+        self.runtimeDependencies["libs/dav1d"] = None
         if CraftCore.compiler.isGCCLike():
-            self.runtimeDependencies["libs/libsdl2"] = None
-            self.runtimeDependencies["libs/libvorbis"] = None
             self.runtimeDependencies["libs/x264"] = None
             if not CraftCore.compiler.isAndroid:
                 self.runtimeDependencies["libs/libvpx"] = None
-                self.runtimeDependencies["libs/x265"] = None
                 self.runtimeDependencies["libs/libass"] = None
-                self.runtimeDependencies["libs/aom"] = None
-                self.runtimeDependencies["libs/dav1d"] = None
             self.runtimeDependencies["libs/zimg"] = None
         if not CraftCore.compiler.isMacOS:
             self.buildDependencies["libs/amf"] = None
