@@ -78,16 +78,6 @@ class Package(AutoToolsPackageBase):
         # with msvc it does not support shadowbuilds
         self.subinfo.options.useShadowBuild = not CraftCore.compiler.isMSVC()
 
-        self.subinfo.options.configure.args = [
-            "--enable-shared",
-            "--disable-debug",
-            "--disable-doc",
-            "--enable-gpl",
-            "--enable-version3",
-            "--enable-nonfree",
-            "--enable-openssl",
-        ]
-
         if CraftCore.compiler.isMacOS:
             # Workaround linker bug with clang 15, see  https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/issues/140
             self.subinfo.options.configure.ldflags += " -Wl,-ld_classic"
@@ -134,7 +124,6 @@ class Package(AutoToolsPackageBase):
             # needed with NDK r25, otherwise build fails due to not finding vulkan_beta.h
             self.subinfo.options.configure.args += ["--extra-cflags=-DVK_ENABLE_BETA_EXTENSIONS=0"]
 
-            self.subinfo.options.configure.args += [f"--arch={architecture}"]
         if self.buildTarget < CraftVersion("5.0"):
             self.subinfo.options.configure.args += ["--enable-avresample"]
 
@@ -156,11 +145,22 @@ class Package(AutoToolsPackageBase):
                 "--enable-libzimg",
             ]
 
-            if self.subinfo.options.isActive("libs/x264"):
-                self.subinfo.options.configure.args += ["--enable-libx264"]
+        self.subinfo.options.configure.args += [
+            f"--arch={architecture}",
+            "--enable-shared",
+            "--disable-debug",
+            "--disable-doc",
+            "--enable-gpl",
+            "--enable-version3",
+            "--enable-nonfree",
+            "--enable-openssl",
+        ]
 
-            if self.subinfo.options.isActive("libs/x265"):
-                self.subinfo.options.configure.args += ["--enable-libx265"]
+        if self.subinfo.options.isActive("libs/x264"):
+            self.subinfo.options.configure.args += ["--enable-libx264"]
+
+        if self.subinfo.options.isActive("libs/x265"):
+            self.subinfo.options.configure.args += ["--enable-libx265"]
 
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["--enable-rpath", "--install-name-dir=@rpath"]
