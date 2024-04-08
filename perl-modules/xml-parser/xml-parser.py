@@ -16,6 +16,8 @@ class subinfo(info.infoclass):
         self.targetDigests["2.47"] = (["ad4aae643ec784f489b956abe952432871a622d4e2b5c619e8855accbfc4d1d8"], CraftHash.HashAlgorithm.SHA256)
         self.patchLevel["2.44"] = 1
         self.patchLevel["2.47"] = 2
+        if CraftCore.compiler.isMSVC():
+            self.patchToApply["2.47"] = [("xml-parser-2.47-20240408.diff", 1)]
 
         self.tags = "XML::Parser"
         self.defaultTarget = "2.47"
