@@ -104,7 +104,6 @@ class Package(CMakePackageBase):
             "-DOPENCV_SKIP_CMAKE_ROOT_CONFIG=ON",
             # Work on old machines
             "-DCPU_BASELINE=SSE2",
-            "-DCPU_DISPATCH=SSE2",
             # it is broken on MSVC
             "-DWITH_OPENJPEG=OFF",
         ]
