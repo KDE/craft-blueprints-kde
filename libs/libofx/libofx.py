@@ -44,9 +44,9 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
+    def __init__(self, **kwargs):
         # we use subinfo for now too
-        super().__init__()
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args = ["-DENABLE_OFXCONNECT=off", "-DENABLE_OFX2QIF=off"]
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += ["-DFORCE_OPENSP_MULTIBYTE=off"]
