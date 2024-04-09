@@ -102,12 +102,16 @@ class Package(CMakePackageBase):
             # find OpenCV through cmake or pkg-config
             "-DOPENCV_GENERATE_PKGCONFIG=ON",
             "-DOPENCV_SKIP_CMAKE_ROOT_CONFIG=ON",
-            # Work on old machines
-            "-DCPU_BASELINE=SSE2",
-            "-DCPU_DISPATCH=SSE2",
             # it is broken on MSVC
             "-DWITH_OPENJPEG=OFF",
         ]
+        if CraftCore.compiler.architecture & CraftCompiler.Architecture.x86:
+            self.subinfo.options.configure.args += [
+                # https://github.com/opencv/opencv/wiki/CPU-optimizations-build-options
+                # Work on old machines
+                "-DCPU_BASELINE=SSE2",
+                "-DCPU_DISPATCH=SSE2",
+            ]
 
     def fetch(self):
         return super().fetch() and self.contrib.fetch(noop=False)
