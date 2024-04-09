@@ -66,8 +66,8 @@ class PackageAutotools(AutoToolsPackageBase):
 if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
 
     class Package(PackageAutotools):
-        def __init__(self):
-            PackageAutotools.__init__(self)
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
 
 else:
 

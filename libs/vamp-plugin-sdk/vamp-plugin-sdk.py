@@ -41,11 +41,11 @@ class PackageMSVC(MSBuildPackageBase):
 if CraftCore.compiler.isGCCLike():
 
     class Package(PackageAutoTools):
-        def __init__(self):
-            PackageAutoTools.__init__(self)
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
 
 else:
 
     class Package(PackageMSVC):
-        def __init__(self):
-            PackageMSVC.__init__(self)
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)

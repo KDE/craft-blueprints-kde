@@ -32,8 +32,8 @@ class PackageMinGW(AutoToolsPackageBase):
 if CraftCore.compiler.isMinGW():
 
     class Package(PackageMinGW):
-        def __init__(self):
-            PackageMinGW.__init__(self)
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
 
 else:
 

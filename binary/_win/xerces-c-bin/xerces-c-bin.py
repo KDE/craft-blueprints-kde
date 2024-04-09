@@ -39,8 +39,8 @@ from Package.VirtualPackageBase import *
 if CraftCore.compiler.isMSVC():
 
     class Package(PackageBin):
-        def __init__(self):
-            PackageBin.__init__(self)
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
 
 else:
 
