@@ -1,6 +1,10 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
-from Package.CMakePackageBase import *
+from CraftCompiler import CraftCompiler
+from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
