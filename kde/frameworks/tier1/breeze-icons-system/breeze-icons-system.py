@@ -10,6 +10,9 @@ class subinfo(info.infoclass):
 
         self.description = "Install of the actual breeze icon, only supposed to be used on linux to make the icons available for linuxdeploy."
 
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Linux
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
