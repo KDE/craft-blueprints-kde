@@ -29,8 +29,8 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildStatic = False
         self.subinfo.options.configure.args += ["-DWITH_QT=ON"]
         self.subinfo.options.configure.args += ["-DQGPGME_BUILD_QT5=OFF"]

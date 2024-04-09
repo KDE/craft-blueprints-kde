@@ -17,5 +17,5 @@ class subinfo(info.infoclass):
 
 
 class Package(SourceComponentPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

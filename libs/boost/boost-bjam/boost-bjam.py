@@ -18,8 +18,8 @@ from Package.BoostPackageBase import *
 
 
 class Package(BoostPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def install(self):
         src = CraftPackageObject.get("libs/boost/boost-headers").instance.sourceDir() / "tools/build/src/engine"

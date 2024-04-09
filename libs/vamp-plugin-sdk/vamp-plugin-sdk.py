@@ -23,15 +23,15 @@ class subinfo(info.infoclass):
 
 
 class PackageAutoTools(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.useShadowBuild = False
         self.subinfo.options.configure.args += ["--disable-programs"]
 
 
 class PackageMSVC(MSBuildPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.projectFile = self.sourceDir() / "build/VampSDK.sln"
 
     def install(self):

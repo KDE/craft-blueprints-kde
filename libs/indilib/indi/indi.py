@@ -9,10 +9,7 @@ class subinfo(info.infoclass):
 
         self.description = "INDI Library"
 
-        self.patchToApply["2.0.6"] = [
-                ("0001-patch-indiclient-include.patch", 1),
-                ("0002-patch-indidriver-library.patch", 1)
-        ]
+        self.patchToApply["2.0.6"] = [("0001-patch-indiclient-include.patch", 1), ("0002-patch-indidriver-library.patch", 1)]
 
     def registerOptions(self):
         self.options.dynamic.registerOption("buildClient", True)
@@ -42,8 +39,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("libs/indilib").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += [
             f"-DINDI_BUILD_SERVER={'ON' if self.subinfo.options.dynamic.buildServer else 'OFF'}",
             f"-DINDI_BUILD_DRIVERS={'ON' if self.subinfo.options.dynamic.buildServer else 'OFF'}",

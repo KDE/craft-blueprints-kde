@@ -35,8 +35,8 @@ class subinfo(info.infoclass):
 
 
 class Package(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # TODO: why is autoreconf broken
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]

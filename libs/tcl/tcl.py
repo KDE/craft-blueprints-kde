@@ -51,8 +51,8 @@ class subinfo(info.infoclass):
 
 
 class PackageAutotools(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--enable-threads", "--enable-64bit"]
 
@@ -112,8 +112,8 @@ class PackageAutotools(AutoToolsPackageBase):
 
 
 class PackageMSVC(MSBuildPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def make(self):
         os.chdir(os.path.join(self.sourceDir(), "win"))

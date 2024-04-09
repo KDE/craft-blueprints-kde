@@ -25,8 +25,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # LINK : fatal error LNK1104: cannot open file 'Quotient.lib
         # And fixes crash on android
         self.subinfo.options.dynamic.buildStatic = True

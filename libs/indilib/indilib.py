@@ -25,8 +25,8 @@ class Pattern(CMakePackageBase):
                 utils.system(["install_name_tool", "-id", os.path.join("@rpath", os.path.basename(library)), library])
             utils.system(["install_name_tool", "-add_rpath", craftLibDir, library])
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         craftLibDir = CraftCore.standardDirs.craftRoot() / "lib"
         self.subinfo.options.configure.args += [
             "-DCMAKE_MACOSX_RPATH=1",

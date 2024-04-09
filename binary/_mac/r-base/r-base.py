@@ -30,8 +30,8 @@ from Package.BinaryPackageBase import *
 #
 # So, instead, we hack the R installation to run from our path, which works - for the time being.
 class Package(BinaryPackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # don't use shortcut to unpack into imageDir()
         self.buildSystemType = "custom"
         # create combined package

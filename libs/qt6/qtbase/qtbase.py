@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
@@ -82,8 +83,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.subinfo.options.configure.args += [
             # sometimes qt fails to pic up the basic things

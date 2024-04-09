@@ -3,8 +3,9 @@
 
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
-from Utils import CraftHash
 from CraftCore import CraftCore
+from Utils import CraftHash
+
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -43,9 +44,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
+
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def createPackage(self):
         self.defines["executable"] = "bin\\haruna.exe"

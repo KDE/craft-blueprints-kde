@@ -33,8 +33,8 @@ from Packager.AppImagePackager import AppImagePackager
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.fetch.checkoutSubmodules = True
 
     def createPackage(self):

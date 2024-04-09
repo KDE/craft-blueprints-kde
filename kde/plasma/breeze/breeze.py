@@ -31,8 +31,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde/plasma").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         if OsUtils.isWin():
             self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF5FrameworkIntegration=ON", "-DWITH_DECORATIONS=OFF"]
 

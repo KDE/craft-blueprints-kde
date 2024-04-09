@@ -18,8 +18,8 @@ class subinfo(info.infoclass):
 
 
 class Package(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.fetch.checkoutSubmodules = True
         # if self.package.isInstalled: # this is causing rebuild every time
         #     PackageBase.unmerge(self) # else build picks old incompatible includes

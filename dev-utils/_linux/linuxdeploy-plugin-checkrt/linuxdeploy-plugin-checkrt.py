@@ -20,8 +20,8 @@ class subinfo(info.infoclass):
 
 
 class Package(BinaryPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def unpack(self):
         patches = self.subinfo.patchesToApply()

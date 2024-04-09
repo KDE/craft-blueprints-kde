@@ -35,8 +35,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("libs/indilib").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.package.disableStriping = True
         self.subinfo.options.configure.args += [
             # Avalon Universal Drivers is off because we do not have recipe yet for libzmq3 library.

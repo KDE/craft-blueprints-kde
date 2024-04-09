@@ -25,8 +25,8 @@ from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += ["--enable-R-shlib", "--with-readline=no", "--with-x=no"]
         # unfortunately, Craft's .debug files cause mis-behavior in R (it will then detect a multi-arch install with sub-architectures "R" and "R.debug"), so don't create those

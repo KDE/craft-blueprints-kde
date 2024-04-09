@@ -30,7 +30,7 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = True
         self.subinfo.options.configure.args += ["-DEIGEN_TEST_NOQT=ON"]

@@ -52,8 +52,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         if CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["-DOKULAR_UI=mobile", "-DANDROID_LINK_EXTRA_LIBRARIES=ON"]
         if CraftCore.compiler.isMacOS:

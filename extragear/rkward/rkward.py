@@ -61,8 +61,8 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         if OsUtils.isWin():
             # Usually found, automatically, but make extra sure, never to pick up a separate installation of R

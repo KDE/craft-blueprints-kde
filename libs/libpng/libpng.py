@@ -24,8 +24,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.supportsCCACHE = False
         self.subinfo.options.configure.args += ["-DPNG_TESTS=OFF", "-DPNG_STATIC=OFF", "-DPNG_NO_STDIO=OFF"]
         if CraftCore.compiler.isMacOS and self.subinfo.buildTarget == "1.6.39":

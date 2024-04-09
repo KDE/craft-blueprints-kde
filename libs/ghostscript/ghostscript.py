@@ -41,8 +41,8 @@ class subinfo(info.infoclass):
 
 
 class PackageMSVC(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def configure(self):
         return True
@@ -87,8 +87,8 @@ class PackageMSVC(CMakePackageBase):
 
 
 class PackageMSys(AutoToolsPackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # self.subinfo.options.make.supportsMultijob = False
         self.subinfo.options.configure.args += [
             "--with-drivers=ALL",

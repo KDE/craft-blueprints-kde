@@ -25,8 +25,8 @@ from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def install(self):
         srcDir = self.sourceDir()

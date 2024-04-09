@@ -20,8 +20,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.fetch.checkoutSubmodules = True
         self.subinfo.options.configure.args += [
             "-DJPEGXL_ENABLE_FUZZERS=OFF",
@@ -46,5 +46,5 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += [
                 # necessary to avoid crashes
                 "-DCMAKE_C_FLAGS=-DHWY_COMPILE_ONLY_SCALAR",
-                "-DCMAKE_CXX_FLAGS=-DHWY_COMPILE_ONLY_SCALAR"
+                "-DCMAKE_CXX_FLAGS=-DHWY_COMPILE_ONLY_SCALAR",
             ]

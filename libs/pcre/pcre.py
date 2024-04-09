@@ -20,8 +20,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildStatic = False
 
         self.subinfo.options.configure.args += ["-DPCRE_SUPPORT_UNICODE_PROPERTIES=ON", "-DPCRE_SUPPORT_UTF8=ON", "-DPCRE_EBCDIC=OFF"]

@@ -28,8 +28,8 @@ from Package.BinaryPackageBase import *
 # Compiling R from source is possible, but terribly complex on Windows. See
 # http://cran.r-project.org/doc/manuals/R-admin.html#Installing-R-under-Windows for details.
 class Package(BinaryPackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # don't use shortcut to unpack into imageDir()
         self.buildSystemType = "custom"
         # create combined package

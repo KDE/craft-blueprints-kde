@@ -29,8 +29,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["executable"] = r"bin\ktrip.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(ktrip|update-mime-database)).*")

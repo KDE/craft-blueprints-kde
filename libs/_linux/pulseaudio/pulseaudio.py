@@ -22,15 +22,15 @@ class subinfo(info.infoclass):
         self.buildDependencies["python-modules/meson"] = None
         self.buildDependencies["perl-modules/xml-parser"] = None
         self.runtimeDependencies["libs/libsndfile"] = None
-        self.runtimeDependencies["dev-utils/libtool"] = None # For libltdl
+        self.runtimeDependencies["dev-utils/libtool"] = None  # For libltdl
 
 
 from Package.MesonPackageBase import *
 
 
 class Package(MesonPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-Ddatabase=simple", "-Dx11=disabled", "-Dtests=false", "-Ddoxygen=false"]
         self.subinfo.options.configure.ldflags += " -lintl"
         self.subinfo.options.package.disableBinaryCache = True

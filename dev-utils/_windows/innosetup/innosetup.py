@@ -20,8 +20,8 @@ from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.unpack.runInstaller = True
         self.subinfo.options.configure.args = f'/DIR="{self.workDir()}" /SILENT /CURRENTUSER'
 

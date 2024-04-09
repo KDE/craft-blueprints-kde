@@ -23,15 +23,15 @@ class subinfo(info.infoclass):
 if CraftCore.compiler.isMSVC():
 
     class Package(CMakePackageBase):
-        def __init__(self, **args):
-            super().__init__()
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
             self.subinfo.options.dynamic.buildStatic = True
 
 else:
 
     class Package(MakeFilePackageBase):
-        def __init__(self):
-            super().__init__()
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
             self.subinfo.options.useShadowBuild = False
             self.subinfo.options.make.supportsMultijob = False
             self.subinfo.options.make.args += f"liblz4.a"

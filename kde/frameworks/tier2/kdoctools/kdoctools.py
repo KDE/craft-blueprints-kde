@@ -53,8 +53,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def postInstall(self):
         dataDir = os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot())

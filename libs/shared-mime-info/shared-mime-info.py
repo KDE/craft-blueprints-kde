@@ -64,8 +64,8 @@ from Package.MesonPackageBase import *
 
 
 class Package(MesonPackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.dynamic.buildTests = False
 

@@ -2,8 +2,9 @@
 # SPDX-License-Identifier: BSD-2-Clause
 
 import info
-from Package.MesonPackageBase import MesonPackageBase
 from CraftCore import CraftCore
+from Package.MesonPackageBase import MesonPackageBase
+
 
 class subinfo(info.infoclass):
     def registerOptions(self):
@@ -20,8 +21,9 @@ class subinfo(info.infoclass):
         self.buildDependencies["python-modules/meson"] = None
         self.runtimeDependencies["virtual/base"] = None
 
+
 class Package(MesonPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.fetch.checkoutSubmodules = True
         self.subinfo.options.configure.args += ["-Ddemos=False"]

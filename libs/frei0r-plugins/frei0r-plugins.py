@@ -28,8 +28,8 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["-DWITHOUT_GAVL=1"]
 

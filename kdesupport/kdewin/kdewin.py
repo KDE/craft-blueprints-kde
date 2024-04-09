@@ -33,8 +33,8 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # required for package generating because we build from svnHEAD by default
         #        self.subinfo.options.package.version = '0.5.4'
         self.subinfo.options.configure.args += ["-DBUILD_PNG2ICO=OFF"]

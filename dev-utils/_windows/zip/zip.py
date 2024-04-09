@@ -18,5 +18,5 @@ class subinfo(info.infoclass):
 
 
 class Package(BinaryPackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

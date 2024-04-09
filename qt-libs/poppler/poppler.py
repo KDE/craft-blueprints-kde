@@ -77,8 +77,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # we use -DRUN_GPERF_IF_PRESENT=OFF to avoid running in gperf issues on windows during linking
         self.subinfo.options.configure.args += [
             "-DENABLE_XPDF_HEADERS=ON",

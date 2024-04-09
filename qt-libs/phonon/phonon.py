@@ -23,8 +23,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args = ["-DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=ON"]
         if not self.subinfo.options.isActive("libs/dbus"):
             self.subinfo.options.configure.args += ["-DPHONON_NO_DBUS=ON"]

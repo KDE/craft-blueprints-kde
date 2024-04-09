@@ -83,8 +83,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DFETCH_TRANSLATIONS=ON"]
 
         if CraftCore.compiler.isMacOS:

@@ -54,13 +54,13 @@ from Package.CMakePackageBase import *
 if CraftCore.compiler.isGCCLike() and CraftCore.compiler.isWindows:
 
     class Package(AutoToolsPackageBase):
-        def __init__(self, **args):
-            super().__init__()
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
             self.subinfo.options.configure.autoreconfArgs += " -I m4"
 
 else:
 
     class Package(CMakePackageBase):
-        def __init__(self, **args):
-            super().__init__()
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
             self.subinfo.options.dynamic.buildStatic = True

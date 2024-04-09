@@ -23,8 +23,8 @@ from Package.MakeFilePackageBase import *
 
 
 class Package(MakeFilePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.useShadowBuild = False
 
     def configure(self):

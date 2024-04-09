@@ -49,8 +49,8 @@ from Packager.AppxPackager import AppxPackager
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # if CraftCore.compiler.isWindows:
         # self.subinfo.options.make.supportsMultijob = False
 

@@ -4,6 +4,7 @@
 import info
 from Package.MesonPackageBase import *
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "mpv"
@@ -40,8 +41,8 @@ class subinfo(info.infoclass):
 
 
 class Package(MesonPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-Drubberband=disabled", "-Dlibmpv=true"]
 
         if CraftCore.compiler.isAndroid:

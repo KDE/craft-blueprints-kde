@@ -37,8 +37,8 @@ class subinfo(info.infoclass):
 
 
 class CMakePackage(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DSTATIC_LIBRARY=OFF"]
 
 
@@ -46,8 +46,8 @@ from Package.AutoToolsPackageBase import *
 
 
 class PackageAutotools(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.bootstrap = True
         self.subinfo.options.configure.args += ["--disable-macos-framework"]
 

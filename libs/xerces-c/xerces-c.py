@@ -22,8 +22,8 @@ from Package.VirtualPackageBase import *
 
 
 class PackageMSys(AutoToolsPackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 
 if CraftCore.compiler.isMinGW():

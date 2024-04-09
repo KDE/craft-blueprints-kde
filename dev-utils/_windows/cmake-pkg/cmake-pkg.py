@@ -19,8 +19,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args = ["-DKWSYS_INSTALL_LIB_DIR=lib", "-DKWSYS_INSTALL_INCLUDE_DIR=include"]
 
     def install(self):
