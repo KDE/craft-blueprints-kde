@@ -11,10 +11,12 @@ class subinfo(info.infoclass):
         self.targetDigests["3.2.4"] = (["81e6518f2c4656fdeaf18a018f135e96a96e7f66dbe1c1f05860dd94772176cc"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "The OpenEXR project provides the specification and reference implementation of the EXR file format, the professional-grade image storage format of the motion picture industry."
+        self.patchLevel["3.2.4"] = 1
         self.defaultTarget = "3.2.4"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/imath"] = None
         self.runtimeDependencies["virtual/base"] = None
 
 
