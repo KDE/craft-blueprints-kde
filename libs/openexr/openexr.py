@@ -25,3 +25,5 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         # Make sure we get a .pc, even on Windows, as we'll be looking for it
         self.subinfo.options.configure.args += ["-DOPENEXR_INSTALL_PKG_CONFIG=ON"]
+        if CraftCore.compiler.isMinGW():
+            self.subinfo.options.dynamic.buildTests = False
