@@ -12,6 +12,8 @@ class subinfo(info.infoclass):
             )
         else:
             self.versionInfo.setDefaultValues()
+        self.patchToApply["6.0.0"] = [("0001-Handle-null-drawer-as-well.patch", 1)]
+        self.patchLevel["6.0.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
