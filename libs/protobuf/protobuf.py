@@ -5,19 +5,17 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/protocolbuffers/protobuf.git"
         self.targetConfigurePath["master"] = "cmake"
-        for ver in ["3.11.2", "3.20.3"]:
+        for ver in ["26.1"]:
             self.targets[ver] = f"https://github.com/protocolbuffers/protobuf/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"protobuf-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"protobuf-{ver}"
-            self.targetConfigurePath[ver] = "cmake"
-        self.targetDigests["3.11.2"] = (["e8c7601439dbd4489fe5069c33d374804990a56c2f710e00227ee5d8fd650e67"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["3.20.3"] = (["9c0fd39c7a08dff543c643f0f4baf081988129a411b977a07c46221793605638"], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["3.11.2"] = 1
-        self.defaultTarget = "3.20.3"
+        self.targetDigests["26.1"] = (["4fc5ff1b2c339fb86cd3a25f0b5311478ab081e65ad258c6789359cd84d421f8"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "26.1"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["libs/zlib"] = None
+        self.buildDependencies["libs/abseil-cpp"] = None
 
 
 from Package.CMakePackageBase import *
@@ -27,7 +25,4 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildStatic = False
-        self.subinfo.options.configure.args += [
-            "-Dprotobuf_BUILD_TESTS=OFF",
-            "-Dprotobuf_MSVC_STATIC_RUNTIME=OFF",
-        ]
+        self.subinfo.options.configure.args += ["-Dprotobuf_BUILD_TESTS=OFF", "-Dprotobuf_MSVC_STATIC_RUNTIME=OFF", "-Dprotobuf_ABSL_PROVIDER=package"]
