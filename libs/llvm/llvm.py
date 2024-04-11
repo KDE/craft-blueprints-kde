@@ -10,12 +10,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        buildType = CraftCore.settings.get("Compile", "BuildType")
-        # we can't mix debug and release builds on Windows
-        if buildType != "Debug":
-            # save space and time
-            buildType = "Release"
-        self.options.dynamic.setDefault("buildType", buildType)
+        self.options.dynamic.setDefault("buildType", "Release")
 
     def setTargets(self):
         for ver in ["15.0.2", "15.0.7", "16.0.1", "17.0.6", "18.1.2"]:
