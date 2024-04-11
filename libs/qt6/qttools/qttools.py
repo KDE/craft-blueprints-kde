@@ -21,3 +21,5 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        if CraftCore.compiler.isMSVC() and self.buildType() == "Debug":
+            self.subinfo.options.configure.args += ["-DQT_FEATURE_clangcpp=OFF"]
