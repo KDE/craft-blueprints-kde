@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         for ver in ["3.1"]:
             self.targets[ver] = f"https://ftp.gnu.org/pub/gnu/gperf/gperf-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"gperf-{ver}"
+        self.targetDigests["3.1"] = (["588546b945bba4b70b6a3a616e80b4ab466e3f33024a352fc2198112cdbb3ae2"], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "3.1"
 
