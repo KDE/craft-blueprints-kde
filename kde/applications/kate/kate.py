@@ -73,7 +73,9 @@ class Package(CraftPackageObject.get("kde").pattern):
 
         self.defines["alias"] = "kate"
 
+        # skip some dependencies we don't need during runtime
         self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("libs/llvm")
 
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
         if not CraftCore.compiler.isLinux:
