@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
 
         for ver in self.versionInfo.tarballs():
             self.patchToApply[ver] = ("breeze-noWinDrag.diff", 0)
+            self.patchLevel[ver] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
@@ -45,7 +46,8 @@ class Package(CraftPackageObject.get("kde/plasma").pattern):
         # On Windows files are wrongly installed to "share" while they should go to "bin/data"
         # This fix is to workaround that bug. It should be removed as soon as the bug is fixed
         # See https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/428
-        utils.moveFile(self.imageDir() / "share", self.imageDir() / "bin/data")
+        if OsUtils.isWin():
+            utils.moveFile(self.imageDir() / "share", self.imageDir() / "bin/data")
 
         for module in ["Breeze"]:
             filename = self.imageDir() / "lib" / "cmake" / module / f"{module}Config.cmake"
