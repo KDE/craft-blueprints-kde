@@ -119,6 +119,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
+        self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(kmymoney|update-mime-database|kioslave|kdeinit5|QtWebEngineProcess)).*")
         self.ignoredPackages.append("binary/mysql")
 
         return super().createPackage()
