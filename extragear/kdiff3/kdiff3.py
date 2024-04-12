@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["libs/boost/boost-headers"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
@@ -22,16 +23,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["libs/qt6/qt5compat"] = None
-            self.options.configure.args += ["-DBUILD_WITH_QT6=ON"]
-        elif CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.options.configure.args += ["-DBUILD_WITH_QT6=OFF"]
-
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=ON"]
 
     def createPackage(self):
         self.addExecutableFilter(r"bin/(?!(kdiff3|kbuildsycoca5|update-mime-database|kioslave|QtWebEngineProcess)).*")

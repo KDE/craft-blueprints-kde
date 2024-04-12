@@ -35,8 +35,8 @@ from Package.MSBuildPackageBase import *
 
 
 class PackageMSVC(MSBuildPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "msvc", "Hunspell.sln")
         self.buildTypes = {"Release": "Release_dll", "RelWithDebInfo": "Release_dll", "Debug": "Debug_dll"}
 
@@ -59,8 +59,8 @@ from Package.AutoToolsPackageBase import *
 
 
 class PackageGNU(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.bootstrap = True
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.configure.autoreconf = False

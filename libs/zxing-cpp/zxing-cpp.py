@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.subinfo.options.configure.args += ["-DBUILD_DEPENDENCIES=LOCAL", "-DBUILD_EXAMPLES=OFF", "-DBUILD_UNIT_TESTS=OFF", "-DBUILD_BLACKBOX_TESTS=OFF"]

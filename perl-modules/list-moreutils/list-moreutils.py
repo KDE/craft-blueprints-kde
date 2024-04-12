@@ -20,5 +20,5 @@ class subinfo(info.infoclass):
 
 
 class Package(PerlPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

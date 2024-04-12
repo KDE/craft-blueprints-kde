@@ -77,8 +77,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # we use -DRUN_GPERF_IF_PRESENT=OFF to avoid running in gperf issues on windows during linking
         self.subinfo.options.configure.args += [
             "-DENABLE_XPDF_HEADERS=ON",
@@ -92,10 +92,8 @@ class Package(CMakePackageBase):
         if not self.subinfo.options.dynamic.buildUtils:
             self.subinfo.options.configure.args += ["-DENABLE_UTILS=OFF"]
 
-        qtMajor = CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion
-
-        self.subinfo.options.configure.args += ["-DENABLE_QT5=" + ("ON" if (self.subinfo.options.dynamic.buildQtFrontend and qtMajor == "5") else "OFF")]
-        self.subinfo.options.configure.args += ["-DENABLE_QT6=" + ("ON" if (self.subinfo.options.dynamic.buildQtFrontend and qtMajor == "6") else "OFF")]
+        self.subinfo.options.configure.args += ["-DENABLE_QT5=OFF"]
+        self.subinfo.options.configure.args += ["-DENABLE_QT6=ON"]
 
         if not self.subinfo.options.dynamic.buildTests:
             self.subinfo.options.configure.args += ["-DBUILD_QT5_TESTS=OFF", "-DBUILD_QT6_TESTS=OFF", "-DBUILD_CPP_TESTS=OFF", "-DBUILD_MANUAL_TESTS=OFF"]

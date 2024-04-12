@@ -10,10 +10,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        # qtquick1 is optional
-        # self.runtimeDependencies["libs/qtquick1"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.buildDependencies["libs/qt6/qt5compat"] = None
+        self.buildDependencies["libs/qt6/qt5compat"] = None
 
     def setTargets(self):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/phonon.git"
@@ -26,15 +23,12 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args = ["-DPHONON_INSTALL_QT_EXTENSIONS_INTO_SYSTEM_QT=ON"]
         if not self.subinfo.options.isActive("libs/dbus"):
             self.subinfo.options.configure.args += ["-DPHONON_NO_DBUS=ON"]
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DQT_MAJOR_VERSION=6", "-DPHONON_BUILD_QT6=ON", "-DPHONON_BUILD_QT5=OFF"]
-        else:
-            self.subinfo.options.configure.args += ["-DPHONON_BUILD_QT5=ON", "-DPHONON_BUILD_QT6=OFF"]
+        self.subinfo.options.configure.args += ["-DQT_MAJOR_VERSION=6", "-DPHONON_BUILD_QT6=ON", "-DPHONON_BUILD_QT5=OFF"]
 
     def postInstall(self):
         libDir = self.installDir() / "lib"
@@ -42,8 +36,6 @@ class Package(CMakePackageBase):
             libDir = self.installDir() / "lib64"
         if (libDir / "x86_64-linux-gnu").is_dir():
             libDir = libDir / "x86_64-linux-gnu"
-        qtMajor = CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion
+        qtMajor = "6"
         brokenFiles = [libDir / f"cmake/phonon4qt{qtMajor}/Phonon4Qt{qtMajor}Config.cmake"]
-        if qtMajor == 5:
-            brokenFiles += [self.installDir() / f"mkspecs/modules/qt_phonon4qt{qtMajor}.pri"]
         return self.patchInstallPrefix(brokenFiles, OsUtils.toUnixPath(self.subinfo.buildPrefix), OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()))

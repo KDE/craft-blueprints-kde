@@ -26,8 +26,8 @@ class subinfo(info.infoclass):
 
 
 class Package(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.shelveAble = False
         # we are a core dep so don't run autoreconf
         self.subinfo.options.configure.autoreconf = False

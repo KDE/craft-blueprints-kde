@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kidletime"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+        self.runtimeDependencies["kde/plasma/plasma-activities"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
@@ -25,5 +25,5 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde/plasma").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

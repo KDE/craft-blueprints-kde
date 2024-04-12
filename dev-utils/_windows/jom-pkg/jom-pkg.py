@@ -24,8 +24,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         flexpath = os.path.join(CraftStandardDirs.craftRoot(), "msys", "bin", "flex.exe")
         self.subinfo.options.configure.args += [f"-DFLEX_EXECUTABLE={flexpath}", "-DJOM_ENABLE_TESTS=ON"]
         if self.buildTarget.startswith("static"):

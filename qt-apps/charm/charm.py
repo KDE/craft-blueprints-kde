@@ -21,14 +21,12 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtwinextras"] = None
-        self.runtimeDependencies["libs/qt5/qtmacextras"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         if self.subinfo.buildTarget != "master":
             self.subinfo.options.configure.args = f"-DCharm_VERSION={self.subinfo.buildTarget}"
         if self.subinfo.options.dynamic.update_check_url:

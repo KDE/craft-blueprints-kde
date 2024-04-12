@@ -22,8 +22,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         root = str(CraftCore.standardDirs.craftRoot())
         craftLibDir = os.path.join(root, "lib")
         self.subinfo.options.configure.args += ["-DCMAKE_MACOSX_RPATH=1", "-DUSE_BUNDLED_ZLIB=OFF", f"-DCMAKE_INSTALL_RPATH={craftLibDir}"]

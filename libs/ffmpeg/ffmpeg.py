@@ -35,6 +35,7 @@ class subinfo(info.infoclass):
 
         self.patchLevel["5.0.1"] = 4
         self.patchLevel["6.0"] = 3
+        self.patchLevel["6.1.1"] = 1
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
@@ -48,16 +49,16 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/liblame"] = None
         self.runtimeDependencies["libs/libopus"] = None
         self.runtimeDependencies["libs/openssl"] = None
+        self.runtimeDependencies["libs/x265"] = None
+        self.runtimeDependencies["libs/libvorbis"] = None
+        self.runtimeDependencies["libs/libsdl2"] = None
+        self.runtimeDependencies["libs/aom"] = None
+        self.runtimeDependencies["libs/dav1d"] = None
         if CraftCore.compiler.isGCCLike():
-            self.runtimeDependencies["libs/libsdl2"] = None
-            self.runtimeDependencies["libs/libvorbis"] = None
             self.runtimeDependencies["libs/x264"] = None
             if not CraftCore.compiler.isAndroid:
                 self.runtimeDependencies["libs/libvpx"] = None
-                self.runtimeDependencies["libs/x265"] = None
                 self.runtimeDependencies["libs/libass"] = None
-                self.runtimeDependencies["libs/aom"] = None
-                self.runtimeDependencies["libs/dav1d"] = None
             self.runtimeDependencies["libs/zimg"] = None
         if not CraftCore.compiler.isMacOS:
             self.buildDependencies["libs/amf"] = None
@@ -69,24 +70,14 @@ class subinfo(info.infoclass):
 
 
 class Package(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.platform = ""
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.configure.noCacheFile = True
         self.subinfo.options.configure.autoreconf = False
         # with msvc it does not support shadowbuilds
         self.subinfo.options.useShadowBuild = not CraftCore.compiler.isMSVC()
-
-        self.subinfo.options.configure.args = [
-            "--enable-shared",
-            "--disable-debug",
-            "--disable-doc",
-            "--enable-gpl",
-            "--enable-version3",
-            "--enable-nonfree",
-            "--enable-openssl",
-        ]
 
         if CraftCore.compiler.isMacOS:
             # Workaround linker bug with clang 15, see  https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/issues/140
@@ -97,10 +88,17 @@ class Package(AutoToolsPackageBase):
         else:
             self.subinfo.options.configure.args += ["--disable-programs"]
         if "CC" in os.environ:
-            self.subinfo.options.configure.args += ["--cc=" + os.environ["CC"]]
+            cc = os.environ["CC"]
+            if CraftCore.compiler.isMacOS and not CraftCore.compiler.isNative():
+                cc = f"{cc} -arch {CraftCore.compiler.architecture.name.lower()}"
+            self.subinfo.options.configure.args += [f"--cc={cc}"]
         if "CXX" in os.environ:
-            self.subinfo.options.configure.args += ["--cxx=" + os.environ["CXX"]]
+            cxx = os.environ["CXX"]
+            if CraftCore.compiler.isMacOS and not CraftCore.compiler.isNative():
+                cxx = f"{cxx} -arch {CraftCore.compiler.architecture.name.lower()}"
+            self.subinfo.options.configure.args += [f"--cxx={cxx}"]
 
+        architecture = CraftCore.compiler.architecture.name.lower()
         if CraftCore.compiler.isAndroid:
             if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
                 architecture = "aarch64"
@@ -123,7 +121,7 @@ class Package(AutoToolsPackageBase):
 
             self.subinfo.options.configure.args += ["--cc=" + f"{toolchain_path}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang"]
             self.subinfo.options.configure.args += ["--cxx=" + f"{toolchain_path}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang++"]
-            self.subinfo.options.configure.args += ["--enable-cross-compile", "--target-os=android", "--cross-prefix=llvm-", f"--arch={architecture}"]
+            self.subinfo.options.configure.args += ["--enable-cross-compile", "--target-os=android", "--cross-prefix=llvm-"]
             # needed with NDK r25, otherwise build fails due to not finding vulkan_beta.h
             self.subinfo.options.configure.args += ["--extra-cflags=-DVK_ENABLE_BETA_EXTENSIONS=0"]
 
@@ -148,11 +146,22 @@ class Package(AutoToolsPackageBase):
                 "--enable-libzimg",
             ]
 
-            if self.subinfo.options.isActive("libs/x264"):
-                self.subinfo.options.configure.args += ["--enable-libx264"]
+        self.subinfo.options.configure.args += [
+            f"--arch={architecture}",
+            "--enable-shared",
+            "--disable-debug",
+            "--disable-doc",
+            "--enable-gpl",
+            "--enable-version3",
+            "--enable-nonfree",
+            "--enable-openssl",
+        ]
 
-            if self.subinfo.options.isActive("libs/x265"):
-                self.subinfo.options.configure.args += ["--enable-libx265"]
+        if self.subinfo.options.isActive("libs/x264"):
+            self.subinfo.options.configure.args += ["--enable-libx264"]
+
+        if self.subinfo.options.isActive("libs/x265"):
+            self.subinfo.options.configure.args += ["--enable-libx265"]
 
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["--enable-rpath", "--install-name-dir=@rpath"]

@@ -1,0 +1,38 @@
+From c8c1e63e316d0a36455fdc6c2440ff0cae008ea9 Mon Sep 17 00:00:00 2001
+From: Hannah von Reth <vonreth@kde.org>
+Date: Mon, 8 Apr 2024 13:33:41 +0200
+Subject: [PATCH] Fix .pc for msvc
+
+---
+ source/CMakeLists.txt | 2 ++
+ source/x265.pc.in     | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/source/CMakeLists.txt b/source/CMakeLists.txt
+index e1c83bf97..a9a5caa6e 100755
+--- a/source/CMakeLists.txt
++++ b/source/CMakeLists.txt
+@@ -742,6 +742,8 @@ if(X265_LATEST_TAG)
+     endif(PLIBLIST)
+ 
+     # Produce a pkg-config file
++
++    get_target_property(x265_shared_OUTPUT_NAME x265-shared OUTPUT_NAME)
+     configure_file("x265.pc.in" "x265.pc" @ONLY)
+     install(FILES       "${CMAKE_CURRENT_BINARY_DIR}/x265.pc"
+             DESTINATION "${LIB_INSTALL_DIR}/pkgconfig")
+diff --git a/source/x265.pc.in b/source/x265.pc.in
+index 0bf99e938..94cc4817d 100644
+--- a/source/x265.pc.in
++++ b/source/x265.pc.in
+@@ -6,6 +6,6 @@ includedir=${prefix}/include
+ Name: @CMAKE_PROJECT_NAME@
+ Description: H.265/HEVC video encoder
+ Version: @X265_LATEST_TAG@
+-Libs: -L${libdir} -lx265
++Libs: -L${libdir} -l@x265_shared_OUTPUT_NAME@
+ Libs.private: @PRIVATE_LIBS@
+ Cflags: -I${includedir}
+-- 
+2.42.0.windows.2
+

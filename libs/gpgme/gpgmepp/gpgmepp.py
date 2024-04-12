@@ -29,12 +29,8 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildStatic = False
         self.subinfo.options.configure.args += ["-DWITH_QT=ON"]
-
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DQGPGME_BUILD_QT5=OFF"]
-        else:
-            self.subinfo.options.configure.args += ["-DQGPGME_BUILD_QT6=OFF"]
+        self.subinfo.options.configure.args += ["-DQGPGME_BUILD_QT5=OFF"]

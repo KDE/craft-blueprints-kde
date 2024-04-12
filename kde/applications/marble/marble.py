@@ -20,19 +20,15 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/qt/qtwebchannel"] = None
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
-            self.runtimeDependencies["libs/qt5/qtserialport"] = None
             self.runtimeDependencies["qt-libs/phonon"] = None
             self.runtimeDependencies["libs/protobuf"] = None
         else:
             self.runtimeDependencies["libs/qt/qtmultimedia"] = None
-            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-                self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
-                self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DBUILD_MARBLE_TESTS=OFF", "-DWITH_KF5=OFF"]
 
     def createPackage(self):

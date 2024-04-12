@@ -10,10 +10,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt5/qtscript"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        self.runtimeDependencies["libs/qt5/qtwebkit"] = None
-        self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
@@ -34,5 +31,5 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

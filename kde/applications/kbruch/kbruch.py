@@ -21,8 +21,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def createPackage(self):
         self.addExecutableFilter(r"bin/(?!(kbruch|update-mime-database|kioslave)).*")

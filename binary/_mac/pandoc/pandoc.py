@@ -15,8 +15,8 @@ from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def install(self):
         # On Mac, the files are neetly sorted into /bin and /share in the upstream zip, already. We just need to copy the whole thing, stripping the outer folder.

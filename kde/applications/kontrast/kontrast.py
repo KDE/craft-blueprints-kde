@@ -13,8 +13,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
@@ -25,15 +23,13 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
         else:
-            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-                self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
         self.runtimeDependencies["qt-libs/qcoro"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["executable"] = r"bin\kontrast.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(kontrast|update-mime-database)).*")

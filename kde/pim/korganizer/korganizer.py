@@ -47,14 +47,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
         self.runtimeDependencies["kde/pim/kontactinterface"] = None
         self.runtimeDependencies["kde/pim/incidenceeditor"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
-        else:
-            self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
         self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]

@@ -86,11 +86,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/qt/qtimageformats"] = None
-        self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
         self.runtimeDependencies["libs/qt/qtnetworkauth"] = None
-
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
 
         if CraftCore.compiler.isMinGW():
             # mingw-based builds need this
@@ -98,11 +94,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/runtime"] = None
 
             self.buildDependencies["libs/boost/boost-graph"] = None
-
-            # QtWebEngine do not compile with MinGW
-
-            self.runtimeDependencies["libs/qt5/qtwebkit"] = None
-
         else:
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
 
@@ -151,8 +142,8 @@ from Utils import GetFiles
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
 
         if CraftCore.compiler.isLinux:

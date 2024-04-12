@@ -5,10 +5,7 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows & CraftCore.compiler.Platforms.NotAndroid
-        else:
-            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.FreeBSD
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.FreeBSD
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -29,5 +26,5 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

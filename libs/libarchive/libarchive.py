@@ -30,8 +30,8 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # use openssl for encryption
         self.subinfo.options.configure.args += ["-DENABLE_OPENSSL=ON", "-DENABLE_CNG=OFF", "-DENABLE_NETTLE=OFF", "-DENABLE_WERROR=OFF"]
         if CraftCore.compiler.isAndroid:

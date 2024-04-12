@@ -51,8 +51,8 @@ class subinfo(info.infoclass):
 
 
 class PackageAutoTools(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--enable-shared", "--enable-public-key", "--enable-mini-gmp", "--disable-documentation"]
         if CraftCore.compiler.isMacOS:
             # for some reason the version of m4 built by craft will segfault
@@ -64,11 +64,11 @@ class PackageAutoTools(AutoToolsPackageBase):
 if not CraftCore.compiler.isMSVC():
 
     class Package(PackageAutoTools):
-        def __init__(self):
-            PackageAutoTools.__init__(self)
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
 
 else:
 
     class Package(VirtualPackageBase):
-        def __init__(self):
-            super().__init__()
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)

@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildStatic = False
         self.subinfo.options.configure.args += ["-DAVIF_CODEC_AOM=ON", "-DAVIF_CODEC_DAV1D=ON", "-DAVIF_ENABLE_WERROR=OFF", "-DAVIF_ENABLE_GTEST=OFF"]

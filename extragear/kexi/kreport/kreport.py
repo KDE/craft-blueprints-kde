@@ -11,7 +11,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["dev-utils/python3"] = None
-        self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -28,5 +27,5 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

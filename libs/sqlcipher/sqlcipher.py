@@ -62,8 +62,8 @@ class subinfo(info.infoclass):
 
 # warning: empty sqlite3.h can prevent successfull build
 class PackageAutotools(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--enable-tempstore=yes"]
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.make.supportsMultijob = False
@@ -107,8 +107,8 @@ class PackageAutotools(AutoToolsPackageBase):
 
 
 class PackageMSVC(MSBuildPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def configure(self):
         self.enterSourceDir()
@@ -205,11 +205,11 @@ class PackageMSVC(MSBuildPackageBase):
 if CraftCore.compiler.isGCCLike():
 
     class Package(PackageAutotools):
-        def __init__(self):
-            PackageAutotools.__init__(self)
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
 
 else:
 
     class Package(PackageMSVC):
-        def __init__(self):
-            PackageMSVC.__init__(self)
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)

@@ -15,6 +15,6 @@ from Package.VirtualPackageBase import *
 
 
 class Package(VirtualPackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.shelveAble = False

@@ -21,12 +21,12 @@ class subinfo(info.infoclass):
 
 
 class CMakePackage(CraftPackageObject.get("kde/frameworks").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 
 class Package(MaybeVirtualPackageBase):
-    def __init__(self):
+    def __init__(self, **kwargs):
         # we skip this package if the icons are already installed
         useRcc = CraftPackageObject.get("kde/frameworks/tier1/breeze-icons").subinfo.options.dynamic.useIconResource
-        super().__init__(useRcc, classA=CMakePackage)
+        super().__init__(**kwargs, condition=useRcc, classA=CMakePackage)

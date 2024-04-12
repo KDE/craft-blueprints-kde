@@ -19,21 +19,16 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            # Yes, this is correct :-) QtMultimedia is only a dependency with Qt5 for libQuotient
-            # See https://github.com/quotient-im/libQuotient/issues/483
-            self.runtimeDependencies["libs/qt/qtmultimedia"] = None
 
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["libs/olm"] = None
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # LINK : fatal error LNK1104: cannot open file 'Quotient.lib
         # And fixes crash on android
         self.subinfo.options.dynamic.buildStatic = True
         self.subinfo.options.configure.args += ["-DQuotient_ENABLE_E2EE=ON"]
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=ON"]
+        self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=ON"]

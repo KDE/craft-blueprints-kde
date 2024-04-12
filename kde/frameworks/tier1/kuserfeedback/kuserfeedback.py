@@ -4,11 +4,6 @@ from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        if not CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            # Movet to frameworks with KF6, was independent before
-            self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
-
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
@@ -22,6 +17,6 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DENABLE_DOCS=OFF"]

@@ -9,9 +9,6 @@ class subinfo(info.infoclass):
 
         self.description = "A storage service for PIM data and meta data"
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.defaultTarget = "23.08.5"
-
     def registerOptions(self):
         self.options.dynamic.registerOption("useDesignerPlugin", True)
 
@@ -30,8 +27,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON", "-DDATABASE_BACKEND=SQLITE", "-DAKONADI_RUN_MYSQL_ISOLATED_TESTS=OFF"]
 

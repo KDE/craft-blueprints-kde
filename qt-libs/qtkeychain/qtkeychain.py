@@ -9,8 +9,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libsecret"] = None
         self.buildDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
 
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/frankosterfeld/qtkeychain.git"
@@ -26,7 +24,6 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args = ["-DBUILD_WITH_QT6=ON"]
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.subinfo.options.configure.args = ["-DBUILD_WITH_QT6=ON"]

@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kidletime"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kwayland"] = None
+        self.runtimeDependencies["kde/plasma/kwayland"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
@@ -32,11 +32,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
+        self.runtimeDependencies["kde/plasma/libplasma"] = None
         self.runtimeDependencies["kde/plasma/kscreenlocker"] = None
         self.runtimeDependencies["kde/plasma/kwayland-server"] = None
 
 
 class Package(CraftPackageObject.get("kde/plasma").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

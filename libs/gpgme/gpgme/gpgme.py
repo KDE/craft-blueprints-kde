@@ -50,8 +50,8 @@ if not CraftCore.compiler.isMSVC():
                 self.runtimeDependencies["libs/qt/qtbase"] = None
 
     class Package(AutoToolsPackageBase):
-        def __init__(self, **args):
-            super().__init__()
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
             self.subinfo.options.configure.args += ["--disable-gpg-test"]
             if not self.subinfo.options.dynamic.enableCPP:
                 self.subinfo.options.configure.args += ["--enable-languages=no"]
@@ -79,5 +79,5 @@ else:
             self.runtimeDependencies["libs/gnupg"] = None
 
     class Package(BinaryPackageBase):
-        def __init__(self, **args):
-            super().__init__()
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)

@@ -19,8 +19,8 @@ class subinfo(info.infoclass):
 
 
 class PackageBin(BinaryPackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.package.withCompiler = False
         self.subinfo.options.package.withSources = False
 
@@ -39,11 +39,11 @@ from Package.VirtualPackageBase import *
 if CraftCore.compiler.isMSVC():
 
     class Package(PackageBin):
-        def __init__(self):
-            PackageBin.__init__(self)
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
 
 else:
 
     class Package(VirtualPackageBase):
-        def __init__(self):
-            super().__init__()
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)

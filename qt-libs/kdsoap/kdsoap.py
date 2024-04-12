@@ -23,7 +23,6 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DKDSoap_QT6=true"]
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.subinfo.options.configure.args += ["-DKDSoap_QT6=true"]

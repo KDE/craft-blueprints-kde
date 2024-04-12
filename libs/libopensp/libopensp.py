@@ -49,8 +49,8 @@ class subinfo(info.infoclass):
 
 
 class PackageAutotools(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", "--disable-doc-build"]
 
         if CraftCore.compiler.isMinGW():
@@ -66,11 +66,11 @@ class PackageAutotools(AutoToolsPackageBase):
 if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
 
     class Package(PackageAutotools):
-        def __init__(self):
-            PackageAutotools.__init__(self)
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
 
 else:
 
     class Package(CMakePackageBase):
-        def __init__(self):
-            super().__init__()
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)

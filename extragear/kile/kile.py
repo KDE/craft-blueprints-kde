@@ -17,17 +17,14 @@ class subinfo(info.infoclass):
         self.patchToApply["2.9.93"] = [("kile-disable-sonnet-language-autodetect.diff", 1)]
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt5/qtscript"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["kde/applications/okular"] = None
         self.runtimeDependencies["kde/applications/kate"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")

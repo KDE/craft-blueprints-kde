@@ -10,8 +10,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.buildDependencies["libs/qt/qttools"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.buildDependencies["libs/qt6/qt5compat"] = None
+        self.buildDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["libs/libomemo-c"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
 
@@ -26,7 +25,7 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.subinfo.options.configure.args += ["-DBUILD_EXAMPLES=OFF", "-DBUILD_TESTS=OFF", "-DBUILD_OMEMO=ON"]

@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.description = "GammaRay is a tool to poke around in a Qt-application and also to manipulate the application to some extent"
         self.webpage = "https://www.kdab.com/gammaray"
         self.displayName = "GammaRay"
-        self.defaultTarget = "3.0.0"
+        self.defaultTarget = "master"
 
     def registerOptions(self):
         self.options.dynamic.registerOption("gammarayProbeOnly", False)
@@ -39,8 +39,8 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args = ["-DGAMMARAY_INSTALL_QT_LAYOUT=ON", "-DGAMMARAY_BUILD_DOCS=OFF"]
 
         nultiBuild = CraftPackageObject.get("libs/qt/qtbase").subinfo.options.dynamic.buildReleaseAndDebug

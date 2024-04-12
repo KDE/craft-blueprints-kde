@@ -1,4 +1,6 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
+from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
@@ -22,14 +24,14 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        for ver in ["6.4.3", "6.5.0", "6.5.2", "6.5.3", "6.6.0", "6.6.1", "6.6.2"]:
+        for ver in self.targets.keys():
             # These are patches that we can't submit upstream
             # Apply them to all future versions
             self.patchToApply[ver] = [(".craft", 1)]
-
-        if CraftCore.compiler.isMinGW():
-            # Fix finding pcre2 on MinGW
-            for ver in ["6.6.0", "6.6.1", "6.6.2"]:
+            if CraftVersion(ver) < "6.6.999999":
+                self.patchToApply[ver] = [(".craft_before_6.7", 1)]
+            if CraftCore.compiler.isMinGW():
+                # Fix finding pcre2 on MinGW
                 self.patchToApply[ver] += [("qtbase-6.6.0-mingw-find-pcre2.diff", 1)]
 
         # backport of https://codereview.qt-project.org/c/qt/qtbase/+/528067
@@ -81,8 +83,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.subinfo.options.configure.args += [
             # sometimes qt fails to pic up the basic things
@@ -98,6 +100,7 @@ class Package(CMakePackageBase):
             f"-DFEATURE_system_harfbuzz={'ON' if self.subinfo.options.dynamic.withHarfBuzz else 'OFF'}",
             f"-DFEATURE_icu={'ON' if  self.subinfo.options.dynamic.withICU else 'OFF'}",
             f"-DFEATURE_dbus={'ON' if  self.subinfo.options.dynamic.withDBus else 'OFF'}",
+            f"-DFEATURE_dbus_linked=OFF",
             f"-DFEATURE_glib={'ON' if  self.subinfo.options.dynamic.withGlib else 'OFF'}",
             f"-DFEATURE_fontconfig={'ON' if  self.subinfo.options.dynamic.withFontConfig else 'OFF'}",
             f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={'ON' if  self.subinfo.options.dynamic.useLtcg else 'OFF'}",

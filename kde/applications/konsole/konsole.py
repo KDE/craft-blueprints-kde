@@ -9,10 +9,6 @@ class subinfo(info.infoclass):
 
         self.displayName = "Konsole"
         self.description = "the KDE terminal emulator"
-
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.defaultTarget = "23.08.5"
-
         # Fix macOS build, see https://invent.kde.org/utilities/konsole/-/merge_requests/950
         self.patchToApply["24.02.1"] = [("950.patch", 1)]
 
@@ -39,8 +35,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def createPackage(self):
         self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(konsole|update-mime-database|kioslave|kdeinit5)).*")

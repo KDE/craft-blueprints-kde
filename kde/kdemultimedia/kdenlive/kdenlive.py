@@ -21,9 +21,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtimageformats"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtnetworkauth"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
-            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -38,8 +35,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier2/kcolorscheme"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcolorscheme"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
@@ -60,8 +56,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
-        if CraftCore.compiler.isWindows:
-            self.runtimeDependencies["libs/drmingw"] = None
+        # DrMinGW needs build fixes with MinGW 13 before we can re-enable it
+        # if CraftCore.compiler.isWindows:
+        #     self.runtimeDependencies["libs/drmingw"] = None
         # DrKonqi disabled for now as it needs polkit since KF6 and this requires lots of other dependencies
         # if CraftCore.compiler.isLinux:
         #    self.runtimeDependencies["kde/plasma/drkonqi"] = None
@@ -70,14 +67,13 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DNODBUS=ON"]
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += ["-DRELEASE_BUILD=OFF"]
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += ["-DKF_MAJOR=6"]
+        self.subinfo.options.configure.args += ["-DKF_MAJOR=6"]
 
     def setDefaults(self, defines: {str: str}) -> {str: str}:
         defines = super().setDefaults(defines)

@@ -16,7 +16,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         # Qt WebEngine doesn't work with MinGW.
         if not CraftCore.compiler.isMinGW():
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
@@ -42,14 +41,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+        self.runtimeDependencies["kde/plasma/plasma-activities"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/kross"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
@@ -63,8 +59,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
 
     def createPackage(self):

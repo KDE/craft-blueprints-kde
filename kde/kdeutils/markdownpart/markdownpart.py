@@ -9,9 +9,6 @@ class subinfo(info.infoclass):
 
         self.description = "a Markdown viewer KParts plugin, which allows KParts-using applications to display files in Markdown format in the target format"
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.defaultTarget = "23.08.5"
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -22,5 +19,5 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

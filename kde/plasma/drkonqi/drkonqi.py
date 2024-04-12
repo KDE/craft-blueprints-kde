@@ -31,13 +31,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
-            self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
-        else:
-            self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
 
 
 class Package(CraftPackageObject.get("kde/plasma").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

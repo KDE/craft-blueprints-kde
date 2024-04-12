@@ -37,8 +37,8 @@ class subinfo(info.infoclass):
 
 
 class Package(MakeFilePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     @property
     def makeProgram(self):

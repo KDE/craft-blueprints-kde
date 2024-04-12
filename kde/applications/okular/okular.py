@@ -37,11 +37,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/ghostscript"] = None
             self.runtimeDependencies["kde/applications/libkexiv2"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
-            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+            self.runtimeDependencies["kde/plasma/plasma-activities"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kpty"] = None
-            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-                self.runtimeDependencies["kde/frameworks/tier3/khtml"] = None
-                self.runtimeDependencies["kde/frameworks/tier3/kjs"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
@@ -53,13 +50,11 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
             self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
-            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-                self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         if CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["-DOKULAR_UI=mobile", "-DANDROID_LINK_EXTRA_LIBRARIES=ON"]
         if CraftCore.compiler.isMacOS:
@@ -86,6 +81,4 @@ class Package(CraftPackageObject.get("kde").pattern):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")
-        self.ignoredPackages.append("kde/frameworks/kemoticons")
-
         return super().createPackage()

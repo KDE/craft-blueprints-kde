@@ -35,16 +35,15 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         # KTimeTracker forces Breeze style on Windows
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def createPackage(self):
         self.defines["productname"] = "KTimeTracker"

@@ -11,9 +11,6 @@ class subinfo(info.infoclass):
         self.description = "KDE OSM Indoor Map"
         self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/libraries/kosmindoormap.git")
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.defaultTarget = "23.08.5"
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -25,8 +22,6 @@ class subinfo(info.infoclass):
         # needed for the app
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/openssl"] = None
         if CraftCore.compiler.isAndroid:
@@ -37,6 +32,6 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DBUILD_STANDALONE_APP=" + ("ON" if self.subinfo.options.dynamic.buildStandaloneApp else "OFF")]

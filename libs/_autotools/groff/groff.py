@@ -17,8 +17,8 @@ class subinfo(info.infoclass):
 
 
 class Package(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # contains host tools with a potentially different architecture, which Craft can't strip
         if CraftCore.compiler.isAndroid:
             self.subinfo.options.package.disableStriping = True

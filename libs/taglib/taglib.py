@@ -27,8 +27,8 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildStatic = False
         # self.subinfo.options.configure.args += ["-DBUILD_TESTS=ON", "-DBUILD_EXAMPLES=ON", "-DNO_ITUNES_HACKS=ON"]
         self.subinfo.options.configure.args += ["-DWITH_ASF=ON", "-DWITH_MP4=ON"]

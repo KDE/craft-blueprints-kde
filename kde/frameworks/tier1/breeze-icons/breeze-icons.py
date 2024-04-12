@@ -30,8 +30,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         if self.subinfo.options.dynamic.useIconResource:
             self.subinfo.options.configure.args += ["-DBINARY_ICONS_RESOURCE=ON", "-DSKIP_INSTALL_ICONS=ON", "-DICONS_LIBRARY=ON"]
 

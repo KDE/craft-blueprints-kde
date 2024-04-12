@@ -13,8 +13,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt/qtlocation"] = None
         self.runtimeDependencies["libs/qt/qtwebview"] = None
@@ -37,17 +35,14 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
-            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-                self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
-        else:
-            self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
+            self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["dev-utils/libtool"] = None
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["-DNEOCHAT_APPIMAGE=ON"]

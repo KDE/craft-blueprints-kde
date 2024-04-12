@@ -4,7 +4,5 @@ from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class Pattern(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.subinfo.defaultTarget = "5.27.10"
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

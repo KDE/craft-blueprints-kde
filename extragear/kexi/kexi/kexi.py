@@ -17,7 +17,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/sqlite"] = None  # migration
         # TODO self.runtimeDependencies["binary/postgresql"] = None # migration
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies["kdesupport/kdewin"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
@@ -45,8 +44,8 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def createPackage(self):
         # TODO

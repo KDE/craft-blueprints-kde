@@ -20,5 +20,5 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde/plasma").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

@@ -26,7 +26,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/llvm"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = (None, DependencyRequirementType.Required)
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
@@ -53,7 +52,7 @@ class subinfo(info.infoclass):
 
         if self.options.dynamic.fullPlasma:
             self.runtimeDependencies["kde/frameworks/tier3/krunner"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/plasma-framework"] = None
+            self.runtimeDependencies["kde/plasma/libplasma"] = None
         if self.options.dynamic.fullKDevelop:
             self.packagingDependencies["extragear/kdevelop/kdev-python"] = None
             self.packagingDependencies["extragear/kdevelop/kdev-php"] = None
@@ -67,8 +66,8 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def preArchive(self):
         if CraftVersion(self.buildTarget) > CraftVersion("5.3.0"):

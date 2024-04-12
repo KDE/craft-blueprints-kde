@@ -29,7 +29,7 @@ from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.useShadowBuild = False
         self.subinfo.options.make.args += f"PERL5LIB={self.shell.toNativePath(CraftCore.standardDirs.craftRoot())}/lib/perl5/site_perl/5.28.1"

@@ -63,8 +63,8 @@ class subinfo(info.infoclass):
 
 # 2018-02-11: compilation is successful if xmlmerge.exe gives any output in the console. For it to happen gnutls must be compiled with --enable-nls --enable-openssl-compatibility
 class Package(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-guis=qt5"]
 
         # For appImage builds the --enable-local-install is needed so that

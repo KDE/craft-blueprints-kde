@@ -39,8 +39,8 @@ class subinfo(info.infoclass):
 
 
 class Package(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += ["--disable-debuginfod", "--enable-install-elfh"]
         self.subinfo.options.configure.ldflags += " -lintl"

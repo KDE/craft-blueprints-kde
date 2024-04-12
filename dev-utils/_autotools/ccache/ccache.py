@@ -28,8 +28,8 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.supportsCCACHE = False
         self.subinfo.options.configure.args += ["-DREDIS_STORAGE_BACKEND=OFF"]
 

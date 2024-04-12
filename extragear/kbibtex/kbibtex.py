@@ -21,7 +21,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/qt/qtnetworkauth"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
-        self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
         self.runtimeDependencies["kde/applications/okular"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
@@ -34,8 +33,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def createPackage(self):
         self.defines["productname"] = "KBibTeX"

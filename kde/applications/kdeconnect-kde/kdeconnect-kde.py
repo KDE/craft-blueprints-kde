@@ -31,23 +31,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtconnectivity"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
-            self.runtimeDependencies["libs/openssl"] = None
-
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            # kpeoplevcard is merged into KPeople in KF6 (KPeople MR !45)
-            # Keep the dependency for old versions for now, so that we can build the Qt5 release branch until it's retired.
-            self.runtimeDependencies["kde/pim/kpeoplevcard"] = None
-            self.runtimeDependencies["kdesupport/qca"] = None
-
-            self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
-            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
+        self.runtimeDependencies["libs/openssl"] = None
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         if CraftCore.compiler.isMacOS:
             # Add APPLE_IN_APP_BUNDLE flag to enable private DBus, when packing by Craft
             self.subinfo.options.configure.args += ["-DAPPLE_IN_APP_BUNDLE=ON"]

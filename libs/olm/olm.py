@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildStatic = True
         self.subinfo.options.configure.args += ["-DOLM_TESTS=OFF"]

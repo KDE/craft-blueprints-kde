@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "OpenCV extra modules"
 
-        self.targetDigests["4.8.0"] = (["b4aef0f25a22edcd7305df830fa926ca304ea9db65de6ccd02f6cfa5f3357dbb"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.9.0"] = (["8952c45a73b75676c522dd574229f563e43c271ae1d5bbbd26f8e2b6bc1a4dae"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -17,5 +17,5 @@ class subinfo(info.infoclass):
 
 
 class Package(SourceComponentPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

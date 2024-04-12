@@ -21,8 +21,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):
@@ -30,6 +30,4 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon"] = self.blueprintDir() / "kolourpaint.ico"
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("kde/frameworks/kemoticons")
-
         return super().createPackage()

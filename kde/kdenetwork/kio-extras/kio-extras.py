@@ -8,13 +8,6 @@ class subinfo(info.infoclass):
 
         self.description = "Extra plugins for KIO (thumbnail generators, archives, remote filesystems and more)"
 
-        # kio-extras is a special case, it releases different tarballs for Qt5 and Qt6
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            ver = self.defaultTarget
-            self.targets[ver] = f"https://download.kde.org/stable/release-service/{ver}/src/kio-extras-kf5-{ver}.tar.xz"
-            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/release-service/{ver}/src/kio-extras-kf5-{ver}.tar.xz.sha256"
-            self.targetInstSrc[ver] = f"kio-extras-kf5-{ver}"
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -24,14 +17,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         # self.runtimeDependencies["qt-libs/kdsoap"] = None # Our KDSoap version in Craft is too new for kio-extras
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["qt-libs/qcoro"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
-            self.runtimeDependencies["kde/plasma/plasma-activities"] = None
-            self.runtimeDependencies["kde/plasma/plasma-activities-stats"] = None
-        else:
-            self.runtimeDependencies["kde/frameworks/tier3/kactivities-stats"] = None
-            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+        self.runtimeDependencies["qt-libs/qcoro"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
+        self.runtimeDependencies["kde/plasma/plasma-activities"] = None
+        self.runtimeDependencies["kde/plasma/plasma-activities-stats"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -50,18 +39,13 @@ class subinfo(info.infoclass):
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += [
             "-DSAMBA_FOUND=false",
             "-DBUILD_KDSoapWSDiscoveryClient=OFF",
         ]  # This requires KDSoap 1.9.0, but we only have a newer version in Craft
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.subinfo.options.configure.args += [
-                "-DBUILD_ACTIVITIES=" + ("ON" if self.subinfo.options.isActive("kde/plasma/plasma-activities-stats") else "OFF")
-            ]
-        else:
-            self.subinfo.options.configure.args += [
-                "-DBUILD_ACTIVITIES=" + ("ON" if self.subinfo.options.isActive("kde/frameworks/tier3/kactivities-stats") else "OFF")
-            ]
+        self.subinfo.options.configure.args += [
+            "-DBUILD_ACTIVITIES=" + ("ON" if self.subinfo.options.isActive("kde/plasma/plasma-activities-stats") else "OFF")
+        ]

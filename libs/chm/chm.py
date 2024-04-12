@@ -21,8 +21,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         # building examples and debugging tools
         self.subinfo.options.configure.args += ["-DBUILD_examples=OFF"]

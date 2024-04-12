@@ -68,8 +68,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # together with the patch based on https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/qtwebengine-6.5.2-r1.ebuild
 
         # use a short path for Windows
@@ -89,7 +89,7 @@ class Package(CMakePackageBase):
             f"-DQT_FEATURE_webengine_system_lcms2=ON",
             f"-DQT_FEATURE_webengine_system_pulseaudio=OFF",
         ]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.isMSVC() and CraftVersion(self.buildTarget) < CraftVersion("6.7.0"):
             self.subinfo.options.configure.args += [
                 "-DCMAKE_CXX_COMPILER=clang-cl",
                 "-DCMAKE_C_COMPILER=clang-cl",

@@ -43,7 +43,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt5/qtx11extras"] = None
         self.runtimeDependencies["libs/dbus"] = None
         self.runtimeDependencies["libs/fontconfig"] = None
         self.runtimeDependencies["libs/freetype"] = None
@@ -61,8 +60,8 @@ from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += [
             "--disable-lua",
             "--disable-a52",

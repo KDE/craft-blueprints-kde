@@ -17,7 +17,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kemoticons"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
 
 
@@ -25,5 +24,5 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

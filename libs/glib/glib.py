@@ -36,8 +36,8 @@ from Package.MesonPackageBase import *
 
 
 class Package(MesonPackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         if self.subinfo.options.isActive("libs/dbus"):
             self.subinfo.options.configure.cflags += (
                 f"-I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'include/dbus-1.0')}"

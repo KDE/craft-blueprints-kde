@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.description = "xplanet, Create HQ wallpapers of planet Earth and time-updated images of other planets"
 
         for ver in ["1.3.1"]:
-            self.targets[ver] = f"https://downloads.sourceforge.net/project/xplanet/xplanet/{ver}xplanet-{ver}.tar.gz"
+            self.targets[ver] = f"https://downloads.sourceforge.net/project/xplanet/xplanet/{ver}/xplanet-{ver}.tar.gz"
             self.archiveNames[ver] = f"xplanet-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"xplanet-{ver}"
 
@@ -30,8 +30,8 @@ class subinfo(info.infoclass):
 
 
 class Package(AutoToolsPackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         prefix = str(self.shell.toNativePath(CraftCore.standardDirs.craftRoot()))
         self.subinfo.options.configure.args += [
             "--disable-dependency-tracking",

@@ -31,8 +31,8 @@ from Package.MakeFilePackageBase import *
 if CraftCore.compiler.isMSVC():
 
     class Package(MakeFilePackageBase):
-        def __init__(self):
-            super().__init__()
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
 
         def includesFromPkgConfig(self, libName):
             includes = subprocess.run("pkg-config --cflags-only-I " + libName, stdout=subprocess.PIPE, universal_newlines=True).stdout.strip()
@@ -117,8 +117,8 @@ if CraftCore.compiler.isMSVC():
 else:
 
     class Package(AutoToolsPackageBase):
-        def __init__(self, **args):
-            super().__init__()
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
             self.subinfo.options.configure.autoreconf = False
             if CraftCore.compiler.isMinGW():
                 self.subinfo.options.configure.cflags += " -fstack-protector"

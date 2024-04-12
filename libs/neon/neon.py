@@ -20,8 +20,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         # do not install docs
         self.subinfo.options.configure.args += ["-DINSTALL_DOCS=OFF"]

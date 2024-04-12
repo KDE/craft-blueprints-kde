@@ -20,8 +20,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        self.runtimeDependencies["libs/qt5/qtxmlpatterns"] = None
-        self.runtimeDependencies["libs/qt5/qtwebkit"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
@@ -37,8 +35,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # self.subinfo.options.configure.args = "-DSKG_WEBENGINE=ON"
 
     def createPackage(self):

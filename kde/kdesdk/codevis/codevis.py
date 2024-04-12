@@ -37,8 +37,8 @@ class subinfo(info.infoclass):
 
 # This is needed for the CI
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.subinfo.options.configure.args += ["-DUSE_QT_WEBENGINE=OFF ", "-DCOMPILE_TESTS=OFF ", f"-DPython_ROOT_DIR={CraftCore.standardDirs.craftRoot()}"]
 
@@ -58,6 +58,4 @@ class Package(CraftPackageObject.get("kde").pattern):
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("dev-utils/sed")
-        self.ignoredPackages.append("kde/frameworks/kemoticons")
-
         return super().createPackage()

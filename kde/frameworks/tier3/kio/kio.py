@@ -41,13 +41,12 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
             self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["libs/qt6/qt5compat"] = None
+        self.runtimeDependencies["libs/qt6/qt5compat"] = None
 
 
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.configure.args += [f"-DKIO_ASSERT_SLAVE_STATES={'ON' if self.buildType() == 'Debug' else 'OFF'}"]
         self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF5DocTools=ON"]
         if OsUtils.isWin() or OsUtils.isMac():

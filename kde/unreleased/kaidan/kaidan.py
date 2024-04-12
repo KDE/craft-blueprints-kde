@@ -19,10 +19,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        self.runtimeDependencies["libs/qt5/qtlocation"] = None
         self.runtimeDependencies["libs/zxing-cpp"] = None
         self.runtimeDependencies["qt-libs/qxmpp"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
@@ -41,8 +39,8 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         self.subinfo.options.fetch.checkoutSubmodules = True
 

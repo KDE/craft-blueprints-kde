@@ -15,20 +15,11 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["libs/qt5/qtgraphicaleffects"] = None
-            self.runtimeDependencies["libs/qt5/qtquickcontrols2"] = None
-        else:
-            self.runtimeDependencies["libs/qt6/qt5compat"] = None
-            self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
+        self.runtimeDependencies["libs/qt6/qt5compat"] = None
+        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        if CraftCore.compiler.isAndroid:
-            if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-                self.runtimeDependencies["libs/qt5/qtandroidextras"] = None
-            self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
         if CraftCore.compiler.isWindows:
-            self.runtimeDependencies["libs/qt5/qtwinextras"] = None
             self.runtimeDependencies["binary/vlc"] = None
 
         if not CraftCore.compiler.isAndroid:
@@ -48,8 +39,8 @@ from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def createPackage(self):
         self.defines["executable"] = "bin\\elisa.exe"

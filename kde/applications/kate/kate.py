@@ -11,9 +11,6 @@ class subinfo(info.infoclass):
         self.description = "Modern text editor built on the KDE Frameworks and Qt"
         self.webpage = "https://kate-editor.org/"
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.defaultTarget = "23.08.5"
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -34,24 +31,18 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/kdeutils/markdownpart"] = None
         self.runtimeDependencies["kde/applications/konsole"] = None
-
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
-        else:
-            self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
 
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.addExecutableFilter(r"bin/(?!(kate|update-mime-database|kioslave)).*")
         self.defines["shortcuts"] = [{"name": "Kate", "target": "bin/kate.exe", "description": self.subinfo.description}]
 
@@ -82,4 +73,9 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["alias"] = "kate"
 
         self.ignoredPackages.append("binary/mysql")
+
+        # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
+        if not CraftCore.compiler.isLinux:
+            self.ignoredPackages.append("libs/dbus")
+
         return super().createPackage()

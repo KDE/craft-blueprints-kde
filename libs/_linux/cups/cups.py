@@ -27,8 +27,8 @@ from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # autoheader: warning: missing template: CUPS_DEFAULT_ACCESS_LOG_LEVEL
         # autoheader: warning: Use AC_DEFINE([CUPS_DEFAULT_ACCESS_LOG_LEVEL], [], [Description])
         # autoheader: warning: missing template: HAVE_ABS

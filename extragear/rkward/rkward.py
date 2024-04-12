@@ -29,13 +29,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
-        self.runtimeDependencies["libs/qt5/qtscript"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
         # not strictly runtimeDependencies, but should be included in the package for plugins and extra functionality
         self.runtimeDependencies["kde/applications/kate"] = None
-        #if not OsUtils.isMac():
-        #   kbibtex does not properly build on macOS, yet, and is optional: TODO: Does not currently build for Qt 6 on Linux, either.
-        #   self.runtimeDependencies["extragear/kbibtex"] = None
+        if not OsUtils.isMac():
+            # kbibtex does not properly build on macOS, yet, and is optional
+            self.runtimeDependencies["extragear/kbibtex"] = None
         # optional, but should be in the package
         self.runtimeDependencies["binary/pandoc"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
@@ -47,7 +46,6 @@ class subinfo(info.infoclass):
             #       Added, here, as a workaround, because kuserfeedback may have been built with the lib in the cache, without anything declaring the dependency
             self.runtimeDependencies["libs/qt/qtcharts"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
-            self.runtimeDependencies["libs/qt5/qtserialport"] = None
             # Needed at runtime to keep libcurl working inside the AppImage. See definition of CURL_CA_BUNDLE, below.
             self.runtimeDependencies["core/cacert"] = None
             # Needed for building some R packages
@@ -56,15 +54,15 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/baloo"] = None
         elif OsUtils.isMac():
             # indirectly required by kate, but not declared as dependency, there
-            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+            self.runtimeDependencies["kde/plasma/plasma-activities"] = None
 
 
 from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
         if OsUtils.isWin():
             # Usually found, automatically, but make extra sure, never to pick up a separate installation of R
@@ -78,7 +76,8 @@ class Package(CMakePackageBase):
                 f"-DR_HOME={rhome}",
                 f"-DR_INCLUDEDIR={os.path.join(rhome, 'include')}",
                 f"-DR_SHAREDLIBDIR={os.path.join(rhome, 'lib')}",
-                "-DUSE_BINARY_PACKAGES=1"
+                "-DUSE_BINARY_PACKAGES=1",
+                "-DNO_QT_WEBENGINE=1",
             ]
 
     def fetch(self):

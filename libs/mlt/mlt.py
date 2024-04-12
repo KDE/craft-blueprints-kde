@@ -58,8 +58,8 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
         # enable submodule checkout to get glaximate
         if not CraftCore.compiler.isAndroid:
@@ -78,10 +78,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["-DMOD_RTAUDIO=OFF", "-DMOD_SOX=OFF"]
 
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5" and self.subinfo.options.isActive("libs/libarchive"):
-            self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE=ON"]
-        else:
-            self.subinfo.options.configure.args += ["-DMOD_QT=OFF", "-DMOD_QT6=ON", "-DMOD_GLAXNIMATE_QT6=ON"]
+        self.subinfo.options.configure.args += ["-DMOD_QT=OFF", "-DMOD_QT6=ON", "-DMOD_GLAXNIMATE_QT6=ON"]
 
         if CraftCore.compiler.isWindows:
             self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-Wno-incompatible-pointer-types"]

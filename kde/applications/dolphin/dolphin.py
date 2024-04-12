@@ -32,16 +32,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
         self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
         self.runtimeDependencies["kde/kdemultimedia/ffmpegthumbs"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
-            self.runtimeDependencies["qt-libs/phonon"] = None
-        else:
-            self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
+        self.runtimeDependencies["qt-libs/phonon"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
