@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         for v in ["4.5.3"]:
             self.patchToApply[v] += [("opencv-pkgconfig-win-install.patch", 1)]
 
-        self.patchLevel["4.9.0"] = 1
+        self.patchLevel["4.9.0"] = 2
 
         self.targetDigests["4.9.0"] = (["ddf76f9dffd322c7c3cb1f721d0887f62d747b82059342213138dc190f28bc6c"], CraftHash.HashAlgorithm.SHA256)
 
