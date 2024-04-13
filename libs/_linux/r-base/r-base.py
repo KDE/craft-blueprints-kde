@@ -29,9 +29,9 @@ class Package(AutoToolsPackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += ["--enable-R-shlib", "--with-readline=no", "--with-x=no"]
-        self.subinfo.options.configure.cflags = ["-I" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "include")
-        self.subinfo.options.configure.cxxflags += ["-I" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "include")
-        self.subinfo.options.configure.ldflags += ["-L" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "lib")
+        self.subinfo.options.configure.cflags = ["-I" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "include")]
+        self.subinfo.options.configure.cxxflags += ["-I" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "include")]
+        self.subinfo.options.configure.ldflags += ["-L" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "lib")]
         # unfortunately, Craft's .debug files cause mis-behavior in R (it will then detect a multi-arch install with sub-architectures "R" and "R.debug"), so don't create those
         self.subinfo.options.package.disableStriping = True
 
