@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/libarchive"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt/qttools"] = None
+        self.buildDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["libs/libbzip2"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblzma"] = None

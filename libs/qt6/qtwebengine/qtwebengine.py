@@ -49,7 +49,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt6/qtpositioning"] = None
-        self.runtimeDependencies["libs/qt6/qttools"] = None
+        self.buildDependencies["libs/qt6/qttools"] = None
         self.runtimeDependencies["libs/qt6/qtwebchannel"] = None
         self.runtimeDependencies["libs/nss"] = None
         self.runtimeDependencies["libs/cups"] = None
