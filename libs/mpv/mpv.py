@@ -25,7 +25,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/libass"] = None
         self.runtimeDependencies["libs/zlib"] = None
-        self.runtimeDependencies["libs/libarchive"] = None
         self.runtimeDependencies["libs/liblzma"] = None
         self.runtimeDependencies["libs/lcms2"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
@@ -38,6 +37,7 @@ class subinfo(info.infoclass):
 
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/lua"] = None
+            self.runtimeDependencies["libs/libarchive"] = None
 
 
 class Package(MesonPackageBase):
@@ -46,6 +46,7 @@ class Package(MesonPackageBase):
         self.subinfo.options.configure.args += ["-Drubberband=disabled", "-Dlibmpv=true"]
 
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ["-Dlua=disabled", "-Ddefault_library=static"]
+            # Using libarchive causes linker errors on Android, but we don't need it right now
+            self.subinfo.options.configure.args += ["-Dlua=disabled", "-Ddefault_library=static", "-Dlibarchive=disabled"]
         else:
             self.subinfo.options.configure.args += ["-Dlua=enabled"]
