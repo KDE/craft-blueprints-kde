@@ -20,9 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
-        self.runtimeDependencies["kde/plasma/plasma-activities"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
 
