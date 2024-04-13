@@ -59,7 +59,7 @@ class subinfo(info.infoclass):
             if not CraftCore.compiler.isAndroid:
                 self.runtimeDependencies["libs/libvpx"] = None
                 self.runtimeDependencies["libs/libass"] = None
-            self.runtimeDependencies["libs/zimg"] = None
+                self.runtimeDependencies["libs/zimg"] = None
         if not CraftCore.compiler.isMacOS:
             self.buildDependencies["libs/amf"] = None
             self.buildDependencies["libs/nvidia-codecs"] = None
