@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/sonnet"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kquickcharts"] = None
         self.runtimeDependencies["kde/frameworks/tier1/prison"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcolorscheme"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["qt-libs/libquotient"] = None
         self.runtimeDependencies["libs/cmark"] = None
