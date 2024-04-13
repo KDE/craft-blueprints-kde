@@ -17,6 +17,13 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://code.videolan.org/videolan/libplacebo"
         self.defaultTarget = "2805a0d0"
 
+        self.patchToApply["2805a0d0"] = [
+            ("disable-soversion.patch", 1)
+        ]
+        self.patchToApply["master"] = [
+            ("disable-soversion.patch", 1)
+        ]
+
     def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None
         self.runtimeDependencies["virtual/base"] = None
