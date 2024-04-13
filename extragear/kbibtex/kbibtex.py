@@ -4,12 +4,9 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["kbibtex/0.9"] = "https://invent.kde.org/office/kbibtex.git|kbibtex/0.9"
-        self.targetUpdatedRepoUrl["kbibtex/0.9"] = ("https://anongit.kde.org/kbibtex|kbibtex/0.9", "https://invent.kde.org/office/kbibtex.git|kbibtex/0.9")
-        self.svnTargets["kbibtex/0.10"] = "https://invent.kde.org/office/kbibtex.git|kbibtex/0.10"
-        self.targetUpdatedRepoUrl["kbibtex/0.10"] = ("https://anongit.kde.org/kbibtex|kbibtex/0.10", "https://invent.kde.org/office/kbibtex.git|kbibtex/0.10")
-        self.svnTargets["master"] = "https://invent.kde.org/office/kbibtex.git|master"
-        self.targetUpdatedRepoUrl["master"] = ("https://anongit.kde.org/kbibtex|master", "https://invent.kde.org/office/kbibtex.git|master")
+        for ref in ["master"]: # NOTE: there is no Qt 6 release branch, yet
+            self.svnTargets[ref] = "https://invent.kde.org/office/kbibtex.git|" + ref;
+            self.targetUpdatedRepoUrl[ref] = ("https://anongit.kde.org/kbibtex|" + ref, "https://invent.kde.org/office/kbibtex.git|" + ref)
         self.defaultTarget = "master"
 
         self.description = "An editor for bibliographies used with LaTeX"
@@ -35,6 +32,10 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += [
+            "-DBUILD_WITH_QT6=ON",
+            "-DQT_MAJOR_VERSION=6"
+        ]
 
     def createPackage(self):
         self.defines["productname"] = "KBibTeX"
