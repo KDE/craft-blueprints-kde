@@ -2,6 +2,10 @@ import info
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # does not build on Android out of the box
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
+
     def setTargets(self):
         for ver in ["3.4", "3.5"]:
             self.targets[ver] = f"https://deb.debian.org/debian/pool/main/x/x265/x265_{ver}.orig.tar.gz"
