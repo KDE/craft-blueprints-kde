@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.targetDigests["7.84.0"] = (["702fb26e73190a3bd77071aa146f507b9817cc4dfce218d2ab87f00cd3bc059d"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "a free and easy-to-use client-side URL transfer library"
-        self.patchLevel["7.84.0"] = 1
+        self.patchLevel["7.84.0"] = 2
         self.defaultTarget = "7.84.0"
 
     def setDependencies(self):
@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += ["-DCURL_DISABLE_LDAP=ON", "-DCURL_DISABLE_LDAPS=ON"]
         self.subinfo.options.configure.args += ["-DBUILD_CURL_TESTS=OFF", "-DBUILD_CURL_EXE=OFF"]
         self.subinfo.options.configure.testDefine = Arguments(["-DBUILD_CURL_TESTS=ON"])
         self.subinfo.options.configure.toolsDefine = Arguments(["-DBUILD_CURL_EXE=ON"])
