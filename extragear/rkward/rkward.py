@@ -76,8 +76,7 @@ class Package(CMakePackageBase):
                 f"-DR_HOME={rhome}",
                 f"-DR_INCLUDEDIR={os.path.join(rhome, 'include')}",
                 f"-DR_SHAREDLIBDIR={os.path.join(rhome, 'lib')}",
-                "-DUSE_BINARY_PACKAGES=1",
-                "-DNO_QT_WEBENGINE=1",
+                "-DUSE_BINARY_PACKAGES=1"
             ]
 
     def fetch(self):
