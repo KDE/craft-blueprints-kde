@@ -13,13 +13,13 @@ class subinfo(info.infoclass):
         self.displayName = "RKWard"
         self.webpage = "https://rkward.kde.org"
 
-        self.svnTargets["master"] = "https://invent.kde.org/education/rkward.git"
+        self.svnTargets["kf5"] = "https://invent.kde.org/education/rkward.git|kf5"
         self.addReleaseCandidate("0.7.5", "rc1")
         for ver in ["0.7.4"]:
             self.targets[ver] = f"https://download.kde.org/stable/rkward/{ver}/rkward-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"rkward-{ver}"
         self.targetDigests["0.7.4"] = (["7633f3b269f6cf2c067b3b09cbe3da3e0ffdcd9dc3ecb9a9fa63b4f865e8161e"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "0.7.5-rc1"
+        self.defaultTarget = "kf5"
 
     def setDependencies(self):
         if OsUtils.isWin() or OsUtils.isMac():
@@ -58,9 +58,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["dev-utils/sed"] = None
             # tags io-slave used by KEncodingFileDialog (producing ugly warning, if not present)
             self.runtimeDependencies["kde/frameworks/tier3/baloo"] = None
-        elif OsUtils.isMac():
-            # indirectly required by kate, but not declared as dependency, there
-            self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
+        # indirectly required by kate, but not declared as dependency, there
+        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
 
 
 from Package.CMakePackageBase import *
