@@ -37,8 +37,6 @@ class Package(AutoToolsPackageBase):
         env["CFLAGS"] = "-I" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "include") # Needed in R 4.3.3 to find zlib
         env["CPPFLAGS"] = env["CFLAGS"]
         env["LDFLAGS"] = "-L" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "lib")
-        env["r_cv_have_curl728"] = "yes"     # Work around broken configure test (R 4.3.3) for libcurl (which does not set the necessary compile flags). NOTE: libcurl is explicit dependency above
-        env["r_cv_have_curl_https"] = "yes"
         with utils.ScopedEnv(env):
             return super().configure()
 
