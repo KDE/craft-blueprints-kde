@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["libs/zlib"] = None
-        self.buildDependencies["libs/abseil-cpp"] = None
+        self.runtimeDependencies["libs/abseil-cpp"] = None
 
 
 from Package.CMakePackageBase import *
