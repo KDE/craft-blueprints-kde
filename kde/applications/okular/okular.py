@@ -5,7 +5,8 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
+        self.svnTargets["23.08"] = "https://invent.kde.org/graphics/okular.git|23.08"  # latest KF5-based release/branch
+        self.defaultTarget = "23.08"
         self.description = "KDE document viewer"
         self.displayName = "Okular"
 
