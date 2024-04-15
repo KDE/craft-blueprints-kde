@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
 
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Linux
+        self.options.dynamic.setDefault("ignored", True)
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -20,13 +21,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
 
-class CMakePackage(CraftPackageObject.get("kde/frameworks").pattern):
+class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-
-class Package(MaybeVirtualPackageBase):
-    def __init__(self, **kwargs):
-        # we skip this package if the icons are already installed
-        useRcc = CraftPackageObject.get("kde/frameworks/tier1/breeze-icons").subinfo.options.dynamic.useIconResource
-        super().__init__(**kwargs, condition=useRcc, classA=CMakePackage)
