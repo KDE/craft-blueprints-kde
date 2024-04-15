@@ -30,11 +30,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["libs/qt5/qtscript"] = None
-        if CraftCore.compiler.isMinGW() or OsUtils.isMac() and CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            # MinGW has no qtwebengine, but we can fall back to kdewebkit
-            self.runtimeDependencies["kde/frameworks/tier3/kdewebkit"] = None
-        else:
-            self.runtimeDependencies["libs/qt/qtwebengine"] = None
+        self.runtimeDependencies["libs/qt/qtwebengine"] = None
         # not strictly runtimeDependencies, but should be included in the package for plugins and extra functionality
         self.runtimeDependencies["kde/applications/kate"] = None
         if not OsUtils.isMac():
