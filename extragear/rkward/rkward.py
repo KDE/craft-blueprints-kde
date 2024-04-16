@@ -104,7 +104,9 @@ class Package(CMakePackageBase):
             # Fix absolute library locations for R libs. Users may use RKWard with various versions of R (installed, separately), so
             # we cannot set a stable relative path, either. However, the rkward frontend makes sure to cd to the appropriate directory
             # when starting the backend, so the libs can be found by basename.
-            rkward_rbackend = os.path.join(self.imageDir(), "lib", "libexec", "rkward.rbackend")
+            rkward_rbackend = os.path.join(self.imageDir(), "bin", "rkward.rbackend")
+            if not os.path.exists(rkward_rbackend):
+                CraftCore.log.error(f"rkward.rbackend not found at {rkward_rbackend}")
             rlibs = ["libR.dylib", "libRblas.dylib", "libRlapack.dylib"]
             for path in utils.getLibraryDeps(str(rkward_rbackend)):
                 if os.path.basename(path) in rlibs:
