@@ -55,11 +55,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/aom"] = None
         self.runtimeDependencies["libs/dav1d"] = None
         if CraftCore.compiler.isGCCLike():
-            self.runtimeDependencies["libs/x264"] = None
             if not CraftCore.compiler.isAndroid:
                 self.runtimeDependencies["libs/libvpx"] = None
                 self.runtimeDependencies["libs/libass"] = None
                 self.runtimeDependencies["libs/zimg"] = None
+                self.runtimeDependencies["libs/x264"] = None
         if not CraftCore.compiler.isMacOS:
             self.buildDependencies["libs/amf"] = None
             self.buildDependencies["libs/nvidia-codecs"] = None
@@ -157,11 +157,14 @@ class Package(AutoToolsPackageBase):
             "--enable-openssl",
         ]
 
-        if self.subinfo.options.isActive("libs/x264"):
-            self.subinfo.options.configure.args += ["--enable-libx264"]
+        # This disables H.264/H.265 **encoding** and not decoding (that is handled by avcodec)
+        # No one is encoding videos on Android (yet?) and ffmpeg doesn't pick these up properly on Android yet anyway.
+        if not CraftCore.compiler.isAndroid:
+            if self.subinfo.options.isActive("libs/x264"):
+                self.subinfo.options.configure.args += ["--enable-libx264"]
 
-        if self.subinfo.options.isActive("libs/x265"):
-            self.subinfo.options.configure.args += ["--enable-libx265"]
+            if self.subinfo.options.isActive("libs/x265"):
+                self.subinfo.options.configure.args += ["--enable-libx265"]
 
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["--enable-rpath", "--install-name-dir=@rpath"]
