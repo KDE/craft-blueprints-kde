@@ -3,9 +3,9 @@ from pathlib import Path
 
 import info
 import utils
+from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
-from Package.CMakePackageBase import CMakePackageBase
 from Utils.CraftShortPath import CraftShortPath
 
 
@@ -67,7 +67,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/harfbuzz"] = None
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("libs/qt6").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # together with the patch based on https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/qtwebengine-6.5.2-r1.ebuild

@@ -1,6 +1,6 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
-from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/ffmpeg"] = None
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("libs/qt6").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         if CraftCore.compiler.isLinux:

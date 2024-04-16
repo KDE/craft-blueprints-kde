@@ -13,6 +13,6 @@ class subinfo(info.infoclass):
 from Package.CMakePackageBase import *
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("libs/qt6").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

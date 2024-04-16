@@ -82,7 +82,7 @@ class subinfo(info.infoclass):
                 self.runtimeDependencies["libs/cups"] = None
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("libs/qt6").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
