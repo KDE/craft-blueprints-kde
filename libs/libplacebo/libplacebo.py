@@ -13,9 +13,9 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "libplacebo"
         self.description = "Reusable library for GPU-accelerated image/video processing primitives and shaders, as well a batteries-included, extensible, high-quality rendering pipeline (similar to mpv's vo_gpu). Supports Vulkan, OpenGL, Metal (via MoltenVK) and Direct3D 11."
-        self.svnTargets["2805a0d0"] = "https://code.videolan.org/videolan/libplacebo||2805a0d01c029084ab36bf5d0e3c8742012a0b27"
+        self.svnTargets["64c19545"] = "https://code.videolan.org/videolan/libplacebo||64c1954570f1cd57f8570a57e51fb0249b57bb90"
         self.svnTargets["master"] = "https://code.videolan.org/videolan/libplacebo"
-        self.defaultTarget = "2805a0d0"
+        self.defaultTarget = "64c19545"
 
         if CraftCore.compiler.isAndroid:
             for ver in ["2805a0d0", "master"]:
