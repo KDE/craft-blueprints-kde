@@ -1,5 +1,6 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from Blueprints.CraftVersion import CraftVersion
 
 
 class subinfo(info.infoclass):
