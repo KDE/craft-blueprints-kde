@@ -5,7 +5,7 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Unix & CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
