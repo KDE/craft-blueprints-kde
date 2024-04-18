@@ -67,10 +67,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/matio"] = None
         self.runtimeDependencies["libs/readstat"] = None
         self.runtimeDependencies["libs/discount"] = None
-        self.runtimeDependencies["libs/eigen3"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/python"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
+            self.runtimeDependencies["libs/eigen3"] = None
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         # needed by AppImage
         self.runtimeDependencies["libs/brotli"] = None
@@ -85,6 +85,8 @@ class Package(CMakePackageBase):
             self.supportsNinja = False
             # cerf.h is not found when using libcerf from ports
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
+            # eigen/Sparse not found in gitlab builds
+            self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
 
     def createPackage(self):
         self.defines["appname"] = "labplot2"
