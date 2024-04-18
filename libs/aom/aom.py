@@ -28,6 +28,7 @@ class Package(CMakePackageBase):
             "-DENABLE_NASM=ON",
             "-DCONFIG_PIC=1",
             "-DENABLE_EXAMPLES=OFF",
+            "-DENABLE_TESTS=OFF",
             f"-DAOM_TARGET_CPU={CraftCore.compiler.architecture.name.lower()}",
         ]
         if CraftCore.compiler.androidAbi == "armeabi-v7a":
