@@ -69,7 +69,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/discount"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/python"] = None
-        if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
+        if self.subinfo.buildTarget == "master" or self.subinfo.buildTarget > "2.10.1":
             self.runtimeDependencies["libs/eigen3"] = None
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         # needed by AppImage
