@@ -87,6 +87,8 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
+            # TODO: checking notarization issues
+            self.subinfo.options.configure.args += ["-DENABLE_NETCDF=OFF", "-DENABLE_HDF5=OFF"]
 
     def createPackage(self):
         self.defines["appname"] = "labplot2"
