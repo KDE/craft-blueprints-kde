@@ -38,13 +38,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblz4"] = None
-        self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/libzip"] = None
-        self.runtimeDependencies["libs/netcdf"] = None
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
+        else: # not on macOS until notarization can handle libnecdf.settings and libhdf5.settings
+            self.runtimeDependencies["libs/hdf5"] = None
+            self.runtimeDependencies["libs/netcdf"] = None
 
         self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
@@ -87,8 +88,6 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
-            # TODO: checking notarization issues
-            self.subinfo.options.configure.args += ["-DENABLE_NETCDF=OFF", "-DENABLE_HDF5=OFF"]
 
     def createPackage(self):
         self.defines["appname"] = "labplot2"
