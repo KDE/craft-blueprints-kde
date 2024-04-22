@@ -27,6 +27,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+        else:
+            self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
