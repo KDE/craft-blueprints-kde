@@ -9,6 +9,11 @@ class subinfo(info.infoclass):
         self.description = "KDE document viewer"
         self.displayName = "Okular"
 
+        self.patchLevel["24.02.1"] = 1
+        self.patchToApply["24.02.1"] = [
+            ("0001-Try-to-fix-compile-error-on-macOS.patch", 1),
+        ]
+
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtimageformats"] = None
