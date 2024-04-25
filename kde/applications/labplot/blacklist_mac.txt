@@ -7,5 +7,7 @@ plasma-kglobalaccel.service
 Contents/Frameworks/libhdf5.settings
 Contents/Frameworks/libnetcdf.settings
 Contents/Frameworks/systemd/user/plasma-kglobalaccel.service
+lib/libhdf5.settings
+lib/libnetcdf.settings
 # path blacklisted by kdenlive
 lib/systemd/user/plasma-kglobalaccel.service

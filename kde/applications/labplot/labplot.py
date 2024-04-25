@@ -39,13 +39,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblz4"] = None
         self.runtimeDependencies["libs/libzip"] = None
+        self.runtimeDependencies["libs/hdf5"] = None
+        self.runtimeDependencies["libs/netcdf"] = None
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
-        else: # not on macOS until notarization can handle libnecdf.settings and libhdf5.settings
-            self.runtimeDependencies["libs/hdf5"] = None
-            self.runtimeDependencies["libs/netcdf"] = None
 
         self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
@@ -93,7 +92,7 @@ class Package(CMakePackageBase):
         self.defines["appname"] = "labplot2"
 
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        # Some plugin files brake codesigning on macOS, which is picky about file names
+        # Some plugin files break codesigning on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.addExecutableFilter(r"bin/(?!(labplot|cantor_|QtWebEngineProcess)).*")
