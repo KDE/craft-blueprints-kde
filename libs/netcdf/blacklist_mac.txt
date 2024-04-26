@@ -1,0 +1,5 @@
+# rcodesign doesn't like libnetcdf.settings
+.*\.settings
+libnetcdf.settings
+Contents/Frameworks/libnetcdf.settings
+lib/libnetcdf.settings
