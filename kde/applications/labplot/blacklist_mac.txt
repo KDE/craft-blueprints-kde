@@ -1,6 +1,7 @@
 .*PlugIns/kf5/org\.kde\.kwindowsystem\.platforms.*
 
 # rcodesign doesn't like these
+.*\.settings
 libhdf5.settings
 libnetcdf.settings
 plasma-kglobalaccel.service

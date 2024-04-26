@@ -87,6 +87,8 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
+            # try disabling hdf5 on macOS to fi libhdf5.settings singing problem
+            self.subinfo.options.configure.args += ["-DENABLE_HDF5=OFF"]
 
     def createPackage(self):
         self.defines["appname"] = "labplot2"
@@ -153,4 +155,11 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".lml"]
 
         self.ignoredPackages.append("binary/mysql")
+        # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
+        if not CraftCore.compiler.isLinux:
+            self.ignoredPackages.append("libs/dbus")
+        # try fixing libhd5.settings signing problem on macOS
+        if CraftCore.compiler.isMacOS:
+            self.ignoredPackages.append("libs/hdf5")
+
         return super().createPackage()
