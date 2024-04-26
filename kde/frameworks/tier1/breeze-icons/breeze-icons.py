@@ -14,7 +14,7 @@ from CraftCore import CraftCore
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchLevel["6.1.0"] = 1
+        self.patchLevel["6.1.0"] = 2
 
         self.description = "Breeze icon theme."
 
@@ -31,5 +31,4 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if self.subinfo.options.dynamic.useIconResource:
-            self.subinfo.options.configure.args += ["-DSKIP_INSTALL_ICONS=ON", "-DICONS_LIBRARY=ON"]
+        self.subinfo.options.configure.args += ["-DSKIP_INSTALL_ICONS=ON", "-DICONS_LIBRARY=ON"]
