@@ -1,5 +1,6 @@
 import info
 import utils
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -12,7 +13,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtshadertools"] = None
-        self.runtimeDependencies["libs/qt6/qtlanguageserver"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/qt6/qtlanguageserver"] = None
 
 
 from Package.CMakePackageBase import *
