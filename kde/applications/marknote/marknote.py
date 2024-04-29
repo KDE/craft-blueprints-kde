@@ -1,5 +1,5 @@
-// SPDX-FileCopyrightText: 2024 Carl Schwan <carl@carlschwan.eu>
-// SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2024 Carl Schwan <carl@carlschwan.eu>
+# SPDX-License-Identifier: MIT
 
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
