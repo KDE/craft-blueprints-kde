@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcolorscheme"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         if not CraftCore.compiler.isAndroid:
