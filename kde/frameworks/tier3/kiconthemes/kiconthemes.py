@@ -9,12 +9,17 @@ class subinfo(info.infoclass):
 
         self.patchToApply["6.1.0"] = [("kiconthemes-6.1.0-20240415.diff", 1)]
         # enforce iconengine plugin is there on mac and Windows, on Linux this kills e.g. other Qt apps
-        if CraftCore.compiler.isMacOS or CraftCore.compiler.isWindows:
-            for ver in ["master"] + self.versionInfo.tarballs():
+        for ver in ["master"] + self.versionInfo.tarballs():
+            if CraftCore.compiler.isMacOS or CraftCore.compiler.isWindows:
                 if ver not in self.patchToApply:
                     self.patchToApply[ver] = []
                 self.patchToApply[ver] += [("svgiconengine.diff", 1)]
                 self.patchLevel[ver] = 1
+            elif not CraftCore.compiler.isAndroid:
+                # required for AppImage icon coloring
+                if ver not in self.patchToApply:
+                    self.patchToApply[ver] = []
+                self.patchToApply[ver] += [("registericonengine.diff", 1)]
         self.patchLevel["6.1.0"] = 2
         self.description = "Classes to improve the handling of icons"
 
