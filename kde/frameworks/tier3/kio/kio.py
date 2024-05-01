@@ -50,7 +50,7 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if OsUtils.isWin() or OsUtils.isMac() or OsUtils.isAndroid():
+        if CraftCore.compiler.isAndroid or CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF6Wallet=ON"]
 
     def configure(self):
