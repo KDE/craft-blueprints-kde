@@ -48,10 +48,8 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += [f"-DKIO_ASSERT_SLAVE_STATES={'ON' if self.buildType() == 'Debug' else 'OFF'}"]
-        self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF5DocTools=ON"]
-        if OsUtils.isWin() or OsUtils.isMac():
-            self.subinfo.options.configure.args += ["-DKIO_FORK_SLAVES=ON"]
+        if OsUtils.isWin() or OsUtils.isMac() or OsUtils.isAndroid():
+            self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF6Wallet=ON"]
 
     def configure(self):
         cfg = super().configure()
