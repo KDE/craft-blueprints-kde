@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
                 if ver not in self.patchToApply:
                     self.patchToApply[ver] = []
                 self.patchToApply[ver] += [("registericonengine.diff", 1)]
-        self.patchLevel["6.1.0"] = 2
+        self.patchLevel["6.1.0"] = 3
         self.description = "Classes to improve the handling of icons"
 
     def setDependencies(self):
