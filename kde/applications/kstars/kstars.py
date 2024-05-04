@@ -69,38 +69,6 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "mac-blacklist.txt"))
         self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF"]
 
-    def make(self):
-        if not super().make():
-            return False
-
-        if CraftCore.compiler.isMacOS:
-
-            # 	Defining Craft Directories
-            buildDir = str(self.buildDir())
-            sourceDir = str(self.sourceDir())
-            packageDir = str(self.blueprintDir())
-            imageDir = str(self.imageDir())
-            craftRoot = str(CraftCore.standardDirs.craftRoot())
-            craftLibDir = os.path.join(craftRoot, "lib")
-            KSTARS_APP = os.path.join(buildDir, "bin", "KStars.app")
-            KSTARS_RESOURCES = os.path.join(KSTARS_APP, "Contents", "Resources")
-            KSTARS_PLUGINS = os.path.join(KSTARS_APP, "Contents", "Plugins")
-
-            # KIO Slave and it's parts (For loading thumbnail images)
-            utils.system("cp -rf " + craftRoot + "/lib/libexec/kf5/kioslave5 " + KSTARS_APP + "/Contents/MacOS/")
-            utils.system("mkdir -p " + KSTARS_PLUGINS + "/kf5/kio")
-            utils.system("cp -f " + craftRoot + "/plugins/kf5/kio/kio_file.so " + KSTARS_PLUGINS + "/kf5/kio/")
-            utils.system("cp -f " + craftRoot + "/plugins/kf5/kio/kio_http.so " + KSTARS_PLUGINS + "/kf5/kio/")
-
-            # The Translations Directory
-            utils.system("cp -rf " + craftRoot + "/share/locale " + KSTARS_RESOURCES)
-
-            for path in utils.getLibraryDeps(str(KSTARS_APP + "/Contents/MacOS/kstars")):
-                if path.startswith(craftLibDir):
-                    utils.system(["install_name_tool", "-change", path, os.path.join("@rpath", os.path.basename(path)), KSTARS_APP + "/Contents/MacOS/kstars"])
-
-        return True
-
     def createPackage(self):
         self.defines["executable"] = "bin\\kstars.exe"
         # self.defines["setupname"] = "kstars-latest-win64.exe"
