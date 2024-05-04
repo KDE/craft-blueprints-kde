@@ -1,4 +1,4 @@
-# lib/(?!(mlt|frei0r-1|ladspa|.*\.so.*|.*kioslave|.*\.dylib|.*\.framework)).*
+# lib/(?!(mlt|frei0r-1|ladspa|.*\.so.*|.*kioworker|.*\.dylib|.*\.framework)).*
 etc/(?!(xdg)).*
 share/(?!(applications|color-schemes|config.kcfg|dbus-1|icon|k|locale|metainfo|mime|charsets|ffmpeg|mlt)).*
 bin/data/(?!(applications|color-schemes|config.kcfg|dbus-1|icon|k|locale|metainfo|mime)).*

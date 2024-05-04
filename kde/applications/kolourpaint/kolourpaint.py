@@ -28,7 +28,7 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         self.defines["executable"] = "bin\\kolourpaint.exe"
         self.defines["icon"] = self.blueprintDir() / "kolourpaint.ico"
-        self.addExecutableFilter(r"bin/(?!(kolourpaint|kioslave|update-mime-database)).*")
+        self.addExecutableFilter(r"bin/(?!(kolourpaint|kioworker|update-mime-database)).*")
 
         self.ignoredPackages.append("binary/mysql")
         return super().createPackage()

@@ -78,4 +78,4 @@ lib\\plugins\\kf5\\kio\\(?!(file|thumbnail)).*
 plugins\\kf5\\kio\\(?!(file|thumbnail)).*
 
 # strip most executables
-bin\\(?!(calligra*|karbon|kbuildsycoca5|update-mime-database|kioslave|dbus*)).*\.exe
+bin\\(?!(calligra*|karbon|kbuildsycoca5|update-mime-database|kioworker|dbus*)).*\.exe

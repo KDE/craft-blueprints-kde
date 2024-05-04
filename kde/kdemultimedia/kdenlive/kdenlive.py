@@ -101,7 +101,7 @@ class Package(CraftPackageObject.get("kde").pattern):
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "exclude.list"))
         else:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "exclude_macos.list"))
-        self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioslave|melt|update-mime-database|drmingw|data/kdenlive)).*")
+        self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioworker|melt|update-mime-database|drmingw|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.ignoredPackages.append("binary/mysql")

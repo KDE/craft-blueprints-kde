@@ -51,7 +51,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["shortcuts"] = [{"name": "Codevis", "target": "bin/codevis_desktop.exe", "description": self.subinfo.description}]
 
         # we have multiple codevis executables, we need to copy all of them.
-        self.addExecutableFilter(r"bin/(?!((codevis*)|kbuildsycoca5|update-mime-database|kioslave)).*")
+        self.addExecutableFilter(r"bin/(?!((codevis*)|kbuildsycoca5|update-mime-database|kioworker)).*")
 
         self.defines["file_types"] = [".lks"]
         self.defines["alias"] = "codevis"

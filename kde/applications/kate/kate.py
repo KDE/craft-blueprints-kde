@@ -43,7 +43,7 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        self.addExecutableFilter(r"(bin|libexec)/(?!(kate|update-mime-database|kioslave)).*")
+        self.addExecutableFilter(r"(bin|libexec)/(?!(kate|update-mime-database|kioworker)).*")
 
         self.defines["shortcuts"] = [{"name": "Kate", "target": "bin/kate.exe", "description": self.subinfo.description}]
 

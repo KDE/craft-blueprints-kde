@@ -14,11 +14,11 @@ class subinfo(info.infoclass):
         self.webpage = "https://rkward.kde.org"
 
         self.svnTargets["master"] = "https://invent.kde.org/education/rkward.git"
-        #self.addReleaseCandidate("0.7.5", "rc1")
-        #for ver in ["0.7.4"]:
+        # self.addReleaseCandidate("0.7.5", "rc1")
+        # for ver in ["0.7.4"]:
         #    self.targets[ver] = f"https://download.kde.org/stable/rkward/{ver}/rkward-{ver}.tar.gz"
         #    self.targetInstSrc[ver] = f"rkward-{ver}"
-        #self.targetDigests["0.7.4"] = (["7633f3b269f6cf2c067b3b09cbe3da3e0ffdcd9dc3ecb9a9fa63b4f865e8161e"], CraftHash.HashAlgorithm.SHA256)
+        # self.targetDigests["0.7.4"] = (["7633f3b269f6cf2c067b3b09cbe3da3e0ffdcd9dc3ecb9a9fa63b4f865e8161e"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "master"
 
     def setDependencies(self):
@@ -76,7 +76,7 @@ class Package(CMakePackageBase):
                 f"-DR_HOME={rhome}",
                 f"-DR_INCLUDEDIR={os.path.join(rhome, 'include')}",
                 f"-DR_SHAREDLIBDIR={os.path.join(rhome, 'lib')}",
-                "-DUSE_BINARY_PACKAGES=1"
+                "-DUSE_BINARY_PACKAGES=1",
             ]
 
     def fetch(self):
@@ -159,7 +159,7 @@ class Package(CMakePackageBase):
             for filename in ["lib/R/etc/Makeconf"]:
                 filename = os.path.join(self.archiveDir(), filename)
                 self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "$(APPDIR)/usr")  # NOTE: round braces, here
-            # quirkaround for making kioslaves work despite of https://github.com/linuxdeploy/linuxdeploy/issues/208 / https://invent.kde.org/packaging/craft/-/merge_requests/80
+            # quirkaround for making kioworkers work despite of https://github.com/linuxdeploy/linuxdeploy/issues/208 / https://invent.kde.org/packaging/craft/-/merge_requests/80
             for subpath in ["libexec/lib", "lib/libexec/lib", "plugins/lib", "plugins/kf5/lib"]:
                 utils.createSymlink(os.path.join(self.archiveDir(), "lib"), os.path.join(self.archiveDir(), subpath), targetIsDirectory=True)
         return super().preArchive()

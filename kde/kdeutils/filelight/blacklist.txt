@@ -5,4 +5,4 @@ bin/data/icons/.*
 bin/data/hunspell/.*
 
 # strip most executables
-bin/(?!(filelight|kioslave)).*\.exe
+bin/(?!(filelight|kioworker)).*\.exe

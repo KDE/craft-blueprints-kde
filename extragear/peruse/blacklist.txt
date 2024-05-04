@@ -136,7 +136,7 @@ lib/plugins/kf5/kio/(?!(file|thumbnail)).*
 plugins/kf5/kio/(?!(file|thumbnail)).*
 
 # strip most executables
-bin/(?!(peruse|kbuildsycoca5|update-mime-database|kioslave|gswin32c|gswin64c)).*\.exe
+bin/(?!(peruse|kbuildsycoca5|update-mime-database|kioworker|gswin32c|gswin64c)).*\.exe
 
 # some unneeded mysql things, because things further up pulls it in and we don't actually use it...
 bin/libmysql\.dll

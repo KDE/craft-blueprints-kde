@@ -30,7 +30,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=ON"]
 
     def createPackage(self):
-        self.addExecutableFilter(r"bin/(?!(kdiff3|kbuildsycoca5|update-mime-database|kioslave|QtWebEngineProcess)).*")
+        self.addExecutableFilter(r"bin/(?!(kdiff3|kbuildsycoca5|update-mime-database|kioworker|QtWebEngineProcess)).*")
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))

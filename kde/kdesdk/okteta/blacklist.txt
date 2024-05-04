@@ -45,7 +45,3 @@ mkspecs/.*
 # unneeded stuff from bin\
 # bin/qt\.conf
 bin/syncqt\.pl
-
-
-# strip most executables
-bin/(?!(okteta|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
