@@ -39,12 +39,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblz4"] = None
         self.runtimeDependencies["libs/libzip"] = None
-        self.runtimeDependencies["libs/hdf5"] = None
-        self.runtimeDependencies["libs/netcdf"] = None
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
+        else:
+            self.runtimeDependencies["libs/hdf5"] = None
+            self.runtimeDependencies["libs/netcdf"] = None
 
         self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
@@ -87,8 +88,10 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
-            # try disabling hdf5 on macOS to fi libhdf5.settings singing problem
+            # try disabling hdf5 on macOS to fix libhdf5.settings signing problem
             self.subinfo.options.configure.args += ["-DENABLE_HDF5=OFF"]
+            # same for netcdf
+            self.subinfo.options.configure.args += ["-DENABLE_NETCDF=OFF"]
 
     def createPackage(self):
         self.defines["appname"] = "labplot2"
@@ -161,5 +164,6 @@ class Package(CMakePackageBase):
         # try fixing libhd5.settings signing problem on macOS
         if CraftCore.compiler.isMacOS:
             self.ignoredPackages.append("libs/hdf5")
+            self.ignoredPackages.append("libs/netcdf")
 
         return super().createPackage()

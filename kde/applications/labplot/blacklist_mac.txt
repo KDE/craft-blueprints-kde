@@ -1,6 +1,9 @@
 .*PlugIns/kf5/org\.kde\.kwindowsystem\.platforms.*
+.*PlugIns/org\.kde\.kdecoration2.*
 
 # rcodesign doesn't like these
+lib/libhdf5.settings
+lib/libnetcdf.settings
 .*\.settings
 libhdf5.settings
 libnetcdf.settings
@@ -8,7 +11,5 @@ plasma-kglobalaccel.service
 Contents/Frameworks/libhdf5.settings
 Contents/Frameworks/libnetcdf.settings
 Contents/Frameworks/systemd/user/plasma-kglobalaccel.service
-lib/libhdf5.settings
-lib/libnetcdf.settings
 # path blacklisted by kdenlive
 lib/systemd/user/plasma-kglobalaccel.service
