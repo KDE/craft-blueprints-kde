@@ -100,19 +100,6 @@ class Package(CMakePackageBase):
             else:
                 rkward_ini.write("R executable=../lib/R/bin/x64/R.exe\n")
             rkward_ini.close()
-        elif OsUtils.isMac():
-            # Fix absolute library locations for R libs. Users may use RKWard with various versions of R (installed, separately), so
-            # we cannot set a stable relative path, either. However, the rkward frontend makes sure to cd to the appropriate directory
-            # when starting the backend, so the libs can be found by basename.
-            rkward_rbackend = os.path.join(self.imageDir(), "lib", "libexec", "rkward.rbackend")
-            if not os.path.exists(rkward_rbackend):
-                CraftCore.log.error(f"rkward.rbackend not found at {rkward_rbackend}")
-            rlibs = ["libR.dylib", "libRblas.dylib", "libRlapack.dylib"]
-            for path in utils.getLibraryDeps(str(rkward_rbackend)):
-                if os.path.basename(path) in rlibs:
-                    utils.system(["install_name_tool", "-change", path, os.path.join("@rpath", os.path.basename(path)), rkward_rbackend])
-            # Finally tell the loader to look in the current working directory (as set by the frontend)
-            utils.system(["install_name_tool", "-add_rpath", ".", rkward_rbackend])
         return ret
 
     def createPackage(self):
@@ -126,7 +113,6 @@ class Package(CMakePackageBase):
         if OsUtils.isMac():
             # We cannot reliably package R inside the bundle. Users will have to install it separately.
             self.ignoredPackages.append("binary/r-base")
-            self.externalLibs = {"@rpath/libR.dylib", "@rpath/libRblas.dylib", "@rpath/libRlapack.dylib"}
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("data/hunspell-dictionaries")
