@@ -97,8 +97,11 @@ class Package(CMakePackageBase):
             rkward_ini = open(os.path.join(self.imageDir(), "bin", "rkward.ini"), "w")
             if OsUtils.isLinux():
                 rkward_ini.write("R executable=../lib/R/bin/R\n")
-            else:
+            elif OsUtils.isWin():
                 rkward_ini.write("R executable=../lib/R/bin/x64/R.exe\n")
+            else:
+                # On Mac there is no sane way to bundle R along with RKWard, so make the default behavior to detect an R installation, automatically.
+                rkward_ini.write("R executable=auto\n")
             rkward_ini.close()
         return ret
 
@@ -113,13 +116,15 @@ class Package(CMakePackageBase):
         if OsUtils.isMac():
             # We cannot reliably package R inside the bundle. Users will have to install it separately.
             self.ignoredPackages.append("binary/r-base")
+            # Inspired by kate: exclude most binaries
+            self.ignoredPackages.append("libs/llvm")
+            self.addExecutableFilter(r"(bin|libexec)/(?!(kate|okular|kbibtex|rkward|pandoc|update-mime-database|kioworker)).*")
+            # Certain plugin files defeat codesigning on macOS, which is picky about file names -> TODO check/update list
+            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.whitelist_file.append(os.path.join(self.blueprintDir(), "whitelist.txt"))
-        # Certain plugin files defeat codesigning on macOS, which is picky about file names
-        if OsUtils.isMac():
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
         return super().createPackage()
 
@@ -131,13 +136,6 @@ class Package(CMakePackageBase):
             f.write(content.replace(old, new))
 
     def preArchive(self):
-        if OsUtils.isMac():
-            # On Mac there is no sane way to bundle R along with RKWard, so make the default behavior to detect an R installation, automatically.
-            rkward_dir = os.path.join(self.archiveDir(), "Applications", "KDE", "rkward.app", "Contents", "MacOS")
-            utils.createDir(rkward_dir)
-            rkward_ini = open(os.path.join(rkward_dir, "rkward.ini"), "w")
-            rkward_ini.write("R executable=auto\n")
-            rkward_ini.close()
         if OsUtils.isLinux() and isinstance(self, AppImagePackager):
             for filename in ["bin/R", "lib/R/bin/R", "lib/R/bin/libtool", "lib/R/etc/ldpaths", "lib/R/etc/Renviron"]:
                 filename = os.path.join(self.archiveDir(), filename)
