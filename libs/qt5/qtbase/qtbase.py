@@ -158,6 +158,11 @@ class Package(Qt5CorePackageBase):
                 configure = OsUtils.toUnixPath(os.path.join(self.sourceDir(), "configure.bat"))
             elif OsUtils.isUnix():
                 configure = os.path.join(self.sourceDir(), "configure")
+            if (
+                CraftCore.compiler.architecture == CraftCore.compiler.Architecture.x86_64
+                and CraftCore.compiler.hostArchitecture != CraftCore.compiler.Architecture.x86_64
+            ):
+                configure = f"arch -arch x86_64 {configure}"
 
             command = f"{configure} -confirm-license -prefix {CraftStandardDirs.craftRoot()} "
             # auto-detect the host platform when cross-compiling
