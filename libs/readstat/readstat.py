@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"readstat-{ver}"
         self.targetDigests["1.1.6"] = (["4b80558ab966ec0e0841b7359ee0b91a647a74f02b1b8816313c6f17ce663511"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.1.8"] = (["b18a0d68059d9665491e53838b3ca89b06c3bdaa3b0a11d4ba87d830b743e178"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["1.1.9"] = (["89af7c785a7ae3d9a7af6e64a69028829a429f66a14b1b913be22816dc07ddca"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.1.9"] = (["3a232b9e852d10173e2f25da9155afe2e129a30d1fc6c9aac142cdc5cbfe527e"], CraftHash.HashAlgorithm.SHA256)
         self.description = "A command-line tool and MIT-licensed C library for reading files from popular stats packages"
 
         self.patchToApply["1.1.8"] = [
