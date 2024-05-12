@@ -28,6 +28,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMSVC():
             self.patchToApply["1.1.6"] = [("readstat-1.1.6-compiler-flags.diff", 1)]
             self.patchToApply["1.1.8"] += [("readstat-1.1.6-compiler-flags.diff", 1)]
+            self.patchToApply["1.1.9"] = [("readstat-1.1.6-compiler-flags.diff", 1)]
 
         self.patchLevel["1.1.9"] = 1
 
