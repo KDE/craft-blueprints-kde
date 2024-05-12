@@ -48,8 +48,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/netcdf"] = None
 
         # Cantor is still Qt5 only
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "5":
-            self.runtimeDependencies["kde/applications/cantor"] = None
+        #self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
