@@ -5,5 +5,6 @@
 
 # Branches
 
-- `master`: update to existing stuff goes here
-- `dev`: ... unless it has chance of breaking everything and the kitchen sink then it goes here. Also, new caches go here.
+- `master`: update to existing stuff goes here (only supports Qt6)
+- `dev`: ... unless it has chance of breaking everything and the kitchen sink then it goes here. Also, new caches go here. Only supports Qt6.
+- `qt5-lts`: branch to continue support for Qt5, no major updates are expected here
