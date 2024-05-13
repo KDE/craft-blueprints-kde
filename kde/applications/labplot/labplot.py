@@ -39,13 +39,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblz4"] = None
         self.runtimeDependencies["libs/libzip"] = None
+        self.runtimeDependencies["libs/hdf5"] = None
+        self.runtimeDependencies["libs/netcdf"] = None
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
-        else:
-            self.runtimeDependencies["libs/hdf5"] = None
-            self.runtimeDependencies["libs/netcdf"] = None
 
         # Cantor is still Qt5 only
         #self.runtimeDependencies["kde/applications/cantor"] = None
@@ -162,9 +161,5 @@ class Package(CMakePackageBase):
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
-        # try fixing libhd5.settings signing problem on macOS
-        if CraftCore.compiler.isMacOS:
-            self.ignoredPackages.append("libs/hdf5")
-            self.ignoredPackages.append("libs/netcdf")
 
         return super().createPackage()
