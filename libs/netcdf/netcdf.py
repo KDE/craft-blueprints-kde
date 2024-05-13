@@ -58,7 +58,4 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ['-DCMAKE_C_FLAGS="/D_WIN32"', f"-DPACKAGE_VERSION={self.subinfo.buildTarget}"]
 
     def createPackage(self):
-        # Some plugin files break codesigning on macOS, which is picky about file names
-        if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         return super().createPackage()
