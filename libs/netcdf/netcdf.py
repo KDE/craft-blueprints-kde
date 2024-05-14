@@ -52,11 +52,14 @@ class Package(CMakePackageBase):
             self.subinfo.options.make.supportsMultijob = False
 
         hdf5dir = os.path.join(CraftStandardDirs.craftRoot(), "cmake", "hdf5")
-        # -DBUILD_TESTSETS=OFF -DENABLE_PARALLEL_TESTS=OFF -DENABLE_UNIT_TESTS=OFF
+        # -DENABLE_TESTS=OFF -DENABLE_EXAMPLE_TESTS=OFF -DENABLE_UNIT_TESTS=OFF -DENABLE_PARALLEL_TESTS=OFF
         # DAP needs static libcurl
         self.subinfo.options.configure.args = [f"-DHDF5_DIR={hdf5dir}", "-DENABLE_DAP=OFF"]
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += ['-DCMAKE_C_FLAGS="/D_WIN32"', f"-DPACKAGE_VERSION={self.subinfo.buildTarget}"]
+        # several errors building tests on macOS (clang 16?): incompatible function pointer types
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += ["-DENABLE_TESTS=OFF"]
 
     def createPackage(self):
         return super().createPackage()
