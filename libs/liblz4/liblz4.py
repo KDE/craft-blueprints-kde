@@ -10,12 +10,13 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://github.com/lz4/lz4/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"lz4-{ver}"
             self.archiveNames[ver] = f"lz4-{ver}.tar.gz"
-            if CraftCore.compiler.isMSVC():
-                self.targetConfigurePath[ver] = "contrib/cmake_unofficial"
+        if CraftCore.compiler.isMSVC():
+            self.targetConfigurePath["1.9.2"] = "contrib/cmake_unofficial"
+            self.targetConfigurePath["1.9.4"] = "build/cmake"
         self.targetDigests["1.9.2"] = (["658ba6191fa44c92280d4aa2c271b0f4fbc0e34d249578dd05e50e76d0e5efcc"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.9.4"] = (["0b0e3aa07c8c063ddf40b082bdf7e37a1562bda40a0ff5272957f3e987e0e54b"], CraftHash.HashAlgorithm.SHA256)
         self.description = "Extremely Fast Compression algorithm"
-        self.defaultTarget = "1.9.2"
+        self.defaultTarget = "1.9.4"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
