@@ -37,7 +37,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/zlib"] = None
-        self.runtimeDependencies["libs/liblz4"] = None
         self.runtimeDependencies["libs/libzip"] = None
         self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/netcdf"] = None
@@ -45,6 +44,8 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
+        else:
+            self.runtimeDependencies["libs/liblz4"] = None
 
         # Cantor is still Qt5 only
         #self.runtimeDependencies["kde/applications/cantor"] = None
