@@ -21,9 +21,9 @@ class subinfo(info.infoclass):
         for ver in ["2.9.0", "2.10.0", "2.10.1"]:
             self.targetInstSrc[ver] = "labplot-%s" % ver
         # beta versions
-        for ver in ["2.8.99"]:
-            self.targets[ver] = "https://download.kde.org/stable/labplot/2.9.0/labplot-2.9.0-beta.tar.xz"
-            self.targetInstSrc[ver] = "labplot-2.9.0-beta"
+        #for ver in ["2.8.99"]:
+        #    self.targets[ver] = "https://download.kde.org/stable/labplot/2.9.0/labplot-2.9.0-beta.tar.xz"
+        #    self.targetInstSrc[ver] = "labplot-2.9.0-beta"
 
         self.patchToApply["2.9.0"] = [("labplot-2.9.0.patch", 1)]
         self.patchLevel["2.9.0"] = 1
@@ -89,10 +89,6 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
-            # try disabling hdf5 on macOS to fix libhdf5.settings signing problem
-            self.subinfo.options.configure.args += ["-DENABLE_HDF5=OFF"]
-            # same for netcdf
-            self.subinfo.options.configure.args += ["-DENABLE_NETCDF=OFF"]
 
     def createPackage(self):
         self.defines["appname"] = "labplot2"
