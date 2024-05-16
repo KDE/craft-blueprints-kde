@@ -1,5 +1,6 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 
 
@@ -9,17 +10,18 @@ class subinfo(info.infoclass):
 
         self.patchToApply["6.1.0"] = [("kiconthemes-6.1.0-20240415.diff", 1)]
         # enforce iconengine plugin is there on mac and Windows, on Linux this kills e.g. other Qt apps
-        for ver in ["master"] + self.versionInfo.tarballs():
-            if CraftCore.compiler.isMacOS or CraftCore.compiler.isWindows:
-                if ver not in self.patchToApply:
-                    self.patchToApply[ver] = []
-                self.patchToApply[ver] += [("svgiconengine.diff", 1)]
-                self.patchLevel[ver] = 1
-            elif not CraftCore.compiler.isAndroid:
-                # required for AppImage icon coloring
-                if ver not in self.patchToApply:
-                    self.patchToApply[ver] = []
-                self.patchToApply[ver] += [("registericonengine.diff", 1)]
+        for ver in self.versionInfo.tarballs():
+            if ver < CraftVersion("6.2.0"):
+                if CraftCore.compiler.isMacOS or CraftCore.compiler.isWindows:
+                    if ver not in self.patchToApply:
+                        self.patchToApply[ver] = []
+                    self.patchToApply[ver] += [("svgiconengine.diff", 1)]
+                    self.patchLevel[ver] = 1
+                elif not CraftCore.compiler.isAndroid:
+                    # required for AppImage icon coloring
+                    if ver not in self.patchToApply:
+                        self.patchToApply[ver] = []
+                    self.patchToApply[ver] += [("registericonengine.diff", 1)]
         self.patchLevel["6.1.0"] = 3
         self.description = "Classes to improve the handling of icons"
 
@@ -41,3 +43,5 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        if CraftVersion("6.2.0") <= self.buildTarget <= CraftVersion("6.2.99"):
+            self.subinfo.options.configure.args += ["-DKICONTHEMES_REGISTER_ICON_PLUGIN=ON"]
