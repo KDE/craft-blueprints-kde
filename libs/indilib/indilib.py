@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2023 Julius Künzel <jk.kdedev@smartlab.uber.space>
 
+import os
 import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
