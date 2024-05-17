@@ -8,7 +8,7 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class Pattern(CMakePackageBase):
     def fixLibraryFolder(self, folder):
-        craftLibDir = CraftCore.standardDirs.craftRoot() / "lib"
+        craftLibDir = str(CraftCore.standardDirs.craftRoot() / "lib")
         for library in utils.filterDirectoryContent(str(folder)):
             for path in utils.getLibraryDeps(str(library)):
                 if path.startswith(craftLibDir):
@@ -27,7 +27,7 @@ class Pattern(CMakePackageBase):
 
     def __init__(self):
         super().__init__()
-        craftLibDir = CraftCore.standardDirs.craftRoot() / "lib"
+        craftLibDir = str(CraftCore.standardDirs.craftRoot() / "lib")
         self.subinfo.options.configure.args += [
             "-DCMAKE_MACOSX_RPATH=1",
             f"-DCMAKE_INSTALL_RPATH={craftLibDir}",
