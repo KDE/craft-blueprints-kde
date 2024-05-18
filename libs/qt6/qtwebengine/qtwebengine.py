@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.patchLevel["6.4.0"] = 1
         self.patchToApply["6.5.3"] = [(".6.5.3", 1)]
         self.patchToApply["6.6.0"] = [(".6.5.3", 1)]
+        self.patchLevel["6.7.0"] = 2
 
         for ver in ["6.6.1", "6.6.2"]:
             self.patchToApply[ver] = [
@@ -61,7 +62,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/tiff"] = None
         self.runtimeDependencies["libs/lcms2"] = None
 
-        if self.options.dynamic.withICU:
+        if self.options.dynamic.withICU and CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/icu"] = None
         if self.options.dynamic.withHarfBuzz:
             self.runtimeDependencies["libs/harfbuzz"] = None
@@ -78,7 +79,6 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             # no idea why cmake ignores the path env
             f"-DPython3_EXECUTABLE={shortDevUtils / 'bin/python3'}{CraftCore.compiler.executableSuffix}",
             "-DQT_FEATURE_qtwebengine_build=ON",
-            f"-DQT_FEATURE_webengine_system_icu={'ON' if self.subinfo.options.dynamic.withICU else 'OFF'}",
             # Package harfbuzz-subset was not found
             # f"-DQT_FEATURE_webengine_system_harfbuzz={'ON' if self.subinfo.options.dynamic.withHarfBuzz else 'OFF'}",
             f"-DQT_FEATURE_webengine_system_libwebp=ON",
@@ -89,6 +89,13 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             f"-DQT_FEATURE_webengine_system_lcms2=ON",
             f"-DQT_FEATURE_webengine_system_pulseaudio=OFF",
         ]
+        # See https://bugs.kde.org/show_bug.cgi?id=486905 and https://github.com/Homebrew/homebrew-core/issues/104008 :
+        # option not correctly supported on Windows and MacOS (as of Qt 6.7.0)
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.args += [f"-DQT_FEATURE_webengine_system_icu={'ON' if self.subinfo.options.dynamic.withICU else 'OFF'}"]
+        else:
+            self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_icu=OFF"]
+
         if CraftCore.compiler.isMSVC() and CraftVersion(self.buildTarget) < CraftVersion("6.7.0"):
             self.subinfo.options.configure.args += [
                 "-DCMAKE_CXX_COMPILER=clang-cl",
