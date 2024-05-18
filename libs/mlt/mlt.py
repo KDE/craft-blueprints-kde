@@ -78,7 +78,12 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["-DMOD_RTAUDIO=OFF", "-DMOD_SOX=OFF"]
 
-        self.subinfo.options.configure.args += ["-DMOD_QT=OFF", "-DMOD_QT6=ON", "-DMOD_GLAXNIMATE_QT6=ON"]
+        if self.subinfo.options.isActive("libs/libarchive"):
+            self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE_QT6=ON"]
+        else:
+            self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE_QT6=OFF"]
+
+        self.subinfo.options.configure.args += ["-DMOD_QT=OFF", "-DMOD_QT6=ON"]
 
         if CraftCore.compiler.isWindows:
             self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-Wno-incompatible-pointer-types"]
