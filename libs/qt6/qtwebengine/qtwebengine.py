@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.patchLevel["6.4.0"] = 1
         self.patchToApply["6.5.3"] = [(".6.5.3", 1)]
         self.patchToApply["6.6.0"] = [(".6.5.3", 1)]
-        self.patchLevel["6.7.0"] = 2
+        self.patchLevel["6.7.0"] = 3
 
         for ver in ["6.6.1", "6.6.2"]:
             self.patchToApply[ver] = [
@@ -135,3 +135,15 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
     def make(self):
         with utils.ScopedEnv(self._getEnv()):
             return super().make()
+
+    def install(self):
+        if not super().install():
+            return False
+
+        if CraftCore.compiler.isWindows and os.path.isdir(os.path.join(self.imageDir(), "resources")):
+            # move webengine resource files into location where they will still be found after deplyoment
+            # see https://doc.qt.io/qt-6/qtwebengine-deploying.html for lookup rules
+            if not utils.mergeTree(os.path.join(self.imageDir(), "resources"), os.path.join(self.imageDir(), "bin")):
+                return False
+        
+        return True
