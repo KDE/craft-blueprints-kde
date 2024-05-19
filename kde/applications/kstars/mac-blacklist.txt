@@ -16,6 +16,7 @@ manifest/.*
 .*\.hpp
 .*\.c
 .*\.cpp
+.*\.service
 include/.*
 lib/cmake/.*
 share/ECM/.*
