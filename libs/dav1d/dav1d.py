@@ -23,3 +23,7 @@ class subinfo(info.infoclass):
 class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += [
+            "-Denable_tests=false",
+            "-Denable_tools=false",
+        ]
