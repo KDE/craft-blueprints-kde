@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "64c19545"
 
         if CraftCore.compiler.isAndroid:
-            for ver in ["2805a0d0", "master"]:
+            for ver in ["64c19545", "master"]:
                 self.patchToApply[ver] = [
                     ("disable-soversion.patch", 1)
                 ]

@@ -1,12 +1,12 @@
 diff --git a/src/meson.build b/src/meson.build
-index 1260d1b6..e0ab4fa9 100644
+index 63f9d53c..16f14e8e 100644
 --- a/src/meson.build
 +++ b/src/meson.build
-@@ -242,7 +242,6 @@ lib = library('placebo', sources,
+@@ -243,7 +243,6 @@ lib = library('placebo', sources,
    c_args: ['-DPL_EXPORT'],
    install: true,
    dependencies: build_deps + glad_dep,
 -  soversion: apiver,
-   include_directories: [ inc, vulkan_headers_inc, fast_float_inc ],
+   include_directories: [ inc, vulkan_headers_inc, fast_float_inc, xxhash_inc ],
    link_args: link_args,
    link_depends: link_depends,
