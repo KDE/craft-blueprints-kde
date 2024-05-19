@@ -33,4 +33,4 @@ class Package(CMakePackageBase):
         ]
         if CraftCore.compiler.androidAbi == "armeabi-v7a":
             # building libwebm fails on Android ARM32; disable it
-            self.subinfo.options.configure.args += ["-DCONFIG_WEBM_IO=0"]
+            self.subinfo.options.configure.args += ["-DCONFIG_WEBM_IO=0", "-DAOM_TARGET_CPU=armv7a",]
