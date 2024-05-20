@@ -55,6 +55,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["qt-libs/phonon-vlc"] = None
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+            self.runtimeDependencies["libs/iconv"] = None
 
 
 from Package.CMakePackageBase import *
