@@ -113,11 +113,15 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(self.sourceDir(), "rkward", "icons", "app-icon", "rkward.ico")
         self.defines["file_types"] = [".R", ".Rdata", ".Rmd", ".rko"]
 
+        self.ignoredPackages.append("libs/llvm")
+        # VLC pulled in indirectly via okular. Removing this saves a bunch
+        self.ignoredPackages.append("libs/vlc")
+        self.ignoredPackages.append("binary/vlc")
+
         if OsUtils.isMac():
             # We cannot reliably package R inside the bundle. Users will have to install it separately.
             self.ignoredPackages.append("binary/r-base")
             # Inspired by kate: exclude most binaries
-            self.ignoredPackages.append("libs/llvm")
             self.addExecutableFilter(r"(bin|libexec)/(?!(kate|okular|kbibtex|rkward|pandoc|update-mime-database|kioworker)).*")
             # Certain plugin files defeat codesigning on macOS, which is picky about file names -> TODO check/update list
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
