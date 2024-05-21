@@ -117,14 +117,15 @@ class Package(CMakePackageBase):
         # VLC pulled in indirectly via okular. Removing this saves a bunch
         self.ignoredPackages.append("libs/vlc")
         self.ignoredPackages.append("binary/vlc")
+        # Inspired by kate: exclude most binaries
+        # contrary to kate, we leave libexec alone, entirely. It includes stuff we may not need, but difficult to sort out
+        # Note sed is used by R CMD
+        # Some, like bin/R, and kate, are not really needed, but cheap to include
+        self.addExecutableFilter(r"(bin)/(?!(kate|okular|kbibtex|rkward|pandoc|update-mime-database|kioworker|sed|qtwebengine|R|Rscript)).*")
 
         if OsUtils.isMac():
             # We cannot reliably package R inside the bundle. Users will have to install it separately.
             self.ignoredPackages.append("binary/r-base")
-            # Inspired by kate: exclude most binaries
-            self.addExecutableFilter(r"(bin|libexec)/(?!(kate|okular|kbibtex|rkward|pandoc|update-mime-database|kioworker)).*")
-            # Certain plugin files defeat codesigning on macOS, which is picky about file names -> TODO check/update list
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("data/hunspell-dictionaries")
@@ -147,7 +148,10 @@ class Package(CMakePackageBase):
             for filename in ["lib/R/etc/Makeconf"]:
                 filename = os.path.join(self.archiveDir(), filename)
                 self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "$(APPDIR)/usr")  # NOTE: round braces, here
-            # quirkaround for making kioworkers work despite of https://github.com/linuxdeploy/linuxdeploy/issues/208 / https://invent.kde.org/packaging/craft/-/merge_requests/80
-            for subpath in ["libexec/lib", "lib/libexec/lib", "plugins/lib", "plugins/kf5/lib"]:
+            # quirkaround for making kioworkers work despite of https://github.com/linuxdeploy/linuxdeploy/issues/208 / https://invent.kde.org/packaging/craft/-/merge_requests/80 ; NOTE: apparently still needed as of May 2024
+            for subpath in ["libexec/lib", "lib/libexec/lib", "plugins/lib", "plugins/kf6/lib"]:
                 utils.createSymlink(os.path.join(self.archiveDir(), "lib"), os.path.join(self.archiveDir(), subpath), targetIsDirectory=True)
+        elif OsUtils.isWin():
+            # NOTE / TODO: _temporary_ workaround for qtwebengine path problem https://invent.kde.org/packaging/craft/-/merge_requests/243
+            utils.mergeTree(os.path.join(self.archiveDir(), "resources"), os.path.join(self.archiveDir(), "bin"))
         return super().preArchive()
