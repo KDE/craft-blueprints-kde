@@ -13,6 +13,8 @@ class subinfo(info.infoclass):
         # https://invent.kde.org/frameworks/kio/-/merge_requests/1563
         self.patchToApply["6.0.0"] = [("merge-request-1563.patch", 1)]
 
+        self.patchLevel["6.1.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -39,18 +41,17 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
             self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["libs/qt6/qt5compat"] = None
+        if not CraftCore.compiler.isAndroid and not CraftCore.compiler.isWindows and not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
 
 
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += [f"-DKIO_ASSERT_SLAVE_STATES={'ON' if self.buildType() == 'Debug' else 'OFF'}"]
-        self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF5DocTools=ON"]
-        if OsUtils.isWin() or OsUtils.isMac():
-            self.subinfo.options.configure.args += ["-DKIO_FORK_SLAVES=ON"]
+        if CraftCore.compiler.isAndroid or CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF6Wallet=ON"]
 
     def configure(self):
         cfg = super().configure()

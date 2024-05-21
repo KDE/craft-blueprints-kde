@@ -1,5 +1,6 @@
 import info
 from Package.CMakePackageBase import *
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -27,5 +28,9 @@ class Package(CMakePackageBase):
             "-DENABLE_NASM=ON",
             "-DCONFIG_PIC=1",
             "-DENABLE_EXAMPLES=OFF",
+            "-DENABLE_TESTS=OFF",
             f"-DAOM_TARGET_CPU={CraftCore.compiler.architecture.name.lower()}",
         ]
+        if CraftCore.compiler.androidAbi == "armeabi-v7a":
+            # building libwebm fails on Android ARM32; disable it
+            self.subinfo.options.configure.args += ["-DCONFIG_WEBM_IO=0", "-DAOM_TARGET_CPU=armv7a",]

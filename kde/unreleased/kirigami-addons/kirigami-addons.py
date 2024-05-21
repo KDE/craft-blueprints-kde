@@ -1,5 +1,6 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from Blueprints.CraftVersion import CraftVersion
 
 
 class subinfo(info.infoclass):
@@ -9,12 +10,12 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/kirigami-addons.git"
 
         # stable
-        for ver in ["0.11.0", "1.0.1"]:
+        for ver in ["1.1.0", "1.2.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = "kirigami-addons-" + ver
 
-        self.defaultTarget = "1.0.1"
+        self.defaultTarget = "1.2.0"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -22,6 +23,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
+        if self.buildTarget == "master" or self.buildTarget > CraftVersion("1.1.0"):
+            self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
 

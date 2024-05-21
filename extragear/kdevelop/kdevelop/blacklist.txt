@@ -24,4 +24,4 @@ bin/LTO\.dll
 bin/dbus-env\.bat
 
 # strip most executables
-bin/(?!(kdevelop|kbuildsycoca5|update-mime-database|kioslave|QtWebEngineProcess)).*\.exe
+bin/(?!(kdevelop|kbuildsycoca5|update-mime-database|kioworker|QtWebEngineProcess)).*\.exe

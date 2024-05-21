@@ -31,5 +31,5 @@ class Package(CraftPackageObject.get("kde").pattern):
         super().__init__(**kwargs)
 
     def createPackage(self):
-        self.addExecutableFilter(r"bin/(?!(kig|update-mime-database|kioslave)).*")
+        self.addExecutableFilter(r"bin/(?!(kig|update-mime-database|kioworker)).*")
         return super().createPackage()

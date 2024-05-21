@@ -37,6 +37,7 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         self.defines["executable"] = "bin\\okteta.exe"
+        self.addExecutableFilter(r"bin/(?!(okteta|kbuildsycoca5|update-mime-database|kioworker)).*")
         # self.defines["icon"] = os.path.join(self.blueprintDir(), "okular.ico")
 
         self.ignoredPackages.append("binary/mysql")

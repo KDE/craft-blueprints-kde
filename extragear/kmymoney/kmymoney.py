@@ -57,7 +57,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
-        self.runtimeDependencies["libs/gpgme"] = None
+        self.runtimeDependencies["libs/gpgme/gpgme"] = None
+        self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
@@ -119,7 +120,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
-        self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(kmymoney|update-mime-database|kioslave|kdeinit5|QtWebEngineProcess)).*")
+        self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(kmymoney|update-mime-database|kioworker|kdeinit5|QtWebEngineProcess)).*")
         self.ignoredPackages.append("binary/mysql")
 
         return super().createPackage()

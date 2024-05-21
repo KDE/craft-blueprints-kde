@@ -62,4 +62,4 @@ bin/dbus-*\.exe
 bin/dbus-env\.bat
 
 # strip most executables
-bin/(?!(konversation|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
+bin/(?!(konversation|kbuildsycoca5|update-mime-database|kioworker)).*\.exe

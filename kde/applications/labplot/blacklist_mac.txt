@@ -1,1 +1,7 @@
 .*PlugIns/kf5/org\.kde\.kwindowsystem\.platforms.*
+.*PlugIns/org\.kde\.kdecoration2.*
+
+# rcodesign doesn't like these
+lib/libhdf5.settings
+lib/libnetcdf.settings
+lib/systemd/user/plasma-kglobalaccel.service

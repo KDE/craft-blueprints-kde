@@ -42,7 +42,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 

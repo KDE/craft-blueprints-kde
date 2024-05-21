@@ -1,4 +1,4 @@
 # blacklist
 
 # strip most executables
-bin/(?!(dolphin|update-mime-database|kioslave|dbus-launch|dbus-daemon)).*\.exe
+bin/(?!(dolphin|update-mime-database|kioworker|dbus-launch|dbus-daemon)).*\.exe

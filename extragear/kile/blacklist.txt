@@ -16,4 +16,4 @@ bin/QtQuick/.*
 bin/QtQuick.2/.*
 
 # strip most executables
-bin/(?!(kile|update-mime-database|kioslave)).*\.(exe|pdb)
+bin/(?!(kile|update-mime-database|kioworker)).*\.(exe|pdb)

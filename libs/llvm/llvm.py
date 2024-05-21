@@ -51,8 +51,6 @@ class subinfo(info.infoclass):
         self.defaultTarget = "18.1.2"
 
     def setDependencies(self):
-        # workaround, ensure system clang is used to build bjam
-        self.buildDependencies["libs/boost/boost-bjam"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["libs/libxml2"] = None
         self.buildDependencies["libs/libzstd"] = None

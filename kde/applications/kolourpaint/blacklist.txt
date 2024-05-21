@@ -1,4 +1,4 @@
 # blacklist
 
 # strip most executables
-bin/(?!(kolourpaint|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
+bin/(?!(kolourpaint|kbuildsycoca5|update-mime-database|kioworker)).*\.exe

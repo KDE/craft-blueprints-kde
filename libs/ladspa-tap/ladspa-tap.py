@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         # See https://tomscii.sig7.se/2024/01/Ditching-GitHub
         self.svnTargets["8564022"] = "https://git.hq.sig7.se/tap-plugins.git||85640223047d49a305e90ba1b92303eb066ba474"
         self.patchToApply["8564022"] = ("ladspa-tap-cmake.patch", 0)
-        self.patchLevel["8564022"] = 1
+        self.patchLevel["8564022"] = 2
 
         self.defaultTarget = "8564022"
 

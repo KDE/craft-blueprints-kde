@@ -49,7 +49,7 @@ class Package(CMakePackageBase):
         self.whitelist_file.append(self.blueprintDir() / "includelist.txt")
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.addExecutableFilter(
-            r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioslave|SnoreToast).*)"
+            r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioworker|SnoreToast).*)"
         )
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")

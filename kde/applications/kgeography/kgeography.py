@@ -28,5 +28,5 @@ class Package(CraftPackageObject.get("kde").pattern):
         super().__init__(**kwargs)
 
     def createPackage(self):
-        self.addExecutableFilter(r"bin/(?!(kgeography|update-mime-database|kioslave)).*")
+        self.addExecutableFilter(r"bin/(?!(kgeography|update-mime-database|kioworker)).*")
         return super().createPackage()

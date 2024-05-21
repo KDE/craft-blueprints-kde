@@ -40,7 +40,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         if CraftCore.compiler.isWindows:
             manifest = self.sourceDir() / "res/isoimagewriter.manifest"
             app = self.installDir(), "bin/isoimagewriter.exe"
-            self.addExecutableFilter(r"bin/(?!(isoimagewriter|update-mime-database|kioslave)).*")
+            self.addExecutableFilter(r"bin/(?!(isoimagewriter|update-mime-database|kioworker)).*")
             return utils.embedManifest(app, manifest)
         if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
             utils.copyFile(

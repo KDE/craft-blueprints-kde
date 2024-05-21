@@ -1,0 +1,26 @@
+commit 7549a49fe6b5e50c1ce988ff6fc99fe5f5720f69
+Author: Volker Krause <vkrause@kde.org>
+Date:   Wed Apr 17 18:06:02 2024 +0200
+
+    Fix Android build with Qt 6.7
+    
+    (cherry picked from commit 75ae4df171da3fa0498149fd76c73301c6514637)
+
+diff --git a/src/onboard/wifimonitor_android.cpp b/src/onboard/wifimonitor_android.cpp
+index 5418198a..7bfce509 100644
+--- a/src/onboard/wifimonitor_android.cpp
++++ b/src/onboard/wifimonitor_android.cpp
+@@ -84,7 +84,12 @@ WifiMonitor::WifiMonitor(QObject *parent)
+ 
+     if (!s_backend) {
+         s_backend = new WifiMonitorBackend;
+-        s_backend->wifiMonitor = QJniObject("org/kde/publictransport/onboard/WifiMonitor", "(Landroid/content/Context;)V", QNativeInterface::QAndroidApplication::context());
++#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
++        s_backend->wifiMonitor = QJniObject("org/kde/publictransport/onboard/WifiMonitor", QNativeInterface::QAndroidApplication::context());
++#else
++        s_backend->wifiMonitor = QJniObject("org/kde/publictransport/onboard/WifiMonitor", "(Landroid/content/Context;)V",
++                                            QNativeInterface::QAndroidApplication::context());
++#endif
+     }
+ 
+     s_backend->ref.ref();

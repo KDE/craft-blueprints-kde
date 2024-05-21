@@ -78,4 +78,4 @@ bin/qt\.conf
 bin/syncqt\.pl
 
 # strip most executables
-bin/(?!(elisa|dbus-daemon|dbus-launch|kbuildsycoca5|update-mime-database|kioslave)).*\.exe
+bin/(?!(elisa|dbus-daemon|dbus-launch|kbuildsycoca5|update-mime-database|kioworker)).*\.exe

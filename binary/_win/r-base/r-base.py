@@ -11,10 +11,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
     def setTargets(self):
-        for version in ["4.2.0", "4.1.2", "3.6.2"]:
+        for version in ["4.3.3"]:
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + version + "/" + "R-" + version + "-win.exe"
         self.targets["devel"] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "R-devel.exe"
-        self.defaultTarget = "4.2.0"
+        self.defaultTarget = "4.3.3"
 
 
 from Package.BinaryPackageBase import *
@@ -51,13 +51,7 @@ class Package(BinaryPackageBase):
         utils.copyDir(srcdir, r_rootdir)
 
         # create a shortcut in dstdir/bin
-        f = open(os.path.join(dstdir, "bin", "R.bat"), "w")
-        f.write(
-            "REM redirect to R.exe, autocreated during installation\n"
-            + os.path.join("%~dsp0", "..", "lib", "R", "bin", "R.exe")
-            + " %1 %2 %3 %4 %5 %6 %7 %8 %9\n"
-        )
-        f.close()
+        utils.createShim(os.path.join(dstdir, "bin", "R.exe"), os.path.join(r_rootdir, "bin", "R.exe"))
 
         # Pre-install R2HTML-package. It will almost certainly be needed.
         utils.system(

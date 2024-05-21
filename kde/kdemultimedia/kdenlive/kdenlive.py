@@ -48,6 +48,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
+        self.runtimeDependencies["kde/frameworks/tier4/frameworkintegration"] = None
         self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
         self.runtimeDependencies["kde/kdemultimedia/ffmpegthumbs"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
@@ -100,7 +101,7 @@ class Package(CraftPackageObject.get("kde").pattern):
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "exclude.list"))
         else:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "exclude_macos.list"))
-        self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioslave|melt|update-mime-database|drmingw|data/kdenlive)).*")
+        self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioworker|melt|update-mime-database|drmingw|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.ignoredPackages.append("binary/mysql")

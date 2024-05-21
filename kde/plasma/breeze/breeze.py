@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
 
         for ver in self.versionInfo.tarballs():
             self.patchToApply[ver] = ("breeze-noWinDrag.diff", 0)
-            self.patchLevel[ver] = 1
+            self.patchLevel[ver] = 3
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
@@ -25,20 +25,16 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
-        if not OsUtils.isWin():
-            self.runtimeDependencies["kde/frameworks/tier4/frameworkintegration"] = None
         if not OsUtils.isWin() and not OsUtils.isMac():
+            self.runtimeDependencies["kde/frameworks/tier4/frameworkintegration"] = None
             self.runtimeDependencies["kde/plasma/kdecoration"] = None
 
 
 class Package(CraftPackageObject.get("kde/plasma").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if OsUtils.isWin():
-            self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF5FrameworkIntegration=ON", "-DWITH_DECORATIONS=OFF"]
-
-        if OsUtils.isMac():
-            self.subinfo.options.configure.args += ["-DWITH_DECORATIONS=OFF"]
+        if OsUtils.isWin() or OsUtils.isMac():
+            self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF6FrameworkIntegration=ON", "-DWITH_DECORATIONS=OFF"]
         self.subinfo.options.configure.args += f"-DBUILD_QT5=OFF"
 
     def install(self):

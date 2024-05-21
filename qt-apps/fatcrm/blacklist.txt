@@ -1,2 +1,2 @@
 # strip most executables
-bin/(?!(fatcrm|dbus|kbuildsycoca5|update-mime-database|kioslave|QtWebEngineProcess|akonadi.*)).*\.exe
+bin/(?!(fatcrm|dbus|kbuildsycoca5|update-mime-database|kioworker|QtWebEngineProcess|akonadi.*)).*\.exe

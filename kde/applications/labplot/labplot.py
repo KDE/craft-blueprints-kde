@@ -21,9 +21,9 @@ class subinfo(info.infoclass):
         for ver in ["2.9.0", "2.10.0", "2.10.1"]:
             self.targetInstSrc[ver] = "labplot-%s" % ver
         # beta versions
-        for ver in ["2.8.99"]:
-            self.targets[ver] = "https://download.kde.org/stable/labplot/2.9.0/labplot-2.9.0-beta.tar.xz"
-            self.targetInstSrc[ver] = "labplot-2.9.0-beta"
+        #for ver in ["2.8.99"]:
+        #    self.targets[ver] = "https://download.kde.org/stable/labplot/2.9.0/labplot-2.9.0-beta.tar.xz"
+        #    self.targetInstSrc[ver] = "labplot-2.9.0-beta"
 
         self.patchToApply["2.9.0"] = [("labplot-2.9.0.patch", 1)]
         self.patchLevel["2.9.0"] = 1
@@ -37,16 +37,18 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/zlib"] = None
-        self.runtimeDependencies["libs/liblz4"] = None
-        self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/libzip"] = None
+        self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/netcdf"] = None
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
+        else:
+            self.runtimeDependencies["libs/liblz4"] = None
 
-        self.runtimeDependencies["kde/applications/cantor"] = None
+        # Cantor is still Qt5 only
+        #self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -85,12 +87,14 @@ class Package(CMakePackageBase):
             self.supportsNinja = False
             # cerf.h is not found when using libcerf from ports
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
+            # eigen/Sparse not found in gitlab builds
+            self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
 
     def createPackage(self):
         self.defines["appname"] = "labplot2"
 
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        # Some plugin files brake codesigning on macOS, which is picky about file names
+        # Some plugin files break codesigning on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.addExecutableFilter(r"bin/(?!(labplot|cantor_|QtWebEngineProcess)).*")
@@ -151,4 +155,8 @@ class Package(CMakePackageBase):
         self.defines["file_types"] = [".lml"]
 
         self.ignoredPackages.append("binary/mysql")
+        # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
+        if not CraftCore.compiler.isLinux:
+            self.ignoredPackages.append("libs/dbus")
+
         return super().createPackage()

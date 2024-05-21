@@ -44,7 +44,3 @@ mkspecs/.*
 # unneeded stuff from bin\
 # bin/qt\.conf
 bin/syncqt\.pl
-
-
-# strip most executables
-bin/(?!(dbus-daemon|dbus-send|dbus-monitor|dbus-launch|qdbus|qdbusviewer|kbuildsycoca5|umbrello|update-mime-database|kioslave)).*\.exe

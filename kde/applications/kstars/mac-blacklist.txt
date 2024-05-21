@@ -119,9 +119,6 @@ share/(?!(dbus).*)
 
 # Mac: Avoid packaging errors due to items that are already in the app bundle
 share/knotifications5/kstars.notifyrc
-bin/.*
-plugins/kf5/kio/.*
-lib/libexec/kf5/kioslave5
 lib/libphonon4qt5.4.dylib
 lib/libphonon4qt5experimental.4.dylib
 lib/libgphoto2/.*

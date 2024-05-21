@@ -96,7 +96,7 @@ bin/syncqt\.pl
 
 # strip most executables
 
-bin/(?!(digikam|showfoto|avplayer|kbuildsycoca5|update-mime-database|kioslave|QtWebEngineProcess)).*\.exe
+bin/(?!(digikam|showfoto|avplayer|kbuildsycoca5|update-mime-database|kioworker|QtWebEngineProcess)).*\.exe
 
 # TODO build dependencies
 

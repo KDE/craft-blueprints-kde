@@ -15,7 +15,7 @@
 - Include Qt translations.
 - Include QtwebEngine resources.
 - Use blacklist.txt from kmymoney.
-- Fix binaries to white-list: digikam.exe, showfoto.exe, avplayer.exe, QtWebEngineProcess.exe, kioslave.exe, etc.
+- Fix binaries to white-list: digikam.exe, showfoto.exe, avplayer.exe, QtWebEngineProcess.exe, kioworker.exe, etc.
 - Drop unwanted Marble files.
 - Fix Marble dlls install path.
 - Includes exiftool.exe in the installer.

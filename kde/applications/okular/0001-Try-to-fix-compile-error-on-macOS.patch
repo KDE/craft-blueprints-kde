@@ -1,0 +1,43 @@
+From d7ceca3cb1194ac63966fa593142fe0ff460fad2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <jk.kdedev@smartlab.uber.space>
+Date: Fri, 23 Feb 2024 22:17:20 +0000
+Subject: [PATCH] Try to fix compile error on macOS
+
+---
+ shell/shell.cpp | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/shell/shell.cpp b/shell/shell.cpp
+index 9074a1603..7ff597b7c 100644
+--- a/shell/shell.cpp
++++ b/shell/shell.cpp
+@@ -28,7 +28,7 @@
+ #include <KRecentFilesAction>
+ #include <KSharedConfig>
+ #include <KStandardAction>
+-#ifndef Q_OS_WIN
++#if !defined(Q_OS_WIN) && !defined(Q_OS_OSX)
+ #include <KStartupInfo>
+ #include <KWindowInfo>
+ #endif
+@@ -429,7 +429,7 @@ bool Shell::canOpenDocs(int numDocs, int desktop)
+         return false;
+     }
+ 
+-#ifndef Q_OS_WIN
++#if !defined(Q_OS_WIN) && !defined(Q_OS_OSX)
+     const KWindowInfo winfo(window()->effectiveWinId(), NET::WMDesktop);
+     if (winfo.desktop() != desktop) {
+         return false;
+@@ -705,7 +705,7 @@ void Shell::fileOpen()
+ 
+ void Shell::tryRaise(const QString &startupId)
+ {
+-#ifndef Q_OS_WIN
++#if !defined(Q_OS_WIN) && !defined(Q_OS_OSX)
+     if (KWindowSystem::isPlatformWayland()) {
+         KWindowSystem::setCurrentXdgActivationToken(startupId);
+     } else if (KWindowSystem::isPlatformX11()) {
+-- 
+2.44.0
+
