@@ -17,6 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/python"] = None
+        self.runtimeDependencies["libs/discount"] = None
         # required on macOS
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
