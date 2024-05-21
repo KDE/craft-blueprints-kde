@@ -15,14 +15,14 @@ class subinfo(info.infoclass):
         self.displayName = "Haruna"
         self.description = "Media player built with Qt/QML, KDE Frameworks and libmpv"
         self.svnTargets["master"] = "https://invent.kde.org/multimedia/haruna.git"
-        self.defaultTarget = "1.1.0"
+        self.defaultTarget = "1.1.1"
 
-        for ver in ["1.1.0"]:
+        for ver in ["1.1.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/haruna/haruna-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"haruna-{ver}"
             self.archiveNames[ver] = f"haruna-{ver}.tar.gz"
 
-        self.targetDigests["1.1.0"] = (["29382f561ca39d9d00843c1ea3b7d862fd2193a818d4d49c179c69a453c79a4d"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.1.1"] = (["b665d7405e0bbae195fd63ba794371563ac00c4e2efce3bafcee4237281fee55"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
