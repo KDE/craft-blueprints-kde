@@ -37,6 +37,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libev"] = None
             self.runtimeDependencies["libs/libxisf"] = None
             self.runtimeDependencies["libs/iconv"] = None
+            if CraftCore.compiler.isLinux:
+                self.buildDependencies["libs/iconv"] = None
 
 
 class Package(CraftPackageObject.get("libs/indilib").pattern):
