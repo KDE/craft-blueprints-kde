@@ -9,8 +9,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/libraries/kpublictransport.git")
         self.description = "Library for accessing public transport data"
-        self.patchToApply["24.02.1"] = [("qt67-compat-fix.diff", 1)]
-        self.patchLevel["24.02.1"] = 1
+        self.patchToApply["24.02.2"] = [("qt67-compat-fix.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
