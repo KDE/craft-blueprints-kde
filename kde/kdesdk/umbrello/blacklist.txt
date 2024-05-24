@@ -22,13 +22,14 @@ share/apps/ark/.*
 share/apps/kgpg/.*
 share/kf5/kdoctools/.*
 lib/.*
+libexec/.*
 bin/data/(?!(icontheme.rcc|umbrello|kxmlgui5|dbus-1)).*
 
 # unrelated
 dev-utils/.*
 share/dbus-1/services/.*
 share/pkgconfig/.*
-share/application/.*(?!umbrello).*
+share/.*
 etc/.*
 certs/.*
 
@@ -47,4 +48,4 @@ bin/syncqt\.pl
 
 
 # strip most executables
-bin/(?!(dbus-daemon|dbus-send|dbus-monitor|dbus-launch|qdbus|qdbusviewer|kbuildsycoca5|umbrello|update-mime-database|kioslave|po2xmi5|xmi2pot5)).*
+bin/(?!(dbus-daemon|dbus-send|dbus-monitor|dbus-launch|qdbus|qdbusviewer|kbuildsycoca5|umbrello|update-mime-database|kioslave|po2xmi5|xmi2pot5)).*\.exe
