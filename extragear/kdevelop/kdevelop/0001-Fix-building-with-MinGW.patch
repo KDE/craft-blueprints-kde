@@ -1,0 +1,89 @@
+From 09ce000541b3be6784920fa38b92a2a1dfa48eed Mon Sep 17 00:00:00 2001
+From: Ralf Habacker <ralf.habacker@freenet.de>
+Date: Fri, 24 May 2024 13:00:43 +0200
+Subject: [PATCH] Fix building with MinGW
+
+---
+ plugins/debuggercommon/stty.cpp                           | 6 ++++--
+ plugins/debuggercommon/tests/debuggees/debugeepath.cpp    | 4 ++--
+ plugins/debuggercommon/tests/debuggees/debugeeslow.cpp    | 2 +-
+ plugins/debuggercommon/tests/debuggees/debugeethreads.cpp | 2 +-
+ 4 files changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/plugins/debuggercommon/stty.cpp b/plugins/debuggercommon/stty.cpp
+index f8a899cfd9..5fb1fc83a9 100644
+--- a/plugins/debuggercommon/stty.cpp
++++ b/plugins/debuggercommon/stty.cpp
+@@ -16,12 +16,14 @@
+ #include <config.h>
+ #endif
+ 
++#include <QtGlobal>
++
+ #ifdef __osf__
+ #define _XOPEN_SOURCE_EXTENDED
+ #endif
+ 
+ #include <sys/types.h>
+-#ifndef _MSC_VER
++#ifndef Q_OS_WIN
+ #include <sys/ioctl.h>
+ #include <sys/wait.h>
+ #include <sys/time.h>
+@@ -36,7 +38,7 @@
+ 
+ #include <cassert>
+ #include <fcntl.h>
+-#ifndef _MSC_VER
++#ifndef Q_OS_WIN
+ #include <grp.h>
+ #include <termios.h>
+ #include <unistd.h>
+diff --git a/plugins/debuggercommon/tests/debuggees/debugeepath.cpp b/plugins/debuggercommon/tests/debuggees/debugeepath.cpp
+index 8c4c4d1c3d..8f7962c01a 100644
+--- a/plugins/debuggercommon/tests/debuggees/debugeepath.cpp
++++ b/plugins/debuggercommon/tests/debuggees/debugeepath.cpp
+@@ -20,12 +20,12 @@
+  */
+ 
+ #include <iostream>
+-#ifndef _MSC_VER
++#ifndef Q_OS_WIN
+ #include <unistd.h>
+ #else
+ #include <direct.h>
+ #define getcwd _getcwd
+-#endif // !_MSC_VER
++#endif // !Q_OS_WIN
+ 
+ int main()
+ {
+diff --git a/plugins/debuggercommon/tests/debuggees/debugeeslow.cpp b/plugins/debuggercommon/tests/debuggees/debugeeslow.cpp
+index 1990eeda50..7d006393f7 100644
+--- a/plugins/debuggercommon/tests/debuggees/debugeeslow.cpp
++++ b/plugins/debuggercommon/tests/debuggees/debugeeslow.cpp
+@@ -18,7 +18,7 @@
+ 
+ #include <iostream>
+ 
+-#ifndef _MSC_VER
++#ifndef Q_OS_WIN
+ #include <unistd.h>
+ #else
+ #include <Windows.h>
+diff --git a/plugins/debuggercommon/tests/debuggees/debugeethreads.cpp b/plugins/debuggercommon/tests/debuggees/debugeethreads.cpp
+index cfdca086d9..5a4a2f1817 100644
+--- a/plugins/debuggercommon/tests/debuggees/debugeethreads.cpp
++++ b/plugins/debuggercommon/tests/debuggees/debugeethreads.cpp
+@@ -17,7 +17,7 @@
+ */
+ #include <iostream>
+ #include <QThread>
+-#ifndef _MSC_VER
++#ifndef Q_OS_WIN
+ #include <unistd.h>
+ #endif
+ 
+-- 
+2.44.0
+
