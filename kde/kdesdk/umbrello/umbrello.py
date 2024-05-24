@@ -52,7 +52,7 @@ class Package(CraftPackageObject.get("kde").pattern):
             self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
     def createPackage(self):
-        self.defines["appname"] = "umbrello5"
+        self.defines["appname"] = "umbrello"
         self.defines["executable"] = "bin\\umbrello5.exe"
         # self.defines["icon"] = os.path.join(self.blueprintDir(), "umbrello.ico")
 
