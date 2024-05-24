@@ -28,7 +28,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt5/qtquickcontrols"] = None
-        self.runtimeDependencies["libs/qt/qtwebengine"] = (None, DependencyRequirementType.Required)
+        if CraftCore.compiler.isMinGW():
+            self.runtimeDependencies["libs/qt5/qtwebkit"] = (None, DependencyRequirementType.Required)
+        else:
+            self.runtimeDependencies["libs/qt/qtwebengine"] = (None, DependencyRequirementType.Required)
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
