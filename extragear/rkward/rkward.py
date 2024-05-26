@@ -126,6 +126,9 @@ class Package(CMakePackageBase):
         if OsUtils.isMac():
             # We cannot reliably package R inside the bundle. Users will have to install it separately.
             self.ignoredPackages.append("binary/r-base")
+        if not OsUtils.isLinux():
+            # DBus support is flakey outside of Windows: https://mail.kde.org/pipermail/kde-devel/2024-May/002747.html
+            self.ignoredPackages.append("libs/dbus")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("data/hunspell-dictionaries")
