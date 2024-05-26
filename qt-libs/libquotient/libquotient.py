@@ -16,9 +16,6 @@ class subinfo(info.infoclass):
         self.targetDigests["0.8.2"] = (["12ff2fa8b80a934b9dd88fa3416a4b88e94bc0e18a8df0dcebfc90614dd2f5c9"], CraftHash.HashAlgorithm.SHA256)
 
         self.defaultTarget = "0.8.2"
-        if CraftCore.compiler.isAndroid:
-            # 0.8.2 uses C++ API that isn't available in our NDK r25 images yet
-            self.defaultTarget = "0.8.1.1"
         self.description = "A Qt library to write cross-platform clients for Matrix"
 
     def setDependencies(self):
