@@ -51,6 +51,7 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
             f"-DINDI_BUILD_SERVER={'ON' if self.subinfo.options.dynamic.buildServer else 'OFF'}",
             "-DINDI_BUILD_QT5_CLIENT=OFF",
             "-DINDI_BUILD_SHARED=ON",
+            "-DINDI_BUILD_STATIC=OFF"
         ]
 
     def install(self):
