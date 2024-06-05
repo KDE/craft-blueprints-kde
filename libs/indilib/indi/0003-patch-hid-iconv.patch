@@ -1,5 +1,18 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f5cda74c4..4baf06874 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -300,6 +300,8 @@ if(INDI_BUILD_DRIVERS)
+         find_library(M_LIB m)
+         if(CYGWIN)
+             find_package(Iconv REQUIRED)
++        else()
++            find_package(Iconv)
+         endif()
+
+         if(CMAKE_VERSION VERSION_LESS 3.12.0)
 diff --git a/libs/hid/CMakeLists.txt b/libs/hid/CMakeLists.txt
-index 8bd30d98a..fecaf0e30 100644
+index 8bd30d98a..1c38812be 100644
 --- a/libs/hid/CMakeLists.txt
 +++ b/libs/hid/CMakeLists.txt
 @@ -43,7 +43,7 @@ install(FILES
@@ -7,6 +20,6 @@ index 8bd30d98a..fecaf0e30 100644
  if(APPLE)
      set(LIBS "-framework IOKit -framework CoreFoundation")
 -elseif(CYGWIN)
-+elseif(UNIX)
++elseif(Iconv_FOUND)
      set(LIBS ${ICONV_LIBRARIES})
  endif()
