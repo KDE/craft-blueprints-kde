@@ -9,8 +9,15 @@ class subinfo(info.infoclass):
 
         self.description = "INDI Library"
 
-        self.patchToApply["2.0.6"] = [("0001-patch-indiclient-include.patch", 1), ("0002-patch-indidriver-library.patch", 1)]
-        self.patchToApply["2.0.7"] = [("0010-patch-indiserver-strict.patch", 1)]
+        self.patchToApply["2.0.6"] = [
+            ("0001-patch-indiclient-include.patch", 1),
+            ("0002-patch-indidriver-library.patch", 1),
+            ("0003-patch-hid-iconv.patch", 1)]
+        self.patchToApply["2.0.7"] = [
+            ("0010-patch-indiserver-strict.patch", 1),
+            ("0003-patch-hid-iconv.patch", 1)]
+        self.patchToApply["2.0.8"] = [
+            ("0003-patch-hid-iconv.patch", 1)]
 
     def registerOptions(self):
         self.options.dynamic.registerOption("buildClient", True)

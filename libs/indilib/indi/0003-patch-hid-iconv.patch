@@ -1,0 +1,12 @@
+diff --git a/libs/hid/CMakeLists.txt b/libs/hid/CMakeLists.txt
+index 8bd30d98a..fecaf0e30 100644
+--- a/libs/hid/CMakeLists.txt
++++ b/libs/hid/CMakeLists.txt
+@@ -43,7 +43,7 @@ install(FILES
+ # ########## HID Test ##############
+ if(APPLE)
+     set(LIBS "-framework IOKit -framework CoreFoundation")
+-elseif(CYGWIN)
++elseif(UNIX)
+     set(LIBS ${ICONV_LIBRARIES})
+ endif()
