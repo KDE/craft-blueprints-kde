@@ -56,9 +56,9 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
             f"-DINDI_BUILD_DRIVERS={'ON' if self.subinfo.options.dynamic.buildServer else 'OFF'}",
             f"-DINDI_BUILD_CLIENT={'ON' if self.subinfo.options.dynamic.buildClient else 'OFF'}",
             f"-DINDI_BUILD_SERVER={'ON' if self.subinfo.options.dynamic.buildServer else 'OFF'}",
-            f"-DINDI_BUILD_QT5_CLIENT={'ON' if CraftCore.compiler.isWindows and self.subinfo.options.dynamic.buildClient else 'OFF'}",
-            "-DINDI_BUILD_SHARED=ON",
-            "-DINDI_BUILD_STATIC=OFF"
+            "-DINDI_BUILD_QT5_CLIENT=OFF",
+            "-DINDI_BUILD_SHARED=OFF",
+            "-DINDI_BUILD_STATIC=ON"
         ]
 
     def install(self):
