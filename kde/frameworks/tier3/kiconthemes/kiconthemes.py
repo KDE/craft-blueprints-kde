@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.patchToApply["6.1.0"] = [("kiconthemes-6.1.0-20240415.diff", 1)]
+        self.patchToApply["6.3.0"] = [("iconenginedir.diff", 1)]
         # enforce iconengine plugin is there on mac and Windows, on Linux this kills e.g. other Qt apps
         for ver in self.versionInfo.tarballs():
             if ver < CraftVersion("6.2.0"):
