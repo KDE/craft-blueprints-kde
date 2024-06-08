@@ -31,7 +31,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
         # not strictly runtimeDependencies, but should be included in the package for plugins and extra functionality
-        self.runtimeDependencies["kde/applications/kate"] = None
+        self.runtimeDependencies["kde/applications/kate"] = "master" # TODO: only temporarily, while default target 24.05 is not buildable due to dbus breakage
         if not OsUtils.isMac():
             # kbibtex does not properly build on macOS, yet, and is optional
             self.runtimeDependencies["extragear/kbibtex"] = None
@@ -121,14 +121,11 @@ class Package(CMakePackageBase):
         # contrary to kate, we leave libexec alone, entirely. It includes stuff we may not need, but difficult to sort out
         # Note sed is used by R CMD
         # Some, like bin/R, and kate, are not really needed, but cheap to include
-        self.addExecutableFilter(r"(bin)/(?!(kate|okular|kbibtex|rkward|pandoc|update-mime-database|kioworker|sed|qtwebengine|R|Rscript)).*")
+        self.addExecutableFilter(r"(bin)/(?!(kate|dbus|okular|kbibtex|rkward|pandoc|update-mime-database|kioworker|sed|qtwebengine|R|Rscript)).*")
 
         if OsUtils.isMac():
             # We cannot reliably package R inside the bundle. Users will have to install it separately.
             self.ignoredPackages.append("binary/r-base")
-        if not OsUtils.isLinux():
-            # DBus support is flakey outside of Windows: https://mail.kde.org/pipermail/kde-devel/2024-May/002747.html
-            self.ignoredPackages.append("libs/dbus")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("data/hunspell-dictionaries")
