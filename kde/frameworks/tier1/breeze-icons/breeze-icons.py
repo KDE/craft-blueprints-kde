@@ -32,4 +32,6 @@ class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DSKIP_INSTALL_ICONS=ON", "-DICONS_LIBRARY=ON"]
+        if OsUtils.isWin(): # workaround for failure of generate-24px-versions.py to create any output
+            self.subinfo.options.configure.args += ["-DWITH_ICON_GENERATION=OFF"]
         self.subinfo.options.unpack.keepSymlinksOnWindows = CraftVersion(self.buildTarget) > "6.2.99"
