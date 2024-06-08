@@ -88,7 +88,9 @@ class Package(CraftPackageObject.get("kde").pattern):
                 "FREI0R_PATH=$this_dir/usr/lib/frei0r-1",
                 "MLT_PROFILES_PATH=$this_dir/usr/share/mlt-7/profiles/",
                 "MLT_PRESETS_PATH=$this_dir/usr/share/mlt-7/presets/",
-                "QT_QPA_PLATFORM=xcb",
+                # Set QT_QPA_PLATFORM only if not already done.
+                # Eg. to run the AppImage for headless rendering it might be needed to choose "offscreen"
+                "QT_QPA_PLATFORM=${QT_QPA_PLATFORM:-xcb}",
                 "SDL_AUDIODRIVER=pulseaudio",
                 "ALSA_CONFIG_DIR=/usr/share/alsa",
                 "ALSA_PLUGIN_DIR=/usr/lib/x86_64-linux-gnu/alsa-lib",
