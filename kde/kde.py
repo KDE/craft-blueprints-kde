@@ -30,7 +30,7 @@ class Pattern(CMakePackageBase):
 
         with open(cacheFile) as f:
             for line in f:
-                x = re.search("CMAKE_PROJECT_VERSION.*?=(.*)", line)
+                x = re.search(r"^CMAKE_PROJECT_VERSION\b.*=(.*)", line)
                 if x:
                     return x.group(1)
 
@@ -45,7 +45,7 @@ class Pattern(CMakePackageBase):
         with open(cmakeFile) as f:
             for line in f:
                 for var in ["RELEASE_SERVICE_VERSION_MAJOR", "RELEASE_SERVICE_VERSION_MINOR", "RELEASE_SERVICE_VERSION_MICRO"]:
-                    regex = f'set\s*?\({var}\s+?"(\d+)"\)'
+                    regex = fr'set\s*\({var}\s+"(\d+)"\)'
                     x = re.search(regex, line)
                     if x:
                         values[var] = x.group(1)
@@ -57,7 +57,6 @@ class Pattern(CMakePackageBase):
             minor = values["RELEASE_SERVICE_VERSION_MINOR"]
             micro = values["RELEASE_SERVICE_VERSION_MICRO"]
 
-            version = f"{major}.{minor}.{micro}"
-
-        finally:
-            return version
+            return f"{major}.{minor}.{micro}"
+        except KeyError:
+            return None
