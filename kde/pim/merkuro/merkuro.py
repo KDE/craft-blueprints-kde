@@ -30,6 +30,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
+        self.runtimeDependencies["kde/pim/mailcommon"] = None
+        self.runtimeDependencies["kde/pim/mimetreeparser"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
