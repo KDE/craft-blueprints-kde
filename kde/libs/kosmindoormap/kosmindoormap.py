@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         # needed for the app
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/openssl"] = None
         if CraftCore.compiler.isAndroid:
