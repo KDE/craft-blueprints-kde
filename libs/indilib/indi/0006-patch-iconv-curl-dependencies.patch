@@ -105,37 +105,6 @@ index dd2e640c0..000000000
 -  ICONV_EXTERNAL
 -  ICONV_SECOND_ARGUMENT_IS_CONST
 -)
-diff --git a/drivers/telescope/CMakeLists.txt b/drivers/telescope/CMakeLists.txt
-index d88a3e7aa..49b49c1c4 100644
---- a/drivers/telescope/CMakeLists.txt
-+++ b/drivers/telescope/CMakeLists.txt
-@@ -33,7 +33,7 @@ add_executable(indi_lx200basic
-     lx200driver.cpp
-     lx200basic.cpp)
- 
--target_link_libraries(indi_lx200basic indidriver)
-+target_link_libraries(indi_lx200basic indidriver ${CURL} ${Iconv_LIBRARIES})
- 
- install(TARGETS indi_lx200basic RUNTIME DESTINATION bin)
- 
-@@ -45,7 +45,7 @@ add_executable(indi_lx200_TeenAstro
-     lx200_TeenAstro.cpp)
- 
- target_compile_definitions(indi_lx200_TeenAstro PRIVATE _XOPEN_SOURCE=700)
--target_link_libraries(indi_lx200_TeenAstro indidriver)
-+target_link_libraries(indi_lx200_TeenAstro indidriver ${CURL} ${Iconv_LIBRARIES})
- 
- install(TARGETS indi_lx200_TeenAstro RUNTIME DESTINATION bin)
- 
-@@ -115,7 +115,7 @@ add_executable(indi_celestron_gps
-     celestrondriver.cpp
-     celestrongps.cpp)
- 
--target_link_libraries(indi_celestron_gps indidriver)
-+target_link_libraries(indi_celestron_gps indidriver ${CURL} ${Iconv_LIBRARIES})
- 
- install(TARGETS indi_celestron_gps RUNTIME DESTINATION bin)
- 
 diff --git a/libs/hid/CMakeLists.txt b/libs/hid/CMakeLists.txt
 index 8bd30d98a..d0e73f8ad 100644
 --- a/libs/hid/CMakeLists.txt
@@ -151,3 +120,26 @@ index 8bd30d98a..d0e73f8ad 100644
  endif()
  
  add_executable(indi_hid_test hidtest.cpp)
+diff --git a/libs/indibase/CMakeLists.txt b/libs/indibase/CMakeLists.txt
+index 0b1181a22..3b5e50970 100644
+--- a/libs/indibase/CMakeLists.txt
++++ b/libs/indibase/CMakeLists.txt
+@@ -24,14 +24,13 @@ list(APPEND ${PROJECT_NAME}_LIBS
+     ${JPEG_LIBRARY}
+     ${FFTW3_LIBRARIES}
+     ${M_LIB}
+-    $<$<PLATFORM_ID:CYGWIN>:${ICONV_LIBRARIES}>
++    ${CURL}
+ )
+ 
+-# Add Iconv
+-if(CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
+-    # FreeBSD needs to find the correct GNU iconv library.
++# Add Iconv - FreeBSD needs to find the correct GNU iconv library.
++if(CYGWIN OR UNIX OR (CMAKE_SYSTEM_NAME MATCHES "FreeBSD"))
+     find_package(Iconv REQUIRED)
+-    list(APPEND ${PROJECT_NAME}_LIBS ${ICONV_LIBRARIES})
++    list(APPEND ${PROJECT_NAME}_LIBS ${Iconv_LIBRARIES})
+ endif()
+ 
+ # Add WebSocket
