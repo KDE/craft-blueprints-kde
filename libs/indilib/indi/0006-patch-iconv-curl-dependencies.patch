@@ -113,7 +113,7 @@ index d88a3e7aa..49b49c1c4 100644
      lx200driver.cpp
      lx200basic.cpp)
  
--target_link_libraries(indi_lx200basic indidriver ${CURL})
+-target_link_libraries(indi_lx200basic indidriver)
 +target_link_libraries(indi_lx200basic indidriver ${CURL} ${Iconv_LIBRARIES})
  
  install(TARGETS indi_lx200basic RUNTIME DESTINATION bin)
@@ -122,7 +122,7 @@ index d88a3e7aa..49b49c1c4 100644
      lx200_TeenAstro.cpp)
  
  target_compile_definitions(indi_lx200_TeenAstro PRIVATE _XOPEN_SOURCE=700)
--target_link_libraries(indi_lx200_TeenAstro indidriver ${CURL})
+-target_link_libraries(indi_lx200_TeenAstro indidriver)
 +target_link_libraries(indi_lx200_TeenAstro indidriver ${CURL} ${Iconv_LIBRARIES})
  
  install(TARGETS indi_lx200_TeenAstro RUNTIME DESTINATION bin)
@@ -131,7 +131,7 @@ index d88a3e7aa..49b49c1c4 100644
      celestrondriver.cpp
      celestrongps.cpp)
  
--target_link_libraries(indi_celestron_gps indidriver ${CURL})
+-target_link_libraries(indi_celestron_gps indidriver)
 +target_link_libraries(indi_celestron_gps indidriver ${CURL} ${Iconv_LIBRARIES})
  
  install(TARGETS indi_celestron_gps RUNTIME DESTINATION bin)
