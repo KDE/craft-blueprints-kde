@@ -26,8 +26,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
-        # we need the system icon for the creation of the appimage
-        self.buildDependencies["kde/frameworks/tier1/breeze-icons-system"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
