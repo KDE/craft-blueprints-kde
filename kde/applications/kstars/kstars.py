@@ -71,7 +71,9 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "win-blacklist.txt"))
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "mac-blacklist.txt"))
-        self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF"]
+        self.subinfo.options.configure.args += [
+            "-DBUILD_DOC=OFF",
+            "-DBUILD_TESTING=OFF"]
 
     def make(self):
         if not super().make():
