@@ -10,8 +10,10 @@ class subinfo(info.infoclass):
         self.description = "a desktop planetarium"
         self.svnTargets["3.6.9"] = "https://invent.kde.org/education/kstars.git|stable-3.6.9"
         self.svnTargets["3.7.0"] = "https://invent.kde.org/education/kstars.git|stable-3.7.0"
+        self.svnTargets["3.7.1"] = "https://invent.kde.org/education/kstars.git|stable-3.7.1"
+        self.patchToApply["3.7.1"] = [("kstars-3.7.1-20240620.diff", 1)]
         self.svnTargets["master"] = "https://github.com/KDE/kstars.git"
-        self.defaultTarget = "3.7.0"
+        self.defaultTarget = "3.7.1"
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
