@@ -16,7 +16,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/_autotools/pkg-config"] = None
         self.runtimeDependencies["data/hicolor-icon-theme"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
@@ -32,13 +31,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/sphinxbase"] = None
-        self.runtimeDependencies["libs/pocketsphinx"] = None
 
 
 from Package.CMakePackageBase import *
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
