@@ -49,6 +49,7 @@ class subinfo(info.infoclass):
 
         # MacOS and Linux build indi client/server, Windows builds indi client only
         self.runtimeDependencies["libs/indilib/indi"] = None
+        self.runtimeDependencies["libs/indilib/indi-3rdparty"] = None
 
         if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/xplanet"] = None
