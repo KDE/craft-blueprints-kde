@@ -30,6 +30,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/librtlsdr"] = None
         self.runtimeDependencies["libs/limesuite"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
+        if CraftCore.compiler.isLinux:
+            self.buildDependencies["libs/iconv"] = None
 
         self.runtimeDependencies["libs/indilib/indi"] = None
 
@@ -42,6 +44,7 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
             # Avalon Universal Drivers is off because we do not have recipe yet for libzmq3 library.
             "-DWITH_AVALONUD=OFF",
             f"-DBUILD_LIBS={'ON' if self.subinfo.options.dynamic.buildLibraries else 'OFF'}",
+            "-DBUILD_TESTING=OFF",
         ]
 
     def install(self):
