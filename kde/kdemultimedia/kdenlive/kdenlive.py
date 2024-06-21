@@ -71,6 +71,7 @@ class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DNODBUS=ON"]
+        self.subinfo.options.configure.args += ["-DUSE_DBUS=OFF"]
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += ["-DRELEASE_BUILD=OFF"]
 
