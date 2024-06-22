@@ -6,13 +6,12 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.2"]:
-            # self.targets[ver] = 'http://cdsarc.u-strasbg.fr/viz-bin/nph-Cat/tar.gz?bincats/GSC_' + ver
-            self.targets[ver] = "http://www.indilib.org/jdownloads/kstars/gsc-1.2.tar.gz"
+        for ver in ["1.2","1.3"]:
+            self.targets[ver] = "http://www.indilib.org/jdownloads/kstars/gsc-%s.tar.gz" % ver
             self.archiveNames[ver] = "gsc-%s.tar.gz" % ver
             # self.targetInstSrc[ver] = 'gsc-' + ver
         self.description = "The Guide Star Catalog I"
-        self.defaultTarget = "1.2"
+        self.defaultTarget = "1.3"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
