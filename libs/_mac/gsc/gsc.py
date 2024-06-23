@@ -12,22 +12,20 @@
 # While this recipe is needed by KStars and INDI on MacOS, it is not a direct dependency of KStars because the results of running this recipe are stored online.
 
 import info
-from Package.CMakePackageBase import *
+from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["1.3"]:
-            self.targets[ver] = "http://www.indilib.org/jdownloads/kstars/gsc-1.3.tar.gz"
+            self.targets[ver] = "http://www.indilib.org/jdownloads/kstars/gsc-%s.tar.gz" % ver
             self.archiveNames[ver] = "gsc-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "gsc"
-        self.description = "The Hubble Guide Star Catalog I version 1.3.  This provides stars for the CCD Simulator in INDI."
+        self.description = "The Hubble Guide Star Catalog I.  This provides stars for the CCD Simulator in INDI."
         self.defaultTarget = "1.3"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["virtual/base"] = None
-
-from Package.CMakePackageBase import *
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
