@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         for ver in ["1.2","1.3"]:
             self.targets[ver] = "http://www.indilib.org/jdownloads/kstars/gsc-%s.tar.gz" % ver
             self.archiveNames[ver] = "gsc-%s.tar.gz" % ver
-            self.targetInstSrc[ver] = 'gsc-' + ver
+            self.targetInstSrc[ver] = 'gsc'
         self.description = "The Guide Star Catalog I"
         self.defaultTarget = "1.3"
 
