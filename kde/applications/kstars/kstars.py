@@ -53,7 +53,6 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/xplanet"] = None
-            self.runtimeDependencies["libs/gsc"] = None
 
         if CraftCore.compiler.isLinux:
             self.buildDependencies["libs/libftdi"] = None
