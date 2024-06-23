@@ -33,5 +33,8 @@ class Package(CMakePackageBase):
             "-DRECASTNAVIGATION_TESTS=OFF",
         ]
 
+        if CraftCore.compiler.isAndroid:
+            self.subinfo.options.dynamic.buildStatic = True
+
         if self.subinfo.options.buildStatic:
             self.subinfo.options.configure.args += ["-DCMAKE_POSITION_INDEPENDENT_CODE=ON"]
