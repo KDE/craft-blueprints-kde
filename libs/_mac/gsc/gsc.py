@@ -6,13 +6,13 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.2"]:
+        for ver in ["1.3"]:
             # self.targets[ver] = 'http://cdsarc.u-strasbg.fr/viz-bin/nph-Cat/tar.gz?bincats/GSC_' + ver
-            self.targets[ver] = "http://www.indilib.org/jdownloads/kstars/gsc-1.2.tar.gz"
+            self.targets[ver] = "http://www.indilib.org/jdownloads/kstars/gsc-1.3.tar.gz"
             self.archiveNames[ver] = "gsc-%s.tar.gz" % ver
             # self.targetInstSrc[ver] = 'gsc-' + ver
         self.description = "The Guide Star Catalog I"
-        self.defaultTarget = "1.2"
+        self.defaultTarget = "1.3"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
@@ -28,12 +28,12 @@ class Package(MakeFilePackageBase):
         self.subinfo.options.useShadowBuild = False
 
     def configure(self):
-        sourcedir = str(self.sourceDir())
+        sourcedir = os.path.join(str(self.sourceDir()), "gsc")
         utils.rmtree(os.path.join(sourcedir, "bin-dos"))
         return True
 
     def make(self):
-        sourcedir = str(self.sourceDir())
+        sourcedir = os.path.join(str(self.sourceDir()), "gsc")
         sourcesrc = os.path.join(sourcedir, "src")
         os.chdir(sourcesrc)
 
@@ -48,6 +48,8 @@ class Package(MakeFilePackageBase):
         f1 = open(f1name, "w")
         f1.write(filedata)
         f1.close()
+        
+        os.mkdir(os.path.join(sourcedir, "bin"))
 
         utils.system(" ".join([self.makeProgram, str(self.makeOptions(self.subinfo.options.make.args))]))
         utils.copyFile(os.path.join(sourcesrc, "gsc.exe"), os.path.join(sourcesrc, "gsc"))
@@ -62,7 +64,7 @@ class Package(MakeFilePackageBase):
         return True
 
     def install(self):
-        sourcedir = str(self.sourceDir())
+        sourcedir = os.path.join(str(self.sourceDir()), "gsc")
         sourcesrc = os.path.join(sourcedir, "src")
         craftbindir = os.path.join(CraftCore.standardDirs.craftRoot(), "bin")
         gscdir = os.path.join(self.imageDir(), "gsc")
