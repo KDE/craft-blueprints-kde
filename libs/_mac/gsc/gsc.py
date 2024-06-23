@@ -42,7 +42,7 @@ class Package(MakeFilePackageBase):
         filedata = f1.read()
         f1.close()
 
-        filedata = filedata.replace("CC    = cc -I. -O", "CC    = cc -I. -O " + "-Wno-implicit-function-declaration")
+        filedata = filedata.replace("CC    = cc -I. -O", "CC    = cc -I. -O " + "-Wno-implicit-function-declaration -Wno-implicit-int")
 
         f1 = open(f1name, "w")
         f1.write(filedata)
