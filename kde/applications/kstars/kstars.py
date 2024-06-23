@@ -56,10 +56,11 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/gsc"] = None
 
         if CraftCore.compiler.isLinux:
+            self.buildDependencies["libs/libftdi"] = None
             self.runtimeDependencies["qt-libs/phonon-vlc"] = None
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["libs/iconv"] = None
-
+            self.runtimeDependencies["libs/libftdi"] = None
 
 from Package.CMakePackageBase import *
 from Packager.AppxPackager import AppxPackager
