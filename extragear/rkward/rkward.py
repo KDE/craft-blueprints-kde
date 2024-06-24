@@ -121,7 +121,8 @@ class Package(CMakePackageBase):
         # contrary to kate, we leave libexec alone, entirely. It includes stuff we may not need, but difficult to sort out
         # Note sed is used by R CMD
         # Some, like bin/R, and kate, are not really needed, but cheap to include
-        self.addExecutableFilter(r"(bin)/(?!(kate|dbus|okular|kbibtex|rkward|pandoc|update-mime-database|kioworker|sed|qtwebengine|R|Rscript)).*")
+        # "data" contains no actual executables, but occasionally, some plugin scripts are mis-detected as such!
+        self.addExecutableFilter(r"(bin)/(?!(kate|data|dbus|okular|kbibtex|rkward|pandoc|update-mime-database|kioworker|sed|qtwebengine|R|Rscript)).*")
 
         if OsUtils.isMac():
             # We cannot reliably package R inside the bundle. Users will have to install it separately.
@@ -151,7 +152,4 @@ class Package(CMakePackageBase):
             # quirkaround for making kioworkers work despite of https://github.com/linuxdeploy/linuxdeploy/issues/208 / https://invent.kde.org/packaging/craft/-/merge_requests/80 ; NOTE: apparently still needed as of May 2024
             for subpath in ["libexec/lib", "lib/libexec/lib", "plugins/lib", "plugins/kf6/lib"]:
                 utils.createSymlink(os.path.join(self.archiveDir(), "lib"), os.path.join(self.archiveDir(), subpath), targetIsDirectory=True)
-        elif OsUtils.isWin():
-            # NOTE / TODO: _temporary_ workaround for qtwebengine path problem https://invent.kde.org/packaging/craft/-/merge_requests/243
-            utils.mergeTree(os.path.join(self.archiveDir(), "resources"), os.path.join(self.archiveDir(), "bin"))
         return super().preArchive()
