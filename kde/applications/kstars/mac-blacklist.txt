@@ -20,6 +20,7 @@ manifest/.*
 include/.*
 lib/cmake/.*
 share/ECM/.*
+udev/.* 
 
 # multiple docs
 bin/data/man/.*
