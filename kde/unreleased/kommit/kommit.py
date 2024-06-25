@@ -33,10 +33,10 @@ class subinfo(info.infoclass):
         self.description = "Git gui client for KDE"
         self.webpage = "https://apps.kde.org/kommit/"
 
-        for ver in ["1.5.0"]:
+        for ver in ["1.6.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/kommit/kommit-{ver}.tar.xz"
-            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/ruqola/ruqola-{ver}.tar.xz.sha256"
-            self.targetInstSrc[ver] = f"ruqola-{ver}"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kommit/kommit-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = f"kommit-{ver}"
 
         self.svnTargets["master"] = "https://invent.kde.org/sdk/kommit.git"
         self.defaultTarget = "master"
