@@ -19,8 +19,8 @@ manifest/.*
 .*\.service
 include/.*
 lib/cmake/.*
+lib/udev/.* 
 share/ECM/.*
-udev/.* 
 
 # multiple docs
 bin/data/man/.*
