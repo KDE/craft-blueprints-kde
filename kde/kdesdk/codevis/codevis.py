@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/catch2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
