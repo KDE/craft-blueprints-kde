@@ -7,11 +7,11 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.description = "INDI Library 3rd Party Drivers"
+        self.description = "INDI Library 3rd Party Libraries"
 
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.MacOS | CraftCore.compiler.Platforms.Linux
-        self.options.dynamic.registerOption("buildLibraries", False)
+        self.options.dynamic.registerOption("buildLibraries", True)
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/grep"] = None
