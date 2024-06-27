@@ -5,7 +5,7 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
+        self.versionInfo.setDefaultValues(packageName="indi-3rdparty")
 
         self.description = "INDI Library 3rd Party Libraries"
 
