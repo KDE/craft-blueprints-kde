@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         for ver in ["1.84.1"]:
             self.targets[ver] = f"https://github.com/DanBloomberg/leptonica/archive/{ver}/leptonica-{ver}.tar.gz"
             self.targetInstSrc[ver] = "leptonica-" + ver
+            self.patchToApply[ver] = [("fix-pkgconfig-name.patch", 1)]
         self.targetDigests["1.84.1"] = "8e37f3f4486df65251d75e1f1c42e34b6b472694"
 
         self.description = "Software that is broadly useful for image processing and image analysis applications"
