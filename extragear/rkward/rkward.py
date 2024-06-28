@@ -31,10 +31,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
         # not strictly runtimeDependencies, but should be included in the package for plugins and extra functionality
-        self.runtimeDependencies["kde/applications/kate"] = "master" # TODO: only temporarily, while default target 24.05 is not buildable due to dbus breakage
-        if not OsUtils.isMac():
-            # kbibtex does not properly build on macOS, yet, and is optional
-            self.runtimeDependencies["extragear/kbibtex"] = None
+        self.runtimeDependencies["kde/applications/kate"] = None
+        self.runtimeDependencies["extragear/kbibtex"] = None
         # optional, but should be in the package
         self.runtimeDependencies["binary/pandoc"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
