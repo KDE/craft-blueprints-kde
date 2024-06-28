@@ -35,6 +35,7 @@ class subinfo(info.infoclass):
             self.buildDependencies["libs/libdc1394"] = None
 
         self.runtimeDependencies["libs/indilib/indi"] = None
+        self.runtimeDependencies["libs/indilib/indi-3rdparty-libs"] = None
 
 
 class Package(CraftPackageObject.get("libs/indilib").pattern):
