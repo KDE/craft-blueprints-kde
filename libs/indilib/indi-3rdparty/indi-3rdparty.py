@@ -32,6 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/opencv/opencv"] = None
         if CraftCore.compiler.isLinux:
             self.buildDependencies["libs/iconv"] = None
+            self.buildDependencies["libs/libdc1394"] = None
 
         self.runtimeDependencies["libs/indilib/indi"] = None
 
