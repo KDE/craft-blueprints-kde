@@ -152,6 +152,13 @@ class Package(CMakePackageBase):
             # quirkaround for making kioworkers work despite of https://github.com/linuxdeploy/linuxdeploy/issues/208 / https://invent.kde.org/packaging/craft/-/merge_requests/80 ; NOTE: apparently still needed as of May 2024
             for subpath in ["libexec/lib", "lib/libexec/lib", "plugins/lib", "plugins/kf6/lib"]:
                 utils.createSymlink(os.path.join(self.archiveDir(), "lib"), os.path.join(self.archiveDir(), subpath), targetIsDirectory=True)
+            # appimagetool still looks for .appdata.xml, only
+            utils.copyFile(os.path.join(self.archiveDir(), "share/metainfo/org.kde.rkward.metainfo.xml"), os.path.join(self.archiveDir(), "share/metainfo/org.kde.rkward.appdata.xml"))
+            for appdata in utils.filterDirectoryContent(os.path.join(self.archiveDir(), "share/metainfo")):
+                # remove any .appdata.xml file other than the rkward one, or it may get set as the AppImage description
+                if not appdata.endswith("rkward.appdata.xml"):
+                    CraftCore.log.info(f"removing {appdata}")
+                    utils.deleteFile(appdata)
         elif OsUtils.isWin():
             # NOTE / TODO: _temporary_ workaround for qtwebengine path problem https://invent.kde.org/packaging/craft/-/merge_requests/243
             utils.mergeTree(os.path.join(self.archiveDir(), "resources"), os.path.join(self.archiveDir(), "bin"))
