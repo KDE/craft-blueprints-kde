@@ -23,6 +23,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libusb-compat"] = None
         self.runtimeDependencies["dev-utils/libtool"] = None
         # gd and libexif might be needed too
+        if CraftCore.compiler.isLinux:
+            self.buildDependencies["libs/libintl-lite"] = None
 
 
 class Package(AutoToolsPackageBase):
