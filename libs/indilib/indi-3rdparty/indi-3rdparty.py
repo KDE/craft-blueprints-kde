@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/grep"] = None
         self.buildDependencies["libs/libdc1394"] = None
+        self.buildDependencies["libs/libgphoto2"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/libnova"] = None
@@ -45,6 +46,7 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
         self.subinfo.options.configure.args += [
             # Avalon Universal Drivers is off because we do not have recipe yet for libzmq3 library.
             "-DWITH_AVALONUD=OFF",
+            "-DWITH_GPSD=OFF", # No recipe yet on Linux, does not build on MacOS
             f"-DBUILD_LIBS={'ON' if self.subinfo.options.dynamic.buildLibraries else 'OFF'}",
             "-DBUILD_TESTING=OFF",
         ]
