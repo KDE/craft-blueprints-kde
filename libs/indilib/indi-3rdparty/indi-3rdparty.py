@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/grep"] = None
+        self.buildDependencies["libs/libdc1394"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/libnova"] = None
@@ -32,7 +33,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/opencv/opencv"] = None
         if CraftCore.compiler.isLinux:
             self.buildDependencies["libs/iconv"] = None
-            self.buildDependencies["libs/libdc1394"] = None
 
         self.runtimeDependencies["libs/indilib/indi"] = None
         self.runtimeDependencies["libs/indilib/indi-3rdparty-libs"] = None
