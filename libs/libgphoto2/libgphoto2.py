@@ -24,6 +24,8 @@ class subinfo(info.infoclass):
         # gd and libexif might be needed too
         if CraftCore.compiler.isMacOS:
             self.buildDependencies["libs/gettext"] = None
+        if CraftCore.compiler.isLinux:
+            self.buildDependencies["libs/iconv"] = None
 
 
 class Package(AutoToolsPackageBase):
