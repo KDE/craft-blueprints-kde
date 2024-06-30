@@ -9,22 +9,21 @@ from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.5.27"]:
+        for ver in ["2.5.27","2.5.31"]:
             self.targets[ver] = f"https://downloads.sourceforge.net/project/gphoto/libgphoto/{ver}/libgphoto2-{ver}.tar.bz2"
             self.archiveNames[ver] = f"libgphoto2-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libgphoto2-{ver}"
         self.description = "Gphoto2 digital camera library"
-        self.defaultTarget = "2.5.27"
+        self.defaultTarget = "2.5.31"
 
     def setDependencies(self):
-        self.buildDependencies["libs/gettext"] = None
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libusb-compat"] = None
         self.runtimeDependencies["dev-utils/libtool"] = None
         # gd and libexif might be needed too
-        if CraftCore.compiler.isLinux:
-            self.buildDependencies["libs/libintl-lite"] = None
+        if CraftCore.compiler.isMacOS:
+            self.buildDependencies["libs/gettext"] = None
 
 
 class Package(AutoToolsPackageBase):
