@@ -34,7 +34,6 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["executable"] = r"bin\crow.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(crow|update-mime-database)).*")
-        self.ignoredPackages.append("binary/mysql")
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
         return super().createPackage()
