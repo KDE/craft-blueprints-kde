@@ -41,8 +41,6 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
         super().__init__()
         self.subinfo.options.package.disableStriping = True
         self.subinfo.options.configure.args += [
-            # Avalon Universal Drivers is off because we do not have recipe yet for libzmq3 library.
-            "-DWITH_AVALONUD=OFF",
             f"-DBUILD_LIBS={'ON' if self.subinfo.options.dynamic.buildLibraries else 'OFF'}",
             "-DBUILD_TESTING=OFF",
         ]
