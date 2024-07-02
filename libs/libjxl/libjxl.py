@@ -8,10 +8,10 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["0.9.2"]:
+        for ver in ["0.9.3"]:
             self.svnTargets[ver] = f"https://github.com/libjxl/libjxl.git||v{ver}"
         self.description = "JPEG XL image format reference implementation"
-        self.defaultTarget = "0.9.2"
+        self.defaultTarget = "0.9.3"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/brotli"] = None
