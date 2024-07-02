@@ -32,6 +32,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.fetch.checkoutSubmodules = True
 
     def createPackage(self):
+        self.defines["appname"] = "CrowTranslate"
         self.defines["executable"] = r"bin\crow.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(crow|update-mime-database)).*")
         if not CraftCore.compiler.isLinux:
