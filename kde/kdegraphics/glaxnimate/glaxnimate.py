@@ -21,7 +21,9 @@ class subinfo(info.infoclass):
         self.patchLevel["master"] = 1
 
         self.svnTargets["master"] = "https://invent.kde.org/graphics/glaxnimate.git"
-        self.defaultTarget = "0.5.4"
+        self.svnTargets["bf61ba8"] = "https://invent.kde.org/graphics/glaxnimate.git||bf61ba8d59b880e614c5aadc0c270f3ccc37f18b"
+
+        self.defaultTarget = "bf61ba8"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -60,7 +62,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         # if not CraftCore.compiler.isLinux:
         #     self.ignoredPackages.append("libs/dbus")
 
-        if self.buildTarget <= CraftVersion("0.5.4"):
+        if self.buildTarget == CraftVersion("0.5.4"):
             # this has been fixed in
             if CraftCore.compiler.isMacOS:
                 self.defines["appname"] = "glaxnimate"
