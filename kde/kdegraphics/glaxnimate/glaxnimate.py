@@ -59,6 +59,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["executable"] = r"bin\glaxnimate.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(glaxnimate|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")
+        self.ignoredPackages.append("libs/llvm")
         # if not CraftCore.compiler.isLinux:
         #     self.ignoredPackages.append("libs/dbus")
 
