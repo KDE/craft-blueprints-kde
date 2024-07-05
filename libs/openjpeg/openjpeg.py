@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
             ("338246278a8e753c36e8319044360eb7a84f6488.diff", 1),
         ]
 
-        for ver in ["2.1.2", "2.3.0", "2.4.0", "2.5.0"]:
+        for ver in ["2.1.2", "2.3.0", "2.4.0", "2.5.0", "2.5.2"]:
             self.targets[ver] = f"https://github.com/uclouvain/openjpeg/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"openjpeg-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"openjpeg-{ver}"
@@ -17,10 +17,11 @@ class subinfo(info.infoclass):
         self.targetDigests["2.3.0"] = (["3dc787c1bb6023ba846c2a0d9b1f6e179f1cd255172bde9eb75b01f1e6c7d71a"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["2.4.0"] = (["8702ba68b442657f11aaeb2b338443ca8d5fb95b0d845757968a7be31ef7f16d"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["2.5.0"] = (["0333806d6adecc6f7a91243b2b839ff4d2053823634d4f6ed7a59bc87409122a"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.5.2"] = (["90e3896fed910c376aaf79cdd98bdfdaf98c6472efd8e1debf0a854938cbda6a"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "OpenJPEG is an open-source JPEG 2000 codec written in C language."
         self.webpage = "http://www.openjpeg.org/"
-        self.defaultTarget = "2.5.0"
+        self.defaultTarget = "2.5.2"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

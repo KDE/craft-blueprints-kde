@@ -4,6 +4,7 @@
 import info
 import utils
 from Blueprints.CraftPackageObject import CraftPackageObject
+from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 
 
@@ -57,10 +58,12 @@ class Package(CraftPackageObject.get("kde").pattern):
         # if not CraftCore.compiler.isLinux:
         #     self.ignoredPackages.append("libs/dbus")
 
-        if CraftCore.compiler.isMacOS:
-            self.defines["appname"] = "glaxnimate"
-        else:
-            self.defines["appname"] = "Glaxnimate"
+        if self.buildTarget <= CraftVersion("0.5.4"):
+            # this has been fixed in
+            if CraftCore.compiler.isMacOS:
+                self.defines["appname"] = "glaxnimate"
+            else:
+                self.defines["appname"] = "Glaxnimate"
         # self.defines["icon"] = os.path.join(self.sourceDir(), "data", "icons", "kdenlive.ico")
         # self.defines["icon_png"] = os.path.join(self.sourceDir(), "logo.png")
         return super().createPackage()

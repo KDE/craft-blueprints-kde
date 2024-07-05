@@ -6,6 +6,7 @@ from CraftCore import CraftCore
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchLevel["6.2.0"] = 1
 
         self.description = "Framework for managing menu and toolbar actions"
 

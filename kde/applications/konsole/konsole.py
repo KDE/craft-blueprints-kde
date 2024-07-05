@@ -9,8 +9,6 @@ class subinfo(info.infoclass):
 
         self.displayName = "Konsole"
         self.description = "the KDE terminal emulator"
-        # Fix macOS build, see https://invent.kde.org/utilities/konsole/-/merge_requests/950
-        self.patchToApply["24.02.1"] = [("950.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

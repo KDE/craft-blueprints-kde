@@ -1,5 +1,6 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -7,6 +8,14 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "Extra plugins for KIO (thumbnail generators, archives, remote filesystems and more)"
+
+        if CraftCore.compiler.isWindows:
+            # This is a quick fix in the sense that it only reverts the faulty commit
+            # There are probably better fixes. See https://invent.kde.org/network/kio-extras/-/merge_requests/326
+            for ver in ["24.05.0", "24.05.1"]:
+                self.patchToApply[ver] = [("fix-windows.patch", 1)]
+
+        self.patchLevel["24.05.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
