@@ -8,6 +8,10 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        if CraftCore.compiler.isAndroid:
+            self.options.dynamic.setDefault("buildStatic", True)
+
     def setTargets(self):
         for ver in ["0.7.5"]:
             self.targets[ver] = f"https://github.com/dmtx/libdmtx/archive/v{ver}.zip"

@@ -1,10 +1,15 @@
 import shutil
 
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import *
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        if CraftCore.compiler.isAndroid:
+            self.options.dynamic.setDefault("buildStatic", True)
+
     def setTargets(self):
         for ver in ["4.0.0"]:
             self.targets[ver] = f"https://fukuchi.org/works/qrencode/qrencode-{ver}.tar.gz"

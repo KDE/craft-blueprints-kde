@@ -1,7 +1,12 @@
 import info
 
+from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        if CraftCore.compiler.isAndroid:
+            self.options.dynamic.setDefault("buildStatic", True)
+
     def setTargets(self):
         for ver in ["2.0.0", "3.0.1", "3.0.2", "3.0.9"]:
             self.targets[ver] = f"https://github.com/libical/libical/archive/v{ver}.tar.gz"
