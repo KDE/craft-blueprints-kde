@@ -35,7 +35,7 @@ class subinfo(info.infoclass):
 
         self.patchLevel["5.0.1"] = 4
         self.patchLevel["6.0"] = 3
-        self.patchLevel["6.1.1"] = 1
+        self.patchLevel["6.1.1"] = 2
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
@@ -54,6 +54,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libsdl2"] = None
         self.runtimeDependencies["libs/aom"] = None
         self.runtimeDependencies["libs/dav1d"] = None
+        self.runtimeDependencies["libs/svtav1"] = None
         if CraftCore.compiler.isGCCLike():
             if not CraftCore.compiler.isAndroid:
                 self.runtimeDependencies["libs/libvpx"] = None
@@ -143,6 +144,7 @@ class Package(AutoToolsPackageBase):
                 "--enable-libass",
                 "--enable-libaom",
                 "--enable-libdav1d",
+                "--enable-libsvtav1",
                 "--enable-libzimg",
             ]
 
