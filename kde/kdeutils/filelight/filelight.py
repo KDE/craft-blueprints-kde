@@ -26,6 +26,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
 
+        # More reliable style than the windows style e.g. WRT HiDPI scaling
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
