@@ -54,7 +54,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libsdl2"] = None
         self.runtimeDependencies["libs/aom"] = None
         self.runtimeDependencies["libs/dav1d"] = None
-        self.runtimeDependencies["libs/svtav1"] = None
         if CraftCore.compiler.isGCCLike():
             if not CraftCore.compiler.isAndroid:
                 self.runtimeDependencies["libs/libvpx"] = None
@@ -64,6 +63,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isMacOS:
             self.buildDependencies["libs/amf"] = None
             self.buildDependencies["libs/nvidia-codecs"] = None
+            self.runtimeDependencies["libs/svtav1"] = None
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/libva"] = None
             self.runtimeDependencies["libs/libvdpau"] = None
@@ -144,7 +144,6 @@ class Package(AutoToolsPackageBase):
                 "--enable-libass",
                 "--enable-libaom",
                 "--enable-libdav1d",
-                "--enable-libsvtav1",
                 "--enable-libzimg",
             ]
 
@@ -171,7 +170,7 @@ class Package(AutoToolsPackageBase):
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["--enable-rpath", "--install-name-dir=@rpath"]
         elif not CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ["--enable-ffnvcodec", "--enable-nvdec", "--enable-nvenc", "--enable-cuvid", "--enable-amf"]
+            self.subinfo.options.configure.args += ["--enable-ffnvcodec", "--enable-nvdec", "--enable-nvenc", "--enable-cuvid", "--enable-amf", "--enable-libsvtav1"]
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["--enable-vaapi", "--enable-vdpau"]
             if CraftCore.compiler.architecture & CraftCore.compiler.Architecture.x86:
