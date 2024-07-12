@@ -15,7 +15,6 @@ from CraftOS.osutils import OsUtils
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchLevel["6.1.0"] = 2
 
         self.description = "Breeze icon theme."
 
