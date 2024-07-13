@@ -40,7 +40,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["executable"] = "bin\\filelight.exe"
 
         # filelight icons
-        self.defines["icon"] = self.blueprintDir() / "filelight.ico"
+        self.defines["icon"] = self.buildDir() / "src/filelight.ico"
         self.defines["icon_png"] = self.blueprintDir() / ".assets/150-apps-filelight.png"
         self.defines["icon_png_44"] = self.blueprintDir() / ".assets/44-apps-filelight.png"
 
