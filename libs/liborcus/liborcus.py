@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.buildDependencies["libs/boost/boost-headers"] = None
+        self.buildDependencies["libs/boost/boost-system"] = None
 
 
 class Package(AutoToolsPackageBase):
