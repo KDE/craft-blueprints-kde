@@ -1,4 +1,5 @@
 import info
+from CraftCompiler import CraftCompiler
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
 
