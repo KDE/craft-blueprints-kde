@@ -41,6 +41,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/libzip"] = None
         self.runtimeDependencies["libs/netcdf"] = None
+        self.runtimeDependencies["libs/liborcus"] = None
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
@@ -63,10 +64,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
-        if CraftPackageObject.get("libs/qt").instance.subinfo.options.dynamic.qtMajorVersion == "6":
-            self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
-        else:
-            self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
+        self.runtimeDependencies["kde/unreleased/kuserfeedback"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/matio"] = None
