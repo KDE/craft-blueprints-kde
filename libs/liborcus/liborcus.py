@@ -1,7 +1,8 @@
 import info
-from CraftCompiler import CraftCompiler
-from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from CraftCore import CraftCore
 from Utils import CraftHash
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+
 
 class subinfo(info.infoclass):
     def registerOptions(self):
