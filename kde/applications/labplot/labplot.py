@@ -41,7 +41,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/libzip"] = None
         self.runtimeDependencies["libs/netcdf"] = None
-        self.runtimeDependencies["libs/liborcus"] = None
+        # currently fails with "configure: error: invalid value: boost_major_version=''"
+        #self.runtimeDependencies["libs/liborcus"] = None
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
