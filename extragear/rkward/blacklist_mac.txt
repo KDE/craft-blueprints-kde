@@ -1,3 +1,5 @@
 # Somehow, install_name_tool -change fails for libgcrypt. kwalletd is the only user, and we are not shipping that, anyway
 lib/libKF6WalletBackend.*
 lib/libgcrypt.*
+lib/libgpg-error*
+lib/libntbtls*
