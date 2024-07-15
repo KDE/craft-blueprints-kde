@@ -1,0 +1,3 @@
+# Somehow, install_name_tool -change fails for libgcrypt. kwalletd is the only user, and we are not shipping that, anyway
+bin/libKF6WalletBackend.*
+bin/libgcrypt.*
