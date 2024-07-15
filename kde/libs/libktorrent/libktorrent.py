@@ -9,11 +9,16 @@ class subinfo(info.infoclass):
         self.description = "A BitTorrent protocol implementation."
 
     def setDependencies(self):
-        self.runtimeDependencies["kdesupport/qca"] = None
+        self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["libs/boost/boost-headers"] = None
         self.runtimeDependencies["libs/libgmp"] = None
-        self.runtimeDependencies["libs/gpgme"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
-        self.buildDependencies["libs/gettext"] = None
 
 
 class Package(CMakePackageBase):
