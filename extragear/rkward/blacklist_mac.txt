@@ -2,4 +2,4 @@
 lib/libKF6WalletBackend.*dylib
 lib/libgcrypt.*dylib
 lib/libgpg-error.*dylib
-lib/libntbtls.*dylib
+.*/libntbtls.*dylib
