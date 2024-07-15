@@ -10,7 +10,8 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"zstd-{ver}"
             self.targetConfigurePath[ver] = "build/cmake"
             self.targetDigestUrls[ver] = [f"https://github.com/facebook/zstd/releases/download/v{ver}/zstd-{ver}.tar.gz.sha256"]
-        self.patchToApply["1.5.6"] = [("3999.patch", 1)]
+        if CraftCore.compiler.isMSVC():
+            self.patchToApply["1.5.6"] = [("3999.patch", 1)]
         self.description = "Fast real-time compression algorithm "
         self.defaultTarget = "1.5.6"
 
