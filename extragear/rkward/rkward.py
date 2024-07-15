@@ -123,6 +123,7 @@ class Package(CMakePackageBase):
         self.addExecutableFilter(r"(bin)/(?!(kate|data|dbus|okular|kbibtex|rkward|pandoc|update-mime-database|kioworker|sed|qtwebengine|R|Rscript)).*")
 
         if OsUtils.isMac():
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
             # We cannot reliably package R inside the bundle. Users will have to install it separately.
             self.ignoredPackages.append("binary/r-base")
 

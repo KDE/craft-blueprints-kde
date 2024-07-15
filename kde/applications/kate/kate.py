@@ -32,6 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/kdeutils/markdownpart"] = None
         self.runtimeDependencies["kde/applications/konsole"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
         # try to use Breeze style as Windows style has severe issues for e.g. scaling
         self.runtimeDependencies["kde/plasma/breeze"] = None

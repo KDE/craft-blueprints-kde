@@ -9,12 +9,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "Network transparent access to files and data"
 
-        # Fix freeze on Windows for dirs with many files
-        # https://invent.kde.org/frameworks/kio/-/merge_requests/1563
-        self.patchToApply["6.0.0"] = [("merge-request-1563.patch", 1)]
-
-        self.patchLevel["6.1.0"] = 1
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

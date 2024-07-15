@@ -8,7 +8,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.patchToApply["6.1.0"] = [("kiconthemes-6.1.0-20240415.diff", 1)]
         self.patchToApply["6.3.0"] = [("iconenginedir.diff", 1)]
         # enforce iconengine plugin is there on mac and Windows, on Linux this kills e.g. other Qt apps
         for ver in self.versionInfo.tarballs():
@@ -23,7 +22,6 @@ class subinfo(info.infoclass):
                     if ver not in self.patchToApply:
                         self.patchToApply[ver] = []
                     self.patchToApply[ver] += [("registericonengine.diff", 1)]
-        self.patchLevel["6.1.0"] = 3
         self.description = "Classes to improve the handling of icons"
 
     def setDependencies(self):
