@@ -31,7 +31,7 @@ from Package.VirtualPackageBase import VirtualPackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["3.7.2", "3.7.4", "3.8.0", "3.8.4"]:
-            self.targets[ver] = f"ftp://ftp.gnutls.org/gcrypt/gnutls/v{ver[:3]}/gnutls-{ver}.tar.xz"
+            self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/gnutls/v{ver[:3]}/gnutls-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"gnutls-{ver}"
 
         self.targetDigests["3.7.2"] = (["646e6c5a9a185faa4cea796d378a1ba8e1148dbb197ca6605f95986a25af2752"], CraftHash.HashAlgorithm.SHA256)
