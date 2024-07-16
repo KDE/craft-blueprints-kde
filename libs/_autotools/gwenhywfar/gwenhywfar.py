@@ -49,7 +49,12 @@ class subinfo(info.infoclass):
             ("gwenhywfar-5.10.2-20231024.diff", 1)
         ]  # https://github.com/aqbanking/gwenhywfar/commit/0047982d2a2b83cdd3405732b84a3ee8788e0269
         self.patchLevel["5.10.2"] = 1
-        self.defaultTarget = "5.10.2"
+
+        self.targets["5.11.2"] = "https://www.aquamaniac.de/rdm/attachments/518/gwenhywfar-5.11.2beta.tar.gz"
+        self.targetDigests["5.11.2"] = (["e7f2b12c092d6f598f29e255b0b003d98ac1796c85b73a570890dbf2dcf35b24"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["5.11.2"] = "gwenhywfar-5.11.2"
+        self.patchLevel["5.11.2"] = 1
+        self.defaultTarget = "5.11.2"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
