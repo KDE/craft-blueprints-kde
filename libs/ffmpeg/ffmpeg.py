@@ -57,9 +57,10 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isGCCLike():
             if not CraftCore.compiler.isAndroid:
                 self.runtimeDependencies["libs/libvpx"] = None
-                self.runtimeDependencies["libs/libass"] = None
                 self.runtimeDependencies["libs/zimg"] = None
                 self.runtimeDependencies["libs/x264"] = None
+                if not (CraftCore.compiler.isMacOS and CraftCompiler.Architecture.x86_64):
+                    self.runtimeDependencies["libs/libass"] = None
         if not CraftCore.compiler.isMacOS:
             self.buildDependencies["libs/amf"] = None
             self.buildDependencies["libs/nvidia-codecs"] = None
@@ -141,11 +142,12 @@ class Package(AutoToolsPackageBase):
                 "--enable-libopus",
                 "--enable-libvorbis",
                 "--enable-libvpx",
-                "--enable-libass",
                 "--enable-libaom",
                 "--enable-libdav1d",
                 "--enable-libzimg",
             ]
+            if not (CraftCore.compiler.isMacOS and CraftCompiler.Architecture.x86_64):
+                self.subinfo.options.configure.args += ["--enable-libass"]
 
         self.subinfo.options.configure.args += [
             f"--arch={architecture}",
