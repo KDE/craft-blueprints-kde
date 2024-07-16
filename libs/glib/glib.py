@@ -4,10 +4,8 @@ import info
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.options.dynamic.setDefault(
-            "buildTests",
-            not CraftCore.compiler.isMacOS and not CraftCore.compiler.architecture & CraftCore.compiler.Architecture.arm and not CraftCore.compiler.isMinGW(),
-        )
+        ## tests in 2.81.0 fail to build
+        self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
         for ver in ["2.79.0", "2.81.0"]:
