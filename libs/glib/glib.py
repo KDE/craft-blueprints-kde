@@ -5,7 +5,8 @@ import info
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.setDefault(
-            "buildTests", not CraftCore.compiler.isMacOS and not CraftCore.compiler.architecture & CraftCore.compiler.Architecture.arm
+            "buildTests",
+            not CraftCore.compiler.isMacOS and not CraftCore.compiler.architecture & CraftCore.compiler.Architecture.arm and not CraftCore.compiler.isMinGW(),
         )
 
     def setTargets(self):
