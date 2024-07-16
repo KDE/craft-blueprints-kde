@@ -37,7 +37,7 @@ class Pattern(CMakePackageBase):
         return None
 
     def getReleaseServiceVersion(self):
-        cmakeFile = self.srcDir() / "CMakeLists.txt"
+        cmakeFile = self.sourceDir() / "CMakeLists.txt"
         if not cmakeFile.exists():
             return None
 
@@ -45,7 +45,7 @@ class Pattern(CMakePackageBase):
         with open(cmakeFile) as f:
             for line in f:
                 for var in ["RELEASE_SERVICE_VERSION_MAJOR", "RELEASE_SERVICE_VERSION_MINOR", "RELEASE_SERVICE_VERSION_MICRO"]:
-                    regex = fr'set\s*\({var}\s+"(\d+)"\)'
+                    regex = rf'set\s*\({var}\s+"(\d+)"\)'
                     x = re.search(regex, line)
                     if x:
                         values[var] = x.group(1)
