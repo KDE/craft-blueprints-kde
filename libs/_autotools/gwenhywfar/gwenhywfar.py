@@ -52,7 +52,7 @@ class subinfo(info.infoclass):
 
         self.targets["5.11.2"] = "https://www.aquamaniac.de/rdm/attachments/download/518/gwenhywfar-5.11.2beta.tar.gz"
         self.targetDigests["5.11.2"] = (["e7f2b12c092d6f598f29e255b0b003d98ac1796c85b73a570890dbf2dcf35b24"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["5.11.2"] = "gwenhywfar-5.11.2"
+        self.targetInstSrc["5.11.2"] = "gwenhywfar-5.11.2beta"
         self.patchLevel["5.11.2"] = 1
         self.defaultTarget = "5.11.2"
 
