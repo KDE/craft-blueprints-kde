@@ -70,7 +70,14 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
 
     def postInstall(self):
-        cmakes = [os.path.join(self.installDir(), "lib", "cmake", f"aqbanking-{self.subinfo.buildTarget[:-3]}", "aqbanking-config.cmake")]
+        # target directoy needs to be only major.minor so we get rid of the patch version
+        regex = re.compile(r"(\d+\.\d+)\.\d+")
+        m = regex.match(self.subinfo.buildTarget)
+        target = self.subinfo.buildTarget
+        if m:
+            target = m.group(1)
+
+        cmakes = [os.path.join(self.installDir(), "lib", "cmake", f"aqbanking-{target}", "aqbanking-config.cmake")]
         for cmake in cmakes:
             with open(cmake, "rt") as f:
                 cmakeFileContents = f.readlines()
