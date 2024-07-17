@@ -70,7 +70,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
 
     def postInstall(self):
-        cmakes = [os.path.join(self.installDir(), "lib", "cmake", f"aqbanking-{self.subinfo.buildTarget[:-2]}", "aqbanking-config.cmake")]
+        cmakes = [os.path.join(self.installDir(), "lib", "cmake", f"aqbanking-{self.subinfo.buildTarget[:-3]}", "aqbanking-config.cmake")]
         for cmake in cmakes:
             with open(cmake, "rt") as f:
                 cmakeFileContents = f.readlines()
