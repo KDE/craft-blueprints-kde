@@ -37,7 +37,7 @@ class subinfo(info.infoclass):
         self.targetDigests["6.5.4"] = (["0d16ceae76f0718e466638f4547a8b14927f1d8d98322079cd6481adde30ac99"], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["6.5.4"] = "aqbanking-6.5.4"
 
-        self.targets["6.5.12"] = "https://www.aquamaniac.de/rdm/attachments/526/aqbanking-6.5.12beta.tar.gz"
+        self.targets["6.5.12"] = "https://www.aquamaniac.de/rdm/attachments/download/526/aqbanking-6.5.12beta.tar.gz"
         self.targetDigests["6.5.12"] = (["4c7ebe7848942e639c881d4caa8e2f8e017d25b178056fa596b4e34ba06d72d6"], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["6.5.12"] = "aqbanking-6.5.12"
         self.defaultTarget = "6.5.12"
