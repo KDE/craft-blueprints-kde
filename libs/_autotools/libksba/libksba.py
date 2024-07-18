@@ -22,28 +22,25 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-import re
-
-import CraftCore
 import info
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.6.3"]:
+        for ver in ["1.6.7"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/libksba/libksba-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"libksba-{ver}"
 
-        self.targetDigests["1.6.3"] = (["3f72c68db30971ebbf14367527719423f0a4d5f8103fc9f4a1c01a9fa440de5c"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.6.7"] = (["cf72510b8ebb4eb6693eef765749d83677a03c79291a311040a5bfd79baab763"], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "1.6.3"
+        self.defaultTarget = "1.6.7"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["virtual/base"] = None
-
-
-from Package.AutoToolsPackageBase import *
+        self.runtimeDependencies["libs/gpg-error"] = None
 
 
 class Package(AutoToolsPackageBase):
