@@ -1,8 +1,9 @@
 import os
 
 import info
-from Package.CMakePackageBase import *
-from Packager.AppxPackager import *
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Packager.AppxPackager import AppxPackager
 
 
 class subinfo(info.infoclass):
