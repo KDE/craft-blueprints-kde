@@ -45,10 +45,10 @@ class Package(CMakePackageBase):
         if not isinstance(self, AppxPackager):
             self.defines["version"] = self.subinfo.buildTarget
 
-            with open(os.path.join(self.blueprintDir(), "sections.nsi")) as file:
+            with open(os.path.join(self.blueprintDir(), "sections.nsi"), encoding='utf-8') as file:
                 self.defines["sections"] = file.read()
 
-            with open( os.path.join(self.blueprintDir(), "appunistall.nsi")) as file:
+            with open( os.path.join(self.blueprintDir(), "appunistall.nsi"), encoding='utf-8') as file:
                 self.defines["un_sections"] = file.read()
         
         return super().createPackage()
