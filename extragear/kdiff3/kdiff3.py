@@ -48,7 +48,7 @@ class Package(CMakePackageBase):
             with open(os.path.join(self.blueprintDir(), "sections.nsi")) as file:
                 self.defines["sections"] = file.read()
 
-            with open( os.path.join(self.blueprintDir(), "appunistall.nsi"), 'r') as file:
+            with open( os.path.join(self.blueprintDir(), "appunistall.nsi")) as file:
                 self.defines["un_sections"] = file.read()
         
         return super().createPackage()
