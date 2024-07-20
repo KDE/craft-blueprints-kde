@@ -43,8 +43,9 @@ class Package(CMakePackageBase):
         # Only attempt to install shell extention in standalone mode
         if not isinstance(self, AppxPackager):
             self.defines["version"] = self.subinfo.buildTarget
-            with open( os.path.join(self.blueprintDir(), "registry.nsi"), 'r') as file:
-                self.defines["registry_hook"] = file.read()
+
+            with open(os.path.join(self.blueprintDir(), "sections.nsi")) as file:
+                self.defines["sections"] = file.read()
 
             with open( os.path.join(self.blueprintDir(), "appunistall.nsi"), 'r') as file:
                 self.defines["un_sections"] = file.read()
