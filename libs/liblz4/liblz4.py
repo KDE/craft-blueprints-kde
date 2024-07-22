@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.9.2"] = (["658ba6191fa44c92280d4aa2c271b0f4fbc0e34d249578dd05e50e76d0e5efcc"], CraftHash.HashAlgorithm.SHA256)
         self.description = "Extremely Fast Compression algorithm"
         self.defaultTarget = "1.9.2"
+        self.patchLevel["1.9.2"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
