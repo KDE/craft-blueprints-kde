@@ -51,4 +51,5 @@ else:
         def install(self):
             utils.copyFile(os.path.join(self.sourceDir(), "lib", "liblz4.a"), os.path.join(self.imageDir(), "lib", "liblz4.a"))
             utils.copyFile(os.path.join(self.sourceDir(), "lib", "lz4.h"), os.path.join(self.imageDir(), "include", "lz4.h"))
+            utils.copyFile(os.path.join(self.sourceDir(), "lib", "lz4frame.h"), os.path.join(self.imageDir(), "include", "lz4frame.h"))
             return True
