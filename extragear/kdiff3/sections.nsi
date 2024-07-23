@@ -14,8 +14,6 @@ Section -InstallShellExtention
     IntOp $R0 $R0 & ${SF_SELECTED}
 
     ${If} $R0 == ${SF_SELECTED}
-        MessageBox MB_OK "ShellExt"
-
         WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}" "" "${DIFF_EXT_ID}"
         WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}\InProcServer32" "" "$INSTDIR\bin\${DIFF_EXT_DLL}"
         WriteRegStr SHCTX "Software\Classes\CLSID\${DIFF_EXT_CLSID}\InProcServer32" "ThreadingModel" "Apartment"
