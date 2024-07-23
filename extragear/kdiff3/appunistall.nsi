@@ -11,12 +11,5 @@
         DeleteRegKey SHCTX "Software\Classes\Directory\shellex\ContextMenuHandlers\${DIFF_EXT_ID}"
         DeleteRegValue SHCTX "Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved" "${DIFF_EXT_CLSID}"
         DeleteRegValue SHCTX "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers\" "$INSTDIR\bin\kdiff3.exe"
-
-        SetRegView 32
-        ;remove old diff-ext settings
-        DeleteRegKey HKCU  "Software\KDiff3"
-        ;Maybe left behind due to a bug in previous installers.
-        DeleteRegKey SHCTX  "Software\KDE\KDiff3"
-        DeleteRegKey /ifempty SHCTX  "Software\KDE\"
     SectionEnd
     

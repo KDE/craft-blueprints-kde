@@ -1,8 +1,9 @@
 import os
 
 import info
-from Package.CMakePackageBase import *
-from Packager.AppxPackager import *
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Packager.AppxPackager import AppxPackager
 
 
 class subinfo(info.infoclass):
@@ -43,10 +44,11 @@ class Package(CMakePackageBase):
         # Only attempt to install shell extention in standalone mode
         if not isinstance(self, AppxPackager):
             self.defines["version"] = self.subinfo.buildTarget
-            with open( os.path.join(self.blueprintDir(), "registry.nsi"), 'r') as file:
-                self.defines["registry_hook"] = file.read()
 
-            with open( os.path.join(self.blueprintDir(), "appunistall.nsi"), 'r') as file:
+            with open(os.path.join(self.blueprintDir(), "sections.nsi"), encoding='utf-8') as file:
+                self.defines["sections"] = file.read()
+
+            with open( os.path.join(self.blueprintDir(), "appunistall.nsi"), encoding='utf-8') as file:
                 self.defines["un_sections"] = file.read()
         
         return super().createPackage()
