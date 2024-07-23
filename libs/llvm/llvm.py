@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
-        for ver in ["15.0.2", "15.0.7", "16.0.1", "17.0.6", "18.1.2"]:
+        for ver in ["15.0.2", "15.0.7", "16.0.1", "17.0.6", "18.1.2", "18.1.8"]:
             self.targets[ver] = f"https://github.com/llvm/llvm-project/releases/download/llvmorg-{ver}/llvm-project-{ver}.src.tar.xz"
             self.targetInstSrc[ver] = f"llvm-project-{ver}.src"
             self.targetConfigurePath[ver] = "llvm"
@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
         self.patchToApply["17.0.6"] += [(".17.0.6", 1)]
         self.patchToApply["18.1.2"] += [(".17.0.6", 1)]
         self.patchToApply["18.1.2"] += [(".18.1.2", 1)]
+        self.patchToApply["18.1.8"] += [(".18.1.2", 1)]
         self.targetDigests["15.0.2"] = (
             ["7877cd67714728556a79e5ec0cc72d66b6926448cf73b12b2cb901b268f7a872"],
             CraftHash.HashAlgorithm.SHA256,
@@ -41,6 +42,10 @@ class subinfo(info.infoclass):
             ["51073febd91d1f2c3b411d022695744bda322647e76e0b4eb1918229210c48d5"],
             CraftHash.HashAlgorithm.SHA256,
         )
+        self.targetDigests["18.1.8"] = (
+            ["0b58557a6d32ceee97c8d533a59b9212d87e0fc4d2833924eb6c611247db2f2a"],
+            CraftHash.HashAlgorithm.SHA256,
+        )
         self.patchLevel["15.0.2"] = 3
         self.patchLevel["16.0.1"] = 2
         self.patchLevel["18.1.2"] = 2
@@ -48,7 +53,7 @@ class subinfo(info.infoclass):
         self.description = "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines."
         self.webpage = "http://llvm.org/"
         self.tags = "clang, clang-tools-extra"
-        self.defaultTarget = "18.1.2"
+        self.defaultTarget = "18.1.8"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
