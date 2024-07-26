@@ -51,7 +51,7 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
         ]
 
     def install(self):
-        ret = super.install()
+        ret = super().install()
         if CraftCore.compiler.isMacOS:
             self.fixLibraryFolder(self.imageDir() / "bin")
             if self.subinfo.options.dynamic.buildLibraries:
