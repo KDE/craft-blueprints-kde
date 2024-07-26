@@ -5,18 +5,16 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
+        self.versionInfo.setDefaultValues(packageName="indi-3rdparty")
 
-        self.description = "INDI Library 3rd Party Drivers"
+        self.description = "INDI Library 3rd Party Libraries"
 
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.MacOS | CraftCore.compiler.Platforms.Linux
-        self.options.dynamic.registerOption("buildLibraries", False)
+        self.options.dynamic.registerOption("buildLibraries", True)
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/grep"] = None
-        self.buildDependencies["libs/libdc1394"] = None
-        self.buildDependencies["libs/libgphoto2"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/libnova"] = None
@@ -25,7 +23,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libgphoto2"] = None
         self.runtimeDependencies["libs/libftdi"] = None
         self.runtimeDependencies["libs/libdc1394"] = None
-        self.runtimeDependencies["libs/libzmq"] = None
         self.runtimeDependencies["libs/libraw"] = None
         self.runtimeDependencies["libs/tiff"] = None
         self.runtimeDependencies["libs/libfftw"] = None
@@ -37,7 +34,6 @@ class subinfo(info.infoclass):
             self.buildDependencies["libs/iconv"] = None
 
         self.runtimeDependencies["libs/indilib/indi"] = None
-        self.runtimeDependencies["libs/indilib/indi-3rdparty-libs"] = None
 
 
 class Package(CraftPackageObject.get("libs/indilib").pattern):
@@ -45,13 +41,12 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
         super().__init__(**kwargs)
         self.subinfo.options.package.disableStriping = True
         self.subinfo.options.configure.args += [
-            "-DWITH_GPSD=OFF", # No recipe yet on Linux, does not build on MacOS
             f"-DBUILD_LIBS={'ON' if self.subinfo.options.dynamic.buildLibraries else 'OFF'}",
             "-DBUILD_TESTING=OFF",
         ]
 
     def install(self):
-        ret = super.install()
+        ret = super().install()
         if CraftCore.compiler.isMacOS:
             self.fixLibraryFolder(self.imageDir() / "bin")
             if self.subinfo.options.dynamic.buildLibraries:

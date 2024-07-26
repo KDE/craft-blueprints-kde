@@ -1,18 +1,17 @@
 import glob
-
 import info
-
+from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.description = "StellarSolver Sextractor and Astrometry.net based Library"
+        self.description = "StellarSolver Star Extractor (SEP) and Astrometry.net based Library"
         self.svnTargets["master"] = "https://github.com/rlancaste/stellarsolver.git"
-        for ver in ["2.5"]:
-            self.targets[ver] = "https://github.com/rlancaste/stellarsolver/archive/refs/tags/%s.tar.gz" % ver
-            self.archiveNames[ver] = "stellarsolver-%s.tar.gz" % ver
-            self.targetInstSrc[ver] = "stellarsolver-%s" % ver
-        self.defaultTarget = "2.5"
-
+        for ver in ["2.6"]:
+            self.targets[ver] = f"https://github.com/rlancaste/stellarsolver/archive/refs/tags/{ver}.tar.gz"
+            self.archiveNames[ver] = f"stellarsolver-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"stellarsolver-{ver}"
+        self.defaultTarget = "2.6"
+    
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
@@ -23,10 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["boost-regex"] = None
         self.runtimeDependencies["libs/wcslib"] = None
 
-
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += ["-DUSE_QT5=OFF"]

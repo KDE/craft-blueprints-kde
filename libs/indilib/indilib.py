@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2023 Julius Künzel <jk.kdedev@smartlab.uber.space>
-
+import os
 import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
@@ -8,7 +8,7 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class Pattern(CMakePackageBase):
     def fixLibraryFolder(self, folder):
-        craftLibDir = CraftCore.standardDirs.craftRoot() / "lib"
+        craftLibDir = str(CraftCore.standardDirs.craftRoot() / "lib")
         for library in utils.filterDirectoryContent(str(folder)):
             for path in utils.getLibraryDeps(str(library)):
                 if path.startswith(craftLibDir):
@@ -27,7 +27,7 @@ class Pattern(CMakePackageBase):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        craftLibDir = CraftCore.standardDirs.craftRoot() / "lib"
+        craftLibDir = str(CraftCore.standardDirs.craftRoot() / "lib")
         self.subinfo.options.configure.args += [
             "-DCMAKE_MACOSX_RPATH=1",
             f"-DCMAKE_INSTALL_RPATH={craftLibDir}",
