@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
+        self.runtimeDependencies["libs/qt6/qtdatavis3d"] = None
         self.runtimeDependencies["libs/qt/qtwebsockets"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
@@ -44,14 +45,18 @@ class subinfo(info.infoclass):
 
         # MacOS and Linux build indi client/server, Windows builds indi client only
         self.runtimeDependencies["libs/indilib/indi"] = None
+        self.runtimeDependencies["libs/indilib/indi-3rdparty"] = None
+        self.runtimeDependencies["libs/indilib/indi-3rdparty-libs"] = None
 
         if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/xplanet"] = None
-            self.runtimeDependencies["libs/gsc"] = None
 
         if CraftCore.compiler.isLinux:
+            self.buildDependencies["libs/libftdi"] = None
             self.runtimeDependencies["qt-libs/phonon-vlc"] = None
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+            self.runtimeDependencies["libs/iconv"] = None
+            self.runtimeDependencies["libs/libftdi"] = None
 
 
 from Package.CMakePackageBase import *
@@ -67,7 +72,10 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "win-blacklist.txt"))
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "mac-blacklist.txt"))
-        self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF"]
+        self.subinfo.options.configure.args += [
+            "-DBUILD_DOC=OFF",
+            "-DBUILD_QT5=OFF",
+            "-DBUILD_TESTING=OFF"]
 
     def createPackage(self):
         self.defines["executable"] = "bin\\kstars.exe"

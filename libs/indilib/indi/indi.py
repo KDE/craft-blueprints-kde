@@ -9,7 +9,15 @@ class subinfo(info.infoclass):
 
         self.description = "INDI Library"
 
-        self.patchToApply["2.0.6"] = [("0001-patch-indiclient-include.patch", 1), ("0002-patch-indidriver-library.patch", 1)]
+        self.patchToApply["2.0.6"] = [
+            ("0001-patch-indiclient-include.patch", 1),
+            ("0002-patch-indidriver-library.patch", 1),
+            ("0003-patch-hid-iconv.patch", 1)]
+        self.patchToApply["2.0.7"] = [
+            ("0010-patch-indiserver-strict.patch", 1),
+            ("0006-patch-iconv-curl-dependencies.patch", 1)]
+        self.patchToApply["2.0.8"] = [
+            ("0006-patch-iconv-curl-dependencies.patch", 1)]
 
     def registerOptions(self):
         self.options.dynamic.registerOption("buildClient", True)
@@ -36,6 +44,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libev"] = None
             self.runtimeDependencies["libs/libxisf"] = None
             self.runtimeDependencies["libs/iconv"] = None
+            if CraftCore.compiler.isLinux:
+                self.buildDependencies["libs/iconv"] = None
+                self.buildDependencies["libs/libcurl"] = None
 
 
 class Package(CraftPackageObject.get("libs/indilib").pattern):
@@ -46,8 +57,10 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
             f"-DINDI_BUILD_DRIVERS={'ON' if self.subinfo.options.dynamic.buildServer else 'OFF'}",
             f"-DINDI_BUILD_CLIENT={'ON' if self.subinfo.options.dynamic.buildClient else 'OFF'}",
             f"-DINDI_BUILD_SERVER={'ON' if self.subinfo.options.dynamic.buildServer else 'OFF'}",
+            f"-DINDI_BUILD_STATIC={'ON' if CraftCore.compiler.isWindows and self.subinfo.options.dynamic.buildClient else 'OFF'}",
+            f"-DINDI_BUILD_SHARED={'ON' if not CraftCore.compiler.isWindows and self.subinfo.options.dynamic.buildClient else 'OFF'}",
             "-DINDI_BUILD_QT5_CLIENT=OFF",
-            "-DINDI_BUILD_SHARED=ON",
+            "-DBUILD_TESTING=OFF"
         ]
 
     def install(self):
