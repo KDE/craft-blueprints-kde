@@ -43,8 +43,6 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         # Only attempt to install shell extention in standalone mode
         if not isinstance(self, AppxPackager):
-            self.defines["version"] = self.subinfo.buildTarget
-
             with open(os.path.join(self.blueprintDir(), "sections.nsi"), encoding='utf-8') as file:
                 self.defines["sections"] = file.read()
 
