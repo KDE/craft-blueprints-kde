@@ -1,3 +1,0 @@
-# Target system may be assumed to come with a newer libglib than what is available on the build system
-# Remove it in the bundle, to avoid the backend picking up an older bundled version, while R may require a newer version
-lib/libglib-2.*

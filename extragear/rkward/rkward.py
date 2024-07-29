@@ -126,8 +126,6 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
             # We cannot reliably package R inside the bundle. Users will have to install it separately.
             self.ignoredPackages.append("binary/r-base")
-        elif OsUtils.isLinux():
-            self.blacklist_file.append(self.blueprintDir() / "blacklist_linux.txt")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("data/hunspell-dictionaries")
