@@ -1,4 +1,5 @@
 import info
+from CraftCore import CraftCore
 from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
 
@@ -28,6 +29,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+            self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

@@ -61,6 +61,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.ignoredPackages.append("libs/llvm")
         self.defines["executable"] = "kid3.exe"
         self.defines["icon"] = self.sourceDir() / "src/app/qt/kid3.ico"
         return super().createPackage()
