@@ -49,6 +49,7 @@ class subinfo(info.infoclass):
         self.patchLevel["15.0.2"] = 3
         self.patchLevel["16.0.1"] = 2
         self.patchLevel["18.1.2"] = 2
+        self.patchLevel["18.1.8"] = 1
 
         self.description = "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines."
         self.webpage = "http://llvm.org/"
