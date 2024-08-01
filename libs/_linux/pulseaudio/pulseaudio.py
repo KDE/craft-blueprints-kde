@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         self.description = "PulseAudio is a sound server system for POSIX OSes, meaning that it is a proxy for your sound applications."
 
         for ver in ["16.99.1"]:
-            self.targets[ver] = f"https://freedesktop.org/software/pulseaudio/releases/pulseaudio-{ver}.tar.gz"
+            self.targets[ver] = f"https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"pulseaudio-{ver}"
 
         self.patchLevel["16.99.1"] = 4
