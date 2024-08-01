@@ -24,13 +24,13 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["data/docbook-xsl"] = None
         self.buildDependencies["libs/libxslt"] = None
+        self.buildDependencies["libs/qt6/qttools"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt6/qtimageformats"] = None
         self.runtimeDependencies["libs/qt6/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt6/qtsvg"] = None
-        self.runtimeDependencies["libs/qt6/qttools"] = None
         self.runtimeDependencies["libs/qt6/qttranslations"] = None
         self.runtimeDependencies["libs/qt6/qtwayland"] = None
         self.runtimeDependencies["libs/taglib"] = None
@@ -61,7 +61,6 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        self.ignoredPackages.append("libs/llvm")
         self.defines["executable"] = "kid3.exe"
         self.defines["icon"] = self.sourceDir() / "src/app/qt/kid3.ico"
         return super().createPackage()
