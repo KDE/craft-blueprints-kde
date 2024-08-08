@@ -1,6 +1,7 @@
 import os
 
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -65,7 +66,7 @@ from Package.CMakePackageBase import *
 from Packager.AppxPackager import AppxPackager
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self):
         super().__init__()
         self.ignoredPackages.append("binary/mysql")
