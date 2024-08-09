@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
 
 
 class Package(CMakePackageBase):
