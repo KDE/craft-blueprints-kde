@@ -1,22 +1,26 @@
+import os
+
 import info
+import utils
+
+from CraftCore import CraftCore
+from Package.MesonPackageBase import MesonPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.22.0"]:
+        for ver in ["1.23.0"]:
             self.targets[ver] = f"https://gitlab.freedesktop.org/wayland/wayland/-/releases/{ver}/downloads/wayland-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"wayland-{ver}"
-        self.targetDigests["1.22.0"] = (["1540af1ea698a471c2d8e9d288332c7e0fd360c8f1d12936ebb7e7cbc2425842"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.23.0"] = (["1540af1ea698a471c2d8e9d288332c7e0fd360c8f1d12936ebb7e7cbc2425842"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Core Wayland window system code and protocol"
 
-        self.defaultTarget = "1.22.0"
+        self.defaultTarget = "1.23.0"
 
     def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None
-
-
-from Package.MesonPackageBase import *
 
 
 class Package(MesonPackageBase):
