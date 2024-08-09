@@ -39,6 +39,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
+        # QtTools is indeed a runtim dep for the plugin system
+        self.runtimeDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["libs/potrace"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/libarchive"] = None
@@ -57,6 +59,8 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["executable"] = r"bin\glaxnimate.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(glaxnimate|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")
+        # llvm is pulled in by QtTools
+        self.ignoredPackages.append("libs/llvm")
         # if not CraftCore.compiler.isLinux:
         #     self.ignoredPackages.append("libs/dbus")
 
