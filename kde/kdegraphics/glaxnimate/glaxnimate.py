@@ -2,9 +2,7 @@
 # SPDX-FileCopyrightText: 2023 Julius Künzel <jk.kdedev@smartlab.uber.space>
 
 import info
-import utils
 from Blueprints.CraftPackageObject import CraftPackageObject
-from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 
 
@@ -14,14 +12,18 @@ class subinfo(info.infoclass):
         self.description = "Simple vector animation program"
         self.webpage = "https://glaxnimate.mattbas.org/"
 
-        for ver in ["0.5.4"]:
-            self.targets[ver] = f"https://gitlab.com/mattbas/glaxnimate/-/archive/{ver}/glaxnimate-{ver}.tar.gz"
-            self.targetInstSrc[ver] = f"glaxnimate-{ver}"
+        # for ver in ["0.5.4"]:
+        #     self.targets[ver] = f"https://gitlab.com/mattbas/glaxnimate/-/archive/{ver}/glaxnimate-{ver}.tar.gz"
+        #     self.targetInstSrc[ver] = f"glaxnimate-{ver}"
+
+        # Virtual helper version until we have our first KDE release
+        self.svnTargets["0.5.50"] = "https://invent.kde.org/graphics/glaxnimate.git||bdc3a6a085287e88a1cda3dc6116d7a5fd2ff09c"
 
         self.patchLevel["master"] = 1
 
         self.svnTargets["master"] = "https://invent.kde.org/graphics/glaxnimate.git"
-        self.defaultTarget = "0.5.4"
+
+        self.defaultTarget = "0.5.50"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -58,12 +60,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         # if not CraftCore.compiler.isLinux:
         #     self.ignoredPackages.append("libs/dbus")
 
-        if self.buildTarget <= CraftVersion("0.5.4"):
-            # this has been fixed in
-            if CraftCore.compiler.isMacOS:
-                self.defines["appname"] = "glaxnimate"
-            else:
-                self.defines["appname"] = "Glaxnimate"
         # self.defines["icon"] = os.path.join(self.sourceDir(), "data", "icons", "kdenlive.ico")
         # self.defines["icon_png"] = os.path.join(self.sourceDir(), "logo.png")
         return super().createPackage()
