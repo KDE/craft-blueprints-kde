@@ -1,0 +1,66 @@
+From 3aba63e62a86aeb157ad73df0fe0f44f01cf0e02 Mon Sep 17 00:00:00 2001
+From: Allan Sandfeld Jensen <allan.jensen@qt.io>
+Date: Mon, 1 Jul 2024 11:47:34 +0200
+Subject: [PATCH] Work around MSVC 17.10 bug
+
+Change-Id: I75b57def6d19b6768b4fcab33a017f56841614c4
+Reviewed-on: https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/573472
+Reviewed-by: Michal Klocek <michal.klocek@qt.io>
+(cherry picked from commit 95fda5a0e06d39e23be741dbd52bd8d6597ff86e)
+Reviewed-on: https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/573460
+---
+ chromium/v8/src/compiler/turboshaft/operations.h | 16 ++++++++--------
+ .../v8/src/compiler/turboshaft/representations.h |  2 +-
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/src/3rdparty/chromium/v8/src/compiler/turboshaft/operations.h b/src/3rdparty/chromium/v8/src/compiler/turboshaft/operations.h
+index 5b8a4a7a7999..823886720e2c 100644
+--- a/src/3rdparty/chromium/v8/src/compiler/turboshaft/operations.h
++++ b/src/3rdparty/chromium/v8/src/compiler/turboshaft/operations.h
+@@ -1333,13 +1333,13 @@ using WordBinopMask =
+ 
+ namespace Opmask {
+ using kWord32Sub =
+-    WordBinopMask::For<WordBinopOp::Kind::kSub, WordRepresentation::Word32()>;
+-using kWord32BitwiseAnd = WordBinopMask::For<WordBinopOp::Kind::kBitwiseAnd,
+-                                             WordRepresentation::Word32()>;
++    OpMaskT<WordBinopOp, WordBinopMask::BuildMask(), WordBinopMask::EncodeValue(WordBinopOp::Kind::kSub, WordRepresentation::Word32())>;
++using kWord32BitwiseAnd =
++    OpMaskT<WordBinopOp, WordBinopMask::BuildMask(), WordBinopMask::EncodeValue(WordBinopOp::Kind::kBitwiseAnd, WordRepresentation::Word32())>;
+ using kWord64Sub =
+-    WordBinopMask::For<WordBinopOp::Kind::kSub, WordRepresentation::Word64()>;
+-using kWord64BitwiseAnd = WordBinopMask::For<WordBinopOp::Kind::kBitwiseAnd,
+-                                             WordRepresentation::Word64()>;
++    OpMaskT<WordBinopOp, WordBinopMask::BuildMask(), WordBinopMask::EncodeValue(WordBinopOp::Kind::kSub, WordRepresentation::Word64())>;
++using kWord64BitwiseAnd =
++    OpMaskT<WordBinopOp, WordBinopMask::BuildMask(), WordBinopMask::EncodeValue(WordBinopOp::Kind::kBitwiseAnd, WordRepresentation::Word64())>;
+ }  // namespace Opmask
+ 
+ struct FloatBinopOp : FixedArityOperationT<2, FloatBinopOp> {
+@@ -1588,8 +1588,8 @@ using FloatUnaryMask = MaskBuilder<FloatUnaryOp, FIELD(FloatUnaryOp, kind),
+                                    FIELD(FloatUnaryOp, rep)>;
+ 
+ namespace Opmask {
+-using kFloat64Abs = FloatUnaryMask::For<FloatUnaryOp::Kind::kAbs,
+-                                        FloatRepresentation::Float64()>;
++using kFloat64Abs =
++    OpMaskT<FloatUnaryOp, FloatUnaryMask::BuildMask(), FloatUnaryMask::EncodeValue(FloatUnaryOp::Kind::kAbs, FloatRepresentation::Float64())>;
+ }
+ 
+ struct ShiftOp : FixedArityOperationT<2, ShiftOp> {
+diff --git a/src/3rdparty/chromium/v8/src/compiler/turboshaft/representations.h b/src/3rdparty/chromium/v8/src/compiler/turboshaft/representations.h
+index bf08a1056d74..fc2289e9858d 100644
+--- a/src/3rdparty/chromium/v8/src/compiler/turboshaft/representations.h
++++ b/src/3rdparty/chromium/v8/src/compiler/turboshaft/representations.h
+@@ -376,7 +376,7 @@ class WordRepresentation : public RegisterRepresentation {
+   constexpr Enum value() const {
+     return static_cast<Enum>(RegisterRepresentation::value());
+   }
+-  constexpr operator Enum() const { return value(); }
++  constexpr operator Enum() const { return WordRepresentation::value(); }
+ 
+   constexpr uint64_t MaxUnsignedValue() const {
+     switch (this->value()) {
+-- 
+GitLab
+
