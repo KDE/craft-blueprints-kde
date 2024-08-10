@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "A FREE, open-source and cross-platform Data Visualization and Analysis software accessible to everyone"
         self.webpage = "https://labplot.kde.org/"
-        self.displayName = "LabPlot2"
+        self.displayName = "LabPlot"
 
         for ver in ["2.9.0"]:
             self.targets[ver] = "https://download.kde.org/stable/labplot/%s/labplot-%s.tar.xz" % (ver, ver)
@@ -92,7 +92,7 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
 
     def createPackage(self):
-        self.defines["appname"] = "labplot2"
+        self.defines["appname"] = "labplot"
 
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         # Some plugin files break codesigning on macOS, which is picky about file names
@@ -101,24 +101,24 @@ class Package(CMakePackageBase):
         self.addExecutableFilter(r"bin/(?!(labplot|cantor_|QtWebEngineProcess)).*")
 
         self.defines["website"] = "https://labplot.kde.org/"
-        self.defines["executable"] = "bin\\labplot2.exe"
+        self.defines["executable"] = "bin\\labplot.exe"
         self.defines["shortcuts"] = [
-            {"name": "LabPlot2", "target": "bin/labplot2.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\labplot2.ico"}
+            {"name": "LabPlot", "target": "bin/labplot.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\labplot.ico"}
         ]
-        self.defines["icon"] = self.blueprintDir() / "labplot2.ico"
-        self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-labplot2.png"
-        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-labplot2.png"
-        self.defines["icon_png_310"] = self.sourceDir() / "icons/310-apps-labplot2.png"
+        self.defines["icon"] = self.blueprintDir() / "labplot.ico"
+        self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-labplot.png"
+        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-labplot.png"
+        self.defines["icon_png_310"] = self.sourceDir() / "icons/310-apps-labplot.png"
 
         # see NullsoftInstaller.nsi and NullsoftInstallerPackager.py
         if isinstance(self, NullsoftInstallerPackager):
             # register application and .lml file type
             self.defines["registry_hook"] = (
-                """WriteRegStr SHCTX "Software\\Classes\\.lml" "" "LabPlot2"\n"""
-                """WriteRegStr SHCTX "Software\\Classes\\LabPlot2" "" "LabPlot2 project"\n"""
-                """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\DefaultIcon" "" "$INSTDIR\\bin\\data\\labplot2\\application-x-labplot2.ico"\n"""
-                """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell" "" "open"\n"""
-                """WriteRegStr SHCTX "Software\\Classes\\LabPlot2\\shell\\open\\command" "" '"$INSTDIR\\bin\\labplot2.exe" "%1"'\n"""
+                """WriteRegStr SHCTX "Software\\Classes\\.lml" "" "LabPlot"\n"""
+                """WriteRegStr SHCTX "Software\\Classes\\LabPlot" "" "LabPlot project"\n"""
+                """WriteRegStr SHCTX "Software\\Classes\\LabPlot\\DefaultIcon" "" "$INSTDIR\\bin\\data\\labplot\\application-x-labplot.ico"\n"""
+                """WriteRegStr SHCTX "Software\\Classes\\LabPlot\\shell" "" "open"\n"""
+                """WriteRegStr SHCTX "Software\\Classes\\LabPlot\\shell\\open\\command" "" '"$INSTDIR\\bin\\labplot.exe" "%1"'\n"""
             )
 
             # remove old version if exists
@@ -152,7 +152,7 @@ class Package(CMakePackageBase):
         if isinstance(self, AppxPackager):
             self.defines["display_name"] = "LabPlot"
         else:
-            self.defines["mimetypes"] = ["application/x-labplot2"]
+            self.defines["mimetypes"] = ["application/x-labplot"]
         self.defines["file_types"] = [".lml"]
 
         self.ignoredPackages.append("binary/mysql")

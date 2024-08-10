@@ -1,3 +1,5 @@
 share/p11-kit
 bin/p11-kit
 .*PlugIns/kf5/org\.kde\.kwindowsystem\.platforms.*
+# Undiagnosed running install_name_tool -change on libgcrypt, pulled in be libKF6WalletBackend. kwalletd is the only user and is not in the bundle, anyway.
+lib/libKF6WalletBackend.*dylib

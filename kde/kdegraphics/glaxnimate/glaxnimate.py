@@ -2,9 +2,7 @@
 # SPDX-FileCopyrightText: 2023 Julius Künzel <jk.kdedev@smartlab.uber.space>
 
 import info
-import utils
 from Blueprints.CraftPackageObject import CraftPackageObject
-from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 
 
@@ -14,14 +12,18 @@ class subinfo(info.infoclass):
         self.description = "Simple vector animation program"
         self.webpage = "https://glaxnimate.mattbas.org/"
 
-        for ver in ["0.5.4"]:
-            self.targets[ver] = f"https://gitlab.com/mattbas/glaxnimate/-/archive/{ver}/glaxnimate-{ver}.tar.gz"
-            self.targetInstSrc[ver] = f"glaxnimate-{ver}"
+        # for ver in ["0.5.4"]:
+        #     self.targets[ver] = f"https://gitlab.com/mattbas/glaxnimate/-/archive/{ver}/glaxnimate-{ver}.tar.gz"
+        #     self.targetInstSrc[ver] = f"glaxnimate-{ver}"
+
+        # Virtual helper version until we have our first KDE release
+        self.svnTargets["0.5.50"] = "https://invent.kde.org/graphics/glaxnimate.git||bdc3a6a085287e88a1cda3dc6116d7a5fd2ff09c"
 
         self.patchLevel["master"] = 1
 
         self.svnTargets["master"] = "https://invent.kde.org/graphics/glaxnimate.git"
-        self.defaultTarget = "0.5.4"
+
+        self.defaultTarget = "0.5.50"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -36,6 +38,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
+        # QtTools is indeed a runtim dep for the plugin system
         self.runtimeDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["libs/potrace"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
@@ -55,15 +58,11 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["executable"] = r"bin\glaxnimate.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(glaxnimate|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")
+        # llvm is pulled in by QtTools
+        self.ignoredPackages.append("libs/llvm")
         # if not CraftCore.compiler.isLinux:
         #     self.ignoredPackages.append("libs/dbus")
 
-        if self.buildTarget <= CraftVersion("0.5.4"):
-            # this has been fixed in
-            if CraftCore.compiler.isMacOS:
-                self.defines["appname"] = "glaxnimate"
-            else:
-                self.defines["appname"] = "Glaxnimate"
         # self.defines["icon"] = os.path.join(self.sourceDir(), "data", "icons", "kdenlive.ico")
         # self.defines["icon_png"] = os.path.join(self.sourceDir(), "logo.png")
         return super().createPackage()

@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
 
 
 from Package.CMakePackageBase import *
