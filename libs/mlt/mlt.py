@@ -43,8 +43,8 @@ class subinfo(info.infoclass):
         #    self.runtimeDependencies["libs/ladspa-swh"] = None
         if not CraftCore.compiler.isMacOS:
             # self.runtimeDependencies["libs/jack2"] = None
-            self.runtimeDependencies["libs/rubberband"] = None
             self.runtimeDependencies["libs/sox"] = None
+        self.runtimeDependencies["libs/rubberband"] = None
         self.runtimeDependencies["libs/frei0r-plugins"] = None
         self.runtimeDependencies["libs/libsdl2"] = None
         self.runtimeDependencies["libs/vidstab"] = None
@@ -72,9 +72,6 @@ class Package(CMakePackageBase):
             "-DMOD_SDL2=ON",
         ]
 
-        if self.subinfo.options.isActive("libs/opencv/opencv"):
-            self.subinfo.options.configure.args += ["-DMOD_OPENCV=ON"]
-
         if CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["-DMOD_RTAUDIO=OFF", "-DMOD_SOX=OFF"]
 
@@ -83,9 +80,18 @@ class Package(CMakePackageBase):
         else:
             self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE_QT6=OFF"]
 
+        if CraftCore.compiler.isMSVC():
+            #TODO Fix decklink module with MSVC
+            self.subinfo.options.configure.args += ["-DMOD_DECKLINK=OFF"]
+        else:
+            self.subinfo.options.configure.args += ["-DMOD_DECKLINK=ON"]
+            #TODO OpenCV has an issue with its installation and is hence not detected
+            if self.subinfo.options.isActive("libs/opencv/opencv"):
+                self.subinfo.options.configure.args += ["-DMOD_OPENCV=ON"]
+
         self.subinfo.options.configure.args += ["-DMOD_QT=OFF", "-DMOD_QT6=ON"]
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.isMinGW():
             self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-Wno-incompatible-pointer-types"]
         self.subinfo.options.configure.cxxflags += " -D_XOPEN_SOURCE=700 "
 
