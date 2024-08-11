@@ -2,9 +2,6 @@ import info
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Compiler.All
-
     def setTargets(self):
         self.description = "Minimalistic plugin API for video effects, plugins collection"
         self.webpage = "http://frei0r.dyne.org/"
@@ -17,8 +14,12 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.3.3"
 
     def setDependencies(self):
+        #TODO MSVC: it looks as if cairo and gavl are not detected
+
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/opencv/opencv"] = None
+        if not CraftCore.compiler.isMSVC():
+            # TODO check why build fails with OpenCV, shouldn't be too hard to fix
+            self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/cairo"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/gavl"] = None
@@ -32,6 +33,10 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["-DWITHOUT_GAVL=1"]
+
+        # TODO check why build fails with OpenCV, shouldn't be too hard to fix
+        if CraftCore.compiler.isMSVC():
+            self.subinfo.options.configure.args += ["-DWITHOUT_OPENCV=1"]
 
     def install(self):
         if not super().install():
