@@ -1,0 +1,39 @@
+--- ladspa_sdk_1.17\src.orig/plugins/filter.c	2021-09-10 10:44:43.000000000 +0200
++++ ladspa_sdk_1.17\src/plugins/filter.c	2024-08-11 15:20:53.016809000 +0200
+@@ -11,6 +11,17 @@
+ 
+ /*****************************************************************************/
+ 
++#ifdef _MSC_VER
++#define _USE_MATH_DEFINES
++#include <math.h>
++#ifndef M_PI
++#define M_PI 3.14159265358979323846
++#endif
++#ifndef M_PI_2
++#define M_PI_2 1.57079632679489661923
++#endif
++#endif
++
+ #include <math.h>
+ #include <stdlib.h>
+ #include <string.h>
+--- ladspa_sdk_1.17\src.orig/plugins/sine.cpp	2021-09-10 10:44:43.000000000 +0200
++++ ladspa_sdk_1.17\src/plugins/sine.cpp	2024-08-11 15:21:43.152620100 +0200
+@@ -15,6 +15,16 @@
+
+ /*****************************************************************************/
+ 
++#ifdef _MSC_VER
++#define _USE_MATH_DEFINES
++#include <math.h>
++#ifndef M_PI
++#define M_PI 3.14159265358979323846
++#endif
++#ifndef M_PI_2
++#define M_PI_2 1.57079632679489661923
++#endif
++#endif
+ #include <cmath>
+ #include <cstdlib>
+ #include <cstring>
