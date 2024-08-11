@@ -63,6 +63,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         # if not CraftCore.compiler.isLinux:
         #     self.ignoredPackages.append("libs/dbus")
 
-        # self.defines["icon"] = os.path.join(self.sourceDir(), "data", "icons", "kdenlive.ico")
-        # self.defines["icon_png"] = os.path.join(self.sourceDir(), "logo.png")
+        self.defines["icon"] = self.sourceDir() / "data/images/glaxnimate.ico"
+        self.defines["icon_png"] = self.sourceDir() / "data/images/glaxnimate.png"
+
         return super().createPackage()
