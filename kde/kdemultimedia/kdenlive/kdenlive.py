@@ -52,7 +52,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
         self.runtimeDependencies["kde/kdemultimedia/ffmpegthumbs"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
-        self.runtimeDependencies["libs/ladspa-tap"] = None
         self.runtimeDependencies["libs/mlt"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if not CraftCore.compiler.isMacOS:
@@ -70,6 +69,7 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.dynamic.buildTests = False
         self.subinfo.options.configure.args += ["-DNODBUS=ON"]
         self.subinfo.options.configure.args += ["-DUSE_DBUS=OFF"]
         if self.buildTarget == "master":
