@@ -20,10 +20,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gnupg"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
-        self.patchToApply["1.21.0"] = [("cmake.patch", 1), ("gpgmepp-1.21.0-20231109.diff", 1)]
-
-        self.patchLevel["1.21.0"] = 6
-
 
 from Package.CMakePackageBase import *
 
