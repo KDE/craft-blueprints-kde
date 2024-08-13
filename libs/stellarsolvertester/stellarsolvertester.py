@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/zlib"] = None
         if CraftCore.compiler.isWindows:
-            self.runtimeDependencies["boost-regex"] = None
+            self.runtimeDependencies["libs/boost/boost-headers"] = None  # for boost/regex
         self.runtimeDependencies["libs/wcslib"] = None
 
 class Package(CMakePackageBase):
