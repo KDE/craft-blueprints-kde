@@ -1,5 +1,6 @@
 import glob
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
@@ -19,7 +20,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/mman"] = None
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/zlib"] = None
-        self.runtimeDependencies["boost-regex"] = None
+        if CraftCore.compiler.isWindows:
+            self.runtimeDependencies["boost-regex"] = None
         self.runtimeDependencies["libs/wcslib"] = None
 
 class Package(CMakePackageBase):
