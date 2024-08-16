@@ -1,5 +1,8 @@
 import info
 
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
+
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -23,9 +26,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

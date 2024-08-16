@@ -63,6 +63,12 @@ class Package(CraftPackageObject.get("kde").pattern):
         # if not CraftCore.compiler.isLinux:
         #     self.ignoredPackages.append("libs/dbus")
 
-        # self.defines["icon"] = os.path.join(self.sourceDir(), "data", "icons", "kdenlive.ico")
-        # self.defines["icon_png"] = os.path.join(self.sourceDir(), "logo.png")
+        # For the Microsoft Store
+        # We need to change this, because for unknown reasons the store does not
+        # assign the usual KDEe.V.Glaxnimate as for other apps
+        self.defines["name"] = "KDEe.V.85719657F5A6"
+
+        self.defines["icon"] = self.sourceDir() / "data/images/glaxnimate.ico"
+        self.defines["icon_png"] = self.sourceDir() / "data/images/glaxnimate.png"
+
         return super().createPackage()

@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
             # This is a quick fix in the sense that it only reverts the faulty commit
             # There are probably better fixes. See https://invent.kde.org/network/kio-extras/-/merge_requests/326
             for ver in ["24.05.0", "24.05.1", "24.05.2"]:
-                self.patchToApply[ver] = [("fix-windows.patch", 1)]
+                self.patchToApply[ver] = [("fix-windows.patch", 1), ("355.patch", 1)]
 
         self.patchLevel["24.05.0"] = 1
 
