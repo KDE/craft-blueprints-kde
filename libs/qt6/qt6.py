@@ -8,4 +8,4 @@ class Pattern(CMakePackageBase):
         super().__init__(**kwargs)
         # Updating this always needs a corresponding change to the host tools in the CI image!
         if CraftCore.compiler.isAndroid:
-            self.subinfo.defaultTarget = "6.7.1"
+            self.subinfo.defaultTarget = "6.7.2"
