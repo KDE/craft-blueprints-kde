@@ -9,7 +9,14 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply["1.21.0"] = [("cmake.patch", 1), ("gpgmepp-1.21.0-20231109.diff", 1)]
+        self.patchToApply["1.21.0"] = [
+            ("cmake.patch", 1),
+            ("gpgmepp-1.21.0-20231109.diff", 1),
+        ]
+        if CraftCore.compiler.isMSVC():
+            self.patchToApply["1.21.0"] += [
+                ("0001-Workaround-compile-errors-with-MSVC-2022.patch", 1),
+            ]
         self.patchLevel["1.21.0"] = 7
 
     def setDependencies(self):
@@ -19,10 +26,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/gnupg"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-
-        self.patchToApply["1.21.0"] = [("cmake.patch", 1), ("gpgmepp-1.21.0-20231109.diff", 1)]
-
-        self.patchLevel["1.21.0"] = 6
 
 
 from Package.CMakePackageBase import *
