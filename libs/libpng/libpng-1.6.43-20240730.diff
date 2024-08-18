@@ -1,0 +1,19 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user libpng-1.6.43.orig/CMakeLists.txt libpng-1.6.43/CMakeLists.txt
+--- libpng-1.6.43.orig/CMakeLists.txt	2024-07-30 21:48:43.974890300 +0200
++++ libpng-1.6.43/CMakeLists.txt	2024-07-30 21:48:04.242492500 +0200
+@@ -1072,15 +1072,6 @@
+           ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+           FRAMEWORK DESTINATION ${CMAKE_INSTALL_LIBDIR})
+ 
+-  if(PNG_SHARED)
+-    # Create a symlink for libpng.dll.a => libpng16.dll.a on Cygwin
+-    if(NOT WIN32 OR CYGWIN OR MINGW)
+-      create_symlink(libpng${CMAKE_SHARED_LIBRARY_SUFFIX} TARGET png_shared)
+-      install(FILES $<TARGET_LINKER_FILE_DIR:png_shared>/libpng${CMAKE_SHARED_LIBRARY_SUFFIX}
+-              DESTINATION ${CMAKE_INSTALL_LIBDIR})
+-    endif()
+-  endif()
+-
+   if(PNG_STATIC)
+     if(NOT WIN32 OR CYGWIN OR MINGW)
+       create_symlink(libpng${CMAKE_STATIC_LIBRARY_SUFFIX} TARGET png_static)

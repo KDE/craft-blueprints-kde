@@ -1,4 +1,6 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -8,14 +10,15 @@ class subinfo(info.infoclass):
             self.archiveNames[ver] = f"abseil-cpp-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"abseil-cpp-{ver}"
         self.targetDigests["20240116.2"] = (["733726b8c3a6d39a4120d7e45ea8b41a434cdacde401cba500f14236c49b39dc"], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["20240116.2"] = 2
+
+        # See https://github.com/abseil/abseil-cpp/issues/1717
+        self.patchToApply["20240116.2"] = [("779a3565ac6c5b69dd1ab9183e500a27633117d5.patch", 1)]
+
+        self.patchLevel["20240116.2"] = 4
         self.defaultTarget = "20240116.2"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

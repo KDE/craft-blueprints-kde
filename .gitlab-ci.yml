@@ -43,3 +43,104 @@ run-tests:
   artifacts:
     reports:
       junit: JUnit*Results.xml
+
+build-package-linux:
+  # This job can be used to test the build of a package, e.g. when you update
+  # the package to a new version. Set CRAFT_PACKAGE to the package you want to
+  # test. This test uses the CI image that's also used for the AppImages.
+  image: invent-registry.kde.org/sysadmin/ci-images/sles15-craft:latest
+  rules:
+    - when: manual
+      # we don't want the manual job to block the pipeline
+      allow_failure: true
+  tags:
+    - Linux
+  variables:
+    GIT_STRATEGY: none
+    KDECI_CRAFT_PLATFORM: linux-64-gcc
+    KDECI_CRAFT_CACHE: /mnt/craft-cache/$KDECI_CRAFT_PLATFORM/
+    KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6/CraftConfig.ini
+    KDECI_CRAFT_PROJECT_CONFIG: $CI_PROJECT_DIR/.craft.ini
+    CRAFT_PACKAGE:
+  interruptible: true
+  before_script:
+    - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE to the package you want to test."; false; fi
+    - export LANG=en_US.UTF-8
+    - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
+    - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
+    # Create empty .craft.ini if none exists
+    - touch $KDECI_CRAFT_PROJECT_CONFIG
+    # Define a short cut for the lengthy CraftMaster command line
+    - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --config-override $KDECI_CRAFT_PROJECT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
+  script:
+    # Set up craft settings and blueprint settings
+    - craftmaster --setup
+    # Get Craft itself ready
+    - craftmaster -c -i --options virtual.ignored=True --update craft
+    - craftmaster -c craft
+    # Switch to this branch of craft-blueprints-kde
+    - cd $CI_PROJECT_DIR/blueprints/craft-blueprints-kde
+    - git checkout $CI_COMMIT_REF_NAME
+    - cd $CI_PROJECT_DIR
+    # Install all of our dependencies
+    - craftmaster -c --install-deps $CRAFT_PACKAGE
+    # Build the package
+    - craftmaster -c --no-cache $CRAFT_PACKAGE
+  artifacts:
+    expire_in: 3 days
+    when: always
+    paths:
+      - "$KDECI_CRAFT_PLATFORM/logs/"
+
+build-package-windows_qt6_x86_64:
+  # This job can be used to test the build of a package, e.g. when you update
+  # the package to a new version. Set CRAFT_PACKAGE to the package you want to
+  # test. This test uses the CI image that's used for the craft_windows_qt6_x86_64 job.
+  image: invent-registry.kde.org/sysadmin/ci-images/windows-msvc2022:latest
+  rules:
+    - when: manual
+      # we don't want the manual job to block the pipeline
+      allow_failure: true
+  tags:
+    - Windows
+  variables:
+    PYTHONUTF8: 1
+    GIT_STRATEGY: none
+    KDECI_CRAFT_PLATFORM: windows-msvc2022_64-cl
+    KDECI_CRAFT_CACHE: C:/Gitlab/Craft/download/
+    KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6-dev/CraftConfig.ini
+    CRAFT_PACKAGE:
+  interruptible: true
+  before_script:
+    - cd C:\Gitlab\Craft\
+    - Get-ChildItem C:\Gitlab\Craft\ | Remove-Item -Recurse -Force
+    - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
+    - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
+    # Define a short cut for the lengthy CraftMaster command line
+    - |
+      function Run-CraftMaster {
+        python craftmaster/CraftMaster.py --config $env:KDECI_CRAFT_CONFIG --target $env:KDECI_CRAFT_PLATFORM $args
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      }
+  script:
+    # Set up craft settings and blueprint settings
+    - Run-CraftMaster --setup
+    # Get Craft itself ready
+    - Run-CraftMaster -c -i --options virtual.ignored=True --update craft
+    - Run-CraftMaster -c craft
+    # Switch to this branch of craft-blueprints-kde
+    - cd C:/Gitlab/Craft/blueprints/craft-blueprints-kde
+    - git checkout $env:CI_COMMIT_REF_NAME
+    - cd C:/Gitlab/Craft
+    # Install all of our dependencies
+    - Run-CraftMaster -c --install-deps --options "[CodeSigning]Enabled=False" $env:CRAFT_PACKAGE
+    # Build the package
+    - Run-CraftMaster -c --no-cache --options "[CodeSigning]Enabled=False" $env:CRAFT_PACKAGE
+  after_script:
+    - if (!(Test-Path $env:CI_PROJECT_DIR/.logs)) { New-Item $env:CI_PROJECT_DIR/.logs -ItemType directory }
+    - Copy-item -Path C:/Gitlab/Craft/$env:KDECI_CRAFT_PLATFORM/logs/* -Destination $env:CI_PROJECT_DIR/.logs/ -Recurse
+  artifacts:
+    expire_in: 3 days
+    when: always
+    paths:
+      - ".logs/"

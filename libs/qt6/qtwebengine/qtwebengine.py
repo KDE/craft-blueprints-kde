@@ -1,4 +1,5 @@
 import multiprocessing
+import os
 from pathlib import Path
 
 import info
@@ -35,6 +36,9 @@ class subinfo(info.infoclass):
             # https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/528036
             ("chromium-119.0.6045.159-icu-74.patch", 1),
         ]
+
+        # https://invent.kde.org/qt/qt/qtwebengine-chromium/-/commit/3aba63e62a86aeb157ad73df0fe0f44f01cf0e02
+        self.patchToApply["6.7.2"] = [("3aba63e62a86aeb157ad73df0fe0f44f01cf0e02.patch", 1)]
 
         self.patchLevel["6.6.1"] = 1
 
@@ -140,10 +144,10 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         if not super().install():
             return False
 
-        if CraftCore.compiler.isWindows and os.path.isdir(os.path.join(self.imageDir(), "resources")):
+        if CraftCore.compiler.isWindows and os.path.isdir(self.imageDir() / "resources"):
             # move webengine resource files into location where they will still be found after deplyoment
             # see https://doc.qt.io/qt-6/qtwebengine-deploying.html for lookup rules
-            if not utils.mergeTree(os.path.join(self.imageDir(), "resources"), os.path.join(self.imageDir(), "bin")):
+            if not utils.mergeTree(self.imageDir() / "resources", self.imageDir() / "bin"):
                 return False
-        
+
         return True

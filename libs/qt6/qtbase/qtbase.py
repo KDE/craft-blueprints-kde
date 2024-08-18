@@ -30,9 +30,6 @@ class subinfo(info.infoclass):
             self.patchToApply[ver] = [(".craft", 1)]
             if CraftVersion(ver) < "6.6.999999":
                 self.patchToApply[ver] = [(".craft_before_6.7", 1)]
-            if CraftCore.compiler.isMinGW():
-                # Fix finding pcre2 on MinGW
-                self.patchToApply[ver] += [("qtbase-6.6.0-mingw-find-pcre2.diff", 1)]
 
         # backport of https://codereview.qt-project.org/c/qt/qtbase/+/528067
         for ver in ["6.6.0", "6.6.1"]:

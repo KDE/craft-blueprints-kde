@@ -22,7 +22,6 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.13.1"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/pthreads"] = None
         self.buildDependencies["dev-utils/nasm"] = None
 
 

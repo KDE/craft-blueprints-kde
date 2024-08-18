@@ -1,0 +1,125 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user icoutils-0.32.3.orig/config.h.in icoutils-0.32.3/config.h.in
+--- icoutils-0.32.3.orig/config.h.in	2018-03-07 12:40:12.000000000 +0100
++++ icoutils-0.32.3/config.h.in	2024-08-10 10:49:29.815927500 +0200
+@@ -331,6 +331,9 @@
+ /* Define to 1 if you have the <libpng12/png.h> header file. */
+ #undef HAVE_LIBPNG12_PNG_H
+ 
++/* Define to 1 if you have the <libpng16/png.h> header file. */
++#undef HAVE_LIBPNG16_PNG_H
++
+ /* Define to 1 if you have the <libpng/png.h> header file. */
+ #undef HAVE_LIBPNG_PNG_H
+ 
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user icoutils-0.32.3.orig/configure icoutils-0.32.3/configure
+--- icoutils-0.32.3.orig/configure	2018-03-07 13:03:37.000000000 +0100
++++ icoutils-0.32.3/configure	2024-08-10 10:54:22.264969000 +0200
+@@ -22002,6 +22002,48 @@
+ 
+     PNG_LIBS="-lpng12 -lz -lm"
+ 
++else
++
++    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for png_create_read_struct in -lpng16" >&5
++$as_echo_n "checking for png_create_read_struct in -lpng16... " >&6; }
++if ${ac_cv_lib_png16_png_create_read_struct+:} false; then :
++  $as_echo_n "(cached) " >&6
++else
++  ac_check_lib_save_LIBS=$LIBS
++LIBS="-lpng16 -lz -lm $LIBS"
++cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++/* end confdefs.h.  */
++
++/* Override any GCC internal prototype to avoid an error.
++   Use char because int might match the return type of a GCC
++   builtin and then its argument prototype would still apply.  */
++#ifdef __cplusplus
++extern "C"
++#endif
++char png_create_read_struct ();
++int
++main ()
++{
++return png_create_read_struct ();
++  ;
++  return 0;
++}
++_ACEOF
++if ac_fn_c_try_link "$LINENO"; then :
++  ac_cv_lib_png16_png_create_read_struct=yes
++else
++  ac_cv_lib_png16_png_create_read_struct=no
++fi
++rm -f core conftest.err conftest.$ac_objext \
++    conftest$ac_exeext conftest.$ac_ext
++LIBS=$ac_check_lib_save_LIBS
++fi
++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_png16_png_create_read_struct" >&5
++$as_echo "$ac_cv_lib_png16_png_create_read_struct" >&6; }
++if test "x$ac_cv_lib_png16_png_create_read_struct" = xyes; then :
++
++    PNG_LIBS="-lpng16 -lz -lm"
++
+ 
+ else
+ 
+@@ -22015,7 +22057,10 @@
+ 
+ fi
+ 
+-for ac_header in png.h libpng/png.h libpng10/png.h libpng12/png.h locale.h
++
++fi
++
++for ac_header in png.h libpng/png.h libpng10/png.h libpng12/png.h libpng16/png.h locale.h
+ do :
+   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
+ ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user icoutils-0.32.3.orig/configure.ac icoutils-0.32.3/configure.ac
+--- icoutils-0.32.3.orig/configure.ac	2018-03-07 13:03:00.000000000 +0100
++++ icoutils-0.32.3/configure.ac	2024-08-10 10:49:29.824004300 +0200
+@@ -103,11 +103,15 @@
+     AC_CHECK_LIB(png12, png_create_read_struct, [
+     AC_SUBST(PNG_LIBS, "-lpng12 -lz -lm")
+     ], [
++      AC_CHECK_LIB(png16, png_create_read_struct, [
++      AC_SUBST(PNG_LIBS, "-lpng16 -lz -lm")
++      ], [
+       AC_MSG_ERROR([cannot find required library png])
+     ], [-lz -lm])
+   ], [-lz -lm])
++  ], [-lz -lm])
+ ], [-lz -lm])
+-AC_CHECK_HEADERS([png.h libpng/png.h libpng10/png.h libpng12/png.h locale.h])
++AC_CHECK_HEADERS([png.h libpng/png.h libpng10/png.h libpng12/png.h libpng16/png.h locale.h])
+ 
+ AC_CONFIG_FILES([Makefile
+ 		 icoutils.spec
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user icoutils-0.32.3.orig/icotool/create.c icoutils-0.32.3/icotool/create.c
+--- icoutils-0.32.3.orig/icotool/create.c	2017-08-31 16:50:09.000000000 +0200
++++ icoutils-0.32.3/icotool/create.c	2024-08-10 10:49:29.826091900 +0200
+@@ -29,6 +29,10 @@
+ #  else
+ #   if HAVE_LIBPNG12_PNG_H
+ #    include <libpng12/png.h>
++#   else
++#    if HAVE_LIBPNG16_PNG_H
++#     include <libpng16/png.h>
++#    endif
+ #   endif
+ #  endif
+ # endif
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user icoutils-0.32.3.orig/icotool/extract.c icoutils-0.32.3/icotool/extract.c
+--- icoutils-0.32.3.orig/icotool/extract.c	2017-10-31 17:01:21.000000000 +0100
++++ icoutils-0.32.3/icotool/extract.c	2024-08-10 10:49:29.828091100 +0200
+@@ -33,6 +33,10 @@
+ #  else
+ #   if HAVE_LIBPNG12_PNG_H
+ #    include <libpng12/png.h>
++#   else
++#    if HAVE_LIBPNG16_PNG_H
++#     include <libpng16/png.h>
++#    endif
+ #   endif
+ #  endif
+ # endif

@@ -1,0 +1,44 @@
+From 8bf61a5811dcfb636ef904c275038fe5fd07eded Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ingo=20Kl=C3=B6cker?= <dev@ingo-kloecker.de>
+Date: Tue, 13 Aug 2024 09:06:54 +0200
+Subject: [PATCH] Workaround compile errors with MSVC 2022
+
+The static_asserts seem to confuse MSVC. The build fails with the
+useless error:
+threadedjobmixin.h(149): error C2039: 'type': is not a member of 'std'
+
+Seems to be a regression in MSVC because the identical code can be
+built with MSVC 2019 and it also compiled with MSVC 2022 in April.
+---
+ lang/qt/src/threadedjobmixin.h | 16 ----------------
+ 1 file changed, 16 deletions(-)
+
+diff --git a/lang/qt/src/threadedjobmixin.h b/lang/qt/src/threadedjobmixin.h
+index 7a18aa4d..412c32ec 100644
+--- a/lang/qt/src/threadedjobmixin.h
++++ b/lang/qt/src/threadedjobmixin.h
+@@ -137,22 +137,6 @@ public:
+ protected:
+     static_assert(std::tuple_size<T_result>::value > 2,
+                   "Result tuple too small");
+-    static_assert(std::is_same <
+-                  typename std::tuple_element <
+-                  std::tuple_size<T_result>::value - 2,
+-                  T_result
+-                  >::type,
+-                  QString
+-                  >::value,
+-                  "Second to last result type not a QString");
+-    static_assert(std::is_same <
+-                  typename std::tuple_element <
+-                  std::tuple_size<T_result>::value - 1,
+-                  T_result
+-                  >::type,
+-                  GpgME::Error
+-                  >::value,
+-                  "Last result type not a GpgME::Error");
+
+     explicit ThreadedJobMixin(GpgME::Context *ctx)
+         : T_base(nullptr), m_ctx(ctx), m_thread(), m_auditLog(), m_auditLogError()
+--
+2.43.1

@@ -79,7 +79,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/openal-soft"] = None
-        self.runtimeDependencies["libs/pthreads"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/libass"] = None
         self.runtimeDependencies["libs/libusb"] = None
