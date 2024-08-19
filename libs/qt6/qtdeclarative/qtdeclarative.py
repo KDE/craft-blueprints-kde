@@ -10,10 +10,10 @@ class subinfo(info.infoclass):
         self.patchLevel["6.7.0"] = 1
 
     def setDependencies(self):
+        self.buildDependencies["libs/qt6/qttools"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtshadertools"] = None
-        self.runtimeDependencies["libs/qt6/qttools"] = None
         self.runtimeDependencies["libs/qt6/qtsvg"] = None
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/qt6/qtlanguageserver"] = None
