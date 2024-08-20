@@ -81,11 +81,11 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE_QT6=OFF"]
 
         if CraftCore.compiler.isMSVC():
-            #TODO Fix decklink module with MSVC
+            # TODO Fix decklink module with MSVC
             self.subinfo.options.configure.args += ["-DMOD_DECKLINK=OFF"]
         else:
             self.subinfo.options.configure.args += ["-DMOD_DECKLINK=ON"]
-            #TODO OpenCV has an issue with its installation and is hence not detected
+            # TODO OpenCV has an issue with its installation and is hence not detected
             if self.subinfo.options.isActive("libs/opencv/opencv"):
                 self.subinfo.options.configure.args += ["-DMOD_OPENCV=ON"]
 

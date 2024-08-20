@@ -172,7 +172,14 @@ class Package(AutoToolsPackageBase):
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["--enable-rpath", "--install-name-dir=@rpath"]
         elif not CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ["--enable-ffnvcodec", "--enable-nvdec", "--enable-nvenc", "--enable-cuvid", "--enable-amf", "--enable-libsvtav1"]
+            self.subinfo.options.configure.args += [
+                "--enable-ffnvcodec",
+                "--enable-nvdec",
+                "--enable-nvenc",
+                "--enable-cuvid",
+                "--enable-amf",
+                "--enable-libsvtav1",
+            ]
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["--enable-vaapi", "--enable-vdpau"]
             if CraftCore.compiler.architecture & CraftCore.compiler.Architecture.x86:

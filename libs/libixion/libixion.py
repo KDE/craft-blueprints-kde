@@ -2,9 +2,12 @@ import info
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.description = "a general purpose formula parser, interpreter, formula cell dependency tracker and spreadsheet document model backend all in one package"
+        self.description = (
+            "a general purpose formula parser, interpreter, formula cell dependency tracker and spreadsheet document model backend all in one package"
+        )
 
         for ver in ["0.19.0"]:
             self.targets[ver] = f"https://gitlab.com/api/v4/projects/ixion%2Fixion/packages/generic/source/{ver}/libixion-{ver}.tar.xz"
@@ -23,4 +26,4 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        #self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]
+        # self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]

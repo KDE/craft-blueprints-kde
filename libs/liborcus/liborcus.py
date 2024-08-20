@@ -2,6 +2,7 @@ import info
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "library that provides a collection of standalone file processing filters for spreadsheet formats"
@@ -24,4 +25,4 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        #self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]
+        # self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]

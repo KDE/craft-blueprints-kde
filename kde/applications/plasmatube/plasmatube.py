@@ -2,7 +2,8 @@
 # SPDX-FileCopyrightText: 2023 Joshua Goins <josh@redstrate.com>
 
 import info
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):

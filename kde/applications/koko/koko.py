@@ -2,7 +2,8 @@
 # SPDX-FileCopyrightText: 2023 Julius Künzel <jk.kdedev@smartlab.uber.space>
 
 import info
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -35,7 +36,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 

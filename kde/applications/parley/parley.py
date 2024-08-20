@@ -31,9 +31,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxml2"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

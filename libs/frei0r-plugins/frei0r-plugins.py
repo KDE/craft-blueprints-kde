@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.3.3"
 
     def setDependencies(self):
-        #TODO MSVC: it looks as if cairo and gavl are not detected
+        # TODO MSVC: it looks as if cairo and gavl are not detected
 
         self.runtimeDependencies["virtual/base"] = None
         if not CraftCore.compiler.isMSVC():

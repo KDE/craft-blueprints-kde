@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         for ver in ["2.9.0", "2.10.0", "2.10.1", "2.11.1"]:
             self.targetInstSrc[ver] = "labplot-%s" % ver
         # beta versions
-        #for ver in ["2.8.99"]:
+        # for ver in ["2.8.99"]:
         #    self.targets[ver] = "https://download.kde.org/stable/labplot/2.9.0/labplot-2.9.0-beta.tar.xz"
         #    self.targetInstSrc[ver] = "labplot-2.9.0-beta"
 
@@ -40,7 +40,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libzip"] = None
         self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/netcdf"] = None
-        #self.runtimeDependencies["libs/liborcus"] = None
+        # self.runtimeDependencies["libs/liborcus"] = None
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
@@ -49,7 +49,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/liblz4"] = None
 
         # Cantor is still Qt5 only
-        #self.runtimeDependencies["kde/applications/cantor"] = None
+        # self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -102,9 +102,7 @@ class Package(CMakePackageBase):
 
         self.defines["website"] = "https://labplot.kde.org/"
         self.defines["executable"] = "bin\\labplot.exe"
-        self.defines["shortcuts"] = [
-            {"name": "LabPlot", "target": "bin/labplot.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\labplot.ico"}
-        ]
+        self.defines["shortcuts"] = [{"name": "LabPlot", "target": "bin/labplot.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\labplot.ico"}]
         self.defines["icon"] = self.blueprintDir() / "labplot.ico"
         self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-labplot.png"
         self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-labplot.png"

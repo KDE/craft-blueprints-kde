@@ -1,6 +1,6 @@
 import info
-from Package.CMakePackageBase import *
 from CraftCore import CraftCore
+from Package.CMakePackageBase import *
 
 
 class subinfo(info.infoclass):
@@ -34,4 +34,7 @@ class Package(CMakePackageBase):
         ]
         if CraftCore.compiler.androidAbi == "armeabi-v7a":
             # building libwebm fails on Android ARM32; disable it
-            self.subinfo.options.configure.args += ["-DCONFIG_WEBM_IO=0", "-DAOM_TARGET_CPU=armv7a",]
+            self.subinfo.options.configure.args += [
+                "-DCONFIG_WEBM_IO=0",
+                "-DAOM_TARGET_CPU=armv7a",
+            ]

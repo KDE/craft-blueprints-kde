@@ -1,7 +1,7 @@
 import info
-from CraftCore import CraftCore
 from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):

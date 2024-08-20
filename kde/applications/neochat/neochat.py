@@ -1,5 +1,8 @@
+import os
+
 import info
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -43,7 +46,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["dev-utils/libtool"] = None
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
@@ -55,12 +58,12 @@ class Package(CMakePackageBase):
         self.defines["shortcuts"] = [{"name": "NeoChat", "target": "bin/neochat.exe", "appId": "neochat", "icon": self.buildDir() / "src/NEOCHAT_ICON.ico"}]
         self.defines["icon"] = self.buildDir() / "src/NEOCHAT_ICON.ico"
         # set the icons for the appx bundle
-        if os.path.exists(os.path.join(self.sourceDir(), "icons", "150-apps-neochat.png")):
-            self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-neochat.png")
-            self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-neochat.png")
+        if os.path.exists(self.sourceDir() / "icons/150-apps-neochat.png"):
+            self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-neochat.png"
+            self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-neochat.png"
         else:
-            self.defines["icon_png"] = os.path.join(self.blueprintDir(), "150-apps-neochat.png")
-            self.defines["icon_png_44"] = os.path.join(self.blueprintDir(), "44-apps-neochat.png")
+            self.defines["icon_png"] = self.blueprintDir() / "150-apps-neochat.png"
+            self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-neochat.png"
         self.addExecutableFilter(r"(bin|libexec)/(?!(neochat|update-mime-database|snoretoast)).*")
         self.ignoredPackages.append("binary/mysql")
         if not CraftCore.compiler.isLinux:

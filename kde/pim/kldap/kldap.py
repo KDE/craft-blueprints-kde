@@ -32,5 +32,5 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += [
                 f"-DLdap_INCLUDE_DIRS={CraftStandardDirs.craftRoot() / 'include'}",
                 f"-DLdap_LIBRARY={CraftStandardDirs.craftRoot() / 'lib' / 'libldap.2.dylib'}",
-                f"-DLber_LIBRARY={CraftStandardDirs.craftRoot() / 'lib' / 'liblber.2.dylib'}"
+                f"-DLber_LIBRARY={CraftStandardDirs.craftRoot() / 'lib' / 'liblber.2.dylib'}",
             ]

@@ -1,6 +1,7 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -24,6 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libgmp"] = None
         self.runtimeDependencies["libs/mpfr"] = None
         self.runtimeDependencies["dev-utils/msys"] = None
+
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):

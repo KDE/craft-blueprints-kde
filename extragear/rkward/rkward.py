@@ -152,7 +152,10 @@ class Package(CMakePackageBase):
             for subpath in ["libexec/lib", "lib/libexec/lib", "plugins/lib", "plugins/kf6/lib"]:
                 utils.createSymlink(os.path.join(self.archiveDir(), "lib"), os.path.join(self.archiveDir(), subpath), targetIsDirectory=True)
             # appimagetool still looks for .appdata.xml, only
-            utils.copyFile(os.path.join(self.archiveDir(), "share/metainfo/org.kde.rkward.metainfo.xml"), os.path.join(self.archiveDir(), "share/metainfo/org.kde.rkward.appdata.xml"))
+            utils.copyFile(
+                os.path.join(self.archiveDir(), "share/metainfo/org.kde.rkward.metainfo.xml"),
+                os.path.join(self.archiveDir(), "share/metainfo/org.kde.rkward.appdata.xml"),
+            )
             for appdata in utils.filterDirectoryContent(os.path.join(self.archiveDir(), "share/metainfo")):
                 # remove any .appdata.xml file other than the rkward one, or it may get set as the AppImage description
                 if not appdata.endswith("rkward.appdata.xml"):

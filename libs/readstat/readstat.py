@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = (
             CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
         )
+
     def setTargets(self):
         self.svnTargets["master"] = "[git]https://github.com/WizardMac/ReadStat.git"
         for ver in ["1.1.6", "1.1.8", "1.1.9"]:
@@ -25,7 +26,7 @@ class subinfo(info.infoclass):
             ("5ad80040b94b667e2fef74e9b8d865f142fec820.patch", 1),  # Add missing `void` to make Clang happy (*.h files)
         ]
         self.patchToApply["1.1.9"] = [
-            ("readstat-1.1.9.patch", 1), # double free issue and missing prototypes
+            ("readstat-1.1.9.patch", 1),  # double free issue and missing prototypes
         ]
 
         if CraftCore.compiler.isMSVC():

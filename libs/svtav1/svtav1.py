@@ -16,9 +16,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/nasm"] = None
 
+
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += [
-            "-DBUILD_TESTING=false"
-        ]
+        self.subinfo.options.configure.args += ["-DBUILD_TESTING=false"]
