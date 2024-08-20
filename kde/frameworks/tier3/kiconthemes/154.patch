@@ -1,0 +1,28 @@
+From 117d853681268017216eefb402b04e3fd33fe8b7 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <julius.kuenzel@kde.org>
+Date: Sat, 17 Aug 2024 23:26:40 +0000
+Subject: [PATCH] Add path for Android to theme locations
+
+---
+ src/kicontheme.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/kicontheme.cpp b/src/kicontheme.cpp
+index d1b1b66..a0bc54d 100644
+--- a/src/kicontheme.cpp
++++ b/src/kicontheme.cpp
+@@ -348,6 +348,11 @@ KIconTheme::KIconTheme(const QString &name, const QString &appName, const QStrin
+     // local embedded icons have preference
+     icnlibs << QStringLiteral(":/icons");
+ 
++#ifdef Q_OS_ANDROID
++    // Android icon theme installed by Kirigami
++    icnlibs << QStringLiteral("assets:/qml/org/kde/kirigami");
++#endif
++
+     // global icons
+     icnlibs += QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("icons"), QStandardPaths::LocateDirectory);
+ 
+-- 
+GitLab
+
