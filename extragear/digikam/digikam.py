@@ -92,7 +92,7 @@ class subinfo(info.infoclass):
 
             self.runtimeDependencies["libs/runtime"] = None
 
-            self.buildDependencies["libs/boost/boost-graph"] = None
+            self.buildDependencies["libs/boost/boost-headers"] = None
         else:
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
 
