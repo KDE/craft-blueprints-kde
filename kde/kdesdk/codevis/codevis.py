@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/llvm"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/boost/boost-headers"] = None
+        self.runtimeDependencies["libs/boost/boost-graph"] = None
         self.runtimeDependencies["libs/catch2"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
