@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/sqlite"] = None
         self.runtimeDependencies["libs/llvm"] = None
         self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/libzip"] = None
         self.runtimeDependencies["libs/boost/boost-headers"] = None
         self.runtimeDependencies["libs/boost/boost-graph"] = None
         self.runtimeDependencies["libs/catch2"] = None
