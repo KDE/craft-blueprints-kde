@@ -13,7 +13,8 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["kde/frameworks/tier1/karchive"] = None
-        self.runtimeDependencies["libs/libavif"] = None
+        if not CraftCore.compiler.isAndroid:
+                self.runtimeDependencies["libs/libavif"] = None
         self.runtimeDependencies["libs/libjxl"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
