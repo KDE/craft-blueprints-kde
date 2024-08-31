@@ -161,7 +161,4 @@ class Package(CMakePackageBase):
                 if not appdata.endswith("rkward.appdata.xml"):
                     CraftCore.log.info(f"removing {appdata}")
                     utils.deleteFile(appdata)
-        elif OsUtils.isWin():
-            # NOTE / TODO: _temporary_ workaround for qtwebengine path problem https://invent.kde.org/packaging/craft/-/merge_requests/243
-            utils.mergeTree(os.path.join(self.archiveDir(), "resources"), os.path.join(self.archiveDir(), "bin"))
         return super().preArchive()
