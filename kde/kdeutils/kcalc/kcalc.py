@@ -24,6 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["libs/libgmp"] = None
         self.runtimeDependencies["libs/mpfr"] = None
+        self.runtimeDependencies["libs/mpc"] = None
         self.runtimeDependencies["dev-utils/msys"] = None
 
 
