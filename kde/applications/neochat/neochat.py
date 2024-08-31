@@ -7,7 +7,7 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/network/neochat.git")
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/network/neochat.git||work/tobias/vodozemac")
 
         self.displayName = "NeoChat"
         self.description = "A client for matrix, the decentralized communication protocol."
