@@ -5,7 +5,7 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "https://github.com/quotient-im/libQuotient.git||dev"
+        self.svnTargets["master"] = "https://github.com/quotient-im/libQuotient.git||tobias/vodozemac"
 
         for ver in ["0.8.1.1", "0.8.2"]:
             self.targets[ver] = "https://github.com/quotient-im/libQuotient/archive/%s.tar.gz" % ver
@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
-        self.runtimeDependencies["libs/olm"] = None
+        self.runtimeDependencies["libs/vodozemac-cpp"] = None
 
 
 class Package(CMakePackageBase):
