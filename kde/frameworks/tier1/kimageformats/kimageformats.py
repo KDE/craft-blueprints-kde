@@ -13,8 +13,9 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["kde/frameworks/tier1/karchive"] = None
-        if not CraftCore.compiler.isAndroid:
-                self.runtimeDependencies["libs/libavif"] = None
+        self.runtimeDependencies["libs/libavif"] = None
+        if CraftCore.compiler.isWindows:
+            self.runtimeDependencies["libs/libheif"] = None
         self.runtimeDependencies["libs/libjxl"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
@@ -22,3 +23,5 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        if CraftCore.compiler.isWindows:
+            self.subinfo.options.configure.args += ["-DKIMAGEFORMATS_HEIF=ON"]
