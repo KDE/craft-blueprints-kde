@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"qxmpp-{ver}"
         self.targetDigests["1.7.1"] = (["2691e2b28dfc45c4cda17ce04cf998b8c15f01bbf72f335e01b98a2f98063ef0"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.8.1"] = (["f307dde71dbaf9e17dc0472fafe68cabe2572b22ae759b6af24f8e1183b8db71"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "1.8.1"
+        self.defaultTarget = "1.7.1"
 
 
 class Package(CMakePackageBase):
