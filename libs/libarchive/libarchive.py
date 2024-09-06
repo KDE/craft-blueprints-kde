@@ -14,14 +14,14 @@ class subinfo(info.infoclass):
         self.defaultTarget = "3.7.2"
 
     def setDependencies(self):
-        self.buildDependencies["libs/liblzma"] = None
-        self.buildDependencies["libs/libbzip2"] = None
-        self.buildDependencies["libs/zlib"] = None
-        self.buildDependencies["libs/libzstd"] = None
-        self.buildDependencies["libs/openssl"] = None
-        self.buildDependencies["libs/libxml2"] = None
-        self.buildDependencies["libs/pcre"] = None
-        self.buildDependencies["libs/iconv"] = None
+        self.runtimeDependencies["libs/liblzma"] = None
+        self.runtimeDependencies["libs/libbzip2"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/libzstd"] = None
+        self.runtimeDependencies["libs/openssl"] = None
+        self.runtimeDependencies["libs/libxml2"] = None
+        self.runtimeDependencies["libs/pcre"] = None
+        self.runtimeDependencies["libs/iconv"] = None
         self.runtimeDependencies["virtual/base"] = None
         #        self.runtimeDependencies["libs/expat"] = None
 
