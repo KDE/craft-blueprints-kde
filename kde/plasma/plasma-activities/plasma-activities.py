@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
-        self.runtimeDependencies["libs/boost/boost-headers"] = None
+        self.runtimeDependencies["libs/boost"] = None
 
 
 class Package(CraftPackageObject.get("kde/plasma").pattern):

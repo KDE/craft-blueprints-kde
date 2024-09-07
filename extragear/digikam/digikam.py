@@ -67,7 +67,6 @@ class subinfo(info.infoclass):
 
         # do not force boost deps (see: https://phabricator.kde.org/T12071#212690)
 
-        # self.runtimeDependencies["libs/boost/boost-system"]            = None
         # self.runtimeDependencies["libs/boost"]                         = None
 
         self.runtimeDependencies["libs/expat"] = None
@@ -92,7 +91,7 @@ class subinfo(info.infoclass):
 
             self.runtimeDependencies["libs/runtime"] = None
 
-            self.buildDependencies["libs/boost/boost-graph"] = None
+            self.buildDependencies["libs/boost"] = None
         else:
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
 

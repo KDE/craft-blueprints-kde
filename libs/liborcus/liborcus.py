@@ -16,9 +16,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.buildDependencies["libs/boost/boost-iostreams"] = None
-        self.buildDependencies["libs/boost/boost-date-time"] = None
-        self.buildDependencies["libs/boost/boost-program-options"] = None
+        self.buildDependencies["libs/boost"] = None
         self.buildDependencies["libs/libixion"] = None
 
 

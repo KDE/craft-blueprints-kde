@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/mman"] = None
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/zlib"] = None
-        self.runtimeDependencies["boost-regex"] = None
+        self.runtimeDependencies["libs/boost"] = None
         self.runtimeDependencies["libs/wcslib"] = None
 
 

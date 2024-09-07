@@ -20,14 +20,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["libs/boost/boost-headers"] = None
 
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/boost/boost-system"] = None
-        self.runtimeDependencies["libs/boost/boost-program-options"] = None
-        self.runtimeDependencies["libs/boost/boost-iostreams"] = None
-        self.runtimeDependencies["libs/boost/boost-filesystem"] = None
-        self.runtimeDependencies["libs/boost/boost-container"] = None
+        self.runtimeDependencies["libs/boost"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/elfutils"] = None
         self.runtimeDependencies["libs/libunwind"] = None

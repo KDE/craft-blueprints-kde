@@ -18,8 +18,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.buildDependencies["libs/boost/boost-system"] = None
-        self.buildDependencies["libs/boost/boost-filesystem"] = None
+        self.buildDependencies["libs/boost"] = None
         self.buildDependencies["libs/mdds"] = None
 
 
