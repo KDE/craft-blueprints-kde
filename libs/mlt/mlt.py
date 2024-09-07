@@ -52,6 +52,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ladspa-rnnoise"] = None
         self.runtimeDependencies["libs/ladspa-tap"] = None
         self.runtimeDependencies["libs/spatialaudio"] = None
+        self.runtimeDependencies["libs/lilv"] = None
         self.runtimeDependencies["libs/opencv/opencv_contrib"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
         # dependencies for glaxnimate module
