@@ -16,6 +16,9 @@ class subinfo(info.infoclass):
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = "kirigami-addons-" + ver
 
+        self.patchToApply["1.4.0"] = [("fix-mobile-combo-box.diff", 1)]
+        self.patchLevel["1.4.0"] = 1
+
         self.defaultTarget = "1.4.0"
 
     def setDependencies(self):

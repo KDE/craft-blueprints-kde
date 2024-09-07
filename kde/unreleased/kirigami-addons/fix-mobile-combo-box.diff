@@ -1,0 +1,21 @@
+commit ba2662230bca59d9868805057280855f78828a5a
+Author: Volker Krause <vkrause@kde.org>
+Date:   Fri Aug 16 08:44:09 2024 +0200
+
+    Properly qualify access to ApplicationWindow attached property
+    
+    Fixes opening the form card combo box in mobile mode.
+
+diff --git a/src/formcard/FormComboBoxDelegate.qml b/src/formcard/FormComboBoxDelegate.qml
+index 5b85299..de8a7c8 100644
+--- a/src/formcard/FormComboBoxDelegate.qml
++++ b/src/formcard/FormComboBoxDelegate.qml
+@@ -241,7 +241,7 @@ AbstractFormDelegate {
+             if (controlRoot.displayMode === FormComboBoxDelegate.Dialog) {
+                 controlRoot.dialog.open();
+             } else if (controlRoot.displayMode === FormComboBoxDelegate.Page) {
+-                controlRoot._selectionPageItem = controlRoot.ApplicationWindow.window.pageStack.pushDialogLayer(page)
++                controlRoot._selectionPageItem = controlRoot.QQC2.ApplicationWindow.window.pageStack.pushDialogLayer(page)
+             } else {
+                 combobox.popup.open();
+                 combobox.forceActiveFocus(Qt.PopupFocusReason);
