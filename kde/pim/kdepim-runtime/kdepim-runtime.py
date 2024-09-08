@@ -30,7 +30,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kmailtransport"] = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
         self.runtimeDependencies["kde/pim/akonadi-calendar"] = None
-        self.runtimeDependencies["kde/pim/akonadi-notes"] = None
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["kde/pim/kcalutils"] = None
         self.runtimeDependencies["kde/pim/kmbox"] = None
