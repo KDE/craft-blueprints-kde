@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         # Qt WebEngine doesn't work with MinGW.
         if not CraftCore.compiler.isMinGW():
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
-        self.runtimeDependencies["libs/boost/boost-system"] = None
+        self.runtimeDependencies["libs/boost"] = None
         self.runtimeDependencies["libs/lcms2"] = None
         self.runtimeDependencies["libs/libgit2"] = None
         self.runtimeDependencies["libs/eigen3"] = None

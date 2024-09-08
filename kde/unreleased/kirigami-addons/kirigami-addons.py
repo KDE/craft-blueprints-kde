@@ -1,7 +1,7 @@
 import info
-from CraftCore import CraftCore
 from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -15,6 +15,9 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = "kirigami-addons-" + ver
+
+        self.patchToApply["1.4.0"] = [("fix-mobile-combo-box.diff", 1)]
+        self.patchLevel["1.4.0"] = 1
 
         self.defaultTarget = "1.4.0"
 

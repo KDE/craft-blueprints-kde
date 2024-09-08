@@ -1,6 +1,6 @@
 import info
-from CraftConfig import *
-from CraftOS.osutils import OsUtils
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -37,19 +37,16 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def createPackage(self):
         self.defines["executable"] = "bin\\elisa.exe"
 
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "elisa.ico")
-        self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "44-apps-elisa.png")
-        self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-elisa.png")
+        self.defines["icon"] = self.blueprintDir() / "elisa.ico"
+        self.defines["icon_png"] = self.sourceDir() / "icons/44-apps-elisa.png"
+        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-elisa.png"
 
         self.defines["mimetypes"] = ["audio/mpeg", "audio/mp4"]
         self.defines["file_types"] = [".mp3", ".ogg", ".m4a", ".flac", ".wav", ".m3u", ".opus"]

@@ -61,7 +61,8 @@ class Package(CraftPackageObject.get("kde").pattern):
             self.subinfo.options.configure.args += ["-DFORCE_NOT_REQUIRED_DEPENDENCIES=LibSpectre"]
 
     def createPackage(self):
-        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        if not CraftCore.compiler.isAndroid:
+            self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.addExecutableFilter(r"bin/(?!(okular|update-mime-database|kioworker)).*")

@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
-        self.runtimeDependencies["libs/boost/boost-headers"] = None
+        self.runtimeDependencies["libs/boost"] = None
         self.runtimeDependencies["libs/libgmp"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
 

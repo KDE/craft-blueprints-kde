@@ -39,5 +39,5 @@ class Package(CMakePackageBase):
             "-DWITH_AOM_ENCODER=OFF",
             "-DWITH_JPEG_DECODER=ON",
             "-DWITH_OpenJPEG_DECODER=ON",
-            "-DWITH_FFMPEG_DECODER=ON"
+            "-DWITH_FFMPEG_DECODER=ON",
         ]

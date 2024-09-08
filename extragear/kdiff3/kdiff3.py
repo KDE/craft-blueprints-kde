@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["libs/boost/boost-headers"] = None
+        self.buildDependencies["libs/boost"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
@@ -39,14 +39,14 @@ class Package(CMakePackageBase):
         self.defines["executable"] = r"bin\kdiff3.exe"
         self.defines["icon"] = os.path.join(self.blueprintDir(), "kdiff3.ico")
         self.defines["alias"] = "kdiff3.exe"
-        
+
         self.ignoredPackages.append("binary/mysql")
         # Only attempt to install shell extention in standalone mode
         if not isinstance(self, AppxPackager):
-            with open(os.path.join(self.blueprintDir(), "sections.nsi"), encoding='utf-8') as file:
+            with open(os.path.join(self.blueprintDir(), "sections.nsi"), encoding="utf-8") as file:
                 self.defines["sections"] = file.read()
 
-            with open( os.path.join(self.blueprintDir(), "appunistall.nsi"), encoding='utf-8') as file:
+            with open(os.path.join(self.blueprintDir(), "appunistall.nsi"), encoding="utf-8") as file:
                 self.defines["un_sections"] = file.read()
-        
+
         return super().createPackage()

@@ -45,7 +45,7 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
         super().__init__(**kwargs)
         self.subinfo.options.package.disableStriping = True
         self.subinfo.options.configure.args += [
-            "-DWITH_GPSD=OFF", # No recipe yet on Linux, does not build on MacOS
+            "-DWITH_GPSD=OFF",  # No recipe yet on Linux, does not build on MacOS
             f"-DBUILD_LIBS={'ON' if self.subinfo.options.dynamic.buildLibraries else 'OFF'}",
             "-DBUILD_TESTING=OFF",
         ]

@@ -2,6 +2,7 @@ import info
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "A collection of multi-dimensional data structure and indexing algorithm"
@@ -20,4 +21,4 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        #self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]
+        # self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]

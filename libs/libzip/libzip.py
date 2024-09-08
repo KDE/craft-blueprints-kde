@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -20,9 +22,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libzstd"] = None
         self.runtimeDependencies["libs/nettle"] = None
         self.runtimeDependencies["libs/gnutls"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

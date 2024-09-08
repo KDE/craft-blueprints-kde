@@ -21,8 +21,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/xerces-c"] = None
 
         # the following runtimeDependencies are runtime runtimeDependencies for packages linking to the static! libkolabxml
-        self.runtimeDependencies["libs/boost/boost-thread"] = None
-        self.runtimeDependencies["libs/boost/boost-system"] = None
+        self.runtimeDependencies["libs/boost"] = None
         self.runtimeDependencies["libs/libcurl"] = None
 
 

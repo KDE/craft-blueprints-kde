@@ -18,10 +18,10 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20221103
-        self.svnTargets["a6bd0b3"] = "https://github.com/mltframework/mlt.git||a6bd0b38e3c9a523edf64b9e73248703ad516556"
-        self.defaultTarget = "a6bd0b3"
+        self.svnTargets["ac40c9e"] = "https://github.com/mltframework/mlt.git||ac40c9e550f0d895efb1108833f6e812d0011da7"
+        self.defaultTarget = "ac40c9e"
         if CraftCore.compiler.isWindows:
-            self.patchToApply["a6bd0b3"] = [("pi_patch.diff", 1)]
+            self.patchToApply["ac40c9e"] = [("pi_patch.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
@@ -81,11 +81,11 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE_QT6=OFF"]
 
         if CraftCore.compiler.isMSVC():
-            #TODO Fix decklink module with MSVC
+            # TODO Fix decklink module with MSVC
             self.subinfo.options.configure.args += ["-DMOD_DECKLINK=OFF"]
         else:
             self.subinfo.options.configure.args += ["-DMOD_DECKLINK=ON"]
-            #TODO OpenCV has an issue with its installation and is hence not detected
+            # TODO OpenCV has an issue with its installation and is hence not detected
             if self.subinfo.options.isActive("libs/opencv/opencv"):
                 self.subinfo.options.configure.args += ["-DMOD_OPENCV=ON"]
 

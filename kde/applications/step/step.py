@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -24,10 +25,7 @@ class subinfo(info.infoclass):
         # self.runtimeDependencies["libs/gsl"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -41,6 +39,6 @@ class Package(CMakePackageBase):
         self.defines["website"] = "https://apps.kde.org/step"
         self.defines["executable"] = "bin\\step.exe"
         self.defines["shortcuts"] = [{"name": "Step", "target": "bin/step.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\step.ico"}]
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "step.ico")
+        self.defines["icon"] = self.blueprintDir() / "step.ico"
 
         return super().createPackage()

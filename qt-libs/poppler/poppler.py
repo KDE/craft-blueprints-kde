@@ -40,7 +40,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkg-config"] = None
-        self.buildDependencies["libs/boost/boost-headers"] = None
+        self.buildDependencies["libs/boost"] = None
         self.runtimeDependencies["data/poppler-data"] = None
         self.runtimeDependencies["libs/freetype"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
@@ -107,7 +107,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DENABLE_CPP=" + ("ON" if self.subinfo.options.dynamic.buildCppFrontend else "OFF")]
         self.subinfo.options.configure.args += ["-DENABLE_LIBTIFF=" + ("ON" if self.subinfo.options.isActive("libs/tiff") else "OFF")]
         self.subinfo.options.configure.args += ["-DENABLE_LCMS=" + ("ON" if self.subinfo.options.isActive("libs/lcms2") else "OFF")]
-        self.subinfo.options.configure.args += ["-DENABLE_BOOST=" + ("ON" if self.subinfo.options.isActive("libs/boost/boost-headers") else "OFF")]
+        self.subinfo.options.configure.args += ["-DENABLE_BOOST=" + ("ON" if self.subinfo.options.isActive("libs/boost") else "OFF")]
 
         # Craft doesn't compile NSS and gpgme with mingw
         self.subinfo.options.configure.args += [

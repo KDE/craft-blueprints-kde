@@ -4,8 +4,8 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ref in ["master"]: # NOTE: there is no Qt 6 release branch, yet
-            self.svnTargets[ref] = "https://invent.kde.org/office/kbibtex.git|" + ref;
+        for ref in ["master"]:  # NOTE: there is no Qt 6 release branch, yet
+            self.svnTargets[ref] = "https://invent.kde.org/office/kbibtex.git|" + ref
             self.targetUpdatedRepoUrl[ref] = ("https://anongit.kde.org/kbibtex|" + ref, "https://invent.kde.org/office/kbibtex.git|" + ref)
         self.defaultTarget = "master"
 
@@ -32,10 +32,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += [
-            "-DBUILD_WITH_QT6=ON",
-            "-DQT_MAJOR_VERSION=6"
-        ]
+        self.subinfo.options.configure.args += ["-DBUILD_WITH_QT6=ON", "-DQT_MAJOR_VERSION=6"]
 
     def createPackage(self):
         self.defines["productname"] = "KBibTeX"

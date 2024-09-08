@@ -66,7 +66,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         # For the Microsoft Store
         # We need to change this, because for unknown reasons the store does not
         # assign the usual KDEe.V.Glaxnimate as for other apps
-        self.defines["name"] = "KDEe.V.85719657F5A6"
+        self.defines["appx_identity_name"] = "KDEe.V.47488D4059B84"
 
         self.defines["icon"] = self.sourceDir() / "data/images/glaxnimate.ico"
         self.defines["icon_png"] = self.sourceDir() / "data/images/glaxnimate.png"

@@ -31,6 +31,11 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        # Fix FindLibExiv2 version detection from header
+        # See https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/456
+        self.patchToApply["6.5.0"] = ("c952c102977c15fbe6f4afdb880f6a52902e7d3b.patch", 1)
+        self.patchLevel["6.5.0"] = 1
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         if CraftCore.compiler.isWindows:

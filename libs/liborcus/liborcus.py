@@ -2,6 +2,7 @@ import info
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "library that provides a collection of standalone file processing filters for spreadsheet formats"
@@ -15,13 +16,11 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.buildDependencies["libs/boost/boost-iostreams"] = None
-        self.buildDependencies["libs/boost/boost-date-time"] = None
-        self.buildDependencies["libs/boost/boost-program-options"] = None
+        self.buildDependencies["libs/boost"] = None
         self.buildDependencies["libs/libixion"] = None
 
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        #self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]
+        # self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]

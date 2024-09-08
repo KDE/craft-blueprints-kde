@@ -1,11 +1,13 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.description = "KCalc"
+        self.description = "Scientific calculator"
+        self.displayName = "KCalc"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -22,12 +24,20 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["libs/libgmp"] = None
         self.runtimeDependencies["libs/mpfr"] = None
+        self.runtimeDependencies["libs/mpc"] = None
         self.runtimeDependencies["dev-utils/msys"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+    def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.addExecutableFilter(r"bin/(?!(kcalc|update-mime-database|kioworker)).*")
+        self.defines["website"] = "https://apps.kde.org/kcalc"
+        self.defines["executable"] = "bin\\kcalc.exe"
+
+        self.defines["icon"] = self.buildDir() / "kcalc.ico"
+
+        return super().createPackage()

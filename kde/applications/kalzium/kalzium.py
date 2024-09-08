@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -23,9 +24,6 @@ class subinfo(info.infoclass):
         # self.runtimeDependencies["libs/openbabel"] = None https://github.com/openbabel/openbabel/issues/2461
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

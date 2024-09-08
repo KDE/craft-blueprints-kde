@@ -19,9 +19,7 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isAndroid:
             for ver in ["64c19545", "master"]:
-                self.patchToApply[ver] = [
-                    ("disable-soversion.patch", 1)
-                ]
+                self.patchToApply[ver] = [("disable-soversion.patch", 1)]
                 self.patchLevel[ver] = 1
 
     def setDependencies(self):

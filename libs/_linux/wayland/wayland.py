@@ -2,7 +2,6 @@ import os
 
 import info
 import utils
-
 from CraftCore import CraftCore
 from Package.MesonPackageBase import MesonPackageBase
 from Utils import CraftHash

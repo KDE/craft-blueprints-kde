@@ -2,6 +2,7 @@
 import info
 from Package.CMakePackageBase import CMakePackageBase
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["4.3.5"]:
@@ -14,6 +15,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/pkg-config"] = None
+
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):

@@ -1,0 +1,2 @@
+# strip most executables
+bin/(?!(kcalc|kioworker)).*\.exe
