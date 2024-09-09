@@ -18,11 +18,11 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["python-modules/meson"] = None
-        self.buildDependencies["libs/zix"] = None
-        self.buildDependencies["libs/serd"] = None
-        self.buildDependencies["libs/sord"] = None
-        self.buildDependencies["libs/lv2"] = None
-        self.buildDependencies["libs/sratom"] = None
+        self.runtimeDependencies["libs/zix"] = None
+        self.runtimeDependencies["libs/serd"] = None
+        self.runtimeDependencies["libs/sord"] = None
+        self.runtimeDependencies["libs/lv2"] = None
+        self.runtimeDependencies["libs/sratom"] = None
 
 
 class Package(MesonPackageBase):
