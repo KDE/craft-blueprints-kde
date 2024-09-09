@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2024 Julius Künzel <julius.kuenzel@kde.org>
 
 import info
+from CraftCore import CraftCore
 from Package.MesonPackageBase import MesonPackageBase
 from Utils import CraftHash
 
@@ -27,3 +28,9 @@ class subinfo(info.infoclass):
 class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.dynamic.buildTests = False
+
+        if not self.subinfo.options.dynamic.buildTests:
+            self.subinfo.options.configure.args += ["-Dtests=disabled"]
