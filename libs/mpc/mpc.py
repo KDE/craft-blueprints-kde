@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: BSD-2-Clause
 
 import info
-from Package.AutoToolsPackageBase import *
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):

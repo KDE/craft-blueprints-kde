@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import info
-from Blueprints.CraftVersion import CraftVersion
-from Package.CMakePackageBase import *
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/phonon"] = None
         if CraftCore.compiler.isMSVC():
             self.runtimeDependencies["kdesupport/kdewin"] = None
-        if OsUtils.isWin():
+        if CraftCore.compiler.isWindows:
             self.runtimeDependencies["binary/vlc"] = None
         else:
             self.runtimeDependencies["libs/vlc"] = None
