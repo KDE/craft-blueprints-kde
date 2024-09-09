@@ -29,4 +29,4 @@ class Package(PerlPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         root = CraftCore.standardDirs.craftRoot()
-        self.subinfo.options.configure.args += f"EXPATINCPATH=\"{root / 'include')}\" EXPATLIBPATH=\"{root / 'lib'}\""
+        self.subinfo.options.configure.args += f"EXPATINCPATH=\"{root / 'include'}\" EXPATLIBPATH=\"{root / 'lib'}\""
