@@ -37,7 +37,7 @@ class Package(CMakePackageBase):
         # https://github.com/boostorg/cmake
         self.subinfo.options.configure.args += [
             "-DBOOST_ENABLE_PYTHON=ON",
-            "-DBOOST_INCLUDE_LIBRARIES=atomic;chrono;date-time;filesystem;iostreams;program_options;python;random;regex;serialization;system;thread",
+            "-DBOOST_INCLUDE_LIBRARIES=atomic;chrono;date-time;filesystem;iostreams;program_options;python;random;regex;safe_numerics;serialization;signals2;system;thread",
         ]
         if CraftCore.compiler.isWindows:
             self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS=-D_WIN32_WINNT=0x0A00 -DWINVER=0x0A00 -D_WIN32_IE=0x0A00 -EHsc"]
