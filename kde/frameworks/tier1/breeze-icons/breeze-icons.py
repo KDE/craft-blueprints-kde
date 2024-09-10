@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         self.patchLevel["6.8.0"] = 1
 
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Native
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

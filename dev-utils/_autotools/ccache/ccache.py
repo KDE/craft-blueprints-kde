@@ -10,6 +10,9 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Native
+
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/ccache/ccache.git"
         self.targetInstallPath["master"] = "dev-utils"
