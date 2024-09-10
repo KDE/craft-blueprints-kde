@@ -5,7 +5,7 @@ from Package.AutoToolsPackageBase import *
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Native
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None

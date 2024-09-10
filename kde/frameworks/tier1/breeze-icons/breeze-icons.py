@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.description = "Breeze icon theme."
 
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Native
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
