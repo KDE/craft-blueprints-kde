@@ -91,7 +91,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DQT_BUILD_EXAMPLES=OFF",
             f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={'ON' if  self.subinfo.options.dynamic.useLtcg else 'OFF'}",
         ]
-        if not self.subinfo.options.dynamic.buildStatic or True:
+        if not self.subinfo.options.dynamic.buildStatic:
             self.subinfo.options.configure.args += [
                 "-DFEATURE_system_sqlite=ON",
                 "-DFEATURE_system_zlib=ON",
@@ -117,3 +117,10 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
 
         if CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += [f"-DANDROID_ABI={CraftCore.compiler.androidAbi}", "-DECM_THREADS_WORKAROUND=OFF"]
+        if CraftCore.compiler.isIOS:
+            self.subinfo.options.configure.args += [
+                "-DQT_FEATURE_printsupport=OFF",
+                f"-DQT_HOST_PATH={CraftCore.standardDirs.craftHostRoot()}",
+                "-DQT_APPLE_SDK=iphonesimulator",
+                "-DCMAKE_SYSTEM_NAME=iOS",
+            ]
