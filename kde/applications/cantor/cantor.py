@@ -1,5 +1,5 @@
-import CraftCore
 import info
+from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
 from Package.CMakePackageBase import CMakePackageBase
 from Packager.AppxPackager import AppxPackager
