@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
-from Blueprints.CraftPackageObject import CraftPackageObject
-from Package.CMakePackageBase import *
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -43,7 +43,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["executable"] = "bin\\konversation.exe"
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "konversation.ico")
+        self.defines["icon"] = self.blueprintDir() / "konversation.ico"
 
         self.ignoredPackages.append("binary/mysql")
 

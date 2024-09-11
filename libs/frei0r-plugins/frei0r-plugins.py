@@ -1,4 +1,8 @@
 import info
+import utils
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -23,9 +27,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/cairo"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/gavl"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

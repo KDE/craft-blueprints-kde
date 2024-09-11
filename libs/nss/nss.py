@@ -1,10 +1,15 @@
 import os
 import shutil
+from pathlib import Path
 
 import info
+import utils
 from CraftCompiler import CraftCompiler
+from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
 from Package.MakeFilePackageBase import *
 from shells import BashShell
+from Utils import CraftHash
 
 nss_ver = "3.93"
 nspr_ver = "4.35"
@@ -128,7 +133,7 @@ class Package(MakeFilePackageBase):
             )
             if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
                 newParams += " --enable-64bit"
-            content = content.replace('extra_params=(--prefix="$dist_dir"/$target)', 'extra_params=(--prefix="$dist_dir"/$target ' + newParams + ")")
+            content = content.replace('extra_params=(--prefix="$dist_dir"/$target)', f'extra_params=(--prefix="$dist_dir"/$target {newParams})')
             with open(nsprsh, "wt") as f:
                 f.write(content)
 

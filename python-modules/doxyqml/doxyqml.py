@@ -2,7 +2,8 @@
 import os
 
 import info
-from CraftOS.osutils import OsUtils
+import utils
+from CraftCore import CraftCore
 from Package.PipPackageBase import PipPackageBase
 
 
@@ -23,10 +24,10 @@ class Package(PipPackageBase):
         self.python2 = False
 
     def install(self):
-        if OsUtils.isWin():
+        if CraftCore.compiler.isWindows:
             utils.createShim(
                 self.imageDir() / "bin/doxyqml.exe",
                 self.imageDir() / "dev-utils/bin/python3.exe",
                 args=[os.path.join(CraftCore.settings.get("Paths", "Python"), "Scripts", "doxyqml")],
             )
-        return PipBuildSystem.install(self)
+        return super().install(self)

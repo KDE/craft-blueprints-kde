@@ -1,7 +1,6 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
-from CraftOS.osutils import OsUtils
 
 
 class subinfo(info.infoclass):
@@ -21,7 +20,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt/qtspeech"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
 
-        if OsUtils.isWin():
+        if CraftCore.compiler.isWindows:
             self.runtimeDependencies["dev-utils/snoretoast"] = None
 
 

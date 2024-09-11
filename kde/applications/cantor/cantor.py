@@ -1,7 +1,8 @@
 import CraftCore
 import info
-import utils
 from CraftOS.osutils import OsUtils
+from Package.CMakePackageBase import CMakePackageBase
+from Packager.AppxPackager import AppxPackager
 
 
 class subinfo(info.infoclass):
@@ -23,11 +24,10 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
         # libR.dylib fails packaging on macOS (lapack.so)
-        if not CraftCore.compiler.isMacOS:
-            if OsUtils.isWin():
-                self.runtimeDependencies["binary/r-base"] = None
-            else:
-                self.runtimeDependencies["libs/r-base"] = None
+        if CraftCore.compiler.isWindows:
+            self.runtimeDependencies["binary/r-base"] = None
+        elif not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/r-base"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
@@ -43,10 +43,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/applications/analitza"] = None
-
-
-from Package.CMakePackageBase import *
-from Packager.AppxPackager import AppxPackager
 
 
 class Package(CMakePackageBase):
@@ -73,7 +69,7 @@ class Package(CMakePackageBase):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         # Some plugins files break code signing on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
@@ -82,11 +78,11 @@ class Package(CMakePackageBase):
         self.defines["website"] = "https://cantor.kde.org/"
         self.defines["executable"] = "bin\\cantor.exe"
         self.defines["shortcuts"] = [{"name": "Cantor", "target": "bin/cantor.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\cantor.ico"}]
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "cantor.ico")
+        self.defines["icon"] = self.blueprintDir() / "cantor.ico"
         if self.buildTarget == "master":
-            self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "150-apps-cantor.png")
-            self.defines["icon_png_44"] = os.path.join(self.sourceDir(), "icons", "44-apps-cantor.png")
-            self.defines["icon_png_310"] = os.path.join(self.sourceDir(), "icons", "310-apps-cantor.png")
+            self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-cantor.png"
+            self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-cantor.png"
+            self.defines["icon_png_310"] = self.sourceDir() / "icons/310-apps-cantor.png"
 
         if isinstance(self, AppxPackager):
             self.defines["display_name"] = "Cantor"

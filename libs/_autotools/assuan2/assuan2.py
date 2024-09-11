@@ -1,4 +1,8 @@
 import info
+from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -18,16 +22,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gpg-error"] = None
 
 
-from Package.AutoToolsPackageBase import *
-
-
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def postInstall(self):
         return self.patchInstallPrefix(
-            [os.path.join(self.installDir(), "bin", "libassuan-config")],
+            [self.installDir() / "bin/libassuan-config"],
             OsUtils.toMSysPath(self.subinfo.buildPrefix),
             OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot()),
         )

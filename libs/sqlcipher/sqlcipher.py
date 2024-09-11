@@ -27,7 +27,6 @@ import re
 
 import info
 import utils
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
 from Package.AutoToolsPackageBase import AutoToolsPackageBase

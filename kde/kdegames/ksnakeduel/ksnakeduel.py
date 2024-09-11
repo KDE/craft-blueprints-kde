@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -26,9 +27,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
         self.runtimeDependencies["kde/kdegames/libkdegames"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

@@ -2,7 +2,6 @@ import info
 import utils
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
-from CraftOS.osutils import OsUtils
 
 
 class subinfo(info.infoclass):
@@ -25,7 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
-        if not OsUtils.isWin() and not OsUtils.isMac():
+        if not CraftCore.compiler.isWindows and not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["kde/frameworks/tier4/frameworkintegration"] = None
             self.runtimeDependencies["kde/plasma/kdecoration"] = None
 
@@ -33,16 +32,16 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde/plasma").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if OsUtils.isWin() or OsUtils.isMac():
+        if not CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF6FrameworkIntegration=ON", "-DWITH_DECORATIONS=OFF"]
-        self.subinfo.options.configure.args += f"-DBUILD_QT5=OFF"
+        self.subinfo.options.configure.args += ["-DBUILD_QT5=OFF"]
 
     def install(self):
         status = super().install()
         # On Windows files are wrongly installed to "share" while they should go to "bin/data"
         # This fix is to workaround that bug. It should be removed as soon as the bug is fixed
         # See https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/428
-        if OsUtils.isWin():
+        if CraftCore.compiler.isWindows:
             utils.moveFile(self.imageDir() / "share", self.imageDir() / "bin/data")
 
         for module in ["Breeze"]:
@@ -50,6 +49,6 @@ class Package(CraftPackageObject.get("kde/plasma").pattern):
             with open(filename, "r") as f:
                 contents = f.read()
             with open(filename, "w") as f:
-                f.write(contents.replace(f"share/color-schemes", f"bin/data/color-schemes"))
+                f.write(contents.replace("share/color-schemes", "bin/data/color-schemes"))
 
         return status

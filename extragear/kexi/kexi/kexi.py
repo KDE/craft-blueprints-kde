@@ -1,5 +1,6 @@
 import info
-from CraftOS.osutils import OsUtils
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -36,11 +37,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
-        if OsUtils.isLinux():
+        if CraftCore.compiler.isLinux:
             self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

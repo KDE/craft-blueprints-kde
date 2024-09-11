@@ -22,13 +22,16 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
+import os
 import shutil
 import stat
 
 import info
+import utils
 from CraftCore import CraftCore
-from Package.AutoToolsPackageBase import *
-from Package.MSBuildPackageBase import *
+from CraftOS.osutils import OsUtils
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.MSBuildPackageBase import MSBuildPackageBase
 from Utils import CraftHash
 
 
@@ -67,7 +70,7 @@ class PackageAutotools(AutoToolsPackageBase):
     def configure(self):
         isConfigured = super().configure()
         if isConfigured and CraftCore.compiler.isMinGW():
-            Makefile = os.path.join(self.buildDir(), "Makefile")
+            Makefile = self.buildDir() / "Makefile"
 
             with open(Makefile, "rt") as f:
                 content = f.read()
@@ -86,25 +89,23 @@ class PackageAutotools(AutoToolsPackageBase):
 
     def install(self):
         if CraftCore.compiler.isMinGW():
-            shutil.copy(
-                os.path.join(self.buildDir(), "tclsh86.exe"), os.path.join(CraftCore.standardDirs.craftRoot(), "bin", "tclsh.exe")
-            )  # otherwise super().install() fails
-            shutil.copy(os.path.join(self.buildDir(), "tclsh86.exe"), os.path.join(CraftCore.standardDirs.craftRoot(), "bin", "tclsh8.6.exe"))
+            shutil.copy(self.buildDir() / "tclsh86.exe", CraftCore.standardDirs.craftRoot() / "bin/tclsh.exe")  # otherwise super().install() fails
+            shutil.copy(self.buildDir() / "tclsh86.exe", CraftCore.standardDirs.craftRoot() / "bin/tclsh8.6.exe")
 
         isInstalled = super().install()
 
         if isInstalled:
             if CraftCore.compiler.isMinGW():
-                shutil.copy(os.path.join(self.installDir(), "bin", "tclsh86.exe"), os.path.join(self.installDir(), "bin", "tclsh.exe"))
+                shutil.copy(self.installDir() / "bin/tclsh86.exe", self.installDir() / "bin/tclsh.exe")
 
             if CraftCore.compiler.isLinux:
                 os.chmod(
-                    os.path.join(self.installDir(), "lib", "libtcl8.6.so"),
+                    self.installDir() / "lib/libtcl8.6.so",
                     stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH,
                 )
             elif CraftCore.compiler.isMacOS:
                 os.chmod(
-                    os.path.join(self.installDir(), "lib", "libtcl8.6.dylib"),
+                    self.installDir() / "lib/libtcl8.6.dylib",
                     stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH,
                 )
 
@@ -116,16 +117,16 @@ class PackageMSVC(MSBuildPackageBase):
         super().__init__(**kwargs)
 
     def make(self):
-        os.chdir(os.path.join(self.sourceDir(), "win"))
+        os.chdir(self.sourceDir() / "win")
         return utils.system(f"nmake -f makefile.vc release INSTALLDIR={self.installDir()}")
 
     def install(self):
-        os.chdir(os.path.join(self.sourceDir(), "win"))
+        os.chdir(self.sourceDir() / "win")
         isInstalled = utils.system(f"nmake -f makefile.vc install INSTALLDIR={self.installDir()}")
         if isInstalled:
-            utils.copyFile(os.path.join(self.installDir(), "bin", "tclsh86t.exe"), os.path.join(self.installDir(), "bin", "tclsh.exe"))
-            utils.copyFile(os.path.join(self.installDir(), "bin", "tcl86t.dll"), os.path.join(self.installDir(), "bin", "tcl86.dll"))
-            utils.copyFile(os.path.join(self.installDir(), "lib", "tcl86t.lib"), os.path.join(self.installDir(), "lib", "tcl86.lib"))
+            utils.copyFile(self.installDir() / "bin/tclsh86t.exe", self.installDir() / "bin/tclsh.exe")
+            utils.copyFile(self.installDir() / "bin/tcl86t.dll", self.installDir() / "bin/tcl86.dll")
+            utils.copyFile(self.installDir() / "lib/tcl86t.lib", self.installDir() / "lib/tcl86.lib")
 
         return isInstalled
 

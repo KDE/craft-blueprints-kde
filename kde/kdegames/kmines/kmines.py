@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -6,9 +7,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "KMines"
-
-        self.patchToApply["21.12.3"] = [("0001-Add-missing-KCoreAddons-link.patch", 1)]
-        self.patchLevel["21.12.3"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -24,9 +22,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/kdegames/libkdegames"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

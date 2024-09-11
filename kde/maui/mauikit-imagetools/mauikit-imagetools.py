@@ -1,5 +1,5 @@
 import info
-from Package.CMakePackageBase import *
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -7,9 +7,9 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/maui/mauikit-imagetools.git"
 
         for ver in ["2.1.0"]:
-            self.targets[ver] = "https://download.kde.org/stable/maui/mauikit-imagetools/%s/mauikit-imagetools-%s.tar.xz" % (ver, ver)
-            self.archiveNames[ver] = "mauikit-imagetools-%s.tar.gz" % ver
-            self.targetInstSrc[ver] = "mauikit-imagetools-%s" % ver
+            self.targets[ver] = f"https://download.kde.org/stable/maui/mauikit-imagetools/{ver}/mauikit-imagetools-{ver}.tar.xz"
+            self.archiveNames[ver] = f"mauikit-imagetools-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"mauikit-imagetools-{ver}"
 
         self.description = "MauiKit Image utilities and controls"
         self.defaultTarget = "2.1.0"

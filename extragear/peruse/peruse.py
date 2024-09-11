@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -28,10 +29,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/applications/okular"] = None
 
 
-from Package.CMakePackageBase import *
-from Packager.AppImagePackager import AppImagePackager
-
-
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -42,7 +39,7 @@ class Package(CMakePackageBase):
             {"name": self.subinfo.displayName, "target": "bin//peruse.exe"},
             {"name": "Peruse Creator", "target": "bin//perusecreator.exe"},
         ]
-        self.defines["icon"] = os.path.join(os.path.dirname(__file__), "peruse.ico")
+        self.defines["icon"] = self.blueprintDir() / "peruse.ico"
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 
         return super().createPackage()

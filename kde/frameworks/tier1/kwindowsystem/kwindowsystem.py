@@ -1,6 +1,5 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
-from CraftOS.osutils import OsUtils
 
 
 class subinfo(info.infoclass):

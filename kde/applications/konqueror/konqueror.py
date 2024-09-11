@@ -1,5 +1,5 @@
 import info
-from Blueprints.CraftPackageObject import CraftPackageObject
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -19,9 +19,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["libs/zlib"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
