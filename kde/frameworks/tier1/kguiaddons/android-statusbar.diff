@@ -1,0 +1,446 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 54ac8a0..b8b32f5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -23,6 +23,7 @@ include(ECMAddQch)
+ include(ECMGenerateExportHeader)
+ include(ECMGeneratePkgConfigFile)
+ include(ECMMarkNonGuiExecutable)
++include(ECMQmlModule)
+ 
+ option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
+ add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
+@@ -72,6 +73,10 @@ if(USE_DBUS)
+     set(WITH_DBUS ON)
+ endif()
+ 
++if (ANDROID)
++    find_package(Gradle REQUIRED)
++endif()
++
+ set(kguiaddons_version_header "${CMAKE_CURRENT_BINARY_DIR}/src/kguiaddons_version.h")
+ ecm_setup_version(PROJECT VARIABLE_PREFIX KGUIADDONS
+                         VERSION_HEADER "${kguiaddons_version_header}"
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 737eaa6..93334e1 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -17,6 +17,7 @@ target_sources(KF6GuiAddons PRIVATE
+  colors/kcolorschemewatcher.cpp
+  colors/kcolorschemewatcherbackend.cpp
+  colors/kcolorschemewatcher_qt.cpp
++ colors/kwindowinsetscontroller.cpp
+  text/kdatevalidator.cpp
+  text/kwordwrap.cpp
+  fonts/kfontutils.cpp
+@@ -107,6 +108,10 @@ if(WITH_X11)
+     target_link_libraries(KF6GuiAddons PRIVATE X11::Xkb XCB::XCB)
+ endif()
+ 
++if(ANDROID)
++    add_subdirectory(android)
++endif()
++
+ ecm_generate_export_header(KF6GuiAddons
+     BASE_NAME KGuiAddons
+     GROUP_BASE_NAME KF
+@@ -129,12 +134,15 @@ target_include_directories(KF6GuiAddons INTERFACE "$<INSTALL_INTERFACE:${KDE_INS
+ target_compile_definitions(KF6GuiAddons INTERFACE "$<INSTALL_INTERFACE:KGUIADDONS_LIB>")
+ target_link_libraries(KF6GuiAddons PUBLIC Qt6::Gui)
+ 
++qt_extract_metatypes(KF6GuiAddons)
++
+ ecm_generate_headers(KGuiAddons_HEADERS
+   HEADER_NAMES
+   KColorUtils
+   KColorCollection
+   KColorMimeData
+   KColorSchemeWatcher
++  KWindowInsetsController
+ 
+   RELATIVE colors
+   REQUIRED_HEADERS KGuiAddons_HEADERS
+@@ -234,3 +242,7 @@ endif()
+ if (NOT ANDROID AND BUILD_GEO_SCHEME_HANDLER)
+     add_subdirectory(geo-scheme-handler)
+ endif()
++
++if (TARGET Qt6::Qml)
++    add_subdirectory(qml)
++endif()
+diff --git a/src/android/AndroidManifest.xml b/src/android/AndroidManifest.xml
+new file mode 100644
+index 0000000..50e5c5d
+--- /dev/null
++++ b/src/android/AndroidManifest.xml
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++SPDX-FileCopyrightText: 2024 Volker Krause <vkrause@kde.org>
++SPDX-License-Identifier: BSD-2-Clause
++-->
++<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.kde.guiaddons">
++</manifest>
+diff --git a/src/android/CMakeLists.txt b/src/android/CMakeLists.txt
+new file mode 100644
+index 0000000..40e815c
+--- /dev/null
++++ b/src/android/CMakeLists.txt
+@@ -0,0 +1,11 @@
++# SPDX-FileCopyrightText: 2024 Volker Krause <vkrause@kde.org>
++# SPDX-License-Identifier: BSD-2-Clause
++
++gradle_add_aar(kguiaddons_aar BUILDFILE ${CMAKE_CURRENT_SOURCE_DIR}/build.gradle NAME KF6GuiAddons)
++gradle_install_aar(kguiaddons_aar DESTINATION jar)
++
++install(
++    FILES KF6GuiAddons-android-dependencies.xml
++    DESTINATION ${KDE_INSTALL_LIBDIR}
++    RENAME KF6GuiAddons_${CMAKE_ANDROID_ARCH_ABI}-android-dependencies.xml
++)
+diff --git a/src/android/KF6GuiAddons-android-dependencies.xml b/src/android/KF6GuiAddons-android-dependencies.xml
+new file mode 100644
+index 0000000..274754a
+--- /dev/null
++++ b/src/android/KF6GuiAddons-android-dependencies.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++SPDX-FileCopyrightText: 2024 Volker Krause <vkrause@kde.org>
++SPDX-License-Identifier: BSD-2-Clause
++-->
++<rules>
++    <dependencies>
++        <lib name="KF6GuiAddons">
++            <depends>
++                <jar bundling="1" file="jar/KF6GuiAddons.aar"/>
++            </depends>
++        </lib>
++    </dependencies>
++</rules>
+diff --git a/src/android/build.gradle b/src/android/build.gradle
+new file mode 100644
+index 0000000..4d6a522
+--- /dev/null
++++ b/src/android/build.gradle
+@@ -0,0 +1,43 @@
++/*
++    SPDX-FileCopyrightText: 2024 Volker Krause <vkrause@kde.org>
++    SPDX-License-Identifier: BSD-2-Clause
++*/
++
++buildscript {
++    repositories {
++        google()
++        jcenter()
++    }
++
++    dependencies {
++        classpath 'com.android.tools.build:gradle:@Gradle_ANDROID_GRADLE_PLUGIN_VERSION@'
++    }
++}
++
++repositories {
++    google()
++    jcenter()
++}
++
++apply plugin: 'com.android.library'
++
++android {
++    compileSdkVersion @ANDROID_SDK_COMPILE_API@
++    buildToolsVersion '@ANDROID_SDK_BUILD_TOOLS_REVISION@'
++
++    sourceSets {
++        main {
++            manifest.srcFile '@CMAKE_CURRENT_SOURCE_DIR@/AndroidManifest.xml'
++            java.srcDirs = ['@CMAKE_CURRENT_SOURCE_DIR@/org']
++       }
++    }
++
++    lintOptions {
++        abortOnError false
++    }
++
++    defaultConfig {
++        minSdkVersion @ANDROID_API_LEVEL@
++        targetSdkVersion @ANDROID_SDK_COMPILE_API@
++    }
++}
+diff --git a/src/android/org/kde/guiaddons/KWindowInsetsController.java b/src/android/org/kde/guiaddons/KWindowInsetsController.java
+new file mode 100644
+index 0000000..2b8dafb
+--- /dev/null
++++ b/src/android/org/kde/guiaddons/KWindowInsetsController.java
+@@ -0,0 +1,76 @@
++/*
++    SPDX-FileCopyrightText: 2024 Mathis Brüchert <mbb@kaidan.im>
++    SPDX-FileCopyrightText: 2024 Carl Schwan <carl@carlschwan.eu>
++    SPDX-FileCopyrightText: 2024 Volker Krause <vkrause@kde.org>
++    SPDX-License-Identifier: LGPL-2.0-or-later
++*/
++
++package org.kde.guiaddons;
++
++import android.app.Activity;
++import android.os.Build;
++import android.view.View;
++import android.view.Window;
++import android.view.WindowManager;
++import android.view.WindowInsetsController;
++
++public class KWindowInsetsController
++{
++    public static void setStatusBarBackground(android.app.Activity activity, int color)
++    {
++        Window window = activity.getWindow();
++        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
++        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
++        window.setStatusBarColor(color);
++
++        if (Build.VERSION.SDK_INT >= 30) {
++            if (isDark(color)) {
++                window.getInsetsController().setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
++            } else {
++                window.getInsetsController().setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS);
++            }
++        } else {
++            int visibility = window.getDecorView().getVisibility();
++            if (isDark(color)) {
++                visibility |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
++            } else {
++                visibility &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
++            }
++            window.getDecorView().setSystemUiVisibility(visibility);
++        }
++    }
++
++    public static void setNavigationBarBackground(android.app.Activity activity, int color)
++    {
++        Window window = activity.getWindow();
++        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
++        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
++        window.setNavigationBarColor(color);
++
++        if (Build.VERSION.SDK_INT >= 30) {
++            if (isDark(color)) {
++                window.getInsetsController().setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS, WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS);
++            } else {
++                window.getInsetsController().setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS);
++            }
++        } else {
++            int visibility = window.getDecorView().getVisibility();
++            if (isDark(color)) {
++                visibility |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
++            } else {
++                visibility &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
++            }
++            window.getDecorView().setSystemUiVisibility(visibility);
++        }
++    }
++
++    private static double luma(int color)
++    {
++        return (0.299 * (color >> 24) + 0.587 * ((color >> 16) | 0xff) + 0.114 * ((color >> 8) | 0xff)) / 255.0;
++    }
++
++    private static boolean isDark(int color)
++    {
++        return luma(color) <= 0.5;
++    }
++}
+diff --git a/src/colors/kwindowinsetscontroller.cpp b/src/colors/kwindowinsetscontroller.cpp
+new file mode 100644
+index 0000000..b05a867
+--- /dev/null
++++ b/src/colors/kwindowinsetscontroller.cpp
+@@ -0,0 +1,82 @@
++// SPDX-FileCopyrightText: 2024 Mathis Brüchert <mbb@kaidan.im>
++// SPDX-FileCopyrightText: 2024 Volker Krause <vkrause@kde.org>
++// SPDX-License-Identifier: LGPL-2.0-or-later
++
++#include "kwindowinsetscontroller.h"
++
++#include <QCoreApplication>
++
++#ifdef Q_OS_ANDROID
++#include <QJniObject>
++#endif
++
++class KWindowInsetsControllerPrivate
++{
++public:
++    QColor m_statusBarColor;
++    QColor m_navigationBarColor;
++};
++
++KWindowInsetsController::KWindowInsetsController(QObject *parent)
++    : QObject(parent)
++#ifdef Q_OS_ANDROID
++    , d(new KWindowInsetsControllerPrivate)
++#endif
++{
++}
++
++KWindowInsetsController::~KWindowInsetsController() = default;
++
++QColor KWindowInsetsController::statusBarBackgroundColor() const // NOLINT readability-convert-member-functions-to-static
++{
++#ifdef Q_OS_ANDROID
++    return d->m_statusBarColor;
++#else
++    return {};
++#endif
++}
++
++void KWindowInsetsController::setStatusBarBackgroundColor(const QColor &color) // NOLINT readability-convert-member-functions-to-static
++{
++#ifdef Q_OS_ANDROID
++    d->m_statusBarColor = color;
++
++    QNativeInterface::QAndroidApplication::runOnAndroidMainThread([=]() {
++        QJniObject::callStaticMethod<void>("org.kde.guiaddons.KWindowInsetsController",
++                                           "setStatusBarBackground",
++                                           "(Landroid/app/Activity;I)V",
++                                           QNativeInterface::QAndroidApplication::context(),
++                                           color.rgba());
++    });
++#else
++    Q_UNUSED(color)
++#endif
++}
++
++QColor KWindowInsetsController::navigationBarBackgroundColor() const // NOLINT readability-convert-member-functions-to-static
++{
++#ifdef Q_OS_ANDROID
++    return d->m_navigationBarColor;
++#else
++    return {};
++#endif
++}
++
++void KWindowInsetsController::setNavigationBarBackgroundColor(const QColor &color) // NOLINT readability-convert-member-functions-to-static
++{
++#ifdef Q_OS_ANDROID
++    d->m_navigationBarColor = color;
++
++    QNativeInterface::QAndroidApplication::runOnAndroidMainThread([=]() {
++        QJniObject::callStaticMethod<void>("org.kde.guiaddons.KWindowInsetsController",
++                                           "setNavigationBarBackground",
++                                           "(Landroid/app/Activity;I)V",
++                                           QNativeInterface::QAndroidApplication::context(),
++                                           color.rgba());
++    });
++#else
++    Q_UNUSED(color)
++#endif
++}
++
++#include "moc_kwindowinsetscontroller.cpp"
+diff --git a/src/colors/kwindowinsetscontroller.h b/src/colors/kwindowinsetscontroller.h
+new file mode 100644
+index 0000000..449ac09
+--- /dev/null
++++ b/src/colors/kwindowinsetscontroller.h
+@@ -0,0 +1,63 @@
++// SPDX-FileCopyrightText: 2024 Mathis Brüchert <mbb@kaidan.im>
++// SPDX-FileCopyrightText: 2024 Volker Krause <vkrause@kde.org>
++// SPDX-License-Identifier: LGPL-2.0-or-later
++
++#ifndef KWINDOWINSETSCONTROLLER_H
++#define KWINDOWINSETSCONTROLLER_H
++
++#include "kguiaddons_export.h"
++
++#include <QColor>
++#include <QObject>
++
++#include <memory>
++
++class KWindowInsetsControllerPrivate;
++
++/** Access to window insets colors.
++ *
++ *  On most platforms this does nothing, on Android it allows
++ *  to customize the (top) status bar and (botton) navigation bar
++ *  background colors, e.g. to match the current window or application
++ *  colors.
++ *
++ *  Note that the foreground colors on Android are automatically
++ *  chosen based on the background color.
++ *
++ *  @code
++ *  Component.onComplete: {
++ *      WindowInsetsController.statusBarBackgroundColor = Kirigami.Theme.backgroundColor;
++ *      WindowInsetsController.navigationBarBackgroundColor = Kirigami.Theme.backgroundColor;
++ *  }
++ *  @endcode
++ *
++ *  @since 6.7
++ */
++class KGUIADDONS_EXPORT KWindowInsetsController : public QObject
++{
++    Q_OBJECT
++    /** Background color of the status bar. */
++    Q_PROPERTY(QColor statusBarBackgroundColor READ statusBarBackgroundColor WRITE setStatusBarBackgroundColor NOTIFY statusBarBackgroundColorChanged)
++    /** Background color of the navigation bar. */
++    Q_PROPERTY(
++        QColor navigationBarBackgroundColor READ navigationBarBackgroundColor WRITE setNavigationBarBackgroundColor NOTIFY navigationBarBackgroundColorChanged)
++
++public:
++    explicit KWindowInsetsController(QObject *parent = nullptr);
++    ~KWindowInsetsController();
++
++    [[nodiscard]] QColor statusBarBackgroundColor() const;
++    void setStatusBarBackgroundColor(const QColor &color);
++
++    [[nodiscard]] QColor navigationBarBackgroundColor() const;
++    void setNavigationBarBackgroundColor(const QColor &color);
++
++Q_SIGNALS:
++    void statusBarBackgroundColorChanged();
++    void navigationBarBackgroundColorChanged();
++
++private:
++    std::unique_ptr<KWindowInsetsControllerPrivate> d;
++};
++
++#endif // KWINDOWINSETSCONTROLLER_H
+diff --git a/src/qml/CMakeLists.txt b/src/qml/CMakeLists.txt
+new file mode 100644
+index 0000000..b6aeb72
+--- /dev/null
++++ b/src/qml/CMakeLists.txt
+@@ -0,0 +1,7 @@
++# SPDX-FileCopyrightText: 2024 Volker Krause <vkrause@kde.org>
++# SPDX-License-Identifier: BSD-2-Clause
++
++ecm_add_qml_module(kguiaddonsqml URI "org.kde.guiaddons" GENERATE_PLUGIN_SOURCE)
++target_sources(kguiaddonsqml PRIVATE types.h)
++target_link_libraries(kguiaddonsqml PRIVATE KF6GuiAddons Qt6::Qml)
++ecm_finalize_qml_module(kguiaddonsqml)
+diff --git a/src/qml/types.h b/src/qml/types.h
+new file mode 100644
+index 0000000..e197894
+--- /dev/null
++++ b/src/qml/types.h
+@@ -0,0 +1,19 @@
++// SPDX-FileCopyrightText: 2024 Volker Krause <vkrause@kde.org>
++// SPDX-License-Identifier: LGPL-2.0-or-later
++
++#ifndef KGUIADDONS_QML_TYPES
++#define KGUIADDONS_QML_TYPES
++
++#include <KWindowInsetsController>
++
++#include <QQmlEngine>
++
++class KWindowInsetsControllerForeign : public QObject
++{
++    Q_OBJECT
++    QML_NAMED_ELEMENT(WindowInsetsController)
++    QML_FOREIGN(KWindowInsetsController)
++    QML_SINGLETON
++};
++
++#endif
