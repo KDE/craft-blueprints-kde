@@ -1,5 +1,9 @@
 import info
-from Package.AutoToolsPackageBase import *
+import utils
+from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -48,11 +52,11 @@ class Package(AutoToolsPackageBase):
 
     def postInstall(self):
         return self.patchInstallPrefix(
-            [os.path.join(self.installDir(), "lib", "cmake", "xapian", "xapian-config.cmake")],
+            [self.installDir() / "lib/cmake/xapian/xapian-config.cmake"],
             OsUtils.toMSysPath(self.subinfo.buildPrefix),
             OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()),
         ) and self.patchInstallPrefix(
-            [os.path.join(self.installDir(), "bin", "xapian-config")],
+            [self.installDir() / "bin/xapian-config"],
             OsUtils.toMSysPath(self.subinfo.buildPrefix),
             OsUtils.toMSysPath(CraftCore.standardDirs.craftRoot()),
         )

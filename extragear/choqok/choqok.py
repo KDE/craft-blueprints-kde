@@ -1,5 +1,5 @@
 import info
-from Package.CMakePackageBase import *
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):

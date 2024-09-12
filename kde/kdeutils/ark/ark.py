@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -26,9 +27,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
         self.runtimeDependencies["libs/libarchive"] = None
         self.runtimeDependencies["libs/libzip"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

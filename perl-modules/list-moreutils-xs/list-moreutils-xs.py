@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
-from Package.PerlPackageBase import *
+from Package.PerlPackageBase import PerlPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):

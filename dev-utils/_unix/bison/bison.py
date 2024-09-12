@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import info
 from CraftCore import CraftCore
-from Package.AutoToolsPackageBase import *
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -42,5 +43,5 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]
 
     def postInstall(self):
-        hardCoded = [os.path.join(self.installDir(), x) for x in ["bin/yacc"]]
+        hardCoded = [(self.installDir() / x) for x in ["bin/yacc"]]
         return self.patchInstallPrefix(hardCoded, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())

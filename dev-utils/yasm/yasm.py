@@ -23,6 +23,10 @@
 # SUCH DAMAGE.
 
 import info
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -47,9 +51,6 @@ class subinfo(info.infoclass):
 
         self.runtimeDependencies["virtual/base"] = None
 
-
-from Package.AutoToolsPackageBase import *
-from Package.CMakePackageBase import *
 
 if CraftCore.compiler.isGCCLike() and CraftCore.compiler.isWindows:
 

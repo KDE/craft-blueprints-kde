@@ -1,5 +1,8 @@
 import info
+from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -25,9 +28,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

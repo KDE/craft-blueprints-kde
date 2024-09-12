@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import info
-from Package.PerlPackageBase import *
+from CraftCore import CraftCore
+from Package.PerlPackageBase import PerlPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -27,4 +29,4 @@ class Package(PerlPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         root = CraftCore.standardDirs.craftRoot()
-        self.subinfo.options.configure.args += f"EXPATINCPATH=\"{os.path.join(root, 'include')}\" EXPATLIBPATH=\"{os.path.join(root, 'lib')}\""
+        self.subinfo.options.configure.args += f"EXPATINCPATH=\"{root / 'include'}\" EXPATLIBPATH=\"{root / 'lib'}\""

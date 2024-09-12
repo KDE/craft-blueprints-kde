@@ -1,5 +1,6 @@
 import info
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -50,7 +51,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["appname"] = "tellico"
         self.defines["website"] = "https://tellico-project.org/"
         self.defines["shortcuts"] = [{"name": self.subinfo.displayName, "target": "bin\\tellico.exe"}]
-        self.defines["license"] = os.path.join(self.sourceDir(), "COPYING")
+        self.defines["license"] = self.sourceDir() / "COPYING"
         self.defines["file_types"] = [".tc"]
         self.defines["icon"] = self.buildDir() / "src/ICONS_SOURCES.ico"
         self.ignoredPackages.append("binary/mysql")

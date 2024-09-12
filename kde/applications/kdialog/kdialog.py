@@ -1,5 +1,5 @@
 import info
-from CraftOS.osutils import OsUtils
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -18,9 +18,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

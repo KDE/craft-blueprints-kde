@@ -1,5 +1,5 @@
 import info
-from CraftOS.osutils import OsUtils
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -14,9 +14,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

@@ -1,5 +1,8 @@
-import CraftCore
 import info
+from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
+from Package.MesonPackageBase import MesonPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -28,11 +31,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/dbus"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/pcre2"] = None
-        if not OsUtils.isWin():
+        if not CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/iconv"] = None
-
-
-from Package.MesonPackageBase import *
 
 
 class Package(MesonPackageBase):
@@ -40,8 +40,8 @@ class Package(MesonPackageBase):
         super().__init__(**kwargs)
         if self.subinfo.options.isActive("libs/dbus"):
             self.subinfo.options.configure.cflags += (
-                f"-I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'include/dbus-1.0')}"
-                f" -I{OsUtils.toUnixPath(CraftStandardDirs.craftRoot() / 'lib/dbus-1.0/include')}"
+                f"-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot() / 'include/dbus-1.0')}"
+                f" -I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot() / 'lib/dbus-1.0/include')}"
             )
         self.subinfo.options.configure.args += ["--wrap-mode=nodownload", "-Dgtk_doc=false", "-Dinstalled_tests=false", "-Dman=false"]
         if CraftCore.compiler.isUnix:

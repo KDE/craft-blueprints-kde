@@ -1,5 +1,7 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -35,9 +37,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kdab/gammaray-binary-probes"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -55,8 +54,8 @@ class Package(CMakePackageBase):
         self.subinfo.options.package.movePluginsToBin = False
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\gammaray-launcher.exe"
-        self.defines["license"] = os.path.join(self.sourceDir(), "LICENSE.GPL.txt")
-        self.defines["icon"] = os.path.join(self.sourceDir(), "ui", "resources", "gammaray", "GammaRay.ico")
+        self.defines["license"] = self.sourceDir() / "LICENSE.GPL.txt"
+        self.defines["icon"] = self.sourceDir() / "ui/resources/gammaray/GammaRay.ico"
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

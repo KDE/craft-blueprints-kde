@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -14,9 +15,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

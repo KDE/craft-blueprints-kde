@@ -22,9 +22,13 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
+import re
+
 import info
+from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
-from Package.AutoToolsPackageBase import *
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -66,7 +70,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
 
     def postInstall(self):
-        cmakes = [os.path.join(self.installDir(), "lib", "cmake", f"aqbanking-{self.subinfo.buildTarget[:-2]}", "aqbanking-config.cmake")]
+        cmakes = [self.installDir() / f"lib/cmake/aqbanking-{self.subinfo.buildTarget[:-2]}/aqbanking-config.cmake"]
         for cmake in cmakes:
             with open(cmake, "rt") as f:
                 cmakeFileContents = f.readlines()
@@ -74,7 +78,7 @@ class Package(AutoToolsPackageBase):
                 if CraftCore.compiler.isMinGW():
                     m = re.search('set_and_check\(prefix "(?P<root>[^"]*)"\)', cmakeFileContents[i])
                     if m is not None:
-                        craftRoot = OsUtils.toUnixPath(CraftStandardDirs.craftRoot())
+                        craftRoot = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
                         if craftRoot.endswith("/"):
                             craftRoot = craftRoot[:-1]
                         cmakeFileContents[i] = cmakeFileContents[i].replace(m.group("root"), craftRoot)

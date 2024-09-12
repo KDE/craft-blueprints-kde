@@ -24,6 +24,7 @@
 # SUCH DAMAGE.
 
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -46,9 +47,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libgmp"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.description = "A library with common classes and functionality used by finance applications for the KDE SC."
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

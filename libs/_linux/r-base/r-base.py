@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import info
+import utils
+from CraftOS.osutils import OsUtils
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 PACKAGE_CRAN_MIRROR = "https://ftp.gwdg.de/pub/misc/cran"
 PACKAGE_PATH = "/src/base/R-4/"
@@ -16,12 +19,9 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for version in ["4.3.3", "4.2.3"]:
-            self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "R-" + version + ".tar.gz"
-            self.targetInstSrc[version] = "R-%s" % version
+            self.targets[version] = f"{PACKAGE_CRAN_MIRROR}{PACKAGE_PATH}R-{version}.tar.gz"
+            self.targetInstSrc[version] = f"R-{version}"
         self.defaultTarget = "4.3.3"
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):
@@ -43,5 +43,5 @@ class Package(AutoToolsPackageBase):
     def install(self):
         res = super().install()
         for lib in ["libR.so", "libRlapack.so", "libRblas.so"]:
-            res = res and utils.createSymlink(os.path.join(self.imageDir(), "lib", "R", "lib", lib), os.path.join(self.imageDir(), "lib", lib))
+            res = res and utils.createSymlink(self.imageDir() / "lib/R/lib" / lib, self.imageDir() / "lib" / lib)
         return res

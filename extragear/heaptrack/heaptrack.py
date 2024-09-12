@@ -1,6 +1,7 @@
 import info
-from CraftOS.osutils import OsUtils
-from Package.CMakePackageBase import *
+import utils
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -68,12 +69,12 @@ class Package(CMakePackageBase):
 
             # Replace heaptrack_gui with script to set up the env
 
-            if not utils.moveFile(os.path.join(archiveDir, "bin/heaptrack_gui"), os.path.join(archiveDir, "bin/heaptrack_gui.wrapped")):
+            if not utils.moveFile(archiveDir / "bin/heaptrack_gui", archiveDir / "bin/heaptrack_gui.wrapped"):
                 return False
 
             # add custom wrapper script
 
-            if not utils.copyFile(os.path.join(packageDir, "heaptrack_gui.wrapper"), os.path.join(archiveDir, "bin/heaptrack_gui")):
+            if not utils.copyFile(packageDir / "heaptrack_gui.wrapper", archiveDir / "bin/heaptrack_gui"):
                 return False
 
         return True

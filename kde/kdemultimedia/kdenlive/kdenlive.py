@@ -3,7 +3,6 @@ import os
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
-from CraftOS.osutils import OsUtils
 from Packager.AppImagePackager import AppImagePackager
 from Utils import GetFiles
 
@@ -78,7 +77,7 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def setDefaults(self, defines: {str: str}) -> {str: str}:
         defines = super().setDefaults(defines)
-        if OsUtils.isLinux() and isinstance(self, AppImagePackager):
+        if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
             defines["runenv"] += [
                 "PACKAGE_TYPE=appimage",
                 "MLT_REPOSITORY=$this_dir/usr/lib/mlt-7/",

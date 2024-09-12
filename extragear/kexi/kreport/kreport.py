@@ -1,12 +1,12 @@
 import info
-from CraftOS.osutils import OsUtils
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "A framework for the creation and generation of reports in multiple formats"
-        self.options.configure.args = " -DBUILD_EXAMPLES=ON"
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -19,13 +19,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None  # hard dependency for now
         self.runtimeDependencies["extragear/kexi/kproperty"] = None
         # TODO Windows/Mac: add marble libs (we only need marble widget), for now marble libs are disabled there
-        if not OsUtils.isWin() and not OsUtils.isMac():
+        if not CraftCore.compiler.isWindows and not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["kde/applications/marble"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += ["-DBUILD_EXAMPLES=ON"]

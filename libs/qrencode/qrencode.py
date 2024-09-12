@@ -1,8 +1,10 @@
+import os
 import shutil
 
 import info
 from CraftCore import CraftCore
-from Package.CMakePackageBase import *
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):

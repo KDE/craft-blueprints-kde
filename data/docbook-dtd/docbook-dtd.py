@@ -3,7 +3,6 @@ import os
 import info
 import utils
 from CraftCore import CraftCore
-from CraftOS.osutils import OsUtils
 from Package.BinaryPackageBase import BinaryPackageBase
 
 
@@ -35,7 +34,7 @@ class Package(BinaryPackageBase):
     def install(self):
         if not super().install():
             return False
-        if OsUtils.isUnix():
+        if CraftCore.compiler.isUnix:
             return True
         return utils.moveDir(self.imageDir() / "share", self.imageDir() / "bin/data") and utils.copyFile(
             self.blueprintDir() / "docbook-dtd-4.2.xml", self.imageDir() / "etc/xml/docbook-dtd-4.5.xml"

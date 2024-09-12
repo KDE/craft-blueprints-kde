@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import info
-from Package.CMakePackageBase import *
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -38,7 +39,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["company"] = "Klarälvdalens Datakonsult AB"
         self.defines["executable"] = "bin\\fatcrm.exe"
-        self.defines["license"] = os.path.join(self.sourceDir(), "LICENSE.GPL.txt")
+        self.defines["license"] = self.sourceDir() / "LICENSE.GPL.txt"
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.ignoredPackages.append("binary/mysql")
         return super().createPackage()
