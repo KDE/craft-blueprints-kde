@@ -29,7 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/libs/kquickimageeditor"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
@@ -45,7 +45,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.fetch.checkoutSubmodules = True
 
     def createPackage(self):
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "excludelist_mac.txt"))
 
         self.defines["executable"] = r"bin\kaidan.exe"

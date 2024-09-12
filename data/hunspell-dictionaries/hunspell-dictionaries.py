@@ -30,7 +30,7 @@ class Package(BinaryPackageBase):
 
     def install(self):
         srcDir = self.sourceDir()
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             destDir = os.path.join(self.installDir(), "bin", "data")
         else:
             destDir = os.path.join(self.installDir(), "share")

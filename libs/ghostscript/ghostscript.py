@@ -101,7 +101,7 @@ class PackageMSys(AutoToolsPackageBase):
             "--disable-gtk",
             "--enable-fontconfig",
         ]
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["--with-system-libtiff"]
         else:
             self.subinfo.options.configure.args += ["--with-libtiff"]
@@ -113,7 +113,7 @@ class PackageMSys(AutoToolsPackageBase):
         if not super().unpack():
             return False
         forceSystemLibs = ["freetype", "jpeg", "libpng", "lcms", "lcms2", "zlib"]
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             forceSystemLibs += ["tiff", "openjpeg"]
         for d in forceSystemLibs:
             utils.rmtree(self.sourceDir() / d)
@@ -121,7 +121,7 @@ class PackageMSys(AutoToolsPackageBase):
 
     def make(self):
         env = {}
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             env["LD_LIBRARY_PATH"] = CraftCore.standardDirs.craftRoot() / "lib"
         with utils.ScopedEnv(env):
             return super().make()
@@ -129,7 +129,7 @@ class PackageMSys(AutoToolsPackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             # only the symlinks get installed...
             return utils.copyFile(f"{self.buildDir()}/sobin/libgs.so.10", f"{self.installDir()}/lib/libgs.so.10")
 

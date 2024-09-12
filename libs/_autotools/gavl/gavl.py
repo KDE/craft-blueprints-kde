@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
 
         self.description = "Low level library, upon which multimedia APIs can be built"
         self.webpage = "https://gmerlin.sourceforge.net"
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.defaultTarget = "59dd12a"
         else:
             self.defaultTarget = "1.4.0"

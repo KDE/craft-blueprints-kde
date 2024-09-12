@@ -58,7 +58,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["data/urw-base35-fonts"] = None
         self.runtimeDependencies["libs/nss"] = None
         # Craft doesn't know how compile gpgme in Android
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/gpgme"] = None
         if self.options.dynamic.buildQtFrontend:
             self.runtimeDependencies["libs/qt/qtbase"] = None
@@ -67,11 +67,11 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/cairo"] = None
 
     def registerOptions(self):
-        self.options.dynamic.registerOption("buildCppFrontend", not CraftCore.compiler.isAndroid)
+        self.options.dynamic.registerOption("buildCppFrontend", not CraftCore.compiler.platform.isAndroid)
         self.options.dynamic.registerOption("buildQtFrontend", True)
         self.options.dynamic.registerOption("buildGlibFrontend", False)
         self.options.dynamic.registerOption("buildUtils", False)
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             # Poppler doesn't support MinSizeRel
             self.options.dynamic.setDefault("buildType", "Release")
 
@@ -117,5 +117,9 @@ class Package(CMakePackageBase):
         ]
         self.subinfo.options.configure.args += [
             "-DENABLE_GPGME="
-            + ("ON" if (self.subinfo.options.isActive("libs/gpgme") and not CraftCore.compiler.isMinGW() and not CraftCore.compiler.isAndroid) else "OFF")
+            + (
+                "ON"
+                if (self.subinfo.options.isActive("libs/gpgme") and not CraftCore.compiler.isMinGW() and not CraftCore.compiler.platform.isAndroid)
+                else "OFF"
+            )
         ]

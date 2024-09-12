@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+        if CraftCore.compiler.platform.isLinux or CraftCore.compiler.platform.isFreeBSD:
             self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
 
 

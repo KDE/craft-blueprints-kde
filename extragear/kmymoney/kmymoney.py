@@ -38,7 +38,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "5.1"
 
     def setDependencies(self):
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.buildDependencies["dev-utils/subversion"] = None
         self.buildDependencies["dev-utils/python3"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
@@ -79,7 +79,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         else:
             self.runtimeDependencies["qt-libs/qtkeychain"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["kdesupport/kdewin"] = None
 
 
@@ -88,7 +88,7 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DFETCH_TRANSLATIONS=ON"]
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["-DENABLE_WOOB=OFF"]
 
     def install(self):
@@ -97,7 +97,7 @@ class Package(CMakePackageBase):
 
         # For AppImages create a gpgconf.ctl file that forces gpgconf to use the actual APPDIR
         # as rootdir and not the ci build dir which causes gpg operations to fail.
-        if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
+        if CraftCore.compiler.platform.isLinux and isinstance(self, AppImagePackager):
             with open(self.installDir() / "bin/gpgconf.ctl", "wt") as f:
                 f.write("rootdir=${APPDIR}/usr")
         return True
@@ -117,7 +117,7 @@ class Package(CMakePackageBase):
         self.defines["website"] = "https://kmymoney.org/"
 
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(kmymoney|update-mime-database|kioworker|kdeinit5|QtWebEngineProcess)).*")

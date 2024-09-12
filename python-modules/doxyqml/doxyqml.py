@@ -24,7 +24,7 @@ class Package(PipPackageBase):
         self.python2 = False
 
     def install(self):
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             utils.createShim(
                 self.imageDir() / "bin/doxyqml.exe",
                 self.imageDir() / "dev-utils/bin/python3.exe",

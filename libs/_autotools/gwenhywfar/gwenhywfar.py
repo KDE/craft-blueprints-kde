@@ -69,10 +69,10 @@ class Package(AutoToolsPackageBase):
 
         # For appImage builds the --enable-local-install is needed so that
         # the appImage is searched for gwenhywfar plugins
-        if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isMacOS or CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += ["--enable-local-install"]
 
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += ["--enable-binreloc"]
 
         # Disable autoreconf. Otherwise following errors prevent configuring:

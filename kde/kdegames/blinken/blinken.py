@@ -2,6 +2,7 @@ import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -14,13 +15,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        
-        if CraftCore.compiler.isAndroid:
+
+        if CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
             self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
             self.runtimeDependencies["libs/qt6/qtmultimedia"] = None
-    
-        if not CraftCore.compiler.isAndroid:
+
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None

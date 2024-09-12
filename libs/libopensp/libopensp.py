@@ -34,7 +34,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://downloads.sourceforge.net/project/openjade/opensp/{ver}/OpenSP-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"OpenSP-{ver}"
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.patchToApply["1.5.2"] = ("OpenSP-1.5.2-20110111.diff", 1)
         # elif CraftCore.compiler.isMinGW():
         #     self.patchToApply['1.5.2'] = ("OpenSP-1.5.2-20180505.diff", 1)
@@ -63,7 +63,7 @@ class PackageAutotools(AutoToolsPackageBase):
         return super().configure()
 
 
-if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
+if CraftCore.compiler.platform.isMacOS or CraftCore.compiler.platform.isLinux:
 
     class Package(PackageAutotools):
         def __init__(self, **kwargs):

@@ -61,7 +61,7 @@ if not CraftCore.compiler.isMSVC():
         def install(self):
             if not super().install():
                 return False
-            if CraftCore.compiler.isWindows:
+            if CraftCore.compiler.platform.isWindows:
                 return utils.mergeTree(self.installDir() / "libexec", self.installDir() / "bin")
             return True
 

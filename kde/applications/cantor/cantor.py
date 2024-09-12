@@ -20,13 +20,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/python"] = None
         self.runtimeDependencies["libs/discount"] = None
         # required on macOS
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
         # libR.dylib fails packaging on macOS (lapack.so)
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["binary/r-base"] = None
-        elif not CraftCore.compiler.isMacOS:
+        elif not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/r-base"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
@@ -48,7 +48,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # if CraftCore.compiler.isWindows:
+        # if CraftCore.compiler.platform.isWindows:
         # self.subinfo.options.make.supportsMultijob = False
 
         # R backend fail compiling on Windows
@@ -68,7 +68,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         # Some plugins files break code signing on macOS, which is picky about file names
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         self.ignoredPackages.append("binary/mysql")

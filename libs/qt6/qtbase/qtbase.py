@@ -11,16 +11,16 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("buildReleaseAndDebug", False)
         self.options.dynamic.registerOption("libInfix", "")
         self.options.dynamic.registerOption("useLtcg", False)
-        self.options.dynamic.registerOption("withDBus", not CraftCore.compiler.isAndroid)
-        self.options.dynamic.registerOption("withGlib", not CraftCore.compiler.isWindows and not CraftCore.compiler.isAndroid)
+        self.options.dynamic.registerOption("withDBus", not CraftCore.compiler.platform.isAndroid)
+        self.options.dynamic.registerOption("withGlib", not CraftCore.compiler.platform.isWindows and not CraftCore.compiler.platform.isAndroid)
         self.options.dynamic.registerOption("withICU", self.options.isActive("libs/icu"))
         self.options.dynamic.registerOption("withHarfBuzz", self.options.isActive("libs/harfbuzz"))
         self.options.dynamic.registerOption("withPCRE2", self.options.isActive("libs/pcre2"))
         self.options.dynamic.registerOption("withEgl", True)
-        self.options.dynamic.registerOption("withCUPS", CraftCore.compiler.isMacOS or self.options.isActive("libs/cups"))
+        self.options.dynamic.registerOption("withCUPS", CraftCore.compiler.platform.isMacOS or self.options.isActive("libs/cups"))
 
         # We need to treat MacOS explicitly because of https://bugreports.qt.io/browse/QTBUG-116083
-        self.options.dynamic.registerOption("withFontConfig", self.options.isActive("libs/fontconfig") and not CraftCore.compiler.isMacOS)
+        self.options.dynamic.registerOption("withFontConfig", self.options.isActive("libs/fontconfig") and not CraftCore.compiler.platform.isMacOS)
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -95,7 +95,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             self.subinfo.options.configure.args += [
                 "-DFEATURE_system_sqlite=ON",
                 "-DFEATURE_system_zlib=ON",
-                f"-DFEATURE_system_freetype={'ON' if not CraftCore.compiler.isIOS else 'OFF'}",
+                f"-DFEATURE_system_freetype={'ON' if not CraftCore.compiler.platform.isIOS else 'OFF'}",
                 f"-DFEATURE_system_pcre2={'ON' if self.subinfo.options.dynamic.withPCRE2 else 'OFF'}",
                 f"-DFEATURE_system_harfbuzz={'ON' if self.subinfo.options.dynamic.withHarfBuzz else 'OFF'}",
                 f"-DFEATURE_icu={'ON' if self.subinfo.options.dynamic.withICU else 'OFF'}",
@@ -105,19 +105,19 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
                 f"-DFEATURE_cups={'ON' if self.subinfo.options.dynamic.withCUPS else 'OFF'}",
                 f"-DFEATURE_fontconfig={'ON' if  self.subinfo.options.dynamic.withFontConfig else 'OFF'}",
             ]
-        if CraftCore.compiler.isIOS:
+        if CraftCore.compiler.platform.isIOS:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_securetransport=ON"]
         else:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_openssl=ON", "-DFEATURE_openssl_linked=ON"]
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += [
                 "-DFEATURE_xcb=ON",
                 f"-DQT_FEATURE_egl={'ON' if  self.subinfo.options.dynamic.withEgl else 'OFF'}",
             ]
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += [f"-DANDROID_ABI={CraftCore.compiler.androidAbi}", "-DECM_THREADS_WORKAROUND=OFF"]
-        if CraftCore.compiler.isIOS:
+        if CraftCore.compiler.platform.isIOS:
             self.subinfo.options.configure.args += [
                 "-DQT_FEATURE_printsupport=OFF",
                 f"-DQT_HOST_PATH={CraftCore.standardDirs.craftHostRoot()}",

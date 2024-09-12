@@ -33,7 +33,7 @@ class Package(CMakePackageBase):
             "-DRECASTNAVIGATION_TESTS=OFF",
         ]
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.dynamic.buildStatic = True
 
         if self.subinfo.options.buildStatic:

@@ -43,7 +43,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.3.0"
 
     def setDependencies(self):
-        if CraftCore.compiler.isUnix:
+        if CraftCore.compiler.platform.isUnix:
             self.buildDependencies["libs/gettext"] = None
             self.buildDependencies["libs/iconv"] = None
             self.buildDependencies["dev-utils/intltool"] = None
@@ -52,7 +52,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-if CraftCore.compiler.isGCCLike() and CraftCore.compiler.isWindows:
+if CraftCore.compiler.isGCCLike() and CraftCore.compiler.platform.isWindows:
 
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):

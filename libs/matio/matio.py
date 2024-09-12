@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.description = "A library for reading and writing binary MATLAB MAT files"
 
         for ver in ["1.5.21"]:
-            if CraftCore.compiler.isMacOS:
+            if CraftCore.compiler.platform.isMacOS:
                 self.patchToApply[ver] = [("matio-macOS-linker.diff", 1)]
 
         self.defaultTarget = "1.5.21"

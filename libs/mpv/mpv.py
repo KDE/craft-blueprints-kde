@@ -31,12 +31,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/libplacebo"] = None
 
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["libs/libvdpau"] = None
             self.runtimeDependencies["libs/libva"] = None
             self.runtimeDependencies["libs/uuid"] = None
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/lua"] = None
             self.runtimeDependencies["libs/libarchive"] = None
 
@@ -46,7 +46,7 @@ class Package(MesonPackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-Drubberband=disabled", "-Dlibmpv=true"]
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             # Using libarchive causes linker errors on Android, but we don't need it right now
             self.subinfo.options.configure.args += ["-Dlua=disabled", "-Ddefault_library=static", "-Dlibarchive=disabled"]
         else:

@@ -37,7 +37,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # Add APPLE_IN_APP_BUNDLE flag to enable private DBus, when packing by Craft
             self.subinfo.options.configure.args += ["-DAPPLE_IN_APP_BUNDLE=ON"]
 
@@ -50,7 +50,7 @@ class Package(CMakePackageBase):
         self.addExecutableFilter(
             r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioworker|SnoreToast).*)"
         )
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
@@ -138,7 +138,7 @@ class Package(CMakePackageBase):
 
         # move everything to the location where Qt expects it
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # Move kdeconnect, kdeconnect-sms to the package
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)

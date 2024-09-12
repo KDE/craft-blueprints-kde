@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://downloads.sourceforge.net/djvu/djvulibre-{ver}.tar.gz"
             self.targetInstSrc[ver] = "djvulibre-" + ver
         self.targetInstSrc["3.5.25.3"] = "djvulibre-3.5.25"
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.patchToApply["3.5.21"] = [("djvu-cmake.diff", 0)]
             self.patchToApply["3.5.23"] = [("djvulibre-3.5.23-20101116.diff", 1)]
             self.patchToApply["3.5.25.3"] = [("djvulibre-3.5.25.3-20130906.diff", 1)]
@@ -30,7 +30,7 @@ class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args = ["--enable-shared"]
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # attempting to build and install the png files will fail on macOS
             self.subinfo.options.configure.args += ["--disable-desktopfiles"]
 
@@ -41,7 +41,7 @@ class PackageCMake(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DBUILD_TOOLS=OFF"]
 
 
-if CraftCore.compiler.isWindows:
+if CraftCore.compiler.platform.isWindows:
 
     class Package(PackageCMake):
         pass

@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://code.videolan.org/videolan/libplacebo"
         self.defaultTarget = "64c19545"
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             for ver in ["64c19545", "master"]:
                 self.patchToApply[ver] = [("disable-soversion.patch", 1)]
                 self.patchLevel[ver] = 1

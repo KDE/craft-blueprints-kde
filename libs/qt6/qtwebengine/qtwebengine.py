@@ -67,7 +67,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/tiff"] = None
         self.runtimeDependencies["libs/lcms2"] = None
 
-        if self.options.dynamic.withICU and CraftCore.compiler.isLinux:
+        if self.options.dynamic.withICU and CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["libs/icu"] = None
         if self.options.dynamic.withHarfBuzz:
             self.runtimeDependencies["libs/harfbuzz"] = None
@@ -96,7 +96,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         ]
         # See https://bugs.kde.org/show_bug.cgi?id=486905 and https://github.com/Homebrew/homebrew-core/issues/104008 :
         # option not correctly supported on Windows and MacOS (as of Qt 6.7.0)
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += [f"-DQT_FEATURE_webengine_system_icu={'ON' if self.subinfo.options.dynamic.withICU else 'OFF'}"]
         else:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_icu=OFF"]
@@ -110,9 +110,13 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             ]
 
         if (
-            (CraftCore.compiler.isMacOS and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2") and CraftVersion(self.buildTarget) < CraftVersion("6.6.2"))
+            (
+                CraftCore.compiler.platform.isMacOS
+                and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2")
+                and CraftVersion(self.buildTarget) < CraftVersion("6.6.2")
+            )
             # macOS is fixed with 6.6.2, Windows still not :-(
-            or CraftCore.compiler.isWindows
+            or CraftCore.compiler.platform.isWindows
         ):
             # See https://bugreports.qt.io/browse/QTBUG-115357
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=OFF"]
@@ -128,7 +132,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         # webengine requires enormous amounts of ram
         jobs = int(CraftCore.settings.get("Compile", "Jobs", multiprocessing.cpu_count()))
         env = {"NINJAFLAGS": f"-j{int(jobs/2)}"}
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             # this build system is broken and ignore ldflags
             env["LD_LIBRARY_PATH"] = CraftCore.standardDirs.craftRoot() / "lib"
         return env
@@ -145,7 +149,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         if not super().install():
             return False
 
-        if CraftCore.compiler.isWindows and os.path.isdir(self.imageDir() / "resources"):
+        if CraftCore.compiler.platform.isWindows and os.path.isdir(self.imageDir() / "resources"):
             # move webengine resource files into location where they will still be found after deplyoment
             # see https://doc.qt.io/qt-6/qtwebengine-deploying.html for lookup rules
             if not utils.mergeTree(self.imageDir() / "resources", self.imageDir() / "bin"):

@@ -60,7 +60,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.ignoredPackages.append("binary/mysql")
         # llvm is pulled in by QtTools
         self.ignoredPackages.append("libs/llvm")
-        # if not CraftCore.compiler.isLinux:
+        # if not CraftCore.compiler.platform.isLinux:
         #     self.ignoredPackages.append("libs/dbus")
 
         # For the Microsoft Store

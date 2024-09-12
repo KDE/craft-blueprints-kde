@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
-        if not CraftCore.compiler.isWindows and not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isWindows and not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["kde/frameworks/tier4/frameworkintegration"] = None
             self.runtimeDependencies["kde/plasma/kdecoration"] = None
 
@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde/plasma").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if not CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isWindows or CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF6FrameworkIntegration=ON", "-DWITH_DECORATIONS=OFF"]
         self.subinfo.options.configure.args += ["-DBUILD_QT5=OFF"]
 
@@ -41,7 +41,7 @@ class Package(CraftPackageObject.get("kde/plasma").pattern):
         # On Windows files are wrongly installed to "share" while they should go to "bin/data"
         # This fix is to workaround that bug. It should be removed as soon as the bug is fixed
         # See https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/428
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             utils.moveFile(self.imageDir() / "share", self.imageDir() / "bin/data")
 
         for module in ["Breeze"]:

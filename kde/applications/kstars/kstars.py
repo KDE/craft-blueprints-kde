@@ -49,10 +49,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/indilib/indi-3rdparty"] = None
         self.runtimeDependencies["libs/indilib/indi-3rdparty-libs"] = None
 
-        if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isMacOS or CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["libs/xplanet"] = None
 
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.buildDependencies["libs/libftdi"] = None
             self.runtimeDependencies["qt-libs/phonon-vlc"] = None
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
@@ -65,9 +65,9 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/llvm")
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.blacklist_file.append(self.blueprintDir() / "win-blacklist.txt")
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "mac-blacklist.txt")
         self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF", "-DBUILD_QT5=OFF", "-DBUILD_TESTING=OFF"]
 

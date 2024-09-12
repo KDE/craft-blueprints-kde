@@ -57,7 +57,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]
         # For appImage builds the --enable-local-install is needed so that
         # the appImage is searched for aqbanking plugins
-        if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isMacOS or CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += ["--enable-local-install"]
 
         if not self.subinfo.options.isActive("libs/gwenhywfar"):
@@ -82,7 +82,7 @@ class Package(AutoToolsPackageBase):
                         if craftRoot.endswith("/"):
                             craftRoot = craftRoot[:-1]
                         cmakeFileContents[i] = cmakeFileContents[i].replace(m.group("root"), craftRoot)
-                elif CraftCore.compiler.isMacOS:
+                elif CraftCore.compiler.platform.isMacOS:
                     m2 = re.search("(libaqbanking.so.(\d*))", cmakeFileContents[i])
                     if m2 is not None:
                         cmakeFileContents[i] = cmakeFileContents[i].replace(m2.group(1), "libaqbanking.%s.dylib" % m2.group(2))

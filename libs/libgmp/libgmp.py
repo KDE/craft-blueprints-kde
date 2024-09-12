@@ -39,7 +39,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.buildDependencies["dev-utils/msys"] = None
         if CraftCore.compiler.isMSVC():
             # with msvc clang.exe is used instead of yasm

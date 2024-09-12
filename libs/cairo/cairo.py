@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/freetype"] = None
         self.runtimeDependencies["libs/fontconfig"] = None
         self.runtimeDependencies["libs/pixman"] = None
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+        if CraftCore.compiler.platform.isLinux or CraftCore.compiler.platform.isFreeBSD:
             self.runtimeDependencies["libs/glib"] = None
 
 

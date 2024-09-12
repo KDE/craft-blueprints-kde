@@ -69,7 +69,7 @@ class Package(MesonPackageBase):
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.dynamic.buildTests = False
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             # stripping a embedManifest patched binary fails
             self.subinfo.options.package.disableStriping = True
 
@@ -80,7 +80,7 @@ class Package(MesonPackageBase):
         if not super().install():
             return False
         # must be called before we sign
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             manifest = os.path.join(self.blueprintDir(), "update-mime-database.exe.manifest")
             executable = os.path.join(self.installDir(), "bin", "update-mime-database.exe")
             utils.embedManifest(executable, manifest)

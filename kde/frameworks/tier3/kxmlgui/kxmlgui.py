@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
 
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+        if CraftCore.compiler.platform.isLinux or CraftCore.compiler.platform.isFreeBSD:
             self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
 
 

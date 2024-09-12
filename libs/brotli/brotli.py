@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.patchLevel["1.0.9"] = 2
         self.description = "Brotli compression format"
         self.webpage = "https://github.com/google/brotli"
-        if CraftCore.compiler.isIOS:
+        if CraftCore.compiler.platform.isIOS:
             self.defaultTarget = "master"
         else:
             self.defaultTarget = "1.1.0"

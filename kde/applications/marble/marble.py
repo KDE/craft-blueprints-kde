@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtlocation"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/qt/qtwebchannel"] = None
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
             self.runtimeDependencies["qt-libs/phonon"] = None

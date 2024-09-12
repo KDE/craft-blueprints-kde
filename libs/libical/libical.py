@@ -4,7 +4,7 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.options.dynamic.setDefault("buildStatic", True)
 
     def setTargets(self):

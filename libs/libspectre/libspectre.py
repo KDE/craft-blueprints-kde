@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"libspectre-{ver}"
         self.patchToApply["0.2.1"] = ("spectre-0.2.1-cmake.diff", 1)
         self.patchToApply["0.2.6"] = ("libspectre-0.2.6-20101117.diff", 1)
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.patchToApply["0.2.7"] = [("libspectre-0.2.7-20131003.diff", 1), ("libspectre-new-ghostscript.diff", 1)]
             self.patchToApply["0.2.8"] = [("libspectre-0.2.7-20131003.diff", 1), ("libspectre-new-ghostscript.diff", 1)]
         self.targetDigests["0.2.6"] = "819475c7e34a1e9bc2e876110fee530b42aecabd"
@@ -34,7 +34,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-if CraftCore.compiler.isWindows:
+if CraftCore.compiler.platform.isWindows:
 
     class Package(CMakePackageBase):
         def __init__(self, **kwargs):

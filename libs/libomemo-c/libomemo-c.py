@@ -20,4 +20,4 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
-        self.subinfo.options.dynamic.buildStatic = CraftCore.compiler.isWindows
+        self.subinfo.options.dynamic.buildStatic = CraftCore.compiler.platform.isWindows

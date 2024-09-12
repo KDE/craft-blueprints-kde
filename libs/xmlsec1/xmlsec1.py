@@ -31,7 +31,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.2.25"] = (["967ca83edf25ccb5b48a3c4a09ad3405a63365576503bf34290a42de1b92fcd2"], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["1.2.25"] = "xmlsec1-1.2.25"
         self.defaultTarget = "1.2.25"
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.patchToApply["1.2.25"] = [("xmlsec1-1.2.25-20180503.diff", 1)]
 
     def setDependencies(self):

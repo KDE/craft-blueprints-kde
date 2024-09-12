@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.13.1"] = (["00dae80465567272abd077f59355f95ac91d7809a2d3006f9ace2637dd429d14"], CraftHash.HashAlgorithm.SHA256)
 
         self.patchToApply["1.9.0"] = [("detect-clang.diff", 1)]
-        if CraftCore.compiler.isFreeBSD:
+        if CraftCore.compiler.platform.isFreeBSD:
             self.patchToApply["1.9.0"] += [("dont-check-for-diff.diff", 1)]
         self.patchToApply["1.13.1"] = [("detect-clang.diff", 1)]
 
@@ -32,5 +32,5 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.noCacheFile = True
         self.platform = ""
         self.subinfo.options.configure.args += ["--disable-examples", "--disable-install-docs", "--disable-unit-tests", "--disable-avx512"]
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+        if CraftCore.compiler.platform.isLinux or CraftCore.compiler.platform.isFreeBSD:
             self.subinfo.options.configure.args += ["--enable-shared"]

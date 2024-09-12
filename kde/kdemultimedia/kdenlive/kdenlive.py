@@ -53,13 +53,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
         # DrMinGW needs build fixes with MinGW 13 before we can re-enable it
-        # if CraftCore.compiler.isWindows:
+        # if CraftCore.compiler.platform.isWindows:
         #     self.runtimeDependencies["libs/drmingw"] = None
         # DrKonqi disabled for now as it needs polkit since KF6 and this requires lots of other dependencies
-        # if CraftCore.compiler.isLinux:
+        # if CraftCore.compiler.platform.isLinux:
         #    self.runtimeDependencies["kde/plasma/drkonqi"] = None
         # Appimage - warning, causes external process crashes
         # self.buildDependencies["dev-utils/linuxdeploy-plugin-checkrt"] = None
@@ -77,7 +77,7 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def setDefaults(self, defines: {str: str}) -> {str: str}:
         defines = super().setDefaults(defines)
-        if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
+        if CraftCore.compiler.platform.isLinux and isinstance(self, AppImagePackager):
             defines["runenv"] += [
                 "PACKAGE_TYPE=appimage",
                 "MLT_REPOSITORY=$this_dir/usr/lib/mlt-7/",
@@ -98,7 +98,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         return defines
 
     def createPackage(self):
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "exclude.list"))
         else:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "exclude_macos.list"))
@@ -117,7 +117,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         return super().createPackage()
 
     def postInstall(self):
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.schemeDir = os.path.join(self.installDir(), "bin", "data", "color-schemes")
         else:
             self.schemeDir = os.path.join(self.installDir(), "share", "color-schemes")

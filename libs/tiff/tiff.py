@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/liblzma"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["virtual/base"] = None
-        if not CraftCore.compiler.isWindows:
+        if not CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["libs/webp"] = None
 
 

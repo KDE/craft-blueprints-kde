@@ -64,7 +64,7 @@ class PackageAutotools(AutoToolsPackageBase):
         else:
             self.subinfo.options.configure.projectFile = "unix/configure"
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["--enable-framework", "--disable-corefoundation"]
 
     def configure(self):
@@ -98,12 +98,12 @@ class PackageAutotools(AutoToolsPackageBase):
             if CraftCore.compiler.isMinGW():
                 shutil.copy(self.installDir() / "bin/tclsh86.exe", self.installDir() / "bin/tclsh.exe")
 
-            if CraftCore.compiler.isLinux:
+            if CraftCore.compiler.platform.isLinux:
                 os.chmod(
                     self.installDir() / "lib/libtcl8.6.so",
                     stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH,
                 )
-            elif CraftCore.compiler.isMacOS:
+            elif CraftCore.compiler.platform.isMacOS:
                 os.chmod(
                     self.installDir() / "lib/libtcl8.6.dylib",
                     stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH,

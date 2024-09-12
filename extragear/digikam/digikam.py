@@ -40,7 +40,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         # For i18n extraction
 
-        if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isWindows or CraftCore.compiler.platform.isMacOS:
             self.buildDependencies["dev-utils/subversion"] = None
             self.buildDependencies["dev-utils/ruby"] = None
 
@@ -50,7 +50,7 @@ class subinfo(info.infoclass):
 
         # Android ffmpeg is broken.
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             # digiKam mediaPlayer is not yet fully ported to FFMPEG 5 API
 
             self.runtimeDependencies["libs/ffmpeg"] = "4.4"
@@ -61,7 +61,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libass"] = None
         self.runtimeDependencies["libs/tiff"] = None
 
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isLinux or CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/libgphoto2"] = None
             self.runtimeDependencies["libs/libusb-compat"] = None
 
@@ -144,7 +144,7 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
 
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args = [
                 "-DENABLE_KFILEMETADATASUPPORT=OFF",
                 "-DENABLE_AKONADICONTACTSUPPORT=OFF",
@@ -193,7 +193,7 @@ class Package(CMakePackageBase):
                 "-DDIGIKAMSC_COMPILE_DIGIKAM=ON",
             ]
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args = [
                 "-DENABLE_KFILEMETADATASUPPORT=OFF",
                 "-DENABLE_AKONADICONTACTSUPPORT=OFF",
@@ -247,18 +247,18 @@ class Package(CMakePackageBase):
 
         self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_common.txt"))
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_win.txt"))
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_lin.txt"))
 
         # Drop dbus support for non Linux target
 
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
         return super().createPackage()
@@ -266,7 +266,7 @@ class Package(CMakePackageBase):
     def preArchive(self):
         # Copy More application icons in Windows bundle.
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             if not utils.copyFile(os.path.join(self.blueprintDir(), "showfoto.ico"), os.path.join(self.archiveDir(), "showfoto.ico")):
                 print("Could not copy showfoto.ico file")
                 return False
@@ -399,7 +399,7 @@ class Package(CMakePackageBase):
                 print("Could not remove ExifTool archive")
                 return False
 
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             # --- Manage files under AppImage bundle
 
             archiveDir = self.archiveDir()
@@ -439,7 +439,7 @@ class Package(CMakePackageBase):
                 print("Could not copy AppImage startup script")
                 return False
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # --- Manage files under macOS package
 
             archiveDir = self.archiveDir()

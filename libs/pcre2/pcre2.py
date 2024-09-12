@@ -30,5 +30,5 @@ class Package(CMakePackageBase):
         super().__init__(**args)
         self.subinfo.options.dynamic.buildStatic = False
         self.subinfo.options.configure.args += ["-DPCRE2_BUILD_PCRE2_16=ON", "-DPCRE2_BUILD_PCRE2_32=ON"]
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += ["-DPCRE2_BUILD_PCRE2GREP=OFF", "PCRE2_BUILD_TESTS=OFF"]

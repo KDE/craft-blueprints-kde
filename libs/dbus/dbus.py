@@ -67,7 +67,7 @@ class PackageCMake(CMakePackageBase):
         else:
             self.subinfo.options.configure.args += ["-DDBUS_ENABLE_VERBOSE_MODE=OFF", "-DDBUS_DISABLE_ASSERT=ON"]
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             # kde uses debugger output, so dbus should do too
             self.subinfo.options.configure.args += [
                 "-DDBUS_USE_OUTPUT_DEBUG_STRING=ON",
@@ -109,24 +109,24 @@ class PackageAutotools(AutoToolsPackageBase):
             "--without-x",
             "--disable-tests",
         ]
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += (
                 "--enable-launchd " f"--with-launchd-agent-dir='{CraftCore.standardDirs.craftRoot() / 'Library/LaunchAgents'}' "
             )
 
     def postInstall(self):
         hardCodedFiles = []
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             hardCodedFiles += [self.installDir() / "Library/LaunchAgents/org.freedesktop.dbus-session.plist"]
         return self.patchInstallPrefix(hardCodedFiles, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())
 
     def postQmerge(self):
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             utils.system(["launchctl", "load", CraftCore.standardDirs.craftRoot() / "Library/LaunchAgents/org.freedesktop.dbus-session.plist"])
         return True
 
 
-if not CraftCore.compiler.isWindows:
+if not CraftCore.compiler.platform.isWindows:
 
     class Package(PackageAutotools):
         pass

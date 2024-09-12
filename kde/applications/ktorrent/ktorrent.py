@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
 
         self.runtimeDependencies["kde/libs/libktorrent"] = None
 
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+        if CraftCore.compiler.platform.isLinux or CraftCore.compiler.platform.isFreeBSD:
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
 

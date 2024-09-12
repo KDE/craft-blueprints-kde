@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/aom"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/dav1d"] = None
         self.runtimeDependencies["virtual/base"] = None
 
@@ -27,6 +27,6 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildStatic = False
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += ["-DAVIF_CODEC_DAV1D=SYSTEM"]
         self.subinfo.options.configure.args += ["-DAVIF_CODEC_AOM=SYSTEM", "-DAVIF_ENABLE_GTEST=OFF", "-DAVIF_LIBYUV=OFF"]
