@@ -7,7 +7,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # does not build on Android out of the box
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Native
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.Native
 
     def setTargets(self):
         for ver in ["3.4", "3.5"]:

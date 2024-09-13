@@ -9,7 +9,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.GCCLike
+        self.parent.package.categoryInfo.compiler &= CraftCore.compiler.Compiler.GCCLike
 
     def setTargets(self):
         self.displayName = "Haruna"

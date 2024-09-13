@@ -7,7 +7,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # readstat on MinGW does not work out of the box. It is a dependency of labplot which uses MSVC. Needs someone who cares.
-        self.parent.package.categoryInfo.platforms = (
+        self.parent.package.categoryInfo.platforms &= (
             CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
         )
 

@@ -4,7 +4,7 @@ from Blueprints.CraftPackageObject import CraftPackageObject
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Native
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.Native
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()

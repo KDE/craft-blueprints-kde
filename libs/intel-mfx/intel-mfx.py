@@ -5,7 +5,7 @@ from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.architecture = CraftCore.compiler.architecture.x86
+        self.parent.package.categoryInfo.architecture &= CraftCore.compiler.architecture.x86
 
     def setTargets(self):
         self.description = "Autotooled version of the opensource Intel media sdk dispatcher"

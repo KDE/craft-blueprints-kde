@@ -6,7 +6,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.FreeBSD
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.FreeBSD
 
     def setTargets(self):
         for ver in ["0.30"]:

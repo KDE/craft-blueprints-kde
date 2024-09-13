@@ -34,7 +34,9 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # Disable on MinGW as gwenhywfar is broken but apparently a mandatory dep, needs someone to care
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
+        self.parent.package.categoryInfo.platforms &= (
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
+        )
 
     def setTargets(self):
         self.targets["6.5.4"] = "https://www.aquamaniac.de/rdm/attachments/download/499/aqbanking-6.5.4.tar.gz"

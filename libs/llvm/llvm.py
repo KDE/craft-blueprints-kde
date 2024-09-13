@@ -11,7 +11,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.setDefault("buildType", "Release")
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Native
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.Native
 
     def setTargets(self):
         for ver in ["15.0.2", "15.0.7", "16.0.1", "17.0.6", "18.1.2", "18.1.8"]:

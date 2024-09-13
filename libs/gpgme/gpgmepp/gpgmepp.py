@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         if CraftCore.compiler.isMinGW():
             # Theoretically gpgmepp supports mingw but the cmake patches are incomplete
-            self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
+            self.parent.package.categoryInfo.compiler &= CraftCore.compiler.Compiler.NoCompiler
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()

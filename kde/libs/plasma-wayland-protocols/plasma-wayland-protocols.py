@@ -5,7 +5,7 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Linux
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.Linux
 
     def setTargets(self):
         self.displayName = "Plasma Wayland Protocols"

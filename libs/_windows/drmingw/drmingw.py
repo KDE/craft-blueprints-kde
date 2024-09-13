@@ -6,7 +6,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.compiler = CraftCompiler.Compiler.GCC  # Only MinGW
+        self.parent.package.categoryInfo.compiler &= CraftCompiler.Compiler.GCC  # Only MinGW
 
     def setTargets(self):
         for ver in ["0.9.11"]:

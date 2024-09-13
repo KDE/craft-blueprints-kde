@@ -34,7 +34,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Native
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.Native
 
     def setTargets(self):
         for ver in ["1.14.0", "1.14.4", "1.14.8"]:

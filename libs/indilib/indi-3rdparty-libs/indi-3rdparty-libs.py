@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.description = "INDI Library 3rd Party Libraries"
 
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.MacOS | CraftCore.compiler.Platforms.Linux
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.MacOS | CraftCore.compiler.Platforms.Linux
         self.options.dynamic.registerOption("buildLibraries", True)
 
     def setDependencies(self):
