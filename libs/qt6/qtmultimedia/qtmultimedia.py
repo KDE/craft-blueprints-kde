@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt6/qtshadertools"] = None
         self.runtimeDependencies["libs/pulseaudio"] = None
-        if CraftCore.compiler.isNative():
+        if not CraftCore.compiler.platform.isMobile:
             self.runtimeDependencies["libs/ffmpeg"] = None
 
 
