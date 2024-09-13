@@ -6,7 +6,7 @@ from Package.MesonPackageBase import *
 class subinfo(info.infoclass):
     def registerOptions(self):
         # needs cp
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotWindows
 
     def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None

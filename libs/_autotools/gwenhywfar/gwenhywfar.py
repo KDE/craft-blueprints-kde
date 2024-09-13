@@ -33,7 +33,9 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # Disable on MinGW as it is broken, needs someone to care
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
+        self.parent.package.categoryInfo.platforms &= (
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
+        )
 
     def setTargets(self):
         self.targets["5.8.1"] = "https://www.aquamaniac.de/rdm/attachments/download/402/gwenhywfar-5.8.1.tar.gz"

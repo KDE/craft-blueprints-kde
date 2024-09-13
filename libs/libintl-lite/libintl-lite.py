@@ -9,7 +9,7 @@ from Package.CMakePackageBase import CMakePackageBase
 class subinfo(info.infoclass):
     def registerOptions(self):
         # On other platforms we use gettext instead
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Android
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.Android
 
     def setTargets(self):
         self.description = "libintl lite - gettext replacement for Android"

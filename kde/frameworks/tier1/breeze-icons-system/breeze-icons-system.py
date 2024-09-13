@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.description = "Install of the actual breeze icon, only supposed to be used on linux to make the icons available for linuxdeploy."
 
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Linux
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.Linux
         self.options.dynamic.setDefault("ignored", True)
 
     def setDependencies(self):

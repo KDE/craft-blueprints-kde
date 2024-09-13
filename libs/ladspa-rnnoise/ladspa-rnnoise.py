@@ -5,7 +5,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         # Theoretically MSVC is supported, but with MSVC2022 there is an internal compiler error
         # MSVC 2019 seems to work, according to https://github.com/werman/noise-suppression-for-voice/commit/9c4e5c28d8950e2cef837d8a0abd36c2fd9b5c2d
-        self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.GCCLike
+        self.parent.package.categoryInfo.compiler &= CraftCore.compiler.Compiler.GCCLike
 
     def setTargets(self):
         self.description = "Real-time Noise Suppression Plugin"

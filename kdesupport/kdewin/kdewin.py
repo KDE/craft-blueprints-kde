@@ -3,7 +3,7 @@ import info
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Windows
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.Windows
         self.options.dynamic.registerOption("buildWithQt", False)
 
     def setDependencies(self):
