@@ -69,7 +69,7 @@ class subinfo(info.infoclass):
             if self.options.dynamic.withFontConfig:
                 self.runtimeDependencies["libs/fontconfig"] = None
 
-            if CraftCore.compiler.isUnix and self.options.dynamic.withGlib:
+            if CraftCore.compiler.platform.isUnix and self.options.dynamic.withGlib:
                 self.runtimeDependencies["libs/glib"] = None
 
             if self.options.dynamic.withPCRE2:
