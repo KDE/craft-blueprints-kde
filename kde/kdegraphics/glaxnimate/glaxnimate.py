@@ -4,6 +4,7 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
+from Packager.AppImagePackager import AppImagePackager
 
 
 class subinfo(info.infoclass):
@@ -45,6 +46,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libarchive"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/python"] = None
+        # Python deps are waiting for https://invent.kde.org/packaging/craft/-/merge_requests/266
+        # self.runtimeDependencies["python-modules/lottie"] = None
+        # self.runtimeDependencies["python-modules/pillow"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
@@ -53,6 +57,17 @@ class Package(CraftPackageObject.get("kde").pattern):
         # enable submodule checkout
         self.subinfo.options.fetch.checkoutSubmodules = True
         self.subinfo.options.configure.args += [f"-DPython3_ROOT_DIR={CraftCore.standardDirs.craftRoot()}"]
+
+    def setDefaults(self, defines: {str: str}) -> {str: str}:
+        defines = super().setDefaults(defines)
+        if CraftCore.compiler.platform.isLinux and isinstance(self, AppImagePackager):
+            defines["runenv"] += [
+                "PYTHONHOME=$this_dir/usr",
+                # Set QT_QPA_PLATFORM only if not already done.
+                # Eg. to run the AppImage for headless rendering it might be needed to choose "offscreen"
+                "QT_QPA_PLATFORM=${QT_QPA_PLATFORM:-xcb}",
+            ]
+        return defines
 
     def createPackage(self):
         self.defines["executable"] = r"bin\glaxnimate.exe"
