@@ -1,4 +1,7 @@
 import info
+import utils
+from Package.BinaryPackageBase import BinaryPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -13,9 +16,6 @@ class subinfo(info.infoclass):
         self.defaultTarget = "5.2"
 
 
-from Package.BinaryPackageBase import *
-
-
 class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -28,4 +28,4 @@ class Package(BinaryPackageBase):
     def install(self):
         if not super().install():
             return False
-        return utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "nano.exe"), os.path.join(self.installDir(), "bin", "nano.exe"))
+        return utils.createShim(self.imageDir() / "dev-utils/bin/nano.exe", self.installDir() / "bin/nano.exe")

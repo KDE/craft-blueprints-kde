@@ -1,6 +1,9 @@
+import os
 import shutil
 
 import info
+import utils
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -11,9 +14,6 @@ class subinfo(info.infoclass):
         self.targetDigests["3.0.8"] = "a3c1494a667c71d267285d4a9ebc687a55f70485"
         self.targetDigests["3.0.9"] = "c735d341ecce5e44214f475db23222bf249a3eab"
         self.defaultTarget = "3.0.9"
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):

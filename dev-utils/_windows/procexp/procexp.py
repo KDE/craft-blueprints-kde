@@ -1,4 +1,7 @@
+import os
+
 import info
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -7,9 +10,6 @@ class subinfo(info.infoclass):
             self.targets[ver] = "http://download.sysinternals.com/files/ProcessExplorer.zip"
             self.targetInstallPath[ver] = os.path.join("dev-utils", "bin")
         self.defaultTarget = "16.26"
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):

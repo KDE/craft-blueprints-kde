@@ -1,4 +1,8 @@
+import os
+
 import info
+import utils
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -13,9 +17,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/wget"] = None
 
 
-from Package.BinaryPackageBase import *
-
-
 class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -24,6 +25,6 @@ class Package(BinaryPackageBase):
     def install(self):
         if not super().install():
             return False
-        return utils.copyFile(os.path.join(self.installDir(), "win_flex.exe"), os.path.join(self.installDir(), "flex.exe")) and utils.copyFile(
-            os.path.join(self.installDir(), "win_bison.exe"), os.path.join(self.installDir(), "bison.exe")
+        return utils.copyFile(self.installDir() / "win_flex.exe", self.installDir() / "flex.exe") and utils.copyFile(
+            self.installDir() / "win_bison.exe", self.installDir() / "bison.exe"
         )

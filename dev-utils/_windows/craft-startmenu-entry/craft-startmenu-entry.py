@@ -23,7 +23,13 @@
 # SUCH DAMAGE.
 
 
+import os
+from pathlib import Path
+
 import info
+import utils
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -36,9 +42,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/kshimgen"] = None
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):

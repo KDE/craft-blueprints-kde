@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 import info
+import utils
+from CraftCompiler import CraftCompiler
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
 
 PACKAGE_CRAN_MIRROR = "https://ftp.gwdg.de/pub/misc/cran"
 PACKAGE_PATH = "/bin/macosx/"
@@ -19,9 +25,6 @@ class subinfo(info.infoclass):
             else:
                 self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "big-sur-x86_64/base/R-" + version + "-x86_64.pkg"
         self.defaultTarget = "4.3.3"
-
-
-from Package.BinaryPackageBase import *
 
 
 # Apologies: This is a terrible HACK, but the alternatives are not any good, either.
@@ -53,7 +56,7 @@ class Package(BinaryPackageBase):
         return True
 
     def install(self):
-        srcdir = cpioextractdir = os.path.join(self.workDir(), "cpioextractdir")
+        srcdir = os.path.join(self.workDir(), "cpioextractdir")
         dstdir = os.path.join(self.installDir(), "lib", "R")
 
         utils.cleanDirectory(dstdir)

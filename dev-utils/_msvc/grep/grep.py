@@ -1,5 +1,6 @@
 import info
-from Package.BinaryPackageBase import *
+import utils
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -15,4 +16,4 @@ class Package(BinaryPackageBase):
         super().__init__(**kwargs)
 
     def postInstall(self):
-        return utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "grep.exe"), os.path.join(self.installDir(), "bin", "grep.exe"))
+        return utils.createShim(self.imageDir() / "dev-utils/bin/grep.exe", self.installDir() / "bin/grep.exe")

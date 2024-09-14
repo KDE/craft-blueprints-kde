@@ -2,6 +2,8 @@ import stat
 from pathlib import Path
 
 import info
+import utils
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -18,9 +20,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/rpm"] = None
         self.buildDependencies["dev-utils/dpkg"] = None
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):

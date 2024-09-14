@@ -1,4 +1,7 @@
+import os
+
 import info
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -8,9 +11,6 @@ class subinfo(info.infoclass):
         # the zip file does not have a bin dir, so we have to create it
         # This attribute is in prelimary state
         self.targetInstallPath["2.44"] = os.path.join("dev-utils", "bin")
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):

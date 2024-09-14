@@ -1,4 +1,7 @@
+import os
+
 import info
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -6,9 +9,6 @@ class subinfo(info.infoclass):
         self.targets["latest"] = "https://download.sysinternals.com/files/ProcessMonitor.zip"
         self.defaultTarget = "latest"
         self.targetInstallPath["latest"] = os.path.join("dev-utils", "bin")
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):

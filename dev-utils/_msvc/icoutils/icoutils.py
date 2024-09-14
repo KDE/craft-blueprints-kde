@@ -1,5 +1,7 @@
 import info
+import utils
 from CraftCompiler import CraftCompiler
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -16,9 +18,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.BinaryPackageBase import *
-
-
 class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -26,6 +25,6 @@ class Package(BinaryPackageBase):
     def install(self):
         if not super().install():
             return False
-        return utils.createShim(
-            os.path.join(self.imageDir(), "dev-utils", "bin", "icotool.exe"), os.path.join(self.installDir(), "bin", "icotool.exe")
-        ) and utils.createShim(os.path.join(self.imageDir(), "dev-utils", "bin", "wrestool.exe"), os.path.join(self.installDir(), "bin", "wrestool.exe"))
+        return utils.createShim(self.imageDir() / "dev-utils/bin/icotool.exe", self.installDir() / "bin/icotool.exe") and utils.createShim(
+            self.imageDir() / "dev-utils/bin/wrestool.exe", self.installDir() / "bin/wrestool.exe"
+        )

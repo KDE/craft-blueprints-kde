@@ -1,4 +1,7 @@
+import os
+
 import info
+from Package.BinaryPackageBase import BinaryPackageBase
 
 # sources are in qt.git/util/qlalr, binary is here.
 # To build qlalr yourself, go into the Qt sources,
@@ -13,9 +16,6 @@ class subinfo(info.infoclass):
         self.targets["HEAD"] = "http://www.winkde.org/pub/kde/ports/win32/repository/other/qlalr.exe"
         self.defaultTarget = "HEAD"
         self.targetInstallPath["HEAD"] = os.path.join("dev-utils", "bin")
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):

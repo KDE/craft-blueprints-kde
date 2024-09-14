@@ -1,4 +1,8 @@
 import info
+import utils
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -15,7 +19,7 @@ class subinfo(info.infoclass):
         ] = f"https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-static-{CraftCore.compiler.appImageArchitecture}.AppImage"
         self.targetInstallPath["continous-static"] = "dev-utils/bin"
         self.targetDigests["1-alpha-20231206-1"] = (["80de10fa339564d78e50cbde8dd27d012b7c2274291006506d22b4eb494bc7a3"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["2.0.0-alpha-1-20241106"] = (['55ae71e6004eafc537b5f266f3cb611ea821c9a1a1571843ee41c777ff813456'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.0.0-alpha-1-20241106"] = (["55ae71e6004eafc537b5f266f3cb611ea821c9a1a1571843ee41c777ff813456"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "2.0.0-alpha-1-20241106"
 
         self.description = "AppDir creation and maintenance tool. Featuring flexible plugin system."
@@ -25,9 +29,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["dev-utils/linuxdeploy-plugin-qt"] = None
         self.runtimeDependencies["dev-utils/linuxdeploy-plugin-appimage"] = None
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):

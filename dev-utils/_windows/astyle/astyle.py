@@ -1,4 +1,6 @@
 import info
+from Package.BinaryPackageBase import BinaryPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -8,9 +10,6 @@ class subinfo(info.infoclass):
         self.targetInstallPath["2.0.4"] = "dev-utils"
         self.targetDigests["2.0.4"] = (["55af23dc101154f9645c10e3352142b6e8bc4992ec82953677f6a03f4a7e10be"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "2.0.4"
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):

@@ -22,12 +22,12 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-import re
-
 import CraftCore
 import info
-from Package.AutoToolsPackageBase import *
-from Package.BinaryPackageBase import *
+import utils
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.BinaryPackageBase import BinaryPackageBase
+from Utils import CraftHash
 
 if not CraftCore.compiler.isMSVC():
 
