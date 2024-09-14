@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-2-Clause
-# SPDX-FileCopyrightText: 2023 Julius Künzel <jk.kdedev@smartlab.uber.space>
+# SPDX-FileCopyrightText: 2023 Julius Künzel <julius.kuenzel@kde.org>
 # SPDX-FileCopyrightText: 2016 Hannah von Reth <vonreth@kde.org>
 # SPDX-FileCopyrightText: 2015 Kevin Funke <kfunk@kde.org>
 

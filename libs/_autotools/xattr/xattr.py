@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
-# SPDX-FileCopyrightText: 2023 Julius Künzel <jk.kdedev@smartlab.uber.space>
+# SPDX-FileCopyrightText: 2023 Julius Künzel <julius.kuenzel@kde.org>
 import info
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
