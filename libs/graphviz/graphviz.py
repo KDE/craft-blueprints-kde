@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-2-Clause
-# SPDX-FileCopyrightText: 2024 Julius Künzel <jk.kdedev@smartlab.uber.space>
+# SPDX-FileCopyrightText: 2024 Julius Künzel <julius.kuenzel@kde.org>
 
 import info
 from Package.CMakePackageBase import CMakePackageBase
