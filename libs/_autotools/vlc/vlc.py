@@ -23,10 +23,11 @@
 # SUCH DAMAGE.
 
 
-import re
-
 import CraftCore
 import info
+import utils
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -58,9 +59,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libvorbis"] = None
         self.runtimeDependencies["libs/taglib"] = None
         self.runtimeDependencies["libs/zlib"] = None
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):

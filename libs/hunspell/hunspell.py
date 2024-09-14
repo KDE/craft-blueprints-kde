@@ -1,10 +1,14 @@
 import info
+import utils
 from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.MSBuildPackageBase import MSBuildPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = f"https://github.com/hunspell/hunspell.git"
+        self.svnTargets["master"] = "https://github.com/hunspell/hunspell.git"
         for ver in ["1.7.2"]:
             if CraftCore.compiler.isMSVC():
                 self.targets[ver] = f"https://github.com/hunspell/hunspell/archive/v{ver}.tar.gz"
@@ -31,19 +35,16 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["data/hunspell-dictionaries"] = None
 
 
-from Package.MSBuildPackageBase import *
-
-
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.projectFile = os.path.join(self.sourceDir(), "msvc", "Hunspell.sln")
+        self.subinfo.options.configure.projectFile = self.sourceDir() / "msvc/Hunspell.sln"
         self.buildTypes = {"Release": "Release_dll", "RelWithDebInfo": "Release_dll", "Debug": "Debug_dll"}
 
     def configure(self):
-        utils.copyFile(os.path.join(self.sourceDir(), "msvc", "config.h"), os.path.join(self.sourceDir(), "config.h"))
+        utils.copyFile(self.sourceDir() / "msvc/config.h", self.sourceDir() / "config.h")
         out = super().configure()
-        utils.deleteFile(os.path.join(self.sourceDir(), "config.h"))
+        utils.deleteFile(self.sourceDir() / "config.h")
         return out
 
     def install(self):
@@ -51,11 +52,8 @@ class PackageMSVC(MSBuildPackageBase):
             return False
 
         for h in ["atypes.hxx", "hunspell.h", "hunspell.hxx", "hunvisapi.h", "w_char.hxx"]:
-            utils.copyFile(os.path.join(self.sourceDir(), "src", "hunspell", h), os.path.join(self.imageDir(), "include", "hunspell", h))
+            utils.copyFile(self.sourceDir() / "src/hunspell" / h, self.imageDir() / "include/hunspell" / h)
         return True
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class PackageGNU(AutoToolsPackageBase):

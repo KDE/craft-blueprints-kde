@@ -1,7 +1,15 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2021 Volker Krause <vkrause@kde.org>
 
+import os
+import shutil
+
+import globimport
 import info
+import utils
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -19,12 +27,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         if not CraftCore.compiler.platform.isAndroid:
             self.buildDependencies["libs/gettext"] = None
-
-
-import glob
-import shutil
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):

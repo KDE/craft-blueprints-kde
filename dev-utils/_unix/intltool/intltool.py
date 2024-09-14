@@ -23,7 +23,9 @@
 # SUCH DAMAGE.
 
 import info
-from Package.AutoToolsPackageBase import *
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -50,5 +52,5 @@ class Package(AutoToolsPackageBase):
 
     def postInstall(self):
         return self.patchInstallPrefix(
-            [os.path.join(self.imageDir(), x) for x in ["dev-utils/bin/intltoolize"]], self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot()
+            [(self.imageDir() / x) for x in ["dev-utils/bin/intltoolize"]], self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot()
         )

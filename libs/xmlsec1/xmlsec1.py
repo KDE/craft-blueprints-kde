@@ -23,6 +23,10 @@
 # SUCH DAMAGE.
 
 import info
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.VirtualPackageBase import VirtualPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -42,10 +46,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gnutls"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
-
-
-from Package.AutoToolsPackageBase import *
-from Package.VirtualPackageBase import *
 
 
 class PackageMinGW(AutoToolsPackageBase):

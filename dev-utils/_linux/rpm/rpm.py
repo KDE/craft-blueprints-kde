@@ -1,4 +1,7 @@
-from Package.AutoToolsPackageBase import *
+import info
+import utils
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
 
 
@@ -36,8 +39,8 @@ class Package(AutoToolsPackageBase):
     def postInstall(self):
         for x in ["rpmbuild", "rpmsign"]:
             if not utils.createShim(
-                os.path.join(self.imageDir(), "dev-utils", "bin", x),
-                os.path.join(self.imageDir(), "dev-utils", "rpm", f"bin/{x}"),
+                self.imageDir() / f"dev-utils/bin/{x}",
+                self.imageDir() / f"dev-utils/rpm/bin/{x}",
                 env={
                     "RPM_CONFIGDIR": CraftCore.standardDirs.craftRoot() / "dev-utils/rpm/lib/rpm",
                     "LD_LIBRARY_PATH": CraftCore.standardDirs.craftRoot() / "lib",

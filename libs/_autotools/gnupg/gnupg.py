@@ -22,10 +22,10 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-import re
-
 import CraftCore
 import info
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -53,9 +53,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ntbtls"] = None
         if CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["libs/openldap"] = None
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):

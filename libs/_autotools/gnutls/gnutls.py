@@ -23,9 +23,9 @@
 # SUCH DAMAGE.
 
 import info
-from Package.AutoToolsPackageBase import *
-from Package.PackageBase import *
-from Package.VirtualPackageBase import VirtualPackageBase
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):

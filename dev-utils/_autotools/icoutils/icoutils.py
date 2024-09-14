@@ -1,4 +1,7 @@
 import info
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -23,9 +26,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["libs/libpng"] = None
         self.runtimeDependencies["libs/gettext"] = None
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):

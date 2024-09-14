@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2023 Hannah von Reth <vonreth@kde.org>
 import info
+import utils
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -21,9 +24,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/openssl"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/dbus"] = None
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):

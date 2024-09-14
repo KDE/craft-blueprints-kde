@@ -1,4 +1,5 @@
-from Package.AutoToolsPackageBase import *
+import info
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
 
 

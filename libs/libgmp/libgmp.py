@@ -23,6 +23,9 @@
 # SUCH DAMAGE.
 
 import info
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -44,10 +47,6 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMSVC():
             # with msvc clang.exe is used instead of yasm
             self.buildDependencies["libs/llvm"] = None
-
-
-from Package.AutoToolsPackageBase import *
-from Package.VirtualPackageBase import *
 
 
 class PackageAutoTools(AutoToolsPackageBase):

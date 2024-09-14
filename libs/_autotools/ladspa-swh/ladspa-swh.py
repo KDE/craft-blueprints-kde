@@ -1,4 +1,6 @@
 import info
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 
 class subinfo(info.infoclass):
@@ -23,9 +25,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/libxml2"] = None
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.buildDependencies["perl-modules/list-moreutils"] = None
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):

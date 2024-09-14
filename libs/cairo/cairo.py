@@ -1,7 +1,14 @@
 import os
 import shutil
+import subprocess
 
 import info
+from BuildSystem.BuildSystemBase import BuildSystemBase
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.MakeFilePackageBase import MakeFilePackageBase
+from shells import BashShell
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -24,9 +31,6 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.platform.isLinux or CraftCore.compiler.platform.isFreeBSD:
             self.runtimeDependencies["libs/glib"] = None
 
-
-from Package.AutoToolsPackageBase import *
-from Package.MakeFilePackageBase import *
 
 if CraftCore.compiler.isMSVC():
 
