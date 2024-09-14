@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2021 Volker Krause <vkrause@kde.org>
 
+import glob
 import os
 import shutil
 
-import globimport
 import info
 import utils
 from CraftCore import CraftCore
