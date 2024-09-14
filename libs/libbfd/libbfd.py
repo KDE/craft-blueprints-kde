@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 import info
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.VirtualPackageBase import VirtualPackageBase
 from Utils import CraftHash
 
 
@@ -15,10 +18,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.buildDependencies["dev-utils/msys"] = None
-
-
-from Package.AutoToolsPackageBase import *
-from Package.VirtualPackageBase import *
 
 
 class PackageMinGW(AutoToolsPackageBase):

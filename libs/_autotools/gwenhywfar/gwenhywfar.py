@@ -22,10 +22,12 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-import re
+import os
 
 import info
-from Package.AutoToolsPackageBase import *
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -85,7 +87,7 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.autoreconf = True
             # it tires to locate qt but used native windows paths for -l
             # those are not supported by libtool
-            self.subinfo.options.configure.ldflags += f" -lQt5Widgets -lQt5Gui -lQt5Core -lqtmain"
+            self.subinfo.options.configure.ldflags += " -lQt5Widgets -lQt5Gui -lQt5Core -lqtmain"
 
     def configure(self):
         if CraftCore.compiler.isMinGW():

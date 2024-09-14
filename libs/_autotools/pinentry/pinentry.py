@@ -22,10 +22,9 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-import re
-
-import CraftCore
 import info
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -44,9 +43,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gpg-error"] = None
         self.runtimeDependencies["libs/assuan2"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):

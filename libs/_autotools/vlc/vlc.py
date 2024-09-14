@@ -23,10 +23,11 @@
 # SUCH DAMAGE.
 
 
-import re
-
 import CraftCore
 import info
+import utils
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -35,8 +36,10 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"http://get.videolan.org/vlc/{ver}/vlc-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"vlc-{ver}"
         self.targetDigests["3.0.19"] = (["643e3294bafe922324663ca499515b7564f2794575fd7d2b7992d20896381745"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["3.0.21"] = (['24dbbe1d7dfaeea0994d5def0bbde200177347136dbfe573f5b6a4cee25afbb0'], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply["3.0.21"] = [("5574.diff", 1)] # upstream in-progress MR to fix compilation with ffmpeg 7.x: https://code.videolan.org/videolan/vlc/-/merge_requests/5574/diffs; retrieved 2024-09-02
+        self.targetDigests["3.0.21"] = (["24dbbe1d7dfaeea0994d5def0bbde200177347136dbfe573f5b6a4cee25afbb0"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["3.0.21"] = [
+            ("5574.diff", 1)
+        ]  # upstream in-progress MR to fix compilation with ffmpeg 7.x: https://code.videolan.org/videolan/vlc/-/merge_requests/5574/diffs; retrieved 2024-09-02
         self.description = "VLC is a free and open source cross-platform multimedia player and framework that plays most multimedia files as well as DVDs, Audio CDs, VCDs, and various streaming protocols."
         self.defaultTarget = "3.0.21"
 
@@ -56,9 +59,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libvorbis"] = None
         self.runtimeDependencies["libs/taglib"] = None
         self.runtimeDependencies["libs/zlib"] = None
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):

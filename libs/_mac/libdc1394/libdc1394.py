@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import info
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["2.2.6"]:
-            self.targets[ver] = "https://downloads.sourceforge.net/project/libdc1394/libdc1394-2/" + ver + "/libdc1394-" + ver + ".tar.gz"
-            self.archiveNames[ver] = "libdc1394-%s.tar.gz" % ver
+            self.targets[ver] = f"https://downloads.sourceforge.net/project/libdc1394/libdc1394-2/{ver}/libdc1394-{ver}.tar.gz"
+            self.archiveNames[ver] = f"libdc1394-{ver}.tar.gz"
             self.targetInstSrc[ver] = "libdc1394-" + ver
         self.description = "Provides API for IEEE 1394 cameras"
         self.defaultTarget = "2.2.6"
@@ -16,9 +18,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libusb"] = None
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):

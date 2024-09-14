@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import info
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["4.33"]:
-            self.targets[ver] = "http://dist.schmorp.de/libev/Attic/libev-" + ver + ".tar.gz"
-            self.archiveNames[ver] = "libev-%s.tar.gz" % ver
+            self.targets[ver] = f"http://dist.schmorp.de/libev/Attic/libev-{ver}.tar.gz"
+            self.archiveNames[ver] = f"libev-{ver}.tar.gz"
             self.targetInstSrc[ver] = "libev-" + ver
         self.description = "Asynchronous event library"
         self.defaultTarget = "4.33"
@@ -14,9 +16,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):

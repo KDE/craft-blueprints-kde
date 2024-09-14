@@ -1,11 +1,14 @@
 import info
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.VirtualPackageBase import VirtualPackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["3.1.1"]:
-            self.targets[ver] = "https://archive.apache.org/dist/xerces/c/3/sources/xerces-c-" + ver + ".tar.gz"
-            self.targetInstSrc[ver] = "xerces-c-" + ver
+            self.targets[ver] = f"https://archive.apache.org/dist/xerces/c/3/sources/xerces-c-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"xerces-c-{ver}"
         self.targetDigests["3.1.1"] = "177ec838c5119df57ec77eddec9a29f7e754c8b2"
 
         self.description = "A Validating XML Parser"
@@ -15,10 +18,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         if CraftCore.compiler.isMSVC():
             self.buildDependencies["binary/xerces-c-bin"] = None
-
-
-from Package.AutoToolsPackageBase import *
-from Package.VirtualPackageBase import *
 
 
 class PackageMSys(AutoToolsPackageBase):

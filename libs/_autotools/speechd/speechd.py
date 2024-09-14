@@ -2,6 +2,8 @@
 # SPDX-FileCopyrightText: 2023 Julius Künzel <jk.kdedev@smartlab.uber.space>
 
 import info
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -27,9 +29,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/glib"] = None
         self.runtimeDependencies["libs/dotconf"] = None
         self.runtimeDependencies["libs/libsndfile"] = None
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):

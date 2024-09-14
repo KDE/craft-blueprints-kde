@@ -1,4 +1,7 @@
 import info
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -25,9 +28,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         if self.buildTarget in ["master", "59dd12a"]:
             self.runtimeDependencies["libs/gnutls"] = None
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class Package(AutoToolsPackageBase):

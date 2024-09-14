@@ -1,5 +1,8 @@
 import info
-from Package.CMakePackageBase import *
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -40,9 +43,6 @@ class CMakePackage(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DSTATIC_LIBRARY=OFF"]
-
-
-from Package.AutoToolsPackageBase import *
 
 
 class PackageAutotools(AutoToolsPackageBase):

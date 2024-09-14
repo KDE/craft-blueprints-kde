@@ -1,4 +1,6 @@
 import info
+from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 
 class subinfo(info.infoclass):
@@ -19,9 +21,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/autoconf"] = None
 
 
-from Package.AutoToolsPackageBase import *
-
-
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -29,5 +28,5 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]
 
     def postInstall(self):
-        hardCoded = [os.path.join(self.installDir(), x) for x in ["bin/help2man"]]
+        hardCoded = [(self.installDir() / x) for x in ["bin/help2man"]]
         return self.patchInstallPrefix(hardCoded, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())

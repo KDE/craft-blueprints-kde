@@ -1,10 +1,13 @@
 import info
 from CraftCore import CraftCore
+from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.4.45","2.5.16","2.6.6"]:
+        for ver in ["2.4.45", "2.5.16", "2.6.6"]:
             self.targets[ver] = f"https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-{ver}.tgz"
             self.targetInstSrc[ver] = f"openldap-{ver}"
 
@@ -29,9 +32,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/pcre"] = None
         self.runtimeDependencies["libs/openssl"] = None
 
-
-from Package.AutoToolsPackageBase import *
-from Package.CMakePackageBase import *
 
 if CraftCore.compiler.isWindows:
 
