@@ -8,13 +8,10 @@ class subinfo(info.infoclass):
 
         # Android icon recoloring
         # See https://invent.kde.org/plasma/qqc2-breeze-style/-/merge_requests/105
-        self.patchToApply["6.1.4"] = ("105.patch", 1)
-
         # Android statusbar recoloring
         # See https://invent.kde.org/plasma/qqc2-breeze-style/-/merge_requests/105
-        self.patchToApply["6.1.4"] = ("android-statusbar.diff", 1)
-
-        self.patchLevel["6.1.4"] = 2
+        self.patchToApply["6.1.4"] = [("105.patch", 1),  ("android-statusbar.diff", 1)]
+        self.patchLevel["6.1.4"] = 3
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
