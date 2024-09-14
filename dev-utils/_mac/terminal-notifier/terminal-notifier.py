@@ -1,7 +1,8 @@
-import stat
-from pathlib import Path
-
 import info
+import utils
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -17,13 +18,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.BinaryPackageBase import *
-
-
 class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def postInstall(self):
-        dev_utils = Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/bin"
+        dev_utils = CraftCore.standardDirs.craftRoot() / "dev-utils/bin"
         return utils.createShim(dev_utils / "terminal-notifier", dev_utils / "terminal-notifier.app/Contents/MacOS/terminal-notifier")

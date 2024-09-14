@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 import info
+import utils
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
 
 PACKAGE_CRAN_MIRROR = "https://ftp.gwdg.de/pub/misc/cran"
 PACKAGE_PATH = "/bin/windows/base/old/"
@@ -15,9 +20,6 @@ class subinfo(info.infoclass):
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + version + "/" + "R-" + version + "-win.exe"
         self.targets["devel"] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "R-devel.exe"
         self.defaultTarget = "4.3.3"
-
-
-from Package.BinaryPackageBase import *
 
 
 # Installation approach based on expat-src-2.0.1.py.

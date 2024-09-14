@@ -1,4 +1,10 @@
+import os
+
 import info
+import utils
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -14,9 +20,6 @@ class subinfo(info.infoclass):
 
         self.webpage = "https://jrsoftware.org/isinfo.php"
         self.defaultTarget = "6.2.1"
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):

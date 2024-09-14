@@ -22,9 +22,13 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
+import os
 import shutil
 
 import info
+import utils
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -40,9 +44,6 @@ class subinfo(info.infoclass):
             self.buildDependencies["dev-utils/mingw-w64"] = None
 
 
-from Package.BinaryPackageBase import *
-
-
 class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -55,9 +56,9 @@ class Package(BinaryPackageBase):
         return True
 
     def install(self):
-        destdir = os.path.join(self.installDir(), "bin")
+        destdir = self.installDir() / "bin"
         utils.createDir(destdir)
 
         with utils.ScopedEnv({"PATHEXT": ";".join(f"_{ver}.dll" for ver in range(60, 30, -1))}):
             d3dcompiler = shutil.which("d3dcompiler")
-            return utils.copyFile(d3dcompiler, os.path.join(destdir, os.path.basename(d3dcompiler)), linkOnly=False)
+            return utils.copyFile(d3dcompiler, destdir / os.path.basename(d3dcompiler), linkOnly=False)

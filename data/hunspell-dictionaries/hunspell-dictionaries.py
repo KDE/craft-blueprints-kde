@@ -1,6 +1,10 @@
 import glob
+import os
 
 import info
+import utils
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -21,9 +25,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.BinaryPackageBase import *
-
-
 class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -31,13 +32,13 @@ class Package(BinaryPackageBase):
     def install(self):
         srcDir = self.sourceDir()
         if CraftCore.compiler.platform.isWindows:
-            destDir = os.path.join(self.installDir(), "bin", "data")
+            destDir = self.installDir() / "bin/data"
         else:
-            destDir = os.path.join(self.installDir(), "share")
+            destDir = self.installDir() / "share"
         files = []
         for pattern in ["**/*.dic", "**/*.aff", "**/*.txt"]:
-            files.extend(glob.glob(os.path.join(srcDir, pattern), recursive=True))
+            files.extend(glob.glob(srcDir / pattern, recursive=True))
         for f in files:
-            if not utils.copyFile(f, os.path.join(destDir, "hunspell", os.path.basename(f)), linkOnly=False):
+            if not utils.copyFile(f, destDir / "hunspell" / os.path.basename(f), linkOnly=False):
                 return False
         return True

@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
+import os
+
 import info
+import utils
+from Package.BinaryPackageBase import BinaryPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -11,9 +16,6 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.9.2.1"
 
 
-from Package.BinaryPackageBase import *
-
-
 class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -23,6 +25,6 @@ class Package(BinaryPackageBase):
         dirs = os.listdir(self.workDir())
         if len(dirs) != 1:
             return False
-        utils.copyDir(os.path.join(self.workDir(), dirs[0]), self.installDir())
+        utils.copyDir(self.workDir() / dirs[0], self.installDir())
 
         return True

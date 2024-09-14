@@ -1,4 +1,5 @@
 import info
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -9,10 +10,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/mingw-crt4msvc"] = None
         self.runtimeDependencies["libs/gpg-error"] = None
-
-
-from Package.BinaryPackageBase import *
-from Package.MaybeVirtualPackageBase import *
 
 
 class Package(BinaryPackageBase):

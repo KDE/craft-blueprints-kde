@@ -1,7 +1,10 @@
+import os
 import shutil
 
 import info
-from Package.BinaryPackageBase import *
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
+from Package.VirtualPackageBase import VirtualPackageBase
 
 
 class subinfo(info.infoclass):
@@ -33,8 +36,6 @@ class PackageBin(BinaryPackageBase):
         shutil.rmtree(os.path.join(self.sourceDir(), "xerces-c-3.1.1-x86-windows-vc-10.0"))
         return True
 
-
-from Package.VirtualPackageBase import *
 
 if CraftCore.compiler.isMSVC():
 

@@ -1,4 +1,11 @@
+import os
+
 import info
+import utils
+from CraftCompiler import CraftCompiler
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -32,9 +39,6 @@ class subinfo(info.infoclass):
         self.patchLevel["16.15.1"] = 1
 
         self.defaultTarget = "16.15.1"
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):

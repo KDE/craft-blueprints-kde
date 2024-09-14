@@ -1,4 +1,8 @@
 import info
+import utils
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -24,9 +28,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["dev-utils/linuxdeploy-plugin-qt"] = None
         self.runtimeDependencies["dev-utils/linuxdeploy-plugin-appimage"] = None
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):

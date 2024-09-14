@@ -1,5 +1,9 @@
+import os
+
 import info
-from Package.BinaryPackageBase import *
+import utils
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -31,16 +35,16 @@ class Package(BinaryPackageBase):
         super().__init__(**kwargs)
 
     def install(self):
-        utils.copyDir(self.sourceDir(), os.path.join(self.installDir(), "bin"))
+        utils.copyDir(self.sourceDir(), self.installDir(), "bin")
         if CraftCore.compiler.isMinGW():
-            utils.deleteFile(os.path.join(self.installDir(), "bin", "libgcc_s_seh-1.dll"))
-        utils.mergeTree(os.path.join(self.installDir(), "bin", "sdk", "include"), os.path.join(self.installDir(), "include"))
-        utils.mergeTree(os.path.join(self.installDir(), "bin", "sdk", "lib"), os.path.join(self.installDir(), "lib"))
-        utils.rmtree(os.path.join(self.installDir(), "bin", "sdk"))
-        os.makedirs(os.path.join(self.installDir(), "share", "applications"))
-        utils.copyFile(os.path.join(self.blueprintDir(), "vlc.desktop"), os.path.join(self.installDir(), "share", "applications", "vlc.desktop"))
+            utils.deleteFile(self.installDir() / "bin/libgcc_s_seh-1.dll")
+        utils.mergeTree(self.installDir() / "bin/sdk/include", self.installDir() / "include")
+        utils.mergeTree(self.installDir() / "bin/sdk/lib", self.installDir() / "lib")
+        utils.rmtree(self.installDir() / "bin/sdk")
+        os.makedirs(self.installDir() / "share/applications")
+        utils.copyFile(self.blueprintDir() / "vlc.desktop", self.installDir() / "share/applications/vlc.desktop")
         if CraftCore.compiler.isMSVC():
-            utils.deleteFile(os.path.join(self.installDir(), "lib", "vlccore.lib"))
-            utils.deleteFile(os.path.join(self.installDir(), "lib", "vlc.lib"))
+            utils.deleteFile(self.installDir(), "lib", "vlccore.lib")
+            utils.deleteFile(self.installDir() / "lib/vlc.lib")
 
         return True

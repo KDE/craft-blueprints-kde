@@ -1,4 +1,10 @@
+import os
+
 import info
+import utils
+from CraftCore import CraftCore
+from Package.BinaryPackageBase import BinaryPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -16,9 +22,6 @@ class subinfo(info.infoclass):
 
         self.webpage = "http://nsis.sourceforge.net"
         self.defaultTarget = "3.09"
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):

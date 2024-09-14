@@ -1,4 +1,5 @@
 import info
+from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
@@ -7,9 +8,6 @@ class subinfo(info.infoclass):
         self.targetInstallPath["3.0.1"] = "dev-utils"
         self.targetDigests["3.0.1"] = "ff74599cbdf8e970b7f3246da8b4b73909867c66"
         self.defaultTarget = "3.0.1"
-
-
-from Package.BinaryPackageBase import *
 
 
 class Package(BinaryPackageBase):
