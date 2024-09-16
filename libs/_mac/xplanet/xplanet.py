@@ -32,7 +32,6 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        prefix = str(self.shell.toNativePath(CraftCore.standardDirs.craftRoot()))
         self.subinfo.options.configure.args += [
             "--disable-dependency-tracking",
             "--without-cspice",
@@ -45,10 +44,9 @@ class Package(AutoToolsPackageBase):
             "--without-x",
             "--without-xscreensaver",
             "--with-aqua",
-            f"--prefix={prefix}",
         ]
 
-        craftLibDir = os.path.join(prefix, "lib")
+        craftLibDir = self.shell.toNativePath(CraftCore.standardDirs.craftRoot() / "lib")
 
         self.subinfo.options.configure.ldflags = f"-Wl -rpath {craftLibDir} -L{craftLibDir}"
 
