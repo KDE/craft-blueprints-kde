@@ -44,6 +44,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/libarchive"] = None
         self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["libs/python"] = None
 
 
