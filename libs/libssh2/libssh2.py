@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import info
+from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -22,8 +25,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/openssl"] = None
 
-
-from Package.CMakePackageBase import *
 
 if not CraftCore.compiler.isGCCLike():
 

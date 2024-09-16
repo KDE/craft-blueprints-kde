@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -21,9 +22,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/eigen3"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/libxml2"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

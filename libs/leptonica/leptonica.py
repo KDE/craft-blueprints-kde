@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2024 Hennadii Chernyshchyk <genaloner@gmail.com>
 
 import info
-from Package.CMakePackageBase import *
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):

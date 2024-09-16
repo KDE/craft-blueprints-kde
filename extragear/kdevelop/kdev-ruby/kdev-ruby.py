@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -11,9 +12,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
         self.runtimeDependencies["extragear/kdevelop/kdevelop"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

@@ -1,4 +1,7 @@
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -35,9 +38,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -46,7 +46,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         if CraftCore.compiler.platform.isMacOS:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "excludelist_mac.txt"))
+            self.blacklist_file.append(self.blueprintDir() / "excludelist_mac.txt")
 
         self.defines["executable"] = r"bin\kaidan.exe"
 

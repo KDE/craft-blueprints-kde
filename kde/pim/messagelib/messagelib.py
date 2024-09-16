@@ -1,4 +1,6 @@
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -42,9 +44,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
         self.runtimeDependencies["libs/gpgme"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

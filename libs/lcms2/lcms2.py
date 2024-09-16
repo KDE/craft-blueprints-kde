@@ -1,12 +1,14 @@
 import info
+import utils
+from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
-from Package.CMakePackageBase import *
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["2.3", "2.4", "2.5", "2.7"]:
-            self.targets[ver] = "http://download.sourceforge.net/lcms/lcms2-" + ver + ".tar.gz"
+            self.targets[ver] = f"http://download.sourceforge.net/lcms/lcms2-{ver}.tar.gz"
             self.targetInstSrc[ver] = "lcms2-" + ver
         self.patchToApply["2.3"] = [("lcms2-2.3-20120302.diff", 1)]
         self.patchToApply["2.4"] = [("lcms2-2.4-20130124.diff", 1)]

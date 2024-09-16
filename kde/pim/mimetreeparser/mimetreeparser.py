@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -23,9 +24,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kmbox"] = None
         self.runtimeDependencies["kde/pim/libkleo"] = None
         self.runtimeDependencies["libs/gpgme/gpgme"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

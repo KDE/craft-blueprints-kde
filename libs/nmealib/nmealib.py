@@ -1,11 +1,11 @@
 import info
-from Package.CMakePackageBase import *
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["0.5.3"]:
-            self.targets[ver] = " http://freefr.dl.sourceforge.net/project/nmea/NmeaLib/nmea-0.5.x/nmealib-%s.zip" % ver
+            self.targets[ver] = f"http://freefr.dl.sourceforge.net/project/nmea/NmeaLib/nmea-0.5.x/nmealib-{ver}.zip"
             self.targetInstSrc[ver] = "nmealib"
         self.patchToApply["0.5.3"] = [
             ("0001-Make-the-library-compile-on-C99-compilers.patch", 1),

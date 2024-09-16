@@ -23,6 +23,9 @@
 # SUCH DAMAGE.
 
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -38,9 +41,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/libopensp"] = None
         self.runtimeDependencies["libs/iconv"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

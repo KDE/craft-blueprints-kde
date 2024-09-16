@@ -1,4 +1,9 @@
+from pathlib import Path
+
 import info
+import utils
+from Package.MakeFilePackageBase import MakeFilePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -15,9 +20,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-
-
-from Package.MakeFilePackageBase import *
 
 
 class Package(MakeFilePackageBase):

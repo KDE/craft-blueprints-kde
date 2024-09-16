@@ -1,6 +1,9 @@
+import os
 import sys
 
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -13,9 +16,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["extragear/kdevelop/kdevelop"] = None
         self.runtimeDependencies["extragear/kdevelop/kdev-php"] = None
         self.runtimeDependencies["libs/python"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

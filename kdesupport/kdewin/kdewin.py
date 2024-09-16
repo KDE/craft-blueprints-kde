@@ -1,4 +1,6 @@
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -22,14 +24,11 @@ class subinfo(info.infoclass):
         for i in ["4.3.0", "4.3.1", "4.3.2", "4.3.3", "4.3.4", "4.3"]:
             self.svnTargets[i] = "tags/kdesupport-for-4.3/kdesupport/kdewin"
         for ver in ["0.5.6"]:
-            self.targets[ver] = "http://www.winkde.org/pub/kde/ports/win32/repository/other/kdewin-" + ver + ".tar.xz"
-            self.targetInstSrc[ver] = "kdewin-" + ver
+            self.targets[ver] = f"http://www.winkde.org/pub/kde/ports/win32/repository/other/kdewin-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"kdewin-{ver}"
         self.patchToApply["0.5.6"] = [("kdewin-0.5.6-20130530.diff", 1), ("invert-if-msvc.diff", 1)]
         self.description = "kde supplementary package for win32"
         self.defaultTarget = "master"
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

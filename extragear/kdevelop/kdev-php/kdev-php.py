@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -8,9 +9,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["extragear/kdevelop-pg-qt"] = None
         self.runtimeDependencies["extragear/kdevelop/kdevelop"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

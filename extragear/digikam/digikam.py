@@ -25,8 +25,13 @@
 
 # NOTE: see relevant phabricator entry https://phabricator.kde.org/T12071
 
+import os
+
 import info
 import utils
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import GetFiles
 
 
 class subinfo(info.infoclass):
@@ -134,11 +139,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["binary/mysql"] = None
 
 
-from Package.CMakePackageBase import *
-from Packager.AppxPackager import AppxPackager
-from Utils import GetFiles
-
-
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -213,7 +213,7 @@ class Package(CMakePackageBase):
         self.defines["productname"] = "digiKam"
         self.defines["website"] = "https://www.digikam.org"
         self.defines["company"] = "digiKam.org"
-        self.defines["license"] = os.path.join(self.sourceDir(), "COPYING")
+        self.defines["license"] = self.sourceDir() / "COPYING"
 
         # Not yet supported by Craft with NSIS
         # self.defines["readme"]      = os.path.join(self.blueprintDir(), "ABOUT.txt")
@@ -230,7 +230,7 @@ class Package(CMakePackageBase):
 
         # Windows-only
 
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "digikam.ico")
+        self.defines["icon"] = self.blueprintDir() / "digikam.ico"
 
         # Windows-only extra icons
 
@@ -245,16 +245,16 @@ class Package(CMakePackageBase):
 
         # Files to drop from the bundles
 
-        self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_common.txt"))
+        self.blacklist_file.append(self.blueprintDir() / "blacklist_common.txt")
 
         if CraftCore.compiler.platform.isWindows:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_win.txt"))
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_win.txt")
 
         if CraftCore.compiler.platform.isMacOS:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         if CraftCore.compiler.platform.isLinux:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_lin.txt"))
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_lin.txt")
 
         # Drop dbus support for non Linux target
 
@@ -267,7 +267,7 @@ class Package(CMakePackageBase):
         # Copy More application icons in Windows bundle.
 
         if CraftCore.compiler.platform.isWindows:
-            if not utils.copyFile(os.path.join(self.blueprintDir(), "showfoto.ico"), os.path.join(self.archiveDir(), "showfoto.ico")):
+            if not utils.copyFile(self.blueprintDir() / "showfoto.ico", self.archiveDir() / "showfoto.ico"):
                 print("Could not copy showfoto.ico file")
                 return False
 
@@ -285,21 +285,21 @@ class Package(CMakePackageBase):
             # - remove marble-qt.exe                      (blacklist.txt)
 
             archiveDir = self.archiveDir()
-            binPath = os.path.join(archiveDir, "bin")
+            binPath = archiveDir / "bin"
 
-            if not utils.moveFile(os.path.join(archiveDir, "astro.dll"), os.path.join(binPath, "astro.dll")):
+            if not utils.moveFile(archiveDir, "astro.dll", binPath / "astro.dll"):
                 print("Could not move astro.dll file")
                 return False
 
-            if not utils.moveFile(os.path.join(archiveDir, "marbledeclarative.dll"), os.path.join(binPath, "marbledeclarative.dll")):
+            if not utils.moveFile(archiveDir / "marbledeclarative.dll", binPath / "marbledeclarative.dll"):
                 print("Could not move marbledeclarative.dll file")
                 return False
 
-            if not utils.moveFile(os.path.join(archiveDir, "marblewidget-qt5.dll"), os.path.join(binPath, "marblewidget-qt5.dll")):
+            if not utils.moveFile(archiveDir / "marblewidget-qt5.dll", binPath / "marblewidget-qt5.dll"):
                 print("Could not move marblewidget-qt5.dll file")
                 return False
 
-            if not utils.mergeTree(os.path.join(archiveDir, "data"), os.path.join(binPath, "data")):
+            if not utils.mergeTree(archiveDir / "data", binPath / "data"):
                 print("Could not move Marble data dir")
                 return False
 
@@ -312,10 +312,10 @@ class Package(CMakePackageBase):
 
             # Move digiKam plugins from bin/digikam/ to bin/plugins/digikam/
 
-            pluginsPath = os.path.join(archiveDir, "bin", "plugins")
+            pluginsPath = archiveDir / "bin/plugins"
             utils.createDir(pluginsPath)
 
-            if not utils.moveFile(os.path.join(archiveDir, "bin", "digikam"), os.path.join(pluginsPath, "digikam")):
+            if not utils.moveFile(archiveDir / "bin/digikam", pluginsPath / "digikam"):
                 print("Could not move digiKam plugins dir")
                 return False
 

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -23,9 +25,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libssh2"] = None
         self.runtimeDependencies["libs/pcre2"] = None
         self.runtimeDependencies["libs/openssl"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

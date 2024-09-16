@@ -1,4 +1,7 @@
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -23,9 +26,6 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.13"
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -36,5 +36,5 @@ class Package(CMakePackageBase):
     def postInstall(self):
         hardCoded = []
         if not CraftCore.compiler.platform.isWindows:
-            hardCoded += [os.path.join(self.installDir(), x) for x in ["bin/taglib-config"]]
+            hardCoded += [(self.installDir() / x) for x in ["bin/taglib-config"]]
         return self.patchInstallPrefix(hardCoded, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())

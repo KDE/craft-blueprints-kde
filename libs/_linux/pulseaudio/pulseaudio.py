@@ -2,6 +2,8 @@
 # SPDX-FileCopyrightText: 2023 Julius Künzel <julius.kuenzel@kde.org>
 
 import info
+from Package.MesonPackageBase import MesonPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -23,9 +25,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["perl-modules/xml-parser"] = None
         self.runtimeDependencies["libs/libsndfile"] = None
         self.runtimeDependencies["dev-utils/libtool"] = None  # For libltdl
-
-
-from Package.MesonPackageBase import *
 
 
 class Package(MesonPackageBase):

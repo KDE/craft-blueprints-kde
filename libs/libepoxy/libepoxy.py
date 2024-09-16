@@ -1,4 +1,6 @@
 import info
+from Package.MesonPackageBase import MesonPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -13,9 +15,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["python-modules/meson"] = None
-
-
-from Package.MesonPackageBase import *
 
 
 class Package(MesonPackageBase):

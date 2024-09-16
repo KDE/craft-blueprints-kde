@@ -1,10 +1,13 @@
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for v in ["3.6.2", "3.5.1", "3.7.2"]:
-            self.targets[v] = "https://github.com/libarchive/libarchive/archive/v" + v + ".tar.gz"
+            self.targets[v] = f"https://github.com/libarchive/libarchive/archive/v{v}.tar.gz"
             self.targetInstSrc[v] = "libarchive-" + v
 
         self.targetDigests["3.5.1"] = (["6d92e669e259a55a0119c135873469778f2718acbe605717f9d341487b4d0cba"], CraftHash.HashAlgorithm.SHA256)
@@ -24,9 +27,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/iconv"] = None
         self.runtimeDependencies["virtual/base"] = None
         #        self.runtimeDependencies["libs/expat"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

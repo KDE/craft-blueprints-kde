@@ -25,7 +25,9 @@
 import info
 import utils
 from CraftCore import CraftCore
-from Utils.PostInstallRoutines import *
+from Package.MesonPackageBase import MesonPackageBase
+from Utils import CraftHash
+from Utils.PostInstallRoutines import PostInstallRoutines
 
 
 class subinfo(info.infoclass):
@@ -60,9 +62,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/liblzma"] = None
 
 
-from Package.MesonPackageBase import *
-
-
 class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -81,8 +80,8 @@ class Package(MesonPackageBase):
             return False
         # must be called before we sign
         if CraftCore.compiler.platform.isWindows:
-            manifest = os.path.join(self.blueprintDir(), "update-mime-database.exe.manifest")
-            executable = os.path.join(self.installDir(), "bin", "update-mime-database.exe")
+            manifest = self.blueprintDir() / "update-mime-database.exe.manifest"
+            executable = self.installDir() / "bin/update-mime-database.exe"
             utils.embedManifest(executable, manifest)
         return True
 

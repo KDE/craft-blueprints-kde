@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 import info
-from Package.CMakePackageBase import *
+import utils
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
+from Utils.Arguments import Arguments
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/bagder/curl.git"
         for ver in ["7.78.0", "7.84.0"]:
-            self.targets[ver] = "https://curl.haxx.se/download/curl-" + ver + ".tar.bz2"
+            self.targets[ver] = f"https://curl.haxx.se/download/curl-{ver}.tar.bz2"
             self.targetInstSrc[ver] = "curl-" + ver
         self.targetDigests["7.78.0"] = (["98530b317dc95ccb324bbe4f834f07bb642fbc393b794ddf3434f246a71ea44a"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["7.84.0"] = (["702fb26e73190a3bd77071aa146f507b9817cc4dfce218d2ab87f00cd3bc059d"], CraftHash.HashAlgorithm.SHA256)

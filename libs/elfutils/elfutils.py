@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import info
+from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
-from Package.CMakePackageBase import *
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -10,7 +11,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for ver in ["0.181", "0.185", "0.188"]:
-            self.targets[ver] = "https://sourceware.org/elfutils/ftp/%s/elfutils-%s.tar.bz2" % (ver, ver)
+            self.targets[ver] = f"https://sourceware.org/elfutils/ftp/{ver}/elfutils-{ver}.tar.bz2"
             self.targetInstSrc[ver] = "elfutils-" + ver
             self.patchLevel[ver] = 0
 

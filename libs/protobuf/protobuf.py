@@ -1,4 +1,6 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -16,9 +18,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/abseil-cpp"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

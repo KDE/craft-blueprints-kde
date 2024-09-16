@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -9,9 +10,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

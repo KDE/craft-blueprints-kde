@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import info
-from Package.MesonPackageBase import *
+from CraftCore import CraftCore
+from Package.MesonPackageBase import MesonPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):

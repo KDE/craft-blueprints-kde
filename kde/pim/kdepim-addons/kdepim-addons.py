@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -40,9 +41,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kaddressbook"] = None
         self.runtimeDependencies["kde/frameworks/tier1/prison"] = None
         self.runtimeDependencies["kde/pim/ktnef"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

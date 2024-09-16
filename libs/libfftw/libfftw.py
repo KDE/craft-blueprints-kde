@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 import info
+from CraftCompiler import CraftCompiler
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -17,9 +20,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

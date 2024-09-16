@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -8,9 +9,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["libs/qt6/qttools"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CraftPackageObject.get("libs/qt6").pattern):

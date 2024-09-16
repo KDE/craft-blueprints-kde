@@ -1,5 +1,8 @@
 import info
-from Package.CMakePackageBase import *
+from CraftCore import CraftCore
+from CraftStandardDirs import CraftStandardDirs
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -29,7 +32,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.dynamic.buildTests = False
         self.subinfo.options.dynamic.buildStatic = False
 
-        hdf5dir = os.path.join(CraftStandardDirs.craftRoot(), "cmake", "hdf5")
+        hdf5dir = CraftStandardDirs.craftRoot() / "cmake/hdf5"
         self.subinfo.options.configure.args = [f"-DHDF5_DIR={hdf5dir}"]
 
     def createPackage(self):

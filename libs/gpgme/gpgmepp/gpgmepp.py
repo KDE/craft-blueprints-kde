@@ -1,4 +1,6 @@
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -26,9 +28,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/gnupg"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

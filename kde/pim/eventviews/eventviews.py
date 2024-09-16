@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -21,9 +22,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/calendarsupport"] = None
         self.runtimeDependencies["extragear/kdiagram"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

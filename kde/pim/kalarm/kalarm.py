@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -44,9 +45,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["kde/pim/kcalutils"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

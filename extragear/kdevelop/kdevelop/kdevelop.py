@@ -3,7 +3,9 @@ import sys
 
 import info
 from Blueprints.CraftVersion import CraftVersion
+from CraftCore import CraftCore
 from info import DependencyRequirementType
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -62,29 +64,26 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/applications/kate"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def preArchive(self):
         if CraftVersion(self.buildTarget) > CraftVersion("5.3.0"):
-            installColorSchemesScript = os.path.join(self.sourceDir(), "release-scripts/install_colorschemes.py")
+            installColorSchemesScript = self.sourceDir() / "release-scripts/install_colorschemes.py"
             CraftCore.log.info(f"Executing: {installColorSchemesScript}")
-            subprocess.check_call([sys.executable, installColorSchemesScript, os.path.join(self.archiveDir(), "bin/data")])
+            subprocess.check_call([sys.executable, installColorSchemesScript, self.archiveDir() / "bin/data"])
         return super().preArchive()
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        self.whitelist_file.append(os.path.join(self.blueprintDir(), "whitelist.txt"))
+        self.whitelist_file.append(self.blueprintDir() / "whitelist.txt")
 
         self.defines["shortcuts"] = [
             {"name": "KDevelop", "target": "bin/kdevelop.exe"},
             {"name": "KDevelop - Microsoft Visual C++ compiler", "target": "bin/kdevelop-msvc.bat"},
         ]
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "kdevelop.ico")
+        self.defines["icon"] = self.blueprintDir() / "kdevelop.ico"
 
         self.ignoredPackages.append("binary/mysql")
 

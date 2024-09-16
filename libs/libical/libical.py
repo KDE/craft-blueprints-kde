@@ -1,5 +1,7 @@
 import info
 from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -28,9 +30,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/flexbison"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/icu"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

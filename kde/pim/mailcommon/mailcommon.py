@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -30,9 +31,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/mailimporter"] = None
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/pimcommon"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

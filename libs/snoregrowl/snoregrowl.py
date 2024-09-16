@@ -1,4 +1,6 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -6,7 +8,7 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/Snorenotify/SnoreGrowl.git"
 
         for ver in ["0.4.0", "0.5.0"]:
-            self.targets[ver] = "https://github.com/Snorenotify/SnoreGrowl/archive/v%s.tar.gz" % ver
+            self.targets[ver] = f"https://github.com/Snorenotify/SnoreGrowl/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = "snoregrowl-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "SnoreGrowl-%s" % ver
         self.targetDigests["0.4.0"] = "16b84d2fb673438c8250cefd95f7e4c145e4cf22"
@@ -18,9 +20,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

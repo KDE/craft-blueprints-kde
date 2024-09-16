@@ -4,12 +4,14 @@ from pathlib import Path
 
 import info
 import utils
+from BuildSystem.BuildSystemBase import BuildSystemBase
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
-from Package.MakeFilePackageBase import *
+from Package.MakeFilePackageBase import MakeFilePackageBase
 from shells import BashShell
 from Utils import CraftHash
+from Utils.Arguments import Arguments
 
 nss_ver = "3.93"
 nspr_ver = "4.35"

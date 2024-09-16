@@ -1,5 +1,5 @@
 import info
-from Package.VirtualPackageBase import *
+from Package.VirtualPackageBase import VirtualPackageBase
 
 
 class subinfo(info.infoclass):
