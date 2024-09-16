@@ -7,11 +7,17 @@ from Package.CMakePackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "https://invent.kde.org/office/crow-translate"
         self.displayName = "Crow Translate"
         self.description = "A simple and lightweight translator that allows you to translate and speak text."
         self.webpage = "https://apps.kde.org/crow-translate"
-        self.defaultTarget = "master"
+
+        self.svnTargets["master"] = "https://invent.kde.org/office/crow-translate"
+        for ver in ["3.0.0"]:
+            self.targets[ver] = f"https://download.kde.org/stable/crow-translate/{ver}/crow-translate-v{ver}.tar.gz"
+            self.targetInstSrc[ver] = "crow-translate-v" + ver
+            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/crow-translate/{ver}/crow-translate-v{ver}.tar.gz.sha256"
+
+        self.defaultTarget = "3.0.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
