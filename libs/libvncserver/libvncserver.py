@@ -23,7 +23,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/libsdl2"] = None
-        self.runtimeDependencies["libs/opencv/opencv"] = None
 
 
 class Package(CMakePackageBase):
