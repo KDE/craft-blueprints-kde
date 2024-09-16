@@ -22,7 +22,5 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        prefix = str(self.shell.toNativePath(CraftCore.standardDirs.craftRoot()))
-        # self.subinfo.options.configure.bootstrap = True
         self.subinfo.options.useShadowBuild = False
-        self.subinfo.options.configure.args += ["--disable-dependency-tracking", f"--prefix={prefix}"]
+        self.subinfo.options.configure.args += ["--disable-dependency-tracking"]
