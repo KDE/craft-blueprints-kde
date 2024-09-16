@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import info
-from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 

@@ -48,8 +48,6 @@ class Pattern(CMakePackageBase):
                     if x:
                         values[var] = x.group(1)
 
-        version = None
-
         try:
             major = values["RELEASE_SERVICE_VERSION_MAJOR"]
             minor = values["RELEASE_SERVICE_VERSION_MINOR"]

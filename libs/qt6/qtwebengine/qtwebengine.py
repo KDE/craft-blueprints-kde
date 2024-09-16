@@ -88,13 +88,13 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DQT_FEATURE_qtwebengine_build=ON",
             # Package harfbuzz-subset was not found
             # f"-DQT_FEATURE_webengine_system_harfbuzz={'ON' if self.subinfo.options.dynamic.withHarfBuzz else 'OFF'}",
-            f"-DQT_FEATURE_webengine_system_libwebp=ON",
-            f"-DQT_FEATURE_webengine_system_libjpeg=ON",
-            f"-DQT_FEATURE_webengine_system_libxml=ON",
-            f"-DQT_FEATURE_webengine_system_freetype=ON",
-            f"-DQT_FEATURE_webengine_system_glib=ON",
-            f"-DQT_FEATURE_webengine_system_lcms2=ON",
-            f"-DQT_FEATURE_webengine_system_pulseaudio=OFF",
+            "-DQT_FEATURE_webengine_system_libwebp=ON",
+            "-DQT_FEATURE_webengine_system_libjpeg=ON",
+            "-DQT_FEATURE_webengine_system_libxml=ON",
+            "-DQT_FEATURE_webengine_system_freetype=ON",
+            "-DQT_FEATURE_webengine_system_glib=ON",
+            "-DQT_FEATURE_webengine_system_lcms2=ON",
+            "-DQT_FEATURE_webengine_system_pulseaudio=OFF",
         ]
         # See https://bugs.kde.org/show_bug.cgi?id=486905 and https://github.com/Homebrew/homebrew-core/issues/104008 :
         # option not correctly supported on Windows and MacOS (as of Qt 6.7.0)

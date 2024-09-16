@@ -9,7 +9,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/xapian/xapian.git"
-        self.targetInstSrc["master"] = f"xapian-core"
+        self.targetInstSrc["master"] = "xapian-core"
         for ver in ["1.4.5", "1.4.9", "1.4.26"]:
             self.targets[ver] = f"http://oligarchy.co.uk/xapian/{ver}/xapian-core-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"xapian-core-{ver}"

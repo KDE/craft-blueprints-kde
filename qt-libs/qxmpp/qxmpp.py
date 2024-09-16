@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import info
-from Blueprints.CraftPackageObject import CraftPackageObject
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
 

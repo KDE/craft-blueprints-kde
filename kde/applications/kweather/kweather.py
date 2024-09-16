@@ -2,7 +2,6 @@
 # SPDX-FileCopyrightText: 2021 Tobias Fella <fella@posteo.de>
 
 import info
-from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 

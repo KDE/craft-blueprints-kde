@@ -1,12 +1,11 @@
 import info
-from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
-from CraftCore import CraftCore
 from CraftCompiler import CraftCompiler
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
+from Packager.AppImagePackager import AppImagePackager
 from Packager.AppxPackager import AppxPackager
 from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
-from Packager.AppImagePackager import AppImagePackager
 
 
 class subinfo(info.infoclass):

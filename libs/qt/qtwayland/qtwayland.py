@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2022 Hannah von Reth <vonreth@kde.org>
 import info
-from Blueprints.CraftPackageObject import CraftPackageObject
 from Package.VirtualPackageBase import VirtualPackageBase
 
 

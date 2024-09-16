@@ -7,7 +7,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        ## tests in 2.81.0 fail to build
+        # tests in 2.81.0 fail to build
         self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
@@ -45,7 +45,7 @@ class Package(MesonPackageBase):
             )
         self.subinfo.options.configure.args += ["--wrap-mode=nodownload", "-Dgtk_doc=false", "-Dinstalled_tests=false", "-Dman=false"]
         if CraftCore.compiler.isUnix:
-            self.subinfo.options.configure.ldflags += f" -lintl -liconv"
+            self.subinfo.options.configure.ldflags += " -lintl -liconv"
         if CraftCore.compiler.isFreeBSD:
             self.subinfo.options.configure.args += ["-Dxattr=false", "-Dlibmount=disabled", "-Dselinux=disabled", "-Db_lundef=false"]
 

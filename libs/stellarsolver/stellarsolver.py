@@ -1,5 +1,3 @@
-import glob
-
 import info
 from Package.CMakePackageBase import CMakePackageBase
 

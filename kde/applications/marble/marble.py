@@ -1,5 +1,4 @@
 import info
-from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
@@ -45,7 +44,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon"] = self.sourceDir() / "data/ico/marble.ico"
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-marble.png"
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-marble.png"
-        self.defines["shortcuts"] = [{"name": "Marble", "target": "bin\marble-qt.exe"}]
+        self.defines["shortcuts"] = [{"name": "Marble", "target": "bin/marble-qt.exe"}]
         self.defines["website"] = "https://marble.kde.org/"
 
         self.addExecutableFilter(r"bin/(?!(marble-qt|QtWebEngineProcess)).*")

@@ -61,7 +61,7 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.args += ["--enable-local-install"]
 
         if not self.subinfo.options.isActive("libs/gwenhywfar"):
-            self.subinfo.options.configure.args += [f"--enable-gwenhywfar=no"]
+            self.subinfo.options.configure.args += ["--enable-gwenhywfar=no"]
 
         # this prevents "cannot find the library libaqhbci.la or unhandled argument libaqhbci.la"
         self.subinfo.options.make.supportsMultijob = False
@@ -76,16 +76,16 @@ class Package(AutoToolsPackageBase):
                 cmakeFileContents = f.readlines()
             for i in range(len(cmakeFileContents)):
                 if CraftCore.compiler.isMinGW():
-                    m = re.search('set_and_check\(prefix "(?P<root>[^"]*)"\)', cmakeFileContents[i])
+                    m = re.search(r'set_and_check\(prefix "(?P<root>[^"]*)"\)', cmakeFileContents[i])
                     if m is not None:
                         craftRoot = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
                         if craftRoot.endswith("/"):
                             craftRoot = craftRoot[:-1]
                         cmakeFileContents[i] = cmakeFileContents[i].replace(m.group("root"), craftRoot)
                 elif CraftCore.compiler.isMacOS:
-                    m2 = re.search("(libaqbanking.so.(\d*))", cmakeFileContents[i])
+                    m2 = re.search(r"(libaqbanking.so.(\d*))", cmakeFileContents[i])
                     if m2 is not None:
-                        cmakeFileContents[i] = cmakeFileContents[i].replace(m2.group(1), "libaqbanking.%s.dylib" % m2.group(2))
+                        cmakeFileContents[i] = cmakeFileContents[i].replace(m2.group(1), f"libaqbanking.{m2.group(2)}.dylib")
             with open(cmake, "wt") as f:
                 f.write("".join(cmakeFileContents))
         return super().postInstall()

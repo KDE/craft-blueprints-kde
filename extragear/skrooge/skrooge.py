@@ -1,6 +1,5 @@
 import info
 from Package.CMakePackageBase import CMakePackageBase
-from Packager.CollectionPackagerBase import PackagerLists
 from Utils import CraftHash
 
 

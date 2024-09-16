@@ -108,20 +108,16 @@ class Package(AutoToolsPackageBase):
         if CraftCore.compiler.isAndroid:
             if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
                 architecture = "aarch64"
-                toolchain = "aarch64-linux-android"
                 compiler = "aarch64-linux-android"
             elif CraftCore.compiler.architecture == CraftCompiler.Architecture.arm32:
                 architecture = "arm"
-                toolchain = "arm-linux-androideabi"
                 compiler = "armv7a-linux-androideabi"
             elif CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32:
                 architecture = "x86"
-                toolchain = "i686-linux-android"
                 compiler = "i686-linux-android"
                 self.subinfo.options.configure.args += ["--disable-asm", "--enable-pic"]
             else:
                 architecture = CraftCore.compiler.androidArchitecture
-                toolchain = f"{CraftCore.compiler.androidArchitecture}-linux-android"
                 compiler = f"{CraftCore.compiler.androidArchitecture}-linux-android"
             toolchain_path = os.path.join(os.environ["ANDROID_NDK"], "toolchains/llvm/prebuilt", os.environ.get("ANDROID_NDK_HOST", "linux-x86_64"), "bin")
 

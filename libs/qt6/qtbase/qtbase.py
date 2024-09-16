@@ -3,7 +3,6 @@ import utils
 from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
-from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -108,7 +107,6 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             f"-DFEATURE_fontconfig={'ON' if  self.subinfo.options.dynamic.withFontConfig else 'OFF'}",
             f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={'ON' if  self.subinfo.options.dynamic.useLtcg else 'OFF'}",
         ]
-
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += [
                 f"-DFEATURE_cups={'ON' if  self.subinfo.options.dynamic.withCUPS else 'OFF'}",

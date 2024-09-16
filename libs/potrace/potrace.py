@@ -2,7 +2,6 @@
 # SPDX-FileCopyrightText: 2023 Julius Künzel <jk.kdedev@smartlab.uber.space>
 
 import info
-from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
 
