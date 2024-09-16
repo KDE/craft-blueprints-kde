@@ -1,4 +1,6 @@
 import info
+from Package.MesonPackageBase import MesonPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -18,9 +20,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/glib"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
         self.runtimeDependencies["libs/libxslt"] = None
-
-
-from Package.MesonPackageBase import *
 
 
 class Package(MesonPackageBase):

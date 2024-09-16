@@ -1,4 +1,7 @@
 import info
+from CraftCore import CraftCore
+from Package.MesonPackageBase import MesonPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -17,9 +20,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["python-modules/meson"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libpng"] = None
-
-
-from Package.MesonPackageBase import *
 
 
 class Package(MesonPackageBase):

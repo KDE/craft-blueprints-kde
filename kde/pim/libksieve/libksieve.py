@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -27,8 +28,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/cyrus-sasl"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

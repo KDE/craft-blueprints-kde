@@ -1,5 +1,5 @@
 import info
-from Package.CMakePackageBase import *
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -38,6 +38,6 @@ class Package(CMakePackageBase):
         self.defines["productname"] = "KBibTeX"
         self.defines["website"] = "https://userbase.kde.org/KBibTeX"
         self.defines["executable"] = "bin\\kbibtex.exe"
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "kbibtex.ico")
+        self.defines["icon"] = self.blueprintDir() / "kbibtex.ico"
 
         return super().createPackage()

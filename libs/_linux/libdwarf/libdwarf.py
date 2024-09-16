@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
-from Package.CMakePackageBase import *
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):

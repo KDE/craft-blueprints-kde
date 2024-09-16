@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -32,9 +33,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/pimcommon"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -42,4 +40,3 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
         if not self.subinfo.options.dynamic.useDesignerPlugin:
             self.subinfo.options.configure.args += ["-DBUILD_DESIGNERPLUGIN=OFF"]
-

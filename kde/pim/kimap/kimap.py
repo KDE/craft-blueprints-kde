@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -16,9 +17,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["libs/cyrus-sasl"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

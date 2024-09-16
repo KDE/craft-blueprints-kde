@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2021 Nicolas Fella <nicolas.fella@gmx.de>
 
 import info
-from Package.CMakePackageBase import *
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):

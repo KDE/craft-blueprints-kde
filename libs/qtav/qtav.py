@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-import subprocess
-import sys
 
 import info
-from Blueprints.CraftVersion import CraftVersion
-from info import DependencyRequirementType
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -23,9 +20,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

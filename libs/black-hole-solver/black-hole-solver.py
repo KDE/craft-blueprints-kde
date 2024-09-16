@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
-from Package.CMakePackageBase import *
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -11,9 +12,9 @@ class subinfo(info.infoclass):
         # just support one version
         ver = "1.10.1"
         self.defaultTarget = ver
-        self.targets[ver] = "https://fc-solve.shlomifish.org/downloads/fc-solve/black-hole-solver-%s.tar.xz" % ver
-        self.archiveNames[ver] = "black-hole-solver-%s.tar.xz" % ver
-        self.targetInstSrc[ver] = "black-hole-solver-%s" % ver
+        self.targets[ver] = f"https://fc-solve.shlomifish.org/downloads/fc-solve/black-hole-solver-{ver}.tar.xz"
+        self.archiveNames[ver] = f"black-hole-solver-{ver}.tar.xz"
+        self.targetInstSrc[ver] = f"black-hole-solver-{ver}"
         self.targetDigests[ver] = (["36e1953a99e02e82489a3cb109fb590bcab307b4ddaec34cb0e67347668511e2"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):

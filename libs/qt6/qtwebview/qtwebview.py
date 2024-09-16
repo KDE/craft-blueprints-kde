@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2023 Volker Krause <vkrause@kde.org>
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -12,9 +14,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
         if not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/qt6/qtwebengine"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CraftPackageObject.get("libs/qt6").pattern):

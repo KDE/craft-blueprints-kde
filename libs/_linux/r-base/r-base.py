@@ -2,8 +2,8 @@
 
 import info
 import utils
-from CraftOS.osutils import OsUtils
 from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 PACKAGE_CRAN_MIRROR = "https://ftp.gwdg.de/pub/misc/cran"
@@ -35,9 +35,9 @@ class Package(AutoToolsPackageBase):
 
     def configure(self):
         env = {}
-        env["CFLAGS"] = "-I" + OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()) + "include"  # Needed in R 4.3.3 to find zlib
+        env["CFLAGS"] = "-I" + OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot() / "include")  # Needed in R 4.3.3 to find zlib
         env["CPPFLAGS"] = env["CFLAGS"]
-        env["LDFLAGS"] = "-L" + OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()) + "lib"
+        env["LDFLAGS"] = "-L" + OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot() / "lib")
         with utils.ScopedEnv(env):
             return super().configure()
 

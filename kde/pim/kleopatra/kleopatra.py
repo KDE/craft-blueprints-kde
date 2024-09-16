@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -29,9 +30,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -42,4 +40,3 @@ class Package(CMakePackageBase):
         self.defines["shortcuts"] = [{"name": "Kleopatra", "target": "bin/kleopatra.exe", "description": self.subinfo.description}]
         self.defines["alias"] = "kleopatra"
         return super().createPackage()
-

@@ -1,4 +1,7 @@
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -28,9 +31,6 @@ class subinfo(info.infoclass):
 
         # latest stable version
         self.defaultTarget = "2.3.7"
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

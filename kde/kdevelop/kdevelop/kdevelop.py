@@ -69,9 +69,9 @@ class Package(CraftPackageObject.get("kde").pattern):
         super().__init__(**kwargs)
 
     def preArchive(self):
-        installColorSchemesScript = os.path.join(self.sourceDir(), "release-scripts/install_colorschemes.py")
+        installColorSchemesScript = self.sourceDir() / "release-scripts/install_colorschemes.py"
         CraftCore.log.info(f"Executing: {installColorSchemesScript}")
-        subprocess.check_call([sys.executable, installColorSchemesScript, os.path.join(self.archiveDir(), "bin/data")])
+        subprocess.check_call([sys.executable, installColorSchemesScript, self.archiveDir() / "bin/data"])
         return super().preArchive()
 
     def createPackage(self):

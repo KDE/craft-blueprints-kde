@@ -1,4 +1,5 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -9,7 +10,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/flavio/qjson.git"
         for ver in ["0.7.1", "0.8.0", "0.8.1"]:
-            self.targets[ver] = "https://downloads.sourceforge.net/qjson/qjson-" + ver + ".tar.bz2"
+            self.targets[ver] = f"https://downloads.sourceforge.net/qjson/qjson-{ver}.tar.bz2"
             self.targetInstSrc[ver] = "qjson-%s" % ver
 
         self.targetInstSrc["0.7.1"] = "qjson"
@@ -18,9 +19,6 @@ class subinfo(info.infoclass):
         self.targetDigests["0.8.1"] = "197ccfd533f17bcf40428e68a82e6622047ed4ab"
         self.description = "a qt-based library that maps JSON data to Qt objects"
         self.defaultTarget = "master"
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

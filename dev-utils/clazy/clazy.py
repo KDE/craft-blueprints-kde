@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import info
-from Package.CMakePackageBase import *
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -34,5 +35,5 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.supportsClang = False
         if CraftCore.compiler.isMSVC():
-            clangLib = os.path.join(CraftCore.standardDirs.craftRoot(), "lib", "craft_clang_plugins.lib")
+            clangLib = CraftCore.standardDirs.craftRoot() / "lib/craft_clang_plugins.lib"
             self.subinfo.options.configure.args = f"-DCLANG_LIBRARY_IMPORT='{clangLib}'"

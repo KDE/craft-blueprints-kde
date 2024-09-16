@@ -1,4 +1,5 @@
 import info
+from Package.VirtualPackageBase import VirtualPackageBase
 
 
 class subinfo(info.infoclass):
@@ -9,9 +10,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/flex"] = None
         self.buildDependencies["dev-utils/bison"] = None
-
-
-from Package.VirtualPackageBase import *
 
 
 class Package(VirtualPackageBase):

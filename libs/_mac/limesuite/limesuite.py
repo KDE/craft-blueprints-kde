@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["20.10.0"]:
-            self.targets[ver] = "https://github.com/myriadrf/LimeSuite/archive/v%s.tar.gz" % ver
-            self.archiveNames[ver] = "limesuite-%s.tar.bz2" % ver
-            self.targetInstSrc[ver] = "LimeSuite-%s" % ver
+            self.targets[ver] = f"https://github.com/myriadrf/LimeSuite/archive/v{ver}.tar.gz"
+            self.archiveNames[ver] = f"limesuite-{ver}.tar.bz2"
+            self.targetInstSrc[ver] = f"LimeSuite-{ver}"
         self.description = "Lime suite device drivers, GUI, and SDR support"
         self.defaultTarget = "20.10.0"
 
@@ -18,14 +20,16 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-from Package.CMakePackageBase import *
-
-
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.useShadowBuild = False
         root = str(CraftCore.standardDirs.craftRoot())
-        self.subinfo.options.configure.args = (
-            "-DENABLE_STREAM=ON -DENABLE_GUI=OFF -DENABLE_NOVENARF7=OFF -DENABLE_SOAPY_LMS7=OFF -DLIME_SUITE_EXTVER=release -DLIME_SUITE_ROOT=" + root
-        )
+        self.subinfo.options.configure.args += [
+            "-DENABLE_STREAM=ON",
+            "-DENABLE_GUI=OFF",
+            "-DENABLE_NOVENARF7=OFF",
+            "-DENABLE_SOAPY_LMS7=OFF",
+            "-DLIME_SUITE_EXTVER=release",
+            f"-DLIME_SUITE_ROOT={root}",
+        ]

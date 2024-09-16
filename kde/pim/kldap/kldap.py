@@ -1,4 +1,7 @@
 import info
+from CraftCore import CraftCore
+from CraftStandardDirs import CraftStandardDirs
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -19,9 +22,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/cyrus-sasl"] = None
         self.runtimeDependencies["libs/openldap"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

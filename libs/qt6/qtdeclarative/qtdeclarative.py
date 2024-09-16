@@ -1,5 +1,5 @@
 import info
-import utils
+from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 
 
@@ -21,9 +21,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtsvg"] = None
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/qt6/qtlanguageserver"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CraftPackageObject.get("libs/qt6").pattern):

@@ -1,5 +1,5 @@
 import info
-from Blueprints.CraftPackageObject import CraftPackageObject
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -29,9 +29,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

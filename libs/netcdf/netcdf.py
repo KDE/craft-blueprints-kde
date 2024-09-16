@@ -1,5 +1,8 @@
 import info
-from Package.CMakePackageBase import *
+from CraftCore import CraftCore
+from CraftStandardDirs import CraftStandardDirs
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -51,7 +54,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.make.supportsMultijob = False
 
-        hdf5dir = os.path.join(CraftStandardDirs.craftRoot(), "cmake", "hdf5")
+        hdf5dir = CraftStandardDirs.craftRoot() / "cmake/hdf5"
         # -DENABLE_TESTS=OFF -DENABLE_EXAMPLE_TESTS=OFF -DENABLE_UNIT_TESTS=OFF -DENABLE_PARALLEL_TESTS=OFF
         # DAP needs static libcurl
         self.subinfo.options.configure.args = [f"-DHDF5_DIR={hdf5dir}", "-DENABLE_DAP=OFF"]

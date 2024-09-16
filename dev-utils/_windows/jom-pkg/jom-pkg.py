@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import info
-from Package.CMakePackageBase import *
+from CraftStandardDirs import CraftStandardDirs
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -26,8 +27,8 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        flexpath = os.path.join(CraftStandardDirs.craftRoot(), "msys", "bin", "flex.exe")
+        flexpath = CraftStandardDirs.craftRoot() / "msys/bin/flex.exe"
         self.subinfo.options.configure.args += [f"-DFLEX_EXECUTABLE={flexpath}", "-DJOM_ENABLE_TESTS=ON"]
         if self.buildTarget.startswith("static"):
-            qmakepath = os.path.join(CraftStandardDirs.craftRoot(), "qt-static", "bin", "qmake.exe")
+            qmakepath = CraftStandardDirs.craftRoot() / "qt-static/bin/qmake.exe"
             self.subinfo.options.configure.args += [f"-DQT_QMAKE_EXECUTABLE={qmakepath}"]

@@ -1,4 +1,7 @@
 import info
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -25,9 +28,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libcurl"] = None
         self.runtimeDependencies["libs/inih"] = None
         self.runtimeDependencies["virtual/base"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

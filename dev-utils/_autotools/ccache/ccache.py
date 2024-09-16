@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
+import os
+from pathlib import Path
+
 import info
+import utils
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -22,9 +29,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libzstd"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

@@ -2,7 +2,8 @@
 # SPDX-License-Identifier: BSD-2-Clause
 
 import info
-from Package.CMakePackageBase import *
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):

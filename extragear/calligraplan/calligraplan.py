@@ -1,5 +1,6 @@
 import info
-from Blueprints.CraftVersion import CraftVersion
+from CraftCore import CraftCore
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -41,9 +42,6 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isMinGW():
             self.runtimeDependencies["libs/runtime"] = None  # mingw-based builds need this
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):

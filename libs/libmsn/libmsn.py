@@ -1,10 +1,11 @@
 import info
+from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["4.0", "4.1", "4.2.1"]:
-            self.targets[ver] = "https://downloads.sourceforge.net/libmsn/libmsn-" + ver + ".tar.bz2"
+            self.targets[ver] = f"https://downloads.sourceforge.net/libmsn/libmsn-{ver}.tar.bz2"
             self.targetInstSrc[ver] = "libmsn-" + ver
         self.patchToApply["4.0"] = ("libmsn-4.0-20101012.diff", 1)
         self.patchToApply["4.1"] = ("libmsn-4.1-20101012.diff", 1)
@@ -16,9 +17,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/openssl"] = None
-
-
-from Package.CMakePackageBase import *
 
 
 class Package(CMakePackageBase):
