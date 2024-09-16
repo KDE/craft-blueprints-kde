@@ -2,7 +2,6 @@ import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
-from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
@@ -100,7 +99,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
                 f"-DFEATURE_system_harfbuzz={'ON' if self.subinfo.options.dynamic.withHarfBuzz else 'OFF'}",
                 f"-DFEATURE_icu={'ON' if self.subinfo.options.dynamic.withICU else 'OFF'}",
                 f"-DFEATURE_dbus={'ON' if self.subinfo.options.dynamic.withDBus else 'OFF'}",
-                f"-DFEATURE_dbus_linked=OFF",
+                "-DFEATURE_dbus_linked=OFF",
                 f"-DFEATURE_glib={'ON' if self.subinfo.options.dynamic.withGlib else 'OFF'}",
                 f"-DFEATURE_cups={'ON' if self.subinfo.options.dynamic.withCUPS else 'OFF'}",
                 f"-DFEATURE_fontconfig={'ON' if  self.subinfo.options.dynamic.withFontConfig else 'OFF'}",

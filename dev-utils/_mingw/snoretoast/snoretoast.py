@@ -11,9 +11,9 @@ class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["0.7.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/snoretoast/{ver}/bin/snoretoast-{ver}-msvc2017_{CraftCore.compiler.bits}-cl.7z"
-            self.targetDigestUrls[
-                ver
-            ] = f"https://download.kde.org/stable/snoretoast/{ver}/bin/snoretoast-{ver}-msvc2017_{CraftCore.compiler.bits}-cl.7z.sha256"
+            self.targetDigestUrls[ver] = (
+                f"https://download.kde.org/stable/snoretoast/{ver}/bin/snoretoast-{ver}-msvc2017_{CraftCore.compiler.bits}-cl.7z.sha256"
+            )
 
         self.description = "A command line application capable of creating Windows Toast notifications."
         self.webpage = "https://phabricator.kde.org/source/snoretoast/"

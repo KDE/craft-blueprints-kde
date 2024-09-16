@@ -8,9 +8,9 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["1-alpha-20230713-1"]:
-            self.targets[
-                ver
-            ] = f"https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/{ver}/linuxdeploy-plugin-appimage-{CraftCore.compiler.appImageArchitecture}.AppImage"
+            self.targets[ver] = (
+                f"https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/{ver}/linuxdeploy-plugin-appimage-{CraftCore.compiler.appImageArchitecture}.AppImage"
+            )
             # add version to file name to allow downloading multiple versions
             self.archiveNames[ver] = f"linuxdeploy-plugin-appimage-{ver}-{CraftCore.compiler.appImageArchitecture}.AppImage"
             self.targetInstallPath[ver] = "dev-utils/bin"

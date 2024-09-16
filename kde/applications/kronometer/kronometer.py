@@ -31,7 +31,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon"] = self.blueprintDir() / "kronometer.ico"
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-kronometer.png"
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-kronometer.png"
-        self.defines["shortcuts"] = [{"name": "Kronometer", "target": "bin\kronometer.exe"}]
+        self.defines["shortcuts"] = [{"name": "Kronometer", "target": "bin/kronometer.exe"}]
         self.defines["website"] = "https://apps.kde.org/en/kronometer"
 
         self.addExecutableFilter(r"bin/(?!(kronometer)).*")

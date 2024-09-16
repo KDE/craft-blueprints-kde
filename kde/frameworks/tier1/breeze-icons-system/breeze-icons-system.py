@@ -1,7 +1,6 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
-from Package.MaybeVirtualPackageBase import MaybeVirtualPackageBase
 
 
 class subinfo(info.infoclass):

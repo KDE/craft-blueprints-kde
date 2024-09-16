@@ -1,7 +1,6 @@
 import os
 
 import info
-from Blueprints.CraftPackageObject import CraftPackageObject
 from Package.CMakePackageBase import CMakePackageBase
 
 

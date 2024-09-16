@@ -25,4 +25,11 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.useShadowBuild = False
         root = str(CraftCore.standardDirs.craftRoot())
-        self.subinfo.options.configure.args += ["-DENABLE_STREAM=ON", "-DENABLE_GUI=OFF", "-DENABLE_NOVENARF7=OFF", "-DENABLE_SOAPY_LMS7=OFF", "-DLIME_SUITE_EXTVER=release", f"-DLIME_SUITE_ROOT={root}"]
+        self.subinfo.options.configure.args += [
+            "-DENABLE_STREAM=ON",
+            "-DENABLE_GUI=OFF",
+            "-DENABLE_NOVENARF7=OFF",
+            "-DENABLE_SOAPY_LMS7=OFF",
+            "-DLIME_SUITE_EXTVER=release",
+            f"-DLIME_SUITE_ROOT={root}",
+        ]

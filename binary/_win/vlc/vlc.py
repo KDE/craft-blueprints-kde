@@ -13,9 +13,9 @@ class subinfo(info.infoclass):
         for ver in ["3.0.0", "3.0.4", "3.0.8", "3.0.11", "3.0.12"]:
             self.targets[ver] = f"https://download.videolan.org/pub/videolan/vlc/{ver}/win{CraftCore.compiler.bits}/vlc-{ver}-win{CraftCore.compiler.bits}.7z"
             self.targetInstSrc[ver] = f"vlc-{ver}"
-            self.targetDigestUrls[
-                ver
-            ] = f"https://download.videolan.org/pub/videolan/vlc/{ver}/win{CraftCore.compiler.bits}/vlc-{ver}-win{CraftCore.compiler.bits}.7z.sha256"
+            self.targetDigestUrls[ver] = (
+                f"https://download.videolan.org/pub/videolan/vlc/{ver}/win{CraftCore.compiler.bits}/vlc-{ver}-win{CraftCore.compiler.bits}.7z.sha256"
+            )
             self.patchToApply[ver] = [("vlc-2.1.5.diff", 1)]
         self.patchToApply["3.0.11"] += [("vlc-3.0.11-20201106.diff", 1)]
         self.patchToApply["3.0.12"] += [("vlc-3.0.11-20201106.diff", 1)]
