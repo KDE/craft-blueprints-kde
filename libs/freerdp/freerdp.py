@@ -2,7 +2,6 @@
 # SPDX-FileCopyrightText: 2024 Julius Künzel <julius.kuenzel@kde.org>
 
 import info
-import utils
 from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase

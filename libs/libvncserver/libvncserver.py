@@ -2,14 +2,15 @@
 # SPDX-FileCopyrightText: 2024 Julius Künzel <julius.kuenzel@kde.org>
 
 import info
-import utils
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.description = "LibVNCServer/LibVNCClient are cross-platform C libraries that allow you to easily implement VNC server or client functionality in your program"
+        self.description = (
+            "LibVNCServer/LibVNCClient are cross-platform C libraries that allow you to easily implement VNC server or client functionality in your program"
+        )
         self.webpage = "https://libvnc.github.io/"
         for ver in ["0.9.14"]:
             self.targets[ver] = f"https://github.com/LibVNC/libvncserver/archive/refs/tags/LibVNCServer-{ver}.tar.gz"
@@ -29,6 +30,8 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
-        self.subinfo.options.configure.args += ["-DWITH_EXAMPLES=OFF",
-                                                "-DWITH_GTK=OFF",
-                                                f"-DWITH_TESTS={'ON' if self.subinfo.options.dynamic.buildTests else 'OFF'}"]
+        self.subinfo.options.configure.args += [
+            "-DWITH_EXAMPLES=OFF",
+            "-DWITH_GTK=OFF",
+            f"-DWITH_TESTS={'ON' if self.subinfo.options.dynamic.buildTests else 'OFF'}",
+        ]
