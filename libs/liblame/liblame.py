@@ -38,7 +38,7 @@ else:
             super().__init__(**kwargs)
             self.subinfo.options.useShadowBuild = False
             self.subinfo.options.make.supportsMultijob = False
-            self.subinfo.options.make.args += f"-f Makefile.MSVC dll comp=msvc GTK=NO CRAFT_ARCH=x{CraftCore.compiler.bits}"
+            self.subinfo.options.make.args += f"-f Makefile.MSVC dll comp=msvc GTK=NO CRAFT_ARCH=x{CraftCore.compiler.architecture.bits}"
             if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
                 self.subinfo.options.make.args += " MSVCVER=Win64 ASM=NO"
             else:

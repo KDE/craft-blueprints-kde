@@ -68,7 +68,7 @@ class PackageMSVC(CMakePackageBase):
         src = self.sourceDir()
         dst = self.imageDir()
 
-        _bit = CraftCore.compiler.bits
+        _bit = CraftCore.compiler.architecture.bits
         return (
             utils.createDir(dst / "bin")
             and utils.createDir(dst / "lib")

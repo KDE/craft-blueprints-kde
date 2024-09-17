@@ -115,7 +115,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             ]
 
         if CraftCore.compiler.platform.isAndroid:
-            self.subinfo.options.configure.args += [f"-DANDROID_ABI={CraftCore.compiler.androidAbi}", "-DECM_THREADS_WORKAROUND=OFF"]
+            self.subinfo.options.configure.args += [f"-DANDROID_ABI={CraftCore.compiler.architecture.androidAbi}", "-DECM_THREADS_WORKAROUND=OFF"]
         if CraftCore.compiler.platform.isIOS:
             self.subinfo.options.configure.args += [
                 "-DQT_FEATURE_printsupport=OFF",

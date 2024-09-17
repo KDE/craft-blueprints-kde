@@ -114,8 +114,8 @@ class Package(AutoToolsPackageBase):
                 compiler = "i686-linux-android"
                 self.subinfo.options.configure.args += ["--disable-asm", "--enable-pic"]
             else:
-                architecture = CraftCore.compiler.androidArchitecture
-                compiler = f"{CraftCore.compiler.androidArchitecture}-linux-android"
+                architecture = CraftCore.compiler.architecture.androidArchitecture
+                compiler = f"{CraftCore.compiler.architecture.androidArchitecture}-linux-android"
             toolchain_path = os.path.join(os.environ["ANDROID_NDK"], "toolchains/llvm/prebuilt", os.environ.get("ANDROID_NDK_HOST", "linux-x86_64"), "bin")
 
             self.subinfo.options.configure.args += ["--cc=" + f"{toolchain_path}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang"]
