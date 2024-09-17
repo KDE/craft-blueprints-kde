@@ -51,8 +51,8 @@ class Package(BinaryPackageBase):
         sourceBinary = self.installDir()
         if not CraftCore.compiler.isWindows:
             sourceBinary /= "bin"
-        sourceBinary /= f"node{CraftCore.compiler.executableSuffix}"
-        targetBinary = self.imageDir() / f"dev-utils/bin/node{CraftCore.compiler.executableSuffix}"
+        sourceBinary /= f"node{CraftCore.compiler.platform.executableSuffix}"
+        targetBinary = self.imageDir() / f"dev-utils/bin/node{CraftCore.compiler.platform.executableSuffix}"
 
         return utils.createShim(targetBinary, sourceBinary)
 

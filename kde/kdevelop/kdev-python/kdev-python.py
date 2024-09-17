@@ -27,7 +27,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         super().__init__(**kwargs)
         python = None
         if ("Paths", "Python") in CraftCore.settings:
-            python = os.path.join(CraftCore.settings.get("Paths", "Python"), f"python{CraftCore.compiler.executableSuffix}")
+            python = os.path.join(CraftCore.settings.get("Paths", "Python"), f"python{CraftCore.compiler.platform.executableSuffix}")
         if not python or not os.path.exists(python):
             if CraftCore.compiler.isWindows:
                 CraftCore.log.warning(f"Could not find {python} as provided by [Paths]Python, using {sys.executable} as a fallback")

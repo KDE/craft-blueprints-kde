@@ -85,7 +85,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/").shortPath
         self.subinfo.options.configure.args += [
             # no idea why cmake ignores the path env
-            f"-DPython3_EXECUTABLE={shortDevUtils / 'bin/python3'}{CraftCore.compiler.executableSuffix}",
+            f"-DPython3_EXECUTABLE={shortDevUtils / 'bin/python3'}{CraftCore.compiler.platform.executableSuffix}",
             "-DQT_FEATURE_qtwebengine_build=ON",
             # Package harfbuzz-subset was not found
             # f"-DQT_FEATURE_webengine_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",

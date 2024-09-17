@@ -45,7 +45,7 @@ class Package(CMakePackageBase):
             return False
         for t in [Path(os.environ["CXX"]), Path(os.environ["CC"])]:
             if not utils.createShim(
-                self.installDir() / "ccache/bin" / t.name, self.installDir() / f"bin/ccache{CraftCore.compiler.executableSuffix}", args=[t]
+                self.installDir() / "ccache/bin" / t.name, self.installDir() / f"bin/ccache{CraftCore.compiler.platform.executableSuffix}", args=[t]
             ):
                 return False
         return True
