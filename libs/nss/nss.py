@@ -5,7 +5,6 @@ from pathlib import Path
 import info
 import utils
 from BuildSystem.BuildSystemBase import BuildSystemBase
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
 from Package.MakeFilePackageBase import MakeFilePackageBase
@@ -100,17 +99,17 @@ class Package(MakeFilePackageBase):
         if CraftCore.compiler.isAndroid:
             # Otherwise gyp isn't found
             self._shell.environment["PATH"] += ":~/.local/bin/"
-            if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+            if CraftCore.compiler.architecture.isX86_64:
                 buildArgs += ["--target=x64", "-DOS=android"]
             else:
                 buildArgs += ["--target=" + CraftCore.compiler.architecture.androidArchitecture, "-DOS=android"]
 
             # Inspired by craft's own AutoToolsBuildSystem.py
-            if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm32:
+            if CraftCore.compiler.architecture.isArm32:
                 androidtarget = "arm-linux-androideabi"
-            elif CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
+            elif CraftCore.compiler.architecture.isArm64:
                 androidtarget = "aarch64-linux-android"
-            elif CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32:
+            elif CraftCore.compiler.architecture.isX86_32:
                 androidtarget = "i686-linux-android"
             else:
                 androidtarget = f"{CraftCore.compiler.architecture.androidArchitecture}-linux-android"
@@ -135,7 +134,7 @@ class Package(MakeFilePackageBase):
                 + toolchainDir
                 + "/sysroot"
             )
-            if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+            if CraftCore.compiler.architecture.isX86_64:
                 newParams += " --enable-64bit"
             content = content.replace('extra_params=(--prefix="$dist_dir"/$target)', f'extra_params=(--prefix="$dist_dir"/$target {newParams})')
             with open(nsprsh, "wt") as f:
@@ -147,7 +146,7 @@ class Package(MakeFilePackageBase):
             # Accept stuff like aarch64-unknown-linux-android, arm-unknown-linux-androideabi, etc.
             content = content.replace("-linux*-android*)", "-*linux*-android*)")
             content = content.replace("-linux*-android*|", "-*linux*-android*|")
-            if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm32:
+            if CraftCore.compiler.architecture.isArm32:
                 # For some reason the armv7 compilers have a different name than stuff like ar or ranlib so we need to do a different replacement here ...
                 # Call the proper clang, gcc is no longer supported
                 content = content.replace(

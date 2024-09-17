@@ -2,7 +2,6 @@ import os
 
 import info
 import utils
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from Package.BinaryPackageBase import BinaryPackageBase
 from Utils import CraftHash
@@ -19,8 +18,8 @@ class subinfo(info.infoclass):
             if CraftCore.compiler.isWindows:
                 self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-win-x64.zip"
                 self.targetInstSrc[ver] = f"node-v{ver}-win-x64"
-            elif CraftCore.compiler.isMacOS:
-                if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
+            elif CraftCore.compiler.platform.isMacOS:
+                if CraftCore.compiler.architecture.isArm64:
                     self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-darwin-arm64.tar.gz"
                     self.targetInstSrc[ver] = f"node-v{ver}-darwin-arm64"
                 else:

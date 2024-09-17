@@ -1,5 +1,4 @@
 import info
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils.CraftBool import CraftBool
@@ -32,7 +31,7 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        disableSSE = CraftBool(CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64)
+        disableSSE = CraftCore.compiler.platform.isMacOS and CraftCore.compiler.architecture.isArm64
 
         self.subinfo.options.configure.args = [
             f"-DBUILD_STATIC={self.subinfo.options.dynamic.buildStatic.asOnOff}",

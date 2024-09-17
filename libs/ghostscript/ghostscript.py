@@ -1,6 +1,5 @@
 import info
 import utils
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Package.CMakePackageBase import CMakePackageBase
@@ -49,7 +48,7 @@ class PackageMSVC(CMakePackageBase):
         self.enterSourceDir()
 
         extraArgs = []
-        if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+        if CraftCore.compiler.architecture.isX86_64:
             extraArgs.append("WIN64=")
         # because ghostscript doesn't know about msvc2015, it guesses wrong on this. But,
         # because of where we are, rc /should/ be in the path, so we'll just use that.
