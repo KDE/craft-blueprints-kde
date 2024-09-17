@@ -121,7 +121,7 @@ class Package(CMakePackageBase):
             self.defines["shortcuts"] = [
                 {
                     "name": self.subinfo.displayName,
-                    "target": f"bin/kdeconnect-app{CraftCore.compiler.executableSuffix}",
+                    "target": f"bin/kdeconnect-app{CraftCore.compiler.platform.executableSuffix}",
                     "description": self.subinfo.description,
                 }
             ]
