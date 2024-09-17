@@ -33,7 +33,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         super().__init__(**kwargs)
 
     def createPackage(self):
-
         self.defines["appname"] = "blinken"
 
         # Finally, just call the packager itself to get the package actually created.

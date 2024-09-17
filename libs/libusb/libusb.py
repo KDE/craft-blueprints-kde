@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
 
+
 if CraftCore.compiler.isMSVC():
 
     class Package(MSBuildPackageBase):
@@ -31,5 +32,5 @@ else:
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            #self.subinfo.options.useShadowBuild = False
-            #self.subinfo.options.configure.args += ["--disable-dependency-tracking"]
+            # self.subinfo.options.useShadowBuild = False
+            # self.subinfo.options.configure.args += ["--disable-dependency-tracking"]

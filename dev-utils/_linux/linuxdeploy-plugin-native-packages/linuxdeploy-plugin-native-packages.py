@@ -8,9 +8,9 @@ from Package.BinaryPackageBase import BinaryPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["continous"] = (
-            "https://github.com/linuxdeploy/linuxdeploy-plugin-native_packages/releases/download/continuous/linuxdeploy-plugin-native_packages-x86_64.AppImage"
-        )
+        self.targets[
+            "continous"
+        ] = "https://github.com/linuxdeploy/linuxdeploy-plugin-native_packages/releases/download/continuous/linuxdeploy-plugin-native_packages-x86_64.AppImage"
         self.targetInstallPath["continous"] = "dev-utils/bin"
         self.description = "Experimental linuxdeploy plugin that creates native packages (`.rpm`, `.deb`) from AppDirs."
         self.webpage = "https://github.com/linuxdeploy/linuxdeploy-plugin-native_packages"

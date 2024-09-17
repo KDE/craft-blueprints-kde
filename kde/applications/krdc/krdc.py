@@ -3,7 +3,6 @@
 
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
-from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -35,7 +34,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libvncserver"] = None
         self.runtimeDependencies["libs/freerdp"] = None
 
+
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        #self.subinfo.options.configure.args += ["-DWITH_RDP=ON", "-DWITH_VNC=OFF"]
+        # self.subinfo.options.configure.args += ["-DWITH_RDP=ON", "-DWITH_VNC=OFF"]

@@ -6,7 +6,6 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-
         self.description = "The Swiss Army knife of sound processing tools"
 
         for ver in ["14.4.2"]:
