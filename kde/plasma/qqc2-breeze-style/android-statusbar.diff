@@ -1,0 +1,52 @@
+diff --git a/style/qtquickcontrols/ApplicationWindow.qml b/style/qtquickcontrols/ApplicationWindow.qml
+index 3f6aaf2..009cdf6 100644
+--- a/style/qtquickcontrols/ApplicationWindow.qml
++++ b/style/qtquickcontrols/ApplicationWindow.qml
+@@ -2,13 +2,34 @@
+  * SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+  */
+ 
++import QtQml
+ import QtQuick
+ import QtQuick.Templates as T
+ import org.kde.kirigami as Kirigami
++import org.kde.guiaddons as GuiAddons
+ 
+ T.ApplicationWindow {
+     id: window
+-    // palette: Kirigami.Theme.palette
++
+     Kirigami.Theme.colorSet: Kirigami.Theme.Window
+     color: Kirigami.Theme.backgroundColor
++
++    Item {
++        id: headerColor
++
++        Kirigami.Theme.colorSet: Kirigami.Theme.Header
++        Kirigami.Theme.inherit: false
++
++        Binding {
++            target: GuiAddons.WindowInsetsController
++            property: "statusBarBackgroundColor"
++            value: Kirigami.Theme.backgroundColor
++        }
++    }
++
++    Binding {
++        target: GuiAddons.WindowInsetsController
++        property: "navigationBarBackgroundColor"
++        value: window.footer ? window.footer.Kirigami.Theme.backgroundColor : Kirigami.Theme.backgroundColor
++    }
+ }
+diff --git a/style/qtquickcontrols/CMakeLists.txt b/style/qtquickcontrols/CMakeLists.txt
+index 2af77cf..0190808 100644
+--- a/style/qtquickcontrols/CMakeLists.txt
++++ b/style/qtquickcontrols/CMakeLists.txt
+@@ -6,6 +6,7 @@ ecm_add_qml_module(BreezeStyle URI "org.kde.breeze"
+     "org.kde.kirigami"
+     "org.kde.quickcharts"
+     "org.kde.breeze.impl"
++    "org.kde.guiaddons"
+ )
+ 
+ ecm_target_qml_sources(BreezeStyle SOURCES
