@@ -44,6 +44,10 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DPNG_TESTS=OFF", "-DPNG_STATIC=OFF", "-DPNG_NO_STDIO=OFF"]
         if CraftCore.compiler.platform.isMacOS and self.subinfo.buildTarget == "1.6.39":
             self.subinfo.options.configure.args += ["-DPNG_ARM_NEON=off"]
-        if CraftCore.compiler.platform.isAndroid:
+        if self.subinfo.options.dynamic.buildTools:
             # PNG_EXECUTABLES is used for <= 1.6.40, PNG_TOOLS for > 1.6.40
             self.subinfo.options.configure.args += ["-DPNG_EXECUTABLES=OFF", "-DPNG_TOOLS=OFF"]
+        if self.subinfo.options.buildStatic:
+            self.subinfo.options.configure.args += ["-DPNG_STATIC=ON", "-DPNG_SHARED=OFF"]
+        else:
+            self.subinfo.options.configure.args += ["-DPNG_STATIC=OFF", "-DPNG_SHARED=ON"]
