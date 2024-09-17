@@ -1,6 +1,5 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
 from Package.CMakePackageBase import CMakePackageBase
@@ -109,7 +108,7 @@ class Package(CMakePackageBase):
             # it is broken on MSVC
             "-DWITH_OPENJPEG=OFF",
         ]
-        if CraftCore.compiler.architecture & CraftCompiler.Architecture.x86:
+        if CraftCore.compiler.architecture.isX86:
             self.subinfo.options.configure.args += [
                 # https://github.com/opencv/opencv/wiki/CPU-optimizations-build-options
                 # Work on old machines

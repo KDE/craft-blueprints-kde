@@ -1,5 +1,4 @@
 import info
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Package.PackageBase import PackageBase
@@ -34,9 +33,7 @@ class Package(AutoToolsPackageBase):
             "--disable-gpac",
             "--enable-pic",
         ]
-        if CraftCore.compiler.platform.isAndroid and (
-            CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64 or CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32
-        ):
+        if CraftCore.compiler.platform.isAndroid and (CraftCore.compiler.architecture.isX86_64 or CraftCore.compiler.architecture.isX86_32):
             self.subinfo.options.configure.args += ["--disable-asm"]
 
     def configure(self):

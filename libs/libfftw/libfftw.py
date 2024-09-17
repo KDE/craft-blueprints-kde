@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import info
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
@@ -31,7 +30,7 @@ class Package(CMakePackageBase):
             "-DENABLE_THREADS=ON",
             "-DWITH_COMBINED_THREADS=ON",
         ]
-        if CraftCore.compiler.architecture & CraftCompiler.Architecture.x86:
+        if CraftCore.compiler.architecture.isX86:
             self.subinfo.options.configure.args += ["-DENABLE_SSE2=ON"]
         if CraftCore.compiler.platform.isWindows:
             self.subinfo.options.configure.args += [
