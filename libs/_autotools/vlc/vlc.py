@@ -75,7 +75,7 @@ class Package(AutoToolsPackageBase):
     def configure(self):
         env = {}
 
-        if CraftCore.compiler.isGCCLike() and CraftCore.compiler.platform.isLinux:
+        if CraftCore.compiler.compiler.isGCCLike and CraftCore.compiler.platform.isLinux:
             env["BUILDCC"] = "/usr/bin/gcc"
 
         with utils.ScopedEnv(env):

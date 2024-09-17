@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         # readstat on MinGW does not work out of the box. It is a dependency of labplot which uses MSVC. Needs someone who cares.
         self.parent.package.categoryInfo.platforms &= (
-            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.compiler.isMinGW else CraftCore.compiler.Platforms.All
         )
 
     def setTargets(self):
@@ -29,7 +29,7 @@ class subinfo(info.infoclass):
             ("readstat-1.1.9.patch", 1),  # double free issue and missing prototypes
         ]
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply["1.1.6"] = [("readstat-1.1.6-compiler-flags.diff", 1)]
             self.patchToApply["1.1.8"] += [("readstat-1.1.6-compiler-flags.diff", 1)]
             self.patchToApply["1.1.9"] += [("readstat-1.1.6-compiler-flags.diff", 1)]
@@ -47,5 +47,5 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--disable-shared"]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.make.supportsMultijob = False

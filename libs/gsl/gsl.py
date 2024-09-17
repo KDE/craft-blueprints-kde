@@ -30,5 +30,5 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         # AMPL not needed (avoid submodule ASL dependency)
         self.subinfo.options.configure.args += ["-DGSL_DISABLE_TESTS=ON", "-DNO_AMPL_BINDINGS=ON"]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.dynamic.buildStatic = True

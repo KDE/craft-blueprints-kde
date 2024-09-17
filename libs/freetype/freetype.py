@@ -40,7 +40,7 @@ class PackageMSys(AutoToolsPackageBase):
         self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-harfbuzz=off", "--with-brotli=on"]
 
 
-if CraftCore.compiler.isGCCLike() and CraftCore.compiler.platform.isAndroid:
+if CraftCore.compiler.compiler.isGCCLike and CraftCore.compiler.platform.isAndroid:
 
     class Package(PackageMSys):
         pass

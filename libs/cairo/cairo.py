@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/glib"] = None
 
 
-if CraftCore.compiler.isMSVC():
+if CraftCore.compiler.compiler.isMSVC:
 
     class Package(MakeFilePackageBase):
         def __init__(self, **kwargs):
@@ -124,5 +124,5 @@ else:
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
             self.subinfo.options.configure.autoreconf = False
-            if CraftCore.compiler.isMinGW():
+            if CraftCore.compiler.compiler.isMinGW:
                 self.subinfo.options.configure.cflags += " -fstack-protector"

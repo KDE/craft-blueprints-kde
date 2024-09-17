@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         # cyrus-sasl on MinGW does not work out of the box. It needs someone who cares
         self.parent.package.categoryInfo.platforms &= (
-            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.compiler.isMinGW else CraftCore.compiler.Platforms.All
         )
 
     def setTargets(self):

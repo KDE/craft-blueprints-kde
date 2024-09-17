@@ -49,7 +49,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/nodejs"] = None
         self.buildDependencies["python-modules/html5lib"] = None
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.buildDependencies["libs/llvm"] = None
 
         self.runtimeDependencies["libs/qt6/qtbase"] = None
@@ -101,7 +101,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         else:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_icu=OFF"]
 
-        if CraftCore.compiler.isMSVC() and CraftVersion(self.buildTarget) < CraftVersion("6.7.0"):
+        if CraftCore.compiler.compiler.isMSVC and CraftVersion(self.buildTarget) < CraftVersion("6.7.0"):
             self.subinfo.options.configure.args += [
                 "-DCMAKE_CXX_COMPILER=clang-cl",
                 "-DCMAKE_C_COMPILER=clang-cl",
@@ -123,7 +123,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         else:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=ON"]
 
-        if CraftCore.compiler.isMSVC() and CraftVersion(self.buildTarget) >= CraftVersion("6.6.0"):
+        if CraftCore.compiler.compiler.isMSVC and CraftVersion(self.buildTarget) >= CraftVersion("6.6.0"):
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_zlib=OFF"]
         else:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_zlib=ON"]

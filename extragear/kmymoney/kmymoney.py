@@ -68,7 +68,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libical"] = None
         self.runtimeDependencies["libs/sqlcipher"] = None
         self.runtimeDependencies["libs/pulseaudio"] = None
-        if not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.compiler.isMSVC:
             self.runtimeDependencies["libs/aqbanking"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["extragear/alkimia"] = None

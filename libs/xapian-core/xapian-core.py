@@ -33,7 +33,7 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.shell.useMSVCCompatEnv = True
             self.subinfo.options.useShadowBuild = False
 
@@ -46,7 +46,7 @@ class Package(AutoToolsPackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             return utils.moveFile(self.installDir() / "lib/xapian.lib", self.installDir() / "lib/libxapian.lib")
         return True
 

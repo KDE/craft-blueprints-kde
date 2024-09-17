@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/nasm"] = None
 
 
-if CraftCore.compiler.isGCCLike():
+if CraftCore.compiler.compiler.isGCCLike:
 
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):

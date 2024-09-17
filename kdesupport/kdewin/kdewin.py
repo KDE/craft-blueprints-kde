@@ -40,7 +40,5 @@ class Package(CMakePackageBase):
         if not self.subinfo.options.dynamic.buildWithQt:
             self.subinfo.options.configure.args += ["-DBUILD_BASE_LIB_WITH_QT=OFF", "-DBUILD_QT_LIB=OFF"]
         self.subinfo.options.configure.args += ["-DBUILD_TOOLS=ON"]
-        if CraftCore.compiler.isMinGW_W32():
-            self.subinfo.options.configure.args += ["-DMINGW_W32=ON"]
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.args += ['-DKDEWIN_DEFINITIONS="-DKDEWIN_NO_LOCALTIME_R -DKDEWIN_NO_GMTIME_R"']

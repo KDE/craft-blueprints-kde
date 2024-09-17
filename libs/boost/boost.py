@@ -44,7 +44,7 @@ class Package(CMakePackageBase):
 
         if CraftCore.compiler.platform.isWindows:
             cxx_flags = ["-D_WIN32_WINNT=0x0A00", "-DWINVER=0x0A00", "-D_WIN32_IE=0x0A00"]
-            if CraftCore.compiler.isMSVC():
+            if CraftCore.compiler.compiler.isMSVC:
                 cxx_flags += ["-EHsc"]
 
             cxx_flags_str = " ".join(cxx_flags)

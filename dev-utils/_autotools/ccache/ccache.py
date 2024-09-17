@@ -30,7 +30,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libzstd"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 

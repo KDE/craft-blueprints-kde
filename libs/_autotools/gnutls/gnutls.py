@@ -52,7 +52,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libtasn1"] = None
         self.runtimeDependencies["libs/p11kit"] = None
         self.runtimeDependencies["libs/brotli"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 

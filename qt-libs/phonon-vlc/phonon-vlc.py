@@ -8,7 +8,7 @@ from Package.CMakePackageBase import CMakePackageBase
 class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["qt-libs/phonon"] = None
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.runtimeDependencies["kdesupport/kdewin"] = None
         if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["binary/vlc"] = None

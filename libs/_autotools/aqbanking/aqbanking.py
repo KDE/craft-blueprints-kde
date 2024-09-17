@@ -35,7 +35,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         # Disable on MinGW as gwenhywfar is broken but apparently a mandatory dep, needs someone to care
         self.parent.package.categoryInfo.platforms &= (
-            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.compiler.isMinGW else CraftCore.compiler.Compiler.All
         )
 
     def setTargets(self):
@@ -49,7 +49,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/libbzip2"] = None
         self.runtimeDependencies["libs/xmlsec1"] = None
         self.runtimeDependencies["libs/gwenhywfar"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 
@@ -77,7 +77,7 @@ class Package(AutoToolsPackageBase):
             with open(cmake, "rt") as f:
                 cmakeFileContents = f.readlines()
             for i in range(len(cmakeFileContents)):
-                if CraftCore.compiler.isMinGW():
+                if CraftCore.compiler.compiler.isMinGW:
                     m = re.search(r'set_and_check\(prefix "(?P<root>[^"]*)"\)', cmakeFileContents[i])
                     if m is not None:
                         craftRoot = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())

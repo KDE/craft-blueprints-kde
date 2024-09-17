@@ -20,7 +20,9 @@ nspr_ver = "4.35"
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms &= (
-            CraftCore.compiler.Platforms.Windows if CraftCore.compiler.isMSVC() else (CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.Android)
+            CraftCore.compiler.Platforms.Windows
+            if CraftCore.compiler.compiler.isMSVC
+            else (CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.Android)
         )
         self.options.dynamic.registerOption("installTools", False)
 
@@ -32,7 +34,7 @@ class subinfo(info.infoclass):
         self.targets[ver] = f"https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_93_RTM/src/nss-{ver}-with-nspr-{nspr_ver}.tar.gz"
         self.targetInstSrc[ver] = f"nss-{ver}"
         self.targetDigests[ver] = (["4a5b5df21f8accc65b80d38b6acf8b017a5d03b5f81f0d23295a11575f300183"], CraftHash.HashAlgorithm.SHA256)
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply[ver] = [("install-instead-of-nsinstall.diff", 1), ("cygwin-is-windows.diff", 1)]
         self.defaultTarget = ver
 
@@ -62,7 +64,7 @@ class Package(MakeFilePackageBase):
 
         buildArgs = ["-v", "--disable-tests", "--opt", "--system-sqlite", "-Dsign_libs=0"]
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             # When you say --system-sqlite it just tries to find it in the path, that doesn't work for MSVC
             configgypi = self.sourceDir() / "nss/coreconf/config.gypi"
             with open(configgypi, "rt") as f:
@@ -221,7 +223,7 @@ class Package(MakeFilePackageBase):
         BuildSystemBase.patchInstallPrefix(
             self, [(self.installDir() / "lib/pkgconfig/nspr.pc")], [os.path.dirname(self.installDir()) + "/work/nss-" + nss_ver + "/dist/Release"]
         )
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             # The nspr libs are created as libnspr4.lib so we need to adapt the pc file
             nsprpc = self.installDir() / "lib/pkgconfig/nspr.pc"
             with open(nsprpc, "rt") as f:

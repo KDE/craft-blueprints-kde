@@ -44,7 +44,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/libidn"] = None
         self.runtimeDependencies["libs/gnutls"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 
@@ -55,7 +55,7 @@ class PackageMinGW(AutoToolsPackageBase):
         self.subinfo.options.configure.ldflags += "-lgcrypt "
 
 
-if CraftCore.compiler.isGCCLike():
+if CraftCore.compiler.compiler.isGCCLike:
 
     class Package(PackageMinGW):
         def __init__(self, **kwargs):
