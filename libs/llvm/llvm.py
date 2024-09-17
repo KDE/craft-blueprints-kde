@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"llvm-project-{ver}.src"
             self.targetConfigurePath[ver] = "llvm"
             self.patchToApply[ver] = []
-            if CraftCore.compiler.isMSVC():
+            if CraftCore.compiler.compiler.isMSVC:
                 self.patchToApply[ver] += [("llvm-15.0.2-20221107.diff", 1)]
         self.patchToApply["16.0.1"] += [(".16.0.1", 1)]
         self.patchToApply["17.0.6"] += [(".17.0.6", 1)]
@@ -96,10 +96,10 @@ class Package(CMakePackageBase):
 
         # build static in general
         self.subinfo.options.dynamic.buildStatic = True
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.configure.args += ["-DLLVM_EXPORT_SYMBOLS_FOR_PLUGINS=ON"]
             # CMake Error at CMakeLists.txt:555 (message): BUILD_SHARED_LIBS options is not supported on Windows
-        elif CraftCore.compiler.isMinGW():
+        elif CraftCore.compiler.compiler.isMinGW:
             # LLVM_BUILD_LLVM_DYLIB would result in "error: export ordinal too large: 72285"
             self.subinfo.options.dynamic.buildStatic = True
         else:
@@ -113,7 +113,7 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             files = os.listdir(self.buildDir() / "lib")
             for f in files:
                 if f.endswith("dll.a"):
@@ -121,7 +121,7 @@ class Package(CMakePackageBase):
                     dest = self.installDir() / "lib" / f
                     if not os.path.exists(dest):
                         utils.copyFile(src, dest, False)
-        elif CraftCore.compiler.isMSVC():
+        elif CraftCore.compiler.compiler.isMSVC:
             utils.copyFile(
                 self.buildDir() / "lib/clang.lib",
                 self.installDir() / "lib/craft_clang_plugins.lib",

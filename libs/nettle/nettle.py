@@ -45,7 +45,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/libgmp"] = None
         self.runtimeDependencies["libs/openssl"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
         if not CraftCore.compiler.isMacOS:
             self.buildDependencies["dev-utils/m4"] = None
@@ -62,7 +62,7 @@ class PackageAutoTools(AutoToolsPackageBase):
             self.subinfo.options.configure.args += ["M4=/usr/bin/m4"]
 
 
-if not CraftCore.compiler.isMSVC():
+if not CraftCore.compiler.compiler.isMSVC:
 
     class Package(PackageAutoTools):
         def __init__(self, **kwargs):

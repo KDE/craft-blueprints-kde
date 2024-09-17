@@ -91,7 +91,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtimageformats"] = None
         self.runtimeDependencies["libs/qt/qtnetworkauth"] = None
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             # mingw-based builds need this
 
             self.runtimeDependencies["libs/runtime"] = None
@@ -159,7 +159,7 @@ class Package(CMakePackageBase):
                 "-DDIGIKAMSC_COMPILE_DIGIKAM=ON",
             ]
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.configure.args = [
                 "-DENABLE_KFILEMETADATASUPPORT=OFF",
                 "-DENABLE_AKONADICONTACTSUPPORT=OFF",
@@ -176,7 +176,7 @@ class Package(CMakePackageBase):
                 "-DDIGIKAMSC_COMPILE_DIGIKAM=ON",
             ]
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.args = [
                 "-DENABLE_KFILEMETADATASUPPORT=OFF",
                 "-DENABLE_AKONADICONTACTSUPPORT=OFF",
@@ -270,7 +270,7 @@ class Package(CMakePackageBase):
                 print("Could not copy showfoto.ico file")
                 return False
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             # Manage files under Windows bundle:
 
             # remove setup_vars_opencv4.cmd               (blacklist.txt)

@@ -36,7 +36,7 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isWindows:
             self.patchToApply["1.5.2"] = ("OpenSP-1.5.2-20110111.diff", 1)
-        # elif CraftCore.compiler.isMinGW():
+        # elif CraftCore.compiler.compiler.isMinGW:
         #     self.patchToApply['1.5.2'] = ("OpenSP-1.5.2-20180505.diff", 1)
         self.targetDigests["1.5.2"] = "b4e903e980f8a8b3887396a24e067bef126e97d5"
         self.description = "a library for a SGML parser algorithm"
@@ -44,7 +44,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        # if CraftCore.compiler.isMinGW():
+        # if CraftCore.compiler.compiler.isMinGW:
         #     self.buildDependencies["dev-utils/msys"] = None
 
 
@@ -53,11 +53,11 @@ class PackageAutotools(AutoToolsPackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--disable-doc-build"]
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.noDataRootDir = True
 
     def configure(self):
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             # to fix MessageReporter.cxx:126:49: error: cast from 'const OpenSP::MessageModule*' to 'long unsigned int' loses precision [-fpermissive]
             self.subinfo.options.configure.cxxflags += "-fpermissive "
         return super().configure()

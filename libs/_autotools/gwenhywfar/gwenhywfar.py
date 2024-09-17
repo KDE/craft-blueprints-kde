@@ -34,7 +34,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         # Disable on MinGW as it is broken, needs someone to care
         self.parent.package.categoryInfo.platforms &= (
-            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.compiler.isMinGW else CraftCore.compiler.Compiler.All
         )
 
     def setTargets(self):
@@ -42,7 +42,7 @@ class subinfo(info.infoclass):
         self.targetDigests["5.8.1"] = (["05397618b9cae0197a181835f67e19ba09652cf30e2c9d1fbb98f3f34dbf4e1f"], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["5.8.1"] = "gwenhywfar-5.8.1"
         self.patchToApply["5.8.1"] = [("gwenhywfar-5.8.1-20211230.diff", 0)]
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.patchToApply["5.8.1"] += [("gwenhywfar-4.19.0-20180218.diff", 1)]
         self.patchLevel["5.8.1"] = 3
 
@@ -61,7 +61,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gnutls"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 
@@ -85,14 +85,14 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
 
         self.subinfo.options.configure.ldflags += " -lintl"
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.autoreconf = True
             # it tires to locate qt but used native windows paths for -l
             # those are not supported by libtool
             self.subinfo.options.configure.ldflags += " -lQt5Widgets -lQt5Gui -lQt5Core -lqtmain"
 
     def configure(self):
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             _, includedir = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_HEADERS")
             includedir = self.shell.toNativePath(includedir.strip())
             widgetsdir = self.shell.toNativePath(os.path.join(includedir, "QtWidgets"))

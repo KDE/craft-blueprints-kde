@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/gcrypt"] = None
 
         # cyrus-sasl currently fails to build with mingw / for android
-        if not CraftCore.compiler.isMinGW() and not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.compiler.isMinGW() and not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/cyrus-sasl"] = None
 
     def setTargets(self):

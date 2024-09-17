@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
         # Fix assembling with binutil >= 2.41
         self.patchToApply["6.0"] = [("effadce6c756247ea8bae32dc13bb3e6f464f0eb.diff", 1)]
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply["4.4"] = [("ffmpeg-4.4-20210413.diff", 1)]
             self.patchToApply["5.0.1"] = [("ffmpeg-4.4-20210413.diff", 1)]
             self.patchToApply["6.0"] += [("ffmpeg-4.4-20210413.diff", 1)]
@@ -59,8 +59,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libsdl2"] = None
         self.runtimeDependencies["libs/aom"] = None
         self.runtimeDependencies["libs/dav1d"] = None
-        if CraftCore.compiler.isGCCLike():
-            if not CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.compiler.isGCCLike:
+            if not CraftCore.compiler.platform.isAndroid:
                 self.runtimeDependencies["libs/libvpx"] = None
                 self.runtimeDependencies["libs/libass"] = None
                 self.runtimeDependencies["libs/zimg"] = None
@@ -83,7 +83,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.noCacheFile = True
         self.subinfo.options.configure.autoreconf = False
         # with msvc it does not support shadowbuilds
-        self.subinfo.options.useShadowBuild = not CraftCore.compiler.isMSVC()
+        self.subinfo.options.useShadowBuild = not CraftCore.compiler.compiler.isMSVC
 
         if CraftCore.compiler.isMacOS:
             # Workaround linker bug with clang 15, see  https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/issues/140
@@ -132,7 +132,7 @@ class Package(AutoToolsPackageBase):
 
         if CraftCore.compiler.isWindows:
             self.subinfo.options.configure.args += ["--enable-dxva2"]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.configure.cflags += "-FS"
             self.subinfo.options.configure.cxxflags += "-FS"
             self.subinfo.options.configure.args += ["--toolchain=msvc"]
@@ -213,7 +213,7 @@ class Package(AutoToolsPackageBase):
         return True
 
     def _ffmpegEnv(self):
-        if not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.compiler.isMSVC:
             return {}
         return {
             "LIB": f"{os.environ['LIB']};{CraftStandardDirs.craftRoot() / 'lib'}",

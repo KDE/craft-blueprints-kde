@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
         # TODO MSVC: it looks as if cairo and gavl are not detected
 
         self.runtimeDependencies["virtual/base"] = None
-        if not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.compiler.isMSVC:
             # TODO check why build fails with OpenCV, shouldn't be too hard to fix
             self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/cairo"] = None
@@ -37,7 +37,7 @@ class Package(CMakePackageBase):
         #    self.subinfo.options.configure.args += ["-DWITHOUT_GAVL=1"]
 
         # TODO check why build fails with OpenCV, shouldn't be too hard to fix
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.configure.args += ["-DWITHOUT_OPENCV=1"]
 
     def install(self):

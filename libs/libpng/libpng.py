@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
                 ("libpng-android-remove-zlib-dependency.diff", 1),
             ]
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             # disable broken symlink creation
             self.patchToApply["1.6.43"] += [("libpng-1.6.43-20240730.diff", 1)]
 

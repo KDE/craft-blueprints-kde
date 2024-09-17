@@ -116,8 +116,8 @@ class Package(CMakePackageBase):
 
         # Craft doesn't compile NSS and gpgme with mingw
         self.subinfo.options.configure.args += [
-            f"-DENABLE_NSS3={CraftBool(self.subinfo.options.isActive('libs/nss') and not CraftCore.compiler.isMinGW()).asOnOff}"
+            f"-DENABLE_NSS3={CraftBool(self.subinfo.options.isActive('libs/nss') and not CraftCore.compiler.compiler.isMinGW).asOnOff}"
         ]
         self.subinfo.options.configure.args += [
-            f"-DENABLE_GPGME={CraftBool(self.subinfo.options.isActive('libs/gpgme') and not CraftCore.compiler.isMinGW() and not CraftCore.compiler.isAndroid).asOnOff}"
+            f"-DENABLE_GPGME={CraftBool(self.subinfo.options.isActive('libs/gpgme') and not CraftCore.compiler.compiler.isMinGW and not CraftCore.compiler.platform.isAndroid).asOnOff}"
         ]

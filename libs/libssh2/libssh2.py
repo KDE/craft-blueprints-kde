@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.10.0"] = (["2d64e90f3ded394b91d3a2e774ca203a4179f69aebee03003e5a6fa621e41d51"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.11.0"] = (["3736161e41e2693324deb38c26cfdc3efe6209d634ba4258db1cecff6a5ad461"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["1.10.0"] = [("libssh2-1.10.0-20221026.diff", 1)]  # don't let pkg-config search for ws2_32
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply["1.11.0"] = [("libssh2-1.11.0-MSVC-libprefix.pc.diff", 1)]
         self.patchLevel["1.10.0"] = 1
         self.defaultTarget = "1.11.0"
@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/openssl"] = None
 
 
-if not CraftCore.compiler.isGCCLike():
+if not CraftCore.compiler.compiler.isGCCLike:
 
     class Package(CMakePackageBase):
         def __init__(self, **kwargs):

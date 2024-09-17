@@ -61,7 +61,7 @@ class Package(CMakePackageBase):
         # self.subinfo.options.configure.args += [f"-DR_R_LIBRARY={OsUtils.toUnixPath(os.path.join(self.r_dir, "R.dll"))}"]
 
         # pythonPath = CraftCore.settings.get("Paths", "PYTHON")
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.configure.args += [
                 f"-DPython3_EXECUTABLE:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/bin/python.exe",
                 f"-DPython3_LIBRARY:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib/python311.lib",

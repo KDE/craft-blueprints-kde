@@ -9,13 +9,13 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NoPlatform
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/zlib"] = None
-        if not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.compiler.isMSVC:
             self.buildDependencies["dev-utils/msys"] = None
             self.runtimeDependencies["libs/lcms2"] = None
             self.runtimeDependencies["libs/freetype"] = None
@@ -53,7 +53,7 @@ class PackageMSVC(CMakePackageBase):
             extraArgs.append("WIN64=")
         # because ghostscript doesn't know about msvc2015, it guesses wrong on this. But,
         # because of where we are, rc /should/ be in the path, so we'll just use that.
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             extraArgs.append("RCOMP=rc.exe")
         utils.system(["nmake", "-f", "psi\\msvc.mak"] + extraArgs)
         return True
@@ -130,7 +130,7 @@ class PackageMSys(AutoToolsPackageBase):
         return True
 
 
-if CraftCore.compiler.isGCCLike():
+if CraftCore.compiler.compiler.isGCCLike:
 
     class Package(PackageMSys):
         pass

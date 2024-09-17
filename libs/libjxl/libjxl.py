@@ -42,7 +42,7 @@ class Package(CMakePackageBase):
             "-DBUILD_TESTING=OFF",
         ]
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.args += [
                 # necessary to avoid crashes
                 "-DCMAKE_C_FLAGS=-DHWY_COMPILE_ONLY_SCALAR",

@@ -29,7 +29,7 @@ from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Package.BinaryPackageBase import BinaryPackageBase
 from Utils import CraftHash
 
-if not CraftCore.compiler.isMSVC():
+if not CraftCore.compiler.compiler.isMSVC:
 
     class subinfo(info.infoclass):
         def registerOptions(self):

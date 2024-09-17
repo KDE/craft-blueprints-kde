@@ -80,7 +80,7 @@ class Package(CMakePackageBase):
         else:
             self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE_QT6=OFF"]
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             # TODO Fix decklink module with MSVC
             self.subinfo.options.configure.args += ["-DMOD_DECKLINK=OFF"]
         else:
@@ -91,7 +91,7 @@ class Package(CMakePackageBase):
 
         self.subinfo.options.configure.args += ["-DMOD_QT=OFF", "-DMOD_QT6=ON"]
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-Wno-incompatible-pointer-types"]
         self.subinfo.options.configure.cxxflags += " -D_XOPEN_SOURCE=700 "
 

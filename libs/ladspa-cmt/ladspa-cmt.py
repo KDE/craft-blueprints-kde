@@ -8,7 +8,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms &= (
-            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Platforms.All
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.compiler.isMSVC else CraftCore.compiler.Platforms.All
         )
 
     def setTargets(self):
