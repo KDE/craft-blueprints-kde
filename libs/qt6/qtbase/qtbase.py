@@ -83,6 +83,8 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         super().__init__(**kwargs)
 
         self.subinfo.options.configure.args += [
+            # Qt does weird stuff
+            "--log-level=STATUS",
             # sometimes qt fails to pic up the basic things
             f"-DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES={CraftCore.standardDirs.craftRoot()}/include",
             "-DFEATURE_pkg_config=ON",
@@ -90,8 +92,11 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DQT_BUILD_EXAMPLES=OFF",
             f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={'ON' if  self.subinfo.options.dynamic.useLtcg else 'OFF'}",
         ]
+
         if not self.subinfo.options.dynamic.buildStatic:
             self.subinfo.options.configure.args += [
+                "-DFEATURE_system_jpeg=ON",
+                "-DFEATURE_system_png=ON",
                 "-DFEATURE_system_sqlite=ON",
                 "-DFEATURE_system_zlib=ON",
                 f"-DFEATURE_system_freetype={'ON' if not CraftCore.compiler.platform.isIOS else 'OFF'}",
