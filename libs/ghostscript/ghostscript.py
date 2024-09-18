@@ -1,5 +1,3 @@
-import os
-
 import info
 import utils
 from CraftCore import CraftCore
@@ -56,10 +54,6 @@ class PackageMSVC(CMakePackageBase):
         # because of where we are, rc /should/ be in the path, so we'll just use that.
         if CraftCore.compiler.compiler.isMSVC:
             extraArgs.append("RCOMP=rc.exe")
-        if CraftCore.compiler.isMSVC2017():
-            # work-around: https://bugs.ghostscript.com/show_bug.cgi?id=698426
-            vcInstallDir = os.environ["VCINSTALLDIR"].rstrip("\\")
-            extraArgs += ["MSVC_VERSION=15", f'DEVSTUDIO="{vcInstallDir}"']
         utils.system(["nmake", "-f", "psi\\msvc.mak"] + extraArgs)
         return True
 
