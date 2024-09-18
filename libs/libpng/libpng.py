@@ -44,9 +44,11 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DPNG_TESTS=OFF", "-DPNG_STATIC=OFF", "-DPNG_NO_STDIO=OFF"]
         if CraftCore.compiler.platform.isMacOS and self.subinfo.buildTarget == "1.6.39":
             self.subinfo.options.configure.args += ["-DPNG_ARM_NEON=off"]
-        if not self.subinfo.options.dynamic.buildTools:
-            # PNG_EXECUTABLES is used for <= 1.6.40, PNG_TOOLS for > 1.6.40
-            self.subinfo.options.configure.args += ["-DPNG_EXECUTABLES=OFF", "-DPNG_TOOLS=OFF"]
+        # PNG_EXECUTABLES is used for <= 1.6.40, PNG_TOOLS for > 1.6.40
+        self.subinfo.options.configure.args += [
+            f"-DPNG_EXECUTABLES={self.subinfo.options.dynamic.buildTools.asOnOff}",
+            f"-DPNG_TOOLS={self.subinfo.options.dynamic.buildTools.asOnOff}",
+        ]
         if self.subinfo.options.buildStatic:
             self.subinfo.options.configure.args += ["-DPNG_STATIC=ON", "-DPNG_SHARED=OFF"]
         else:
