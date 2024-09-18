@@ -90,7 +90,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DFEATURE_pkg_config=ON",
             "-DQT_FEATURE_sql_odbc=OFF",
             "-DQT_BUILD_EXAMPLES=OFF",
-            f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={'ON' if  self.subinfo.options.dynamic.useLtcg else 'OFF'}",
+            f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={self.subinfo.options.dynamic.useLtcg.asOnOff}",
         ]
 
         if not self.subinfo.options.dynamic.buildStatic:
@@ -99,15 +99,15 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
                 "-DFEATURE_system_png=ON",
                 "-DFEATURE_system_sqlite=ON",
                 "-DFEATURE_system_zlib=ON",
-                f"-DFEATURE_system_freetype={'ON' if not CraftCore.compiler.platform.isIOS else 'OFF'}",
-                f"-DFEATURE_system_pcre2={'ON' if self.subinfo.options.dynamic.withPCRE2 else 'OFF'}",
-                f"-DFEATURE_system_harfbuzz={'ON' if self.subinfo.options.dynamic.withHarfBuzz else 'OFF'}",
-                f"-DFEATURE_icu={'ON' if self.subinfo.options.dynamic.withICU else 'OFF'}",
-                f"-DFEATURE_dbus={'ON' if self.subinfo.options.dynamic.withDBus else 'OFF'}",
+                f"-DFEATURE_system_freetype={CraftCore.compiler.platform.isIOS.asOnOff}",
+                f"-DFEATURE_system_pcre2={self.subinfo.options.dynamic.withPCRE2.asOnOff}",
+                f"-DFEATURE_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
+                f"-DFEATURE_icu={self.subinfo.options.dynamic.withICU.asOnOff}",
+                f"-DFEATURE_dbus={self.subinfo.options.dynamic.withDBus.asOnOff}",
                 "-DFEATURE_dbus_linked=OFF",
-                f"-DFEATURE_glib={'ON' if self.subinfo.options.dynamic.withGlib else 'OFF'}",
-                f"-DFEATURE_cups={'ON' if self.subinfo.options.dynamic.withCUPS else 'OFF'}",
-                f"-DFEATURE_fontconfig={'ON' if  self.subinfo.options.dynamic.withFontConfig else 'OFF'}",
+                f"-DFEATURE_glib={self.subinfo.options.dynamic.withGlib.asOnOff}",
+                f"-DFEATURE_cups={self.subinfo.options.dynamic.withCUPS.asOnOff}",
+                f"-DFEATURE_fontconfig={self.subinfo.options.dynamic.withFontConfig.asOnOff}",
             ]
         if CraftCore.compiler.platform.isIOS:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_securetransport=ON"]
@@ -116,7 +116,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         if CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += [
                 "-DFEATURE_xcb=ON",
-                f"-DQT_FEATURE_egl={'ON' if  self.subinfo.options.dynamic.withEgl else 'OFF'}",
+                f"-DQT_FEATURE_egl={self.subinfo.options.dynamic.withEgl.asOnOff}",
             ]
 
         if CraftCore.compiler.platform.isAndroid:
