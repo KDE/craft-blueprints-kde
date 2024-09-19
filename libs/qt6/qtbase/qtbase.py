@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("withCUPS", CraftCore.compiler.platform.isMacOS or self.options.isActive("libs/cups"))
 
         # We need to treat MacOS explicitly because of https://bugreports.qt.io/browse/QTBUG-116083
-        self.options.dynamic.registerOption("withFontConfig", self.options.isActive("libs/fontconfig") and not CraftCore.compiler.platform.isMacOS)
+        self.options.dynamic.registerOption("withFontConfig", self.options.isActive("libs/fontconfig") and not CraftCore.compiler.platform.isApple)
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -46,33 +46,33 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.buildDependencies["dev-utils/perl"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
-        if not self.options.buildStatic:
-            self.runtimeDependencies["libs/openssl"] = None
-            self.runtimeDependencies["libs/brotli"] = None
-            self.runtimeDependencies["libs/zlib"] = None
-            self.runtimeDependencies["libs/libzstd"] = None
-            self.runtimeDependencies["libs/libpng"] = None
-            self.runtimeDependencies["libs/libjpeg-turbo"] = None
-            self.runtimeDependencies["libs/sqlite"] = None
-            self.runtimeDependencies["libs/freetype"] = None
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
+        self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/libzstd"] = None
+        self.runtimeDependencies["libs/sqlite"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/openssl"] = None
+        self.runtimeDependencies["libs/brotli"] = None
+        self.runtimeDependencies["libs/freetype"] = None
 
+        if self.options.dynamic.withHarfBuzz:
+            self.runtimeDependencies["libs/harfbuzz"] = None
+
+        if self.options.dynamic.withFontConfig:
+            self.runtimeDependencies["libs/fontconfig"] = None
+
+        if self.options.dynamic.withPCRE2:
+            self.runtimeDependencies["libs/pcre2"] = None
+
+        if not self.options.buildStatic:
             if self.options.dynamic.withDBus:
                 self.runtimeDependencies["libs/dbus"] = None
 
             if self.options.dynamic.withICU:
                 self.runtimeDependencies["libs/icu"] = None
 
-            if self.options.dynamic.withHarfBuzz:
-                self.runtimeDependencies["libs/harfbuzz"] = None
-
-            if self.options.dynamic.withFontConfig:
-                self.runtimeDependencies["libs/fontconfig"] = None
-
             if CraftCore.compiler.platform.isUnix and self.options.dynamic.withGlib:
                 self.runtimeDependencies["libs/glib"] = None
-
-            if self.options.dynamic.withPCRE2:
-                self.runtimeDependencies["libs/pcre2"] = None
 
             if self.options.dynamic.withCUPS:
                 self.runtimeDependencies["libs/cups"] = None
@@ -91,23 +91,24 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DQT_FEATURE_sql_odbc=OFF",
             "-DQT_BUILD_EXAMPLES=OFF",
             f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={self.subinfo.options.dynamic.useLtcg.asOnOff}",
+            "-DFEATURE_system_png=ON",
+            "-DFEATURE_system_jpeg=ON",
+            "-DFEATURE_system_sqlite=ON",
+            "-DFEATURE_system_zlib=ON",
+            "-DFEATURE_system_brotli=ON",
+            f"-DFEATURE_system_pcre2={self.subinfo.options.dynamic.withPCRE2.asOnOff}",
+            f"-DFEATURE_system_freetype={CraftCore.compiler.platform.isIOS.asOnOff}",
+            f"-DFEATURE_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
+            f"-DFEATURE_fontconfig={self.subinfo.options.dynamic.withFontConfig.asOnOff}",
         ]
 
         if not self.subinfo.options.dynamic.buildStatic:
             self.subinfo.options.configure.args += [
-                "-DFEATURE_system_jpeg=ON",
-                "-DFEATURE_system_png=ON",
-                "-DFEATURE_system_sqlite=ON",
-                "-DFEATURE_system_zlib=ON",
-                f"-DFEATURE_system_freetype={CraftCore.compiler.platform.isIOS.asOnOff}",
-                f"-DFEATURE_system_pcre2={self.subinfo.options.dynamic.withPCRE2.asOnOff}",
-                f"-DFEATURE_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
                 f"-DFEATURE_icu={self.subinfo.options.dynamic.withICU.asOnOff}",
                 f"-DFEATURE_dbus={self.subinfo.options.dynamic.withDBus.asOnOff}",
                 "-DFEATURE_dbus_linked=OFF",
                 f"-DFEATURE_glib={self.subinfo.options.dynamic.withGlib.asOnOff}",
                 f"-DFEATURE_cups={self.subinfo.options.dynamic.withCUPS.asOnOff}",
-                f"-DFEATURE_fontconfig={self.subinfo.options.dynamic.withFontConfig.asOnOff}",
             ]
         if CraftCore.compiler.platform.isIOS:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_securetransport=ON"]
