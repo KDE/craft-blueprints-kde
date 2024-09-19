@@ -30,7 +30,6 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
-        self.subinfo.options.dynamic.buildStatic = False
 
         hdf5dir = CraftStandardDirs.craftRoot() / "cmake/hdf5"
         self.subinfo.options.configure.args = [f"-DHDF5_DIR={hdf5dir}"]

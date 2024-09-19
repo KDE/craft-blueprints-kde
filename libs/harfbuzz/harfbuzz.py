@@ -20,5 +20,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.dynamic.buildStatic = False
         self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS=-DHB_NO_PRAGMA_GCC_DIAGNOSTIC_ERROR=1"]

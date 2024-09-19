@@ -22,5 +22,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.dynamic.buildStatic = False
         self.subinfo.options.configure.args += ["-DMAINTAINER_MODE=OFF"]

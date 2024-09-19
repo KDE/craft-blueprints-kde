@@ -32,7 +32,6 @@ if not CraftCore.compiler.isGCCLike():
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
             self.subinfo.options.dynamic.buildTests = False
-            self.subinfo.options.dynamic.buildStatic = False
             self.subinfo.options.configure.args += ["-DENABLE_ZLIB_COMPRESSION=ON", "-DBUILD_EXAMPLES=OFF"]
 
 else:
