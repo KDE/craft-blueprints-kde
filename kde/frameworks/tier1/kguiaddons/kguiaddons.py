@@ -13,6 +13,9 @@ class subinfo(info.infoclass):
         self.patchToApply["6.5.0"] = [("android-statusbar.diff", 1), ("fix-window-insets-luma-computation.diff", 1)]
         self.patchLevel["6.5.0"] = 2
 
+        self.patchToApply["6.6.0"] = [("android-statusbar.diff", 1), ("fix-window-insets-luma-computation.diff", 1)]
+        self.patchLevel["6.6.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
