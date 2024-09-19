@@ -23,5 +23,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.dynamic.buildStatic = False
         self.subinfo.options.configure.args += ["-Dprotobuf_BUILD_TESTS=OFF", "-Dprotobuf_MSVC_STATIC_RUNTIME=OFF", "-Dprotobuf_ABSL_PROVIDER=package"]
