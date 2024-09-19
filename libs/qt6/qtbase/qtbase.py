@@ -100,6 +100,8 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             f"-DFEATURE_system_freetype={CraftCore.compiler.platform.isIOS.asOnOff}",
             f"-DFEATURE_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
             f"-DFEATURE_fontconfig={self.subinfo.options.dynamic.withFontConfig.asOnOff}",
+            "-DQT_FEATURE_openssl=ON",
+            "-DFEATURE_openssl_linked=ON",
         ]
 
         if not self.subinfo.options.dynamic.buildStatic:
@@ -110,10 +112,6 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
                 f"-DFEATURE_glib={self.subinfo.options.dynamic.withGlib.asOnOff}",
                 f"-DFEATURE_cups={self.subinfo.options.dynamic.withCUPS.asOnOff}",
             ]
-        if CraftCore.compiler.platform.isIOS:
-            self.subinfo.options.configure.args += ["-DQT_FEATURE_securetransport=ON"]
-        else:
-            self.subinfo.options.configure.args += ["-DQT_FEATURE_openssl=ON", "-DFEATURE_openssl_linked=ON"]
         if CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += [
                 "-DFEATURE_xcb=ON",
