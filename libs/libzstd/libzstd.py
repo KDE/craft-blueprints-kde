@@ -19,9 +19,6 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
 
-    def registerOptions(self):
-        self.options.dynamic.registerOption("buildPrograms", not CraftCore.compiler.platform.isAndroid)
-
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
@@ -31,7 +28,7 @@ class Package(CMakePackageBase):
             "-DZSTD_MULTITHREAD_SUPPORT=ON",
             "-DZSTD_BUILD_TESTS=OFF",
             "-DZSTD_BUILD_CONTRIB=OFF",
+            f"-DZSTD_BUILD_PROGRAMS={self.subinfo.options.dynamic.buildTools.asOnOff}",
+            f"-DZSTD_BUILD_STATIC={self.subinfo.options.dynamic.buildStatic.asOnOff}",
+            f"-DZSTD_BUILD_SHARED={self.subinfo.options.dynamic.buildStatic.inverted.asOnOff}",
         ]
-
-        if not self.subinfo.options.dynamic.buildPrograms:
-            self.subinfo.options.configure.args += ["-DZSTD_BUILD_PROGRAMS=OFF"]
