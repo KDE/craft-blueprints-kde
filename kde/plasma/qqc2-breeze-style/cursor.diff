@@ -1,0 +1,21 @@
+commit 5bdbe503cc354792d8ecf793f8e66cf64eb920f0
+Author: Carl Schwan <carl@carlschwan.eu>
+Date:   Thu Jun 27 18:46:46 2024 +0200
+
+    Remove double cursor handles on Android
+    
+    Android already provides cursor handles
+
+diff --git a/style/impl/CursorHandle.qml b/style/impl/CursorHandle.qml
+index 383d2b3..a346bab 100644
+--- a/style/impl/CursorHandle.qml
++++ b/style/impl/CursorHandle.qml
+@@ -14,7 +14,7 @@ Loader {
+     id: root
+     property Item target
+     property bool isSelectionEnd: false
+-    visible: Kirigami.Settings.tabletMode && target.selectByMouse && target.activeFocus && (isSelectionEnd ? target.selectionStart !== target.selectionEnd : true)
++    visible: Kirigami.Settings.tabletMode && target.selectByMouse && target.activeFocus && (isSelectionEnd ? target.selectionStart !== target.selectionEnd : true) && Qt.platform.os !== 'android'
+     active: visible
+     sourceComponent: Kirigami.ShadowedRectangle {
+         id: handle
