@@ -1,9 +1,9 @@
-# blacklist. It extends the default blacklist at craft/bin/Packager/applications_blacklist.txt
+# blacklist. It extends the default blacklist at craft/bin/Packager/blacklists/applications_blacklist.txt (and applications_blacklist_macos.txt on mac)
 
 # common app stuff
 share/apps/ark/.*
 share/apps/kgpg/.*
-share/kf5/kdoctools/.*
+share/kf6/kdoctools/.*
 
 # Unused Qt modules
 qml/QtMultimedia
@@ -15,13 +15,10 @@ qml/QtTest
 # kemoticons is somehow a dependency
 share/emoticons/.*
 
-#cmake stuff
-share/phonon4qt5/buildsystem
-
 #stuff in lib that we don't need
 lib/fonts
 lib/gpg-error\.def
 
 #big dlls we don't use
-bin/Qt5Designer\.dll
-bin/Qt5DesignerComponents\.dll
+bin/Qt6Designer\.dll
+bin/Qt6DesignerComponents\.dll

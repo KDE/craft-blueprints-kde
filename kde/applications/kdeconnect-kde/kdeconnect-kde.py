@@ -37,10 +37,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isMacOS:
-            # Add APPLE_IN_APP_BUNDLE flag to enable private DBus, when packing by Craft
-            self.subinfo.options.configure.args += ["-DAPPLE_IN_APP_BUNDLE=ON"]
-
         # Since KF PulseAudioQt is not (yet) a craft package, build without it.
         self.subinfo.options.configure.args += ["-DWITH_PULSEAUDIO=OFF"]
 
@@ -50,8 +46,6 @@ class Package(CMakePackageBase):
         self.addExecutableFilter(
             r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioworker|SnoreToast).*)"
         )
-        if CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["icon"] = self.blueprintDir() / "icon.ico"
