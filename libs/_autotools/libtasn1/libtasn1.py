@@ -24,6 +24,6 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]
+
         # gtk-doc is missing
         self.subinfo.options.configure.autoreconf = not CraftCore.compiler.isWindows

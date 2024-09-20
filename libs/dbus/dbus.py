@@ -102,7 +102,6 @@ class PackageAutotools(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += [
             "--disable-dependency-tracking",
-            "--disable-static",
             "--disable-doxygen-docs",
             "--disable-xml-docs",
             "--enable-verbose-mode",

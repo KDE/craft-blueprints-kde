@@ -40,7 +40,6 @@ class Package(AutoToolsPackageBase):
         super().__init__(**kwargs)
         # TODO: why is autoreconf broken
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]
 
     def postInstall(self):
         hardCoded = [(self.installDir() / x) for x in ["bin/yacc"]]

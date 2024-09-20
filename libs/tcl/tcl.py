@@ -57,7 +57,7 @@ class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.noDataRootDir = True
-        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--enable-threads", "--enable-64bit"]
+        self.subinfo.options.configure.args += ["--enable-threads", "--enable-64bit"]
 
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.configure.projectFile = "win/configure"

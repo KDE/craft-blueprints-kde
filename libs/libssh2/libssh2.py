@@ -41,4 +41,3 @@ else:
             super().__init__(**kwargs)
             # configure.ac:129: error: m4_undefine: undefined macro: backend
             self.subinfo.options.configure.autoreconf = False
-            self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]

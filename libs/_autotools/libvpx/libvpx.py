@@ -32,5 +32,3 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.noCacheFile = True
         self.platform = ""
         self.subinfo.options.configure.args += ["--disable-examples", "--disable-install-docs", "--disable-unit-tests", "--disable-avx512"]
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
-            self.subinfo.options.configure.args += ["--enable-shared"]

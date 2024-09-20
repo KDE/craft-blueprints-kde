@@ -25,7 +25,6 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args = [
-            "--enable-shared",
             "--disable-cli",
             "--disable-avs",
             "--disable-lavf",

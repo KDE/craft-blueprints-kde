@@ -28,4 +28,3 @@ class Package(AutoToolsPackageBase):
             # MSVC explicitly needs to update __cplusplus
             # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
             self.subinfo.options.configure.cxxflags += "/Zc:__cplusplus"
-            # self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]

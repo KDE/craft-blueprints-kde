@@ -51,7 +51,7 @@ class subinfo(info.infoclass):
 class PackageMinGW(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", "--without-openssl", "--disable-crypto-dl"]
+        self.subinfo.options.configure.args += ["--without-openssl", "--disable-crypto-dl"]
         self.subinfo.options.configure.ldflags += "-lgcrypt "
 
 

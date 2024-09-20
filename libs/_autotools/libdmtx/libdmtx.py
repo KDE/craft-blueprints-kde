@@ -34,10 +34,6 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.bootstrap = True
-        if self.subinfo.options.buildStatic:
-            self.subinfo.options.configure.args += ["--enable-static=yes", "--enable-shared=no"]
-        else:
-            self.subinfo.options.configure.args += ["--enable-static=no", "--enable-shared=yes"]
 
     def install(self):
         if not super().install():

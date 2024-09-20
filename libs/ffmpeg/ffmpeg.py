@@ -150,7 +150,6 @@ class Package(AutoToolsPackageBase):
 
         self.subinfo.options.configure.args += [
             f"--arch={architecture}",
-            "--enable-shared",
             "--disable-debug",
             "--disable-doc",
             "--enable-gpl",

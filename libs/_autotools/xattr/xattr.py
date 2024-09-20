@@ -28,7 +28,3 @@ class Package(AutoToolsPackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildStatic = True
         self.subinfo.options.configure.ldflags += " -lintl"
-        if self.subinfo.options.buildStatic:
-            self.subinfo.options.configure.args += ["--enable-static=yes", "--enable-shared=no"]
-        else:
-            self.subinfo.options.configure.args += ["--enable-static=no", "--enable-shared=yes"]

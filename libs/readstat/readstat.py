@@ -46,6 +46,5 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["--disable-shared"]
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.make.supportsMultijob = False

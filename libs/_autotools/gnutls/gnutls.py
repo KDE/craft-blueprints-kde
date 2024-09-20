@@ -64,8 +64,6 @@ class Package(AutoToolsPackageBase):
         # 2018-02-11: without --enable-openssl-compatibility xmlmerge.exe from gwenhywfar doesn't display any console output and in effect doesn't allow compilation of aqbanking
         # 2018-02-11: --enable-nls is probably needed on the same ground as above
         self.subinfo.options.configure.args += [
-            "--enable-shared",
-            "--disable-static",
             "--enable-cxx",
             "--enable-nls",
             "--disable-gtk-doc",
