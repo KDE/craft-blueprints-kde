@@ -34,3 +34,5 @@ class Package(MesonPackageBase):
 
         if not self.subinfo.options.dynamic.buildTests:
             self.subinfo.options.configure.args += ["-Dtests=disabled"]
+
+        self.subinfo.options.configure.args += ["-Dbindings_py=disabled"]
