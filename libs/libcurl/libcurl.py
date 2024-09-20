@@ -4,7 +4,6 @@ import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
-from Utils.Arguments import Arguments
 
 
 class subinfo(info.infoclass):
@@ -30,11 +29,13 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DCURL_DISABLE_LDAP=ON", "-DCURL_DISABLE_LDAPS=ON"]
-        self.subinfo.options.configure.args += ["-DBUILD_CURL_TESTS=OFF", "-DBUILD_CURL_EXE=OFF"]
-        self.subinfo.options.configure.testDefine = Arguments(["-DBUILD_CURL_TESTS=ON"])
-        self.subinfo.options.configure.toolsDefine = Arguments(["-DBUILD_CURL_EXE=ON"])
-        self.subinfo.options.configure.staticArgs += ["-DCURL_STATICLIB=ON"]
+        self.subinfo.options.configure.args += [
+            "-DCURL_DISABLE_LDAP=ON",
+            "-DCURL_DISABLE_LDAPS=ON",
+            f"-DBUILD_CURL_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
+            f"-DBUILD_CURL_EXE={self.subinfo.options.dynamic.buildTools.asOnOff}",
+            f"-DCURL_STATICLIB={self.subinfo.options.dynamic.buildStatic.asOnOff}",
+        ]
 
     def install(self):
         if not super().install():
