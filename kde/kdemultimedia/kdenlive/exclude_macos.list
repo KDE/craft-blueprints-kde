@@ -10,3 +10,6 @@ plugins/plasma/.*
 ## Qt5
 bin/gpg-wks-client
 lib/systemd/user/plasma-kglobalaccel.service
+
+## these lv2 files are cause problems with signing too, but are probably needed TODO fix
+lib/lv2/.*
