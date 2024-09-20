@@ -62,7 +62,6 @@ class PackageGNU(AutoToolsPackageBase):
         self.subinfo.options.configure.bootstrap = True
         if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]
 
 
 if CraftCore.compiler.compiler.isGCCLike:

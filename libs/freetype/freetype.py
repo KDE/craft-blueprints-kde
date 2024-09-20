@@ -37,7 +37,7 @@ class PackageMSys(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-harfbuzz=off", "--with-brotli=on"]
+        self.subinfo.options.configure.args += ["--with-harfbuzz=off", "--with-brotli=on"]
 
 
 if CraftCore.compiler.compiler.isGCCLike and CraftCore.compiler.platform.isAndroid:

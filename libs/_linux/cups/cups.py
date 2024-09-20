@@ -36,8 +36,6 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.useShadowBuild = False
         self.subinfo.options.configure.args += [
-            "--disable-static",
-            "--enable-shared",
             "--with-cupsd-file-perm=0755",
             "--with-exe-file-perm=755",
             "--with-log-file-perm=0640",

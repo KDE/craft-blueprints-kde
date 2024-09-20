@@ -46,4 +46,3 @@ else:
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
             self.subinfo.options.useShadowBuild = False
-            self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]

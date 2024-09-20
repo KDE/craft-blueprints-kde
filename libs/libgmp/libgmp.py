@@ -54,7 +54,7 @@ class PackageAutoTools(AutoToolsPackageBase):
         super().__init__(**kwargs)
         self.shell.useMSVCCompatEnv = True
         self.subinfo.options.package.withCompiler = False
-        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--enable-cxx", "--with-pic", "--with-readline=no"]
+        self.subinfo.options.configure.args += ["--enable-cxx", "--with-pic", "--with-readline=no"]
         if CraftCore.compiler.compiler.isMSVC:
             # https://github.com/microsoft/vcpkg/tree/64adda19c86e89526b5e27703a193c14477cce07/ports/gmp
             self.subinfo.options.configure.args += [

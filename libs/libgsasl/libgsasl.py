@@ -20,4 +20,3 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.make.supportsMultijob = False
-        self.subinfo.options.configure.args += ["--enable-static", "--enable-shared"]

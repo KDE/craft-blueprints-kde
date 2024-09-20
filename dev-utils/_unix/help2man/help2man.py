@@ -25,7 +25,6 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static"]
 
     def postInstall(self):
         hardCoded = [(self.installDir() / x) for x in ["bin/help2man"]]

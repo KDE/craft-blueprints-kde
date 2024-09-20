@@ -54,7 +54,7 @@ class subinfo(info.infoclass):
 class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["--enable-shared", "--enable-public-key", "--enable-mini-gmp", "--disable-documentation"]
+        self.subinfo.options.configure.args += ["--enable-public-key", "--enable-mini-gmp", "--disable-documentation"]
         if CraftCore.compiler.platform.isMacOS:
             # for some reason the version of m4 built by craft will segfault
             # /bin/sh: line 1: 39726 Abort trap: 6

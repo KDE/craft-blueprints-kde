@@ -51,7 +51,7 @@ class subinfo(info.infoclass):
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["--enable-shared", "--disable-static", "--disable-doc-build"]
+        self.subinfo.options.configure.args += ["--disable-doc-build"]
 
         if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.noDataRootDir = True

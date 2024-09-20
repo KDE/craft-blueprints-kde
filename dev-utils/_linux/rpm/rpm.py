@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["--with-crypto=libgcrypt", "--disable-static", "--enable-shared"]
+        self.subinfo.options.configure.args += ["--with-crypto=libgcrypt"]
         # on centos it does not automagically link intl so make it explicit
         self.subinfo.options.configure.ldflags += " -lintl"
 

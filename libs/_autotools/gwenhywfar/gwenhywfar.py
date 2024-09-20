@@ -69,7 +69,7 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["--disable-static", "--enable-shared", "--with-guis=qt5"]
+        self.subinfo.options.configure.args += ["--with-guis=qt5"]
 
         # For appImage builds the --enable-local-install is needed so that
         # the appImage is searched for gwenhywfar plugins

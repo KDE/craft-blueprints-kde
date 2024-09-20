@@ -28,7 +28,7 @@ if CraftCore.compiler.compiler.isGCCLike:
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            self.subinfo.options.configure.args += ["--disable-static", "--disable-gtktest", "--disable-frontend", "--enable-nasm"]
+            self.subinfo.options.configure.args += ["--disable-gtktest", "--disable-frontend", "--enable-nasm"]
 
 else:
 
