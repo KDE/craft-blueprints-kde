@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
         self.description = "Rocket.Chat Client"
         self.webpage = "https://apps.kde.org/ruqola"
 
-        for ver in ["2.1.0", "2.1.1", "2.2.0", 2.3.0]:
+        for ver in ["2.1.0", "2.1.1", "2.2.0", "2.3.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/ruqola/ruqola-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/ruqola/ruqola-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"ruqola-{ver}"
