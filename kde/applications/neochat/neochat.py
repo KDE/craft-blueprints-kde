@@ -56,6 +56,8 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        if CraftCore.compiler.isAndroid:
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_android.txt")
         self.defines["shortcuts"] = [{"name": "NeoChat", "target": "bin/neochat.exe", "appId": "neochat", "icon": self.buildDir() / "src/NEOCHAT_ICON.ico"}]
         self.defines["icon"] = self.buildDir() / "src/NEOCHAT_ICON.ico"
         # set the icons for the appx bundle
