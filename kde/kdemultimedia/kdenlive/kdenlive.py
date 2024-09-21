@@ -83,7 +83,7 @@ class Package(CraftPackageObject.get("kde").pattern):
                 "MLT_REPOSITORY=$this_dir/usr/lib/mlt-7/",
                 "MLT_DATA=$this_dir/usr/share/mlt-7/",
                 "MLT_ROOT_DIR=$this_dir/usr/",
-                "MLT_APP_DIR=$this_dir/usr/",
+                "MLT_APPDIR=$this_dir/usr/",
                 "LADSPA_PATH=$this_dir/usr/lib/ladspa",
                 "FREI0R_PATH=$this_dir/usr/lib/frei0r-1",
                 "MLT_PROFILES_PATH=$this_dir/usr/share/mlt-7/profiles/",
