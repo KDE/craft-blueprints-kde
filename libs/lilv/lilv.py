@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"lilv-{ver}"
         self.targetDigests["0.24.24"] = (["6bb6be9f88504176d0642f12de809b2b9e2dc55621a68adb8c7edb99aefabb4f"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "0.24.24"
+        self.patchLevel["0.24.24"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
