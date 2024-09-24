@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 import info
-from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.Native
-
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["libs/gettext"] = None
