@@ -10,7 +10,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms &= (
-            CraftCore.compiler.Platforms.Windows | CraftCore.compiler.Platforms.MacOS | CraftCore.compiler.Platforms.Linux
+            CraftCore.compiler.Platforms.Windows | CraftCore.compiler.Platforms.MacOS | CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.Native
         )
 
     def setTargets(self):
