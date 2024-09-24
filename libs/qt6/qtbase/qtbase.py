@@ -97,7 +97,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DFEATURE_system_zlib=ON",
             "-DFEATURE_system_brotli=ON",
             f"-DFEATURE_system_pcre2={self.subinfo.options.dynamic.withPCRE2.asOnOff}",
-            f"-DFEATURE_system_freetype={CraftCore.compiler.platform.isIOS.asOnOff}",
+            f"-DFEATURE_system_freetype={self.subinfo.options.isActive('libs/freetype').asOnOff}",
             f"-DFEATURE_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
             f"-DFEATURE_fontconfig={self.subinfo.options.dynamic.withFontConfig.asOnOff}",
             "-DQT_FEATURE_openssl=ON",
