@@ -12,10 +12,13 @@ class subinfo(info.infoclass):
 
         self.patchToApply["1.6.39"] = [("libpng-1.6.39-install.pc-on-windows.diff", 1), ("libpng-fix-android-shared-build.diff", 1)]
         self.patchToApply["1.6.40"] = [("libpng-1.6.40-install.pc-on-windows.diff", 1), ("libpng-android-remove-zlib-dependency.diff", 1)]
-        self.patchToApply["1.6.43"] = [
-            ("libpng-1.6.40-install.pc-on-windows.diff", 1),
-            ("libpng-android-remove-zlib-dependency.diff", 1),
-        ]
+        self.patchToApply["1.6.43"] = []
+
+        if CraftCore.compiler.isWindows or CraftCore.compiler.isAndroid:
+            self.patchToApply["1.6.43"] += [
+                ("libpng-1.6.40-install.pc-on-windows.diff", 1),
+                ("libpng-android-remove-zlib-dependency.diff", 1),
+            ]
 
         if CraftCore.compiler.isMinGW():
             # disable broken symlink creation
