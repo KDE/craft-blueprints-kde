@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.patchToApply["1.6.40"] = [("libpng-1.6.40-install.pc-on-windows.diff", 1), ("libpng-android-remove-zlib-dependency.diff", 1)]
         self.patchToApply["1.6.43"] = []
 
-        if CraftCore.compiler.isWindows or CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isWindows or CraftCore.compiler.platform.isAndroid:
             self.patchToApply["1.6.43"] += [
                 ("libpng-1.6.40-install.pc-on-windows.diff", 1),
                 ("libpng-android-remove-zlib-dependency.diff", 1),
