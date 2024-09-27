@@ -20,7 +20,8 @@ class subinfo(info.infoclass):
         self.patchLevel["master"] = 20221103
         self.svnTargets["615aac5"] = "https://github.com/mltframework/mlt.git||615aac5c4719ff59dc6f44bc393af346ceaefb66"
         self.defaultTarget = "615aac5"
-	self.patchToApply["615aac5"] = [("debug-log.diff", 1)]
+        self.patchLevel["615aac5"] = 1
+        self.patchToApply["615aac5"] = [("debug-log.diff", 1)]
         if CraftCore.compiler.isWindows:
             self.patchToApply["615aac5"] += [("pi_patch.diff", 1)]
 
