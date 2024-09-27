@@ -1,0 +1,37 @@
+diff --git a/src/framework/mlt_factory.c b/src/framework/mlt_factory.c
+index 16469aa1..6a875a36 100644
+--- a/src/framework/mlt_factory.c
++++ b/src/framework/mlt_factory.c
+@@ -167,27 +167,32 @@ mlt_repository mlt_factory_init(const char *directory)
+         // Allow user overrides
+         if (directory == NULL || !strcmp(directory, ""))
+             directory = getenv("MLT_REPOSITORY");
++        fprintf(stderr, "USING REPOSITORY FROM ENV: %s\n", mlt_directory);
+         // If no directory is specified, default to install directory
+         if (directory == NULL)
+             directory = PREFIX_LIB;
+         // Store the prefix for later retrieval
+         mlt_directory = strdup(directory);
++        fprintf(stderr, "USING FINAL REPOSITORY FROM ENV: %s\n", mlt_directory);
+ #else
+         if (directory) {
+             mlt_directory = strdup(directory);
+         } else {
+             char *exedir = mlt_environment("MLT_APPDIR");
++            fprintf(stderr, "GOT EXEDIR: %s\n", exedir);
+             size_t size = strlen(exedir);
+             if (global_properties && !getenv("MLT_DATA")) {
+                 mlt_directory = calloc(1, size + strlen(PREFIX_DATA) + 1);
+                 strcpy(mlt_directory, exedir);
+                 strcat(mlt_directory, PREFIX_DATA);
++                fprintf(stderr, "SETTING MLT_DATA AND DIRECTORY: %s\n", mlt_directory);
+                 mlt_properties_set(global_properties, "MLT_DATA", mlt_directory);
+                 free(mlt_directory);
+             }
+             mlt_directory = calloc(1, size + strlen(PREFIX_LIB) + 1);
+             strcpy(mlt_directory, exedir);
+             strcat(mlt_directory, PREFIX_LIB);
++            fprintf(stderr, "SETTING FINAL DIRECTORY: %s\n", mlt_directory);
+         }
+ #endif
+ 
