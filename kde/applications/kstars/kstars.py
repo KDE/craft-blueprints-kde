@@ -44,6 +44,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gsl"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/stellarsolver"] = None
+        self.runtimeDependencies["libs/libcurl"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
         # MacOS and Linux build indi client/server, Windows builds indi client only
