@@ -3,6 +3,7 @@
 import info
 import utils
 from CraftOS.osutils import OsUtils
+from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 
 PACKAGE_CRAN_MIRROR = "https://ftp.gwdg.de/pub/misc/cran"
