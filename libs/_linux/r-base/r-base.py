@@ -34,9 +34,9 @@ class Package(AutoToolsPackageBase):
 
     def configure(self):
         env = {}
-        env["CFLAGS"] = "-I" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "include")  # Needed in R 4.3.3 to find zlib
+        env["CFLAGS"] = "-I" + OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()) / "include"  # Needed in R 4.3.3 to find zlib
         env["CPPFLAGS"] = env["CFLAGS"]
-        env["LDFLAGS"] = "-L" + os.path.join(OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()), "lib")
+        env["LDFLAGS"] = "-L" + OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot()) / "lib"
         with utils.ScopedEnv(env):
             return super().configure()
 
