@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         # Windows build is fixed in 24.08.1
         # TODO: remove when defaultTarget is 24.08.1
         if CraftCore.compiler.isWindows:
-            defaulttarget = 24.08.1
+            self.defaultTarget = "24.08.1"
         self.description = "Analitza Library"
 
     def setDependencies(self):
