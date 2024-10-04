@@ -6,7 +6,10 @@ from CraftCore import CraftCore
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-
+        # Windows build is fixed in 24.08.1
+        # TODO: remove when defaultTarget is 24.08.1
+        if CraftCore.compiler.isWindows:
+            defaulttarget = 24.08.1
         self.description = "Analitza Library"
 
     def setDependencies(self):
