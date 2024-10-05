@@ -7,9 +7,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        for ver in ["master"] + self.versionInfo.tarballs():
-            self.patchToApply[ver] = [("0002-Keep-LibIntl-libraries-path.patch", 1)]
-
         self.description = "Ki18n"
 
     def setDependencies(self):
