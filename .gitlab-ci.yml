@@ -44,17 +44,7 @@ run-tests:
     reports:
       junit: JUnit*Results.xml
 
-build-package-linux:
-  # This job can be used to test the build of a package, e.g. when you update
-  # the package to a new version. Set CRAFT_PACKAGE to the package you want to
-  # test. This test uses the CI image that's also used for the AppImages.
-  image: invent-registry.kde.org/sysadmin/ci-images/sles15-craft:latest
-  rules:
-    - when: manual
-      # we don't want the manual job to block the pipeline
-      allow_failure: true
-  tags:
-    - Linux
+.build-package-base:
   variables:
     GIT_STRATEGY: none
     KDECI_CRAFT_PLATFORM: linux-64-gcc
@@ -62,7 +52,29 @@ build-package-linux:
     KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6/CraftConfig.ini
     KDECI_CRAFT_PROJECT_CONFIG: $CI_PROJECT_DIR/.craft.ini
     CRAFT_PACKAGE:
+  rules:
+    - if:  $CI_COMMIT_REF_NAME == "dev"
+      variables:
+        KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6-dev/CraftConfig.ini
+    - if:  $CI_COMMIT_REF_NAME == "dev"
+      variables:
+        KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6-dev/CraftConfig.ini
+    - when: manual
+      # we don't want the manual job to block the pipeline
+      allow_failure: true
   interruptible: true
+
+
+build-package-linux:
+  # This job can be used to test the build of a package, e.g. when you update
+  # the package to a new version. Set CRAFT_PACKAGE to the package you want to
+  # test. This test uses the CI image that's also used for the AppImages.
+  extends: .build-package-base
+  image: invent-registry.kde.org/sysadmin/ci-images/sles15-craft:latest
+  tags:
+    - Linux
+  variables:
+    KDECI_CRAFT_PLATFORM: linux-64-gcc
   before_script:
     - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE to the package you want to test."; false; fi
     - export LANG=en_US.UTF-8
@@ -96,21 +108,14 @@ build-package-windows_qt6_x86_64:
   # This job can be used to test the build of a package, e.g. when you update
   # the package to a new version. Set CRAFT_PACKAGE to the package you want to
   # test. This test uses the CI image that's used for the craft_windows_qt6_x86_64 job.
+  extends: .build-package-base
   image: invent-registry.kde.org/sysadmin/ci-images/windows-msvc2022:latest
-  rules:
-    - when: manual
-      # we don't want the manual job to block the pipeline
-      allow_failure: true
   tags:
     - Windows
   variables:
     PYTHONUTF8: 1
-    GIT_STRATEGY: none
     KDECI_CRAFT_PLATFORM: windows-msvc2022_64-cl
     KDECI_CRAFT_CACHE: C:/Gitlab/Craft/download/
-    KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6-dev/CraftConfig.ini
-    CRAFT_PACKAGE:
-  interruptible: true
   before_script:
     - cd C:\Gitlab\Craft\
     - Get-ChildItem C:\Gitlab\Craft\ | Remove-Item -Recurse -Force
