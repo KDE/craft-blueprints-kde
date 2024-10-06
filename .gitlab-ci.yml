@@ -50,7 +50,6 @@ run-tests:
     KDECI_CRAFT_PLATFORM: linux-64-gcc
     KDECI_CRAFT_CACHE: /mnt/craft-cache/$KDECI_CRAFT_PLATFORM/
     KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6/CraftConfig.ini
-    KDECI_CRAFT_PROJECT_CONFIG: $CI_PROJECT_DIR/.craft.ini
     CRAFT_PACKAGE:
   rules:
     - if:  $CI_COMMIT_REF_NAME == "dev"
@@ -80,10 +79,8 @@ build-package-linux:
     - export LANG=en_US.UTF-8
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
-    # Create empty .craft.ini if none exists
-    - touch $KDECI_CRAFT_PROJECT_CONFIG
     # Define a short cut for the lengthy CraftMaster command line
-    - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --config-override $KDECI_CRAFT_PROJECT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
+    - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
     # Set up craft settings and blueprint settings
     - craftmaster --setup
