@@ -5,3 +5,7 @@
 lib/libhdf5.settings
 lib/libnetcdf.settings
 lib/systemd/user/plasma-kglobalaccel.service
+.*/openmp_wrappers/.*
+.*/cuda_wrappers/.*
+.*/libscanbuild/.*
+.*/libear/.*
