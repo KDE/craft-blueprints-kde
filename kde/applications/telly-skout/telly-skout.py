@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2024 Plata Hill <plata.hill@kdemail.net>
+
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
