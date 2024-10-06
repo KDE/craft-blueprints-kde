@@ -101,7 +101,8 @@ build-package-linux:
     paths:
       - "$KDECI_CRAFT_PLATFORM/logs/"
 
-build-package-windows_qt6_x86_64:
+
+.build-package-windows_qt6:
   # This job can be used to test the build of a package, e.g. when you update
   # the package to a new version. Set CRAFT_PACKAGE to the package you want to
   # test. This test uses the CI image that's used for the craft_windows_qt6_x86_64 job.
@@ -111,7 +112,6 @@ build-package-windows_qt6_x86_64:
     - Windows
   variables:
     PYTHONUTF8: 1
-    KDECI_CRAFT_PLATFORM: windows-msvc2022_64-cl
     KDECI_CRAFT_CACHE: C:/Gitlab/Craft/download/
   before_script:
     - cd C:\Gitlab\Craft\
@@ -147,6 +147,26 @@ build-package-windows_qt6_x86_64:
     paths:
       - ".logs/"
 
+build-package-windows_qt6_x86_64:
+  extends: .build-package-windows_qt6
+  variables:
+    KDECI_CRAFT_PLATFORM: windows-msvc2022_64-cl
+  artifacts:
+    expire_in: 3 days
+    when: always
+    paths:
+      - ".logs/"
+
+build-package-windows_qt6_mingw64:
+  extends: .build-package-windows_qt6
+  variables:
+    KDECI_CRAFT_PLATFORM: windows-mingw_64-gcc
+  artifacts:
+    expire_in: 3 days
+    when: always
+    paths:
+      - ".logs/"
+
 .build-package-macos_qt6:
   extends: .build-package-base
   tags:
@@ -157,8 +177,6 @@ build-package-windows_qt6_x86_64:
     - export LANG=en_US.UTF-8
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
-    - python3 -u ci-utilities/gitlab-ci-clone.py src/
-    # Create empty .craft.ini if none exists
     # Define a short cut for the lengthy CraftMaster command line
     - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
