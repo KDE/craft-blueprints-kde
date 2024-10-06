@@ -189,9 +189,9 @@ build-package-windows_qt6_mingw64:
     - git checkout $CI_COMMIT_REF_NAME
     - cd $CI_PROJECT_DIR
     # Install all of our dependencies
-    - craftmaster -c --install-deps --options "[CodeSigning]Enabled=False" $CI_PROJECT_NAME
+    - craftmaster -c --install-deps --options "[CodeSigning]Enabled=False" $CRAFT_PACKAGE
     # Build the actual application
-    - craftmaster -c --no-cache --options "[CodeSigning]Enabled=False" $CI_PROJECT_NAME
+    - craftmaster -c --no-cache --options "[CodeSigning]Enabled=False" $CRAFT_PACKAGE
   after_script:
     # Move logs to protect them against cleanup deletion
     - mkdir $CI_PROJECT_DIR/kde-ci-logs/
@@ -223,3 +223,37 @@ build-package-macos_qt6_x86_64:
     when: always
     paths:
       - "kde-ci-logs/"
+
+.build-package-android_qt6:
+  extends: .build-package-base
+  image: invent-registry.kde.org/sysadmin/ci-images/android-qt67:latest
+  tags:
+    - Linux
+  before_script:
+    - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
+    - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
+    # Define a short cut for the lengthy CraftMaster command line
+    - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
+  script:
+    # Set up craft settings and blueprint settings
+    - craftmaster --setup
+    # Get Craft itself ready
+    - craftmaster -c -i craft
+    # Switch to this branch of craft-blueprints-kde
+    - cd $CI_PROJECT_DIR/blueprints/craft-blueprints-kde
+    - git checkout $CI_COMMIT_REF_NAME
+    - cd $CI_PROJECT_DIR
+    # Install all of our dependencies
+    - craftmaster -c --install-deps --options "[CodeSigning]Enabled=False" $CRAFT_PACKAGE
+    # Build the actual application
+    - craftmaster -c --no-cache --options "[CodeSigning]Enabled=False" $CRAFT_PACKAGE
+
+build-package-android_qt6_arm64:
+  extends: .build-package-android_qt6
+  variables:
+    KDECI_CRAFT_PLATFORM: android-arm64-clang
+  artifacts:
+    expire_in: 3 days
+    when: always
+    paths:
+      - "$KDECI_CRAFT_PLATFORM/logs/"
