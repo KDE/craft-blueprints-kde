@@ -9,3 +9,4 @@ lib/systemd/user/plasma-kglobalaccel.service
 .*/cuda_wrappers/.*
 .*/libscanbuild/.*
 .*/libear/.*
+.*/include/module.modulemap
