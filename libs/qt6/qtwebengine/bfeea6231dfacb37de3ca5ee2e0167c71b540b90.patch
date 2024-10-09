@@ -1,0 +1,39 @@
+From bfeea6231dfacb37de3ca5ee2e0167c71b540b90 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 22 Aug 2024 13:20:42 -0700
+Subject: [PATCH] Pass no-static-libstdc++ to gen.py
+
+GN requires libstdc++.a to be installed on host systems by default,
+which is often not very common, for no particular reason.
+
+Disable warnings as errors, this helps building on some older
+distributions e.g. debian-12 with gcc 12.x as default compiler
+
+Change-Id: Ie654f50f9e7e75154477e6efa4aece2dd1a90da3
+Reviewed-by: Michal Klocek <michal.klocek@qt.io>
+(cherry picked from commit 8581bed9003f43bd2aa6c41ebeab1877be910625)
+Reviewed-by: Qt Cherry-pick Bot <cherrypick_bot@qt-project.org>
+---
+ src/gn/CMakeLists.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/gn/CMakeLists.txt b/src/gn/CMakeLists.txt
+index 70bfec070..9782f17ab 100644
+--- a/src/gn/CMakeLists.txt
++++ b/src/gn/CMakeLists.txt
+@@ -61,10 +61,12 @@ add_custom_command(
+     WORKING_DIRECTORY ${GN_BINARY_DIR}
+     COMMAND ${Python3_EXECUTABLE} ${GN_SOURCE_DIR}/build/gen.py
+         --no-last-commit-position
++        --no-static-libstdc++
+         --out-path ${GN_BINARY_DIR}/$<CONFIG>
+         --cc ${CMAKE_C_COMPILER}
+         --cxx ${CMAKE_CXX_COMPILER}
+         --ld ${GN_LINKER}
++        --allow-warnings
+         --platform ${platform}
+         --ar ${CMAKE_AR}
+         --qt-version "${QT_REPO_MODULE_VERSION}.qtwebengine.qt.io"
+-- 
+GitLab
+
