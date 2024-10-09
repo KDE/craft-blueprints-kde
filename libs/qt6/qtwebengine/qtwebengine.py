@@ -40,6 +40,9 @@ class subinfo(info.infoclass):
         # https://invent.kde.org/qt/qt/qtwebengine-chromium/-/commit/3aba63e62a86aeb157ad73df0fe0f44f01cf0e02
         self.patchToApply["6.7.2"] = [("3aba63e62a86aeb157ad73df0fe0f44f01cf0e02.patch", 1)]
 
+        # https://bugreports.qt.io/browse/QTBUG-128907
+        self.patchToApply["6.8.0"] = [("bfeea6231dfacb37de3ca5ee2e0167c71b540b90.patch", 1)]
+
         self.patchLevel["6.6.1"] = 1
 
     def setDependencies(self):
