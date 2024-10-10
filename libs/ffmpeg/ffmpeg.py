@@ -12,7 +12,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["4.4", "5.0.1", "6.0", "6.1.1", "7.0.1"]:
+        for ver in ["4.4", "5.0.1", "6.0", "6.1.1", "7.0.1", "7.1"]:
             self.targets[ver] = f"https://ffmpeg.org/releases/ffmpeg-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"ffmpeg-{ver}"
         self.svnTargets["master"] = "https://git.ffmpeg.org/ffmpeg.git"
@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.targetDigests["6.0"] = (["47d062731c9f66a78380e35a19aac77cebceccd1c7cc309b9c82343ffc430c3d"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["6.1.1"] = (["5e3133939a61ef64ac9b47ffd29a5ea6e337a4023ef0ad972094b4da844e3a20"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["7.0.1"] = (["5e77e84b6434d656106fafe3bceccc77176449014f3eba24d33db3fbd0939dc9"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["7.1"] = (["fd59e6160476095082e94150ada5a6032d7dcc282fe38ce682a00c18e7820528"], CraftHash.HashAlgorithm.SHA256)
 
         # https://github.com/FFmpeg/FFmpeg/commit/effadce6c756247ea8bae32dc13bb3e6f464f0eb
         # Fix assembling with binutil >= 2.41
@@ -32,6 +33,7 @@ class subinfo(info.infoclass):
             self.patchToApply["6.0"] += [("ffmpeg-4.4-20210413.diff", 1)]
             self.patchToApply["6.1.1"] = [("ffmpeg-4.4-20210413.diff", 1)]
             self.patchToApply["7.0.1"] = [("ffmpeg-4.4-20210413.diff", 1)]
+            self.patchToApply["7.1"] = [("ffmpeg-4.4-20210413.diff", 1)]
         else:
             self.patchLevel["4.4"] = 1
 
@@ -41,7 +43,7 @@ class subinfo(info.infoclass):
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
-        self.defaultTarget = "7.0.1"
+        self.defaultTarget = "7.1"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
