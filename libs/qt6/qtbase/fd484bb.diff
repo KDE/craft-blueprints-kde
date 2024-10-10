@@ -1,0 +1,49 @@
+From fd484bb9fdba7e73f7600ff59f686a959cf5b6ee Mon Sep 17 00:00:00 2001
+From: Edward Welbourne <edward.welbourne@qt.io>
+Date: Thu, 10 Oct 2024 13:06:08 +0200
+Subject: [PATCH] Pass string to ICU-wrapper as a QByteArray, not a QString
+
+The definition of QtTimeZoneLocale::ucalTimeZoneDisplayName() said it
+takes a QByteArray but the header-file's declaration said it takes a
+QString. That was never going to end well.
+
+Pick-to: 6.8
+Fixes: QTBUG-129896
+Change-Id: I5c15f88370f2d15efe2055ff73388c22fdc4ef46
+---
+
+diff --git a/src/corelib/time/qtimezonelocale_p.h b/src/corelib/time/qtimezonelocale_p.h
+index 50e9fc3..18c147c 100644
+--- a/src/corelib/time/qtimezonelocale_p.h
++++ b/src/corelib/time/qtimezonelocale_p.h
+@@ -35,7 +35,7 @@
+ #if QT_CONFIG(icu)
+ QString ucalTimeZoneDisplayName(UCalendar *ucal, QTimeZone::TimeType timeType,
+                                 QTimeZone::NameType nameType,
+-                                const QString &localeCode);
++                                const QByteArray &localeCode);
+ #else
+ 
+ QList<QByteArrayView> ianaIdsForTerritory(QLocale::Territory territory);
+diff --git a/src/corelib/time/qtimezoneprivate_icu.cpp b/src/corelib/time/qtimezoneprivate_icu.cpp
+index 3c927b4..dbaca1c 100644
+--- a/src/corelib/time/qtimezoneprivate_icu.cpp
++++ b/src/corelib/time/qtimezoneprivate_icu.cpp
+@@ -149,7 +149,7 @@
+     QTimeZone::TimeType timeType = dst == 0 ? QTimeZone::StandardTime : QTimeZone::DaylightTime;
+     using namespace QtTimeZoneLocale;
+     tran.abbreviation = ucalTimeZoneDisplayName(m_ucal, timeType,
+-                                                QTimeZone::ShortName, QLocale().name());
++                                                QTimeZone::ShortName, QLocale().name().toUtf8());
+     return tran;
+ }
+ #endif // U_ICU_VERSION_SHORT
+@@ -258,7 +258,7 @@
+     // Technically this may be suspect, if locale isn't QLocale(), since that's
+     // what we used when constructing m_ucal; does ICU cope with inconsistency ?
+     using namespace QtTimeZoneLocale;
+-    return ucalTimeZoneDisplayName(m_ucal, timeType, nameType, locale.name());
++    return ucalTimeZoneDisplayName(m_ucal, timeType, nameType, locale.name().toUtf8());
+ }
+ 
+ int QIcuTimeZonePrivate::offsetFromUtc(qint64 atMSecsSinceEpoch) const
