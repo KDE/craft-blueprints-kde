@@ -29,6 +29,7 @@ class Package(CMakePackageBase):
             "-DZSTD_BUILD_TESTS=OFF",
             "-DZSTD_BUILD_CONTRIB=OFF",
             f"-DZSTD_BUILD_PROGRAMS={self.subinfo.options.dynamic.buildTools.asOnOff}",
+            f"-DZSTD_PROGRAMS_LINK_SHARED={self.subinfo.options.dynamic.buildStatic.inverted.asOnOff}",
             f"-DZSTD_BUILD_STATIC={self.subinfo.options.dynamic.buildStatic.asOnOff}",
             f"-DZSTD_BUILD_SHARED={self.subinfo.options.dynamic.buildStatic.inverted.asOnOff}",
         ]
