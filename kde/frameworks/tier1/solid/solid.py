@@ -7,6 +7,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "Solid"
 
+        # https://invent.kde.org/frameworks/solid/-/merge_requests/181/diffs
+        self.patchToApply["6.7.0"] = [("181.patch", 1)]
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
