@@ -68,6 +68,10 @@ class Package(CMakePackageBase):
                 "-DPython3_FIND_REGISTRY=NEVER",
             ]
 
+        # help thirdparty discount on macOS.x86_64
+        if CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+            env["CFLAGS"] = "-arch x86_64"
+
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         # Some plugins files break code signing on macOS, which is picky about file names
