@@ -131,5 +131,5 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
                 "-DQT_APPLE_SDK=iphonesimulator",
                 "-DCMAKE_SYSTEM_NAME=iOS",
             ]
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["-DQT_NO_HANDLE_APPLE_SINGLE_ARCH_CROSS_COMPILING=ON"]
