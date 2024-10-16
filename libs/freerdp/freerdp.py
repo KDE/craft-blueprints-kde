@@ -3,13 +3,17 @@
 
 import info
 import utils
-from CraftCore import CraftCore
 from Blueprints.CraftVersion import CraftVersion
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # Fails to build on macOS Intel and right now there is nobody interested to invest in making it work here
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+
     def setTargets(self):
         self.description = "FreeRDP is a free remote desktop protocol library and clients"
         self.webpage = "http://www.freerdp.com/"
@@ -29,6 +33,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/libusb"] = None
 
+
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -36,13 +41,13 @@ class Package(CMakePackageBase):
             self.subinfo.options.dynamic.buildTests = False
 
     def fixEncoding(self, filename):
-            with open(filename, 'rb') as file:
-                content = file.read()
+        with open(filename, "rb") as file:
+            content = file.read()
 
-            decoded_content = content.decode('utf-16le')
+        decoded_content = content.decode("utf-16le")
 
-            with open(filename, 'wb') as file:
-                file.write(decoded_content.encode('utf-8'))
+        with open(filename, "wb") as file:
+            file.write(decoded_content.encode("utf-8"))
 
     def unpack(self):
         if not super().unpack():
@@ -50,5 +55,3 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMinGW() and self.buildTarget < CraftVersion("3.0.0"):
             self.fixEncoding(self.sourceDir() / "client/Windows/wfreerdp.rc")
         return True
-
-
