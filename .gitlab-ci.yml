@@ -81,9 +81,11 @@ run-tests:
     CRAFT_PACKAGE:
   rules:
     - if:  $CI_COMMIT_REF_NAME == "dev"
+      when: manual
       variables:
         KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6-dev/CraftConfig.ini
     - if:  $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev"
+      when: manual
       variables:
         KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6-dev/CraftConfig.ini
     - when: manual
