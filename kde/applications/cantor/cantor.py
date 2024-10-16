@@ -71,7 +71,7 @@ class Package(CMakePackageBase):
 
         # help thirdparty discount on macOS.x86_64
         if CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
-            env["CFLAGS"] = "-arch x86_64"
+            self.shell.environment["CFLAGS"] += " -arch x86_64"
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
