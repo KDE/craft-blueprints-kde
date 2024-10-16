@@ -1,4 +1,5 @@
 import info
+from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
 from Package.CMakePackageBase import CMakePackageBase
