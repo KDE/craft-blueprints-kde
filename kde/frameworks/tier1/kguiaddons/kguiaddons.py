@@ -16,10 +16,15 @@ class subinfo(info.infoclass):
         self.patchToApply["6.6.0"] = [("android-statusbar.diff", 1), ("fix-window-insets-luma-computation.diff", 1)]
         self.patchLevel["6.6.0"] = 1
 
+        # Fix Android with Qt 6.8
+        # See https://invent.kde.org/frameworks/kguiaddons/-/merge_requests/146.patch
+        self.patchToApply["6.7.0"] = [("146.patch", 1)]
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtwayland"] = None
         self.runtimeDependencies["kde/libs/plasma-wayland-protocols"] = None
 

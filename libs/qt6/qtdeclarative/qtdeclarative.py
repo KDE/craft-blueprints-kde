@@ -9,6 +9,10 @@ class subinfo(info.infoclass):
         self.patchLevel["6.6.0"] = 1
         self.patchLevel["6.7.0"] = 1
 
+        # See https://codereview.qt-project.org/c/qt/qtdeclarative/+/596457
+        self.patchToApply["6.8.0"] = [("e6e3da4de8fac7f52eb2591cb95a04ab413f8ace.patch", 1)]
+        self.patchLevel["6.8.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["libs/qt6/qttools"] = None
         self.runtimeDependencies["virtual/base"] = None

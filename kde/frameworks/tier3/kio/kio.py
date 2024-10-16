@@ -6,6 +6,7 @@ from CraftCore import CraftCore
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["6.7.0"] = [("1739.diff", 1)]
         self.description = "Network transparent access to files and data"
 
     def setDependencies(self):

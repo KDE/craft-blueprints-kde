@@ -1,0 +1,125 @@
+From d58c7aa3370962499d0f96e9f5bf673d78de4a2c Mon Sep 17 00:00:00 2001
+From: Albert Astals Cid <aacid@kde.org>
+Date: Tue, 15 Oct 2024 22:09:49 +0200
+Subject: [PATCH] Fix compilation with Qt 6.8 and MSVC 2022
+
+---
+ src/core/udsentry.cpp | 65 ++++++++++++++++++++++---------------------
+ src/core/udsentry.h   | 11 ++++----
+ 2 files changed, 40 insertions(+), 36 deletions(-)
+
+diff --git a/src/core/udsentry.cpp b/src/core/udsentry.cpp
+index 5c511b8d1..2612a38ef 100644
+--- a/src/core/udsentry.cpp
++++ b/src/core/udsentry.cpp
+@@ -19,6 +19,40 @@
+ 
+ #include <KUser>
+ 
++namespace KIO
++{
++KIOCORE_EXPORT bool operator==(const UDSEntry &entry, const UDSEntry &other)
++{
++    if (entry.count() != other.count()) {
++        return false;
++    }
++
++    const QList<uint> fields = entry.fields();
++    for (uint field : fields) {
++        if (!other.contains(field)) {
++            return false;
++        }
++
++        if (field & UDSEntry::UDS_STRING) {
++            if (entry.stringValue(field) != other.stringValue(field)) {
++                return false;
++            }
++        } else {
++            if (entry.numberValue(field) != other.numberValue(field)) {
++                return false;
++            }
++        }
++    }
++
++    return true;
++}
++
++KIOCORE_EXPORT bool operator!=(const UDSEntry &entry, const UDSEntry &other)
++{
++    return !(entry == other);
++}
++}
++
+ using namespace KIO;
+ 
+ // BEGIN UDSEntryPrivate
+@@ -445,34 +479,3 @@ KIOCORE_EXPORT QDataStream &operator>>(QDataStream &s, KIO::UDSEntry &a)
+     a.d->load(s);
+     return s;
+ }
+-
+-KIOCORE_EXPORT bool operator==(const KIO::UDSEntry &entry, const KIO::UDSEntry &other)
+-{
+-    if (entry.count() != other.count()) {
+-        return false;
+-    }
+-
+-    const QList<uint> fields = entry.fields();
+-    for (uint field : fields) {
+-        if (!other.contains(field)) {
+-            return false;
+-        }
+-
+-        if (field & UDSEntry::UDS_STRING) {
+-            if (entry.stringValue(field) != other.stringValue(field)) {
+-                return false;
+-            }
+-        } else {
+-            if (entry.numberValue(field) != other.numberValue(field)) {
+-                return false;
+-            }
+-        }
+-    }
+-
+-    return true;
+-}
+-
+-KIOCORE_EXPORT bool operator!=(const KIO::UDSEntry &entry, const KIO::UDSEntry &other)
+-{
+-    return !(entry == other);
+-}
+diff --git a/src/core/udsentry.h b/src/core/udsentry.h
+index 658ff7406..da843bbf6 100644
+--- a/src/core/udsentry.h
++++ b/src/core/udsentry.h
+@@ -33,21 +33,22 @@ KIOCORE_EXPORT QDataStream &operator>>(QDataStream &s, KIO::UDSEntry &a);
+  */
+ KIOCORE_EXPORT QDebug operator<<(QDebug stream, const KIO::UDSEntry &entry);
+ 
++namespace KIO
++{
++class UDSEntryPrivate;
++
+ /**
+  * Returns true if the entry contains the same data as the other
+  * @since 5.63
+  */
+-KIOCORE_EXPORT bool operator==(const KIO::UDSEntry &entry, const KIO::UDSEntry &other);
++KIOCORE_EXPORT bool operator==(const UDSEntry &entry, const UDSEntry &other);
+ 
+ /**
+  * Returns true if the entry does not contain the same data as the other
+  * @since 5.63
+  */
+-KIOCORE_EXPORT bool operator!=(const KIO::UDSEntry &entry, const KIO::UDSEntry &other);
++KIOCORE_EXPORT bool operator!=(const UDSEntry &entry, const UDSEntry &other);
+ 
+-namespace KIO
+-{
+-class UDSEntryPrivate;
+ /**
+  * @class KIO::UDSEntry udsentry.h <KIO/UDSEntry>
+  *
+-- 
+GitLab
+

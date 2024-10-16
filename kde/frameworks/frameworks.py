@@ -6,3 +6,4 @@ from Blueprints.CraftPackageObject import CraftPackageObject
 class Pattern(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += ["-DBUILD_DESIGNERPLUGIN=OFF"]

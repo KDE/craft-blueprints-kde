@@ -1,0 +1,24 @@
+From 6be3de48577313fd5a0f464d9c72c0ed248ee87c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <julius.kuenzel@kde.org>
+Date: Wed, 16 Oct 2024 15:36:01 +0000
+Subject: [PATCH] Add namespace for Android as required by newer gradle
+ versions
+
+---
+ src/onboard/android/build.gradle | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/onboard/android/build.gradle b/src/onboard/android/build.gradle
+index db18d428..b031ae24 100644
+--- a/src/onboard/android/build.gradle
++++ b/src/onboard/android/build.gradle
+@@ -44,5 +44,6 @@ android {
+     defaultConfig {
+         minSdkVersion @ANDROID_API_LEVEL@
+         targetSdkVersion @ANDROID_SDK_COMPILE_API@
++        namespace "org.kde.publictransport.onboard"
+     }
+ }
+-- 
+GitLab
+

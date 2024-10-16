@@ -47,8 +47,7 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["libs/liblz4"] = None
 
-        # Cantor is still Qt5 only
-        # self.runtimeDependencies["kde/applications/cantor"] = None
+        self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None

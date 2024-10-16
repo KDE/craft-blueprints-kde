@@ -1,0 +1,24 @@
+From 86737180d715a8d4630d31b9b0d1be242420591c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <julius.kuenzel@kde.org>
+Date: Wed, 16 Oct 2024 09:58:09 +0000
+Subject: [PATCH] Add namespace for Android as required by newer gradle
+ versions
+
+---
+ src/android/build.gradle | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/android/build.gradle b/src/android/build.gradle
+index 4d6a522..c1120c1 100644
+--- a/src/android/build.gradle
++++ b/src/android/build.gradle
+@@ -39,5 +39,6 @@ android {
+     defaultConfig {
+         minSdkVersion @ANDROID_API_LEVEL@
+         targetSdkVersion @ANDROID_SDK_COMPILE_API@
++        namespace "org.kde.guiaddons"
+     }
+ }
+-- 
+GitLab
+

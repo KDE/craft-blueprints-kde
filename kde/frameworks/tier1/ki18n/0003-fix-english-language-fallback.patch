@@ -1,0 +1,52 @@
+commit 8129d21f90fd181c1d6b7acbb927ec294d7c980b
+Author: Volker Krause <vkrause@kde.org>
+Date:   Wed Oct 2 17:47:59 2024 +0200
+
+    Special-case the language fallback for country-less English
+    
+    For any other language we need a fallback chain from country-specific to
+    the country-less variants, only for English we don't have a country-less
+    variant but the en_US source code.
+    
+    Without this "en" translations aren't found and we continue trying other
+    languages before eventually getting to "en_US". This results in unexpected
+    results when using a country-specific variant of English that doesn't have
+    translations and at least one secondary non-English language.
+    
+    This is unusual though possible on Linux, but common on Android. There
+    language and region can be configured independently (and thus it's easy
+    to get to an English country-specific variant without translations) and
+    multiple languages are common as those not only influence translations but
+    also input handling.
+
+diff --git a/src/i18n/klocalizedstring.cpp b/src/i18n/klocalizedstring.cpp
+index 606d6b0..d401695 100644
+--- a/src/i18n/klocalizedstring.cpp
++++ b/src/i18n/klocalizedstring.cpp
+@@ -33,6 +33,8 @@
+ 
+ #include "ki18n_logging.h"
+ 
++using namespace Qt::Literals;
++
+ // Truncate string, for output of long messages.
+ static QString shortenMessage(const QString &str)
+ {
+@@ -336,6 +338,17 @@ void KLocalizedStringPrivateStatics::initializeLocaleLanguages()
+     // suffice so we add system locale UI languages, too.
+     appendLanguagesFromQLocale(localeLanguages, QLocale::system());
+ #endif
++
++    localeLanguages.removeDuplicates();
++
++    // make sure "en" falls back to "en_US" rather than trying other languages first
++    // this needs special-casing as the implicit fallback (lang_COUNTRY -> lang) doesn't
++    // work here as we don't have an "en" translation, but an (implicit) "en_US" one
++    const auto codeBaseLanguage = QStringView(codeLanguage).left(codeLanguage.indexOf('_'_L1));
++    auto it = std::find(localeLanguages.begin(), localeLanguages.end(), codeBaseLanguage);
++    if (it != localeLanguages.end()) {
++        *it = codeLanguage;
++    }
+ }
+ 
+ KLocalizedString::KLocalizedString()

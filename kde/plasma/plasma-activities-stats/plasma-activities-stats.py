@@ -15,7 +15,8 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["kde/plasma/plasma-activities"] = None
-        self.runtimeDependencies["libs/boost"] = None
+        if self.options.dynamic.buildTests:
+            self.runtimeDependencies["libs/boost"] = None
 
 
 class Package(CraftPackageObject.get("kde/plasma").pattern):

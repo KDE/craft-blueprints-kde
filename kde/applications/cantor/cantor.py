@@ -1,4 +1,5 @@
 import info
+from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
 from Package.CMakePackageBase import CMakePackageBase
@@ -9,6 +10,8 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Cantor"
+        # Qt6 only since 24.11.70
+        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -18,7 +21,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/python"] = None
-        self.runtimeDependencies["libs/discount"] = None
+        # using included discount
+        # self.runtimeDependencies["libs/discount"] = None
         # required on macOS
         if CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
@@ -64,6 +68,10 @@ class Package(CMakePackageBase):
                 f"-DPython3_INCLUDE_DIR:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/python3.11",
                 "-DPython3_FIND_REGISTRY=NEVER",
             ]
+
+        # help thirdparty discount on macOS.x86_64
+        if CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+            self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-arch x86_64"]
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")

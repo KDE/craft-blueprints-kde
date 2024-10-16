@@ -6,7 +6,6 @@ from CraftCore import CraftCore
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-
         self.description = "Analitza Library"
 
     def setDependencies(self):

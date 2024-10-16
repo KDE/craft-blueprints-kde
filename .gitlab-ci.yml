@@ -72,34 +72,43 @@ run-tests:
     reports:
       junit: JUnit*Results.xml
 
-build-package-linux:
-  # This job can be used to test the build of a package, e.g. when you update
-  # the package to a new version. Set CRAFT_PACKAGE to the package you want to
-  # test. This test uses the CI image that's also used for the AppImages.
-  image: invent-registry.kde.org/sysadmin/ci-images/sles15-craft:latest
-  rules:
-    - when: manual
-      # we don't want the manual job to block the pipeline
-      allow_failure: true
-  tags:
-    - Linux
+.build-package-base:
   variables:
     GIT_STRATEGY: none
     KDECI_CRAFT_PLATFORM: linux-64-gcc
     KDECI_CRAFT_CACHE: /mnt/craft-cache/$KDECI_CRAFT_PLATFORM/
-    KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6-dev/CraftConfig.ini
-    KDECI_CRAFT_PROJECT_CONFIG: $CI_PROJECT_DIR/.craft.ini
+    KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6/CraftConfig.ini
     CRAFT_PACKAGE:
+  rules:
+    - if:  $CI_COMMIT_REF_NAME == "dev"
+      variables:
+        KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6-dev/CraftConfig.ini
+    - if:  $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev"
+      variables:
+        KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6-dev/CraftConfig.ini
+    - when: manual
+      # we don't want the manual job to block the pipeline
+      allow_failure: true
   interruptible: true
+
+
+build-package-linux:
+  # This job can be used to test the build of a package, e.g. when you update
+  # the package to a new version. Set CRAFT_PACKAGE to the package you want to
+  # test. This test uses the CI image that's also used for the AppImages.
+  extends: .build-package-base
+  image: invent-registry.kde.org/sysadmin/ci-images/sles15-craft:latest
+  tags:
+    - Linux
+  variables:
+    KDECI_CRAFT_PLATFORM: linux-64-gcc
   before_script:
     - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE to the package you want to test."; false; fi
     - export LANG=en_US.UTF-8
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
-    # Create empty .craft.ini if none exists
-    - touch $KDECI_CRAFT_PROJECT_CONFIG
     # Define a short cut for the lengthy CraftMaster command line
-    - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --config-override $KDECI_CRAFT_PROJECT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
+    - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
     # Set up craft settings and blueprint settings
     - craftmaster --setup
@@ -120,21 +129,17 @@ build-package-linux:
     paths:
       - "$KDECI_CRAFT_PLATFORM/logs/"
 
-.build-package-windows-base:
-  rules:
-    - when: manual
-      # we don't want the manual job to block the pipeline
-      allow_failure: true
+.build-package-windows_qt6:
+  # This job can be used to test the build of a package, e.g. when you update
+  # the package to a new version. Set CRAFT_PACKAGE to the package you want to
+  # test. This test uses the CI image that's used for the craft_windows_qt6_x86_64 job.
+  extends: .build-package-base
+  image: invent-registry.kde.org/sysadmin/ci-images/windows-msvc2022:latest
   tags:
     - Windows
   variables:
     PYTHONUTF8: 1
-    GIT_STRATEGY: none
-    # KDECI_CRAFT_PLATFORM is specified in the derived jobs
     KDECI_CRAFT_CACHE: C:/Gitlab/Craft/download/
-    # KDECI_CRAFT_CONFIG is specified in the derived jobs
-    # CRAFT_PACKAGE is specified in the derived jobs
-  interruptible: true
   before_script:
     - cd C:\Gitlab\Craft\
     - Get-ChildItem C:\Gitlab\Craft\ | Remove-Item -Recurse -Force
@@ -170,23 +175,113 @@ build-package-linux:
       - ".logs/"
 
 build-package-windows_qt6_x86_64:
-  # This job can be used to test the build of a package, e.g. when you update
-  # the package to a new version. Set CRAFT_PACKAGE to the package you want to
-  # test. This test uses the CI image that's used for the craft_windows_qt6_x86_64 job.
-  extends: .build-package-windows-base
-  image: invent-registry.kde.org/sysadmin/ci-images/windows-msvc2022:latest
+  extends: .build-package-windows_qt6
   variables:
     KDECI_CRAFT_PLATFORM: windows-msvc2022_64-cl
-    KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6-dev/CraftConfig.ini
-    CRAFT_PACKAGE:
+  artifacts:
+    expire_in: 3 days
+    when: always
+    paths:
+      - ".logs/"
 
 build-package-windows_qt6_mingw64:
-  # This job can be used to test the build of a package, e.g. when you update
-  # the package to a new version. Set CRAFT_PACKAGE to the package you want to
-  # test. This test uses the CI image that's used for the craft_windows_qt6_mingw64 job.
-  extends: .build-package-windows-base
-  image: invent-registry.kde.org/sysadmin/ci-images/windows-msvc2022:latest
+  extends: .build-package-windows_qt6
   variables:
     KDECI_CRAFT_PLATFORM: windows-mingw_64-gcc
-    KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6-dev/CraftConfig.ini
-    CRAFT_PACKAGE:
+  artifacts:
+    expire_in: 3 days
+    when: always
+    paths:
+      - ".logs/"
+
+.build-package-macos_qt6:
+  extends: .build-package-base
+  tags:
+    - macOS
+  before_script:
+    # ensure we start with an empty folder
+    - rm -rf *
+    - export LANG=en_US.UTF-8
+    - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
+    - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
+    # Define a short cut for the lengthy CraftMaster command line
+    - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
+  script:
+    # Set up craft settings and blueprint settings
+    - craftmaster --setup
+    # Get Craft itself ready
+    - craftmaster -c -i --options virtual.ignored=True --update craft
+    # Switch to this branch of craft-blueprints-kde
+    - cd $CI_PROJECT_DIR/blueprints/craft-blueprints-kde
+    - git checkout $CI_COMMIT_REF_NAME
+    - cd $CI_PROJECT_DIR
+    # Install all of our dependencies
+    - craftmaster -c --install-deps --options "[CodeSigning]Enabled=False" $CRAFT_PACKAGE
+    # Build the actual application
+    - craftmaster -c --no-cache --options "[CodeSigning]Enabled=False" $CRAFT_PACKAGE
+  after_script:
+    # Move logs to protect them against cleanup deletion
+    - mkdir $CI_PROJECT_DIR/kde-ci-logs/
+    - cp -f -R $KDECI_CRAFT_PLATFORM/logs/. $CI_PROJECT_DIR/kde-ci-logs/
+    # cleanup, we can't just delete everything since that would also delete the artifacts which are gathered after
+    - rm -rf src craftmaster ci-utilities blueprints downloads craft-clone $KDECI_CRAFT_PLATFORM
+  artifacts:
+    expire_in: 3 days
+    when: always
+    paths:
+      - "kde-ci-logs/"
+
+build-package-macos_qt6_arm64:
+  extends: .build-package-macos_qt6
+  variables:
+    KDECI_CRAFT_PLATFORM: macos-arm-clang
+  artifacts:
+    expire_in: 3 days
+    when: always
+    paths:
+      - "kde-ci-logs/"
+
+build-package-macos_qt6_x86_64:
+  extends: .build-package-macos_qt6
+  variables:
+    KDECI_CRAFT_PLATFORM: macos-64-clang
+  artifacts:
+    expire_in: 3 days
+    when: always
+    paths:
+      - "kde-ci-logs/"
+
+.build-package-android_qt6:
+  extends: .build-package-base
+  image: invent-registry.kde.org/sysadmin/ci-images/android-qt67:latest
+  tags:
+    - Linux
+  before_script:
+    - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
+    - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
+    # Define a short cut for the lengthy CraftMaster command line
+    - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
+  script:
+    # Set up craft settings and blueprint settings
+    - craftmaster --setup
+    # Get Craft itself ready
+    - craftmaster -c -i craft
+    # Switch to this branch of craft-blueprints-kde
+    - cd $CI_PROJECT_DIR/blueprints/craft-blueprints-kde
+    - git checkout $CI_COMMIT_REF_NAME
+    - cd $CI_PROJECT_DIR
+    # Install all of our dependencies
+    - craftmaster -c --install-deps --options "[CodeSigning]Enabled=False" $CRAFT_PACKAGE
+    # Build the actual application
+    - craftmaster -c --no-cache --options "[CodeSigning]Enabled=False" $CRAFT_PACKAGE
+
+build-package-android_qt6_arm64:
+  extends: .build-package-android_qt6
+  variables:
+    KDECI_CRAFT_PLATFORM: android-arm64-clang
+  artifacts:
+    expire_in: 3 days
+    when: always
+    paths:
+      - "$KDECI_CRAFT_PLATFORM/logs/"
+

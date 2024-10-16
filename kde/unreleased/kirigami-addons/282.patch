@@ -1,0 +1,24 @@
+From f40571d78dafbf0081cdc031fa5a4eee281ba9b9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <julius.kuenzel@kde.org>
+Date: Wed, 16 Oct 2024 15:28:46 +0000
+Subject: [PATCH] Add namespace for Android as required by newer gradle
+ versions
+
+---
+ src/dateandtime/android/build.gradle | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/dateandtime/android/build.gradle b/src/dateandtime/android/build.gradle
+index efde75cc..048e35ef 100644
+--- a/src/dateandtime/android/build.gradle
++++ b/src/dateandtime/android/build.gradle
+@@ -43,5 +43,6 @@ android {
+     defaultConfig {
+         minSdkVersion @ANDROID_API_LEVEL@
+         targetSdkVersion @ANDROID_SDK_COMPILE_API@
++        namespace "org.kde.kirigamiaddons.datetime"
+     }
+ }
+-- 
+GitLab
+

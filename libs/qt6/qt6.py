@@ -9,4 +9,4 @@ class Pattern(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DQT_NO_APPLE_SDK_AND_XCODE_CHECK=ON"]
         # Updating this always needs a corresponding change to the host tools in the CI image!
         if CraftCore.compiler.platform.isAndroid:
-            self.subinfo.defaultTarget = "6.7.2"
+            self.subinfo.defaultTarget = "6.8.0"

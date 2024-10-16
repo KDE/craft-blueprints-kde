@@ -16,3 +16,7 @@ bin/icuuc\.dll
 bin/icuio\.dll
 bin/icutu\.dll
 bin/icutest\.dll
+
+# we use the Breeze style on Android, so anything related to Material is unnecessary
+qml/QtQuick/Controls/Material/.*
+lib/qml/org/kde/kirigami/styles/Material/.*

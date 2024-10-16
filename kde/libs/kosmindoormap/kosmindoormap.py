@@ -11,6 +11,10 @@ class subinfo(info.infoclass):
         self.description = "KDE OSM Indoor Map"
         self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/libraries/kosmindoormap.git")
 
+        # Fix Android with Qt 6.8
+        # See https://invent.kde.org/libraries/kosmindoormap/-/merge_requests/45
+        self.patchToApply["24.08.2"] = [("45.patch", 1)]
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

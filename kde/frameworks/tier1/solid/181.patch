@@ -1,0 +1,92 @@
+From 8cbd8ec73facb20f6692c24c79adb8cf6d01b4fa Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <julius.kuenzel@kde.org>
+Date: Sun, 13 Oct 2024 18:02:52 +0200
+Subject: [PATCH] Port implicit QByteArray, QChar and QString conversions in
+ iokit
+
+Fix up for !175 as IOKit was forgotten there and hence broke the build on macOS
+---
+ .../devices/backends/iokit/iokitdevice.cpp    |  4 +--
+ .../backends/iokit/iokitopticaldisc.cpp       | 30 +++++++++----------
+ 2 files changed, 17 insertions(+), 17 deletions(-)
+
+diff --git a/src/solid/devices/backends/iokit/iokitdevice.cpp b/src/solid/devices/backends/iokit/iokitdevice.cpp
+index 42282084..fd14478b 100644
+--- a/src/solid/devices/backends/iokit/iokitdevice.cpp
++++ b/src/solid/devices/backends/iokit/iokitdevice.cpp
+@@ -96,7 +96,7 @@ static QMap<QString, QVariant> getProperties(const io_registry_entry_t &entry)
+ 
+     io_name_t className;
+     IOObjectGetClass(entry, className);
+-    result["className"] = QString::fromUtf8(className);
++    result[QStringLiteral("className")] = QString::fromUtf8(className);
+ 
+     return result;
+ }
+@@ -418,7 +418,7 @@ QStringList IOKitDevice::emblems() const
+ QVariant IOKitDevice::property(const QString &key) const
+ {
+     if (!d->properties.contains(key)) {
+-        return QObject::property(key.toUtf8());
++        return QObject::property(key.toUtf8().constData());
+     }
+     return d->properties.value(key);
+ }
+diff --git a/src/solid/devices/backends/iokit/iokitopticaldisc.cpp b/src/solid/devices/backends/iokit/iokitopticaldisc.cpp
+index 61d612a1..b4cd0f9e 100644
+--- a/src/solid/devices/backends/iokit/iokitopticaldisc.cpp
++++ b/src/solid/devices/backends/iokit/iokitopticaldisc.cpp
+@@ -46,35 +46,35 @@ Solid::OpticalDisc::DiscType IOKitOpticalDisc::discType() const
+ {
+     QString type = m_device->property(QStringLiteral("Type")).toString();
+ 
+-    if (type == "CD-ROM") {
++    if (type == QLatin1String("CD-ROM")) {
+         return Solid::OpticalDisc::CdRom;
+-    } else if (type == "CD-R") {
++    } else if (type == QLatin1String("CD-R")) {
+         return Solid::OpticalDisc::CdRecordable;
+-    } else if (type == "CD-RW") {
++    } else if (type == QLatin1String("CD-RW")) {
+         return Solid::OpticalDisc::CdRewritable;
+-    } else if (type == "DVD-ROM") {
++    } else if (type == QLatin1String("DVD-ROM")) {
+         return Solid::OpticalDisc::DvdRom;
+-    } else if (type == "DVD-RAM") {
++    } else if (type == QLatin1String("DVD-RAM")) {
+         return Solid::OpticalDisc::DvdRam;
+-    } else if (type == "DVD-R") {
++    } else if (type == QLatin1String("DVD-R")) {
+         return Solid::OpticalDisc::DvdRecordable;
+-    } else if (type == "DVD-RW") {
++    } else if (type == QLatin1String("DVD-RW")) {
+         return Solid::OpticalDisc::DvdRewritable;
+-    } else if (type == "DVD+R") {
++    } else if (type == QLatin1String("DVD+R")) {
+         return Solid::OpticalDisc::DvdPlusRecordable;
+-    } else if (type == "DVD+RW") {
++    } else if (type == QLatin1String("DVD+RW")) {
+         return Solid::OpticalDisc::DvdPlusRewritable;
+-    } else if (type == "BD-ROM") {
++    } else if (type == QLatin1String("BD-ROM")) {
+         return Solid::OpticalDisc::BluRayRom;
+-    } else if (type == "BD-R") {
++    } else if (type == QLatin1String("BD-R")) {
+         return Solid::OpticalDisc::BluRayRecordable;
+-    } else if (type == "BD-RE") {
++    } else if (type == QLatin1String("BD-RE")) {
+         return Solid::OpticalDisc::BluRayRewritable;
+-    } else if (type == "HD DVD-ROM") {
++    } else if (type == QLatin1String("HD DVD-ROM")) {
+         return Solid::OpticalDisc::HdDvdRom;
+-    } else if (type == "HD DVD-R") {
++    } else if (type == QLatin1String("HD DVD-R")) {
+         return Solid::OpticalDisc::HdDvdRecordable;
+-    } else if (type == "HD DVD-RW") {
++    } else if (type == QLatin1String("HD DVD-RW")) {
+         return Solid::OpticalDisc::HdDvdRewritable;
+     } else {
+         return Solid::OpticalDisc::UnknownDiscType;
+-- 
+GitLab
+
