@@ -19,6 +19,10 @@ class subinfo(info.infoclass):
         self.patchToApply["1.4.0"] = [("fix-mobile-combo-box.diff", 1)]
         self.patchLevel["1.4.0"] = 1
 
+        # Fix Android with Qt 6.8
+        # See https://invent.kde.org/libraries/kirigami-addons/-/merge_requests/282
+        self.patchToApply["1.5.0"] = [("282.diff", 1)]
+
         self.defaultTarget = "1.5.0"
 
     def setDependencies(self):
