@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
 
         # Fix Android with Qt 6.8
         # See https://invent.kde.org/libraries/kirigami-addons/-/merge_requests/282
-        self.patchToApply["1.5.0"] = [("282.diff", 1)]
+        self.patchToApply["1.5.0"] = [("282.patch", 1)]
 
         self.defaultTarget = "1.5.0"
 
