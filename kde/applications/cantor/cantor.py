@@ -70,7 +70,7 @@ class Package(CMakePackageBase):
             ]
 
         # help thirdparty discount on macOS.x86_64
-        if CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+        if CraftCore.compiler.platform.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-arch x86_64"]
 
     def createPackage(self):
