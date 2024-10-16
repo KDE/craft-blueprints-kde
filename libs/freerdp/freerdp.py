@@ -10,10 +10,6 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        # Fails to build on macOS Intel and right now there is nobody interested to invest in making it work here
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
-
     def setTargets(self):
         self.description = "FreeRDP is a free remote desktop protocol library and clients"
         self.webpage = "http://www.freerdp.com/"
@@ -39,6 +35,8 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.dynamic.buildTests = False
+        if CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCore.compiler.Architecture.x86_64:
+            self.subinfo.options.configure.args += ["-DWITH_NEON=OFF"]
 
     def fixEncoding(self, filename):
         with open(filename, "rb") as file:
