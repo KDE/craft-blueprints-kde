@@ -17,6 +17,7 @@ class subinfo(info.infoclass):
             )
             self.targetInstSrc[ver] = f"boost-{ver}"
         self.defaultTarget = "1.86.0"
+        self.patchLevel["1.86.0"] = 1
         self.webpage = "https://www.boost.org/"
 
         self.description = "Boost provides free peer-reviewed portable C++ source libraries."
