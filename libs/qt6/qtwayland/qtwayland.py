@@ -8,6 +8,8 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["6.8.0"] = [("76e3c3d.diff", 1)]
+        self.patchLevel["6.8.0"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
