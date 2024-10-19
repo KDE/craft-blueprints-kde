@@ -1,0 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2024 Plata Hill <plata.hill@kdemail.net>
+
+# we use the Breeze style, so anything related to Material is unnecessary
+qml/QtQuick/Controls/Material/.*
+lib/qml/org/kde/kirigami/styles/Material/.*
