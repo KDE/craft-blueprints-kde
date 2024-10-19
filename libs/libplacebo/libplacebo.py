@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isAndroid:
             for ver in ["64c19545", "master"]:
                 self.patchToApply[ver] = [("disable-soversion.patch", 1)]
-                self.patchLevel[ver] = 1
+                self.patchLevel[ver] = 2
 
     def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None
@@ -32,3 +32,8 @@ class Package(MesonPackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.fetch.checkoutSubmodules = True
         self.subinfo.options.configure.args += ["-Ddemos=False"]
+
+        if CraftCore.compiler.isAndroid:
+            # Work around https://github.com/android/ndk/issues/1974 in ndk26.
+            # But also Vulkan video decode isn't well supported on Android anyway.
+            self.subinfo.options.configure.args += ["-Dvulkan=disabled"]
