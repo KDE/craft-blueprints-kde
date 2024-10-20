@@ -1,0 +1,37 @@
+commit 35a8223646ee26acc775fb594486246b041ad8e2
+Author: Edward Welbourne <edward.welbourne@qt.io>
+Date:   Thu Oct 10 14:46:19 2024 +0200
+
+    Avoid infinite recurision in time-zone abbreviation look-up with ICU
+    
+    The base-class abbreviation() falls back to its displayName() which
+    starts by asking for data() for the relevant time. Unfortunately the
+    backend's data() was delegating (if ICU version is too old, or the
+    transition lookup failed) to abbreviation for one field of that. So
+    short-cut out to how the backend's displayName() gets abbreviations
+    (and how the look-up of transitions finds their abbreviations).
+    
+    Task-number: QTBUG-129896
+    Change-Id: I10f15ad822d53b8292774d7093a531df694bb77b
+    Reviewed-by: Mårten Nordheim <marten.nordheim@qt.io>
+    (cherry picked from commit f38c0fd3fbdd96a2f91bf2890ebe9888fe1ad04c)
+    Reviewed-by: Qt Cherry-pick Bot <cherrypick_bot@qt-project.org>
+
+diff --git a/src/corelib/time/qtimezoneprivate_icu.cpp b/src/corelib/time/qtimezoneprivate_icu.cpp
+index 04878a76e2..8369a42f22 100644
+--- a/src/corelib/time/qtimezoneprivate_icu.cpp
++++ b/src/corelib/time/qtimezoneprivate_icu.cpp
+@@ -335,7 +335,12 @@ QTimeZonePrivate::Data QIcuTimeZonePrivate::data(qint64 forMSecsSinceEpoch) cons
+         ucalOffsetsAtTime(m_ucal, forMSecsSinceEpoch, &data.standardTimeOffset,
+                           &data.daylightTimeOffset);
+         data.offsetFromUtc = data.standardTimeOffset + data.daylightTimeOffset;
+-        data.abbreviation = abbreviation(forMSecsSinceEpoch);
++        // TODO No ICU API for abbreviation, use short name for it:
++        using namespace QtTimeZoneLocale;
++        QTimeZone::TimeType timeType
++            = data.daylightTimeOffset ? QTimeZone::DaylightTime : QTimeZone::StandardTime;
++        data.abbreviation = ucalTimeZoneDisplayName(m_ucal, timeType, QTimeZone::ShortName,
++                                                    QLocale().name().toUtf8());
+     }
+     data.atMSecsSinceEpoch = forMSecsSinceEpoch;
+     return data;
