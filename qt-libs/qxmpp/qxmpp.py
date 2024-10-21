@@ -16,13 +16,13 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/qxmpp-project/qxmpp.git"
-        for ver in ["1.7.1", "1.8.1"]:
+        for ver in ["1.7.1", "1.8.2"]:
             self.targets[ver] = f"https://github.com/qxmpp-project/qxmpp/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"qxmpp-v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"qxmpp-{ver}"
         self.targetDigests["1.7.1"] = (["2691e2b28dfc45c4cda17ce04cf998b8c15f01bbf72f335e01b98a2f98063ef0"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["1.8.1"] = (["f307dde71dbaf9e17dc0472fafe68cabe2572b22ae759b6af24f8e1183b8db71"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "1.7.1"
+        self.targetDigests["1.8.2"] = (["5964468778c743ae336ebc14af9fda1afcc1128acc94d9500f4276614e5a1425"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "1.8.2"
 
 
 class Package(CMakePackageBase):
