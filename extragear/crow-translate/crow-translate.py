@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt5/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt5/qtsvg"] = None
         self.runtimeDependencies["libs/qt5/qtx11extras"] = None
+        self.runtimeDependencies["libs/qt5/qttranslations"] = None
         self.buildDependencies["libs/qt5/qttools"] = None
         self.runtimeDependencies["libs/tesseract"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwayland"] = None
