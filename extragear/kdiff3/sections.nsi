@@ -24,7 +24,7 @@ Section -InstallShellExtention
     ${EndIf}
     SetRegView 32
     
-    WriteRegStr HKCU "${regkey}\diff-ext" "" ""
-    WriteRegStr HKCU "${regkey}\diff-ext" "InstallDir" "$INSTDIR\bin"
-    WriteRegStr HKCU "${regkey}\diff-ext" "diffcommand" "$INSTDIR\bin\kdiff3.exe"
+    WriteRegStr HKLM "${regkey}\diff-ext" "" ""
+    WriteRegStr HKLM "${regkey}\diff-ext" "InstallDir" "$INSTDIR\bin"
+    WriteRegStr HKLM "${regkey}\diff-ext" "diffcommand" "$INSTDIR\bin\kdiff3.exe"
 SectionEnd
