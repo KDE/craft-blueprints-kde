@@ -30,16 +30,13 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.4.3"]:
+        for ver in ["2.4.5"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"gnupg-{ver}"
 
-        self.targetDigests["2.4.3"] = (["a271ae6d732f6f4d80c258ad9ee88dd9c94c8fdc33c3e45328c4d7c126bd219d"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.4.5"] = (["f68f7d75d06cb1635c336d34d844af97436c3f64ea14bcb7c869782f96f44277"], CraftHash.HashAlgorithm.SHA256)
 
-        self.patchToApply["2.4.3"] = [("fix-disabled-ldap.patch", 1)]
-        self.patchLevel["2.4.3"] = 1
-
-        self.defaultTarget = "2.4.3"
+        self.defaultTarget = "2.4.5"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
