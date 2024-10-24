@@ -7,14 +7,15 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.5.5"]:
+        for ver in ["3.0.1"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"libassuan-{ver}"
 
-        self.targetDigests["2.5.5"] = (["8e8c2fcc982f9ca67dcbb1d95e2dc746b1739a4668bc20b3a3c5be632edb34e4"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.0.1"] = (["c8f0f42e6103dea4b1a6a483cb556654e97302c7465308f58363778f95f194b1"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["3.0.1"] = ("0001-Remove-an-declaration-for-an-unused-function.patch", 1)
 
         self.description = "An IPC library used by some of the other GnuPG related packages"
-        self.defaultTarget = "2.5.5"
+        self.defaultTarget = "3.0.1"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
