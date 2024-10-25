@@ -1,0 +1,35 @@
+commit 623f34fdafac5189f47911c248dded3eb319eb54
+Author: Volker Krause <vkrause@kde.org>
+Date:   Fri Oct 25 15:31:52 2024 +0200
+
+    Add missing dependencies on QtQuick.Window
+    
+    Missing this here breaks results in e.g. KTrip on Android not having this
+    bundled correctly with Qt 6.8.
+    
+    (cherry picked from commit 80c6df634e0c23ea5f5011f5bdc20e53253589a7)
+
+diff --git a/style/impl/CMakeLists.txt b/style/impl/CMakeLists.txt
+index 8b34981..fbe0132 100644
+--- a/style/impl/CMakeLists.txt
++++ b/style/impl/CMakeLists.txt
+@@ -2,6 +2,7 @@ ecm_add_qml_module(BreezeImpl URI "org.kde.breeze.impl"
+     GENERATE_PLUGIN_SOURCE
+     DEPENDENCIES
+     "QtQuick.Controls"
++    "QtQuick.Window"
+     "org.kde.kirigami"
+ )
+ 
+diff --git a/style/qtquickcontrols/CMakeLists.txt b/style/qtquickcontrols/CMakeLists.txt
+index 2af77cf..fd878f1 100644
+--- a/style/qtquickcontrols/CMakeLists.txt
++++ b/style/qtquickcontrols/CMakeLists.txt
+@@ -3,6 +3,7 @@ ecm_add_qml_module(BreezeStyle URI "org.kde.breeze"
+     DESIGNER_SUPPORTED
+     DEPENDENCIES
+     "QtQuick.Controls"
++    "QtQuick.Window"
+     "org.kde.kirigami"
+     "org.kde.quickcharts"
+     "org.kde.breeze.impl"
