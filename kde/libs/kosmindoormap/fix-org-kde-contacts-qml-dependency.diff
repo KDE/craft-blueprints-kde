@@ -1,0 +1,22 @@
+commit 565e58753ac338d9cf7dab71ce3f30c4c4d5b29c
+Author: Volker Krause <vkrause@kde.org>
+Date:   Sat Oct 26 12:05:48 2024 +0200
+
+    Add missing org.kde.contacts dependency
+    
+    Should fix the Kongress APK with Qt 6.8.
+    
+    (cherry picked from commit 3ff700ef1d03a16216f8363e253fe57fa4564d53)
+
+diff --git a/src/map-quick/CMakeLists.txt b/src/map-quick/CMakeLists.txt
+index 4a66c8fe..f67eba50 100644
+--- a/src/map-quick/CMakeLists.txt
++++ b/src/map-quick/CMakeLists.txt
+@@ -59,6 +59,7 @@ ecm_add_qml_module(kosmindoormapquickplugin
+         "QtQuick.Layouts"
+         "org.kde.kirigami"
+         "org.kde.kopeninghours"
++        "org.kde.contacts"
+ )
+ target_sources(kosmindoormapquickplugin PRIVATE
+     kosmindoormapquickplugin.cpp
