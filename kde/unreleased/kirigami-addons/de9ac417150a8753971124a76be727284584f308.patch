@@ -1,0 +1,38 @@
+From de9ac417150a8753971124a76be727284584f308 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <julius.kuenzel@kde.org>
+Date: Sat, 26 Oct 2024 12:25:31 +0200
+Subject: [PATCH] Add missing dependency on org.kde.kirigamiaddons.components
+
+Used in the AboutPage, DatePopup etc. and having it missing here leads to it not being bundled on Android, breaking e.g. Alligator
+---
+ src/dateandtime/CMakeLists.txt | 1 +
+ src/formcard/CMakeLists.txt    | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/src/dateandtime/CMakeLists.txt b/src/dateandtime/CMakeLists.txt
+index 06b73548..7c6d1b9b 100644
+--- a/src/dateandtime/CMakeLists.txt
++++ b/src/dateandtime/CMakeLists.txt
+@@ -19,6 +19,7 @@ ecm_add_qml_module(dateandtimeplugin
+     GENERATE_PLUGIN_SOURCE
+     DEPENDENCIES
+         org.kde.kirigami
++        org.kde.kirigamiaddons.components
+         org.kde.kirigamiaddons.delegates
+ )
+ 
+diff --git a/src/formcard/CMakeLists.txt b/src/formcard/CMakeLists.txt
+index 4c4fe742..218721f7 100644
+--- a/src/formcard/CMakeLists.txt
++++ b/src/formcard/CMakeLists.txt
+@@ -10,6 +10,7 @@ ecm_add_qml_module(formcardplugin
+     DEPENDENCIES
+         org.kde.coreaddons
+         org.kde.kirigami
++        org.kde.kirigamiaddons.components
+         org.kde.kirigamiaddons.delegates
+ )
+ 
+-- 
+GitLab
+
