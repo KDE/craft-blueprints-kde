@@ -48,7 +48,6 @@ class subinfo(info.infoclass):
         if self.buildTarget != "master":
             self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kactivities"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
@@ -85,7 +84,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self):
         super().__init__()
-        self.subinfo.options.configure.args += ["-DFETCH_TRANSLATIONS=ON"]
+        self.subinfo.options.configure.args += ["-DFETCH_TRANSLATIONS=ON", "-DENABLE_ACTIVITIES=OFF"]
 
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["-DENABLE_WOOB=OFF"]
