@@ -23,8 +23,9 @@ class subinfo(info.infoclass):
         # See https://invent.kde.org/libraries/kirigami-addons/-/merge_requests/282
         # and https://invent.kde.org/libraries/kirigami-addons/-/merge_requests/287
         # and https://invent.kde.org/libraries/kirigami-addons/-/commit/de9ac417150a8753971124a76be727284584f308
-        self.patchToApply["1.5.0"] = [("282.patch", 1), ("add-missing-coreaddons-dependency.diff", 1), ("de9ac417150a8753971124a76be727284584f308.patch", 1)]
-        self.patchLevel["1.5.0"] = 2
+        # and https://invent.kde.org/libraries/kirigami-addons/-/merge_requests/291
+        self.patchToApply["1.5.0"] = [("282.patch", 1), ("add-missing-coreaddons-dependency.diff", 1), ("de9ac417150a8753971124a76be727284584f308.patch", 1), ("fix-android-native-date-time-picker.diff", 1)]
+        self.patchLevel["1.5.0"] = 3
 
         self.defaultTarget = "1.5.0"
 
