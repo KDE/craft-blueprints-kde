@@ -17,8 +17,11 @@ class subinfo(info.infoclass):
         self.patchLevel["6.6.0"] = 1
 
         # Fix Android with Qt 6.8
-        # See https://invent.kde.org/frameworks/kguiaddons/-/merge_requests/146.patch
-        self.patchToApply["6.7.0"] = [("146.patch", 1)]
+        # See https://invent.kde.org/frameworks/kguiaddons/-/merge_requests/146
+        # Fix possible crash in case QDBus reply error
+        # See https://invent.kde.org/frameworks/kguiaddons/-/merge_requests/147
+        self.patchToApply["6.7.0"] = [("146.patch", 1), ("147.patch", 1)]
+        self.patchLevel["6.7.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
