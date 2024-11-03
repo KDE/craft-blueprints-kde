@@ -6,15 +6,14 @@ from Package.MSBuildPackageBase import *
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.13.1"]:
+        for ver in ["2.15.0"]:
             self.targets[ver] = f"https://www.freedesktop.org/software/fontconfig/release/fontconfig-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"fontconfig-{ver}"
-        self.targetDigests["2.13.1"] = (["9f0d852b39d75fc655f9f53850eb32555394f36104a044bb2b2fc9e66dbbfa7f"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.15.0"] = (["f5f359d6332861bd497570848fcb42520964a9e83d5e3abe397b6b6db9bcaaf4"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Fontconfig is a library for configuring and customizing font access. "
         self.webpage = "https://www.freedesktop.org/wiki/Software/fontconfig/"
-        self.patchLevel["2.13.1"] = 2
-        self.defaultTarget = "2.13.1"
+        self.defaultTarget = "2.15.0"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
