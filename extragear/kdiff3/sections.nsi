@@ -21,10 +21,11 @@ Section -InstallShellExtention
         WriteRegStr SHCTX "Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved" "${DIFF_EXT_CLSID}" "${DIFF_EXT_ID}"
         WriteRegStr SHCTX "Software\Classes\Folder\shellex\ContextMenuHandlers\${DIFF_EXT_ID}" "" "${DIFF_EXT_CLSID}"
         WriteRegStr SHCTX "Software\Classes\Directory\shellex\ContextMenuHandlers\${DIFF_EXT_ID}" "" "${DIFF_EXT_CLSID}"
+        
+        SetRegView 32
+
+        WriteRegStr SHCTX "${regkey}\diff-ext" "" ""
+        WriteRegStr SHCTX "${regkey}\diff-ext" "InstallDir" "$INSTDIR\bin"
+        WriteRegStr SHCTX "${regkey}\diff-ext" "diffcommand" "$INSTDIR\bin\kdiff3.exe"
     ${EndIf}
-    SetRegView 32
-   
-    WriteRegStr SHCTX "${regkey}\diff-ext" "" ""
-    WriteRegStr SHCTX "${regkey}\diff-ext" "InstallDir" "$INSTDIR\bin"
-    WriteRegStr SHCTX "${regkey}\diff-ext" "diffcommand" "$INSTDIR\bin\kdiff3.exe"
 SectionEnd
