@@ -9,7 +9,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # it currently fails to link
-        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotWindows
+        self.parent.package.categoryInfo.platforms &= ~CraftCore.compiler.Platforms.Windows
 
     def setTargets(self):
         for ver in ["0.23.22", "0.24.0"]:

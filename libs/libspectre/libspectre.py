@@ -7,7 +7,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotMacOS
+        self.parent.package.categoryInfo.platforms &= ~CraftCore.compiler.Platforms.MacOS
         if CraftCore.compiler.compiler.isMinGW:
             # ghostscript does not build
             self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NoPlatform
