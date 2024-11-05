@@ -5,9 +5,6 @@ from Blueprints.CraftPackageObject import CraftPackageObject
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        # TODO also needed for 6.2.1, 6.2.2
-        self.patchToApply["6.2.0"] = [("qtquick-window-dependency-fix.diff", 1)]
-        self.patchLevel["6.2.0"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
