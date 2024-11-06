@@ -52,36 +52,35 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.buildDependencies["dev-utils/perl"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
-        if not self.options.buildStatic:
-            self.runtimeDependencies["libs/openssl"] = None
-            self.runtimeDependencies["libs/brotli"] = None
-            self.runtimeDependencies["libs/zlib"] = None
-            self.runtimeDependencies["libs/libzstd"] = None
-            self.runtimeDependencies["libs/libpng"] = None
-            self.runtimeDependencies["libs/libjpeg-turbo"] = None
-            self.runtimeDependencies["libs/sqlite"] = None
-            self.runtimeDependencies["libs/freetype"] = None
+        self.runtimeDependencies["libs/openssl"] = None
+        self.runtimeDependencies["libs/brotli"] = None
+        self.runtimeDependencies["libs/zlib"] = None
+        self.runtimeDependencies["libs/libzstd"] = None
+        self.runtimeDependencies["libs/libpng"] = None
+        self.runtimeDependencies["libs/libjpeg-turbo"] = None
+        self.runtimeDependencies["libs/sqlite"] = None
+        self.runtimeDependencies["libs/freetype"] = None
 
-            if self.options.dynamic.withDBus:
-                self.runtimeDependencies["libs/dbus"] = None
+        if self.options.dynamic.withDBus:
+            self.runtimeDependencies["libs/dbus"] = None
 
-            if self.options.dynamic.withICU:
-                self.runtimeDependencies["libs/icu"] = None
+        if self.options.dynamic.withICU:
+            self.runtimeDependencies["libs/icu"] = None
 
-            if self.options.dynamic.withHarfBuzz:
-                self.runtimeDependencies["libs/harfbuzz"] = None
+        if self.options.dynamic.withHarfBuzz:
+            self.runtimeDependencies["libs/harfbuzz"] = None
 
-            if self.options.dynamic.withFontConfig:
-                self.runtimeDependencies["libs/fontconfig"] = None
+        if self.options.dynamic.withFontConfig:
+            self.runtimeDependencies["libs/fontconfig"] = None
 
-            if CraftCore.compiler.isUnix and self.options.dynamic.withGlib:
-                self.runtimeDependencies["libs/glib"] = None
+        if CraftCore.compiler.isUnix and self.options.dynamic.withGlib:
+            self.runtimeDependencies["libs/glib"] = None
 
-            if self.options.dynamic.withPCRE2:
-                self.runtimeDependencies["libs/pcre2"] = None
+        if self.options.dynamic.withPCRE2:
+            self.runtimeDependencies["libs/pcre2"] = None
 
-            if self.options.dynamic.withCUPS:
-                self.runtimeDependencies["libs/cups"] = None
+        if self.options.dynamic.withCUPS:
+            self.runtimeDependencies["libs/cups"] = None
 
 
 class Package(CraftPackageObject.get("libs/qt6").pattern):
