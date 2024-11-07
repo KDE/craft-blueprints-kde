@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcolorscheme"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
