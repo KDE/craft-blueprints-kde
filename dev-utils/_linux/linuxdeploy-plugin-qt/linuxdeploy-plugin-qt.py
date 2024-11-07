@@ -3,11 +3,12 @@ from pathlib import Path
 
 import CraftCore
 import info
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1-alpha-20240109-1"]:
+        for ver in ["1-alpha-20240109-1", "2.0.0-alpha-1-20241106"]:
             self.targets[
                 ver
             ] = f"https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/{ver}/linuxdeploy-plugin-qt-{CraftCore.compiler.appImageArchitecture}.AppImage"
@@ -20,7 +21,8 @@ class subinfo(info.infoclass):
         self.targetInstallPath["continous"] = "dev-utils/bin"
         self.description = "AppDir creation and maintenance tool. Featuring flexible plugin system."
         self.webpage = "https://github.com/linuxdeploy/linuxdeploy"
-        self.defaultTarget = "1-alpha-20240109-1"
+        self.targetDigests["2.0.0-alpha-1-20241106"] = (['0615e9218606f14d38be37ef88908dee1ce6c32a04ad0e4f18dff9a85fa2e217'], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "2.0.0-alpha-1-20241106"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -32,9 +34,6 @@ from Package.BinaryPackageBase import *
 class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-    def unpack(self):
-        return True
 
     def install(self):
         utils.createDir(self.installDir())
