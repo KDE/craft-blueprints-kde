@@ -22,6 +22,8 @@ class subinfo(info.infoclass):
         self.patchToApply["1.5.4"] = [("63fb82f2a83b6fb1900329c347f2b41fb39990ce.patch", 1)]
         self.patchLevel["1.5.4"] = 1
 
+        self.svnTargets["master"] = "https://invent.kde.org/libraries/ktextaddons.git"
+
         self.defaultTarget = "1.5.4"
 
     def setDependencies(self):
