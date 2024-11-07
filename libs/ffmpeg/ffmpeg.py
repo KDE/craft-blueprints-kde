@@ -40,7 +40,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.0.1"] = 4
         self.patchLevel["6.0"] = 3
         self.patchLevel["6.1.1"] = 2
-        self.patchLevel["7.1"] = 1
+        self.patchLevel["7.1"] = 2
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
@@ -69,11 +69,10 @@ class subinfo(info.infoclass):
             self.buildDependencies["libs/amf"] = None
             self.buildDependencies["libs/nvidia-codecs"] = None
             self.runtimeDependencies["libs/svtav1"] = None
+            self.runtimeDependencies["libs/onevpl"] = None
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/libva"] = None
             self.runtimeDependencies["libs/libvdpau"] = None
-            self.runtimeDependencies["libs/intel-mfx"] = None
-
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
@@ -186,12 +185,13 @@ class Package(AutoToolsPackageBase):
                 "--enable-nvenc",
                 "--enable-cuvid",
                 "--enable-amf",
-                "--enable-libsvtav1",
+                "--enable-libsvtav1"
             ]
+            if CraftCore.compiler.architecture & CraftCore.compiler.Architecture.x86:
+                self.subinfo.options.configure.args += ["--enable-libvpl"]
+
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["--enable-vaapi", "--enable-vdpau"]
-            if CraftCore.compiler.architecture & CraftCore.compiler.Architecture.x86:
-                self.subinfo.options.configure.args += ["--enable-libmfx"]
 
     def configure(self):
         with utils.ScopedEnv(self._ffmpegEnv()):
