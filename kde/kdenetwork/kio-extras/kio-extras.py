@@ -9,12 +9,6 @@ class subinfo(info.infoclass):
 
         self.description = "Extra plugins for KIO (thumbnail generators, archives, remote filesystems and more)"
 
-        if CraftCore.compiler.isWindows:
-            # This is a quick fix in the sense that it only reverts the faulty commit
-            # There are probably better fixes. See https://invent.kde.org/network/kio-extras/-/merge_requests/326
-            for ver in ["24.05.2"]:
-                self.patchToApply[ver] = [("fix-windows.patch", 1), ("355.patch", 1)]
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
