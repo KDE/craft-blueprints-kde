@@ -31,6 +31,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/pimcommon"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
 
 
 from Package.CMakePackageBase import *
