@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["libs/cyrus-sasl"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
-
+        self.runtimeDependencies["libs/qt/qtwebengine"] = None
 
 from Package.CMakePackageBase import *
 
