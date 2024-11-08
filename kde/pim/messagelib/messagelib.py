@@ -51,4 +51,4 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         if not CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
+            self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=OFF"]
