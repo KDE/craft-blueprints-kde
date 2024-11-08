@@ -30,11 +30,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-import-wizard"] = None
         self.runtimeDependencies["kde/pim/mbox-importer"] = None
         self.runtimeDependencies["kde/pim/pim-data-exporter"] = None
-
-
+        self.runtimeDependencies["kde/pim/korganizer"] = None
+        self.runtimeDependencies["kde/pim/kmail-account-wizard"] = None
+        self.runtimeDependencies["kde/pim/kmail"] = None
 
 from Package.CMakePackageBase import *
-
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
