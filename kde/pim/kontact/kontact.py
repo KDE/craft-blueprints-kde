@@ -6,6 +6,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "Kontact"
+        self.displayName = "Kontact"
+        self.webpage = "https://apps.kde.org/kontact/"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -23,6 +25,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kde/pim/grantleetheme"] = None
         self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
+        self.runtimeDependencies["kde/pim/kaddressbook"] = None
+        self.runtimeDependencies["kde/pim/kdepim-addons"] = None
+        self.runtimeDependencies["kde/pim/akonadi-import-wizard"] = None
+        self.runtimeDependencies["kde/pim/mbox-importer"] = None
+        self.runtimeDependencies["kde/pim/pim-data-exporter"] = None
+
 
 
 from Package.CMakePackageBase import *
