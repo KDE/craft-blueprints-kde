@@ -55,6 +55,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

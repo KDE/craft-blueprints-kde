@@ -33,6 +33,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/korganizer"] = None
         self.runtimeDependencies["kde/pim/kmail-account-wizard"] = None
         self.runtimeDependencies["kde/pim/kmail"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 from Package.CMakePackageBase import *
 

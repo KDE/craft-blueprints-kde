@@ -49,6 +49,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/incidenceeditor"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
         self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

@@ -33,6 +33,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
 from Package.CMakePackageBase import *

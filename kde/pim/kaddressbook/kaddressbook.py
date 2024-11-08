@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
