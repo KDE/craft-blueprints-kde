@@ -7,7 +7,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.patchToApply["6.3.0"] = [("iconenginedir.diff", 1)]
         self.patchToApply["6.4.0"] = [("libpath.diff", 1)]
         self.patchLevel["6.4.0"] = 5
 

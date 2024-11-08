@@ -6,7 +6,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "KConfig"
-        self.patchToApply["6.3.0"] = [("tests.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

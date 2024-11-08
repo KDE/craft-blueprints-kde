@@ -23,6 +23,9 @@ class subinfo(info.infoclass):
         self.patchToApply["6.7.0"] = [("146.patch", 1), ("147.patch", 1)]
         self.patchLevel["6.7.0"] = 1
 
+        self.patchToApply["6.8.0"] = [("147.patch", 1)]
+        self.patchLevel["6.8.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
