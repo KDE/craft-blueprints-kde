@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/mimetreeparser"] = None
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.buildDependencies["libs/assuan2"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
 from Package.CMakePackageBase import *

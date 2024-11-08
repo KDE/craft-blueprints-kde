@@ -29,6 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kde/pim/kmime"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
         if not CraftCore.compiler.isWindows:
             self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
