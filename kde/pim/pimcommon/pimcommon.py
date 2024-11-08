@@ -51,6 +51,7 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
+        self.subinfo.options.dynamic.buildTests = False
 
         if not self.subinfo.options.dynamic.useDesignerPlugin:
             self.subinfo.options.configure.args += ["-DBUILD_DESIGNERPLUGIN=OFF"]

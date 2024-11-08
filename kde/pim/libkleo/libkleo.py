@@ -30,3 +30,4 @@ from Package.CMakePackageBase import *
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.dynamic.buildTests = False
