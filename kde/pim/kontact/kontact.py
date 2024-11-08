@@ -41,3 +41,15 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
         self.subinfo.options.dynamic.buildTests = False
+
+    def createPackage(self):
+        self.defines["shortcuts"] = [
+            {"name": "Kontact", "target": "bin/kontact.exe", "description": self.subinfo.description},
+            {"name": "KMail", "target": "bin/kmail.exe"},
+            {"name": "KOrganizer", "target": "bin/korganizer.exe"},
+            {"name": "KAddressbook", "target": "bin/kaddressbook.exe"},
+            {"name": "mbox-importer", "target": "bin/mboximporter.exe"},
+            {"name": "KMail Account Wizard", "target": "bin/accountwizard.exe"},
+        ]
+        return super().createPackage()
+
