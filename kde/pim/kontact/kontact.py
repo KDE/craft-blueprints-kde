@@ -46,6 +46,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["executable"] = r"bin\\kontact.exe"
         self.defines["website"] = "https://apps.kde.org/kontact/"
+        self.defines["file_types"] = [".mbox"]
         self.defines["shortcuts"] = [
             {"name": "Kontact", "target": "bin/kontact.exe", "description": self.subinfo.description},
             {"name": "KMail", "target": "bin/kmail.exe"},
