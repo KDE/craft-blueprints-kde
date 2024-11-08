@@ -44,6 +44,8 @@ class Package(CMakePackageBase):
         self.subinfo.options.dynamic.buildTests = False
 
     def createPackage(self):
+        self.defines["executable"] = r"bin\\kontact.exe"
+        self.defines["website"] = "https://apps.kde.org/kontact/"
         self.defines["shortcuts"] = [
             {"name": "Kontact", "target": "bin/kontact.exe", "description": self.subinfo.description},
             {"name": "KMail", "target": "bin/kmail.exe"},
