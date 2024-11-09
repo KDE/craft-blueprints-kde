@@ -46,6 +46,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kcalutils"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
+        self.runtimeDependencies["binary/vlc"] = None
 
 
 from Package.CMakePackageBase import *
@@ -56,3 +57,4 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
+        self.subinfo.options.dynamic.buildTests = False
