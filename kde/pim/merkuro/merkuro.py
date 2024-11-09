@@ -37,4 +37,9 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.defines["executable"] = r"bin\merkuro.exe"
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["shortcuts"] = [
+            {"name": "Merkuro Calendar", "target": "bin/merkuro-calendar.exe", "description": self.subinfo.description},
+            {"name": "Merkuro Contact", "target": "bin/merkuro-contact.exe"},
+            {"name": "Merkuro Mail", "target": "bin/merkuro-mail.exe"},
+        ]
