@@ -31,6 +31,9 @@ class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
+        self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
+
+    def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["shortcuts"] = [{"name": "SieveEditor", "target": "bin/sieveeditor.exe", "description": self.subinfo.description}]
-        self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
+        return super().createPackage()
