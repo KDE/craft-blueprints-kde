@@ -62,5 +62,6 @@ class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.subinfo.options.dynamic.buildTests = False
         self.defines["shortcuts"] = [{"name": "KMail", "target": "bin/kmail.exe", "description": self.subinfo.description}]
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
