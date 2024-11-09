@@ -33,5 +33,6 @@ class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
+        self.defines["shortcuts"] = [{"name": "KAddressBook", "target": "bin/kaddressbook.exe", "description": self.subinfo.description}]
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]

@@ -57,4 +57,5 @@ class Package(CraftPackageObject.get("kde").pattern):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["shortcuts"] = [{"name": "KOrganizer", "target": "bin/korganizer.exe", "description": self.subinfo.description}]
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]

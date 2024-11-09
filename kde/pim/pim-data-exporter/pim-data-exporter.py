@@ -44,4 +44,5 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildTests = False
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["shortcuts"] = [{"name": "PimDataExporter", "target": "bin/pimdataexporter.exe", "description": self.subinfo.description}]
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
