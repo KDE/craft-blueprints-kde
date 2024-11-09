@@ -44,6 +44,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.dynamic.buildTests = False
 
     def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["executable"] = r"bin\\kontact.exe"
         self.defines["website"] = "https://apps.kde.org/kontact/"
         self.defines["file_types"] = [".mbox"]
