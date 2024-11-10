@@ -41,7 +41,6 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["shortcuts"] = [
             {"name": "Merkuro Calendar", "target": "bin/merkuro-calendar.exe", "description": self.subinfo.description},
             {"name": "Merkuro Contact", "target": "bin/merkuro-contact.exe"},
