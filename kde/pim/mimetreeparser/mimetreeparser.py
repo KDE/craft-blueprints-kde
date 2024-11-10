@@ -8,7 +8,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-
+        self.svnTargets["master"] = "https://invent.kde.org/pim/mimetreeparser.git"
         self.description = "Mime parsing and viewer library"
 
     def setDependencies(self):
