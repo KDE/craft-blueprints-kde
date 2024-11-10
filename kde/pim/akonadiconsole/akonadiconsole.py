@@ -41,5 +41,11 @@ class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
+        self.subinfo.options.dynamic.buildTests = False
         if not self.subinfo.options.isActive("binary/mysql"):
             self.subinfo.options.configure.args += ["-DDATABASE_BACKEND=SQLITE"]
+
+    def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["shortcuts"] = [{"name": "AkonadiConsole", "target": "bin/akonadiconsole.exe", "description": self.subinfo.description}]
+        return super().createPackage()
