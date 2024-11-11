@@ -49,6 +49,8 @@ class Package(CMakePackageBase):
         self.defines["website"] = "https://apps.kde.org/kontact/"
         self.defines["file_types"] = [".mbox"]
         self.defines["icon"] = self.blueprintDir() / "kontact.ico"
+        self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-kontact.png"
+        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-kontact.png"
         self.defines["shortcuts"] = [
             {"name": "Kontact", "target": "bin/kontact.exe", "description": self.subinfo.description},
             {"name": "KMail", "target": "bin/kmail.exe"},
