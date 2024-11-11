@@ -67,5 +67,8 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["shortcuts"] = [{"name": "KMail", "target": "bin/kmail.exe", "description": self.subinfo.description}]
+        self.defines["icon"] = self.blueprintDir() / "kmail.ico"
+        self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-kmail.png"
+        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-kmail.png"
         return super().createPackage()
         
