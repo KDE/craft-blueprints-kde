@@ -11,3 +11,9 @@ bin/data/wallpapers/.*
 
 # remove html docs
 html/.*
+
+# no qml
+bin/org/.*
+bin/org.kde.kdecoration2/.*
+bin/QtQuick/.*
+bin/QtQuick.2/.*
