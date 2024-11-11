@@ -80,7 +80,8 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("libs/dbus")
+        if not CraftCore.compiler.isLinux:
+            self.ignoredPackages.append("libs/dbus")
 
         self.defines["appname"] = "cantor"
         self.defines["website"] = "https://cantor.kde.org/"
