@@ -17,6 +17,9 @@ class subinfo(info.infoclass):
         self.defaultTarget = "0.9.0"
         self.description = "A Qt library to write cross-platform clients for Matrix"
 
+        self.patchToApply["0.9.0"] = [("fix-saving-access-token-to-keychain.diff", 1)]
+        self.patchLevel["0.9.0"] = 1
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
