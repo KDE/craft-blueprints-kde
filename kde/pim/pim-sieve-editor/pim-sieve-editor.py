@@ -36,4 +36,7 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["shortcuts"] = [{"name": "SieveEditor", "target": "bin/sieveeditor.exe", "description": self.subinfo.description}]
+        self.defines["icon"] = self.blueprintDir() / "sieveeditor.ico"
+        self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-sieveeditor.png"
+        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-sieveeditor.png"
         return super().createPackage()
