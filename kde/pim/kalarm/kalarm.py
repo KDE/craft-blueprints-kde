@@ -59,5 +59,6 @@ class Package(CMakePackageBase):
         self.subinfo.options.dynamic.buildTests = False
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["website"] = "https://apps.kde.org/kalarm/"
         self.defines["shortcuts"] = [{"name": "KAlarm", "target": "bin/kalarm.exe", "description": self.subinfo.description}]
         return super().createPackage()
