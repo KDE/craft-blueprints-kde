@@ -33,6 +33,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/korganizer"] = None
         self.runtimeDependencies["kde/pim/kmail-account-wizard"] = None
         self.runtimeDependencies["kde/pim/kmail"] = None
+        self.runtimeDependencies["kde/pim/akonadiconsole"] = None
+        self.runtimeDependencies["kde/pim/akonadiclient"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
 from Package.CMakePackageBase import *
@@ -58,6 +60,7 @@ class Package(CMakePackageBase):
             {"name": "KAddressbook", "target": "bin/kaddressbook.exe"},
             {"name": "mbox-importer", "target": "bin/mboximporter.exe"},
             {"name": "KMail Account Wizard", "target": "bin/accountwizard.exe"},
+            {"name": "Akonadi Console", "target": "bin/akonadiconsole.exe"},
         ]
         return super().createPackage()
 
