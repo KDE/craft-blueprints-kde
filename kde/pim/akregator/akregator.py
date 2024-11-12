@@ -42,6 +42,7 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["website"] = "https://apps.kde.org/akregator/"
         self.defines["icon"] = self.blueprintDir() / "akregator.ico"
         self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-akregator.png"
         self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-akregator.png"
