@@ -33,7 +33,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
-        self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

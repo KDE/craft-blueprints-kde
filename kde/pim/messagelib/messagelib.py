@@ -40,6 +40,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
+        self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
 
         self.runtimeDependencies["libs/gpgme"] = None
 
