@@ -34,6 +34,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
