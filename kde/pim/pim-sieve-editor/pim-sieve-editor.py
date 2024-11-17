@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
+        self.runtimeDependencies["libs/kdsingleapplication"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
