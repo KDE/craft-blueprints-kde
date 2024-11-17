@@ -77,8 +77,9 @@ class Package(CraftPackageObject.get("kde").pattern):
         return super().preArchive()
 
     def createPackage(self):
-        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        self.whitelist_file.append(self.blueprintDir() / "whitelist.txt")
+        # TODO re-enable exclude list
+        # self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        # self.whitelist_file.append(self.blueprintDir() / "whitelist.txt")
 
         self.defines["shortcuts"] = [
             {"name": "KDevelop", "target": "bin/kdevelop.exe"},
