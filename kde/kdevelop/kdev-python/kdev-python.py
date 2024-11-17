@@ -1,6 +1,11 @@
 import sys
 
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
+
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2024 Julius Künzel <julius.kuenzel@kde.org>
+# SPDX-FileCopyrightText: 2017 Hannah von Reth <vonreth@kde.org>
 
 
 class subinfo(info.infoclass):
@@ -15,10 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/python"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         python = None
@@ -28,4 +30,4 @@ class Package(CMakePackageBase):
             if CraftCore.compiler.isWindows:
                 CraftCore.log.warning(f"Could not find {python} as provided by [Paths]Python, using {sys.executable} as a fallback")
             python = sys.executable
-        self.subinfo.options.configure.args = f' -DPYTHON_EXECUTABLE="{python}"'
+        self.subinfo.options.configure.args += [f'-DPYTHON_EXECUTABLE="{python}"']

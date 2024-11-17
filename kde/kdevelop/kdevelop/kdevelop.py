@@ -2,6 +2,7 @@ import subprocess
 import sys
 
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
 from info import DependencyRequirementType
 
@@ -12,8 +13,8 @@ class subinfo(info.infoclass):
         self.description = "KDE Integrated Development Environment for C/C++/QML/JS/Python/PHP/..."
         self.webpage = "https://kdevelop.org"
         self.displayName = "KDevelop"
-        self.patchToApply["5.6.2"] = [("fix-finding-clang17.patch", 1), ("0001-Fix-building-with-MinGW.patch", 1)]
-        self.patchLevel["5.6.2"] = 2
+        # self.patchToApply["5.6.2"] = [("fix-finding-clang17.patch", 1), ("0001-Fix-building-with-MinGW.patch", 1)]
+        # self.patchLevel["5.6.2"] = 2
 
     def registerOptions(self):
         self.options.dynamic.registerOption("fullKDevelop", False)
@@ -47,7 +48,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/kdesdk/libkomparediff2"] = None
-        self.runtimeDependencies["kdesupport/grantlee"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
         self.runtimeDependencies["data/hicolor-icon-theme"] = None
 
         if self.options.dynamic.fullPlasma:
@@ -62,29 +63,25 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/applications/kate"] = None
 
 
-from Package.CMakePackageBase import *
-
-
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def preArchive(self):
-        if CraftVersion(self.buildTarget) > CraftVersion("5.3.0"):
-            installColorSchemesScript = os.path.join(self.sourceDir(), "release-scripts/install_colorschemes.py")
-            CraftCore.log.info(f"Executing: {installColorSchemesScript}")
-            subprocess.check_call([sys.executable, installColorSchemesScript, os.path.join(self.archiveDir(), "bin/data")])
+        installColorSchemesScript = os.path.join(self.sourceDir(), "release-scripts/install_colorschemes.py")
+        CraftCore.log.info(f"Executing: {installColorSchemesScript}")
+        subprocess.check_call([sys.executable, installColorSchemesScript, os.path.join(self.archiveDir(), "bin/data")])
         return super().preArchive()
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        self.whitelist_file.append(os.path.join(self.blueprintDir(), "whitelist.txt"))
+        self.whitelist_file.append(self.blueprintDir() / "whitelist.txt")
 
         self.defines["shortcuts"] = [
             {"name": "KDevelop", "target": "bin/kdevelop.exe"},
             {"name": "KDevelop - Microsoft Visual C++ compiler", "target": "bin/kdevelop-msvc.bat"},
         ]
-        self.defines["icon"] = os.path.join(self.blueprintDir(), "kdevelop.ico")
+        self.defines["icon"] = self.blueprintDir() / "kdevelop.ico"
 
         self.ignoredPackages.append("binary/mysql")
 
