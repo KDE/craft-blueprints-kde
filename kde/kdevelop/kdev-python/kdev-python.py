@@ -15,8 +15,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["extragear/kdevelop/kdevelop"] = None
-        self.runtimeDependencies["extragear/kdevelop/kdev-php"] = None
+        self.runtimeDependencies["kde/kdevelop/kdevelop"] = None
+        self.runtimeDependencies["kde/kdevelop/kdev-php"] = None
         self.runtimeDependencies["libs/python"] = None
 
 

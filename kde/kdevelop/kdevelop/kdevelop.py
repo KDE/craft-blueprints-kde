@@ -55,8 +55,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/krunner"] = None
             self.runtimeDependencies["kde/plasma/libplasma"] = None
         if self.options.dynamic.fullKDevelop:
-            self.packagingDependencies["extragear/kdevelop/kdev-python"] = None
-            self.packagingDependencies["extragear/kdevelop/kdev-php"] = None
+            self.packagingDependencies["kde/kdevelop/kdev-python"] = None
+            self.packagingDependencies["kde/kdevelop/kdev-php"] = None
         self.runtimeDependencies["extragear/kdevelop-pg-qt"] = None
 
         # Install extra plugins shipped by Kate

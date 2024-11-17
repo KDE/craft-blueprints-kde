@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.description = "ruby support for kdevelop"
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
-        self.runtimeDependencies["extragear/kdevelop/kdevelop"] = None
+        self.runtimeDependencies["kde/kdevelop/kdevelop"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

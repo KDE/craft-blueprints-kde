@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["extragear/kdevelop-pg-qt"] = None
-        self.runtimeDependencies["extragear/kdevelop/kdevelop"] = None
+        self.runtimeDependencies["kde/kdevelop/kdevelop"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
