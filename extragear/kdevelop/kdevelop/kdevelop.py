@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/llvm"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt/qtwebengine"] = (None, DependencyRequirementType.Required)
+        self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
