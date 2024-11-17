@@ -1,11 +1,13 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2024 Julius Künzel <julius.kuenzel@kde.org>
+# SPDX-FileCopyrightText: 2017 Hannah von Reth <vonreth@kde.org>
+
+import os
 import sys
 
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
-
-# SPDX-License-Identifier: BSD-2-Clause
-# SPDX-FileCopyrightText: 2024 Julius Künzel <julius.kuenzel@kde.org>
-# SPDX-FileCopyrightText: 2017 Hannah von Reth <vonreth@kde.org>
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
