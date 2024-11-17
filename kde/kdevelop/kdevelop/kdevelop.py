@@ -15,8 +15,6 @@ class subinfo(info.infoclass):
         self.description = "KDE Integrated Development Environment for C/C++/QML/JS/Python/PHP/..."
         self.webpage = "https://kdevelop.org"
         self.displayName = "KDevelop"
-        # self.patchToApply["5.6.2"] = [("fix-finding-clang17.patch", 1), ("0001-Fix-building-with-MinGW.patch", 1)]
-        # self.patchLevel["5.6.2"] = 2
 
     def registerOptions(self):
         self.options.dynamic.registerOption("fullKDevelop", False)
