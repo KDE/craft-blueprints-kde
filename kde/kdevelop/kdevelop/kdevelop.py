@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["dev-utils/7zip"] = None
+        self.buildDependencies["libs/boost"] = None
         self.runtimeDependencies["libs/llvm"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
