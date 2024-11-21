@@ -30,5 +30,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-granatier.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-granatier.png"
         self.defines["shortcuts"] = [{"name": "Granatier", "target": "bin/granatier.exe", "description": self.subinfo.description}]
         return super().createPackage()
