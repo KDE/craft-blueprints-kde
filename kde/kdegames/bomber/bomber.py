@@ -27,4 +27,5 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["shortcuts"] = [{"name": "Bomber", "target": "bin/bomber.exe", "description": self.subinfo.description}]
         return super().createPackage()
