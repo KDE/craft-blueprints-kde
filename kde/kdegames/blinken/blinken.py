@@ -32,12 +32,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         super().__init__(**kwargs)
 
     def createPackage(self):
-
-        self.defines["appname"] = "blinken"
-
-        # Finally, just call the packager itself to get the package actually created.
-        return super().createPackage()
-    def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["shortcuts"] = [{"name": "Blinken", "target": "bin/blinken.exe", "description": self.subinfo.description}]
         return super().createPackage()
