@@ -33,3 +33,7 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DWITH_BH_SOLVER=OFF"]
+
+    def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        return super().createPackage()

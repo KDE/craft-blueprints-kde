@@ -37,3 +37,6 @@ class Package(CraftPackageObject.get("kde").pattern):
 
         # Finally, just call the packager itself to get the package actually created.
         return super().createPackage()
+    def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        return super().createPackage()

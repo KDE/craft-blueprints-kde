@@ -23,3 +23,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+    def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        return super().createPackage()
