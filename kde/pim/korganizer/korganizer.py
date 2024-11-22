@@ -62,7 +62,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["shortcuts"] = [{"name": "KOrganizer", "target": "bin/korganizer.exe", "description": self.subinfo.description}]
         self.defines["icon"] = self.blueprintDir() / "korganizer.ico"
-        self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-korganizer.png"
-        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-korganizer.png"
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-korganizer.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-korganizer.png"
         self.defines["website"] = "https://apps.kde.org/korganizer/"
         return super().createPackage()

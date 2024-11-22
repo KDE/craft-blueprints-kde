@@ -39,7 +39,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["website"] = "https://apps.kde.org/kaddressbook/"
         self.defines["icon"] = self.blueprintDir() / "kaddressbook.ico"
-        self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-kaddressbook.png"
-        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-kaddressbook.png"
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-kaddressbook.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-kaddressbook.png"
         self.defines["shortcuts"] = [{"name": "KAddressBook", "target": "bin/kaddressbook.exe", "description": self.subinfo.description}]
         return super().createPackage()

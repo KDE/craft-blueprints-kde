@@ -48,6 +48,6 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["shortcuts"] = [{"name": "AkonadiConsole", "target": "bin/akonadiconsole.exe", "description": self.subinfo.description}]
-        self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-akonadiconsole.png"
-        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-akonadiconsole.png"
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-akonadiconsole.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-akonadiconsole.png"
         return super().createPackage()
