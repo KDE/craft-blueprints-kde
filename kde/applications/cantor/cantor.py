@@ -47,7 +47,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/applications/analitza"] = None
-        self.runtimeDependencies["libs/lua"] = None
+        # ld: unknown options: -soname (gcc vs. clang?)
+        # self.runtimeDependencies["libs/lua"] = None
 
 
 class Package(CMakePackageBase):
