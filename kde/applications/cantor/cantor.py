@@ -27,10 +27,9 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
-        # libR.dylib fails packaging on macOS (lapack.so)
         if CraftCore.compiler.isWindows:
             self.runtimeDependencies["binary/r-base"] = None
-        elif not CraftCore.compiler.isMacOS:
+        else:
             self.runtimeDependencies["libs/r-base"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
