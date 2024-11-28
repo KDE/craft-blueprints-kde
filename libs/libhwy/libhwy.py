@@ -8,12 +8,12 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.0.7"]:
-            self.targets[ver] = f"https://github.com/google/highway/archive/refs/tags/{ver}.tar.gz"
+        for ver in ["1.2.0"]:
+            self.targets[ver] = f"https://github.com/google/highway/releases/download/{ver}/highway-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"highway-{ver}"
-        self.targetDigests["1.0.7"] = (["5434488108186c170a5e2fca5e3c9b6ef59a1caa4d520b008a9b8be6b8abe6c5"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.2.0"] = (["58e9d5d41d6573ad15245ad76aec53a69499ca7480c092d899c4424812ed906f"], CraftHash.HashAlgorithm.SHA256)
         self.description = "Performance-portable, length-agnostic SIMD with runtime dispatch"
-        self.defaultTarget = "1.0.7"
+        self.defaultTarget = "1.2.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -22,4 +22,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DHWY_ENABLE_EXAMPLES=OFF", "-DHWY_ENABLE_TESTS=OFF"]
+        self.subinfo.options.configure.args += ["-DHWY_ENABLE_CONTRIB=OFF", "-DHWY_ENABLE_EXAMPLES=OFF", "-DHWY_ENABLE_TESTS=OFF"]
