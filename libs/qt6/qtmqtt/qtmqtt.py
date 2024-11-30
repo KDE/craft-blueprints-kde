@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.archiveNames[ver] = f"qtmqtt-{ver}.tar.gz"
             self.targetInstSrc[ver] = "qtmqtt-%s" % ver
             # TODO
-            self.tarballDigestUrl = ""
+            self.targetDigestUrls = ([""], CraftHash.HashAlgorithm.SHA256)
 
         self.targetDigests["6.8.0"] = (["20be92715136ece60030be712091ef56d0ca6620e1bcac4e029e48becc4b75dc"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["6.7.3"] = (["7001991f19e6407e88a0b77c64eb4a5bd2a9f2147d3c04671ab5b9929befe842"], CraftHash.HashAlgorithm.SHA256)
