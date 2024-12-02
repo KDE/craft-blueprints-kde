@@ -11,13 +11,10 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/kirigami-addons.git"
 
         # stable
-        for ver in ["1.4.0", "1.5.0"]:
+        for ver in ["1.5.0", "1.6.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = "kirigami-addons-" + ver
-
-        self.patchToApply["1.4.0"] = [("fix-mobile-combo-box.diff", 1)]
-        self.patchLevel["1.4.0"] = 1
 
         # Fix Android with Qt 6.8
         # See https://invent.kde.org/libraries/kirigami-addons/-/merge_requests/282
@@ -27,7 +24,7 @@ class subinfo(info.infoclass):
         self.patchToApply["1.5.0"] = [("282.patch", 1), ("add-missing-coreaddons-dependency.diff", 1), ("de9ac417150a8753971124a76be727284584f308.patch", 1), ("fix-android-native-date-time-picker.diff", 1)]
         self.patchLevel["1.5.0"] = 3
 
-        self.defaultTarget = "1.5.0"
+        self.defaultTarget = "1.6.0"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
