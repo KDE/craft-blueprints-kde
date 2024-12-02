@@ -46,6 +46,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["website"] = "https://apps.kde.org/akregator/"
         self.defines["icon"] = self.blueprintDir() / "akregator.ico"
+        self.defines["alias"] = "akregator"
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-akregator.png"
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-akregator.png"
         self.defines["shortcuts"] = [{"name": "Akregator", "target": "bin/akregator.exe", "description": self.subinfo.description}]

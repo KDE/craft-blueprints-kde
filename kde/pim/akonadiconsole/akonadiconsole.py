@@ -50,4 +50,5 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["shortcuts"] = [{"name": "AkonadiConsole", "target": "bin/akonadiconsole.exe", "description": self.subinfo.description}]
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-akonadiconsole.png"
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-akonadiconsole.png"
+        self.defines["alias"] = "akonadiconsole"
         return super().createPackage()

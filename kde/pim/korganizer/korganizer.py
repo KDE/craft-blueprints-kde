@@ -64,5 +64,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon"] = self.blueprintDir() / "korganizer.ico"
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-korganizer.png"
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-korganizer.png"
+        self.defines["alias"] = "korganizer"
         self.defines["website"] = "https://apps.kde.org/korganizer/"
         return super().createPackage()

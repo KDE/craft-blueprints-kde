@@ -30,6 +30,7 @@ class Package(CMakePackageBase):
 def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["executable"] = r"bin\\kdebugsettings.exe"
+        self.defines["alias"] = "kdebugsettings"
         self.defines["shortcuts"] = [
             {"name": "KDebugSettings", "target": "bin/kdebugsettings.exe", "description": self.subinfo.description},
         ]
