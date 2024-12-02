@@ -19,9 +19,18 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/kdegames/libkdegames"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.dynamic.buildTests = False
+
+    def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-kapman.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-kapman.png"
+        self.defines["shortcuts"] = [{"name": "Kapman", "target": "bin/kapman.exe", "description": self.subinfo.description}]
+        return super().createPackage()

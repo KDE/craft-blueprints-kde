@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/xapian/xapian.git"
         self.targetInstSrc["master"] = "xapian-core"
-        for ver in ["1.4.5", "1.4.9"]:
+        for ver in ["1.4.5", "1.4.9", "1.4.26"]:
             self.targets[ver] = f"http://oligarchy.co.uk/xapian/{ver}/xapian-core-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"xapian-core-{ver}"
         self.targetDigests["1.4.5"] = (["85b5f952de9df925fd13e00f6e82484162fd506d38745613a50b0a2064c6b02b"], CraftHash.HashAlgorithm.SHA256)
@@ -18,9 +18,10 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.platform.isWindows:
             self.patchToApply["1.4.5"] = [("xapian-core-1.4.5-20180515.diff", 1)]
             self.patchToApply["1.4.9"] = [("xapian-core-1.4.5-20180515.diff", 1)]
+            self.patchToApply["1.4.26"] = [("xapian-core-1.4.5-20180515.diff", 1)]
         self.description = "Open Source Search Engine library"
         self.webpage = "https://xapian.org/"
-        self.defaultTarget = "1.4.9"
+        self.defaultTarget = "1.4.26"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libxslt"] = None

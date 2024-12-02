@@ -255,7 +255,7 @@ build-package-macos_qt6_x86_64:
 
 .build-package-android_qt6:
   extends: .build-package-base
-  image: invent-registry.kde.org/sysadmin/ci-images/android-qt67:latest
+  image: invent-registry.kde.org/sysadmin/ci-images/android-qt68:latest
   tags:
     - Linux
   before_script:

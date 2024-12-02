@@ -12,8 +12,7 @@ class subinfo(info.infoclass):
         for ver in ["1.23.0"]:
             self.targets[ver] = f"https://gitlab.freedesktop.org/wayland/wayland/-/releases/{ver}/downloads/wayland-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"wayland-{ver}"
-        self.targetDigests["1.23.0"] = (["1540af1ea698a471c2d8e9d288332c7e0fd360c8f1d12936ebb7e7cbc2425842"], CraftHash.HashAlgorithm.SHA256)
-
+        self.targetDigestUrls["1.23.0"] = (["https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.23.0/downloads/wayland-1.23.0.tar.xz.sha256sum"],  CraftHash.HashAlgorithm.SHA256)
         self.description = "Core Wayland window system code and protocol"
 
         self.defaultTarget = "1.23.0"

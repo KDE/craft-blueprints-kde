@@ -9,7 +9,7 @@ from Package.CMakePackageBase import CMakePackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-
+        self.svnTargets["master"] = "https://invent.kde.org/pim/mimetreeparser.git"
         self.description = "Mime parsing and viewer library"
 
     def setDependencies(self):
@@ -30,3 +30,4 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
+        self.subinfo.options.dynamic.buildTests = False

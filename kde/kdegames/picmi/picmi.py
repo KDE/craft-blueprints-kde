@@ -19,9 +19,19 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/kdegames/libkdegames"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.dynamic.buildTests = False
+
+    def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["icon"] = self.blueprintDir() / "picmi.ico"
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-picmi.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-picmi.png"
+        self.defines["shortcuts"] = [{"name": "Picmi", "target": "bin/picmi.exe", "description": self.subinfo.description}]
+        return super().createPackage()

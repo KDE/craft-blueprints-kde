@@ -39,11 +39,12 @@ class subinfo(info.infoclass):
 
         # https://bugreports.qt.io/browse/QTBUG-129896
         self.patchToApply["6.8.0"] += [("fd484bb.diff", 1)]
+        self.patchToApply["6.8.0"] += [("qt680-fix-infinite-icu-loop.diff", 1)]
 
         self.patchLevel["6.4.3"] = 4
         self.patchLevel["6.6.0"] = 4
         self.patchLevel["6.6.1"] = 3
-        self.patchLevel["6.8.0"] = 1
+        self.patchLevel["6.8.0"] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

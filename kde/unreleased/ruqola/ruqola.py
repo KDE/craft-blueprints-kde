@@ -33,13 +33,13 @@ class subinfo(info.infoclass):
         self.description = "Rocket.Chat Client"
         self.webpage = "https://apps.kde.org/ruqola"
 
-        for ver in ["2.1.0", "2.1.1", "2.2.0", "2.3.0"]:
+        for ver in ["2.1.0", "2.1.1", "2.2.0", "2.3.0", "2.3.1", "2.3.2"]:
             self.targets[ver] = f"https://download.kde.org/stable/ruqola/ruqola-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/ruqola/ruqola-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"ruqola-{ver}"
 
         self.svnTargets["master"] = "https://invent.kde.org/network/ruqola.git"
-        self.defaultTarget = "2.3.0"
+        self.defaultTarget = "2.3.2"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -68,11 +68,13 @@ class subinfo(info.infoclass):
 
         self.runtimeDependencies["kde/frameworks/tier1/kidletime"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
+        self.runtimeDependencies["libs/kdsingleapplication"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.dynamic.buildTests = False
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")

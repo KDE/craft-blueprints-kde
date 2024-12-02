@@ -27,10 +27,9 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
-        # libR.dylib fails packaging on macOS (lapack.so)
         if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["binary/r-base"] = None
-        elif not CraftCore.compiler.platform.isMacOS:
+        else:
             self.runtimeDependencies["libs/r-base"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
@@ -47,6 +46,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/applications/analitza"] = None
+        # ld: unknown options: -soname (gcc vs. clang?)
+        # self.runtimeDependencies["libs/lua"] = None
 
 
 class Package(CMakePackageBase):
@@ -71,7 +72,7 @@ class Package(CMakePackageBase):
 
         # help thirdparty discount on macOS.x86_64
         if CraftCore.compiler.platform.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
-            self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-arch x86_64"]
+            self.subinfo.options.configure.cflags += "-arch x86_64"
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
@@ -80,7 +81,8 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         self.ignoredPackages.append("binary/mysql")
-        self.ignoredPackages.append("libs/dbus")
+        if not CraftCore.compiler.isLinux:
+            self.ignoredPackages.append("libs/dbus")
 
         self.defines["appname"] = "cantor"
         self.defines["website"] = "https://cantor.kde.org/"

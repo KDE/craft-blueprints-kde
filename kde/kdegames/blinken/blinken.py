@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
         if CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
@@ -31,9 +32,10 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.dynamic.buildTests = False
 
     def createPackage(self):
         self.defines["appname"] = "blinken"
-
-        # Finally, just call the packager itself to get the package actually created.
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["shortcuts"] = [{"name": "Blinken", "target": "bin/blinken.exe", "description": self.subinfo.description}]
         return super().createPackage()

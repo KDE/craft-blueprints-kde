@@ -12,7 +12,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kbookmarks"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
@@ -25,9 +24,21 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
+        self.runtimeDependencies["libs/kdsingleapplication"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.dynamic.buildTests = False
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
+
+    def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["shortcuts"] = [{"name": "SieveEditor", "target": "bin/sieveeditor.exe", "description": self.subinfo.description}]
+        self.defines["icon"] = self.blueprintDir() / "sieveeditor.ico"
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-sieveeditor.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-sieveeditor.png"
+        return super().createPackage()

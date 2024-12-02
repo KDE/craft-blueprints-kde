@@ -9,13 +9,13 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["0.3.1"]:
+        for ver in ["0.3.2"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/ntbtls/ntbtls-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"ntbtls-{ver}"
             self.patchToApply[ver] = ("install-ntbtls.diff", 1)
-        self.targetDigests["0.3.1"] = (["8922181fef523b77b71625e562e4d69532278eabbd18bc74579dbe14135729ba"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.3.2"] = (["bdfcb99024acec9c6c4b998ad63bb3921df4cfee4a772ad6c0ca324dbbf2b07c"], CraftHash.HashAlgorithm.SHA256)
         self.description = "The Not Too Bad TLS Library"
-        self.defaultTarget = "0.3.1"
+        self.defaultTarget = "0.3.2"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None

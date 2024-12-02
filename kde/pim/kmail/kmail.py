@@ -54,9 +54,22 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.dynamic.buildTests = False
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
+
+    def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["shortcuts"] = [{"name": "KMail", "target": "bin/kmail.exe", "description": self.subinfo.description}]
+        self.defines["website"] = "https://apps.kde.org/kmail2/"
+        self.defines["icon"] = self.blueprintDir() / "kmail.ico"
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-kmail.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-kmail.png"
+        return super().createPackage()
+        

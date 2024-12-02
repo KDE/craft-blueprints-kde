@@ -22,9 +22,18 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/kdegames/libkdegames"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.dynamic.buildTests = False
+
+    def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-kdiamond.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-kdiamond.png"
+        self.defines["shortcuts"] = [{"name": "Kdiamond", "target": "bin/kdiamond.exe", "description": self.subinfo.description}]
+        return super().createPackage()

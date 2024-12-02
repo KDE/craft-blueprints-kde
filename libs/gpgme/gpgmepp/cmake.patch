@@ -1568,3 +1568,382 @@ index 00000000..50e61d38
 -- 
 GitLab
 
+From 7bf878fbaad1f1380f640bcf7a67c67430196dc0 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ingo=20Kl=C3=B6cker?= <dev@ingo-kloecker.de>
+Date: Tue, 22 Oct 2024 12:20:15 +0200
+Subject: [PATCH] Update cmake files for gpgme 1.23.2
+
+* bump version to 1.23.2
+* add new files
+* change target name of Qt 6 bindings to qgpgmeqt6 (as with autotools)
+* install libraries and cmake files in specified (or standard) prefix
+* do not install private headers
+* do not install some headers twice
+---
+ CMakeLists.txt              |   2 +-
+ lang/cpp/src/CMakeLists.txt |  24 +++--
+ lang/qt/src/CMakeLists.txt  | 170 ++++++++++++++++--------------------
+ 3 files changed, 94 insertions(+), 102 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6af83e97..a11d5861 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -4,7 +4,7 @@
+ 
+ cmake_minimum_required(VERSION 3.20)
+ 
+-set(FULL_VERSION "1.21.0")
++set(FULL_VERSION "1.23.2")
+ 
+ string(REGEX MATCH "^[0-9]+.[0-9]+.[0-9]+" cmake_compat_version ${FULL_VERSION})
+ project(gpgme VERSION ${cmake_compat_version})
+diff --git a/lang/cpp/src/CMakeLists.txt b/lang/cpp/src/CMakeLists.txt
+index 0483bca9..a218fa68 100644
+--- a/lang/cpp/src/CMakeLists.txt
++++ b/lang/cpp/src/CMakeLists.txt
+@@ -41,7 +41,6 @@ target_sources(gpgmepp PRIVATE
+ )
+ 
+ set(gpgmepp_HEADERS
+-    callbacks.h
+     configuration.h
+     context.h
+     data.h
+@@ -76,14 +75,24 @@ set(gpgmepp_HEADERS
+     swdbresult.h
+     tofuinfo.h
+     trustitem.h
+-    util.h
+     verificationresult.h
+     vfsmountresult.h
+ )
+ 
++set(gpgmepp_PRIVATE_HEADERS
++    callbacks.h
++    context_p.h
++    data_p.h
++    result_p.h
++    util.h
++)
++
+ set(gpgmepp_interface_HEADERS
+-    interfaces/assuantransaction.h interfaces/dataprovider.h
+-    interfaces/passphraseprovider.h interfaces/progressprovider.h
++    interfaces/assuantransaction.h
++    interfaces/dataprovider.h
++    interfaces/passphraseprovider.h
++    interfaces/progressprovider.h
++    interfaces/statusconsumer.h
+ )
+ 
+ add_definitions(-DBUILDING_GPGMEPP)
+@@ -107,7 +116,7 @@ set_target_properties(gpgmepp PROPERTIES
+ )
+ 
+ set(resolved_includedir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
+-set(resolved_libdir "${GPGME_LIBRARY_DIRS}")
++set(resolved_libdir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+ set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
+ set(libsuffix "${CMAKE_SHARED_LIBRARY_SUFFIX}")
+ 
+@@ -129,7 +138,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/gpgmepp_version.h.in
+ if (MSVC)
+     install(TARGETS gpgmepp DESTINATION ${resolved_bindir})
+ else()
+-    install(TARGETS gpgmepp DESTINATION ${GPGME_LIBRARY_DIRS})
++    install(TARGETS gpgmepp)
+ endif()
+ 
+ install(FILES ${gpgmepp_HEADERS}
+@@ -139,9 +148,8 @@ install(FILES ${gpgmepp_interface_HEADERS}
+         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gpgme++/interfaces)
+ 
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gpgmepp_version.h
+-              ${CMAKE_CURRENT_SOURCE_DIR}/gpgmepp_export.h
+         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/gpgme++)
+ 
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfigVersion.cmake
+               ${CMAKE_CURRENT_BINARY_DIR}/GpgmeppConfig.cmake
+-        DESTINATION ${GPGME_LIBRARY_DIRS}/cmake/Gpgmepp)
++        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Gpgmepp)
+diff --git a/lang/qt/src/CMakeLists.txt b/lang/qt/src/CMakeLists.txt
+index 6e2afd2e..ad4b8e4f 100644
+--- a/lang/qt/src/CMakeLists.txt
++++ b/lang/qt/src/CMakeLists.txt
+@@ -6,15 +6,18 @@
+ find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS Core)
+ set(GPGME_CONFIG_AVAIL_LANG "${GPGME_CONFIG_AVAIL_LANG} qt")
+ 
++set(targetname qgpgme)
+ if (${QT_MAJOR_VERSION} EQUAL "6")
+     find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS Core CoreTools)
+     get_property(QtCore_MOC_EXECUTABLE TARGET Qt6::moc PROPERTY LOCATION)
++    set(targetname "${targetname}qt6")
+ endif()
+ 
+-add_library(qgpgme${version} SHARED)
++add_library(${targetname} SHARED)
+ 
+-target_sources(qgpgme${version} PRIVATE
++target_sources(${targetname} PRIVATE
+     changeexpiryjob.cpp
++    cleaner.cpp
+     cryptoconfig.cpp
+     dataprovider.cpp
+     debug.cpp
+@@ -65,6 +68,7 @@ target_sources(qgpgme${version} PRIVATE
+     qgpgmeverifydetachedjob.cpp
+     qgpgmeverifyopaquejob.cpp
+     qgpgmewkdlookupjob.cpp
++    qgpgmewkdrefreshjob.cpp
+     qgpgmewkspublishjob.cpp
+     signarchivejob.cpp
+     signencryptarchivejob.cpp
+@@ -72,41 +76,19 @@ target_sources(qgpgme${version} PRIVATE
+     threadedjobmixin.cpp
+     util.cpp
+     wkdlookupresult.cpp
++    wkdrefreshjob.cpp
+ )
+ 
+-set(qgpgme_HEADERS
+-    abstractimportjob.h
+-    addexistingsubkeyjob.h
+-    adduseridjob.h
+-    changeexpiryjob.h
+-    changeownertrustjob.h
+-    changepasswdjob.h
+-    cryptoconfig.h
+-    dataprovider.h
+-    debug.h
+-    decryptjob.h
+-    decryptverifyarchivejob.h
+-    decryptverifyjob.h
+-    defaultkeygenerationjob.h
+-    deletejob.h
+-    dn.h
+-    downloadjob.h
+-    encryptarchivejob.h
+-    encryptjob.h
+-    exportjob.h
+-    filelistdataprovider.h
+-    gpgcardjob.h
+-    hierarchicalkeylistjob.h
+-    importfromkeyserverjob.h
+-    importjob.h
+-    job.h
+-    keyformailboxjob.h
+-    keygenerationjob.h
+-    keylistjob.h
+-    listallkeysjob.h
+-    multideletejob.h
+-    protocol.h
+-    qgpgme_debug.h
++set(qgpgme_PRIVATE_HEADERS
++    changeexpiryjob_p.h
++    cleaner.h
++    decryptverifyarchivejob_p.h
++    encryptarchivejob_p.h
++    encryptjob_p.h
++    importjob_p.h
++    job_p.h
++    listallkeysjob_p.h
++    protocol_p.h
+     qgpgme_export.h
+     qgpgmeaddexistingsubkeyjob.h
+     qgpgmeadduseridjob.h
+@@ -129,7 +111,6 @@ set(qgpgme_HEADERS
+     qgpgmekeygenerationjob.h
+     qgpgmekeylistjob.h
+     qgpgmelistallkeysjob.h
+-    qgpgmenewcryptoconfig.h
+     qgpgmequickjob.h
+     qgpgmereceivekeysjob.h
+     qgpgmerefreshsmimekeysjob.h
+@@ -144,68 +125,79 @@ set(qgpgme_HEADERS
+     qgpgmeverifydetachedjob.h
+     qgpgmeverifyopaquejob.h
+     qgpgmewkdlookupjob.h
++    qgpgmewkdrefreshjob.h
+     qgpgmewkspublishjob.h
+-    quickjob.h
+-    receivekeysjob.h
+-    refreshkeysjob.h
+-    revokekeyjob.h
+-    setprimaryuseridjob.h
+-    signarchivejob.h
+-    signencryptarchivejob.h
+-    signencryptjob.h
+-    signjob.h
+-    signkeyjob.h
+-    specialjob.h
++    signarchivejob_p.h
++    signencryptarchivejob_p.h
++    signencryptjob_p.h
+     threadedjobmixin.h
+-    tofupolicyjob.h
+     util.h
+-    verifydetachedjob.h
+-    verifyopaquejob.h
+-    wkdlookupjob.h
+-    wkdlookupresult.h
+-    wkspublishjob.h
++    wkdrefreshjob_p.h
+ )
+ 
++# the public headers
+ set(qgpgme_CAMELCASE_HEADERS
+-    AddUserIDJob
+     AbstractImportJob
++    AddExistingSubkeyJob
++    AddUserIDJob
+     ChangeExpiryJob
+     ChangeOwnerTrustJob
+     ChangePasswdJob
++    CryptoConfig
++    DN
+     DataProvider
++    Debug
+     DecryptJob
++    DecryptVerifyArchiveJob
+     DecryptVerifyJob
+-    DN
++    DefaultKeyGenerationJob
++    DeleteJob
+     DownloadJob
++    EncryptArchiveJob
+     EncryptJob
+     ExportJob
++    FileListDataProvider
++    GpgCardJob
++    HierarchicalKeyListJob
++    ImportFromKeyserverJob
++    ImportJob
+     Job
++    KeyForMailboxJob
++    KeyGenerationJob
++    KeyListJob
++    ListAllKeysJob
+     MultiDeleteJob
+     Protocol
+     QGpgMENewCryptoConfig
+     QuickJob
+-    SpecialJob
++    ReceiveKeysJob
++    RefreshKeysJob
++    RevokeKeyJob
++    SetPrimaryUserIDJob
++    SignArchiveJob
++    SignEncryptArchiveJob
++    SignEncryptJob
+     SignJob
+     SignKeyJob
+-    SignEncryptJob
+-    VerifyOpaqueJob
+-    RefreshKeysJob
+-    CryptoConfig
+-    DeleteJob
+-    ImportFromKeyserverJob
+-    ImportJob
+-    KeyGenerationJob
+-    KeyListJob
+-    ListAllKeysJob
++    SpecialJob
++    TofuPolicyJob
+     VerifyDetachedJob
+-    KeyForMailboxJob
+-    DefaultKeyGenerationJob
++    VerifyOpaqueJob
++    WKDLookupJob
++    WKDLookupResult
++    WKDRefreshJob
+     WKSPublishJob
+-    TofuPolicyJob
+ )
+ 
++set(qgpgme_HEADERS)
++foreach(header ${qgpgme_CAMELCASE_HEADERS})
++    string(TOLOWER ${header} header_lc)
++    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/QGpgME/${header} "#include \"qgpgme/${header_lc}.h\"")
++    list(APPEND qgpgme_HEADERS ${header_lc}.h)
++endforeach()
++
+ set(qgpgme_MOC)
+-foreach(header ${qgpgme_HEADERS})
++foreach(header ${qgpgme_HEADERS} ${qgpgme_PRIVATE_HEADERS})
+     get_filename_component(absolute_path ${header} ABSOLUTE)
+     get_filename_component(file_name ${header} NAME_WLE)
+ 
+@@ -223,18 +215,12 @@ foreach(header ${qgpgme_HEADERS})
+ 
+     list(APPEND qgpgme_MOC "${CMAKE_CURRENT_BINARY_DIR}/${file_name}.moc")
+ endforeach()
+-target_sources(qgpgme${version} PRIVATE ${qgpgme_MOC})
+-
+-foreach(header ${qgpgme_CAMELCASE_HEADERS})
+-    string(TOLOWER ${header} header_lc)
+-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/QGpgME${version}/${header} "#include \"qgpgme/${header_lc}.h\"")
+-    list(APPEND qgpgme_HEADERS ${header_lc}.h)
+-endforeach()
++target_sources(${targetname} PRIVATE ${qgpgme_MOC})
+ 
+ add_definitions(-DBUILDING_QGPGME)
+ 
+-target_link_libraries(qgpgme${version} PUBLIC gpgmepp PkgConfig::GPGME PkgConfig::GPGERROR Qt${version}::Core)
+-target_include_directories(qgpgme${version}
++target_link_libraries(${targetname} PUBLIC gpgmepp PkgConfig::GPGME PkgConfig::GPGERROR Qt${version}::Core)
++target_include_directories(${targetname}
+     PUBLIC
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+     PRIVATE
+@@ -243,13 +229,13 @@ target_include_directories(qgpgme${version}
+ 
+ parse_lt(LIBQGPGME)
+ math(EXPR MAJOR "${LIBQGPGME_LT_CURRENT} - ${LIBQGPGME_LT_AGE}")
+-set_target_properties(qgpgme${version} PROPERTIES
++set_target_properties(${targetname} PROPERTIES
+     VERSION "${MAJOR}.${LIBQGPGME_LT_AGE}.${LIBQGPGME_LT_REVISION}"
+     SOVERSION "${MAJOR}"
+ )
+ 
+-set(resolved_includedir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}")
+-set(resolved_libdir "${GPGME_LIBRARY_DIRS}")
++set(resolved_includedir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/qgpgme-qt${QT_MAJOR_VERSION}")
++set(resolved_libdir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+ set(resolved_bindir "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
+ set(libsuffix "${CMAKE_SHARED_LIBRARY_SUFFIX}")
+ 
+@@ -273,20 +259,18 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qgpgme_version.h.in
+                ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h)
+ 
+ if (MSVC)
+-    install(TARGETS qgpgme${version} DESTINATION ${resolved_bindir})
++    install(TARGETS ${targetname} DESTINATION ${resolved_bindir})
+ else()
+-    install(TARGETS qgpgme${version} DESTINATION ${GPGME_LIBRARY_DIRS})
++    install(TARGETS ${targetname})
+ endif()
+ 
+-if (${QT_MAJOR_VERSION} EQUAL 5)
+-    install(FILES ${qgpgme_HEADERS}
+-                  ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h
+-                  ${CMAKE_CURRENT_SOURCE_DIR}/qgpgme_export.h
+-            DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qgpgme)
+-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/QGpgME
+-            DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+-endif()
++install(FILES ${qgpgme_HEADERS}
++                ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h
++                ${CMAKE_CURRENT_SOURCE_DIR}/qgpgme_export.h
++        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qgpgme-qt${QT_MAJOR_VERSION}/qgpgme)
++install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/QGpgME
++        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qgpgme-qt${QT_MAJOR_VERSION})
+ 
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/QGpgme${config_suffix}ConfigVersion.cmake
+               ${CMAKE_CURRENT_BINARY_DIR}/QGpgme${config_suffix}Config.cmake
+-        DESTINATION ${GPGME_LIBRARY_DIRS}/cmake/QGpgme${config_suffix})
++        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/QGpgme${config_suffix})
+-- 
+2.47.0
+

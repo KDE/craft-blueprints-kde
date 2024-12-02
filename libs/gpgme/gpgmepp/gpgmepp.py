@@ -11,15 +11,15 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply["1.21.0"] = [
+        self.targetDigests["1.23.2"] = (["9499e8b1f33cccb6815527a1bc16049d35a6198a6c5fae0185f2bd561bce5224"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["1.23.2"] = [
             ("cmake.patch", 1),
             ("gpgmepp-1.21.0-20231109.diff", 1),
         ]
-        if CraftCore.compiler.compiler.isMSVC:
-            self.patchToApply["1.21.0"] += [
+        if CraftCore.compiler.compiler.isMSVC():
+            self.patchToApply["1.23.2"] += [
                 ("0001-Workaround-compile-errors-with-MSVC-2022.patch", 1),
             ]
-        self.patchLevel["1.21.0"] = 7
 
     def setDependencies(self):
         self.runtimeDependencies["libs/assuan2"] = None

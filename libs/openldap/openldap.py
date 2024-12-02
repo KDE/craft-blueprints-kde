@@ -7,7 +7,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.4.45"]:
+        for ver in ["2.4.45","2.5.16","2.6.6"]:
             self.targets[ver] = f"https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-{ver}.tgz"
             self.targetInstSrc[ver] = f"openldap-{ver}"
 

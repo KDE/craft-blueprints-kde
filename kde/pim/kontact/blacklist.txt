@@ -1,0 +1,13 @@
+# blacklist
+
+# we use a icontheme.rc on windows
+#bin/data/icons/.*
+
+# kill qsvgengine, we use our KIconThemes engine with re-coloring
+bin/iconengines/qsvgicon.*
+
+# remove plasma parts
+bin/data/wallpapers/.*
+
+# remove html docs
+html/.*

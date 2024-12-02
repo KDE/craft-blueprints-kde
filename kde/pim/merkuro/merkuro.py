@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtlocation"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
@@ -36,4 +37,14 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.defines["executable"] = r"bin\merkuro.exe"
+        self.subinfo.options.dynamic.buildTests = False
+
+    def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["website"] = "https://invent.kde.org/pim/merkuro"
+        self.defines["shortcuts"] = [
+            {"name": "Merkuro Calendar", "target": "bin/merkuro-calendar.exe", "description": self.subinfo.description},
+            {"name": "Merkuro Contact", "target": "bin/merkuro-contact.exe"},
+            {"name": "Merkuro Mail", "target": "bin/merkuro-mail.exe"},
+        ]
+        return super().createPackage()

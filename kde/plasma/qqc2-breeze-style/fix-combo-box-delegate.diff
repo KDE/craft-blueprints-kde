@@ -1,0 +1,27 @@
+commit e564651d6615dad42ba30cd03c15f3f9f7a2a218
+Author: Volker Krause <vkrause@kde.org>
+Date:   Sat Nov 2 16:23:14 2024 +0100
+
+    Fix displaying combo box content from abstract item models
+    
+    This also aligns the implementation here with what the desktop style
+    and Qt itself are doing.
+
+diff --git a/style/qtquickcontrols/ComboBox.qml b/style/qtquickcontrols/ComboBox.qml
+index 3f4c76d..5c72485 100644
+--- a/style/qtquickcontrols/ComboBox.qml
++++ b/style/qtquickcontrols/ComboBox.qml
+@@ -155,9 +155,12 @@ T.ComboBox {
+     }
+ 
+     delegate: Controls.MenuItem {
++        required property var model
++        required property int index
++
+         implicitWidth: leftPadding + implicitContentWidth + rightPadding
+         width: parent ? parent.width : implicitWidth
+-        text: modelData[control.textRole]
++        text: model[control.textRole]
+         highlighted: control.highlightedIndex === index
+         hoverEnabled: control.hoverEnabled
+         __reserveSpaceForIndicator: false

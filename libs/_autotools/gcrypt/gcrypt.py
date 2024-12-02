@@ -5,14 +5,13 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.10.2"]:
+        for ver in ["1.11.0"]:
             self.targets[ver] = f"https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"libgcrypt-{ver}"
-            self.patchToApply[ver] = ("fix-getrandom-mac.diff", 1)
-        self.targetDigests["1.10.2"] = (["3b9c02a004b68c256add99701de00b383accccf37177e0d6c58289664cce0c03"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.11.0"] = (["09120c9867ce7f2081d6aaa1775386b98c2f2f246135761aae47d81f58685b9c"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = " General purpose crypto library based on the code used in GnuPG."
-        self.defaultTarget = "1.10.2"
+        self.defaultTarget = "1.11.0"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None

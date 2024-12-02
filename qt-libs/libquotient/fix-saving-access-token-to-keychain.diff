@@ -1,0 +1,31 @@
+commit 362a9ad52e31e573995593afd846997394be260c
+Author: Tobias Fella <fella@posteo.de>
+Date:   Sun Nov 10 14:15:41 2024 +0100
+
+    Fix saving access token to keychain
+    
+    The timing here changed and without this patch, we're trying to save the access token before we even have it available
+
+diff --git a/Quotient/connection.cpp b/Quotient/connection.cpp
+index 92aa2197..4c2839cf 100644
+--- a/Quotient/connection.cpp
++++ b/Quotient/connection.cpp
+@@ -296,7 +296,6 @@ void Connection::Private::loginToServer(LoginArgTs&&... loginArgs)
+     q->callApi<LoginJob>(std::forward<LoginArgTs>(loginArgs)...)
+         .onResult([this](const LoginJob* loginJob) {
+             if (loginJob->status().good()) {
+-                saveAccessTokenToKeychain();
+                 completeSetup(loginJob->userId(), true, loginJob->deviceId(),
+                               loginJob->accessToken());
+             } else
+@@ -315,6 +314,10 @@ void Connection::Private::completeSetup(const QString& mxId, bool newLogin,
+                   << "from device" << data->deviceId();
+     connect(qApp, &QCoreApplication::aboutToQuit, q, &Connection::saveState);
+ 
++    if (newLogin) {
++        saveAccessTokenToKeychain();
++    }
++
+     if (accessToken.has_value()) {
+         q->loadVersions();
+         q->loadCapabilities();

@@ -41,7 +41,7 @@ class subinfo(info.infoclass):
         if self.options.dynamic.buildPHPImport:
             # for php support
             self.runtimeDependencies["extragear/kdevelop-pg-qt"] = None
-            self.runtimeDependencies["extragear/kdevelop/kdev-php"] = None
+            self.runtimeDependencies["kde/kdevelop/kdev-php"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

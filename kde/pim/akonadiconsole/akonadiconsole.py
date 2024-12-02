@@ -29,6 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kde/pim/kmime"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
         if not CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
@@ -40,5 +41,13 @@ class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
+        self.subinfo.options.dynamic.buildTests = False
         if not self.subinfo.options.isActive("binary/mysql"):
             self.subinfo.options.configure.args += ["-DDATABASE_BACKEND=SQLITE"]
+
+    def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["shortcuts"] = [{"name": "AkonadiConsole", "target": "bin/akonadiconsole.exe", "description": self.subinfo.description}]
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-akonadiconsole.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-akonadiconsole.png"
+        return super().createPackage()

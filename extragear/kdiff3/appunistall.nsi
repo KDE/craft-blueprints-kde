@@ -11,5 +11,14 @@
         DeleteRegKey SHCTX "Software\Classes\Directory\shellex\ContextMenuHandlers\${DIFF_EXT_ID}"
         DeleteRegValue SHCTX "Software\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved" "${DIFF_EXT_CLSID}"
         DeleteRegValue SHCTX "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers\" "$INSTDIR\bin\kdiff3.exe"
+        
+        SetRegView 32
+        DeleteRegValue SHCTX "${regkey}\diff-ext" "InstallDir"
+        DeleteRegValue SHCTX "${regkey}\diff-ext" "diffcommand"
+        DeleteRegKey /ifempty SHCTX "${regkey}\diff-ext"
+        #Remove old hard coded entry if present.
+        DeleteRegValue HKCU32 "${regkey}\diff-ext" "InstallDir"
+        DeleteRegValue HKCU32 "${regkey}\diff-ext" "diffcommand"
+        DeleteRegKey /ifempty HKCU32 "${regkey}\diff-ext"
     SectionEnd
     

@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
@@ -31,3 +32,9 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.dynamic.buildTests = False
+
+    def createPackage(self):
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["shortcuts"] = [{"name": "Ktuberling", "target": "bin/ktuberling.exe", "description": self.subinfo.description}]
+        return super().createPackage()

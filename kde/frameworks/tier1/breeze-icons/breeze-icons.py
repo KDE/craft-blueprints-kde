@@ -15,6 +15,11 @@ class subinfo(info.infoclass):
 
         self.description = "Breeze icon theme."
 
+        # Fix broken icons in qrc/rcc when SKIP_INSTALL_ICONS is enabled
+        # https://invent.kde.org/frameworks/breeze-icons/-/merge_requests/430
+        self.patchToApply["6.8.0"] = [("430.patch", 1)]
+        self.patchLevel["6.8.0"] = 1
+
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.Native
 

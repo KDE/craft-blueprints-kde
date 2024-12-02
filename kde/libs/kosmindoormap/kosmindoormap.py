@@ -13,7 +13,8 @@ class subinfo(info.infoclass):
 
         # Fix Android with Qt 6.8
         # See https://invent.kde.org/libraries/kosmindoormap/-/merge_requests/45
-        self.patchToApply["24.08.2"] = [("45.patch", 1)]
+        self.patchToApply["24.08.2"] = [("45.patch", 1), ("fix-org-kde-contacts-qml-dependency.diff", 1)]
+        self.patchLevel["24.08.2"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/graphics/kdiagram.git"
         self.targetUpdatedRepoUrl["master"] = ("https://anongit.kde.org/kdiagram", "https://invent.kde.org/graphics/kdiagram.git")
 
-        self.defaultTarget = "2.8.0"
+        self.defaultTarget = "3.0.1"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

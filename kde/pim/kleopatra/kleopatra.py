@@ -27,9 +27,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/mimetreeparser"] = None
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.buildDependencies["libs/assuan2"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["shortcuts"] = [{"name": "Kleopatra", "target": "bin/kleopatra.exe", "description": self.subinfo.description}]
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]

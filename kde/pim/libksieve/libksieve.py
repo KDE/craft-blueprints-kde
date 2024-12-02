@@ -27,9 +27,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["libs/cyrus-sasl"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
-
+        self.runtimeDependencies["libs/qt/qtwebengine"] = None
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.dynamic.buildTests = False
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
