@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/openssl"] = None
 
         # gcrypt currently fails to build for android
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/gcrypt"] = None
 
         # cyrus-sasl currently fails to build with mingw / for android

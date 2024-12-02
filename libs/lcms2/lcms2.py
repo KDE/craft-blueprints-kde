@@ -26,14 +26,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-if not CraftCore.compiler.isWindows:
+if not CraftCore.compiler.platform.isWindows:
 
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
 
         def configure(self):
-            if CraftCore.compiler.isAndroid:
+            if CraftCore.compiler.platform.isAndroid:
                 env = {}
                 env["LDFLAGS"] = "-lm"
                 with utils.ScopedEnv(env):

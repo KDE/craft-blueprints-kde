@@ -19,13 +19,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtshadertools"] = None
         self.runtimeDependencies["libs/qt6/qtsvg"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/qt6/qtlanguageserver"] = None
 
 
 class Package(CraftPackageObject.get("libs/qt6").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isWindows and self.buildType() == "Debug":
+        if CraftCore.compiler.platform.isWindows and self.buildType() == "Debug":
             # we use a shim pointing to the debug exe, therefor the debug infix is missing here
             self.subinfo.options.configure.args += ["-D_Python_EXECUTABLE_DEBUG=python3"]

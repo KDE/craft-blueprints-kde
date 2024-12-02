@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         if self.buildTarget < CraftVersion("6.8.0"):
             self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
 
 

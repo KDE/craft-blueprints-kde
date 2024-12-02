@@ -44,7 +44,7 @@ class subinfo(info.infoclass):
 
         self.targetDigests["3.4.2"] = (["f2afbde554423fd3f8e234d21e91a51b6f6ba7fc4971e73fdf5d388a002f79f1"], CraftHash.HashAlgorithm.SHA256)
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.patchToApply["3.4.2"] = [("sqlcipher-3.4.2-20180727.diff", 1)]
 
         self.defaultTarget = "3.4.2"

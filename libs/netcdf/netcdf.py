@@ -38,7 +38,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.runtimeDependencies["libs/hdf5"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/libzip"] = None
         # only required for DAP
         # self.runtimeDependencies["libs/libcurl"] = None
@@ -59,7 +59,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.configure.args += ['-DCMAKE_C_FLAGS="/D_WIN32"', f"-DPACKAGE_VERSION={self.subinfo.buildTarget}"]
         # several errors building tests on macOS (clang 16?): incompatible function pointer types
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["-DENABLE_TESTS=OFF"]
 
     def createPackage(self):

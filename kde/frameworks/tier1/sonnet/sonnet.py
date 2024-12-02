@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
 
     def registerOptions(self):
         # hunspell just when needed, on Windows(visual studio) or Mac we try with the OS specific checkers
-        self.options.dynamic.registerOption("useHunspell", CraftCore.compiler.isLinux)
+        self.options.dynamic.registerOption("useHunspell", CraftCore.compiler.platform.isLinux)
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

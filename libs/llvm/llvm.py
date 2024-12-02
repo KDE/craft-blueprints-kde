@@ -130,7 +130,7 @@ class Package(CMakePackageBase):
         return True
 
     def postInstall(self):
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             # wrapper for python scripts
             root = CraftCore.standardDirs.craftRoot()
             if not utils.createShim(

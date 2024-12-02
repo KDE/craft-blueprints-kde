@@ -50,7 +50,7 @@ class Package(MakeFilePackageBase):
 
     @property
     def makeProgram(self):
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             return "make"
         else:
             return super().makeProgram
@@ -96,7 +96,7 @@ class Package(MakeFilePackageBase):
             self._shell.environment["GYP_MSVS_OVERRIDE_PATH"] = str(msvcPath)
             self._shell.environment["GYP_MSVS_VERSION"] = Path(msvcVersionPath).name
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             # Otherwise gyp isn't found
             self._shell.environment["PATH"] += ":~/.local/bin/"
             if CraftCore.compiler.architecture.isX86_64:

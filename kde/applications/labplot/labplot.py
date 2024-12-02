@@ -43,14 +43,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/netcdf"] = None
         # self.runtimeDependencies["libs/liborcus"] = None
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
         else:
             self.runtimeDependencies["libs/liblz4"] = None
 
         # cross compiling Cantor fails on macOS x86_64 (CD job)
-        if not CraftCore.compiler.isMacOS or not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+        if not CraftCore.compiler.platform.isMacOS or not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt6/qtserialport"] = None
@@ -76,7 +76,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/matio"] = None
         self.runtimeDependencies["libs/readstat"] = None
         self.runtimeDependencies["libs/discount"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/python"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
@@ -89,7 +89,7 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DLOCAL_DBC_PARSER=ON", "-DLOCAL_VECTOR_BLF=ON"]
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # readstat fails with ninja
             self.supportsNinja = False
             # cerf.h is not found when using libcerf from ports
@@ -102,7 +102,7 @@ class Package(CMakePackageBase):
 
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         # Some plugin files break codesigning on macOS, which is picky about file names
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.addExecutableFilter(r"bin/(?!(labplot|cantor_|QtWebEngineProcess)).*")
 
@@ -167,14 +167,14 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("libs/qt6/qtwebengine")
         self.ignoredPackages.append("libs/sdl2")
         # AppImage requires several libs
-        if not CraftCore.compiler.isLinux or not isinstance(self, AppImagePackager):
+        if not CraftCore.compiler.platform.isLinux or not isinstance(self, AppImagePackager):
             self.ignoredPackages.append("libs/aom")
             self.ignoredPackages.append("libs/dav1d")
             self.ignoredPackages.append("libs/ffmpeg")
             self.ignoredPackages.append("libs/svtav1")
             self.ignoredPackages.append("libs/x265")
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
         return super().createPackage()

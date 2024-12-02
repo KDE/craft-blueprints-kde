@@ -132,7 +132,7 @@ class Package(CMakePackageBase):
 
         # move everything to the location where Qt expects it
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # Move kdeconnect, kdeconnect-sms to the package
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)

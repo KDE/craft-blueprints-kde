@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.patchLevel["master"] = 20221103
         self.svnTargets["32abe16"] = "https://github.com/mltframework/mlt.git||32abe16667692816814fd5d37676e6e4cd6c44f6"
         self.defaultTarget = "32abe16"
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.patchToApply["32abe16"] = [("pi_patch.diff", 1)]
 
     def setDependencies(self):
@@ -31,16 +31,16 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/libsamplerate"] = None
 
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["libs/libasound2"] = None
             self.runtimeDependencies["libs/libexif"] = None
             self.runtimeDependencies["libs/movit"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["libs/dlfcn-win32"] = None
         # ladspa-swh currently breaks MLT, making render impossible. So disable for now
         # else:
         #    self.runtimeDependencies["libs/ladspa-swh"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             # self.runtimeDependencies["libs/jack2"] = None
             self.runtimeDependencies["libs/sox"] = None
         self.runtimeDependencies["libs/rubberband"] = None
@@ -62,7 +62,7 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # enable submodule checkout to get glaximate
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.fetch.checkoutSubmodules = True
         self.subinfo.options.configure.args += [
             "-DMOD_DECKLINK=ON",
@@ -72,7 +72,7 @@ class Package(CMakePackageBase):
             "-DMOD_SDL2=ON",
         ]
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += ["-DMOD_RTAUDIO=OFF", "-DMOD_SOX=OFF"]
 
         if self.subinfo.options.isActive("libs/libarchive"):
@@ -98,6 +98,6 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             return utils.mergeTree(self.installDir() / "lib/mlt", self.installDir() / "plugins/mlt")
         return True

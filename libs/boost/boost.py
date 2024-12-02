@@ -40,10 +40,10 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += [
             "-DBOOST_INCLUDE_LIBRARIES=atomic;chrono;circular_buffer;date_time;filesystem;iostreams;program_options;python;random;regex;safe_numerics;serialization;signals2;system;thread",
         ]
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += ["-DBOOST_ENABLE_PYTHON=ON"]
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             cxx_flags = ["-D_WIN32_WINNT=0x0A00", "-DWINVER=0x0A00", "-D_WIN32_IE=0x0A00"]
             if CraftCore.compiler.compiler.isMSVC:
                 cxx_flags += ["-EHsc"]

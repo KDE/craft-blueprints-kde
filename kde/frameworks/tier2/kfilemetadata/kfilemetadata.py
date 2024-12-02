@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/ebook-tools"] = None
         self.runtimeDependencies["kde/kdegraphics/kdegraphics-mobipocket"] = None
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["libs/xattr"] = None
 
 

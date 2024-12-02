@@ -40,7 +40,7 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isLinux and self.buildType() == "Debug":
+        if CraftCore.compiler.platform.isLinux and self.buildType() == "Debug":
             if not utils.createSymlink(self.installDir() / "lib/libcurl-d.so", self.installDir() / "lib/libcurl.so"):
                 return False
         return True

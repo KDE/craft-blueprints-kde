@@ -34,5 +34,5 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DEXIV2_BUILD_SAMPLES=OFF", "-DEXIV2_ENABLE_NLS=OFF", "-DIconv_IS_BUILT_IN=OFF"]
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.subinfo.options.configure.args += ["-DICONV_ACCEPTS_CONST_INPUT=ON", "-DEXIV2_ENABLE_WIN_UNICODE=OFF"]

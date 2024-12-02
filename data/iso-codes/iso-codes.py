@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.buildDependencies["libs/gettext"] = None
 
 
@@ -46,7 +46,7 @@ class Package(AutoToolsPackageBase):
                 os.unlink(catalog)
 
         # put pkgconfig files into the right location on Windows
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             pkgConfigSrc = (
                 self.installDir() / os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot()) / "pkgconfig/iso-codes.pc"
             )

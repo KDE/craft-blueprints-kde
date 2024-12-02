@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for ver in ["16.15.1"]:
-            if CraftCore.compiler.isWindows:
+            if CraftCore.compiler.platform.isWindows:
                 self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-win-x64.zip"
                 self.targetInstSrc[ver] = f"node-v{ver}-win-x64"
             elif CraftCore.compiler.platform.isMacOS:
@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
                 else:
                     self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-darwin-x64.tar.gz"
                     self.targetInstSrc[ver] = f"node-v{ver}-darwin-x64"
-            elif CraftCore.compiler.isLinux:
+            elif CraftCore.compiler.platform.isLinux:
                 self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-linux-x64.tar.xz"
                 self.targetInstSrc[ver] = f"node-v{ver}-linux-x64"
 
@@ -48,7 +48,7 @@ class Package(BinaryPackageBase):
         if not super().install():
             return False
         sourceBinary = self.installDir()
-        if not CraftCore.compiler.isWindows:
+        if not CraftCore.compiler.platform.isWindows:
             sourceBinary /= "bin"
         sourceBinary /= f"node{CraftCore.compiler.platform.executableSuffix}"
         targetBinary = self.imageDir() / f"dev-utils/bin/node{CraftCore.compiler.platform.executableSuffix}"
