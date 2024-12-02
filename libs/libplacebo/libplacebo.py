@@ -33,7 +33,7 @@ class Package(MesonPackageBase):
         self.subinfo.options.fetch.checkoutSubmodules = True
         self.subinfo.options.configure.args += ["-Ddemos=False"]
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             # Work around https://github.com/android/ndk/issues/1974 in ndk26.
             # But also Vulkan video decode isn't well supported on Android anyway.
             self.subinfo.options.configure.args += ["-Dvulkan=disabled"]

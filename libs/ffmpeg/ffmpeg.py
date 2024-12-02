@@ -166,11 +166,10 @@ class Package(AutoToolsPackageBase):
             if self.subinfo.options.isActive("libs/x265"):
                 self.subinfo.options.configure.args += ["--enable-libx265"]
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             # Work around https://github.com/android/ndk/issues/1974 in ndk26.
             # But also Vulkan video decode isn't well supported on Android anyway.
             self.subinfo.options.configure.args += ["--disable-vulkan"]
-
 
         if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["--enable-rpath", "--install-name-dir=@rpath"]
