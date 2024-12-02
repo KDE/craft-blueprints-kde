@@ -30,6 +30,7 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["alias"] = ["picmi"]
         self.defines["icon"] = self.blueprintDir() / "picmi.ico"
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-picmi.png"
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-picmi.png"

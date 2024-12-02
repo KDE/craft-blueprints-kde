@@ -33,5 +33,6 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["alias"] = ["kjumpingcube"]
         self.defines["shortcuts"] = [{"name": "Kjumpingcube", "target": "bin/kjumpingcube.exe", "description": self.subinfo.description}]
         return super().createPackage()

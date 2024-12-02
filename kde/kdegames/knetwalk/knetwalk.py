@@ -33,5 +33,6 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.defines["alias"] = ["knetwalk"]
         self.defines["shortcuts"] = [{"name": "Knetwalk", "target": "bin/knetwalk.exe", "description": self.subinfo.description}]
         return super().createPackage()
