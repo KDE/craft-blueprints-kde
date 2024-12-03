@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/dyne/frei0r.git"
         self.defaultTarget = "2.3.3"
+        self.patchLevel = "1"
 
     def setDependencies(self):
         # TODO MSVC: it looks as if cairo and gavl are not detected
@@ -25,15 +26,15 @@ class subinfo(info.infoclass):
             # TODO check why build fails with OpenCV, shouldn't be too hard to fix
             self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/cairo"] = None
-        if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["libs/gavl"] = None
+        #if not CraftCore.compiler.isMacOS:
+        self.runtimeDependencies["libs/gavl"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += ["-DWITHOUT_GAVL=1"]
+        #if CraftCore.compiler.isMacOS:
+        #    self.subinfo.options.configure.args += ["-DWITHOUT_GAVL=1"]
 
         # TODO check why build fails with OpenCV, shouldn't be too hard to fix
         if CraftCore.compiler.isMSVC():
