@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
             self.runtimeDependencies["kde/kdegames/libkdegames"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
 class Package(CMakePackageBase):

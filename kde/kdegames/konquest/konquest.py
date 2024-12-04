@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
 
         self.runtimeDependencies["kde/kdegames/libkdegames"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
 class Package(CMakePackageBase):

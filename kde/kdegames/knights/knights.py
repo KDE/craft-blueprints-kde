@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/plasma/libplasma"] = None
         self.runtimeDependencies["kde/kdegames/libkdegames"] = None
+        self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["virtual/base"] = None
