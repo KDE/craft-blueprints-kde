@@ -41,7 +41,9 @@ lib/cfitsio\.dll
 #lib/.*
 libexec/.*
 
-# unused Qt/KF5 libs
+# unused Qt/KF libs
+bin/Qt6Designer\.dll
+bin/Qt6DesignerComponents\.dll
 bin/Qt5Concurrent\.dll
 bin/Qt5Multimedia\.dll
 bin/Qt5OpenGL\.dll
@@ -60,12 +62,10 @@ bin/KF5Notifications\.dll
 #bin/KF5Syndication\.dll
 # only needed by Cantor itself
 bin/Qt5Web.*
-bin/qtwebengine.*
 
 # unused data
 bin/QtTest/.*
 bin/QtWinExtras/.*
-bin/QtWebEngine/.*
 bin/bearer/.*
 bin/designer/.*
 bin/kauth/.*
