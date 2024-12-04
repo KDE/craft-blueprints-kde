@@ -34,6 +34,6 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        self.defines["alias"] = ["blinken"]
+        self.defines["alias"] = "blinken"
         self.defines["shortcuts"] = [{"name": "Blinken", "target": "bin/blinken.exe", "description": self.subinfo.description}]
         return super().createPackage()
