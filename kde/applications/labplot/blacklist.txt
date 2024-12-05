@@ -36,6 +36,7 @@ bin/kdewin\.dll
 bin/kdewin-qt\.dll
 bin/libgcrypt.*
 bin/phonon4qt5.*
+bin/brotlienc\.dll
 lib/cfitsio\.dll
 # used on macOS?
 #lib/.*
