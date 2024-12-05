@@ -15,12 +15,10 @@ class subinfo(info.infoclass):
         for ver in self.targets.keys():
             self.patchToApply[ver] = [("OpenCVInstallLayout.cmake.patch", 0)]
 
-        for v in ["4.5.3"]:
-            self.patchToApply[v] += [("opencv-pkgconfig-win-install.patch", 1)]
-
         self.patchLevel["4.9.0"] = 2
 
         self.targetDigests["4.9.0"] = (["ddf76f9dffd322c7c3cb1f721d0887f62d747b82059342213138dc190f28bc6c"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.10.0"] = (["b2171af5be6b26f7a06b1229948bbb2bdaa74fcf5cd097e0af6378fce50a6eb9"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -108,6 +106,7 @@ class Package(CMakePackageBase):
             "-DOPENCV_SKIP_CMAKE_ROOT_CONFIG=ON",
             # it is broken on MSVC
             "-DWITH_OPENJPEG=OFF",
+            "-DCMAKE_CXX_STANDARD=17"
         ]
         if CraftCore.compiler.architecture & CraftCompiler.Architecture.x86:
             self.subinfo.options.configure.args += [
