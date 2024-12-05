@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "KImageFormats"
+        self.patchLevel["6.8.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
