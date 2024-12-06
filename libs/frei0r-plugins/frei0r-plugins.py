@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/dyne/frei0r.git"
         self.defaultTarget = "2.3.3"
-        self.patchLevel = "1"
+        self.patchLevel = "2"
 
     def setDependencies(self):
         # TODO MSVC: it looks as if cairo and gavl are not detected
