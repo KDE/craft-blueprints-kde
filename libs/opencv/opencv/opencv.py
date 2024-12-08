@@ -15,6 +15,9 @@ class subinfo(info.infoclass):
         for ver in self.targets.keys():
             self.patchToApply[ver] = [("OpenCVInstallLayout.cmake.patch", 0)]
 
+        if CraftCore.compiler.isMacOS:
+            self.patchToApply["4.10.0"] += [("orbbec-fix.patch", 1)]
+
         self.patchLevel["4.9.0"] = 2
 
         self.targetDigests["4.9.0"] = (["ddf76f9dffd322c7c3cb1f721d0887f62d747b82059342213138dc190f28bc6c"], CraftHash.HashAlgorithm.SHA256)
