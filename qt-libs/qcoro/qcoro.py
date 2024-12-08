@@ -7,15 +7,16 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/danvratil/qcoro.git"
 
-        for ver in ["0.9.0", "0.10.0"]:
+        for ver in ["0.9.0", "0.10.0", "0.11.0"]:
             self.targets[ver] = "https://github.com/danvratil/qcoro/archive/refs/tags/v%s.tar.gz" % ver
             self.archiveNames[ver] = "qcoro-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "qcoro-%s" % ver
 
         self.targetDigests["0.9.0"] = (["cfaf6b778450f06adac4ce5e353eb6eae213a3b62b8c8740520d58cf9fe3ec1a"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.10.0"] = (["b7c8f00273ad27d85814bf4ec93eb6922c75656800a61d11854d36355a4a1aec"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.11.0"] = (["9942c5b4c533192f6c5954dc6d10178b3829075e6a621b67df73f0a4b74d8297"], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "0.10.0"
+        self.defaultTarget = "0.11.0"
         self.description = "C++ Coroutines for Qt"
 
     def setDependencies(self):
