@@ -31,7 +31,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kitinerary"] = None
         self.runtimeDependencies["kde/pim/kpkpass"] = None
         self.runtimeDependencies["kde/pim/khealthcertificate"] = None
-        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
+        self.runtimeDependencies["kde/libs/kirigami-addons"] = None
         self.runtimeDependencies["qt-libs/libquotient"] = None
         if CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None

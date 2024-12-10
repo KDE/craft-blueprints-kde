@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt/qtconnectivity"] = None
-        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
+        self.runtimeDependencies["kde/libs/kirigami-addons"] = None
 
         self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
         self.runtimeDependencies["libs/openssl"] = None

@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt6/qt5compat"] = None
-        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
+        self.runtimeDependencies["kde/libs/kirigami-addons"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
 
         if CraftCore.compiler.isWindows:

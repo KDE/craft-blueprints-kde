@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kpeople"] = None
         self.runtimeDependencies["kde/pim/kpeoplevcard"] = None
-        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
+        self.runtimeDependencies["kde/libs/kirigami-addons"] = None
 
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/plasma/breeze"] = None

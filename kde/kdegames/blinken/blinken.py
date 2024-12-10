@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         
         if CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
-            self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
+            self.runtimeDependencies["kde/libs/kirigami-addons"] = None
             self.runtimeDependencies["libs/qt6/qtmultimedia"] = None
     
         if not CraftCore.compiler.isAndroid:

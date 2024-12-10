@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/applications/libkeduvocdocument"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
-        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
+        self.runtimeDependencies["kde/libs/kirigami-addons"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
