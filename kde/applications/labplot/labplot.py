@@ -5,6 +5,7 @@ from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Packager.AppxPackager import AppxPackager
 from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
+from Packager.AppImagePackager import AppImagePackager
 
 
 class subinfo(info.infoclass):
@@ -162,10 +163,12 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("libs/qt6/qtwebengine")
         self.ignoredPackages.append("libs/aom")
         self.ignoredPackages.append("libs/dav1d")
-        self.ignoredPackages.append("libs/ffmpeg")
         self.ignoredPackages.append("libs/sdl2")
         self.ignoredPackages.append("libs/svtav1")
         self.ignoredPackages.append("libs/x265")
+        # AppImage uses libavformat.so.XX
+        if not CraftCore.compiler.isLinux or not isinstance(self, AppImagePackager):
+            self.ignoredPackages.append("libs/ffmpeg")
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
