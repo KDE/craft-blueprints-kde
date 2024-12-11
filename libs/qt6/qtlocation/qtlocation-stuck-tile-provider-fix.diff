@@ -1,0 +1,30 @@
+commit 15e2cb26902ced00d64367e4204af960efc1c58d
+Author: Volker Krause <vkrause@kde.org>
+Date:   Sat Nov 16 12:47:50 2024 +0100
+
+    Fix tile provider resolution getting stuck on disabled providers
+    
+    When encountering a provider with Enabled=false that has a built-in
+    valid default we ended up here without submitting any of the result
+    signals. That resulted in the provider resolution process getting stuck
+    and no tiles being fetched.
+    
+    This can be reproduced with using https://autoconfig.kde.org/qtlocation/
+    as provider repository, instead of Qt's default.
+    
+    Pick-to: 6.8
+    Change-Id: I03a894adeb6c9983f77dad1a5b504b615746d5bd
+
+diff --git a/src/plugins/geoservices/osm/qgeotileproviderosm.cpp b/src/plugins/geoservices/osm/qgeotileproviderosm.cpp
+index a16dbf86..860b9133 100644
+--- a/src/plugins/geoservices/osm/qgeotileproviderosm.cpp
++++ b/src/plugins/geoservices/osm/qgeotileproviderosm.cpp
+@@ -196,6 +196,8 @@ void QGeoTileProviderOsm::onResolutionError(TileProvider *provider)
+                     p->resolveProvider();
+ #endif
+                     emit resolutionRequired();
++                } else {
++                    emit resolutionFinished(this);
+                 }
+                 break;
+             }

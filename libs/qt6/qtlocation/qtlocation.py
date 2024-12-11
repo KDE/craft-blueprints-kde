@@ -5,6 +5,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        # https://codereview.qt-project.org/c/qt/qtlocation/+/604697
+        self.patchToApply["6.8.0"] = [("qtlocation-stuck-tile-provider-fix.diff", 1)]
+        self.patchLevel["6.8.0"] = 1
+
     def setDependencies(self):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
