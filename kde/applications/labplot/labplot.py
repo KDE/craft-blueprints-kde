@@ -162,13 +162,13 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("libs/qt6/qtshadertools")
         self.ignoredPackages.append("libs/qt6/qtwebengine")
         self.ignoredPackages.append("libs/sdl2")
-        self.ignoredPackages.append("libs/svtav1")
         self.ignoredPackages.append("libs/x265")
-        # AppImage uses libavformat.so.XX and libdav1d.so.X
+        # AppImage requires several libs
         if not CraftCore.compiler.isLinux or not isinstance(self, AppImagePackager):
             self.ignoredPackages.append("libs/aom")
             self.ignoredPackages.append("libs/dav1d")
             self.ignoredPackages.append("libs/ffmpeg")
+            self.ignoredPackages.append("libs/svtav1")
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
