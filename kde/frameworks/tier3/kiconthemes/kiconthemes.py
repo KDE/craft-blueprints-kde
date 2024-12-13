@@ -8,9 +8,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.patchToApply["6.4.0"] = [("libpath.diff", 1)]
-        self.patchLevel["6.4.0"] = 5
-
         # Android icon recoloring
         # See https://invent.kde.org/frameworks/kiconthemes/-/merge_requests/154
         self.patchToApply["6.5.0"] = ("154.patch", 1)
