@@ -49,7 +49,9 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["libs/liblz4"] = None
 
-        self.runtimeDependencies["kde/applications/cantor"] = None
+        # cross compiling Cantor fails on macOS x86_64 (CD job)
+        if not CraftCore.compiler.isMacOS or not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+            self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt6/qtserialport"] = None
         self.runtimeDependencies["libs/qt6/qtmqtt"] = None
