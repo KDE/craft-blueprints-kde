@@ -2,6 +2,7 @@ import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
+from CraftCompiler import CraftCompiler
 from Package.CMakePackageBase import CMakePackageBase
 from Packager.AppxPackager import AppxPackager
 from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
