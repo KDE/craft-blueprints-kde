@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         # Android icon recoloring
         # See https://invent.kde.org/frameworks/kirigami/-/merge_requests/1606
         self.patchToApply["6.5.0"] = ("1606.patch", 1)
-        self.patchLevel["6.5.0."] = 1
+        self.patchLevel["6.5.0"] = 1
         self.patchToApply["6.8.0"] = ("fix-stack-actions.patch", 1)
         self.patchLevel["6.8.0"] = 1
 
