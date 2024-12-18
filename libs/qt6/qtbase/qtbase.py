@@ -1,4 +1,5 @@
 import info
+import utils
 from Blueprints.CraftPackageObject import CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
@@ -119,3 +120,12 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             self.subinfo.options.configure.args += [f"-DANDROID_ABI={CraftCore.compiler.androidAbi}", "-DECM_THREADS_WORKAROUND=OFF"]
         elif CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["-DQT_NO_HANDLE_APPLE_SINGLE_ARCH_CROSS_COMPILING=ON"]
+
+    def configure(self):
+        if CraftCore.compiler.isAndroid:
+            env = {}
+            env["ECM_THREADS_WORKAROUND"] = "OFF"
+            with utils.ScopedEnv(env):
+                return super().configure()
+        else:
+            return super().configure()
