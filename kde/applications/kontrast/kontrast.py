@@ -25,7 +25,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/breeze"] = None
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
-        self.runtimeDependencies["qt-libs/qcoro"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

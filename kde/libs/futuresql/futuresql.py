@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["qt-libs/qcoro"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
