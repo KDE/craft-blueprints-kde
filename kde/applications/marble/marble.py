@@ -12,24 +12,31 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt/qtlocation"] = None
-        self.runtimeDependencies["libs/qt/qtsvg"] = None
+        self.runtimeDependencies["libs/qt6/qtbase"] = None
+        self.runtimeDependencies["libs/qt6/qt5compat"] = None
+        self.runtimeDependencies["libs/qt6/qtlocation"] = None
+        self.runtimeDependencies["libs/qt6/qtsvg"] = None
+
+        self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
 
         if not CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["libs/qt/qtwebchannel"] = None
-            self.runtimeDependencies["libs/qt/qtwebengine"] = None
-            self.runtimeDependencies["qt-libs/phonon"] = None
+            self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
             self.runtimeDependencies["libs/protobuf"] = None
+            self.runtimeDependencies["libs/qt6/qtwebchannel"] = None
+            self.runtimeDependencies["libs/qt6/qtwebengine"] = None
+            self.runtimeDependencies["qt-libs/phonon"] = None
         else:
-            self.runtimeDependencies["libs/qt/qtmultimedia"] = None
+            self.runtimeDependencies["libs/qt6/qtmultimedia"] = None
+            self.runtimeDependencies["libs/qt6/qtpositioning"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DBUILD_MARBLE_TESTS=OFF", "-DWITH_KF5=OFF"]
+        self.subinfo.options.configure.args += ["-DBUILD_MARBLE_TESTS=OFF", "-DBUILD_WITH_DBUS=OFF"]
 
     def createPackage(self):
         self.defines["productname"] = "Marble"
