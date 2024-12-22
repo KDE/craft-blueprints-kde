@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/qt6/qtpositioning"] = None
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DBUILD_MARBLE_TESTS=OFF", "-DBUILD_WITH_DBUS=OFF"]
