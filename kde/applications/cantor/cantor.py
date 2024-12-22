@@ -10,8 +10,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Cantor"
-        # Qt6 only since 24.11.70
-        self.defaultTarget = "master"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
