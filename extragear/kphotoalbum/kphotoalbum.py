@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "master"
 
     def setDependencies(self):
-        self.runtimeDependencies["kde/kdegraphics/kipi-plugins"] = None
+        self.runtimeDependencies["kde/applications/marble"] = None
 
 
 class Package(CMakePackageBase):
