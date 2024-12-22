@@ -12,10 +12,11 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qt5compat"] = None
-        self.runtimeDependencies["libs/qt6/qtlocation"] = None
-        self.runtimeDependencies["libs/qt6/qtsvg"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt/qtlocation"] = None
+        self.runtimeDependencies["libs/qt/qtsvg"] = None
 
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
@@ -25,12 +26,12 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
             self.runtimeDependencies["libs/protobuf"] = None
-            self.runtimeDependencies["libs/qt6/qtwebchannel"] = None
-            self.runtimeDependencies["libs/qt6/qtwebengine"] = None
+            self.runtimeDependencies["libs/qt/qtwebchannel"] = None
+            self.runtimeDependencies["libs/qt/qtwebengine"] = None
             self.runtimeDependencies["qt-libs/phonon"] = None
         else:
-            self.runtimeDependencies["libs/qt6/qtmultimedia"] = None
-            self.runtimeDependencies["libs/qt6/qtpositioning"] = None
+            self.runtimeDependencies["libs/qt/qtmultimedia"] = None
+            self.runtimeDependencies["libs/qt/qtpositioning"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
