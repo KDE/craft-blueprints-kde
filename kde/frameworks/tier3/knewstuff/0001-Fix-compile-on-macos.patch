@@ -1,0 +1,25 @@
+From 0f07532cca2e0af1b07635479de1f553f8f7f35b Mon Sep 17 00:00:00 2001
+From: Laurent Montel <montel@kde.org>
+Date: Thu, 19 Dec 2024 09:12:04 +0100
+Subject: [PATCH] Fix compile on macos
+
+---
+ src/core/cache.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/core/cache.cpp b/src/core/cache.cpp
+index 5556c44b..2f21ec52 100644
+--- a/src/core/cache.cpp
++++ b/src/core/cache.cpp
+@@ -20,7 +20,7 @@ using namespace KNSCore;
+ 
+ Cache::Cache(const QString &appName)
+     : QObject(nullptr)
+-    , d(new CachePrivate(Cache2::getCache(appName)))
++    , d(new CachePrivate({Cache2::getCache(appName)}))
+ {
+ }
+ 
+-- 
+2.47.1
+

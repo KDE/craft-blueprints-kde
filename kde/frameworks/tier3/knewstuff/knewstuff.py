@@ -12,6 +12,9 @@ class subinfo(info.infoclass):
 
         self.description = "Support for downloading application assets from the network"
 
+        self.patchToApply["6.9.0"] = [("0001-Fix-compile-on-macos.patch", 1)]
+        self.patchLevel["6.9.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
