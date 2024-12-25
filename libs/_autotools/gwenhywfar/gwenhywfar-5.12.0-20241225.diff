@@ -1,6 +1,8 @@
+diff --git src/base/endianfns.h src/base/endianfns.h
+index 2db9731e..1859f2ae 100644
 --- src/base/endianfns.h
 +++ src/base/endianfns.h
-@@ -38,6 +38,31 @@
+@@ -38,6 +38,29 @@
 
  #  define GWEN_ENDIAN_LE64TOH(x) (x)
  #  define GWEN_ENDIAN_HTOLE64(x) (x)
