@@ -27,8 +27,6 @@
 +#define GWEN_ENDIAN_HTOBE64(x) OSSwapHostToBigInt64(x)
 +#define GWEN_ENDIAN_BE64TOH(x) OSSwapBigToHostInt64(x)
 +
-+#endif  /* defined(__APPLE__) */
-+
  #else
  /* for Linux and others use definitions from endian.h */
  #  include <endian.h>
