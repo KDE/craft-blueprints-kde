@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt6/qtpositioning"] = None
+        self.runtimeDependencies["libs/qt/qtlocation"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/zxing-cpp"] = None
         self.runtimeDependencies["qt-libs/qxmpp"] = None
