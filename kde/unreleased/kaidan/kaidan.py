@@ -4,7 +4,7 @@ import info
 class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "Kaidan"
-        self.description = "User-friendly and modern chat app for every device"
+        self.description = "Modern chat app for every device"
         self.webpage = "https://www.kaidan.im/"
 
         self.svnTargets["master"] = "https://invent.kde.org/network/kaidan.git"
