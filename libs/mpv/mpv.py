@@ -10,15 +10,16 @@ class subinfo(info.infoclass):
         self.displayName = "mpv"
         self.description = "Command line video player"
         self.svnTargets["master"] = "https://github.com/mpv-player/mpv.git"
-        self.defaultTarget = "0.38.0"
+        self.defaultTarget = "0.39.0"
 
-        for ver in ["0.38.0", "0.37.0"]:
+        for ver in ["0.39.0", "0.38.0", "0.37.0"]:
             self.targets[ver] = f"https://github.com/mpv-player/mpv/archive/refs/tags/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"mpv-{ver}"
             self.archiveNames[ver] = f"mpv-{ver}.tar.gz"
 
-        self.targetDigests["0.37.0"] = (["1d2d4adbaf048a2fa6ee134575032c4b2dad9a7efafd5b3e69b88db935afaddf"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.39.0"] = (["2ca92437affb62c2b559b4419ea4785c70d023590500e8a52e95ea3ab4554683"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.38.0"] = (["86d9ef40b6058732f67b46d0bbda24a074fae860b3eaae05bab3145041303066"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.37.0"] = (["1d2d4adbaf048a2fa6ee134575032c4b2dad9a7efafd5b3e69b88db935afaddf"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None
