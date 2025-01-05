@@ -15,11 +15,13 @@ class subinfo(info.infoclass):
         self.description = "C++ library that performs content-preserving transformations on PDF files"
         self.defaultTarget = "11.9.1"
 
-    # def setDependencies(self): nothing for now
+    def setDependencies(self):
+        self.buildDependencies["virtual/base"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildStatic = False
+        self.subinfo.options.configure.args += ["-DMAINTAINER_MODE=ON"]
 
