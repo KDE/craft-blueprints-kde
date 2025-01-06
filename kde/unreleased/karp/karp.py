@@ -38,4 +38,5 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         self.defines["shortcuts"] = [{"name": "Karp", "target": "bin/karp.exe", "description": self.subinfo.description, "appId": "karp"}]
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         return super().createPackage()
