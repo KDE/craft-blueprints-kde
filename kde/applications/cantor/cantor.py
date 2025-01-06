@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Cantor"
+        self.patchToApply["24.12.0"] = [("cantor-24.12.0-dbus.patch", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
