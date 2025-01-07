@@ -15,20 +15,18 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
-        
+        self.runtimeDependencies["libs/qt6/qtmultimedia"] = None
+
         if CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
             self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
-            self.runtimeDependencies["libs/qt6/qtmultimedia"] = None
     
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
-            if self.buildTarget == "master":
-                self.runtimeDependencies["libs/qt6/qtmultimedia"] = None
-            else:
-                self.runtimeDependencies["qt-libs/phonon"] = None
+            # TODO remove phonon once 25.04 is out
+            self.runtimeDependencies["qt-libs/phonon"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
