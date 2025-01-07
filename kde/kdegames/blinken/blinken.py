@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
             if self.buildTarget == "master":
                 self.runtimeDependencies["libs/qt6/qtmultimedia"] = None
-            else
+            else:
                 self.runtimeDependencies["qt-libs/phonon"] = None
 
 
