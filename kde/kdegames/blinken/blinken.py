@@ -25,7 +25,10 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
-            self.runtimeDependencies["qt-libs/phonon"] = None
+            if self.buildTarget == "master":
+                self.runtimeDependencies["libs/qt6/qtmultimedia"] = None
+            else
+                self.runtimeDependencies["qt-libs/phonon"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
