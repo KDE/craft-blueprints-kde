@@ -24,6 +24,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
 
+        # remove it after 25.03
+        self.runtimeDependencies["qt-libs/phonon"] = None
+
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/messagelib"] = None
