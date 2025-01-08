@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.displayName = "mpv"
         self.description = "Command line video player"
         self.svnTargets["master"] = "https://github.com/mpv-player/mpv.git"
-        self.defaultTarget = "0.39.0"
+        self.defaultTarget = "0.38.0"
 
         for ver in ["0.39.0", "0.38.0", "0.37.0"]:
             self.targets[ver] = f"https://github.com/mpv-player/mpv/archive/refs/tags/v{ver}.tar.gz"
