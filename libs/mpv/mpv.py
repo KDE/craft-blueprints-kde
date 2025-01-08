@@ -49,6 +49,6 @@ class Package(MesonPackageBase):
 
         if CraftCore.compiler.isAndroid:
             # Using libarchive causes linker errors on Android, but we don't need it right now
-            self.subinfo.options.configure.args += ["-Dlua=disabled", "-Ddefault_library=static", "-Dlibarchive=disabled"]
+            self.subinfo.options.configure.args += ["-Dlua=disabled", "-Ddefault_library=static", "-Dlibarchive=disabled", "-Dcplayer=false"]
         else:
             self.subinfo.options.configure.args += ["-Dlua=enabled"]
