@@ -8,11 +8,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        # Android icon recoloring
-        # See https://invent.kde.org/frameworks/kiconthemes/-/merge_requests/154
-        self.patchToApply["6.5.0"] = ("154.patch", 1)
-        self.patchLevel["6.5.0"] = 1
-
         self.description = "Classes to improve the handling of icons"
 
     def setDependencies(self):
