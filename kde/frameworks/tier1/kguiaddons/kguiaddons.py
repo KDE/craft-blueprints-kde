@@ -9,10 +9,6 @@ class subinfo(info.infoclass):
         self.description = "KGuiAddons"
 
         # Android statusbar recoloring (needed before KF6 6.7)
-        # See https://invent.kde.org/frameworks/kguiaddons/-/merge_requests/119
-        self.patchToApply["6.5.0"] = [("android-statusbar.diff", 1), ("fix-window-insets-luma-computation.diff", 1)]
-        self.patchLevel["6.5.0"] = 2
-
         self.patchToApply["6.6.0"] = [("android-statusbar.diff", 1), ("fix-window-insets-luma-computation.diff", 1)]
         self.patchLevel["6.6.0"] = 1
 
