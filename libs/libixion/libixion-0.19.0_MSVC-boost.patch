@@ -1,0 +1,24 @@
+diff -ruNa libixion-0.19.0.orig/configure.ac libixion-0.19.0/configure.ac
+--- libixion-0.19.0.orig/configure.ac	2023-09-27 01:47:25.000000000 +0200
++++ libixion-0.19.0/configure.ac	2024-12-07 12:49:32.484348676 +0100
+@@ -20,7 +20,7 @@
+ AM_INIT_AUTOMAKE([1.11 foreign dist-bzip2 dist-xz])
+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+ AX_CXX_COMPILE_STDCXX_17([noext], [mandatory])
+-CXXFLAGS="$CXXFLAGS -fvisibility=hidden -Wall -Wshadow -Wno-write-strings -pthread"
++CXXFLAGS="$CXXFLAGS -Wall"
+ 
+ AC_CANONICAL_HOST
+ 
+diff -ruNa libixion-0.19.0.orig/include/ixion/env.hpp libixion-0.19.0/include/ixion/env.hpp
+--- libixion-0.19.0.orig/include/ixion/env.hpp	2022-11-01 03:01:01.000000000 +0100
++++ libixion-0.19.0/include/ixion/env.hpp	2024-09-19 22:07:12.251733220 +0200
+@@ -36,7 +36,7 @@
+   #define IXION_DLLPUBLIC_VAR IXION_DLLPUBLIC extern
+ #endif
+ 
+-#if _WIN32
++#if defined _WIN32
+ #define IXION_MOD_EXPORT __declspec(dllexport)
+ #else
+ #define IXION_MOD_EXPORT __attribute__ ((visibility ("default")))
