@@ -7,6 +7,6 @@ index 63f9d53c..16f14e8e 100644
    install: true,
    dependencies: build_deps + glad_dep,
 -  soversion: apiver,
-   include_directories: [ inc, vulkan_headers_inc, fast_float_inc, xxhash_inc ],
+   include_directories: [ inc, inc_dirs ],
    link_args: link_args,
    link_depends: link_depends,
