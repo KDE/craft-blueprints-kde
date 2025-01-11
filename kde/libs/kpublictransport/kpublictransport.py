@@ -10,10 +10,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/libraries/kpublictransport.git")
         self.description = "Library for accessing public transport data"
 
-        # Fix Android with Qt 6.8
-        # See https://invent.kde.org/libraries/kpublictransport/-/merge_requests/85
-        self.patchToApply["24.08.2"] = [("85.patch", 1)]
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
