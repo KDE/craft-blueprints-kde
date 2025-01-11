@@ -218,5 +218,5 @@ class Package(AutoToolsPackageBase):
             return {}
         return {
             "LIB": f"{os.environ['LIB']};{CraftStandardDirs.craftRoot() / 'lib'}",
-            "INCLUDE": f"{os.environ['INCLUDE']};{CraftStandardDirs.craftRoot()/ 'include'}",
+            "INCLUDE": f"{os.environ['INCLUDE']};{CraftStandardDirs.craftRoot() / 'include'}",
         }

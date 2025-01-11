@@ -1,12 +1,9 @@
-import os
 import subprocess
 import sys
 
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
-from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
-from info import DependencyRequirementType
 
 
 class subinfo(info.infoclass):

@@ -100,18 +100,18 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DQT_BUILD_EXAMPLES=OFF",
             f"-DFEATURE_system_pcre2={'ON' if self.subinfo.options.dynamic.withPCRE2 else 'OFF'}",
             f"-DFEATURE_system_harfbuzz={'ON' if self.subinfo.options.dynamic.withHarfBuzz else 'OFF'}",
-            f"-DFEATURE_icu={'ON' if  self.subinfo.options.dynamic.withICU else 'OFF'}",
-            f"-DFEATURE_dbus={'ON' if  self.subinfo.options.dynamic.withDBus else 'OFF'}",
-            f"-DFEATURE_dbus_linked=OFF",
-            f"-DFEATURE_glib={'ON' if  self.subinfo.options.dynamic.withGlib else 'OFF'}",
-            f"-DFEATURE_fontconfig={'ON' if  self.subinfo.options.dynamic.withFontConfig else 'OFF'}",
-            f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={'ON' if  self.subinfo.options.dynamic.useLtcg else 'OFF'}",
+            f"-DFEATURE_icu={'ON' if self.subinfo.options.dynamic.withICU else 'OFF'}",
+            f"-DFEATURE_dbus={'ON' if self.subinfo.options.dynamic.withDBus else 'OFF'}",
+            "-DFEATURE_dbus_linked=OFF",
+            f"-DFEATURE_glib={'ON' if self.subinfo.options.dynamic.withGlib else 'OFF'}",
+            f"-DFEATURE_fontconfig={'ON' if self.subinfo.options.dynamic.withFontConfig else 'OFF'}",
+            f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={'ON' if self.subinfo.options.dynamic.useLtcg else 'OFF'}",
         ]
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += [
-                f"-DFEATURE_cups={'ON' if  self.subinfo.options.dynamic.withCUPS else 'OFF'}",
+                f"-DFEATURE_cups={'ON' if self.subinfo.options.dynamic.withCUPS else 'OFF'}",
                 "-DFEATURE_xcb=ON",
-                f"-DQT_FEATURE_egl={'ON' if  self.subinfo.options.dynamic.withEgl else 'OFF'}",
+                f"-DQT_FEATURE_egl={'ON' if self.subinfo.options.dynamic.withEgl else 'OFF'}",
             ]
 
         if CraftCore.compiler.isAndroid:

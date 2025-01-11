@@ -26,14 +26,14 @@ class subinfo(info.infoclass):
             # TODO check why build fails with OpenCV, shouldn't be too hard to fix
             self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/cairo"] = None
-        #if not CraftCore.compiler.isMacOS:
+        # if not CraftCore.compiler.isMacOS:
         self.runtimeDependencies["libs/gavl"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        #if CraftCore.compiler.isMacOS:
+        # if CraftCore.compiler.isMacOS:
         #    self.subinfo.options.configure.args += ["-DWITHOUT_GAVL=1"]
 
         # TODO check why build fails with OpenCV, shouldn't be too hard to fix

@@ -1,7 +1,7 @@
 import info
+from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
-from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -33,7 +33,7 @@ class Package(AutoToolsPackageBase):
             # MSVC explicitly needs to update __cplusplus
             # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
             self.subinfo.options.configure.cxxflags += "/Zc:__cplusplus"
-            #TODO: use Boost version
+            # TODO: use Boost version
             self.subinfo.options.configure.cxxflags += f" -I{CraftCore.standardDirs.craftRoot()}/include/boost-1_86"
-            #TODO: Boost version not detected
-            #self.subinfo.options.configure.args += [f"BOOST_ROOT={CraftCore.standardDirs.craftRoot()}/include/boost-1_86"]
+            # TODO: Boost version not detected
+            # self.subinfo.options.configure.args += [f"BOOST_ROOT={CraftCore.standardDirs.craftRoot()}/include/boost-1_86"]

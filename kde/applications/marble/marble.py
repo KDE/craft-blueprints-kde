@@ -1,6 +1,6 @@
 import info
+from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
-from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):

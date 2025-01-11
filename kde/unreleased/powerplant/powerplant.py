@@ -5,6 +5,7 @@ import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "Powerplant"

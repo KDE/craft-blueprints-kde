@@ -2,9 +2,9 @@
 # SPDX-FileCopyrightText: 2025 Tomasz Bojczuk <seelook@gmail.com>
 
 import info
-from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
+
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -24,4 +24,3 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.dynamic.buildStatic = False
         self.subinfo.options.configure.args += ["-DMAINTAINER_MODE=OFF"]
-

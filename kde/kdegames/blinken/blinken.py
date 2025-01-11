@@ -2,6 +2,7 @@ import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -20,7 +21,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
             self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
-    
+
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None

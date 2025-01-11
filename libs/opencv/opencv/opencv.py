@@ -109,7 +109,7 @@ class Package(CMakePackageBase):
             "-DOPENCV_SKIP_CMAKE_ROOT_CONFIG=ON",
             # it is broken on MSVC
             "-DWITH_OPENJPEG=OFF",
-            "-DCMAKE_CXX_STANDARD=17"
+            "-DCMAKE_CXX_STANDARD=17",
         ]
         if CraftCore.compiler.architecture & CraftCompiler.Architecture.x86:
             self.subinfo.options.configure.args += [

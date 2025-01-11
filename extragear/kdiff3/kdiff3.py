@@ -1,8 +1,8 @@
 import os
 
 import info
-from CraftCore import CraftCore
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 from Packager.AppxPackager import AppxPackager
 
 
