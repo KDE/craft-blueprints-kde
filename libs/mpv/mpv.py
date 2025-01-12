@@ -23,6 +23,9 @@ class subinfo(info.infoclass):
         self.targetDigests["0.38.0"] = (["86d9ef40b6058732f67b46d0bbda24a074fae860b3eaae05bab3145041303066"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.37.0"] = (["1d2d4adbaf048a2fa6ee134575032c4b2dad9a7efafd5b3e69b88db935afaddf"], CraftHash.HashAlgorithm.SHA256)
 
+        # force rebuild after libplacebo ABI break
+        self.patchLevel["0.39.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None
         self.runtimeDependencies["virtual/base"] = None
@@ -51,6 +54,6 @@ class Package(MesonPackageBase):
 
         if CraftCore.compiler.isAndroid:
             # Using libarchive causes linker errors on Android, but we don't need it right now
-            self.subinfo.options.configure.args += ["-Dlua=disabled", "-Ddefault_library=static", "-Dlibarchive=disabled"]
+            self.subinfo.options.configure.args += ["-Dlua=disabled", "-Ddefault_library=static", "-Dlibarchive=disabled", "-Dcplayer=false"]
         else:
             self.subinfo.options.configure.args += ["-Dlua=enabled"]
