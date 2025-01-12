@@ -42,8 +42,8 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args = ["-DGAMMARAY_INSTALL_QT_LAYOUT=ON", "-DGAMMARAY_BUILD_DOCS=OFF"]
 
-        nultiBuild = CraftPackageObject.get("libs/qt/qtbase").subinfo.options.dynamic.buildReleaseAndDebug
-        self.subinfo.options.configure.args += [f"-DGAMMARAY_MULTI_BUILD={nultiBuild.asOnOff}"]
+        multiBuild = CraftPackageObject.get("libs/qt6/qtbase").subinfo.options.dynamic.buildReleaseAndDebug
+        self.subinfo.options.configure.args += [f"-DGAMMARAY_MULTI_BUILD={multiBuild.asOnOff}"]
 
         if self.subinfo.options.dynamic.gammarayProbeOnly:
             self.subinfo.options.configure.args += ["-DGAMMARAY_PROBE_ONLY_BUILD=ON"]
