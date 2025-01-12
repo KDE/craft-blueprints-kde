@@ -118,8 +118,6 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             self.subinfo.options.configure.args += [f"-DANDROID_ABI={CraftCore.compiler.androidAbi}", "-DECM_THREADS_WORKAROUND=OFF"]
         elif CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["-DQT_NO_HANDLE_APPLE_SINGLE_ARCH_CROSS_COMPILING=ON"]
-        elif CraftCore.compiler.isWindows:
-            self.subinfo.options.configure.args += ["-DQT_GENERATE_SBOM=OFF"]
 
     def configure(self):
         if CraftCore.compiler.isAndroid:
