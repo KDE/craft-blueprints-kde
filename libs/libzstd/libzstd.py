@@ -26,7 +26,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += [
             "-DZSTD_LEGACY_SUPPORT=ON",
             "-DZSTD_MULTITHREAD_SUPPORT=ON",
-            "-DZSTD_BUILD_TESTS=OFF",
+            f"-DZSTD_BUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff()}",
             "-DZSTD_BUILD_CONTRIB=OFF",
             f"-DZSTD_BUILD_PROGRAMS={self.subinfo.options.dynamic.buildTools.asOnOff}",
             f"-DZSTD_PROGRAMS_LINK_SHARED={self.subinfo.options.dynamic.buildStatic.inverted.asOnOff}",

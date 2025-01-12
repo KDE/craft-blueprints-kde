@@ -23,4 +23,8 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-Dprotobuf_BUILD_TESTS=OFF", "-Dprotobuf_MSVC_STATIC_RUNTIME=OFF", "-Dprotobuf_ABSL_PROVIDER=package"]
+        self.subinfo.options.configure.args += [
+            f"-Dprotobuf_BUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff()}",
+            "-Dprotobuf_MSVC_STATIC_RUNTIME=OFF",
+            "-Dprotobuf_ABSL_PROVIDER=package",
+        ]

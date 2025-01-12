@@ -28,4 +28,8 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.subinfo.options.configure.args += ["-DBUILD_EXAMPLES=OFF", "-DBUILD_TESTS=OFF", "-DBUILD_OMEMO=ON"]
+        self.subinfo.options.configure.args += [
+            "-DBUILD_EXAMPLES=OFF",
+            f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff()}",
+            "-DBUILD_OMEMO=ON",
+        ]

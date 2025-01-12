@@ -27,4 +27,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DBUILD_TESTS=OFF"]
+        self.subinfo.options.configure.args += [f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff()}"]

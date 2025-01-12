@@ -44,8 +44,7 @@ class Package(CMakePackageBase):
             # build only modules needed by digikam, kdenlive and indiserver 3rd Party Libraries
             "-DBUILD_LIST=core,objdetect,imgproc,imgcodecs,dnn,flann,ml,tracking,highgui,videoio",
             "-DBUILD_EXAMPLES=OFF",
-            "-DBUILD_TESTS=OFF",
-            "-DBUILD_DOCS=OFF",
+            f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff()}" "-DBUILD_DOCS=OFF",
             "-DBUILD_PERF_TESTS=OFF",
             "-DINSTALL_C_EXAMPLES=OFF",
             "-DINSTALL_PYTHON_EXAMPLES=OFF",
