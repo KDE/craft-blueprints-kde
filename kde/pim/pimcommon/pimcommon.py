@@ -50,4 +50,4 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
 
-        self.subinfo.options.configure.args += [f"-DBUILD_DESIGNERPLUGIN={self.subinfo.options.dynamic.useDesignerPlugin.asOnOff()}"]
+        self.subinfo.options.configure.args += [f"-DBUILD_DESIGNERPLUGIN={self.subinfo.options.dynamic.useDesignerPlugin.asOnOff}"]
