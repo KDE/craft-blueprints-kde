@@ -9,6 +9,9 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildTests", not CraftCore.compiler.isMinGW())
+
     def setTargets(self):
         self.description = "FreeRDP is a free remote desktop protocol library and clients"
         self.webpage = "http://www.freerdp.com/"
@@ -32,8 +35,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isMinGW():
-            self.subinfo.options.dynamic.buildTests = False
         if CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCore.compiler.Architecture.x86_64:
             self.subinfo.options.configure.args += ["-DWITH_NEON=OFF"]
 

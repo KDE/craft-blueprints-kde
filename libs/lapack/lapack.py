@@ -22,7 +22,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.dynamic.buildTests = False
         self.subinfo.options.configure.args += ["-DCMAKE_SKIP_RPATH=ON", "-DLAPACKE_WITH_TMG=ON", "-DCBLAS=ON", "-DBUILD_DEPRECATED=ON"]
         # mingw-w64 (gfortran) 8.1 includes only static libgfortran and fails to build dll
         self.subinfo.options.dynamic.buildStatic = True if CraftCore.compiler.isWindows else False

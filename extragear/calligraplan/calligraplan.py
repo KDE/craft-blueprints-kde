@@ -47,7 +47,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.dynamic.buildTests = False
 
     def createPackage(self):
         self.defines["shortcuts"] = [

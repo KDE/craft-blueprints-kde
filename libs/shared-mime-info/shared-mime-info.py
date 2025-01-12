@@ -34,6 +34,8 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
+        self.options.dynamic.setDefault("buildTests", not CraftCore.compiler.isMSVC())
+
     def setTargets(self):
         for ver in ["2.3"]:
             self.targets[ver] = f"https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/{ver}/shared-mime-info-{ver}.tar.bz2"
@@ -65,8 +67,6 @@ class subinfo(info.infoclass):
 class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isMSVC():
-            self.subinfo.options.dynamic.buildTests = False
 
         if CraftCore.compiler.isWindows:
             # stripping a embedManifest patched binary fails

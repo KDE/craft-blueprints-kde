@@ -5,6 +5,9 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildTests", not CraftCore.compiler.isMinGW())
+
     def setTargets(self):
         for ver in ["3.2.1", "3.2.4"]:
             self.targets[ver] = f"https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v{ver}.tar.gz"
@@ -27,5 +30,3 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         # Make sure we get a .pc, even on Windows, as we'll be looking for it
         self.subinfo.options.configure.args += ["-DOPENEXR_INSTALL_PKG_CONFIG=ON"]
-        if CraftCore.compiler.isMinGW():
-            self.subinfo.options.dynamic.buildTests = False

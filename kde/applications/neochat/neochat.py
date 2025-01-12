@@ -50,7 +50,6 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.dynamic.buildTests = False
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["-DNEOCHAT_APPIMAGE=ON"]
 

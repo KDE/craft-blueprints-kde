@@ -8,6 +8,9 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildTests", not CraftCore.compiler.isMacOS)
+
     def setTargets(self):
         for ver in ["0.24.24"]:
             self.targets[ver] = f"https://download.drobilla.net/lilv-{ver}.tar.xz"
@@ -30,10 +33,4 @@ class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        if CraftCore.compiler.isMacOS:
-            self.subinfo.options.dynamic.buildTests = False
-
-        if not self.subinfo.options.dynamic.buildTests:
-            self.subinfo.options.configure.args += ["-Dtests=disabled"]
-
-        self.subinfo.options.configure.args += ["-Dbindings_py=disabled"]
+        self.subinfo.options.configure.args += ["-Dbindings_py=disabled", f"-Dtests={self.subinfo.options.dynamic.buildTests.asEnableDisable}"]

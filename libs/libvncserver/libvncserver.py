@@ -29,7 +29,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.dynamic.buildTests = False
         self.subinfo.options.configure.args += [
             "-DWITH_EXAMPLES=OFF",
             "-DWITH_GTK=OFF",
