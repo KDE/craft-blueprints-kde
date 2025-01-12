@@ -22,4 +22,8 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DBUILD_TESTS=OFF", "-DBUILD_TOOLS=OFF", "-DBUILD_STATIC=OFF"]
+        self.subinfo.options.configure.args += [
+            f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
+            f"-DBUILD_TOOLS={self.subinfo.options.dynamic.buildTools.asOnOff}",
+            f"-DBUILD_STATIC={self.subinfo.options.dynamic.buildStatic.asOnOff}",
+        ]
