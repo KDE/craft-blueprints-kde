@@ -9,3 +9,5 @@ class Pattern(CMakePackageBase):
         # Updating this always needs a corresponding change to the host tools in the CI image!
         if CraftCore.compiler.isAndroid:
             self.subinfo.defaultTarget = "6.8.1"
+        elif CraftCore.compiler.isWindows:
+            self.subinfo.options.configure.args += ["-DQT_GENERATE_SBOM=OFF"]
