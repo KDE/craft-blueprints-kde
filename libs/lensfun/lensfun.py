@@ -11,8 +11,8 @@ class subinfo(info.infoclass):
         self.description = "a library to perform image correction based on lens profiles"
 
         for ver in ["0.2.6", "0.3.2"]:
-            self.targets[ver] = "https://github.com/lensfun/lensfun/archive/v%s.tar.gz" % (ver)
-            self.targetInstSrc[ver] = "lensfun-%s" % ver
+            self.targets[ver] = f"https://github.com/lensfun/lensfun/archive/v{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"lensfun-{ver}"
 
         self.targetDigests["0.2.6"] = "ed20d5a04ff5785d15ea8e135bc125752d2d5a73"
         self.targetDigests["0.3.2"] = "1d978b15aa7304d66a4931fa37ca9f8f89396c16"
@@ -35,8 +35,8 @@ class Package(CMakePackageBase):
         disableSSE = CraftBool(CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64)
 
         self.subinfo.options.configure.args = [
-            "-DBUILD_STATIC=OFF",
-            "-DBUILD_TESTS=OFF",
+            f"-DBUILD_STATIC={self.subinfo.options.dynamic.buildStatic.asOnOff}",
+            f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
             "-DBUILD_AUXFUN=OFF",
             f"-DBUILD_FOR_SSE={disableSSE.inverted.asOnOff()}",
             f"-DBUILD_FOR_SSE2={disableSSE.inverted.asOnOff()}",
