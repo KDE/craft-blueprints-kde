@@ -41,4 +41,4 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += [f"-DBUILD_STANDALONE_APP={self.subinfo.options.dynamic.buildStandaloneApp.asOnOff()}"]
+        self.subinfo.options.configure.args += [f"-DBUILD_STANDALONE_APP={self.subinfo.options.dynamic.buildStandaloneApp.asOnOff}"]

@@ -29,7 +29,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # self.subinfo.options.configure.args += [f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff()}", "-DBUILD_EXAMPLES=ON", "-DNO_ITUNES_HACKS=ON"]
+        # self.subinfo.options.configure.args += [f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}", "-DBUILD_EXAMPLES=ON", "-DNO_ITUNES_HACKS=ON"]
         self.subinfo.options.configure.args += ["-DWITH_ASF=ON", "-DWITH_MP4=ON"]
 
     def postInstall(self):

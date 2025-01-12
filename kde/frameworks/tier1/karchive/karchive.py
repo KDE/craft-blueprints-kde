@@ -27,7 +27,7 @@ class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += [
-            f"-DWITH_BZIP2={self.subinfo.options.isActive('libs/libbzip2').asOnOff()}",
-            f"-DWITH_LIBLZMA={self.subinfo.options.isActive('libs/liblzma').asOnOff()}",
-            f"-DWITH_LIBZSTD={self.subinfo.options.isActive('libs/libzstd').asOnOff()}",
+            f"-DWITH_BZIP2={self.subinfo.options.isActive('libs/libbzip2').asOnOff}",
+            f"-DWITH_LIBLZMA={self.subinfo.options.isActive('libs/liblzma').asOnOff}",
+            f"-DWITH_LIBZSTD={self.subinfo.options.isActive('libs/libzstd').asOnOff}",
         ]

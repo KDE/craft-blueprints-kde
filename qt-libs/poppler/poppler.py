@@ -107,17 +107,17 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBOPENJPEG=unmaintained"]
 
         self.subinfo.options.configure.args += [
-            f"-DENABLE_LIBCURL={self.subinfo.options.isActive('libs/libcurl').asOnOff()}",
-            f"-DENABLE_CPP={self.subinfo.options.dynamic.buildCppFrontend.asOnOff()}",
-            f"-DENABLE_LIBTIFF={self.subinfo.options.isActive('libs/tiff').asOnOff()}",
-            f"-DENABLE_LCMS={self.subinfo.options.isActive('libs/lcms2').asOnOff()}",
-            f"-DENABLE_BOOST={self.subinfo.options.isActive('libs/boost').asOnOff()}",
+            f"-DENABLE_LIBCURL={self.subinfo.options.isActive('libs/libcurl').asOnOff}",
+            f"-DENABLE_CPP={self.subinfo.options.dynamic.buildCppFrontend.asOnOff}",
+            f"-DENABLE_LIBTIFF={self.subinfo.options.isActive('libs/tiff').asOnOff}",
+            f"-DENABLE_LCMS={self.subinfo.options.isActive('libs/lcms2').asOnOff}",
+            f"-DENABLE_BOOST={self.subinfo.options.isActive('libs/boost').asOnOff}",
         ]
 
         # Craft doesn't compile NSS and gpgme with mingw
         self.subinfo.options.configure.args += [
-            f"-DENABLE_NSS3={CraftBool(self.subinfo.options.isActive('libs/nss') and not CraftCore.compiler.isMinGW()).asOnOff()}"
+            f"-DENABLE_NSS3={CraftBool(self.subinfo.options.isActive('libs/nss') and not CraftCore.compiler.isMinGW()).asOnOff}"
         ]
         self.subinfo.options.configure.args += [
-            f"-DENABLE_GPGME={CraftBool(self.subinfo.options.isActive('libs/gpgme') and not CraftCore.compiler.isMinGW() and not CraftCore.compiler.isAndroid).asOnOff()}"
+            f"-DENABLE_GPGME={CraftBool(self.subinfo.options.isActive('libs/gpgme') and not CraftCore.compiler.isMinGW() and not CraftCore.compiler.isAndroid).asOnOff}"
         ]

@@ -38,7 +38,7 @@ class Package(CMakePackageBase):
             f"-DBUILD_STATIC={self.subinfo.options.dynamic.buildStatic.asOnOff}",
             f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
             "-DBUILD_AUXFUN=OFF",
-            f"-DBUILD_FOR_SSE={disableSSE.inverted.asOnOff()}",
-            f"-DBUILD_FOR_SSE2={disableSSE.inverted.asOnOff()}",
+            f"-DBUILD_FOR_SSE={disableSSE.inverted.asOnOff}",
+            f"-DBUILD_FOR_SSE2={disableSSE.inverted.asOnOff}",
             "-DBUILD_DOC=OFF",
         ]

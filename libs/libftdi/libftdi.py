@@ -28,5 +28,5 @@ class Package(CMakePackageBase):
             "-DPYTHON_BINDINGS=OFF",
             "-DEXAMPLES=OFF",
             "-DFTDI_EEPROM=OFF",
-            f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff()}",
+            f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
         ]

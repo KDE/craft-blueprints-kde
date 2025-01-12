@@ -26,4 +26,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DBUILD_FINGERPRINT=OFF", f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff()}"]
+        self.subinfo.options.configure.args += ["-DBUILD_FINGERPRINT=OFF", f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}"]

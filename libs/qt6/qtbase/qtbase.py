@@ -98,20 +98,20 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DQT_FEATURE_sql_odbc=OFF",
             "-DFEATURE_openssl_linked=ON",
             "-DQT_BUILD_EXAMPLES=OFF",
-            f"-DFEATURE_system_pcre2={self.subinfo.options.dynamic.withPCRE2.asOnOff()}",
-            f"-DFEATURE_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff()}",
-            f"-DFEATURE_icu={self.subinfo.options.dynamic.withICU.asOnOff()}",
-            f"-DFEATURE_dbus={self.subinfo.options.dynamic.withDBus.asOnOff()}",
+            f"-DFEATURE_system_pcre2={self.subinfo.options.dynamic.withPCRE2.asOnOff}",
+            f"-DFEATURE_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
+            f"-DFEATURE_icu={self.subinfo.options.dynamic.withICU.asOnOff}",
+            f"-DFEATURE_dbus={self.subinfo.options.dynamic.withDBus.asOnOff}",
             "-DFEATURE_dbus_linked=OFF",
-            f"-DFEATURE_glib={self.subinfo.options.dynamic.withGlib.asOnOff()}",
-            f"-DFEATURE_fontconfig={self.subinfo.options.dynamic.withFontConfig.asOnOff()}",
-            f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={self.subinfo.options.dynamic.useLtcg.asOnOff()}",
+            f"-DFEATURE_glib={self.subinfo.options.dynamic.withGlib.asOnOff}",
+            f"-DFEATURE_fontconfig={self.subinfo.options.dynamic.withFontConfig.asOnOff}",
+            f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={self.subinfo.options.dynamic.useLtcg.asOnOff}",
         ]
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += [
-                f"-DFEATURE_cups={self.subinfo.options.dynamic.withCUPS.asOnOff()}",
+                f"-DFEATURE_cups={self.subinfo.options.dynamic.withCUPS.asOnOff}",
                 "-DFEATURE_xcb=ON",
-                f"-DQT_FEATURE_egl={self.subinfo.options.dynamic.withEgl.asOnOff()}",
+                f"-DQT_FEATURE_egl={self.subinfo.options.dynamic.withEgl.asOnOff}",
             ]
 
         if CraftCore.compiler.isAndroid:

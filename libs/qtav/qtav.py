@@ -28,5 +28,5 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += [
             "-DBUILD_EXAMPLES=OFF",
             "-DBUILD_PLAYERS=OFF",
-            f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff()}",
+            f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
         ]

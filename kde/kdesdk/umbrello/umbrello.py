@@ -47,7 +47,7 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += [f"-DBUILD_PHP_IMPORT={self.subinfo.options.dynamic.buildPHPImport.asOnOff()}"]
+        self.subinfo.options.configure.args += [f"-DBUILD_PHP_IMPORT={self.subinfo.options.dynamic.buildPHPImport.asOnOff}"]
         if not CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
 

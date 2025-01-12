@@ -33,5 +33,5 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += [
             "-DWITH_EXAMPLES=OFF",
             "-DWITH_GTK=OFF",
-            f"-DWITH_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff()}",
+            f"-DWITH_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
         ]

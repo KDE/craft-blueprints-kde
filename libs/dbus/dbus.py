@@ -60,7 +60,7 @@ class subinfo(info.infoclass):
 class PackageCMake(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args = [f"-DDBUS_={self.subinfo.options.dynamic.buildTests.asOnOff()}", "-DDBUS_ENABLE_XML_DOCS=OFF"]
+        self.subinfo.options.configure.args = [f"-DDBUS_={self.subinfo.options.dynamic.buildTests.asOnOff}", "-DDBUS_ENABLE_XML_DOCS=OFF"]
 
         if self.buildType() == "Debug":
             self.subinfo.options.configure.args += ["-DDBUS_ENABLE_VERBOSE_MODE=ON"]
