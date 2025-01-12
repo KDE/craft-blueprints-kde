@@ -87,7 +87,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             f"-DPython3_EXECUTABLE={shortDevUtils / 'bin/python3'}{CraftCore.compiler.executableSuffix}",
             "-DQT_FEATURE_qtwebengine_build=ON",
             # Package harfbuzz-subset was not found
-            # f"-DQT_FEATURE_webengine_system_harfbuzz={'ON' if self.subinfo.options.dynamic.withHarfBuzz else 'OFF'}",
+            # f"-DQT_FEATURE_webengine_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff()}",
             "-DQT_FEATURE_webengine_system_libwebp=ON",
             "-DQT_FEATURE_webengine_system_libjpeg=ON",
             "-DQT_FEATURE_webengine_system_libxml=ON",
@@ -99,7 +99,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         # See https://bugs.kde.org/show_bug.cgi?id=486905 and https://github.com/Homebrew/homebrew-core/issues/104008 :
         # option not correctly supported on Windows and MacOS (as of Qt 6.7.0)
         if CraftCore.compiler.isLinux:
-            self.subinfo.options.configure.args += [f"-DQT_FEATURE_webengine_system_icu={'ON' if self.subinfo.options.dynamic.withICU else 'OFF'}"]
+            self.subinfo.options.configure.args += [f"-DQT_FEATURE_webengine_system_icu={self.subinfo.options.dynamic.withICU.asOnOff()}"]
         else:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_icu=OFF"]
 

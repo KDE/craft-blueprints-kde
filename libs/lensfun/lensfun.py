@@ -2,6 +2,7 @@ import info
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
+from Utils.CraftBool import CraftBool
 
 
 class subinfo(info.infoclass):
@@ -31,13 +32,13 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        disableSSE = CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64
+        disableSSE = CraftBool(CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64)
 
         self.subinfo.options.configure.args = [
             "-DBUILD_STATIC=OFF",
             "-DBUILD_TESTS=OFF",
             "-DBUILD_AUXFUN=OFF",
-            f"-DBUILD_FOR_SSE={'OFF' if disableSSE else 'ON'}",
-            f"-DBUILD_FOR_SSE2={'OFF' if disableSSE else 'ON'}",
+            f"-DBUILD_FOR_SSE={disableSSE.inverted.asOnOff()}",
+            f"-DBUILD_FOR_SSE2={disableSSE.inverted.asOnOff()}",
             "-DBUILD_DOC=OFF",
         ]

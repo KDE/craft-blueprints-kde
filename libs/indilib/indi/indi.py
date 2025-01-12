@@ -1,6 +1,7 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
+from Utils.CraftBool import CraftBool
 
 
 class subinfo(info.infoclass):
@@ -47,12 +48,11 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += [
-            f"-DINDI_BUILD_SERVER={'ON' if self.subinfo.options.dynamic.buildServer else 'OFF'}",
-            f"-DINDI_BUILD_DRIVERS={'ON' if self.subinfo.options.dynamic.buildServer else 'OFF'}",
-            f"-DINDI_BUILD_CLIENT={'ON' if self.subinfo.options.dynamic.buildClient else 'OFF'}",
-            f"-DINDI_BUILD_SERVER={'ON' if self.subinfo.options.dynamic.buildServer else 'OFF'}",
-            f"-DINDI_BUILD_STATIC={'ON' if CraftCore.compiler.isWindows and self.subinfo.options.dynamic.buildClient else 'OFF'}",
-            f"-DINDI_BUILD_SHARED={'ON' if not CraftCore.compiler.isWindows and self.subinfo.options.dynamic.buildClient else 'OFF'}",
+            f"-DINDI_BUILD_SERVER={self.subinfo.options.dynamic.buildServer.asOnOff()}",
+            f"-DINDI_BUILD_DRIVERS={self.subinfo.options.dynamic.buildServer.asOnOff()}",
+            f"-DINDI_BUILD_CLIENT={self.subinfo.options.dynamic.buildClient.asOnOff()}",
+            f"-DINDI_BUILD_STATIC={CraftBool(CraftCore.compiler.isWindows and self.subinfo.options.dynamic.buildClient).asOnOff()}",
+            f"-DINDI_BUILD_SHARED={CraftBool(not CraftCore.compiler.isWindows and self.subinfo.options.dynamic.buildClient).asOnOff()}",
             "-DINDI_BUILD_QT5_CLIENT=OFF",
             "-DBUILD_TESTING=OFF",
         ]

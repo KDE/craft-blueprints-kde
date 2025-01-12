@@ -26,6 +26,7 @@ import info
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
+from Utils.CraftBool import CraftBool
 
 
 class subinfo(info.infoclass):
@@ -105,17 +106,18 @@ class Package(CMakePackageBase):
         else:
             self.subinfo.options.configure.args += ["-DENABLE_LIBOPENJPEG=unmaintained"]
 
-        self.subinfo.options.configure.args += ["-DENABLE_LIBCURL=" + ("ON" if self.subinfo.options.isActive("libs/libcurl") else "OFF")]
-        self.subinfo.options.configure.args += ["-DENABLE_CPP=" + ("ON" if self.subinfo.options.dynamic.buildCppFrontend else "OFF")]
-        self.subinfo.options.configure.args += ["-DENABLE_LIBTIFF=" + ("ON" if self.subinfo.options.isActive("libs/tiff") else "OFF")]
-        self.subinfo.options.configure.args += ["-DENABLE_LCMS=" + ("ON" if self.subinfo.options.isActive("libs/lcms2") else "OFF")]
-        self.subinfo.options.configure.args += ["-DENABLE_BOOST=" + ("ON" if self.subinfo.options.isActive("libs/boost") else "OFF")]
+        self.subinfo.options.configure.args += [
+            f"-DENABLE_LIBCURL={self.subinfo.options.isActive('libs/libcurl').asOnOff()}",
+            f"-DENABLE_CPP={self.subinfo.options.dynamic.buildCppFrontend.asOnOff()}",
+            f"-DENABLE_LIBTIFF={self.subinfo.options.isActive('libs/tiff').asOnOff()}",
+            f"-DENABLE_LCMS={self.subinfo.options.isActive('libs/lcms2').asOnOff()}",
+            f"-DENABLE_BOOST={self.subinfo.options.isActive('libs/boost').asOnOff()}",
+        ]
 
         # Craft doesn't compile NSS and gpgme with mingw
         self.subinfo.options.configure.args += [
-            "-DENABLE_NSS3=" + ("ON" if (self.subinfo.options.isActive("libs/nss") and not CraftCore.compiler.isMinGW()) else "OFF")
+            f"-DENABLE_NSS3={CraftBool(self.subinfo.options.isActive('libs/nss') and not CraftCore.compiler.isMinGW()).asOnOff()}"
         ]
         self.subinfo.options.configure.args += [
-            "-DENABLE_GPGME="
-            + ("ON" if (self.subinfo.options.isActive("libs/gpgme") and not CraftCore.compiler.isMinGW() and not CraftCore.compiler.isAndroid) else "OFF")
+            f"-DENABLE_GPGME={CraftBool(self.subinfo.options.isActive('libs/gpgme') and not CraftCore.compiler.isMinGW() and not CraftCore.compiler.isAndroid).asOnOff()}"
         ]

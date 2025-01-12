@@ -41,7 +41,7 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
         super().__init__(**kwargs)
         self.subinfo.options.package.disableStriping = True
         self.subinfo.options.configure.args += [
-            f"-DBUILD_LIBS={'ON' if self.subinfo.options.dynamic.buildLibraries else 'OFF'}",
+            f"-DBUILD_LIBS={self.subinfo.options.dynamic.buildLibraries.asOnOff()}",
             "-DBUILD_TESTING=OFF",
         ]
 
