@@ -37,7 +37,7 @@ class Package(BinaryPackageBase):
             destDir = self.installDir() / "share"
         files = []
         for pattern in ["**/*.dic", "**/*.aff", "**/*.txt"]:
-            files.extend(glob.glob(srcDir / pattern, recursive=True))
+            files.extend(glob.glob(str(srcDir / pattern), recursive=True))
         for f in files:
             if not utils.copyFile(f, destDir / "hunspell" / os.path.basename(f), linkOnly=False):
                 return False
