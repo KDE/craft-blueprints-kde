@@ -5,6 +5,9 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.isMSVC())
+
     def setTargets(self):
         self.svnTargets["master"] = "[git]https://github.com/ampl/gsl.git"
         for ver in ["2.2.1", "2.5.0", "2.7.0"]:
@@ -30,5 +33,3 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         # AMPL not needed (avoid submodule ASL dependency)
         self.subinfo.options.configure.args += ["-DGSL_DISABLE_TESTS=ON", "-DNO_AMPL_BINDINGS=ON"]
-        if CraftCore.compiler.isMSVC():
-            self.subinfo.options.dynamic.buildStatic = True

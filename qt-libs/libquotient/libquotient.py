@@ -4,6 +4,11 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # LINK : fatal error LNK1104: cannot open file 'Quotient.lib
+        # And fixes crash on android
+        self.options.dynamic.setDefault("buildStatic", True)
+
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/quotient-im/libQuotient.git||dev"
 
@@ -28,6 +33,3 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # LINK : fatal error LNK1104: cannot open file 'Quotient.lib
-        # And fixes crash on android
-        self.subinfo.options.dynamic.buildStatic = True

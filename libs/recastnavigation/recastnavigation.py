@@ -8,6 +8,9 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.isAndroid)
+
     def setTargets(self):
         self.description = "Recast Navigation"
 
@@ -32,9 +35,6 @@ class Package(CMakePackageBase):
             "-DRECASTNAVIGATION_EXAMPLES=OFF",
             "-DRECASTNAVIGATION_TESTS=OFF",
         ]
-
-        if CraftCore.compiler.isAndroid:
-            self.subinfo.options.dynamic.buildStatic = True
 
         if self.subinfo.options.buildStatic:
             self.subinfo.options.configure.args += ["-DCMAKE_POSITION_INDEPENDENT_CODE=ON"]
