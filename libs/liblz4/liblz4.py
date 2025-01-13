@@ -4,6 +4,9 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildStatic", True)
+
     def setTargets(self):
         self.svnTargets["master"] = "[git]https://github.com/lz4/lz4.git"
         for ver in ["1.9.4", "1.10.0"]:
@@ -23,4 +26,3 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.dynamic.buildStatic = True

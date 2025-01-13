@@ -7,6 +7,9 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildStatic", True)
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
 
@@ -23,5 +26,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.dynamic.buildStatic = True
         self.subinfo.options.configure.args += ["-DOLM_TESTS=OFF"]

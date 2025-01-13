@@ -5,6 +5,10 @@ from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # mingw-w64 (gfortran) 8.1 includes only static libgfortran and fails to build dll
+        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.isWindows)
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Linear Algebra PACKage."
@@ -23,5 +27,3 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DCMAKE_SKIP_RPATH=ON", "-DLAPACKE_WITH_TMG=ON", "-DCBLAS=ON", "-DBUILD_DEPRECATED=ON"]
-        # mingw-w64 (gfortran) 8.1 includes only static libgfortran and fails to build dll
-        self.subinfo.options.dynamic.buildStatic = True if CraftCore.compiler.isWindows else False

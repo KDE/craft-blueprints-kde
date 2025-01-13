@@ -6,6 +6,9 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.isWindows)
+
     def setDependencies(self):
         pass
 
@@ -21,4 +24,3 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.dynamic.buildStatic = CraftCore.compiler.isWindows

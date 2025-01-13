@@ -5,6 +5,9 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.isWindows)
+
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/Orc/discount.git"
 
@@ -28,5 +31,3 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DDISCOUNT_ONLY_LIBRARY=ON"]
-        if CraftCore.compiler.isWindows:
-            self.subinfo.options.dynamic.buildStatic = True

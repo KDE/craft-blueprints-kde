@@ -30,6 +30,9 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildStatic", not CraftCore.compiler.isMinGW())
+
     def setTargets(self):
         self.targets["1.3.0"] = "https://github.com/yasm/yasm/archive/v1.3.0.tar.gz"
         self.archiveNames["1.3.0"] = "yasm-1.3.0.tar.gz"
@@ -52,7 +55,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-if CraftCore.compiler.isGCCLike() and CraftCore.compiler.isWindows:
+if CraftCore.compiler.isMinGW():
 
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):
@@ -64,4 +67,3 @@ else:
     class Package(CMakePackageBase):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            self.subinfo.options.dynamic.buildStatic = True
