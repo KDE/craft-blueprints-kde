@@ -16,7 +16,10 @@ class subinfo(info.infoclass):
         # The project was removed from GitHub. There is a blog post about this that announces, tar.gz files will still be available
         # but I could not find them so maybe this will be added back later and we can use them again
         # See https://tomscii.sig7.se/2024/01/Ditching-GitHub
-        self.svnTargets["8564022"] = "https://git.hq.sig7.se/tap-plugins.git||85640223047d49a305e90ba1b92303eb066ba474"
+        # self.svnTargets["8564022"] = "https://git.hq.sig7.se/tap-plugins.git||85640223047d49a305e90ba1b92303eb066ba474"
+        # The git.hq.sig7.se seems to have blocked requests from Hetzner servers (which KDE uses) on a provider level for some reason.
+        # Hence we use the mirror maintained by LMMS
+        self.svnTargets["8564022"] = "https://github.com/LMMS/tap-plugins.git||85640223047d49a305e90ba1b92303eb066ba474"
         self.patchToApply["8564022"] = ("ladspa-tap-cmake.patch", 0)
         self.patchLevel["8564022"] = 2
 
