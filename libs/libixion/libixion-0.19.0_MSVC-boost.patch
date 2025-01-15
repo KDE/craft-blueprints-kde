@@ -1,6 +1,6 @@
 diff -ruNa libixion-0.19.0.orig/configure.ac libixion-0.19.0/configure.ac
 --- libixion-0.19.0.orig/configure.ac	2023-09-27 01:47:25.000000000 +0200
-+++ libixion-0.19.0/configure.ac	2024-12-07 12:49:32.484348676 +0100
++++ libixion-0.19.0/configure.ac	2025-01-14 17:45:30.793457863 +0100
 @@ -20,7 +20,7 @@
  AM_INIT_AUTOMAKE([1.11 foreign dist-bzip2 dist-xz])
  m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
@@ -9,6 +9,15 @@ diff -ruNa libixion-0.19.0.orig/configure.ac libixion-0.19.0/configure.ac
 +CXXFLAGS="$CXXFLAGS -Wall"
  
  AC_CANONICAL_HOST
+ 
+@@ -31,7 +31,7 @@
+     ;;
+     *)
+         _os=
+-        LDFLAGS="$LDFLAGS -Wl,--no-as-needed -pthread -ldl"
++        LDFLAGS="$LDFLAGS"
+     ;;
+ esac
  
 diff -ruNa libixion-0.19.0.orig/include/ixion/env.hpp libixion-0.19.0/include/ixion/env.hpp
 --- libixion-0.19.0.orig/include/ixion/env.hpp	2022-11-01 03:01:01.000000000 +0100
@@ -22,3 +31,43 @@ diff -ruNa libixion-0.19.0.orig/include/ixion/env.hpp libixion-0.19.0/include/ix
  #define IXION_MOD_EXPORT __declspec(dllexport)
  #else
  #define IXION_MOD_EXPORT __attribute__ ((visibility ("default")))
+diff -ruNa libixion-0.19.0.orig/m4/boost.m4 libixion-0.19.0/m4/boost.m4
+--- libixion-0.19.0.orig/m4/boost.m4	2022-04-22 02:27:49.000000000 +0200
++++ libixion-0.19.0/m4/boost.m4	2025-01-14 17:20:54.082787799 +0100
+@@ -87,6 +87,9 @@
+ dnl                    "1_56"
+ dnl
+ dnl So get rid of the # and empty lines, and glue the remaining ones together.
++AC_MSG_NOTICE([ac_cpp: $ac_cpp])
++AC_MSG_NOTICE([CXXCPP: $CXXCPP])
++AC_MSG_NOTICE([CPPFLAGS: $CPPFLAGS])
+ (eval "$ac_cpp conftest.$ac_ext") 2>&AS_MESSAGE_LOG_FD |
+   grep -v '#' |
+   grep -v '^[[[:space:]]]*$' |
+@@ -237,6 +240,7 @@
+         AC_MSG_ERROR([invalid value: boost_major_version='$boost_major_version'])
+         ;;
+     esac
++    AC_MSG_NOTICE([Boost major version: $boost_major_version])
+ fi
+ CPPFLAGS=$boost_save_CPPFLAGS
+ ])# BOOST_REQUIRE
+@@ -1134,11 +1138,16 @@
+ # --------------------------------
+ # Look for Boost.System.  For the documentation of PREFERRED-RT-OPT, see the
+ # documentation of BOOST_FIND_LIB above.  This library was introduced in Boost
+-# 1.35.0.
++# 1.35.0 and is header only since 1.70.
+ BOOST_DEFUN([System],
+-[BOOST_FIND_LIB([system], [$1],
++[
++if test $boost_major_version -ge 170; then
++  BOOST_FIND_HEADER([boost/system/error_code.hpp])
++else
++  BOOST_FIND_LIB([system], [$1],
+                 [boost/system/error_code.hpp],
+                 [boost::system::error_code e; e.clear();])
++fi
+ ])# BOOST_SYSTEM
+ 
+ 

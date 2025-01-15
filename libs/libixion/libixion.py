@@ -32,8 +32,8 @@ class Package(AutoToolsPackageBase):
         if CraftCore.compiler.isMSVC():
             # MSVC explicitly needs to update __cplusplus
             # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
-            self.subinfo.options.configure.cxxflags += "/Zc:__cplusplus"
+            self.subinfo.options.configure.cxxflags += "/Zc:__cplusplus -showIncludes"
             #TODO: use Boost version
             self.subinfo.options.configure.cxxflags += f" -I{CraftCore.standardDirs.craftRoot()}/include/boost-1_86"
-            #TODO: Boost version not detected
-            #self.subinfo.options.configure.args += [f"BOOST_ROOT={CraftCore.standardDirs.craftRoot()}/include/boost-1_86"]
+            self.subinfo.options.configure.args += f'CPPFLAGS="-I{CraftCore.standardDirs.craftRoot()}/include/boost-1_86"'
+            self.subinfo.options.configure.args += f'LIBS="-link -LIBPATH:{CraftCore.standardDirs.craftRoot()}/lib"'
