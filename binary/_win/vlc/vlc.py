@@ -35,7 +35,7 @@ class Package(BinaryPackageBase):
         super().__init__(**kwargs)
 
     def install(self):
-        utils.copyDir(self.sourceDir(), self.installDir(), "bin")
+        utils.copyDir(self.sourceDir(), self.installDir() / "bin")
         if CraftCore.compiler.isMinGW():
             utils.deleteFile(self.installDir() / "bin/libgcc_s_seh-1.dll")
         utils.mergeTree(self.installDir() / "bin/sdk/include", self.installDir() / "include")
