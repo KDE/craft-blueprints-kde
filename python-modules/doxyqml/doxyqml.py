@@ -29,4 +29,4 @@ class Package(PipPackageBase):
                 self.imageDir() / "dev-utils/bin/python3.exe",
                 args=[os.path.join(CraftCore.settings.get("Paths", "Python"), "Scripts", "doxyqml")],
             )
-        return super().install(self)
+        return super().install()
