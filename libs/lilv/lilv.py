@@ -33,4 +33,4 @@ class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.subinfo.options.configure.args += ["-Dbindings_py=disabled", f"-Dtests={self.subinfo.options.dynamic.buildTests.asEnableDisable}"]
+        self.subinfo.options.configure.args += ["-Dbindings_py=disabled", f"-Dtests={self.subinfo.options.dynamic.buildTests.asEnabledDisabled}"]
