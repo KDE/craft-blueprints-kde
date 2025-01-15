@@ -10,7 +10,8 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.options.dynamic.setDefault("buildTests", not CraftCore.compiler.isMinGW())
+        if CraftCore.compiler.isMinGW():
+            self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
         self.description = "FreeRDP is a free remote desktop protocol library and clients"

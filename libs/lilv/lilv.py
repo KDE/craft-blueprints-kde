@@ -9,7 +9,8 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.options.dynamic.setDefault("buildTests", not CraftCore.compiler.isMacOS)
+        if CraftCore.compiler.isMacOS:
+            self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
         for ver in ["0.24.24"]:

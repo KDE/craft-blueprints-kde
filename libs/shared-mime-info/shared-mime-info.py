@@ -34,7 +34,8 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
-        self.options.dynamic.setDefault("buildTests", not CraftCore.compiler.isMSVC())
+        if CraftCore.compiler.isMSVC():
+            self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
         for ver in ["2.3"]:
