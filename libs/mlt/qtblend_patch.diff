@@ -12,7 +12,7 @@ index e2894377..17e10827 100644
  
  bool createQApplicationIfNeeded(mlt_service service);
 diff --git a/src/modules/qt/filter_qtblend.cpp b/src/modules/qt/filter_qtblend.cpp
-index 32d752d6..f77ab94f 100644
+index 1d9c9132..f77ab94f 100644
 --- a/src/modules/qt/filter_qtblend.cpp
 +++ b/src/modules/qt/filter_qtblend.cpp
 @@ -1,5 +1,5 @@
@@ -121,10 +121,10 @@ index 32d752d6..f77ab94f 100644
 -                   || rect.h != *height;
 -
 -        if (mlt_properties_get_int(properties, "distort") == 0) {
--            b_height = qMax(1, qMin((int) rect.h, b_height));
--            b_width = qMax(1, int(b_height * b_dar / b_ar / consumer_ar));
+-            b_height = qMax(1, qMin(qRound(rect.h), b_height));
+-            b_width = qMax(1, qRound(b_height * b_dar / b_ar / consumer_ar));
 -        } else {
--            b_width = qMax(1, int(b_width * b_ar / consumer_ar));
+-            b_width = qMax(1, qRound(b_width * b_ar / consumer_ar));
 -        }
 -        if (!hasAlpha && (b_width < *width || b_height < *height)) {
 -            hasAlpha = true;
@@ -160,7 +160,7 @@ index 32d752d6..f77ab94f 100644
          } else {
              scale = rect.h / b_height * b_ar;
 diff --git a/src/modules/qt/transition_qtblend.cpp b/src/modules/qt/transition_qtblend.cpp
-index 0b41b3ff..3324740e 100644
+index 100e4b69..3324740e 100644
 --- a/src/modules/qt/transition_qtblend.cpp
 +++ b/src/modules/qt/transition_qtblend.cpp
 @@ -58,7 +58,9 @@ static int get_image(mlt_frame a_frame,
@@ -237,8 +237,8 @@ index 0b41b3ff..3324740e 100644
          transform.translate(rect.x, rect.y);
          opacity = rect.o;
 -        if (!distort) {
--            b_width = qMin((int) rect.w, b_width);
--            b_height = qMin((int) rect.h, b_height);
+-            b_width = qMin(qRound(rect.w), b_width);
+-            b_height = qMin(qRound(rect.h), b_height);
 -            transform.translate((rect.w - b_width) / 2.0, (rect.h - b_height) / 2.0);
 -        }
          if (opacity < 1 || rect.x != 0 || rect.y != 0 || (rect.x + rect.w != *width)
