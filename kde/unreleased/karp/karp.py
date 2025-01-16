@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "Karp"
         self.description = "KDE arranger for PDF files"
+        self.webpage = "https://apps.kde.org/karp"
 
         self.svnTargets["master"] = "https://invent.kde.org/graphics/karp.git"
 
