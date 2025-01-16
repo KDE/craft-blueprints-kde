@@ -21,7 +21,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
-        self.buildDependencies["dev-utils/python3"] = None
+        self.buildDependencies["libs/python"] = None
+        self.buildDependencies["dev-utils/system-python3"] = None
         self.buildDependencies["dev-utils/pkg-config"] = None
         self.buildDependencies["python-modules/meson"] = None
         self.buildDependencies["python-modules/packaging"] = None

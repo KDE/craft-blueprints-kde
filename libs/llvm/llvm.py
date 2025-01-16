@@ -60,7 +60,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["libs/libxml2"] = None
         self.buildDependencies["libs/libzstd"] = None
-        self.buildDependencies["dev-utils/python3"] = None
+        self.buildDependencies["libs/python"] = None
+        self.buildDependencies["dev-utils/system-python3"] = None
 
 
 class Package(CMakePackageBase):

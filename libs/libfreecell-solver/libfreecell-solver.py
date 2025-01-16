@@ -25,7 +25,8 @@ class subinfo(info.infoclass):
         self.buildDependencies["perl-modules/moo"] = None
         self.buildDependencies["perl-modules/sub-quote"] = None
         self.buildDependencies["dev-utils/gperf"] = None
-        self.buildDependencies["dev-utils/python3"] = None
+        self.buildDependencies["libs/python"] = None
+        self.buildDependencies["dev-utils/system-python3"] = None
         self.buildDependencies["python-modules/random2"] = None
         self.buildDependencies["python-modules/six"] = None
         self.buildDependencies["python-modules/pysol-cards"] = None

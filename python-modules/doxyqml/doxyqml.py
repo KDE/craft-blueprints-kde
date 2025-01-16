@@ -9,7 +9,8 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.buildDependencies["dev-utils/python3"] = None
+        self.buildDependencies["libs/python"] = None
+        self.buildDependencies["dev-utils/system-python3"] = None
 
     def setTargets(self):
         self.svnTargets["master"] = ""

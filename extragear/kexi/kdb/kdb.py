@@ -9,7 +9,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["dev-utils/python3"] = None
+        self.buildDependencies["libs/python"] = None
+        self.buildDependencies["dev-utils/system-python3"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/sqlite"] = None

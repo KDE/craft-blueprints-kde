@@ -40,7 +40,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         if CraftCore.compiler.isWindows:
             self.buildDependencies["dev-utils/subversion"] = None
-        self.buildDependencies["dev-utils/python3"] = None
+        self.buildDependencies["libs/python"] = None
+        self.buildDependencies["dev-utils/system-python3"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None

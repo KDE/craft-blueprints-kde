@@ -13,7 +13,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = minor_ver
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/python3"] = None
+        self.buildDependencies["libs/python"] = None
+        self.buildDependencies["dev-utils/system-python3"] = None
         self.buildDependencies["dev-utils/gtk-doc"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/iconv"] = None
