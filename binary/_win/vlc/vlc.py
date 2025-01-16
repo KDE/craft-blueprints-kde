@@ -44,7 +44,7 @@ class Package(BinaryPackageBase):
         os.makedirs(self.installDir() / "share/applications")
         utils.copyFile(self.blueprintDir() / "vlc.desktop", self.installDir() / "share/applications/vlc.desktop")
         if CraftCore.compiler.isMSVC():
-            utils.deleteFile(self.installDir(), "lib", "vlccore.lib")
+            utils.deleteFile(self.installDir() / "lib/vlccore.lib")
             utils.deleteFile(self.installDir() / "lib/vlc.lib")
 
         return True
