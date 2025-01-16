@@ -13,15 +13,16 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/frankosterfeld/qtkeychain.git"
-        for ver in ["0.14.1", "0.14.2", "0.14.3"]:
+        for ver in ["0.14.1", "0.14.2", "0.14.3", "0.15.0"]:
             self.targets[ver] = f"https://github.com/frankosterfeld/qtkeychain/archive/{ver}.tar.gz"
             self.archiveNames[ver] = "qtkeychain-{ver}.tar.gz"
             self.targetInstSrc[ver] = "qtkeychain-%s" % ver
         self.targetDigests["0.14.1"] = (["afb2d120722141aca85f8144c4ef017bd74977ed45b80e5d9e9614015dadd60c"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.14.2"] = (["cf2e972b783ba66334a79a30f6b3a1ea794a1dc574d6c3bebae5ffd2f0399571"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.14.3"] = (["a22c708f351431d8736a0ac5c562414f2b7bb919a6292cbca1ff7ac0849cb0a7"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.15.0"] = (["f4254dc8f0933b06d90672d683eab08ef770acd8336e44dfa030ce041dc2ca22"], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "0.14.3"
+        self.defaultTarget = "0.15.0"
 
 
 class Package(CMakePackageBase):
