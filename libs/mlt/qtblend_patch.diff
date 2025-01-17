@@ -12,7 +12,7 @@ index e2894377..17e10827 100644
  
  bool createQApplicationIfNeeded(mlt_service service);
 diff --git a/src/modules/qt/filter_qtblend.cpp b/src/modules/qt/filter_qtblend.cpp
-index 1d9c9132..f77ab94f 100644
+index 1d9c9132..d5ed82dd 100644
 --- a/src/modules/qt/filter_qtblend.cpp
 +++ b/src/modules/qt/filter_qtblend.cpp
 @@ -1,5 +1,5 @@
@@ -72,10 +72,10 @@ index 1d9c9132..f77ab94f 100644
 +            // Always request an image that follows the consumer aspect ratio
 +            double consumer_dar = normalized_width * consumer_ar / normalized_height;
 +            if (consumer_dar < b_dar) {
-+                *width = qMin(b_width, MLT_QTBLEND_MAX_DIMENSION);
++                *width = qBound(qRound(normalized_width * consumerScale), b_width, MLT_QTBLEND_MAX_DIMENSION);
 +                *height = *width * consumer_ar * normalized_height / normalized_width;
 +            } else {
-+                *height = qMin(b_height, MLT_QTBLEND_MAX_DIMENSION);
++                *height = qBound(qRound(normalized_height * consumerScale), b_height, MLT_QTBLEND_MAX_DIMENSION);
 +                *width = *height * normalized_width / normalized_height / consumer_ar;
 +            }
 +            // Adjust rect to new scaling
