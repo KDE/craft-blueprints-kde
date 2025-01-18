@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
             )
             self.targetInstSrc[ver] = f"boost-{ver}"
         self.defaultTarget = "1.86.0"
-        self.patchLevel["1.86.0"] = 1
+        self.patchLevel["1.86.0"] = 2
         self.webpage = "https://www.boost.org/"
 
         self.description = "Boost provides free peer-reviewed portable C++ source libraries."
@@ -38,7 +38,7 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         # https://github.com/boostorg/cmake
         self.subinfo.options.configure.args += [
-            "-DBOOST_INCLUDE_LIBRARIES=atomic;chrono;circular_buffer;date_time;filesystem;iostreams;program_options;python;random;regex;safe_numerics;serialization;signals2;system;thread",
+            "-DBOOST_INCLUDE_LIBRARIES=atomic;chrono;circular_buffer;date_time;filesystem;interprocess;iostreams;program_options;python;random;regex;safe_numerics;serialization;signals2;system;thread",
         ]
         if not CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["-DBOOST_ENABLE_PYTHON=ON"]
