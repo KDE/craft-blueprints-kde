@@ -47,5 +47,7 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--disable-shared"]
+        # make possible to include it when building shared libs
+        self.subinfo.options.configure.cflags += "-fPIC"
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.make.supportsMultijob = False
