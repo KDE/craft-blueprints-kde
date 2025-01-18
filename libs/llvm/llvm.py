@@ -133,12 +133,10 @@ class Package(CMakePackageBase):
     def postInstall(self):
         if CraftCore.compiler.isWindows:
             # wrapper for python scripts
-            root = CraftCore.standardDirs.craftRoot()
             if not utils.createShim(
                 self.installDir() / "bin/git-clang-format.exe",
-                root / "dev-utils/bin/python3.exe",
-                [root / "bin/git-clang-format"],
-                useAbsolutePath=True,
+                "python3.exe",
+                [CraftCore.standardDirs.craftRoot() / "bin/git-clang-format"],
             ):
                 return False
         return True
