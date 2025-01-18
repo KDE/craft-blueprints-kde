@@ -13,6 +13,10 @@ class subinfo(info.infoclass):
         self.patchToApply["6.8.0"] = [("e6e3da4de8fac7f52eb2591cb95a04ab413f8ace.patch", 1)]
         self.patchLevel["6.8.0"] = 1
 
+        # https://bugreports.qt.io/browse/QTBUG-132421
+        self.patchToApply["6.8.1"] = [("eff776c676b042bd75604105a3876f999b9808d5.patch", 1)]
+        self.patchLevel["6.8.1"] = 1
+
     def setDependencies(self):
         self.buildDependencies["libs/qt6/qttools"] = None
         self.runtimeDependencies["virtual/base"] = None
