@@ -1,0 +1,40 @@
+diff -ruNa liborcus-0.19.2.orig/m4/boost.m4 liborcus-0.19.2/m4/boost.m4
+--- liborcus-0.19.2.orig/m4/boost.m4	2022-04-22 02:43:18.000000000 +0200
++++ liborcus-0.19.2/m4/boost.m4	2025-01-18 00:52:36.871404587 +0100
+@@ -87,6 +87,9 @@
+ dnl                    "1_56"
+ dnl
+ dnl So get rid of the # and empty lines, and glue the remaining ones together.
++AC_MSG_NOTICE([ac_cpp: $ac_cpp])
++AC_MSG_NOTICE([CXXCPP: $CXXCPP])
++AC_MSG_NOTICE([CPPFLAGS: $CPPFLAGS])
+ (eval "$ac_cpp conftest.$ac_ext") 2>&AS_MESSAGE_LOG_FD |
+   grep -v '#' |
+   grep -v '^[[[:space:]]]*$' |
+@@ -237,6 +240,7 @@
+         AC_MSG_ERROR([invalid value: boost_major_version='$boost_major_version'])
+         ;;
+     esac
++    AC_MSG_NOTICE([Boost major version: $boost_major_version])
+ fi
+ CPPFLAGS=$boost_save_CPPFLAGS
+ ])# BOOST_REQUIRE
+@@ -1234,11 +1238,16 @@
+ # --------------------------------
+ # Look for Boost.System.  For the documentation of PREFERRED-RT-OPT, see the
+ # documentation of BOOST_FIND_LIB above.  This library was introduced in Boost
+-# 1.35.0.
++# 1.35.0 and is header only since 1.70.
+ BOOST_DEFUN([System],
+-[BOOST_FIND_LIB([system], [$1],
++[
++if test $boost_major_version -ge 170; then
++  BOOST_FIND_HEADER([boost/system/error_code.hpp])
++else
++  BOOST_FIND_LIB([system], [$1],
+                 [boost/system/error_code.hpp],
+                 [boost::system::error_code e; e.clear();])
++fi
+ ])# BOOST_SYSTEM
+ 
+ 
