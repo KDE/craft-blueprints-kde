@@ -1,6 +1,5 @@
 import multiprocessing
 import os
-from pathlib import Path
 
 import info
 import utils
@@ -81,7 +80,12 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         # together with the patch based on https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/qtwebengine-6.5.2-r1.ebuild
 
         # use a short path for Windows
-        shortDevUtils = CraftShortPath(Path(CraftCore.standardDirs.craftRoot()) / "dev-utils/").shortPath
+        # use a short path for Windows
+        usesCraftPython = CraftPackageObject.get("libs/python").categoryInfo.isActive
+        pythonRoot = CraftCore.standardDirs.craftRoot()
+        if not usesCraftPython:
+            pythonRoot = CraftCore.standardDirs.craftRoot() / "dev-utils/"
+        shortDevUtils = CraftShortPath(pythonRoot).shortPath
         self.subinfo.options.configure.args += [
             # no idea why cmake ignores the path env
             f"-DPython3_EXECUTABLE={shortDevUtils / 'bin/python3'}{CraftCore.compiler.executableSuffix}",
