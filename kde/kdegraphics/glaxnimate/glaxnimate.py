@@ -61,7 +61,7 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def setDefaults(self, defines: {str: str}) -> {str: str}:
         defines = super().setDefaults(defines)
-        if CraftCore.compiler.platform.isLinux and isinstance(self, AppImagePackager):
+        if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
             defines["runenv"] += [
                 "PYTHONHOME=$this_dir/usr",
                 # Set QT_QPA_PLATFORM only if not already done.
