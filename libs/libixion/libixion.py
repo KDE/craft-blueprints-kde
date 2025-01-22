@@ -34,13 +34,13 @@ class Package(AutoToolsPackageBase):
         super().__init__(**kwargs)
         # help pkg-config (mdds is in share/pkgconfig, python3 in lib/pkgconfig)
         self.subinfo.options.configure.args += f'PKG_CONFIG_PATH="{CraftCore.standardDirs.craftRoot()}/lib/pkgconfig:{CraftCore.standardDirs.craftRoot()}/share/pkgconfig"'
-        #TODO: use Boost version
-        self.subinfo.options.configure.cxxflags += f" -I{CraftCore.standardDirs.craftRoot()}/include/boost-1_86"
-        self.subinfo.options.configure.args += f'CPPFLAGS="-I{CraftCore.standardDirs.craftRoot()}/include/boost-1_86"'
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += f'CPPFLAGS="-I{CraftCore.standardDirs.craftRoot()}/include"'
         if CraftCore.compiler.isMSVC():
             # MSVC explicitly needs to update __cplusplus
             # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
             self.subinfo.options.configure.cxxflags += "/Zc:__cplusplus -showIncludes"
+            #TODO: use Boost version
+            self.subinfo.options.configure.cxxflags += f" -I{CraftCore.standardDirs.craftRoot()}/include/boost-1_86"
+            self.subinfo.options.configure.args += f'CPPFLAGS="-I{CraftCore.standardDirs.craftRoot()}/include/boost-1_86"'
             self.subinfo.options.configure.args += f'LIBS="-link -LIBPATH:{CraftCore.standardDirs.craftRoot()}/lib"'
