@@ -34,8 +34,7 @@ class Package(AutoToolsPackageBase):
         super().__init__(**kwargs)
         # help pkg-config (mdds is in share/pkgconfig, python3 in lib/pkgconfig)
         self.subinfo.options.configure.args += f'PKG_CONFIG_PATH="{CraftCore.standardDirs.craftRoot()}/lib/pkgconfig:{CraftCore.standardDirs.craftRoot()}/share/pkgconfig"'
-        if CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += f'CPPFLAGS="-I{CraftCore.standardDirs.craftRoot()}/include"'
+        self.subinfo.options.configure.args += f'CPPFLAGS="-I{CraftCore.standardDirs.craftRoot()}/include"'
         if CraftCore.compiler.isMSVC():
             # MSVC explicitly needs to update __cplusplus
             # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
