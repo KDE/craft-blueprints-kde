@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"libixion-{ver}"
         self.targetDigests["0.19.0"] = (["b4864d7a55351a09adbe9be44e5c65b1d417e80e946c947951d0e8428b9dcd15"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["0.19.0"] = [("libixion-0.19.0_WIN32.patch", 1)]
-        self.patchToApply["0.19.0"] = [("libixion-0.19.0_boost.patch", 1)]
+        self.patchToApply["0.19.0"] += [("libixion-0.19.0_boost.patch", 1)]
         if CraftCore.compiler.isMSVC() or CraftCore.compiler.isMacOS:
             self.patchToApply["0.19.0"] += [("libixion-0.19.0_MSVC.patch", 1)]
         if CraftCore.compiler.isMSVC():
