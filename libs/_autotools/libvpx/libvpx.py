@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.15.0"] = (["e935eded7d81631a538bfae703fd1e293aad1c7fd3407ba00440c95105d2011e"], CraftHash.HashAlgorithm.SHA256)
 
         self.patchToApply["1.13.1"] = [("detect-clang.diff", 1)]
-        self.patchToApply["1.15.0"] = [("detect-clang.diff", 1)]
+        self.patchToApply["1.15.0"] = [("detect-clang.diff", 1), ("mac.diff", 1)]
 
         self.defaultTarget = "1.15.0"
 
