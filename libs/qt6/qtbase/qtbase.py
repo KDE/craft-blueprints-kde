@@ -89,6 +89,8 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         super().__init__(**kwargs)
 
         self.subinfo.options.configure.args += [
+            # Qt has a silent config step for unknown reasons
+            "--log-level=STATUS",
             # sometimes qt fails to pic up the basic things
             f"-DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES={CraftCore.standardDirs.craftRoot()}/include",
             "-DFEATURE_pkg_config=ON",
