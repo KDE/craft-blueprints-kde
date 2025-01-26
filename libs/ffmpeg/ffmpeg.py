@@ -152,6 +152,8 @@ class Package(AutoToolsPackageBase):
             "--enable-version3",
             "--enable-nonfree",
             "--enable-openssl",
+            f"--{CraftCore.compiler.isLinux.asEnableDisable}-xlib",
+            f"--{CraftCore.compiler.isLinux.asEnableDisable}-libxcb",
         ]
 
         # This disables H.264/H.265 **encoding** and not decoding (that is handled by avcodec)
