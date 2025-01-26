@@ -96,6 +96,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DFEATURE_pkg_config=ON",
             "-DFEATURE_system_sqlite=ON",
             "-DFEATURE_system_zlib=ON",
+            "-DFEATURE_system_libb2=OFF",
             f"-DFEATURE_system_freetype={self.subinfo.options.isActive('libs/freetype').asOnOff}",
             "-DQT_FEATURE_sql_odbc=OFF",
             "-DFEATURE_openssl_linked=ON",
