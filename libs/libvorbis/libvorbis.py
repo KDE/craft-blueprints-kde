@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = "libvorbis-" + ver
         self.targetDigests["1.3.7"] = (["0e982409a9c3fc82ee06e08205b1355e5c6aa4c36bca58146ef399621b0ce5ab"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["1.3.7"] = [("0003-def-mingw-compat.patch", 1)]
+        self.patchLevel["1.3.7"] = 1
 
         self.description = "reference implementation for the vorbis audio file format"
         self.defaultTarget = "1.3.7"
@@ -22,3 +23,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += ["-DCMAKE_MACOSX_RPATH=1"]
