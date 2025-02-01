@@ -10,10 +10,10 @@ class subinfo(info.infoclass):
         self.description = "Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API."
         self.defaultTarget = "master"
 
-        # TODO: Make it building on MSVC
-        self.allowPrebuildBinaries = CraftCore.compiler.isMSVC()
-
 
 class Package(PipPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        # TODO: Make it building on MSVC
+        self.allowPrebuildBinaries = CraftCore.compiler.isMSVC()
