@@ -7,22 +7,16 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "GYP can Generate Your Projects."
 
+        # nss build fails with versions >= 0.17.0 on MSVC
+        # TODO: test other platforms
+        # 0.16.1 is not available on pypi, building from the tarball
         for ver in ["0.16.1"]:
             self.targets[ver] = f"https://github.com/nodejs/gyp-next/archive/refs/tags/v{ver}.zip"
             self.targetInstSrc[ver] = f"gyp-next-{ver}"
         self.defaultTarget = "0.16.1"
 
-        # nss build fails with versions >= 0.17.0 on MSVC
-        # TODO: test other platforms
-        # 0.16.0 is not available on pypi, building from the tarball
-        # does not install the gyp site-package (why???)
-        if CraftCore.compiler.isMSVC():
-            # 0.15.0 from pypi
-            self.defaultTarget = "0.15.0"
-        else:
-            self.defaultTarget = "0.16.1"
-
     def setDependencies(self):
+        self.buildDependencies["python-modules/build"] = None
         self.buildDependencies["python-modules/packaging"] = None
         self.buildDependencies["python-modules/setuptools"] = None
 
