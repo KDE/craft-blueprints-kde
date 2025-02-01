@@ -26,7 +26,9 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["python-modules/lxml"] = None
+        if CraftCore.compiler.isWindows:
+            # Required when -DWITH_ICON_GENERATION=ON
+            self.buildDependencies["python-modules/lxml"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
 
