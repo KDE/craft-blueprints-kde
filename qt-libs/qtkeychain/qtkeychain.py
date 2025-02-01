@@ -11,6 +11,9 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
+        # See https://github.com/frankosterfeld/qtkeychain/issues/262
+        self.patchToApply["0.15.0"] = [("qtkeychain-0.15.0-20250201.diff", 1)]
+
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/frankosterfeld/qtkeychain.git"
         for ver in ["0.14.1", "0.14.2", "0.14.3", "0.15.0"]:
