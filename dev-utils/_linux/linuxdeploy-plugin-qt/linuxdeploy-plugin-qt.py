@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.targetInstallPath["continous"] = "dev-utils/bin"
         self.description = "AppDir creation and maintenance tool. Featuring flexible plugin system."
         self.webpage = "https://github.com/linuxdeploy/linuxdeploy"
-        self.targetDigests["2.0.0-alpha-1-20250119"] = (['902eb77cb9d2c8f77403c0bae89b992bb1e2f7128b118a666c65ebc7d76173ff'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.0.0-alpha-1-20250119"] = (["902eb77cb9d2c8f77403c0bae89b992bb1e2f7128b118a666c65ebc7d76173ff"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "2.0.0-alpha-1-20250119"
 
     def setDependencies(self):
