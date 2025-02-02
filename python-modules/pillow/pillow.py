@@ -1,8 +1,13 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2024 Julius Künzel <julius.kuenzel@kde.org>
 
+import os
+
 import info
+from CraftCore import CraftCore
+from CraftStandardDirs import CraftStandardDirs
 from Package.PipPackageBase import PipPackageBase
+from utils import ScopedEnv
 
 
 class subinfo(info.infoclass):
@@ -28,3 +33,14 @@ class subinfo(info.infoclass):
 class Package(PipPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+    def install(self):
+        env = {}
+        if CraftCore.compiler.isMSVC():
+            env.update(
+                {
+                    "INCLUDE": f"{os.environ['INCLUDE']};{CraftStandardDirs.craftRoot() / 'include/python3.11'}",
+                }
+            )
+        with ScopedEnv(env):
+            return super().install()
