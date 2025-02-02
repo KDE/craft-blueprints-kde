@@ -48,8 +48,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["libs/python"] = None
         # Python deps are waiting for https://invent.kde.org/packaging/craft/-/merge_requests/266
-        # self.runtimeDependencies["python-modules/lottie"] = None
-        # self.runtimeDependencies["python-modules/pillow"] = None
+        self.runtimeDependencies["python-modules/lottie"] = None
+        self.runtimeDependencies["python-modules/pillow"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
