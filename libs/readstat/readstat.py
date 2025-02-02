@@ -34,7 +34,7 @@ class subinfo(info.infoclass):
             self.patchToApply["1.1.8"] += [("readstat-1.1.6-compiler-flags.diff", 1)]
             self.patchToApply["1.1.9"] += [("readstat-1.1.6-compiler-flags.diff", 1)]
 
-        self.patchLevel["1.1.9"] = 1
+        self.patchLevel["1.1.9"] = 2
 
         self.defaultTarget = "1.1.9"
 
@@ -46,5 +46,7 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        # make possible to include it when building shared libs
+        self.subinfo.options.configure.cflags += "-fPIC"
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.make.supportsMultijob = False

@@ -15,8 +15,9 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"libixion-{ver}"
         self.targetDigests["0.19.0"] = (["b4864d7a55351a09adbe9be44e5c65b1d417e80e946c947951d0e8428b9dcd15"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["0.19.0"] = [("libixion-0.19.0_WIN32.patch", 1)]
+        self.patchToApply["0.19.0"] += [("libixion-0.19.0_boost.patch", 1)]
         if CraftCore.compiler.isMSVC() or CraftCore.compiler.isMacOS:
-            self.patchToApply["0.19.0"] += [("libixion-0.19.0_MSVC-boost.patch", 1)]
+            self.patchToApply["0.19.0"] += [("libixion-0.19.0_MSVC.patch", 1)]
         if CraftCore.compiler.isMSVC():
             self.patchToApply["0.19.0"] += [("mdds-2.1.1_MSVC-c++17.patch", 1)]
 
@@ -32,14 +33,15 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # help pkg-config (mdds is in share/pkgconfig, python3 in lib/pkgconfig)
-        self.subinfo.options.configure.args += f'PKG_CONFIG_PATH="{CraftCore.standardDirs.craftRoot()}/lib/pkgconfig:{CraftCore.standardDirs.craftRoot()}/share/pkgconfig"'
-        if CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += f'CPPFLAGS="-I{CraftCore.standardDirs.craftRoot()}/include"'
+        self.subinfo.options.configure.args += (
+            f'PKG_CONFIG_PATH="{CraftCore.standardDirs.craftRoot()}/lib/pkgconfig:{CraftCore.standardDirs.craftRoot()}/share/pkgconfig"'
+        )
+        self.subinfo.options.configure.args += f'CPPFLAGS="-I{CraftCore.standardDirs.craftRoot()}/include"'
         if CraftCore.compiler.isMSVC():
             # MSVC explicitly needs to update __cplusplus
             # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
             self.subinfo.options.configure.cxxflags += "/Zc:__cplusplus -showIncludes"
-            #TODO: use Boost version
+            # TODO: use Boost version
             self.subinfo.options.configure.cxxflags += f" -I{CraftCore.standardDirs.craftRoot()}/include/boost-1_86"
             self.subinfo.options.configure.args += f'CPPFLAGS="-I{CraftCore.standardDirs.craftRoot()}/include/boost-1_86"'
             self.subinfo.options.configure.args += f'LIBS="-link -LIBPATH:{CraftCore.standardDirs.craftRoot()}/lib"'
