@@ -1,5 +1,5 @@
 import info
-from Package.CMakePackageBase import CMakePackageBase
+from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
@@ -29,6 +29,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libzip"] = None
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+    def createPackage(self):
+        self.defines["executable"] = r"bin\ark.exe"
+        return super().createPackage()
