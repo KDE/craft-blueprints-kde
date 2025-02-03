@@ -47,9 +47,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["libs/python"] = None
-        # Python deps are waiting for https://invent.kde.org/packaging/craft/-/merge_requests/266
-        self.runtimeDependencies["python-modules/lottie"] = None
-        self.runtimeDependencies["python-modules/pillow"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["python-modules/lottie"] = None
+            self.runtimeDependencies["python-modules/pillow"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
