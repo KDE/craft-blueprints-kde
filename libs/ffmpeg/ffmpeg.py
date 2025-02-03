@@ -40,7 +40,7 @@ class subinfo(info.infoclass):
         self.patchLevel["5.0.1"] = 4
         self.patchLevel["6.0"] = 3
         self.patchLevel["6.1.1"] = 2
-        self.patchLevel["7.1"] = 2
+        self.patchLevel["7.1"] = 3
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
@@ -152,7 +152,7 @@ class Package(AutoToolsPackageBase):
             "--enable-version3",
             "--enable-nonfree",
             "--enable-openssl",
-            f"--{CraftCore.compiler.isLinux.asEnableDisable}-xlib",
+            "--disable-xlib",
             f"--{CraftCore.compiler.isLinux.asEnableDisable}-libxcb",
         ]
 
