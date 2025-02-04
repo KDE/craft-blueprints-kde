@@ -44,7 +44,12 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.supportsCCACHE = False
-        self.subinfo.options.configure.args += ["-DPNG_TESTS=OFF", "-DPNG_NO_STDIO=OFF"]
+        self.subinfo.options.configure.args += [
+            "-DPNG_TESTS=OFF",
+            "-DPNG_NO_STDIO=OFF",
+            # don't add a postfix, we don't allow parallel install and this breaks the .pc
+            "-DPNG_DEBUG_POSTFIX=",
+        ]
         if CraftCore.compiler.isMacOS and self.subinfo.buildTarget == "1.6.39":
             self.subinfo.options.configure.args += ["-DPNG_ARM_NEON=off"]
         # PNG_EXECUTABLES is used for <= 1.6.40, PNG_TOOLS for > 1.6.40
