@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/frankosterfeld/qtkeychain.git"
         for ver in ["0.14.1", "0.14.2", "0.14.3", "0.15.0"]:
             self.targets[ver] = f"https://github.com/frankosterfeld/qtkeychain/archive/{ver}.tar.gz"
-            self.archiveNames[ver] = "qtkeychain-{ver}.tar.gz"
+            self.archiveNames[ver] = f"qtkeychain-{ver}.tar.gz"
             self.targetInstSrc[ver] = "qtkeychain-%s" % ver
         self.targetDigests["0.14.1"] = (["afb2d120722141aca85f8144c4ef017bd74977ed45b80e5d9e9614015dadd60c"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.14.2"] = (["cf2e972b783ba66334a79a30f6b3a1ea794a1dc574d6c3bebae5ffd2f0399571"], CraftHash.HashAlgorithm.SHA256)
