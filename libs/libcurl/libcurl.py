@@ -7,6 +7,10 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        if CraftCore.compiler.isAndroid:
+            self.options.dynamic.setDefault("buildTools", False)
+
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/bagder/curl.git"
         for ver in ["7.78.0", "7.84.0"]:
