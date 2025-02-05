@@ -85,7 +85,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         # needed by AppImage
         self.runtimeDependencies["libs/brotli"] = None
-        if not CraftCore.compiler.isWindows:
+        if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/boost"] = None
             self.runtimeDependencies["libs/libixion"] = None
 
