@@ -1,0 +1,3 @@
+# this file from python-lottie is only needed at build time
+# and breaks signing on macOS
+lib/Python.framework/Versions/Current/.version_full

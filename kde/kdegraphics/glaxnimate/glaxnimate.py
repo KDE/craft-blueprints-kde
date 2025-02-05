@@ -73,6 +73,9 @@ class Package(CraftPackageObject.get("kde").pattern):
         # if not CraftCore.compiler.isLinux:
         #     self.ignoredPackages.append("libs/dbus")
 
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(self.blueprintDir() / "exclude_macos.list")
+
         # For the Microsoft Store
         # We need to change this, because for unknown reasons the store does not
         # assign the usual KDEe.V.Glaxnimate as for other apps
