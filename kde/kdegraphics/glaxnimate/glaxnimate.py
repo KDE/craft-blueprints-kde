@@ -44,7 +44,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["libs/python"] = None
-        if not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.isAndroid:  # and not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["python-modules/lottie"] = None
             self.runtimeDependencies["python-modules/pillow"] = None
 
