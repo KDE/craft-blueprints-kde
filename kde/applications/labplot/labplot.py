@@ -41,7 +41,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libzip"] = None
         self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/netcdf"] = None
-        if not CraftCore.compiler.isWindows:
+        if not CraftCore.compiler.isWindows and not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/liborcus"] = None
 
         if CraftCore.compiler.isMacOS:
@@ -75,9 +75,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/matio"] = None
-        self.runtimeDependencies["libs/readstat"] = None
         self.runtimeDependencies["libs/discount"] = None
         if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/readstat"] = None
             self.buildDependencies["libs/python"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
