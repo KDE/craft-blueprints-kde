@@ -76,8 +76,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/matio"] = None
         self.runtimeDependencies["libs/discount"] = None
+        # required on macOS currently
+        self.runtimeDependencies["libs/readstat"] = None
         if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["libs/readstat"] = None
             self.buildDependencies["libs/python"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
@@ -166,6 +167,7 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("binary/r-base")
         self.ignoredPackages.append("libs/llvm")
+        self.ignoredPackages.append("libs/python")
         self.ignoredPackages.append("libs/qt6/qtshadertools")
         self.ignoredPackages.append("libs/qt6/qtwebengine")
         self.ignoredPackages.append("libs/sdl2")
