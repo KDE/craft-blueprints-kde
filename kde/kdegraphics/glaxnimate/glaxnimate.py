@@ -13,18 +13,15 @@ class subinfo(info.infoclass):
         self.description = "Simple vector animation program"
         self.webpage = "https://glaxnimate.mattbas.org/"
 
-        # for ver in ["0.5.4"]:
-        #     self.targets[ver] = f"https://gitlab.com/mattbas/glaxnimate/-/archive/{ver}/glaxnimate-{ver}.tar.gz"
-        #     self.targetInstSrc[ver] = f"glaxnimate-{ver}"
-
-        # Virtual helper version until we have our first KDE release
-        self.svnTargets["0.5.50"] = "https://invent.kde.org/graphics/glaxnimate.git||bdc3a6a085287e88a1cda3dc6116d7a5fd2ff09c"
-
-        self.patchLevel["master"] = 1
+        for ver in ["0.5.80"]:
+            self.targets[ver] = f"https://download.kde.org/unstable/glaxnimate/{ver}/glaxnimate-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/unstable/glaxnimate/{ver}/glaxnimate-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = f"glaxnimate-{ver}"
 
         self.svnTargets["master"] = "https://invent.kde.org/graphics/glaxnimate.git"
+        self.patchLevel["master"] = 1
 
-        self.defaultTarget = "0.5.50"
+        self.defaultTarget = "0.5.80"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -64,9 +61,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
             defines["runenv"] += [
                 "PYTHONHOME=$this_dir/usr",
-                # Set QT_QPA_PLATFORM only if not already done.
-                # Eg. to run the AppImage for headless rendering it might be needed to choose "offscreen"
-                "QT_QPA_PLATFORM=${QT_QPA_PLATFORM:-xcb}",
             ]
         return defines
 
