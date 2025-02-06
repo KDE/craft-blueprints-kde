@@ -51,7 +51,7 @@ class subinfo(info.infoclass):
         self.patchLevel["6.6.0"] = 4
         self.patchLevel["6.6.1"] = 3
         self.patchLevel["6.8.0"] = 2
-        self.patchLevel["6.8.1"] = 1
+        self.patchLevel["6.8.1"] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -103,7 +103,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DFEATURE_pkg_config=ON",
             "-DFEATURE_system_sqlite=ON",
             "-DFEATURE_system_zlib=ON",
-            "-DFEATURE_system_libb2=ON",
+            f"-DFEATURE_system_libb2={self.subinfo.options.isActive('libs/libb2').asOnOff}",
             f"-DFEATURE_system_freetype={self.subinfo.options.isActive('libs/freetype').asOnOff}",
             "-DQT_FEATURE_sql_odbc=OFF",
             "-DFEATURE_openssl_linked=ON",
