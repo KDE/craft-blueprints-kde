@@ -30,4 +30,7 @@ class Package(AutoToolsPackageBase):
             f'PKG_CONFIG_PATH="{CraftCore.standardDirs.craftRoot()}/lib/pkgconfig:{CraftCore.standardDirs.craftRoot()}/share/pkgconfig"'
         )
         self.subinfo.options.configure.args += f'CPPFLAGS="-I{CraftCore.standardDirs.craftRoot()}/include"'
+        if CraftCore.compiler.isMacOS:
+            # currently breaks signing due to _orcus_json.so in lib/python3.11/site-packages
+            self.subinfo.options.configure.args += "--disable-python"
         # self.subinfo.options.configure.args += ["--disable-static", "--enable-shared"]

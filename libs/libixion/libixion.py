@@ -38,7 +38,7 @@ class Package(AutoToolsPackageBase):
         )
         self.subinfo.options.configure.args += f'CPPFLAGS="-I{CraftCore.standardDirs.craftRoot()}/include"'
         if CraftCore.compiler.isMacOS:
-            # currently breaks signing bue to ixion.so in lib/python3.11/site-packages
+            # currently breaks signing due to ixion.so in lib/python3.11/site-packages
             self.subinfo.options.configure.args += "--disable-python"
         if CraftCore.compiler.isMSVC():
             # MSVC explicitly needs to update __cplusplus
