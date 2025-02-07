@@ -85,10 +85,11 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         # needed by packager
         self.runtimeDependencies["libs/brotli"] = None
-        if CraftCore.compiler.isLinux:
-            self.runtimeDependencies["libs/boost"] = None
         if CraftCore.compiler.isLinux or CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/boost"] = None
             self.runtimeDependencies["libs/libixion"] = None
+        if CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/libpng"] = None
 
 
 class Package(CMakePackageBase):
