@@ -83,10 +83,11 @@ class subinfo(info.infoclass):
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
-        # needed by AppImage
+        # needed by packager
         self.runtimeDependencies["libs/brotli"] = None
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/boost"] = None
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libixion"] = None
 
 
