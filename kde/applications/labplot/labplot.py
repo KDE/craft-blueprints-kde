@@ -41,7 +41,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libzip"] = None
         self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/netcdf"] = None
-        if not CraftCore.compiler.isWindows and not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/liborcus"] = None
 
         if CraftCore.compiler.isMacOS:
@@ -87,7 +87,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/brotli"] = None
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/boost"] = None
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libixion"] = None
 
 
