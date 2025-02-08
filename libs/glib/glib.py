@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["libs/python"] = None
         self.buildDependencies["dev-utils/system-python3"] = None
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.buildDependencies["python-modules/meson"] = None
         self.buildDependencies["python-modules/packaging"] = None
         self.runtimeDependencies["libs/libffi"] = None

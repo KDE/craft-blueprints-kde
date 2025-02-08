@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.displayName = "Calligra Gemini"
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         # Qt WebEngine doesn't work with MinGW.
         if not CraftCore.compiler.isMinGW():

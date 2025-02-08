@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "0.2.9"
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libzstd"] = None
 

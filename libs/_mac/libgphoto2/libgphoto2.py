@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["libs/gettext"] = None
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libusb-compat"] = None
         self.runtimeDependencies["dev-utils/libtool"] = None

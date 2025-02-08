@@ -43,7 +43,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = ver
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.buildDependencies["libs/boost"] = None
         self.runtimeDependencies["data/poppler-data"] = None
         self.runtimeDependencies["libs/freetype"] = None

@@ -56,7 +56,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
         self.buildDependencies["dev-utils/intltool"] = None
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/libxml2"] = None
