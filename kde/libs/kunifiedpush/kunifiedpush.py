@@ -4,10 +4,9 @@ from Blueprints.CraftPackageObject import CraftPackageObject
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = "https://invent.kde.org/libraries/kunifiedpush"
         self.displayName = "KUnifiedPush"
         self.description = "UnifiedPush client components"
-        self.defaultTarget = "master"
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/libraries/kunifiedpush.git")
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
