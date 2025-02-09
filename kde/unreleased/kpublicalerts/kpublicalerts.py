@@ -38,8 +38,3 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-    def createPackage(self):
-        self.defines["shortcuts"] = [{"name": "publicalerts", "target": "bin/publicalerts.exe", "description": self.subinfo.description, "appId": "karp"}]
-        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        return super().createPackage()
