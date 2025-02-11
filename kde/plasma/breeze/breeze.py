@@ -31,8 +31,6 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde/plasma").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if not CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF6FrameworkIntegration=ON", "-DWITH_DECORATIONS=OFF"]
         self.subinfo.options.configure.args += ["-DBUILD_QT5=OFF"]
 
     def install(self):
