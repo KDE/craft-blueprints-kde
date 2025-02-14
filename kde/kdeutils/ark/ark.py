@@ -6,7 +6,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.description = "Ark"
+        self.displayName = "Ark"
+        self.description = "Ark is a graphical file compression/decompression utility with support for multiple formats"
+        self.webpage = "https://apps.kde.org/ark/"
+
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
