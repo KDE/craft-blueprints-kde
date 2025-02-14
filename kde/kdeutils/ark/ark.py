@@ -10,7 +10,6 @@ class subinfo(info.infoclass):
         self.description = "Ark is a graphical file compression/decompression utility with support for multiple formats"
         self.webpage = "https://apps.kde.org/ark/"
 
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
