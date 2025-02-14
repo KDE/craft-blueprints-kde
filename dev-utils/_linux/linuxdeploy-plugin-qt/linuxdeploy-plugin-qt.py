@@ -10,21 +10,21 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.0.0-alpha-1-20250119"]:
+        for ver in ["1-alpha-20250213-1"]:
             self.targets[
                 ver
-            ] = f"https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/{ver}/linuxdeploy-plugin-qt-static-{CraftCore.compiler.appImageArchitecture}.AppImage"
+            ] = f"https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/{ver}/linuxdeploy-plugin-qt-{CraftCore.compiler.appImageArchitecture}.AppImage"
             # add version to file name to allow downloading multiple versions
             self.archiveNames[ver] = f"linuxdeploy-plugin-qt-{ver}-{CraftCore.compiler.appImageArchitecture}.AppImage"
             self.targetInstallPath[ver] = "dev-utils/bin"
         self.targets[
             "continous"
-        ] = f"https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-static-{CraftCore.compiler.appImageArchitecture}.AppImage"
+        ] = f"https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-{CraftCore.compiler.appImageArchitecture}.AppImage"
         self.targetInstallPath["continous"] = "dev-utils/bin"
         self.description = "AppDir creation and maintenance tool. Featuring flexible plugin system."
         self.webpage = "https://github.com/linuxdeploy/linuxdeploy"
-        self.targetDigests["2.0.0-alpha-1-20250119"] = (["902eb77cb9d2c8f77403c0bae89b992bb1e2f7128b118a666c65ebc7d76173ff"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "2.0.0-alpha-1-20250119"
+        self.targetDigests["1-alpha-20250213-1"] = (["15106be885c1c48a021198e7e1e9a48ce9d02a86dd0a1848f00bdbf3c1c92724"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "1-alpha-20250213-1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
