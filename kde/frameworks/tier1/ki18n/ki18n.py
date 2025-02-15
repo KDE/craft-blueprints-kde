@@ -10,8 +10,6 @@ class subinfo(info.infoclass):
         for ver in ["master"] + self.versionInfo.tarballs():
             self.patchToApply[ver] = [("0002-Keep-LibIntl-libraries-path.patch", 1)]
 
-        self.patchToApply["6.6.0"] += [("0003-fix-english-language-fallback.patch", 1)]
-        self.patchLevel["6.6.0"] = 1
         self.patchToApply["6.7.0"] += [("0003-fix-english-language-fallback.patch", 1)]
         self.patchLevel["6.7.0"] = 1
 
