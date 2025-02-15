@@ -105,7 +105,7 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
 
     def createPackage(self):
-        self.defines["appname"] = "labplot"
+        self.defines["appname"] = "LabPlot"
 
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         # Some plugin files break codesigning on macOS, which is picky about file names
