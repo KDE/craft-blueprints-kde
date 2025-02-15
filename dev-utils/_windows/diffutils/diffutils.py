@@ -1,21 +1,36 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2025 Hannah von Reth <vonreth@kde.org>
+
 import info
+import utils
+from CraftCore import CraftCore
 from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["2.8.7-1"] = [
-            "https://downloads.sourceforge.net/sourceforge/gnuwin32/diffutils-2.8.7-1-bin.zip",
-            "https://downloads.sourceforge.net/sourceforge/gnuwin32/diffutils-2.8.7-1-dep.zip",
-        ]
-        self.targetInstallPath["2.8.7-1"] = "dev-utils"
-        self.targetDigests["2.8.7-1"] = ["892460fee6f19ff38d70872ac565fbb97f9d3c16", "426636df15901f95b0f2a57ef325e876695aaa57"]
-        self.defaultTarget = "2.8.7-1"
+        self.targets["latest"] = ""
+        self.description = "Craft integration package for diffutils."
+        self.defaultTarget = "latest"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/kshimgen"] = None
+        self.buildDependencies["dev-utils/git"] = None
 
 
 class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.shelveAble = False
+
+    def postInstall(self):
+        gitPath = CraftCore.cache.findApplication("git")
+        if not gitPath:
+            return False
+        gitPath = gitPath.parent
+
+        return utils.createShim(
+            self.imageDir() / "dev-utils/bin/diff",
+            gitPath.parent / "usr/bin/diff.exe",
+            useAbsolutePath=True,
+        )

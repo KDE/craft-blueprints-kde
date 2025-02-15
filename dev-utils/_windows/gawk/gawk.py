@@ -1,18 +1,36 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2025 Hannah von Reth <vonreth@kde.org>
+
 import info
+import utils
+from CraftCore import CraftCore
 from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["3.1.6-1"] = "https://downloads.sourceforge.net/sourceforge/gnuwin32/gawk-3.1.6-1-bin.zip"
-        self.targetInstallPath["3.1.6-1"] = "dev-utils"
-        self.targetDigests["3.1.6-1"] = "bda507655eb3d15059d8a55a0daf6d697a15f632"
-        self.defaultTarget = "3.1.6-1"
+        self.targets["latest"] = ""
+        self.description = "Craft integration package for gawk."
+        self.defaultTarget = "latest"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["dev-utils/kshimgen"] = None
+        self.buildDependencies["dev-utils/git"] = None
 
 
 class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.shelveAble = False
+
+    def postInstall(self):
+        gitPath = CraftCore.cache.findApplication("git")
+        if not gitPath:
+            return False
+        gitPath = gitPath.parent
+
+        return utils.createShim(
+            self.imageDir() / "dev-utils/bin/gawk",
+            gitPath.parent / "usr/bin/gawk.exe",
+            useAbsolutePath=True,
+            )
