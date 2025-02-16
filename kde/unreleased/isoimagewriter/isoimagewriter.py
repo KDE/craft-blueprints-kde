@@ -8,11 +8,6 @@ from Packager.AppImagePackager import AppImagePackager
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.svnTargets["master"] = "https://invent.kde.org/utilities/isoimagewriter.git"
-        for ver in ["1.0.0"]:
-            self.targets[ver] = f"https://download.kde.org/stable/isoimagewriter/{ver}/isoimagewriter-{ver}.tar.xz"
-            self.targetInstSrc[ver] = "isoimagewriter-{ver}"
-        self.defaultTarget = "1.0.0"
 
         self.displayName = "ISO Image Writer"
         self.description = "A tool to write ISO images to USB flash drives"
