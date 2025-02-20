@@ -106,6 +106,8 @@ class Package(CMakePackageBase):
 
     def createPackage(self):
         self.defines["appname"] = "LabPlot"
+        # org.kde.labplot.desktop for AppImage
+        self.defines["desktopFile"] = "labplot"
 
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         # Some plugin files break codesigning on macOS, which is picky about file names
