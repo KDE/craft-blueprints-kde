@@ -10,9 +10,10 @@ class subinfo(info.infoclass):
         self.description = "Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API."
         self.defaultTarget = "master"
 
-
     def setDependencies(self):
-        self.buildDependencies["python-modules/cython"] = None
+        self.buildDependencies["python-modules/setuptools"] = None
+        self.runtimeDependencies["libs/libxml2"] = None
+        self.runtimeDependencies["python-modules/cython"] = None
 
 class Package(PipPackageBase):
     def __init__(self, **kwargs):
