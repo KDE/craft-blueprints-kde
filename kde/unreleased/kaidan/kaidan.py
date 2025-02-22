@@ -44,6 +44,7 @@ class Package(CMakePackageBase):
     def createPackage(self):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "excludelist_mac.txt")
+            self.addExecutableFilter(r"(bin|libexec)/(?!(kaidan|update-mime-database|kioworker)).*")
 
         self.defines["executable"] = r"bin\kaidan.exe"
 

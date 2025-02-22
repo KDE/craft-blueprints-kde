@@ -70,7 +70,7 @@ class Package(CraftPackageObject.get("kde").pattern):
             "application/xml",
             "application/javascript",
         ]
-        self.defines["file_types"] = [".ini", ".conf", ".cfg", ".cpp", ".hpp", ".py", ".yaml", ".toml", ".log", ".md"]
+        self.defines["file_types"] = [".txt", ".ini", ".conf", ".cfg", ".cpp", ".hpp", ".py", ".yaml", ".toml", ".log", ".md"]
 
         self.defines["alias"] = "kate"
 

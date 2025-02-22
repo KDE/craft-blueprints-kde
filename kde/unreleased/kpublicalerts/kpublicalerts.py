@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
-        self.runtimeDependencies["kde/unreleased/kunifiedpush"] = None
+        self.runtimeDependencies["kde/libs/kunifiedpush"] = None
         self.runtimeDependencies["kde/libs/kweathercore"] = None
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
@@ -38,8 +38,3 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-    def createPackage(self):
-        self.defines["shortcuts"] = [{"name": "publicalerts", "target": "bin/publicalerts.exe", "description": self.subinfo.description, "appId": "karp"}]
-        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        return super().createPackage()

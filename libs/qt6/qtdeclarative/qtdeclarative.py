@@ -4,6 +4,12 @@ from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.registerOption("fluentwinui3Style", not CraftCore.compiler.isAndroid)
+        self.options.dynamic.registerOption("fusionStyle", not CraftCore.compiler.isAndroid)
+        self.options.dynamic.registerOption("imagineStyle", not CraftCore.compiler.isAndroid)
+        self.options.dynamic.registerOption("universalStyle", not CraftCore.compiler.isAndroid)
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.patchLevel["6.6.0"] = 1
@@ -30,6 +36,12 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("libs/qt6").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += [
+            f"-DFEATURE_quickcontrols2_fluentwinui3={self.subinfo.options.dynamic.fluentwinui3Style.asOnOff}",
+            f"-DFEATURE_quickcontrols2_fusion={self.subinfo.options.dynamic.fusionStyle.asOnOff}",
+            f"-DFEATURE_quickcontrols2_imagine={self.subinfo.options.dynamic.imagineStyle.asOnOff}",
+            f"-DFEATURE_quickcontrols2_universal={self.subinfo.options.dynamic.universalStyle.asOnOff}"
+        ]
         if CraftCore.compiler.isWindows and self.buildType() == "Debug":
             # we use a shim pointing to the debug exe, therefor the debug infix is missing here
             self.subinfo.options.configure.args += ["-D_Python_EXECUTABLE_DEBUG=python3"]

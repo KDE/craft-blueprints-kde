@@ -1,2 +1,4 @@
 # strip most executables
 bin/(?!(kcalc|kioworker)).*\.exe
+# qml and qtquick
+qml/.*

@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "Cantor"
         self.patchToApply["24.12.0"] = [("cantor-24.12.0-dbus.patch", 1)]
+        self.patchToApply["24.12.2"] = [("cantor-24.12.2-qt5compat.patch", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
