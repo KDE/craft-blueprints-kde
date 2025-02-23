@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt/qtwebsockets"] = None
         self.runtimeDependencies["libs/qt/qtwebview"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
