@@ -81,7 +81,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/readstat"] = None
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/python"] = None
-        else
+        else:
             self.buildDependencies["libs/python"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
