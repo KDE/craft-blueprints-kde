@@ -79,8 +79,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/discount"] = None
         # required on macOS currently
         self.runtimeDependencies["libs/readstat"] = None
-        if not CraftCore.compiler.isMacOS:
-            self.buildDependencies["libs/python"] = None
+        self.buildDependencies["libs/python"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
