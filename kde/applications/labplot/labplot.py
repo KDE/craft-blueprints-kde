@@ -187,7 +187,7 @@ class Package(CMakePackageBase):
             self.ignoredPackages.append("libs/dbus")
         # needed by cantor_pythonserver
         if not CraftCore.compiler.isMacOS:
-           self.ignoredPackages.append("libs/python")
+            self.ignoredPackages.append("libs/python")
 
         return super().createPackage()
 
