@@ -1,4 +1,5 @@
 import info
+import utils
 from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
@@ -171,7 +172,6 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("binary/r-base")
         self.ignoredPackages.append("libs/llvm")
-        self.ignoredPackages.append("libs/python")
         self.ignoredPackages.append("libs/qt6/qtshadertools")
         self.ignoredPackages.append("libs/qt6/qtwebengine")
         self.ignoredPackages.append("libs/sdl2")
@@ -185,5 +185,24 @@ class Package(CMakePackageBase):
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
+        # needed by cantor_pythonserver
+        if not CraftCore.compiler.isMacOS:
+           self.ignoredPackages.append("libs/python")
 
         return super().createPackage()
+
+    def preArchive(self):
+        archiveDir = self.archiveDir()
+
+        if CraftCore.compiler.isMacOS:
+            # Move cantor_pythonserver to the package
+            defines = self.setDefaults(self.defines)
+            appPath = self.getMacAppPath(defines)
+            if not utils.copyFile(
+                archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
+                appPath / "Contents/MacOS",
+                linkOnly=False,
+            ):
+                return False
+
+        return True
