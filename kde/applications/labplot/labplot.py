@@ -1,4 +1,5 @@
 import info
+import utils
 from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
@@ -77,8 +78,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/discount"] = None
         # required on macOS currently
         self.runtimeDependencies["libs/readstat"] = None
-        if not CraftCore.compiler.isMacOS:
-            self.buildDependencies["libs/python"] = None
+        # later required for Python SDK?
+        # self.buildDependencies["libs/python"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
@@ -184,22 +185,23 @@ class Package(CMakePackageBase):
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
         # needed by cantor_pythonserver
-        self.ignoredPackages.append("libs/python")
+        if not CraftCore.compiler.isMacOS:
+            self.ignoredPackages.append("libs/python")
 
         return super().createPackage()
 
-#    def preArchive(self):
-#        archiveDir = self.archiveDir()
+    def preArchive(self):
+        archiveDir = self.archiveDir()
 
-#        if CraftCore.compiler.isMacOS:
-#            # Move cantor_pythonserver to the package
-#            defines = self.setDefaults(self.defines)
-#            appPath = self.getMacAppPath(defines)
-#            if not utils.copyFile(
-#                archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
-#                appPath / "Contents/MacOS",
-#                linkOnly=False,
-#            ):
-#                return False
-#
-#        return True
+        if CraftCore.compiler.isMacOS:
+            # Move cantor_pythonserver to the package
+            defines = self.setDefaults(self.defines)
+            appPath = self.getMacAppPath(defines)
+            if not utils.copyFile(
+                archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
+                appPath / "Contents/MacOS",
+                linkOnly=False,
+            ):
+                return False
+
+        return True
