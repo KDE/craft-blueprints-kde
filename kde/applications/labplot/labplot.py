@@ -42,14 +42,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libzip"] = None
         self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/netcdf"] = None
+        self.runtimeDependencies["libs/liblz4"] = None
         if not CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/liborcus"] = None
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
-        else:
-            self.runtimeDependencies["libs/liblz4"] = None
 
         # cross compiling Cantor fails on macOS x86_64 (CD job)
         if not CraftCore.compiler.isMacOS or not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
@@ -79,9 +78,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/discount"] = None
         # required on macOS currently
         self.runtimeDependencies["libs/readstat"] = None
-        if CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["libs/python"] = None
-        else:
+        if not CraftCore.compiler.isMacOS:
             self.buildDependencies["libs/python"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
@@ -188,23 +185,22 @@ class Package(CMakePackageBase):
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
         # needed by cantor_pythonserver
-        if not CraftCore.compiler.isMacOS:
-            self.ignoredPackages.append("libs/python")
+        self.ignoredPackages.append("libs/python")
 
         return super().createPackage()
 
-    def preArchive(self):
-        archiveDir = self.archiveDir()
+#    def preArchive(self):
+#        archiveDir = self.archiveDir()
 
-        if CraftCore.compiler.isMacOS:
-            # Move cantor_pythonserver to the package
-            defines = self.setDefaults(self.defines)
-            appPath = self.getMacAppPath(defines)
-            if not utils.copyFile(
-                archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
-                appPath / "Contents/MacOS",
-                linkOnly=False,
-            ):
-                return False
-
-        return True
+#        if CraftCore.compiler.isMacOS:
+#            # Move cantor_pythonserver to the package
+#            defines = self.setDefaults(self.defines)
+#            appPath = self.getMacAppPath(defines)
+#            if not utils.copyFile(
+#                archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
+#                appPath / "Contents/MacOS",
+#                linkOnly=False,
+#            ):
+#                return False
+#
+#        return True
