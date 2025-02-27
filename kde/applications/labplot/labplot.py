@@ -78,8 +78,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/discount"] = None
         # required on macOS currently
         self.runtimeDependencies["libs/readstat"] = None
-        # later required for Python SDK?
-        # self.buildDependencies["libs/python"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
@@ -90,12 +88,15 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libixion"] = None
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
+            # later required for Python SDK?
+            self.runtimeDependencies["libs/python"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DLOCAL_DBC_PARSER=ON", "-DLOCAL_VECTOR_BLF=ON"]
+        self.subinfo.options.configure.args += [f"-DPython3_ROOT_DIR={CraftCore.standardDirs.craftRoot()}"]
         if CraftCore.compiler.isMacOS:
             # readstat fails with ninja
             self.supportsNinja = False
