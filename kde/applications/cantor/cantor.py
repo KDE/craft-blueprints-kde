@@ -1,7 +1,6 @@
 import info
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
-from CraftOS.osutils import OsUtils
 from Package.CMakePackageBase import CMakePackageBase
 from Packager.AppxPackager import AppxPackager
 
@@ -66,7 +65,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += [f"-DPython3_ROOT_DIR={CraftCore.standardDirs.craftRoot()}"]
 
         # old method
-        #if CraftCore.compiler.isMSVC():
+        # if CraftCore.compiler.isMSVC():
         #    self.subinfo.options.configure.args += [
         #        f"-DPython3_EXECUTABLE:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/bin/python.exe",
         #        f"-DPython3_LIBRARY:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib/python311.lib",
