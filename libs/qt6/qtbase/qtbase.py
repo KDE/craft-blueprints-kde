@@ -105,6 +105,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DFEATURE_system_zlib=ON",
             f"-DFEATURE_system_libb2={self.subinfo.options.isActive('libs/libb2').asOnOff}",
             f"-DFEATURE_system_freetype={self.subinfo.options.isActive('libs/freetype').asOnOff}",
+            f"-DFEATURE_system_jpeg={self.subinfo.options.isActive('libs/libjpeg-turbo').asOnOff}",
             "-DQT_FEATURE_sql_odbc=OFF",
             "-DFEATURE_openssl_linked=ON",
             "-DQT_BUILD_EXAMPLES=OFF",
