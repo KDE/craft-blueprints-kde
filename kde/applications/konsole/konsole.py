@@ -31,6 +31,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
+        # needed until 25.04
+        self.runtimeDependencies["libs/qt6/qt5compat"] = None
+
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
