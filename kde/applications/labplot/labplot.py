@@ -1,5 +1,5 @@
 import info
-import utils
+# import utils
 from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
@@ -191,18 +191,18 @@ class Package(CMakePackageBase):
 
         return super().createPackage()
 
-    def preArchive(self):
-        archiveDir = self.archiveDir()
-
-        if CraftCore.compiler.isMacOS:
-            # Move cantor_pythonserver to the package
-            defines = self.setDefaults(self.defines)
-            appPath = self.getMacAppPath(defines)
-            if not utils.copyFile(
-                archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
-                appPath / "Contents/MacOS",
-                linkOnly=False,
-            ):
-                return False
-
-        return True
+#    def preArchive(self):
+#        archiveDir = self.archiveDir()
+#
+#        if CraftCore.compiler.isMacOS:
+#            # Move cantor_pythonserver to the package
+#            defines = self.setDefaults(self.defines)
+#            appPath = self.getMacAppPath(defines)
+#            if not utils.copyFile(
+#                archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
+#                appPath / "Contents/MacOS",
+#                linkOnly=False,
+#            ):
+#                return False
+#
+#        return True
