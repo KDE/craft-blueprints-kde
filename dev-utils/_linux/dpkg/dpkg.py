@@ -4,6 +4,9 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildStatic", True)
+
     def setTargets(self):
         # Debian provides "proper" tarballs (i.e., ones that already contain a ./configure)
         # we cannot get those from the upstream repository or its Salsa mirror, unfortunately
