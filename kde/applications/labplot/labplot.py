@@ -1,4 +1,5 @@
 import info
+import os 
 import utils
 from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
@@ -206,6 +207,6 @@ class Package(CMakePackageBase):
                 return False
 
             # fix falsely picked up system Python lib
-            utils.system(["install_name_tool","-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath,"Contents","Frameworks","Python.framework","Python"), os.path.join(appPath,"Contents","MacOS","cantor_pythonserver")])
+            utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
 
         return True
