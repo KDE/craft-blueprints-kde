@@ -1,4 +1,5 @@
 import info
+import utils
 from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
@@ -190,18 +191,21 @@ class Package(CMakePackageBase):
 
         return super().createPackage()
 
-#    def preArchive(self):
-#        archiveDir = self.archiveDir()
-#
-#        if CraftCore.compiler.isMacOS:
-#            # Move cantor_pythonserver to the package
-#            defines = self.setDefaults(self.defines)
-#            appPath = self.getMacAppPath(defines)
-#            if not utils.copyFile(
-#                archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
-#                appPath / "Contents/MacOS",
-#                linkOnly=False,
-#            ):
-#                return False
-#
-#        return True
+    def preArchive(self):
+        archiveDir = self.archiveDir()
+
+        if CraftCore.compiler.isMacOS:
+            # Move cantor_pythonserver to the package
+            defines = self.setDefaults(self.defines)
+            appPath = self.getMacAppPath(defines)
+            if not utils.copyFile(
+                archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
+                appPath / "Contents/MacOS",
+                linkOnly=False,
+            ):
+                return False
+
+            # fix falsely picked up system Python lib
+            utils.system(["install_name_tool","-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath,"Contents","Frameworks","Python.framework","Python"), os.path.join(appPath,"Contents","MacOS","cantor_pythonserver")])
+
+        return True
