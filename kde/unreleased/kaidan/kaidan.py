@@ -33,6 +33,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+            self.runtimeDependencies["libs/kdsingleapplication"] = None
 
 
 class Package(CMakePackageBase):
