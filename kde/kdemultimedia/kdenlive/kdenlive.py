@@ -52,6 +52,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/kdemultimedia/ffmpegthumbs"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
+        self.runtimeDependencies["libs/opentimelineio"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
@@ -70,6 +71,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DNODBUS=ON"]
         self.subinfo.options.configure.args += ["-DUSE_DBUS=OFF"]
+        self.subinfo.options.configure.args += ["-DFETCH_OTIO=OFF"]
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += ["-DRELEASE_BUILD=OFF"]
 
