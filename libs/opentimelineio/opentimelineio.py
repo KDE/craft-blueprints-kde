@@ -7,7 +7,7 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.description = "Open source multimedia framework"
+        self.description = "Open Source API and interchange format for editorial timeline information."
         self.webpage = "https://opentimeline.io"
         for ver in ["0.17.0"]:
             # self.targets[ver] = f"https://github.com/AcademySoftwareFoundation/OpenTimelineIO/archive/refs/tags/v{ver}.tar.gz"
