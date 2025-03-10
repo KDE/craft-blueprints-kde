@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["libs/qt6/qt5compat"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
