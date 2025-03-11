@@ -2,6 +2,7 @@ import info
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
 from Package.CMakePackageBase import CMakePackageBase
+from Packager.AppImagePackager import AppImagePackager
 from Utils import CraftHash
 
 
