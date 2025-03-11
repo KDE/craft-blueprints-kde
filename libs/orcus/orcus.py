@@ -32,8 +32,8 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         # to find mdds and ixion header
         self.subinfo.options.configure.args += [
-            f'-DMDDS_INCLUDEDIR="{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/mdds-3.0"',
-            f'-DIXION_INCLUDEDIR="{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/ixion-0.20"'
+            f'-DMDDS_INCLUDEDIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/mdds-3.0',
+            f'-DIXION_INCLUDEDIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/ixion-0.20'
         ]
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += [
