@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2024 Julius Künzel <julius.kuenzel@kde.org>
 
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
 
@@ -15,8 +16,10 @@ class subinfo(info.infoclass):
             self.svnTargets[ver] = f"https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git||v{ver}"
 
         self.svnTargets["master"] = "https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git"
-        # self.patchLevel["b7bc13a"] = 4
-        # self.patchToApply["b7bc13a"] = [("pi_patch.diff", 1)]
+
+        if CraftCore.compiler.isMinGW():
+            self.patchToApply["0.17.0"] = [("fix-windows-locations.patch", 1)]
+        self.patchLevel["0.17.0"] = 4
 
         self.defaultTarget = "0.17.0"
 
