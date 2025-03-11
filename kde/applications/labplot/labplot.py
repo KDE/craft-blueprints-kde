@@ -5,6 +5,7 @@ import utils
 from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
 from Package.CMakePackageBase import CMakePackageBase
 from Packager.AppImagePackager import AppImagePackager
 from Packager.AppxPackager import AppxPackager
@@ -45,8 +46,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/netcdf"] = None
         self.runtimeDependencies["libs/liblz4"] = None
-        if not CraftCore.compiler.isWindows:
-            self.runtimeDependencies["libs/liborcus"] = None
+        self.runtimeDependencies["libs/orcus"] = None
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
@@ -106,6 +106,11 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
+        if CraftCore.compiler.isMSVC():
+            # TODO: use available versions
+            self.subinfo.options.configure.args += f'-DIxion_INCLUDE_DIR="{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/ixion-0.20"'
+            self.subinfo.options.configure.args += f'-DOrcus_INCLUDE_DIR="{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/orcus-0.20"'
+            self.subinfo.options.configure.args += f'-DCMAKE_CXX_FLAGS="-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/boost-1_86 -EHsc"'
 
     def createPackage(self):
         self.defines["appname"] = "LabPlot"
