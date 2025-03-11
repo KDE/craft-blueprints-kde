@@ -35,10 +35,11 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "git://git.freedesktop.org/git/poppler/poppler"
 
         # always try to use latest libpoppler with all security fixes
-        ver = "24.08.0"
-        self.targets[ver] = f"https://poppler.freedesktop.org/poppler-{ver}.tar.xz"
-        self.targetInstSrc[ver] = f"poppler-{ver}"
-        self.targetDigests[ver] = (["97453fbddf0c9a9eafa0ea45ac710d3d49bcf23a62e864585385d3c0b4403174"], CraftHash.HashAlgorithm.SHA256)
+        ver = "25.03.0"
+        self.targets[ver] = f"https://invent.kde.org/mirrors/poppler/-/archive/poppler-{ver}/poppler-poppler-{ver}.tar.bz2"
+        self.targetInstSrc[ver] = f"poppler-poppler-{ver}"
+        self.targetDigests[ver] = (["f9900c792e7c19f0a012885f361e8b6886ee35807f98a408db8d80f8ee19a0c8"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["25.03.0"] = [("fix-android-lt29-build.diff", 1)]
         self.patchLevel[ver] = 1
         self.defaultTarget = ver
 
