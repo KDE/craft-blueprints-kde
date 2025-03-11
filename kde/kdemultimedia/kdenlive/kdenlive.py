@@ -112,7 +112,7 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def postInstall(self):
         if CraftCore.compiler.isWindows:
-            self.schemeDir = self.installDir(), "bin/data/color-schemes"
+            self.schemeDir = self.installDir() / "bin/data/color-schemes"
         else:
             self.schemeDir = self.installDir() / "share/color-schemes"
         for scheme in ["RustedBronze"]:
