@@ -31,3 +31,5 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += f'-DMDDS_INCLUDEDIR="{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/mdds-3.0"'
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += '-DCMAKE_CXX_FLAGS="-EHsc -DBOOST_ALL_NO_LIB"'
+        if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
+            self.subinfo.options.configure.args += '-DCMAKE_SHARED_LINKER_FLAGS="-ldl"'
