@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2025 Stefan Gerlach <stefan.gerlach@uni.kn>
+
 import os
 
 import info
@@ -87,7 +90,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/brotli"] = None
         if CraftCore.compiler.isLinux or CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/boost"] = None
-            self.runtimeDependencies["libs/libixion"] = None
+            self.runtimeDependencies["libs/ixion"] = None
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
             # later required for Python SDK?
@@ -108,9 +111,11 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
         if CraftCore.compiler.isMSVC():
             # TODO: use available versions
-            self.subinfo.options.configure.args += f'-DIxion_INCLUDE_DIR="{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/ixion-0.20"'
-            self.subinfo.options.configure.args += f'-DOrcus_INCLUDE_DIR="{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/orcus-0.20"'
-            self.subinfo.options.configure.args += f'-DCMAKE_CXX_FLAGS="-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/boost-1_86 -EHsc"'
+            self.subinfo.options.configure.args += [
+                f'-DIxion_INCLUDE_DIR="{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/ixion-0.20"',
+                f'-DOrcus_INCLUDE_DIR="{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/orcus-0.20"',
+                f'-DCMAKE_CXX_FLAGS="-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/boost-1_86 -EHsc"'
+            ]
 
     def createPackage(self):
         self.defines["appname"] = "LabPlot"
