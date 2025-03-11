@@ -43,6 +43,6 @@ class Package(CMakePackageBase):
             ]
         if CraftCore.compiler.isLinux or CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += [
-                f'-DCMAKE_SHARED_LINKER_FLAGS="-L{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib -lboost_filesystem -lboost_program_options"',
-                f'-DCMAKE_EXE_LINKER_FLAGS="-L{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib -lboost_filesystem -lboost_program_options"'
+                f'-DCMAKE_SHARED_LINKER_FLAGS=-L{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib -lboost_filesystem -lboost_program_options',
+                f'-DCMAKE_EXE_LINKER_FLAGS=-L{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib -lboost_filesystem -lboost_program_options'
             ]
