@@ -37,9 +37,9 @@ class Package(CMakePackageBase):
         ]
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += [
-                '-DCMAKE_CXX_FLAGS="-EHsc -DBOOST_ALL_NO_LIB -DBOOST_PROGRAM_OPTIONS_DYN_LINK"',
-                f'-DCMAKE_SHARED_LINKER_FLAGS="-LIBPATH:{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib boost_filesystem-vc143-mt-x64-1_86.lib boost_program_options-vc143-mt-x64-1_86.lib"',
-                f'-DCMAKE_EXE_LINKER_FLAGS="-LIBPATH:{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib boost_program_options-vc143-mt-x64-1_86.lib boost_filesystem-vc143-mt-x64-1_86.lib"'
+                '-DCMAKE_CXX_FLAGS=-EHsc -DBOOST_ALL_NO_LIB -DBOOST_PROGRAM_OPTIONS_DYN_LINK',
+                f'-DCMAKE_SHARED_LINKER_FLAGS=-LIBPATH:{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib boost_filesystem-vc143-mt-x64-1_86.lib boost_program_options-vc143-mt-x64-1_86.lib',
+                f'-DCMAKE_EXE_LINKER_FLAGS=-LIBPATH:{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib boost_program_options-vc143-mt-x64-1_86.lib boost_filesystem-vc143-mt-x64-1_86.lib'
             ]
         if CraftCore.compiler.isLinux or CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += [
