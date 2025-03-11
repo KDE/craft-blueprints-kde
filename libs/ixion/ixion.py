@@ -30,4 +30,4 @@ class Package(CMakePackageBase):
         # to find mdds header
         self.subinfo.options.configure.args += f'-DMDDS_INCLUDEDIR="{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/mdds-3.0"'
         if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.args += f'-DCMAKE_CXX_FLAGS="-EHsc -DBOOST_ALL_NO_LIB"'
+            self.subinfo.options.configure.args += '-DCMAKE_CXX_FLAGS="-EHsc -DBOOST_ALL_NO_LIB"'
