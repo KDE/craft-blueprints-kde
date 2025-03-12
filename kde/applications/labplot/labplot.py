@@ -108,13 +108,13 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
+        # TODO: use available versions
+        self.subinfo.options.configure.args += [
+            f'-DIxion_INCLUDE_DIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/ixion-0.20',
+            f'-DOrcus_INCLUDE_DIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/orcus-0.20'
+        ]
         if CraftCore.compiler.isMSVC():
-            # TODO: use available versions
-            self.subinfo.options.configure.args += [
-                f'-DIxion_INCLUDE_DIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/ixion-0.20',
-                f'-DOrcus_INCLUDE_DIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/orcus-0.20',
-                f'-DCMAKE_CXX_FLAGS=-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/boost-1_86 -EHsc'
-            ]
+            self.subinfo.options.configure.args += f'-DCMAKE_CXX_FLAGS=-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/boost-1_86 -EHsc'
 
     def createPackage(self):
         self.defines["appname"] = "LabPlot"
