@@ -114,7 +114,7 @@ class Package(CMakePackageBase):
             f'-DOrcus_INCLUDE_DIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/orcus-0.20'
         ]
         if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.args += f'-DCMAKE_CXX_FLAGS=-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/boost-1_86 -EHsc'
+            self.subinfo.options.configure.args += f'-DCMAKE_CXX_FLAGS="-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/boost-1_86 -EHsc"'
 
     def createPackage(self):
         self.defines["appname"] = "LabPlot"
