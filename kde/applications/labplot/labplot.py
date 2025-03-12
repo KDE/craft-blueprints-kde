@@ -88,9 +88,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         # needed by packager
         self.runtimeDependencies["libs/brotli"] = None
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["libs/boost"] = None
-            self.runtimeDependencies["libs/ixion"] = None
+        self.runtimeDependencies["libs/boost"] = None
+        self.runtimeDependencies["libs/ixion"] = None
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
             # later required for Python SDK?
