@@ -9,9 +9,6 @@ class subinfo(info.infoclass):
 
         self.patchLevel["master"] = 1
 
-        # Fix Android with Qt 6.8
-        # See https://invent.kde.org/frameworks/knotifications/-/merge_requests/154
-        self.patchToApply["6.7.0"] = [("154.patch", 1)]
         # Fix for Android 14 or higher, needed before KF 6.10
         # See https://invent.kde.org/frameworks/knotifications/-/merge_requests/160
         self.patchToApply["6.8.0"] = [("android-14-fix.diff", 1)]
