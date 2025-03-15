@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2024 Stefan Gerlach <stefan.gerlach@uni.kn>
+
 import info
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash

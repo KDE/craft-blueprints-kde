@@ -8,6 +8,9 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        # See https://invent.kde.org/plasma/breeze/-/merge_requests/526
+        self.patchToApply["6.3.0"] = [("526.patch", 1)]
+
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/libfftw"] = None
@@ -28,8 +31,6 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde/plasma").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if not CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
-            self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF6FrameworkIntegration=ON", "-DWITH_DECORATIONS=OFF"]
         self.subinfo.options.configure.args += ["-DBUILD_QT5=OFF"]
 
     def install(self):

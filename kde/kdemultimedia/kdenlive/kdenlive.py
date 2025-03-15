@@ -1,5 +1,3 @@
-import os
-
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
@@ -52,6 +50,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/kdemultimedia/ffmpegthumbs"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
+        self.runtimeDependencies["libs/opentimelineio"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
@@ -68,12 +67,9 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DNODBUS=ON"]
-        self.subinfo.options.configure.args += ["-DUSE_DBUS=OFF"]
+        self.subinfo.options.configure.args += ["-DUSE_DBUS=OFF", "-DFETCH_OTIO=OFF"]
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += ["-DRELEASE_BUILD=OFF"]
-
-        self.subinfo.options.configure.args += ["-DKF_MAJOR=6"]
 
     def setDefaults(self, defines: {str: str}) -> {str: str}:
         defines = super().setDefaults(defines)
@@ -88,9 +84,6 @@ class Package(CraftPackageObject.get("kde").pattern):
                 "FREI0R_PATH=$this_dir/usr/lib/frei0r-1",
                 "MLT_PROFILES_PATH=$this_dir/usr/share/mlt-7/profiles/",
                 "MLT_PRESETS_PATH=$this_dir/usr/share/mlt-7/presets/",
-                # Set QT_QPA_PLATFORM only if not already done.
-                # Eg. to run the AppImage for headless rendering it might be needed to choose "offscreen"
-                "QT_QPA_PLATFORM=${QT_QPA_PLATFORM:-xcb}",
                 "SDL_AUDIODRIVER=pulseaudio",
                 "ALSA_CONFIG_DIR=/usr/share/alsa",
                 "ALSA_PLUGIN_DIR=/usr/lib/x86_64-linux-gnu/alsa-lib",
@@ -100,17 +93,17 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         if not CraftCore.compiler.isMacOS:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "exclude.list"))
+            self.blacklist_file.append(self.blueprintDir() / "exclude.list")
         else:
-            self.blacklist_file.append(os.path.join(self.blueprintDir(), "exclude_macos.list"))
+            self.blacklist_file.append(self.blueprintDir() / "exclude_macos.list")
         self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioworker|melt|update-mime-database|snoretoast|drmingw|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.ignoredPackages.append("binary/mysql")
 
         self.defines["appname"] = "kdenlive"
-        self.defines["icon"] = os.path.join(self.sourceDir(), "data", "icons", "kdenlive.ico")
-        self.defines["icon_png"] = os.path.join(self.sourceDir(), "data", "icons", "128-apps-kdenlive.png")
+        self.defines["icon"] = self.sourceDir() / "data/icons/kdenlive.ico"
+        self.defines["icon_png"] = self.sourceDir() / "data/icons/128-apps-kdenlive.png"
         self.defines["shortcuts"] = [{"name": "Kdenlive", "target": "bin/kdenlive.exe", "description": self.subinfo.description}]
         self.defines["file_types"] = [".kdenlive"]
         # Appimage
@@ -119,9 +112,9 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def postInstall(self):
         if CraftCore.compiler.isWindows:
-            self.schemeDir = os.path.join(self.installDir(), "bin", "data", "color-schemes")
+            self.schemeDir = self.installDir() / "bin/data/color-schemes"
         else:
-            self.schemeDir = os.path.join(self.installDir(), "share", "color-schemes")
+            self.schemeDir = self.installDir() / "share/color-schemes"
         for scheme in ["RustedBronze"]:
-            GetFiles.getFile("https://raw.githubusercontent.com/Bartoloni/RustedBronze/master/" + scheme + ".colors", self.schemeDir)
+            GetFiles.getFile(f"https://raw.githubusercontent.com/Bartoloni/RustedBronze/master/{scheme}.colors", self.schemeDir)
         return True

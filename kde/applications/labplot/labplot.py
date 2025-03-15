@@ -1,7 +1,14 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2025 Stefan Gerlach <stefan.gerlach@uni.kn>
+
+import os
+
 import info
+import utils
 from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
 from Package.CMakePackageBase import CMakePackageBase
 from Packager.AppImagePackager import AppImagePackager
 from Packager.AppxPackager import AppxPackager
@@ -41,14 +48,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libzip"] = None
         self.runtimeDependencies["libs/hdf5"] = None
         self.runtimeDependencies["libs/netcdf"] = None
-        if not CraftCore.compiler.isWindows:
-            self.runtimeDependencies["libs/liborcus"] = None
+        self.runtimeDependencies["libs/liblz4"] = None
+        self.runtimeDependencies["libs/orcus"] = None
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
-        else:
-            self.runtimeDependencies["libs/liblz4"] = None
 
         # cross compiling Cantor fails on macOS x86_64 (CD job)
         if not CraftCore.compiler.isMacOS or not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
@@ -78,24 +83,24 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/discount"] = None
         # required on macOS currently
         self.runtimeDependencies["libs/readstat"] = None
-        if not CraftCore.compiler.isMacOS:
-            self.buildDependencies["libs/python"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         # needed by packager
         self.runtimeDependencies["libs/brotli"] = None
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["libs/boost"] = None
-            self.runtimeDependencies["libs/libixion"] = None
+        self.runtimeDependencies["libs/boost"] = None
+        self.runtimeDependencies["libs/ixion"] = None
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
+            # later required for Python SDK?
+            self.runtimeDependencies["libs/python"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DLOCAL_DBC_PARSER=ON", "-DLOCAL_VECTOR_BLF=ON"]
+        self.subinfo.options.configure.args += [f"-DPython3_ROOT_DIR={CraftCore.standardDirs.craftRoot()}"]
         if CraftCore.compiler.isMacOS:
             # readstat fails with ninja
             self.supportsNinja = False
@@ -103,6 +108,13 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
+        # TODO: use available versions
+        self.subinfo.options.configure.args += [
+            f'-DIxion_INCLUDE_DIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/ixion-0.20',
+            f'-DOrcus_INCLUDE_DIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/orcus-0.20'
+        ]
+        if CraftCore.compiler.isMSVC():
+            self.subinfo.options.configure.args += f'-DCMAKE_CXX_FLAGS="-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/boost-1_86 -EHsc"'
 
     def createPackage(self):
         self.defines["appname"] = "LabPlot"
@@ -171,7 +183,6 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("binary/r-base")
         self.ignoredPackages.append("libs/llvm")
-        self.ignoredPackages.append("libs/python")
         self.ignoredPackages.append("libs/qt6/qtshadertools")
         self.ignoredPackages.append("libs/qt6/qtwebengine")
         self.ignoredPackages.append("libs/sdl2")
@@ -185,5 +196,28 @@ class Package(CMakePackageBase):
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
+        # needed by cantor_pythonserver
+        if not CraftCore.compiler.isMacOS:
+            self.ignoredPackages.append("libs/python")
 
         return super().createPackage()
+
+    def preArchive(self):
+        archiveDir = self.archiveDir()
+
+        if CraftCore.compiler.isMacOS:
+            # Move cantor_pythonserver to the package
+            defines = self.setDefaults(self.defines)
+            appPath = self.getMacAppPath(defines)
+            if not utils.copyFile(
+                archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
+                appPath / "Contents/MacOS",
+                linkOnly=False,
+            ):
+                return False
+
+            # fix falsely picked up system Python lib
+            # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
+            utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", "@executable_path/../Frameworks/Python.framework/Versions/3.11/Python", os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
+
+        return True

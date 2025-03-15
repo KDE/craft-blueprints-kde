@@ -23,9 +23,9 @@
 # SUCH DAMAGE.
 
 
-import CraftCore
 import info
 import utils
+from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
 

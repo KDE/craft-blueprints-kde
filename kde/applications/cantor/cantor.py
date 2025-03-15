@@ -1,7 +1,9 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2024 Stefan Gerlach <stefan.gerlach@uni.kn>
+
 import info
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
-from CraftOS.osutils import OsUtils
 from Package.CMakePackageBase import CMakePackageBase
 from Packager.AppxPackager import AppxPackager
 
@@ -10,8 +12,9 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Cantor"
-        self.patchToApply["24.12.0"] = [("cantor-24.12.0-dbus.patch", 1)]
         self.patchToApply["24.12.2"] = [("cantor-24.12.2-qt5compat.patch", 1)]
+        self.patchToApply["24.12.3"] = [("cantor-24.12.2-qt5compat.patch", 1)]
+        self.patchLevel["24.12.2"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -62,13 +65,16 @@ class Package(CMakePackageBase):
         # self.subinfo.options.configure.args += [f"-DR_R_LIBRARY={OsUtils.toUnixPath(os.path.join(self.r_dir, "R.dll"))}"]
 
         # pythonPath = CraftCore.settings.get("Paths", "PYTHON")
-        if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.args += [
-                f"-DPython3_EXECUTABLE:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/bin/python.exe",
-                f"-DPython3_LIBRARY:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib/python311.lib",
-                f"-DPython3_INCLUDE_DIR:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/python3.11",
-                "-DPython3_FIND_REGISTRY=NEVER",
-            ]
+        self.subinfo.options.configure.args += [f"-DPython3_ROOT_DIR={CraftCore.standardDirs.craftRoot()}"]
+
+        # old method
+        # if CraftCore.compiler.isMSVC():
+        #    self.subinfo.options.configure.args += [
+        #        f"-DPython3_EXECUTABLE:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/bin/python.exe",
+        #        f"-DPython3_LIBRARY:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib/python311.lib",
+        #        f"-DPython3_INCLUDE_DIR:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/python3.11",
+        #        "-DPython3_FIND_REGISTRY=NEVER",
+        #    ]
 
         # help thirdparty discount on macOS.x86_64
         if CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:

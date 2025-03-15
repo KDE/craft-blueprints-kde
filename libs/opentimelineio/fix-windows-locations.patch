@@ -1,0 +1,26 @@
+diff --git a/src/opentime/CMakeLists.txt b/src/opentime/CMakeLists.txt
+index b7cc47c..83bbb94 100644
+--- a/src/opentime/CMakeLists.txt
++++ b/src/opentime/CMakeLists.txt
+@@ -46,7 +46,7 @@ if(OTIO_CXX_INSTALL)
+             INCLUDES DESTINATION "${OTIO_RESOLVED_CXX_INSTALL_DIR}/include"
+             ARCHIVE DESTINATION "${OTIO_RESOLVED_CXX_DYLIB_INSTALL_DIR}"
+             LIBRARY DESTINATION "${OTIO_RESOLVED_CXX_DYLIB_INSTALL_DIR}"
+-            RUNTIME DESTINATION "${OTIO_RESOLVED_CXX_DYLIB_INSTALL_DIR}")
++            RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
+
+     install(EXPORT OpenTimeTargets
+             DESTINATION "${OTIO_RESOLVED_CXX_INSTALL_DIR}/share/opentime"
+diff --git a/src/opentimelineio/CMakeLists.txt b/src/opentimelineio/CMakeLists.txt
+index 4b08e6d..714a4b2 100644
+--- a/src/opentimelineio/CMakeLists.txt
++++ b/src/opentimelineio/CMakeLists.txt
+@@ -121,7 +121,7 @@ if(OTIO_CXX_INSTALL)
+            INCLUDES DESTINATION "${OPENTIMELINEIO_INCLUDES}"
+            ARCHIVE DESTINATION "${OTIO_RESOLVED_CXX_DYLIB_INSTALL_DIR}"
+            LIBRARY DESTINATION "${OTIO_RESOLVED_CXX_DYLIB_INSTALL_DIR}"
+-           RUNTIME DESTINATION "${OTIO_RESOLVED_CXX_DYLIB_INSTALL_DIR}")
++           RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}/bin")
+
+     install(EXPORT OpenTimelineIOTargets
+            DESTINATION "${OTIO_RESOLVED_CXX_INSTALL_DIR}/share/opentimelineio"

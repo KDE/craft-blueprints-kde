@@ -1,0 +1,56 @@
+From cd3c4778a881bf66800542213da51806a9a4f3b0 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <julius.kuenzel@kde.org>
+Date: Mon, 24 Feb 2025 20:33:34 +0100
+Subject: [PATCH] Fix Qt6 build regression with MinGW
+
+!476 introduced a find_package call for Qt6 in subdir while it was already found previously in the toplevel CMakeLists.txt (implicitely via eg. QtWidgets). With MinGW this failed:
+
+```
+CMake Error at C:/gitlab/craft/windows-mingw_64-gcc/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointMinGW32Target.cmake:4 (add_library):
+add_library cannot create imported target "EntryPointMinGW32" because
+another target with the same name already exists.
+[...]
+Cannot specify link libraries for target "EntryPointMinGW32" which is not
+built by this project.
+[...]
+CMake Warning at C:/gitlab/craft/windows-mingw_64-gcc/lib/cmake/Qt6/Qt6Config.cmake:181 (find_package):
+Found package configuration file:
+C:/gitlab/craft/windows-mingw_64-gcc/lib/cmake/Qt6Core/Qt6CoreConfig.cmake
+but it set Qt6Core_FOUND to FALSE so package "Qt6Core" is considered to be
+NOT FOUND.
+Call Stack (most recent call first):
+cursors/src/kcursorgen/CMakeLists.txt:2 (find_package)
+```
+
+BUG: 500106
+---
+ CMakeLists.txt                        | 2 +-
+ cursors/src/kcursorgen/CMakeLists.txt | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 19691ac6c..a3ae2f940 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -133,7 +133,7 @@ function(build_Qt6)
+         set(WITH_WALLPAPERS OFF)
+     endif()
+ 
+-    find_package(Qt6 ${QT_MIN_VERSION} REQUIRED CONFIG COMPONENTS Widgets)
++    find_package(Qt6 ${QT_MIN_VERSION} REQUIRED CONFIG COMPONENTS Widgets Core Svg)
+ 
+     find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
+         CoreAddons
+diff --git a/cursors/src/kcursorgen/CMakeLists.txt b/cursors/src/kcursorgen/CMakeLists.txt
+index ffcd7e2e4..debd3d074 100644
+--- a/cursors/src/kcursorgen/CMakeLists.txt
++++ b/cursors/src/kcursorgen/CMakeLists.txt
+@@ -1,5 +1,4 @@
+ include(ECMMarkNonGuiExecutable)
+-find_package(Qt6 ${REQUIRED_QT_VERSION} REQUIRED NO_MODULE COMPONENTS Core Svg)
+ 
+ set(CMAKE_AUTOMOC ON)
+ 
+-- 
+GitLab
+
