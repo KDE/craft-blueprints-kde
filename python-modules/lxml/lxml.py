@@ -13,8 +13,10 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
         self.runtimeDependencies["libs/libxml2"] = None
+        self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["python-modules/cython"] = None
 
 class Package(PipPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += [ "--config-settings=--global-option=build_ext", f"--config-settings=--global-option=--include-dirs={CraftCore.standardDirs.craftRoot()}/include/libxml2"]
