@@ -39,7 +39,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for ver in ["2.3"]:
-            self.targets[ver] = f"https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/{ver}/shared-mime-info-{ver}.tar.bz2"
+            self.targets[ver] = f"https://invent.kde.org/mirrors/shared-mime-info/-/archive/{ver}/shared-mime-info-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
         self.targetDigests["2.3"] = (["96ac085d82e2e654e40e34c13d97b74f6657357ee6b443d922695adcf548961c"], CraftHash.HashAlgorithm.SHA256)
 
