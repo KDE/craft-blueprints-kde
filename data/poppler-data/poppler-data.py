@@ -6,14 +6,16 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "the poppler CJK encoding data"
-        self.svnTargets["master"] = "git://git.freedesktop.org/git/poppler/poppler-data"
+        self.svnTargets["master"] = "https://invent.kde.org/mirrors/poppler-data.git"
 
         # use poppler data matching the latest poppler release used in poppler.py
-        v = "0.4.11"
-        self.defaultTarget = v
-        self.targets[v] = f"https://poppler.freedesktop.org/poppler-data-{v}.tar.gz"
-        self.targetInstSrc[v] = f"poppler-data-{v}"
-        self.targetDigests[v] = (["2cec05cd1bb03af98a8b06a1e22f6e6e1a65b1e2f3816cb3069bb0874825f08c"], CraftHash.HashAlgorithm.SHA256)
+        for ver in ["0.4.11", "0.4.12"]:
+            dashVer = ver.replace(".", "_")
+            self.targets[ver] = f"https://invent.kde.org/mirrors/poppler-data/-/archive/POPPLER_DATA_{dashVer}/poppler-data-POPPLER_DATA_{dashVer}.tar.bz2"
+            self.targetInstSrc[ver] = f"poppler-data-POPPLER_DATA_{dashVer}"
+        self.targetDigests["0.4.12"] = (["058c83f06e7ad56d46b8e7fa8a7ff4e8a62a69c8738dc25acde95fa4270d9bc4"], CraftHash.HashAlgorithm.SHA256)
+
+        self.defaultTarget = "0.4.12"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
