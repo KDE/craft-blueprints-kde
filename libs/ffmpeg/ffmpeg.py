@@ -69,7 +69,9 @@ class subinfo(info.infoclass):
             self.buildDependencies["libs/amf"] = None
             self.buildDependencies["libs/nvidia-codecs"] = None
             self.runtimeDependencies["libs/svtav1"] = None
-            self.runtimeDependencies["libs/onevpl"] = None
+            if not CraftCore.compiler.isAndroid:
+                self.runtimeDependencies["libs/intel-mfx"] = None
+                self.runtimeDependencies["libs/onevpl"] = None
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/libva"] = None
             self.runtimeDependencies["libs/libvdpau"] = None
