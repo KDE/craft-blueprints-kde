@@ -59,6 +59,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libsdl2"] = None
         self.runtimeDependencies["libs/aom"] = None
         self.runtimeDependencies["libs/dav1d"] = None
+        self.runtimeDependencies["libs/onevpl"] = None
         if CraftCore.compiler.isGCCLike():
             if not CraftCore.compiler.isAndroid:
                 self.runtimeDependencies["libs/libvpx"] = None
@@ -69,10 +70,6 @@ class subinfo(info.infoclass):
             self.buildDependencies["libs/amf"] = None
             self.buildDependencies["libs/nvidia-codecs"] = None
             self.runtimeDependencies["libs/svtav1"] = None
-            if not CraftCore.compiler.isAndroid:
-                if not CraftCore.compiler.isMSVC():
-                    self.runtimeDependencies["libs/intel-mfx"] = None
-                self.runtimeDependencies["libs/onevpl"] = None
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/libva"] = None
             self.runtimeDependencies["libs/libvdpau"] = None
@@ -184,7 +181,7 @@ class Package(AutoToolsPackageBase):
                 "--enable-amf",
                 "--enable-libsvtav1",
             ]
-            if CraftCore.compiler.architecture & CraftCore.compiler.Architecture.x86:
+            if self.subinfo.options.isActive("libs/onevpl"):
                 self.subinfo.options.configure.args += ["--enable-libvpl"]
 
         if CraftCore.compiler.isLinux:

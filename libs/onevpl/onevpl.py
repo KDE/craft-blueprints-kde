@@ -4,6 +4,10 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.architecture = CraftCore.compiler.architecture.x86
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.Windows | CraftCore.compiler.Platforms.Linux
+
     def setTargets(self):
         for ver in ["2.14.0"]:
             self.targets[ver] = f"https://github.com/oneapi-src/oneVPL/archive/refs/tags/v{ver}.tar.gz"
@@ -15,6 +19,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/nasm"] = None
+        if not CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["libs/intel-mfx"] = None
 
 
 class Package(CMakePackageBase):
