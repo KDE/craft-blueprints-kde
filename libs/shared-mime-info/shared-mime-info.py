@@ -47,7 +47,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMSVC():
             self.patchToApply["2.3"] += [("disable-translation.patch", 1)]
 
-        self.patchLevel["2.3"] = 1
+        self.patchLevel["2.3"] = 2
 
         self.description = "The shared-mime-info package contains the core database of common types and the update-mime-database command used to extend it"
         self.webpage = "https://www.freedesktop.org/wiki/Software/shared-mime-info/"
@@ -82,9 +82,8 @@ class Package(MesonPackageBase):
             return False
         # must be called before we sign
         if CraftCore.compiler.isWindows:
-            manifest = self.blueprintDir() / "update-mime-database.exe.manifest"
-            executable = self.installDir() / "bin/update-mime-database.exe"
-            utils.embedManifest(executable, manifest)
+            if not utils.embedManifest(self.installDir() / "bin/update-mime-database.exe", self.blueprintDir() / "update-mime-database.exe.manifest"):
+                return False
         return True
 
     def postQmerge(self):
