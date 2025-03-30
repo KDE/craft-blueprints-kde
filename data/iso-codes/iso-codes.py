@@ -14,14 +14,14 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["4.6.0"]:
-            self.targets[ver] = f"https://salsa.debian.org/iso-codes-team/iso-codes/-/archive/iso-codes-{ver}/iso-codes-iso-codes-{ver}.tar.gz"
-            self.targetInstSrc[ver] = f"iso-codes-iso-codes-{ver}"
+        for ver in ["4.17.0"]:
+            self.targets[ver] = f"https://salsa.debian.org/iso-codes-team/iso-codes/-/archive/v{ver}/iso-codes-v{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"iso-codes-v{ver}"
 
-        self.targetDigests["4.6.0"] = (["c1f5204d4913fba25fdcae6ff5fe9606135717301f99c9ab0b225235023e7d9f"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.17.0"] = (["dd5ca13db77ec6dd1cc25f5c0184290a870ec1fed245d8e39a04ff34f59076c3"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Localized data for various ISO standards (e.g. country, language, language scripts, and currency names)"
-        self.defaultTarget = "4.6.0"
+        self.defaultTarget = "4.17.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
