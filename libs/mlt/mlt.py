@@ -17,10 +17,10 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20221103
-        self.svnTargets["cd93d17"] = "https://github.com/mltframework/mlt.git||cd93d17eb6a6bb3c6f76d611772d798edf5c89cd"
-        self.defaultTarget = "cd93d17"
+        self.svnTargets["62a5af6"] = "https://github.com/mltframework/mlt.git||62a5af66ec1e392fe2a780e4cb784ead0a089e8a"
+        self.defaultTarget = "62a5af6"
         if CraftCore.compiler.isWindows:
-            self.patchToApply["cd93d17"] = [("pi_patch.diff", 1)]
+            self.patchToApply["62a5af6"] = [("pi_patch.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
