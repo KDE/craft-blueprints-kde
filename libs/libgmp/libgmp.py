@@ -33,12 +33,17 @@ class subinfo(info.infoclass):
         for ver in ["6.1.2", "6.2.1"]:
             self.targets[ver] = f"https://gmplib.org/download/gmp/gmp-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"gmp-{ver}"
+        for ver in ["6.3.0"]:
+            self.targets[ver] = f"https://gmplib.org/download/gmp/gmp-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"gmp-{ver}"
         self.targetDigests["6.1.2"] = (["5275bb04f4863a13516b2f39392ac5e272f5e1bb8057b18aec1c9b79d73d8fb2"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["6.2.1"] = (["eae9326beb4158c386e39a356818031bd28f3124cf915f8c5b1dc4c7a36b4d7c"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["6.3.0"] = (["a3c2b80201b89e68616f4ad30bc66aee4927c3ce50e33929ca819d5c43538898"], CraftHash.HashAlgorithm.SHA256)
         if CraftCore.compiler.isMSVC():
             # https://github.com/microsoft/vcpkg/tree/64adda19c86e89526b5e27703a193c14477cce07/ports/gmp
             self.patchToApply["6.2.1"] = [(".msvc", 1)]
-        self.defaultTarget = "6.2.1"
+            self.patchToApply["6.3.0"] = [(".msvc", 1)]
+        self.defaultTarget = "6.3.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
