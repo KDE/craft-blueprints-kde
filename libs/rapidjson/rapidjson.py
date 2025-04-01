@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2025 Julius Künzel <julius.kuenzel@kde.org>
 
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
 
@@ -23,3 +24,5 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        if CraftCore.compiler.isGCCLike():
+            self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS=-Wno-deprecated-declarations"]
