@@ -11,7 +11,6 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = "libass-" + ver
         self.targetDigests["0.17.1"] = (["5ba42655d7e8c5e87bba3ffc8a2b1bc19c29904240126bb0d4b924f39429219f"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.17.3"] = (["26fbfb7a7bd3e6d5c713f8a65a12b36084d1dde6efaed8a9996489054c4aeca0"], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply["0.17.3"] = [("libass-0.17.3-20250331.diff", 1)]
         self.description = "Portable subtitle renderer"
         self.defaultTarget = "0.17.3"
 
