@@ -184,7 +184,6 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/r-base")
         self.ignoredPackages.append("libs/llvm")
         self.ignoredPackages.append("libs/qt6/qtshadertools")
-        self.ignoredPackages.append("libs/qt6/qtwebengine")
         self.ignoredPackages.append("libs/sdl2")
         # AppImage requires several libs
         if not CraftCore.compiler.isLinux or not isinstance(self, AppImagePackager):
@@ -193,6 +192,7 @@ class Package(CMakePackageBase):
             self.ignoredPackages.append("libs/ffmpeg")
             self.ignoredPackages.append("libs/svtav1")
             self.ignoredPackages.append("libs/x265")
+            self.ignoredPackages.append("libs/qt6/qtwebengine")
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
