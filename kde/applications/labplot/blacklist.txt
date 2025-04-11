@@ -40,7 +40,8 @@ bin/brotlienc\.dll
 lib/cfitsio\.dll
 # used on macOS?
 #lib/.*
-libexec/.*
+# QtWebEngineProcess
+#libexec/.*
 
 # unused Qt/KF libs
 bin/Qt6Designer\.dll
