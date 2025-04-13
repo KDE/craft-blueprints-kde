@@ -44,6 +44,7 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
         if CraftCore.compiler.isLinux:
+            self.runtimeDependencies["kde/libs/kunifiedpush"] = None
             self.runtimeDependencies["dev-utils/libtool"] = None
 
 
