@@ -40,7 +40,7 @@ class subinfo(info.infoclass):
         self.targetInstSrc[ver] = f"poppler-poppler-{ver}"
         self.targetDigests[ver] = (["f9900c792e7c19f0a012885f361e8b6886ee35807f98a408db8d80f8ee19a0c8"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["25.03.0"] = [("fix-android-lt29-build.diff", 1)]
-        self.patchLevel[ver] = 1
+        self.patchLevel["25.03.0"] = 2
         self.defaultTarget = ver
 
     def setDependencies(self):

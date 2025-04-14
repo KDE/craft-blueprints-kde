@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.patchToApply["2.0.6"] = [("0001-patch-indiclient-include.patch", 1), ("0002-patch-indidriver-library.patch", 1), ("0003-patch-hid-iconv.patch", 1)]
         self.patchToApply["2.0.7"] = [("0010-patch-indiserver-strict.patch", 1), ("0006-patch-iconv-curl-dependencies.patch", 1)]
         self.patchToApply["2.0.8"] = [("0006-patch-iconv-curl-dependencies.patch", 1)]
+        self.patchLevel["2.1.1"] = 1
 
     def registerOptions(self):
         self.options.dynamic.registerOption("buildClient", True)
@@ -41,7 +42,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/iconv"] = None
             if CraftCore.compiler.isLinux:
                 self.buildDependencies["libs/iconv"] = None
-                self.buildDependencies["libs/libcurl"] = None
 
 
 class Package(CraftPackageObject.get("libs/indilib").pattern):

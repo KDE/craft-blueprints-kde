@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         self.targetDigests["0.188"] = (["fb8b0e8d0802005b9a309c60c1d8de32dd2951b56f0c3a3cb56d21ce01595dff"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "elfutils is a collection of utilities and libraries to read, create and modify ELF binary files, find and handle DWARF debug data, symbols, thread state and stacktraces for processes and core files on GNU/Linux."
+        self.patchLevel["0.188"] = 1
         self.defaultTarget = "0.188"
 
     def setDependencies(self):
