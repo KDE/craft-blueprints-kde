@@ -13,14 +13,13 @@ class subinfo(info.infoclass):
             self.options.dynamic.setDefault("buildStatic", True)
 
     def setTargets(self):
-        for ver in ["4.0.0"]:
-            self.targets[ver] = f"https://fukuchi.org/works/qrencode/qrencode-{ver}.tar.gz"
-            self.targetDigestUrls[ver] = ([f"https://fukuchi.org/works/qrencode/qrencode-{ver}.tar.gz.sha"], CraftHash.HashAlgorithm.SHA512)
-            self.targetInstSrc[ver] = f"qrencode-{ver}"
-        self.patchToApply["4.0.0"] = ("qrencode-4.0.0-20171220.diff", 1)
+        for ver in ["4.1.1"]:
+            self.targets[ver] = f"https://github.com/fukuchi/libqrencode/archive/refs/tags/v{ver}.tar.gz"
+            self.targetDigests["4.1.1"] = (["5385bc1b8c2f20f3b91d258bf8ccc8cf62023935df2d2676b5b67049f31a049c"], CraftHash.HashAlgorithm.SHA256)
+            self.targetInstSrc[ver] = f"libqrencode-{ver}"
 
         self.description = "Libqrencode is a fast and compact library for encoding data in a QR Code symbol, a 2D symbology that can be scanned by handy terminals such as a mobile phone with CCD. The capacity of QR Code is up to 7000 digits or 4000 characters and has high robustness."
-        self.defaultTarget = "4.0.0"
+        self.defaultTarget = "4.1.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
