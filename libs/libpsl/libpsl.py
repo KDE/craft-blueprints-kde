@@ -16,6 +16,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/gettext"] = None
+        self.runtimeDependencies["libs/icu"] = None
 
 
 class Package(MesonPackageBase):
