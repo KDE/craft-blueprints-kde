@@ -50,5 +50,8 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon"] = self.buildDir() / "src/dolphin.ico"
 
         self.ignoredPackages.append("binary/mysql")
+        # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
+        if not CraftCore.compiler.isLinux:
+            self.ignoredPackages.append("libs/dbus")
 
         return super().createPackage()

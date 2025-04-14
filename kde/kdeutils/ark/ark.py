@@ -1,5 +1,6 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -37,4 +38,7 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         self.defines["executable"] = r"bin\ark.exe"
+        # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
+        if not CraftCore.compiler.isLinux:
+            self.ignoredPackages.append("libs/dbus")
         return super().createPackage()
