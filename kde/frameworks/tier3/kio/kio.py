@@ -1,6 +1,5 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
-from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 
 
@@ -35,8 +34,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
             self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
-        if self.buildTarget < CraftVersion("6.8.0"):
-            self.runtimeDependencies["libs/qt6/qt5compat"] = None
         if not CraftCore.compiler.isAndroid and not CraftCore.compiler.isWindows and not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
 
