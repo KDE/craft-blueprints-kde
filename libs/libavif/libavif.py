@@ -9,12 +9,12 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.1.1"]:
+        for ver in ["1.2.1"]:
             self.targets[ver] = f"https://github.com/AOMediaCodec/libavif/archive/refs/tags/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libavif-{ver}"
-        self.targetDigests["1.1.1"] = (["914662e16245e062ed73f90112fbb4548241300843a7772d8d441bb6859de45b"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.2.1"] = (["9c859c7c12ccb0f407511bfe303e6a7247f5f6738f54852662c6df8048daddf4"], CraftHash.HashAlgorithm.SHA256)
         self.description = "Library for encoding and decoding .avif files"
-        self.defaultTarget = "1.1.1"
+        self.defaultTarget = "1.2.1"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/aom"] = None
