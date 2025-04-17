@@ -12,6 +12,8 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://github.com/strukturag/libheif/releases/download/v{ver}/libheif-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libheif-{ver}"
         self.targetDigests["1.19.7"] = (["161c042d2102665fcee3ded851c78a0eb5f2d4bfe39fba48ba6e588fd6e964f3"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["1.19.7"] = [("libheif-1.18.2-20250415.diff", 1)]
+        self.patchLevel["1.19.7"] = 1
         self.description = "libheif is an HEIF and AVIF file format decoder and encoder"
         self.defaultTarget = "1.19.7"
 

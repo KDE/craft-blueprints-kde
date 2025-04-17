@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # SPDX-FileCopyrightText: 2024 Daniel Novomesky <dnovomesky@gmail.com>
+from pathlib import Path
 
 import info
+import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
@@ -11,6 +13,7 @@ class subinfo(info.infoclass):
         for ver in ["0.11.1"]:
             self.svnTargets[ver] = f"https://github.com/libjxl/libjxl.git||v{ver}"
         self.description = "JPEG XL image format reference implementation"
+        self.patchLevel["0.11.1"] = 1
         self.defaultTarget = "0.11.1"
 
     def setDependencies(self):
@@ -48,3 +51,19 @@ class Package(CMakePackageBase):
                 "-DCMAKE_C_FLAGS=-DHWY_COMPILE_ONLY_SCALAR",
                 "-DCMAKE_CXX_FLAGS=-DHWY_COMPILE_ONLY_SCALAR",
             ]
+
+    def install(self):
+        if not super().install():
+            return False
+        if CraftCore.compiler.isMSVC():
+            for pc in utils.filterDirectoryContent(
+                self.installDir(),
+                whitelist=lambda x, root: Path(x).suffix.lower() in [".pc"],
+                blacklist=lambda x, root: True,
+            ):
+                pc = Path(pc)
+                with pc.open("rt") as input:
+                    content = input.read()
+                with pc.open("wt") as output:
+                    output.write(content.replace("-lm", ""))
+        return True
