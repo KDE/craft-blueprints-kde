@@ -53,6 +53,7 @@ if not CraftCore.compiler.isMSVC():
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
+            self.subinfo.options.configure.cflags += " -Wno-error=int-conversion"
             self.subinfo.options.configure.args += ["--disable-gpg-test"]
             if not self.subinfo.options.dynamic.enableCPP:
                 self.subinfo.options.configure.args += ["--enable-languages=no"]
