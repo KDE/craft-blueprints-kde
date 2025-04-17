@@ -20,8 +20,8 @@ class subinfo(info.infoclass):
         self.patchToApply["2.5.0"] = [
             ("338246278a8e753c36e8319044360eb7a84f6488.diff", 1),
         ]
-        self.patchToApply["2.5.2"] = [("openjpeg-2.5.2-20250415.diff", 1)]
-        self.patchLevel["2.5.2"] = 1
+        self.patchToApply["2.5.3"] = [("openjpeg-2.5.2-20250415.diff", 1)]
+        self.patchLevel["2.5.3"] = 1
         self.description = "OpenJPEG is an open-source JPEG 2000 codec written in C language."
         self.webpage = "http://www.openjpeg.org/"
         self.defaultTarget = "2.5.3"
