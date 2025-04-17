@@ -67,6 +67,7 @@ class PackageAutoTools(AutoToolsPackageBase):
                 "CCAS=clang",
                 "ac_cv_func_memset=yes",
                 "gmp_cv_asm_w32=.word",
+                "ac_cv_sizeof_mp_limb_t=8",
             ]
         self.subinfo.options.useShadowBuild = False
 
