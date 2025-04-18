@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.isWindows)
 
     def setDependencies(self):
-        pass
+        self.buildDependencies["libs/libprotobuf-c"] = None
 
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/dino/libomemo-c.git"
