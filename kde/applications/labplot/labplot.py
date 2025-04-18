@@ -197,7 +197,7 @@ class Package(CMakePackageBase):
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
         # needed by cantor_pythonserver
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.isMacOS or CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             self.ignoredPackages.append("libs/python")
 
         return super().createPackage()
@@ -205,7 +205,7 @@ class Package(CMakePackageBase):
     def preArchive(self):
         archiveDir = self.archiveDir()
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.isMacOS and not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             # Move cantor_pythonserver to the package
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
