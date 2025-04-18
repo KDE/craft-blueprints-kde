@@ -67,6 +67,11 @@ class PackageAutoTools(AutoToolsPackageBase):
                 "CCAS=clang",
                 "ac_cv_func_memset=yes",
                 "gmp_cv_asm_w32=.word",
+            ]
+        if CraftCore.compiler.isWindows:
+            self.subinfo.options.configure.args += [
+                # checking size of mp_limb_t... 0
+                # configure: error: Oops, mp_limb_t doesn't seem to work
                 "ac_cv_sizeof_mp_limb_t=8",
             ]
         self.subinfo.options.useShadowBuild = False
