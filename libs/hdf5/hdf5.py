@@ -16,15 +16,17 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.12/hdf5-{ver}/src/hdf5-{ver}.tar.bz2"
         for ver in ["1.14.3"]:
             self.targets[ver] = f"https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.14/hdf5-{ver}/src/hdf5-{ver}.tar.bz2"
-        for ver in ["1.10.8", "1.12.1", "1.14.3"]:
+        self.targets["1.14.6"] = "https://support.hdfgroup.org/releases/hdf5/v1_14/v1_14_6/downloads/hdf5-1.14.6.tar.gz"
+        for ver in ["1.10.8", "1.12.1", "1.14.3", "1.14.6"]:
             self.targetInstSrc[ver] = f"hdf5-{ver}"
 
         self.targetDigests["1.10.8"] = (["d341b80d380dd763753a0ebe22915e11e87aac4e44a084a850646ff934d19c80"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.12.1"] = (["aaf9f532b3eda83d3d3adc9f8b40a9b763152218fa45349c3bc77502ca1f8f1c"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.14.3"] = (["9425f224ed75d1280bb46d6f26923dd938f9040e7eaebf57e66ec7357c08f917"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.14.6"] = (["e4defbac30f50d64e1556374aa49e574417c9e72c6b1de7a4ff88c4b1bea6e9b"], CraftHash.HashAlgorithm.SHA256)
         self.description = "A data model, library, and file format for storing and managing data"
 
-        self.defaultTarget = "1.14.3"
+        self.defaultTarget = "1.14.6"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
