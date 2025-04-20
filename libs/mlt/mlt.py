@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
             self.patchToApply["74eed6b"] = [("pi_patch.diff", 1)]
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.buildDependencies["libs/ladspa-sdk"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None

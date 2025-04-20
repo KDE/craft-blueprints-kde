@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.7.1"
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libssh2"] = None
         self.runtimeDependencies["libs/pcre2"] = None

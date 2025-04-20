@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/gettext"] = None
         self.buildDependencies["libs/ladspa-sdk"] = None
         self.buildDependencies["libs/libxml2"] = None
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.buildDependencies["perl-modules/list-moreutils"] = None
 
 

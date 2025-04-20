@@ -10,12 +10,9 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["1.23.0"]:
-            self.targets[ver] = f"https://gitlab.freedesktop.org/wayland/wayland/-/releases/{ver}/downloads/wayland-{ver}.tar.xz"
+            self.targets[ver] = f"https://invent.kde.org/mirrors/wayland/-/archive/{ver}/wayland-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"wayland-{ver}"
-        self.targetDigestUrls["1.23.0"] = (
-            ["https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.23.0/downloads/wayland-1.23.0.tar.xz.sha256sum"],
-            CraftHash.HashAlgorithm.SHA256,
-        )
+        self.targetDigests["1.23.0"] = (["30bc2d0b0d8a32343aedbb530c927f11e7b140ce8c821f191c2d0052a5c6e900"], CraftHash.HashAlgorithm.SHA256)
         self.description = "Core Wayland window system code and protocol"
 
         self.defaultTarget = "1.23.0"

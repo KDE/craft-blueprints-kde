@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/automake"] = None
         self.buildDependencies["dev-utils/autoconf"] = None
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.runtimeDependencies["libs/openssl"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/dbus"] = None

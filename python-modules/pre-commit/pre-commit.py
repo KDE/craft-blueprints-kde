@@ -10,6 +10,11 @@ class subinfo(info.infoclass):
         self.webpage = "https://pre-commit.com/"
         self.defaultTarget = "master"
 
+    def setDependencies(self):
+        self.buildDependencies["python-modules/pip"] = None
+        self.buildDependencies["python-modules/hatchling"] = None
+        self.buildDependencies["python-modules/virtualenv"] = None
+
 
 class Package(PipPackageBase):
     def __init__(self, **kwargs):

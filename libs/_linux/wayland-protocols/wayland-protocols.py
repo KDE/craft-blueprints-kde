@@ -10,9 +10,9 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["1.36"]:
-            self.targets[ver] = f"https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/{ver}/downloads/wayland-protocols-{ver}.tar.xz"
+            self.targets[ver] = f"https://invent.kde.org/mirrors/wayland-protocols/-/archive/{ver}/wayland-protocols-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"wayland-protocols-{ver}"
-        self.targetDigests["1.36"] = (["71fd4de05e79f9a1ca559fac30c1f8365fa10346422f9fe795f74d77b9ef7e92"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.36"] = (["e6830b04c19f6aa76c7e9cc91d5dd442f6df6f7b1e43ac62f7b04daf95b01737"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "wayland-protocols contains Wayland protocols that add functionality not available in the Wayland core protocol."
 

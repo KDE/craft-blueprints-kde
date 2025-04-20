@@ -39,7 +39,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for ver in ["2.3"]:
-            self.targets[ver] = f"https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/{ver}/shared-mime-info-{ver}.tar.bz2"
+            self.targets[ver] = f"https://invent.kde.org/mirrors/shared-mime-info/-/archive/{ver}/shared-mime-info-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
         self.targetDigests["2.3"] = (["96ac085d82e2e654e40e34c13d97b74f6657357ee6b443d922695adcf548961c"], CraftHash.HashAlgorithm.SHA256)
 
@@ -47,7 +47,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMSVC():
             self.patchToApply["2.3"] += [("disable-translation.patch", 1)]
 
-        self.patchLevel["2.3"] = 1
+        self.patchLevel["2.3"] = 2
 
         self.description = "The shared-mime-info package contains the core database of common types and the update-mime-database command used to extend it"
         self.webpage = "https://www.freedesktop.org/wiki/Software/shared-mime-info/"
@@ -55,8 +55,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
+        self.buildDependencies["dev-utils/uactools"] = None
         self.buildDependencies["dev-utils/intltool"] = None
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/libxml2"] = None
@@ -81,9 +82,8 @@ class Package(MesonPackageBase):
             return False
         # must be called before we sign
         if CraftCore.compiler.isWindows:
-            manifest = self.blueprintDir() / "update-mime-database.exe.manifest"
-            executable = self.installDir() / "bin/update-mime-database.exe"
-            utils.embedManifest(executable, manifest)
+            if not utils.embedManifest(self.installDir() / "bin/update-mime-database.exe", self.blueprintDir() / "update-mime-database.exe.manifest"):
+                return False
         return True
 
     def postQmerge(self):

@@ -55,7 +55,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.buildDependencies["dev-utils/perl"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
         if not self.options.buildStatic:
@@ -105,6 +105,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DFEATURE_system_zlib=ON",
             f"-DFEATURE_system_libb2={self.subinfo.options.isActive('libs/libb2').asOnOff}",
             f"-DFEATURE_system_freetype={self.subinfo.options.isActive('libs/freetype').asOnOff}",
+            f"-DFEATURE_system_jpeg={self.subinfo.options.isActive('libs/libjpeg-turbo').asOnOff}",
             "-DQT_FEATURE_sql_odbc=OFF",
             "-DFEATURE_openssl_linked=ON",
             "-DQT_BUILD_EXAMPLES=OFF",

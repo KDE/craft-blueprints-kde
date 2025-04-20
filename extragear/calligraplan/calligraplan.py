@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.webpage = "https://calligra.org/plan"
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None

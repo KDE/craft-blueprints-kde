@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.patchToApply["1.0.1"] = [("libkolabxml-1.0.1-fixes.diff", 1)]
 
         self.description = "Kolab XML Format Schema Definitions Library"
+        self.patchLevel["1.0.1"] = 1
         self.defaultTarget = "1.0.1"
 
     def setDependencies(self):

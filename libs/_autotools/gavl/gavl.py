@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.patchLevel["59dd12a"] = 1
 
         self.description = "Low level library, upon which multimedia APIs can be built"
-        self.webpage = "https://gmerlin.sourceforge.net"
+        self.webpage = "https://github.com/bplaum/gavl"
         if CraftCore.compiler.isMacOS:
             self.defaultTarget = "59dd12a"
         else:
@@ -34,3 +34,4 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--without-doxygen", "--disable-libpng"]
+        self.subinfo.options.configure.cflags += " -Wno-implicit-function-declaration"

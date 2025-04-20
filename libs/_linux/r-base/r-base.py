@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         for version in ["4.3.3", "4.2.3"]:
             self.targets[version] = f"{PACKAGE_CRAN_MIRROR}{PACKAGE_PATH}R-{version}.tar.gz"
             self.targetInstSrc[version] = f"R-{version}"
+        self.patchLevel["4.3.3"] = 1
         self.defaultTarget = "4.3.3"
 
 

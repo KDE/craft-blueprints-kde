@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
 
         self.description = "An OCR program"
         self.webpage = "https://github.com/tesseract-ocr/tesseract"
+        self.patchLevel["5.4.1"] = 1
         self.defaultTarget = "5.4.1"
 
     def setDependencies(self):

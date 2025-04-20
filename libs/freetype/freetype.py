@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/brotli"] = None
         self.buildDependencies["dev-utils/msys"] = None
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
 
 
 class PackageCMake(CMakePackageBase):

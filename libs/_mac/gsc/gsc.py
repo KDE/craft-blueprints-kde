@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.3"
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/pkg-config"] = None
+        self.buildDependencies["dev-utils/pkgconf"] = None
         self.runtimeDependencies["virtual/base"] = None
 
 
