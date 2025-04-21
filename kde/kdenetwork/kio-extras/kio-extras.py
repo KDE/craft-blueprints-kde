@@ -47,3 +47,5 @@ class Package(CraftPackageObject.get("kde").pattern):
         ]  # This requires KDSoap 1.9.0, but we only have a newer version in Craft
 
         self.subinfo.options.configure.args += [f"-DBUILD_ACTIVITIES={self.subinfo.options.isActive('kde/plasma/plasma-activities-stats').asOnOff}"]
+        # TODO: we don't have libproxy in Craft yet
+        self.subinfo.options.configure.args += ["-DWITH_LIBPROXY=OFF"]
