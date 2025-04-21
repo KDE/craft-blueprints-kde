@@ -35,12 +35,10 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "git://git.freedesktop.org/git/poppler/poppler"
 
         # always try to use latest libpoppler with all security fixes
-        ver = "25.03.0"
+        ver = "25.04.0"
         self.targets[ver] = f"https://invent.kde.org/mirrors/poppler/-/archive/poppler-{ver}/poppler-poppler-{ver}.tar.bz2"
         self.targetInstSrc[ver] = f"poppler-poppler-{ver}"
-        self.targetDigests[ver] = (["f9900c792e7c19f0a012885f361e8b6886ee35807f98a408db8d80f8ee19a0c8"], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply["25.03.0"] = [("fix-android-lt29-build.diff", 1)]
-        self.patchLevel["25.03.0"] = 2
+        self.targetDigests[ver] = (["a1db8bd4db37f7bb331e3ef226c08ce6a7d8c4f175e61d1d7aba94c9a121fdb5"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = ver
 
     def setDependencies(self):
