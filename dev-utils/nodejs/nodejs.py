@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         )
 
     def setTargets(self):
-        for ver in ["16.15.1"]:
+        for ver in ["16.15.1", "22.14.0"]:
             if CraftCore.compiler.isWindows:
                 self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-win-x64.zip"
                 self.targetInstSrc[ver] = f"node-v{ver}-win-x64"
@@ -38,7 +38,7 @@ class subinfo(info.infoclass):
 
         self.patchLevel["16.15.1"] = 1
 
-        self.defaultTarget = "16.15.1"
+        self.defaultTarget = "22.14.0"
 
 
 class Package(BinaryPackageBase):
