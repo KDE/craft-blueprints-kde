@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kpeople"] = None
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt/qtconnectivity"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
