@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.3.1"] = "e711dc5a561f83d5bafcc4e47094addfd1806af7"
         self.patchToApply["1.3.1"] = ("xplanet-1.3.1-giflib5.patch", 1)
         self.patchToApply["1.3.1"] = ("xplanet-1.3.1-ntimes.patch", 1)
+        self.patchToApply["1.3.1"] = ("xplanet-c++11.patch", 1)
 
         self.defaultTarget = "1.3.1"
 
@@ -55,7 +56,7 @@ class Package(AutoToolsPackageBase):
     def configure(self):
         prefix = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
         craftIncludeDir = os.path.join(prefix, "include")
-        self.shell.environment["CXXFLAGS"] = f"-I{craftIncludeDir}"
+        self.shell.environment["CXXFLAGS"] = f"-I{craftIncludeDir} -Wno-c++11-narrowing"
         self.shell.environment["CFLAGS"] = f"-I{craftIncludeDir}"
         super().configure()
         return True

@@ -8,16 +8,17 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "KImageFormats"
-        self.patchLevel["6.8.0"] = 1
+        self.patchLevel["6.12.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        self.buildDependencies["kde/frameworks/tier1/karchive"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["libs/libavif"] = None
         if CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/libheif"] = None
         self.runtimeDependencies["libs/libjxl"] = None
+        self.runtimeDependencies["libs/openjpeg"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
 

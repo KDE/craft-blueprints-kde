@@ -57,6 +57,7 @@ class Package(AutoToolsPackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.configure.autoreconf = False
         self.subinfo.options.configure.args += ["--disable-doc"]
+        self.subinfo.options.configure.cflags += " -Wno-error=int-conversion"
 
         if not CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["--disable-ldap"]

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import info
-from CraftCore import CraftCore
 from Package.PipPackageBase import PipPackageBase
 
 
@@ -12,6 +11,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
+
 
 class Package(PipPackageBase):
     def __init__(self, **kwargs):

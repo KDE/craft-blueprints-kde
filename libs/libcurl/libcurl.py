@@ -13,21 +13,23 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/bagder/curl.git"
-        for ver in ["7.78.0", "7.84.0"]:
+        for ver in ["7.78.0", "7.84.0", "8.13.0"]:
             self.targets[ver] = f"https://curl.haxx.se/download/curl-{ver}.tar.bz2"
             self.targetInstSrc[ver] = "curl-" + ver
         self.targetDigests["7.78.0"] = (["98530b317dc95ccb324bbe4f834f07bb642fbc393b794ddf3434f246a71ea44a"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["7.84.0"] = (["702fb26e73190a3bd77071aa146f507b9817cc4dfce218d2ab87f00cd3bc059d"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["8.13.0"] = (["e0d20499260760f9865cb6308928223f4e5128910310c025112f592a168e1473"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "a free and easy-to-use client-side URL transfer library"
         self.patchLevel["7.84.0"] = 2
-        self.defaultTarget = "7.84.0"
+        self.defaultTarget = "8.13.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/openssl"] = None
         self.runtimeDependencies["libs/libssh2"] = None
+        self.runtimeDependencies["libs/libpsl"] = None
 
 
 class Package(CMakePackageBase):
