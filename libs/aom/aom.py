@@ -7,11 +7,11 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "An open, royalty-free video coding format designed for video transmissions over the Internet"
-        for ver in ["3.10.0"]:
+        for ver in ["3.12.1"]:
             self.targets[ver] = f"https://storage.googleapis.com/aom-releases/libaom-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libaom-{ver}"
-        self.targetDigests["3.10.0"] = (["55ccb6816fb4b7d508d96a95b6e9cc3d2c0ae047f9f947dbba03720b56d89631"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "3.10.0"
+        self.targetDigests["3.12.1"] = (["9e9775180dec7dfd61a79e00bda3809d43891aee6b2e331ff7f26986207ea22e"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "3.12.1"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/cmake"] = None
