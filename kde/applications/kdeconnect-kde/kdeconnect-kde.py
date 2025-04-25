@@ -50,7 +50,7 @@ class Package(CMakePackageBase):
 
         self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
         self.defines["icon"] = self.blueprintDir() / "icon.ico"
-        self.defines["appname"] = "kdeconnect-indicator"
+        self.defines["appname"] = "KDE Connect"
         self.defines["AppUserModelID"] = "kdeconnect.daemon"
         self.defines["executable"] = r"bin/kdeconnect-app.exe"
 
