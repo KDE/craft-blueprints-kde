@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = "https://www.cairographics.org/releases/cairo-" + ver + ".tar.xz"
             self.targetInstSrc[ver] = "cairo-" + ver
         self.targetDigests["1.18.4"] = (["445ed8208a6e4823de1226a74ca319d3600e83f6369f99b14265006599c32ccb"], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["1.18.4"] = 1
 
         self.description = "Multi-platform 2D graphics library"
         self.defaultTarget = "1.18.4"
