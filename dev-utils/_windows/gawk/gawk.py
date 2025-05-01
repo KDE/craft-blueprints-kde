@@ -22,6 +22,7 @@ class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.shelveAble = False
+        self.subinfo.options.package.disableBinaryCache = True
 
     def postInstall(self):
         gitPath = CraftCore.cache.findApplication("git")
@@ -33,4 +34,4 @@ class Package(BinaryPackageBase):
             self.imageDir() / "dev-utils/bin/gawk",
             gitPath.parent / "usr/bin/gawk.exe",
             useAbsolutePath=True,
-            )
+        )
