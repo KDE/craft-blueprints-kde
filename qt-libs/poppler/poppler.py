@@ -40,6 +40,7 @@ class subinfo(info.infoclass):
         self.targetInstSrc[ver] = f"poppler-poppler-{ver}"
         self.targetDigests[ver] = (["a1db8bd4db37f7bb331e3ef226c08ce6a7d8c4f175e61d1d7aba94c9a121fdb5"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = ver
+        self.patchLevel[ver] = 1
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
@@ -70,7 +71,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.registerOption("buildCppFrontend", not CraftCore.compiler.isAndroid)
         self.options.dynamic.registerOption("buildQtFrontend", True)
-        self.options.dynamic.registerOption("buildGlibFrontend", False)
+        self.options.dynamic.registerOption("buildGlibFrontend", True)
         self.options.dynamic.registerOption("buildUtils", False)
         if CraftCore.compiler.isAndroid:
             # Poppler doesn't support MinSizeRel
