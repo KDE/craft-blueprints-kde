@@ -29,4 +29,5 @@ class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # tests don't build with 1.18.4 and libspectre present
-        self.subinfo.options.configure.args += ["-Dtests=disabled"]
+        # poppler's cairo backend needs cairo with fontconfig and freetype
+        self.subinfo.options.configure.args += ["-Dtests=disabled", "-Dfreetype=enabled", "-Dfontconfig=enabled"]
