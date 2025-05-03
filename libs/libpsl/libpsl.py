@@ -1,6 +1,6 @@
 import info
-from Package.MesonPackageBase import MesonPackageBase
 from CraftCore import CraftCore
+from Package.MesonPackageBase import MesonPackageBase
 from Utils import CraftHash
 
 
