@@ -1,0 +1,65 @@
+From d7787f72edcb58451b864b47687965e3ebf6f7e1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20Novomesk=C3=BD?= <dnovomesky@gmail.com>
+Date: Wed, 30 Apr 2025 18:30:53 +0200
+Subject: [PATCH] meson: ability to disable .so.version libraries
+
+---
+ meson_options.txt |  2 ++
+ src/meson.build   | 34 +++++++++++++++++++++++-----------
+ 2 files changed, 25 insertions(+), 11 deletions(-)
+
+diff --git a/meson_options.txt b/meson_options.txt
+index e6296740..c8ab76af 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -6,3 +6,5 @@ option('tiff', type: 'feature', value: 'auto', description: 'Use LibTiff')
+ option('utils', type: 'boolean', value: false, description: 'Build the utils')
+ option('fastfloat', type: 'boolean', value: false, description: 'Build and install the fast float plugin, use only if GPL 3.0 is acceptable')
+ option('threaded', type: 'boolean', value: false, description: 'Build and install the multi threaded plugin, use only if GPL 3.0 is acceptable')
++
++option('versionedlibs', type: 'boolean', value: true, description: 'Enable building of .so.version libraries, disable when crosscompiling for Android')
+diff --git a/src/meson.build b/src/meson.build
+index 2e1c89f2..13cb4b2d 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -41,17 +41,29 @@ if host_machine.system() == 'windows'
+     endif  
+ endif
+ 
+-liblcms2_lib = library(
+-  'lcms2',
+-  lcms2_srcs,
+-  include_directories: inc_dirs,
+-  gnu_symbol_visibility: 'hidden',
+-  dependencies: deps,
+-  c_args: cargs,
+-  version: library_version,
+-  # vs_module_defs: 'lcms2.def',
+-  install: true,
+-)
++if get_option('versionedlibs')
++  liblcms2_lib = library(
++    'lcms2',
++    lcms2_srcs,
++    include_directories: inc_dirs,
++    gnu_symbol_visibility: 'hidden',
++    dependencies: deps,
++    c_args: cargs,
++    version: library_version,
++    # vs_module_defs: 'lcms2.def',
++    install: true,
++  )
++else
++  liblcms2_lib = library(
++    'lcms2',
++    lcms2_srcs,
++    include_directories: inc_dirs,
++    gnu_symbol_visibility: 'hidden',
++    dependencies: deps,
++    c_args: cargs,
++    install: true,
++  )
++endif
+ 
+ liblcms2_dep = declare_dependency(
+   link_with: liblcms2_lib,
