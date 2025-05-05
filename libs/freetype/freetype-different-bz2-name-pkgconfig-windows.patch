@@ -1,0 +1,15 @@
+--- a/CMakeLists.txt      2022-05-01 07:05:20.000000000 +0200
++++ b/CMakeLists.txt      2025-05-04 16:04:30.348884300 +0200
+@@ -514,8 +514,12 @@
+   if (PC_BZIP2_FOUND)
+     list(APPEND PKGCONFIG_REQUIRES_PRIVATE "bzip2")
+   else ()
++    if (WIN32)
++      list(APPEND PKGCONFIG_LIBS_PRIVATE "-lbzip2")
++    else ()
+     list(APPEND PKGCONFIG_LIBS_PRIVATE "-lbz2")
+   endif ()
++  endif ()
+ endif ()
+ if (PNG_FOUND)
+   target_link_libraries(freetype PRIVATE ${PNG_LIBRARIES})
