@@ -6,18 +6,22 @@ import info
 import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["0.11.1"]:
-            self.svnTargets[ver] = f"https://github.com/libjxl/libjxl.git||v{ver}"
+            self.targets[ver] = f"https://github.com/libjxl/libjxl/archive/refs/tags/v{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"libjxl-{ver}"
+        self.targetDigests["0.11.1"] = (["1492dfef8dd6c3036446ac3b340005d92ab92f7d48ee3271b5dac1d36945d3d9"], CraftHash.HashAlgorithm.SHA256)
         self.description = "JPEG XL image format reference implementation"
-        self.patchLevel["0.11.1"] = 1
+        self.patchLevel["0.11.1"] = 2
         self.defaultTarget = "0.11.1"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/brotli"] = None
+        self.runtimeDependencies["libs/lcms2"] = None
         self.runtimeDependencies["libs/libhwy"] = None
         self.runtimeDependencies["virtual/base"] = None
 
@@ -38,9 +42,10 @@ class Package(CMakePackageBase):
             "-DJPEGXL_ENABLE_JNI=OFF",
             "-DJPEGXL_ENABLE_SJPEG=OFF",
             "-DJPEGXL_ENABLE_OPENEXR=OFF",
-            "-DJPEGXL_ENABLE_SKCMS=ON",
+            "-DJPEGXL_ENABLE_SKCMS=OFF",
             "-DJPEGXL_ENABLE_TCMALLOC=OFF",
             "-DJPEGXL_FORCE_SYSTEM_BROTLI=ON",
+            "-DJPEGXL_FORCE_SYSTEM_LCMS2=ON"
             "-DJPEGXL_FORCE_SYSTEM_HWY=ON",
             "-DBUILD_TESTING=OFF",
         ]
