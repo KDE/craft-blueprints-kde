@@ -1,9 +1,14 @@
 import info
+from CraftCore import CraftCore
 from Package.MesonPackageBase import MesonPackageBase
 from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # produces a versioned .so file that cannot be deployed on Android as-is
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+
     def setTargets(self):
         self.description = "C library for the Public Suffix List"
         self.webpage = "C library for the Public Suffix List "
@@ -16,6 +21,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
+        self.buildDependencies["python-modules/meson"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/icu"] = None
 

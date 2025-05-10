@@ -13,6 +13,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
+        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
 

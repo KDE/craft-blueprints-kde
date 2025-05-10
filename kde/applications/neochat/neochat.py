@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt/qtlocation"] = None
+        self.runtimeDependencies["libs/qt/qtspeech"] = None
         self.runtimeDependencies["libs/qt/qtwebview"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
@@ -58,8 +59,12 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isAndroid:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_android.txt")
-        self.defines["shortcuts"] = [{"name": "NeoChat", "target": "bin/neochat.exe", "appId": "neochat", "icon": self.buildDir() / "src/NEOCHAT_ICON.ico"}]
-        self.defines["icon"] = self.buildDir() / "src/NEOCHAT_ICON.ico"
+        icon = self.buildDir() / "src/app/NEOCHAT_ICON.ico"
+        if not icon.exists():
+            # old location (until 25.04)
+            icon = self.buildDir() / "src/NEOCHAT_ICON.ico"
+        self.defines["shortcuts"] = [{"name": "NeoChat", "target": "bin/neochat.exe", "appId": "neochat", "icon": icon}]
+        self.defines["icon"] = icon
         # set the icons for the appx bundle
         if os.path.exists(self.sourceDir() / "icons/150-apps-neochat.png"):
             self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-neochat.png"

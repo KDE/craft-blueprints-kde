@@ -8,6 +8,8 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
+        # depends on libpsl which is not deployable on Android at this point
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
         if CraftCore.compiler.isAndroid:
             self.options.dynamic.setDefault("buildTools", False)
 

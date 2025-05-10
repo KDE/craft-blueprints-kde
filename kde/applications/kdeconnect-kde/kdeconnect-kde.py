@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kpeople"] = None
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt/qtconnectivity"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
@@ -47,11 +48,13 @@ class Package(CMakePackageBase):
             r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioworker|SnoreToast).*)"
         )
 
-        self.defines["caption"] = self.binaryArchiveName(fileType=None).capitalize()
-        self.defines["icon"] = self.blueprintDir() / "icon.ico"
-        self.defines["appname"] = "kdeconnect-indicator"
-        self.defines["AppUserModelID"] = "kdeconnect.daemon"
-        self.defines["executable"] = r"bin/kdeconnect-app.exe"
+        if CraftCore.compiler.isMacOS:
+            self.defines["appname"] = "KDE Connect"
+        else:
+            self.defines["appname"] = "kdeconnect-indicator"
+            self.defines["executable"] = "bin/kdeconnect-app.exe"
+            self.defines["icon"] = self.blueprintDir() / "icon.ico"
+            self.defines["AppUserModelID"] = "kdeconnect.daemon"
 
         if isinstance(self, NullsoftInstallerPackager):
             self.defines[
