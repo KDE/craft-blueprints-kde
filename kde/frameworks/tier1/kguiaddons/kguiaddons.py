@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtwayland"] = None
         self.runtimeDependencies["kde/libs/plasma-wayland-protocols"] = None
+        self.runtimeDependencies["libs/wayland-protocols"] = None
 
 
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
