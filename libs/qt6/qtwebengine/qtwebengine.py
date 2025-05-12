@@ -62,12 +62,16 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/nss"] = None
         self.runtimeDependencies["libs/cups"] = None
         self.runtimeDependencies["libs/libxml2"] = None
+        self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
+        self.runtimeDependencies["libs/openjpeg"] = None
         self.runtimeDependencies["libs/webp"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/libpng"] = None
         self.runtimeDependencies["libs/tiff"] = None
         self.runtimeDependencies["libs/lcms2"] = None
+        self.runtimeDependencies["libs/ffmpeg"] = None
+        self.runtimeDependencies["libs/glib"] = None
 
         if self.options.dynamic.withICU and CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/icu"] = None
@@ -92,7 +96,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             f"-DPython3_EXECUTABLE={shortDevUtils / 'bin/python3'}{CraftCore.compiler.executableSuffix}",
             "-DQT_FEATURE_qtwebengine_build=ON",
             # Package harfbuzz-subset was not found
-            # f"-DQT_FEATURE_webengine_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
+            f"-DQT_FEATURE_webengine_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
             "-DQT_FEATURE_webengine_system_libwebp=ON",
             "-DQT_FEATURE_webengine_system_libjpeg=ON",
             "-DQT_FEATURE_webengine_system_libxml=ON",
@@ -100,6 +104,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DQT_FEATURE_webengine_system_glib=ON",
             "-DQT_FEATURE_webengine_system_lcms2=ON",
             "-DQT_FEATURE_webengine_system_pulseaudio=OFF",
+            "-DQT_FEATURE_webengine_system_ffmpeg=ON",
         ]
         # See https://bugs.kde.org/show_bug.cgi?id=486905 and https://github.com/Homebrew/homebrew-core/issues/104008 :
         # option not correctly supported on Windows and MacOS (as of Qt 6.7.0)
