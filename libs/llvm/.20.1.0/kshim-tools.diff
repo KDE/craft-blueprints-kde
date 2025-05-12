@@ -1,0 +1,50 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user llvm-project-17.0.6.src.orig/llvm/cmake/modules/LLVMInstallSymlink.cmake llvm-project-17.0.6.src/llvm/cmake/modules/LLVMInstallSymlink.cmake
+--- llvm-project-17.0.6.src.orig/llvm/cmake/modules/LLVMInstallSymlink.cmake	2023-11-28 09:52:28.000000000 +0100
++++ llvm-project-17.0.6.src/llvm/cmake/modules/LLVMInstallSymlink.cmake	2024-01-05 13:30:12.394137000 +0100
+@@ -13,14 +13,25 @@
+ 
+   set(DESTDIR $ENV{DESTDIR})
+   if(NOT IS_ABSOLUTE "${outdir}")
+-    set(outdir "${CMAKE_INSTALL_PREFIX}/${outdir}")
++    set(PREFIX ${CMAKE_INSTALL_PREFIX})
++    if (CMAKE_HOST_WIN32)
++      # strip drive letter (C:) from path
++      string(SUBSTRING ${PREFIX} 2 -1 PREFIX)
++    endif()
++    set(outdir "${PREFIX}/${outdir}")
+   endif()
+   set(outdir "${DESTDIR}${outdir}")
+ 
+   message(STATUS "Creating ${name}")
+ 
++  if(CMAKE_HOST_WIN32 AND ${link_or_copy} STREQUAL "create_symlink")
++    execute_process(
++      COMMAND "kshimgen" --create "${name}" "${target}" --keep-argv0
++      WORKING_DIRECTORY "${outdir}")
++  else()
+   execute_process(
+     COMMAND "${CMAKE_COMMAND}" -E ${link_or_copy} "${target}" "${name}"
+     WORKING_DIRECTORY "${outdir}")
++    endif()
+ 
+ endfunction()
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user llvm-project-17.0.6.src.orig/llvm/lib/Support/Windows/Process.inc llvm-project-17.0.6.src/llvm/lib/Support/Windows/Process.inc
+--- llvm-project-17.0.6.src.orig/llvm/lib/Support/Windows/Process.inc	2023-11-28 09:52:28.000000000 +0100
++++ llvm-project-17.0.6.src/llvm/lib/Support/Windows/Process.inc	2024-01-05 12:59:05.744614000 +0100
+@@ -257,16 +257,6 @@
+ 
+   if (Args.size() == 0)
+     return std::make_error_code(std::errc::invalid_argument);
+-
+-  SmallVector<char, MAX_PATH> Arg0(Args[0], Args[0] + strlen(Args[0]));
+-  SmallVector<char, MAX_PATH> Filename;
+-  sys::path::remove_filename(Arg0);
+-  EC = GetExecutableName(Filename);
+-  if (EC)
+-    return EC;
+-  sys::path::make_preferred(Arg0);
+-  sys::path::append(Arg0, Filename);
+-  Args[0] = Saver.save(Arg0).data();
+   return std::error_code();
+ }
+ 
