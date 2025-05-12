@@ -84,17 +84,18 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         super().__init__(**kwargs)
         # together with the patch based on https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/qtwebengine-6.5.2-r1.ebuild
 
+        # qtwebengine handles long paths very badly, rename the src dir to shorten it
+        self.subinfo.options.unpack.renameSourceDir = True
+
         # use a short path for Windows
-        # use a short path for Windows
-        usesCraftPython = CraftPackageObject.get("libs/python").categoryInfo.isActive
-        pythonRoot = CraftCore.standardDirs.craftRoot()
-        if not usesCraftPython:
+        if not self.subinfo.options.isActive("libs/python"):
             pythonRoot = CraftCore.standardDirs.craftRoot() / "dev-utils/"
-        shortDevUtils = CraftShortPath(pythonRoot).shortPath
+        else:
+            pythonRoot = CraftCore.standardDirs.craftRoot()
         self.subinfo.options.configure.args += [
             # no idea why cmake ignores the path env
-            f"-DPython3_EXECUTABLE={shortDevUtils / 'bin/python3'}{CraftCore.compiler.executableSuffix}",
-            "-DQT_FEATURE_qtwebengine_build=ON",
+            f"-DPython3_EXECUTABLE={(CraftShortPath(pythonRoot/ 'bin').shortPath / 'python').as_posix()}{CraftCore.compiler.executableSuffix}",
+            f"-DQT_FEATURE_qtwebengine_build={CraftCore.compiler.isMinGW().inverted.asOnOff}",
             # Package harfbuzz-subset was not found
             f"-DQT_FEATURE_webengine_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
             "-DQT_FEATURE_webengine_system_libwebp=ON",
@@ -140,10 +141,23 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         # webengine requires enormous amounts of ram
         jobs = int(CraftCore.settings.get("Compile", "Jobs", multiprocessing.cpu_count()))
         env = {"NINJAFLAGS": f"-j{int(jobs/2)}"}
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.isWindows:
+            env["PATH"] = os.pathsep.join(
+                str(x)
+                for x in [
+                    # shims in here might use relative paths to dev-utils
+                    CraftShortPath(CraftCore.standardDirs.craftRoot() / "dev-utils").shortPath / "bin",
+                    CraftShortPath(CraftCore.standardDirs.craftRoot() / "bin").shortPath,
+                    os.environ["PATH"],
+                ]
+            )
+        elif CraftCore.compiler.isLinux:
             # this build system is broken and ignore ldflags
             env["LD_LIBRARY_PATH"] = CraftCore.standardDirs.craftRoot() / "lib"
         return env
+
+    def workDir(self):
+        return CraftShortPath(super().workDir(), CraftShortPath.createSubstShortPath).shortPath
 
     def configure(self):
         with utils.ScopedEnv(self._getEnv()):
