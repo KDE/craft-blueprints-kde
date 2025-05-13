@@ -51,6 +51,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
         self.runtimeDependencies["libs/opentimelineio"] = None
+        self.runtimeDependencies["libs/python"] = None
+        self.runtimeDependencies["python-modules/pip"] = None
+        self.runtimeDependencies["python-modules/setuptools"] = None
+
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
@@ -96,7 +100,7 @@ class Package(CraftPackageObject.get("kde").pattern):
             self.blacklist_file.append(self.blueprintDir() / "exclude.list")
         else:
             self.blacklist_file.append(self.blueprintDir() / "exclude_macos.list")
-        self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioworker|melt|update-mime-database|snoretoast|drmingw|data/kdenlive)).*")
+        self.addExecutableFilter(r"bin/(?!(ff|python|pip|kdenlive|kioworker|melt|update-mime-database|snoretoast|drmingw|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm")
         self.ignoredPackages.append("data/hunspell-dictionaries")
         self.ignoredPackages.append("binary/mysql")
