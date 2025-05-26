@@ -5,13 +5,14 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.0.0", "1.1.0"]:
+        for ver in ["1.0.0", "1.1.0", "1.2.0"]:
             self.targets[ver] = f"https://github.com/KDAB/KDSingleApplication/releases/download/v{ver}/kdsingleapplication-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"kdsingleapplication-{ver}"
         self.svnTargets["master"] = "https://github.com/KDAB/KDSingleApplication.git"
 
         self.targetDigests["1.0.0"] = (["c92355dc10f3ebd39363458458fb5bdd9662e080cf77d91f0437763c4d936520"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "1.1.0"
+        self.targetDigests["1.2.0"] = (["ff4ae6a4620beed1cdb3e6a9b78a17d7d1dae7139c3d4746d4856b7547d42c38"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "1.2.0"
 
         self.description = "KDSingleApplication is a helper class for single-instance policy applications written by KDAB."
         self.webpage = "https://github.com/KDAB/KDSingleApplication"
