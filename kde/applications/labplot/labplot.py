@@ -108,6 +108,10 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
+        # disable Python scripting in AppImage until Craft supports PySide6
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.args += ["-DENABLE_PYTHON_SDK=OFF", "-DENABLE_PYTHON_SCRIPTING=OFF"]
+
         # TODO: use available versions
         self.subinfo.options.configure.args += [
             f'-DIxion_INCLUDE_DIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/ixion-0.20',
