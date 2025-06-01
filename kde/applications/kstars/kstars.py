@@ -42,6 +42,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/stellarsolver"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
+        self.runtimeDependencies["libs/opencv/opencv"] = None
 
         # MacOS and Linux build indi client/server, Windows builds indi client only
         self.runtimeDependencies["libs/indilib/indi"] = None
