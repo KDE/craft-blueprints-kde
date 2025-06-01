@@ -39,3 +39,9 @@ class Package(CMakePackageBase):
         baseDir = os.path.join(self.installDir(), os.path.relpath(CraftCore.standardDirs.locations.data, CraftCore.standardDirs.craftRoot()))
         shutil.rmtree(os.path.join(baseDir, "man"), ignore_errors=True)
         return True
+
+    def postInstall(self):
+        if CraftCore.compiler.isMSVC():
+            # Fix the qrencode.dll file being in lib instead of bin
+            os.rename(self.installDir() / "lib/qrencode.dll", self.installDir() / "bin/qrencode.dll")
+        return True
