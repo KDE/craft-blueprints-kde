@@ -56,7 +56,7 @@ class Package(AutoToolsPackageBase):
     def configure(self):
         prefix = self.shell.toNativePath(CraftCore.standardDirs.craftRoot())
         craftIncludeDir = os.path.join(prefix, "include")
-        self.shell.environment["CXXFLAGS"] = f"-I{craftIncludeDir} -Wno-c++11-narrowing"
-        self.shell.environment["CFLAGS"] = f"-I{craftIncludeDir}"
+        self.shell.environment["CXXFLAGS"] = f"-I{craftIncludeDir} -Wno-c++11-narrowing --disable-asm-optimizations"
+        self.shell.environment["CFLAGS"] = f"-I{craftIncludeDir} --disable-asm-optimizations"
         super().configure()
         return True
