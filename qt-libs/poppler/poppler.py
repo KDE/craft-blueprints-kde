@@ -38,7 +38,7 @@ class subinfo(info.infoclass):
         ver = "25.06.0"
         self.targets[ver] = f"https://invent.kde.org/mirrors/poppler/-/archive/poppler-{ver}/poppler-poppler-{ver}.tar.bz2"
         self.targetInstSrc[ver] = f"poppler-poppler-{ver}"
-        self.targetDigests[ver] = (["8199532d38984fab46dbd0020ec9c40f20e928e33e9b4cc6043572603a821d83"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[ver] = (["5d6e6397b6177b4191ebcf1325750109c59ed1902669249b949dbf5e2a275d78"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = ver
 
     def setDependencies(self):
