@@ -12,7 +12,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Cantor"
-        self.patchToApply["24.12.3"] = [("cantor-24.12.2-qt5compat.patch", 1)]
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
