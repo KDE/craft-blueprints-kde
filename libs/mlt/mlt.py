@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "ed0bb11"
         if CraftCore.compiler.isWindows:
             self.patchToApply["ed0bb11"] = [("pi_patch.diff", 1)]
+            self.patchToApply["ed0bb11"] += [("revert-mingw-mysy2.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
