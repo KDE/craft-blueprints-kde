@@ -26,8 +26,11 @@ class subinfo(info.infoclass):
         self.targetDigests["0.20.2"] = (["d5eba8cc57c4f6f6a1267de5967d2627f2bb27d12b9e89f65400fb76a22fc6f4"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "LibRaw is a library for reading RAW files obtained from digital photo cameras (CRW/CR2, NEF, RAF, DNG, and others)."
+        
+        # 0.21.4
+        self.svnTargets["0.21.4"] = "https://github.com/knro/LibRaw|cmake"
 
-        self.defaultTarget = "0.20.2"
+        self.defaultTarget = "0.21.4"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
