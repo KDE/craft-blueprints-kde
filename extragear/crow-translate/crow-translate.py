@@ -4,6 +4,7 @@
 import info
 from Package.CMakePackageBase import CMakePackageBase, CraftCore
 
+
 class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "Crow Translate"
@@ -31,7 +32,7 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **kwargs ):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.fetch.checkoutSubmodules = True
 
