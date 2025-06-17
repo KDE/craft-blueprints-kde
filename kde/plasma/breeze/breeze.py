@@ -8,9 +8,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        # See https://invent.kde.org/plasma/breeze/-/merge_requests/526
-        self.patchToApply["6.3.0"] = [("526.patch", 1)]
-
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/libfftw"] = None
