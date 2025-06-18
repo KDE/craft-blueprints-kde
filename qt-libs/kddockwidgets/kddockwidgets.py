@@ -26,3 +26,5 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += ["-DKDDockWidgets_QT6=ON"]
+        self.subinfo.options.configure.args += ["-DKDDockWidgets_FRONTENDS=\"qtwidgets\""]
