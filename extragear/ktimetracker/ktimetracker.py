@@ -7,15 +7,19 @@ from Package.CMakePackageBase import CMakePackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://invent.kde.org/pim/ktimetracker.git|master"
-        self.defaultTarget = "5.0.1"
+        self.defaultTarget = "6.0.0"
 
         for ver in ["5.0.0", "5.0.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/ktimetracker/{ver}/src/ktimetracker-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"ktimetracker-{ver}"
 
+        for ver in ["6.0.0"]:
+            self.targets[ver] = f"https://download.kde.org/unstable/ktimetracker/ktimetracker-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"ktimetracker-{ver}"
+
         self.displayName = "KTimeTracker"
         self.description = "Personal Time Tracker"
-        self.webpage = "https://userbase.kde.org/KTimeTracker"
+        self.webpage = "https://apps.kde.org/ktimetracker/"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
