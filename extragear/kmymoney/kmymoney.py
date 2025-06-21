@@ -31,9 +31,9 @@ from Packager.AppImagePackager import AppImagePackager
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.description = "a personal finance manager for KDE"
+        self.description = "A personal finance manager for KDE"
         self.displayName = "KMyMoney"
-        self.defaultTarget = "5.1"
+        self.defaultTarget = "5.2"
 
     def setDependencies(self):
         if CraftCore.compiler.isWindows:
@@ -71,11 +71,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["extragear/alkimia"] = None
         self.runtimeDependencies["extragear/kdiagram"] = None
         self.buildDependencies["libs/gettext"] = None
-        if self.buildTarget != "master":
-            self.runtimeDependencies["libs/qt/qtwebengine"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
-        else:
-            self.runtimeDependencies["qt-libs/qtkeychain"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["libs/qt5/qtserialport"] = None
         if CraftCore.compiler.isWindows:
             self.runtimeDependencies["kdesupport/kdewin"] = None

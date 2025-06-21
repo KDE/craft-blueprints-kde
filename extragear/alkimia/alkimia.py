@@ -28,7 +28,7 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["7.0.2", "8.0.4", "8.1.1", "8.1.2"]:
+        for ver in ["7.0.2", "8.0.4", "8.1.1", "8.1.2", "8.2.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/alkimia/{ver}/alkimia-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/alkimia/{ver}/alkimia-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"alkimia-{ver}"
@@ -36,7 +36,7 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/office/alkimia.git"
         self.targetUpdatedRepoUrl["master"] = ("https://anongit.kde.org/alkimia", "https://invent.kde.org/office/alkimia.git")
 
-        self.defaultTarget = "8.1.2"
+        self.defaultTarget = "8.2.0"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
