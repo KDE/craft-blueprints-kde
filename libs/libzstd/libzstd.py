@@ -6,7 +6,7 @@ from Package.CMakePackageBase import CMakePackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/facebook/zstd.git"
-        for ver in ["1.5.5", "1.5.6"]:
+        for ver in ["1.5.5", "1.5.6", "1.5.7"]:
             self.targets[ver] = f"https://github.com/facebook/zstd/releases/download/v{ver}/zstd-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"zstd-{ver}"
             self.targetConfigurePath[ver] = "build/cmake"
@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMSVC():
             self.patchToApply["1.5.6"] = [("3999.patch", 1)]
         self.description = "Fast real-time compression algorithm "
-        self.defaultTarget = "1.5.6"
+        self.defaultTarget = "1.5.7"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
