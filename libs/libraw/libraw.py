@@ -27,7 +27,10 @@ class subinfo(info.infoclass):
 
         self.description = "LibRaw is a library for reading RAW files obtained from digital photo cameras (CRW/CR2, NEF, RAF, DNG, and others)."
 
-        self.defaultTarget = "0.20.2"
+        # 0.21.4
+        self.svnTargets["0.21.4"] = "https://github.com/knro/LibRaw|cmake"
+
+        self.defaultTarget = "0.21.4"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

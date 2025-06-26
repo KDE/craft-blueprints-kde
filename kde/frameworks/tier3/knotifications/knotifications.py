@@ -9,10 +9,6 @@ class subinfo(info.infoclass):
 
         self.patchLevel["master"] = 1
 
-        # Fix for Android 14 or higher, needed before KF 6.10
-        # See https://invent.kde.org/frameworks/knotifications/-/merge_requests/160
-        self.patchToApply["6.9.0"] = [("android-14-fix.diff", 1)]
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

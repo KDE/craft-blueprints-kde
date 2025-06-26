@@ -8,7 +8,7 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/utilities/kalk.git")
         self.displayName = "Kalk"
         self.description = "Kalk is a powerful cross-platform calculator application built with the Kirigami framework"
 

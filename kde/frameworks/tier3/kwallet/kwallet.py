@@ -12,6 +12,9 @@ class subinfo(info.infoclass):
 
         self.description = "Credential Storage"
 
+        self.patchToApply["6.14.0"] = [("4214b3120073a76a67de30a56457e84fea3c99ce.patch", 1)]
+        self.patchLevel["6.14.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -27,6 +30,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gcrypt"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["libs/gpgme"] = None
+        self.runtimeDependencies["libs/libsecret"] = None
 
 
 class Package(CraftPackageObject.get("kde/frameworks").pattern):

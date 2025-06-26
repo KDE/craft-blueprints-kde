@@ -1,0 +1,20 @@
+--- acinclude.m4	2013-02-16 20:37:48.000000000 +0100
++++ acinclude.m4	2025-06-03 09:28:52.022896729 +0200
+@@ -296,11 +296,13 @@
+   AC_DEFINE(HAVE_AQUA,,Define for Mac OS X)
+   AQUA_LIBS="-framework IOKit -framework Carbon -framework Cocoa -bind_at_load"
+   AC_SUBST(AQUA_LIBS)
++  AC_CANONICAL_HOST
++  AC_PROG_OBJC([clang gcc objc])
+-
+-  OBJC="gcc"
++  case "$host_cpu" in
++    x86_64) OBJCFLAGS="-Wno-import -arch x86_64" ;;
++    arm64)  OBJCFLAGS="-Wno-import -arch arm64" ;;
++  esac
+-  OBJCFLAGS="-Wno-import"
+-  AC_SUBST(OBJC)
+   AC_SUBST(OBJCFLAGS)
+ fi
+ ])
+ 
