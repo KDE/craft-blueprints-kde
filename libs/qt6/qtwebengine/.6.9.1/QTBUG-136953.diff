@@ -1,0 +1,26 @@
+From f9ba7f39ec1e170e4e9cdae9ebc13ad19ce4b8b9 Mon Sep 17 00:00:00 2001
+From: Kaloyan Chehlarski <kaloyan.chehlarski@qt.io>
+Date: Mon, 19 May 2025 16:09:04 +0200
+Subject: [PATCH] [fixup] Fix QtWebEngine build on Windows
+
+Fixes a compilation error with MSVC 17.14
+
+Fixes: QTBUG-136953
+Change-Id: Iafda57f99c38af7c4b1c513c07ac65deac362e3b
+Reviewed-on: https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/646656
+Reviewed-by: Peter Varga <pvarga@inf.u-szeged.hu>
+---
+
+diff --git a/src//3rdparty/chromium/v8/src/heap/cppgc/marking-state.h b/src//3rdparty/chromium/v8/src/heap/cppgc/marking-state.h
+index d353327..1f42edd 100644
+--- a/src//3rdparty/chromium/v8/src/heap/cppgc/marking-state.h
++++ b/src//3rdparty/chromium/v8/src/heap/cppgc/marking-state.h
+@@ -358,7 +358,7 @@
+   ~MutatorMarkingState() override = default;
+ 
+   inline bool MarkNoPush(HeapObjectHeader& header) {
+-    return MutatorMarkingState::BasicMarkingState::MarkNoPush(header);
++    return BasicMarkingState::MarkNoPush(header);
+   }
+ 
+   inline void ReTraceMarkedWeakContainer(cppgc::Visitor&, HeapObjectHeader&);

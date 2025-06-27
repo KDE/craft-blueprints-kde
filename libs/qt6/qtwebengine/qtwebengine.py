@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.patchLevel["6.4.0"] = 1
         self.patchToApply["6.5.3"] = [(".6.5.3", 1)]
         self.patchToApply["6.6.0"] = [(".6.5.3", 1)]
+        self.patchToApply["6.9.1"] = [(".6.9.1", 1)]
         self.patchLevel["6.7.0"] = 3
 
         for ver in ["6.6.1", "6.6.2"]:
@@ -94,7 +95,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             pythonRoot = CraftCore.standardDirs.craftRoot()
         self.subinfo.options.configure.args += [
             # no idea why cmake ignores the path env
-            f"-DPython3_EXECUTABLE={(CraftShortPath(pythonRoot/ 'bin').shortPath / 'python').as_posix()}{CraftCore.compiler.executableSuffix}",
+            f"-DPython3_EXECUTABLE={(CraftShortPath(pythonRoot / 'bin').shortPath / 'python').as_posix()}{CraftCore.compiler.executableSuffix}",
             f"-DQT_FEATURE_qtwebengine_build={CraftCore.compiler.isMinGW().inverted.asOnOff}",
             # Package harfbuzz-subset was not found
             f"-DQT_FEATURE_webengine_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
