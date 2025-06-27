@@ -3,6 +3,7 @@
 
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -18,6 +19,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
+
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
