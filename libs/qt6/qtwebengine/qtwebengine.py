@@ -3,7 +3,7 @@ import os
 
 import info
 import utils
-from Blueprints.CraftPackageObject import CraftPackageObject
+from Blueprints.CraftPackageObject import BlueprintException, CraftPackageObject
 from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 from Utils.CraftShortPath import CraftShortPath
@@ -160,6 +160,9 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         return CraftShortPath(super().workDir(), CraftShortPath.createSubstShortPath).shortPath
 
     def configure(self):
+        if CraftPackageObject.get("libs/protobuf").isInstalled:
+            raise BlueprintException("qtwebengine does clash with our system protobuf, please remove libs/protobuf before building qtwebengine", self.package)
+
         with utils.ScopedEnv(self._getEnv()):
             return super().configure()
 
