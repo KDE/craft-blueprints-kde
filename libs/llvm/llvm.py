@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
-        for ver in ["15.0.2", "15.0.7", "16.0.1", "17.0.6", "18.1.2", "18.1.8", "20.1.0"]:
+        for ver in ["15.0.2", "15.0.7", "16.0.1", "17.0.6", "18.1.2", "18.1.8", "20.1.0", "20.1.7"]:
             self.targets[ver] = f"https://github.com/llvm/llvm-project/releases/download/llvmorg-{ver}/llvm-project-{ver}.src.tar.xz"
             self.targetInstSrc[ver] = f"llvm-project-{ver}.src"
             self.targetConfigurePath[ver] = "llvm"
@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
         self.patchToApply["18.1.2"] += [(".18.1.2", 1)]
         self.patchToApply["18.1.8"] += [(".18.1.2", 1)]
         self.patchToApply["20.1.0"] += [(".20.1.0", 1)]
+        self.patchToApply["20.1.7"] += [(".20.1.0", 1)]
         self.targetDigests["15.0.2"] = (
             ["7877cd67714728556a79e5ec0cc72d66b6926448cf73b12b2cb901b268f7a872"],
             CraftHash.HashAlgorithm.SHA256,
@@ -51,6 +52,10 @@ class subinfo(info.infoclass):
             ["4579051e3c255fb4bb795d54324f5a7f3ef79bd9181e44293d7ee9a7f62aad9a"],
             CraftHash.HashAlgorithm.SHA256,
         )
+        self.targetDigests["20.1.7"] = (
+            ["cd8fd55d97ad3e360b1d5aaf98388d1f70dfffb7df36beee478be3b839ff9008"],
+            CraftHash.HashAlgorithm.SHA256,
+        )
         self.patchLevel["15.0.2"] = 3
         self.patchLevel["16.0.1"] = 2
         self.patchLevel["18.1.2"] = 2
@@ -59,7 +64,7 @@ class subinfo(info.infoclass):
         self.description = "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines."
         self.webpage = "http://llvm.org/"
         self.tags = "clang, clang-tools-extra"
-        self.defaultTarget = "20.1.0"
+        self.defaultTarget = "20.1.7"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -115,6 +120,12 @@ class Package(CMakePackageBase):
         # lldb by default needs SWIG for the Python integration
         # disable this support until we have a swig package in Craft
         self.subinfo.options.configure.args += ["-DLLDB_DISABLE_PYTHON=ON"]
+
+    def configure(self):
+        # remove Findzstd.cmake, as it is not compatible with the zstd package
+        if not utils.deleteFile(self.sourceDir() / "llvm/cmake/modules/Findzstd.cmake"):
+            return False
+        return super().configure()
 
     def install(self):
         if not super().install():
