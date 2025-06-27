@@ -139,9 +139,11 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_zlib=ON"]
 
     def _getEnv(self):
-        # webengine requires enormous amounts of ram
-        jobs = int(CraftCore.settings.get("Compile", "Jobs", multiprocessing.cpu_count()))
-        env = {"NINJAFLAGS": f"-j{int(jobs/2)}"}
+        env = {}
+        if CraftCore.settings.getboolean("ContinuousIntegration", "Enabled", False):
+            # webengine requires enormous amounts of ram
+            jobs = int(CraftCore.settings.get("Compile", "Jobs", multiprocessing.cpu_count()))
+            env["NINJAFLAGS"] = f"-j{int(jobs/2)}"
         if CraftCore.compiler.isWindows:
             env["PATH"] = os.pathsep.join(
                 str(x)
