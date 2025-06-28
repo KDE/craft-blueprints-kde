@@ -49,6 +49,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/indilib/indi-3rdparty"] = None
         self.runtimeDependencies["libs/indilib/indi-3rdparty-libs"] = None
 
+        if CraftCore.compiler.isWindows:
+            self.runtimeDependencies["libs/libcurl"] = None
+
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/xplanet"] = None
 
