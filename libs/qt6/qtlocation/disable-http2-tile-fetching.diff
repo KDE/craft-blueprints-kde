@@ -1,0 +1,12 @@
+diff --git a/src/plugins/geoservices/osm/qgeotilefetcherosm.cpp b/src/plugins/geoservices/osm/qgeotilefetcherosm.cpp
+index 19948f56b..4819bdd84 100644
+--- a/src/plugins/geoservices/osm/qgeotilefetcherosm.cpp
++++ b/src/plugins/geoservices/osm/qgeotilefetcherosm.cpp
+@@ -123,6 +123,7 @@ QGeoTiledMapReply *QGeoTileFetcherOsm::getTileImage(const QGeoTileSpec &spec)
+     const QUrl url = m_providers[id]->tileAddress(spec.x(), spec.y(), spec.zoom());
+     QNetworkRequest request;
+     request.setHeader(QNetworkRequest::UserAgentHeader, m_userAgent);
++    request.setAttribute(QNetworkRequest::Http2AllowedAttribute, false);
+     request.setUrl(url);
+     QNetworkReply *reply = m_nm->get(request);
+     return new QGeoMapReplyOsm(reply, spec, m_providers[id]->format());
