@@ -125,6 +125,8 @@ lib/libgphoto2/.*
 lib/libgphoto2_port/.*
 lib/gettext/.*
 lib/indi/.*
+bin/indi.*
+bin/dbus.*
 
 # Only keep bare minimum from VLC plugins to play Ogg and WAV files
 bin/plugins/\b(?!(access|access_output|audio_output|audio_filter|codec).*).*
