@@ -5,7 +5,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.1.37", "1.1.42"]:
+        for ver in ["1.1.37", "1.1.42", "1.1.43"]:
             self.targets[ver] = f"https://download.gnome.org/sources/libxslt/1.1/libxslt-{ver}.tar.xz"
             self.targetDigestUrls[ver] = ([f"https://download.gnome.org/sources/libxslt/1.1/libxslt-{ver}.sha256sum"], CraftHash.HashAlgorithm.SHA256)
             self.targetInstSrc[ver] = f"libxslt-{ver}"
@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.1.37"] = (["3a4b27dc8027ccd6146725950336f1ec520928f320f144eb5fa7990ae6123ab4"], CraftHash.HashAlgorithm.SHA256)
         self.description = "The GNOME XSLT C library and tools"
         self.webpage = "https://gitlab.gnome.org/GNOME/libxslt"
-        self.defaultTarget = "1.1.42"
+        self.defaultTarget = "1.1.43"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
