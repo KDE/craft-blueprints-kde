@@ -1,4 +1,7 @@
+from pathlib import Path
+
 import info
+import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Packager.AppxPackager import AppxPackager
@@ -62,6 +65,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/iconv"] = None
             self.runtimeDependencies["libs/libftdi"] = None
 
+        if CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["qt-libs/phonon-vlc"] = None
+
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
@@ -73,6 +79,19 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "mac-blacklist.txt")
         self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF", "-DBUILD_QT5=OFF", "-DBUILD_TESTING=OFF"]
+
+    # Need to copy the indi drivers, driver files, and other resources for kstars to work on MacOS
+    def install(self):
+        if not super().install():
+            return False
+        if CraftCore.compiler.isMacOS:
+            dest = Path(self.imageDir()) / "Applications/KDE/kstars.app/Contents"
+            src = Path(self.buildDir()) / "bin/KStars.app/Contents"
+            files = ["Plugins", "Resources", "MacOS"]
+            for f in files:
+                if not utils.copyDir(src / f, dest / f):
+                    return False
+        return True
 
     def createPackage(self):
         self.defines["executable"] = "bin\\kstars.exe"
