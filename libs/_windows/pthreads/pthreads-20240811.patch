@@ -1,0 +1,32 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 4e794ff..739cd3b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -53,18 +53,18 @@ endif()
+ #################################
+ # Install Path                  #
+ #################################
+-if(DIST_ROOT)
+-    set(CMAKE_INSTALL_PREFIX "${DIST_ROOT}")
+-else()
+-    set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/PTHREADS-BUILT")
+-endif()
+ message(STATUS "Install Path ${CMAKE_INSTALL_PREFIX}")
+ 
+ 
+-set(DLLDEST ${CMAKE_INSTALL_PREFIX}/${TARGET_ARCH}/${CMAKE_BUILD_TYPE}/bin)
+-set(LIBDEST ${CMAKE_INSTALL_PREFIX}/${TARGET_ARCH}/${CMAKE_BUILD_TYPE}/lib)
+-set(HDRDEST ${CMAKE_INSTALL_PREFIX}/${TARGET_ARCH}/${CMAKE_BUILD_TYPE}/include)
+-set(TESTDEST ${CMAKE_INSTALL_PREFIX}/${TARGET_ARCH}/${CMAKE_BUILD_TYPE}/test)
++# set(DLLDEST ${CMAKE_INSTALL_PREFIX}/${TARGET_ARCH}/${CMAKE_BUILD_TYPE}/bin)
++# set(LIBDEST ${CMAKE_INSTALL_PREFIX}/${TARGET_ARCH}/${CMAKE_BUILD_TYPE}/lib)
++# set(HDRDEST ${CMAKE_INSTALL_PREFIX}/${TARGET_ARCH}/${CMAKE_BUILD_TYPE}/include)
++# set(TESTDEST ${CMAKE_INSTALL_PREFIX}/${TARGET_ARCH}/${CMAKE_BUILD_TYPE}/test)
++
++set(DLLDEST ${CMAKE_INSTALL_PREFIX}/bin)
++set(LIBDEST ${CMAKE_INSTALL_PREFIX}/lib)
++set(HDRDEST ${CMAKE_INSTALL_PREFIX}/include)
++set(TESTDEST ${CMAKE_INSTALL_PREFIX}/test)
+ 
+ #################################
+ # Defs                          #
