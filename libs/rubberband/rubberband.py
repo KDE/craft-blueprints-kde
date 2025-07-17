@@ -1,13 +1,9 @@
 import info
-from CraftCore import CraftCore
 from Package.MesonPackageBase import MesonPackageBase
 from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
-
     def setTargets(self):
         for ver in ["3.1.1", "3.1.3"]:
             self.targets[ver] = f"https://github.com/breakfastquay/rubberband/archive/v{ver}.tar.gz"
