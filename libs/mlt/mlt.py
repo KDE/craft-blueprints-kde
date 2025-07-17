@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.patchLevel["master"] = 20221103
         self.svnTargets["3b42360"] = "https://github.com/mltframework/mlt.git||3b42360f6c729f12cb931ec996cc2eff27f8050e"
         self.defaultTarget = "3b42360"
+        self.patchLevel["3b42360"] = 1
         if CraftCore.compiler.isWindows:
             self.patchToApply["3b42360"] = [("pi_patch.diff", 1)]
             self.patchToApply["3b42360"] += [("revert-mingw-mysy2.diff", 1)]
