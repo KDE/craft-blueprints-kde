@@ -1,13 +1,3 @@
-diff --git a/.gitignore b/.gitignore
-index 0002cf0d..9a14a3c7 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -67,5 +67,4 @@ src/modules/glaxnimate/mltglaxnimate-qt6_autogen/
- out
- src/swig/ruby/markdown/
- CMakeLists.txt.user
--.cache/
- 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index 1a69afd2..6ce17c82 100644
 --- a/CMakeLists.txt
