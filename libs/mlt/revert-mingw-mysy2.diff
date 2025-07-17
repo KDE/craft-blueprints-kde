@@ -13,10 +13,10 @@ index 1a69afd2..6ce17c82 100644
  
  pkg_check_modules(sdl2 IMPORTED_TARGET sdl2)
 diff --git a/src/framework/CMakeLists.txt b/src/framework/CMakeLists.txt
-index 1ce75805..c61cd3b8 100644
+index 554bcc09..6e7227fa 100644
 --- a/src/framework/CMakeLists.txt
 +++ b/src/framework/CMakeLists.txt
-@@ -96,7 +96,6 @@ set_target_properties(mlt PROPERTIES
+@@ -100,7 +100,6 @@ set_target_properties(mlt PROPERTIES
  
  if(WIN32)
    if(MINGW)
@@ -61,10 +61,10 @@ index c56e1d16..7e3e397f 100644
      endif()
  endif()
 diff --git a/src/modules/avformat/CMakeLists.txt b/src/modules/avformat/CMakeLists.txt
-index 0e87890d..9597c3db 100644
+index 7054051d..0204a37a 100644
 --- a/src/modules/avformat/CMakeLists.txt
 +++ b/src/modules/avformat/CMakeLists.txt
-@@ -28,9 +28,6 @@ target_compile_definitions(mltavformat PRIVATE FILTERS)
+@@ -31,9 +31,6 @@ target_compile_definitions(mltavformat PRIVATE FILTERS)
  
  if(WIN32)
    target_compile_definitions(mltavformat PRIVATE AVDATADIR="share/ffmpeg/")
@@ -75,12 +75,12 @@ index 0e87890d..9597c3db 100644
  
  if(TARGET PkgConfig::libavcodec)
 diff --git a/src/modules/sdl2/CMakeLists.txt b/src/modules/sdl2/CMakeLists.txt
-index 8ea3868a..afd10c4b 100644
+index 951d2c74..9af36209 100644
 --- a/src/modules/sdl2/CMakeLists.txt
 +++ b/src/modules/sdl2/CMakeLists.txt
-@@ -14,10 +14,6 @@ target_compile_options(mltsdl2 PRIVATE ${MLT_COMPILE_OPTIONS})
- 
- target_link_libraries(mltsdl2 PRIVATE mlt m Threads::Threads PkgConfig::sdl2)
+@@ -17,10 +17,6 @@ if(NOT MSVC)
+   target_link_libraries(mltsdl2 PRIVATE m)
+ endif()
  
 -if(MINGW)
 -  target_link_libraries(mltsdl2 PRIVATE ${MLT_PTHREAD_LIBS})
