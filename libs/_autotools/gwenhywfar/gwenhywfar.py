@@ -51,14 +51,19 @@ class subinfo(info.infoclass):
             ("gwenhywfar-5.10.2-20231024.diff", 1)
         ]  # https://github.com/aqbanking/gwenhywfar/commit/0047982d2a2b83cdd3405732b84a3ee8788e0269
         self.patchLevel["5.10.2"] = 1
-        self.defaultTarget = "5.10.2"
+
+        self.targets["5.12.1"] = "https://www.aquamaniac.de/rdm/attachments/download/533/gwenhywfar-5.12.1.tar.gz"
+        self.targetDigests["5.12.1"] = (["d188448b9c3a9709721422ee0134b9d0b7790ab7514058d99e04399e39465dda"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["5.12.1"] = "gwenhywfar-5.12.1"
+
+        self.defaultTarget = "5.12.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/xmlsec1"] = None
         self.runtimeDependencies["libs/gnutls"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
-        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt6/qtbase"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
 
@@ -67,7 +72,7 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["--with-guis=qt5"]
+        self.subinfo.options.configure.args += ["--with-guis=qt6"]
 
         # For appImage builds the --enable-local-install is needed so that
         # the appImage is searched for gwenhywfar plugins
@@ -87,7 +92,7 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.autoreconf = True
             # it tires to locate qt but used native windows paths for -l
             # those are not supported by libtool
-            self.subinfo.options.configure.ldflags += " -lQt5Widgets -lQt5Gui -lQt5Core -lqtmain"
+            self.subinfo.options.configure.ldflags += " -lQt6Widgets -lQt6Gui -lQt6Core -lqtmain"
 
     def configure(self):
         if CraftCore.compiler.isMinGW():
