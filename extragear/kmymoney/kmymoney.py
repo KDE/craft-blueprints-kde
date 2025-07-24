@@ -31,11 +31,9 @@ from Packager.AppImagePackager import AppImagePackager
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.description = "a personal finance manager for KDE"
+        self.description = "A personal finance manager for KDE"
         self.displayName = "KMyMoney"
-        self.patchLevel["5.1"] = 1
-        self.patchLevel["master"] = 1
-        self.defaultTarget = "5.1"
+        self.defaultTarget = "5.2"
 
     def setDependencies(self):
         if CraftCore.compiler.isWindows:
