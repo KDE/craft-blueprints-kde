@@ -332,45 +332,31 @@ index 3882e5f2..29d3091c 100644
  else()
    target_link_libraries(mlt PRIVATE m)
  endif()
-diff --git a/src/framework/mlt_profile.c b/src/framework/mlt_profile.c
-index 7ee37f0a..bad7efcf 100644
---- a/src/framework/mlt_profile.c
-+++ b/src/framework/mlt_profile.c
-@@ -22,7 +22,9 @@
+diff --git a/src/modules/plus/CMakeLists.txt b/src/modules/plus/CMakeLists.txt
+index c2d3b7a0..dda60138 100644
+--- a/src/modules/plus/CMakeLists.txt
++++ b/src/modules/plus/CMakeLists.txt
+@@ -44,6 +44,8 @@ target_compile_options(mltplus PRIVATE ${MLT_COMPILE_OPTIONS})
+ target_link_libraries(mltplus PRIVATE mlt Threads::Threads)
+ if(MSVC)
+   target_link_libraries(mltplus PRIVATE ${KDEWIN_LIBRARIES})
++  target_sources(mltplus PRIVATE ../msvc/libgen.c)
++  target_include_directories(mltplus PRIVATE ../msvc)
+ else()
+   target_link_libraries(mltplus PRIVATE m)
+ endif()
+diff --git a/src/melt/CMakeLists.txt b/src/melt/CMakeLists.txt
+index 9b234b5c..d318107c 100644
+--- a/src/melt/CMakeLists.txt
++++ b/src/melt/CMakeLists.txt
+@@ -17,6 +17,8 @@ endif()
  
- #include "mlt.h"
+ if(MSVC)
+   target_link_libraries(melt PRIVATE ${KDEWIN_LIBRARIES})
++  target_sources(melt PRIVATE ../msvc/libgen.c)
++  target_include_directories(melt PRIVATE ../msvc)
+ endif()
  
-+#ifndef _MSC_VER
- #include <libgen.h>
-+#endif
- #include <math.h>
- #include <stdlib.h>
- #include <string.h>
-diff --git a/src/melt/melt.c b/src/melt/melt.c
-index 84c9f569..32056136 100644
---- a/src/melt/melt.c
-+++ b/src/melt/melt.c
-@@ -20,7 +20,9 @@
- #ifndef _GNU_SOURCE
- #define _GNU_SOURCE
- #endif
-+#ifndef _MSC_VER
- #include <libgen.h>
-+#endif
- #include <locale.h>
- #include <sched.h>
- #include <signal.h>
-diff --git a/src/modules/plus/filter_dynamictext.c b/src/modules/plus/filter_dynamictext.c
-index 517b7192..2007dfe5 100644
---- a/src/modules/plus/filter_dynamictext.c
-+++ b/src/modules/plus/filter_dynamictext.c
-@@ -19,7 +19,9 @@
+ if(MINGW)
+
  
- #include <framework/mlt.h>
- 
-+#ifndef _MSC_VER
- #include <libgen.h> // for basename()
-+#endif
- #include <math.h>
- #include <stdlib.h>
- #include <string.h>

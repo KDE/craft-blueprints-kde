@@ -113,3 +113,16 @@ index 523daf32..87d7385b 100644
  
  /** This classes definition.
  */
+diff --git a/src/framework/mlt_repository.h b/src/framework/mlt_repository.h
+index 25631c19..0ef6f35f 100644
+--- a/src/framework/mlt_repository.h
++++ b/src/framework/mlt_repository.h
+@@ -50,7 +50,7 @@ typedef mlt_properties (*mlt_metadata_callback)(mlt_service_type,
+                                                 void * /* callback_data */);
+ 
+ /** A convenience macro to create an entry point for service registration. */
+-#define MLT_REPOSITORY void mlt_register(mlt_repository repository)
++#define MLT_REPOSITORY __declspec(dllexport) void mlt_register(mlt_repository repository)
+ 
+ /** A convenience macro to a register service in a more declarative manner. */
+ #define MLT_REGISTER(type, service, symbol) \
