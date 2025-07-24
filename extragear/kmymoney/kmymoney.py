@@ -85,7 +85,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DFETCH_TRANSLATIONS=ON"]
+        self.subinfo.options.configure.args += ["-DFETCH_TRANSLATIONS=ON", "-DBUILD_WITH_QT6=ON"]
 
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += ["-DENABLE_WOOB=OFF"]
