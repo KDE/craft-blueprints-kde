@@ -17,11 +17,20 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20221103
-        self.svnTargets["ed0bb11"] = "https://github.com/mltframework/mlt.git||ed0bb1199e0ae2a29ac4b5a3f77e23431a3397a9"
-        self.defaultTarget = "ed0bb11"
-        if CraftCore.compiler.isWindows:
-            self.patchToApply["ed0bb11"] = [("pi_patch.diff", 1)]
-            self.patchToApply["ed0bb11"] += [("revert-mingw-mysy2.diff", 1)]
+        self.svnTargets["a6f6f6e"] = "https://github.com/mltframework/mlt.git||a6f6f6ead71d8cb2def8a2d20f670c9eb17dba9b"
+        self.defaultTarget = "a6f6f6e"
+
+        self.patchToApply["a6f6f6e"] = []
+        # if CraftCore.compiler.isWindows:
+        #     # self.patchToApply["ed0bb11"] += [("pi_patch.diff", 1)]
+        #     self.patchToApply["38af8d6"] += [("revert-mingw-mysy2.diff", 1)]
+
+        if CraftCore.compiler.isMSVC:
+            self.patchToApply["a6f6f6e"] += [("msvc-logging.patch", 1)]
+            self.patchToApply["a6f6f6e"] += [("msvc-enable-atomics.patch", 1)]
+            self.patchToApply["a6f6f6e"] += [("msvc-link-kdewin.patch", 1)]
+            self.patchToApply["a6f6f6e"] += [("msvc-libgen.patch", 1)]
+            self.patchToApply["a6f6f6e"] += [("msvc-misc.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None

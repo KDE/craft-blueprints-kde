@@ -1,0 +1,115 @@
+diff --git a/src/modules/core/link_timeremap.c b/src/modules/core/link_timeremap.c
+index e0e4f037..e565ccc9 100644
+--- a/src/modules/core/link_timeremap.c
++++ b/src/modules/core/link_timeremap.c
+@@ -342,6 +342,8 @@ static int link_get_audio(mlt_frame frame,
+     return error;
+ }
+ 
++#define MAX_BLEND_IMAGES 10
++
+ static int link_get_image_blend(mlt_frame frame,
+                                 uint8_t **image,
+                                 mlt_image_format *format,
+@@ -349,7 +351,7 @@ static int link_get_image_blend(mlt_frame frame,
+                                 int *height,
+                                 int writable)
+ {
+-    static const int MAX_BLEND_IMAGES = 10;
++    // static const int MAX_BLEND_IMAGES = 10;
+     mlt_link self = (mlt_link) mlt_frame_pop_get_image(frame);
+     mlt_properties unique_properties = mlt_frame_get_unique_properties(frame,
+                                                                        MLT_LINK_SERVICE(self));
+diff --git a/src/framework/mlt_pool.c b/src/framework/mlt_pool.c
+index e94f668c..65448298 100644
+--- a/src/framework/mlt_pool.c
++++ b/src/framework/mlt_pool.c
+@@ -95,7 +95,12 @@ typedef struct mlt_pool_s
+  * optimized libraries (sse/altivec).
+  */
+ 
++// In the future with C23 we might be able to use alignas
++#ifdef _MSC_VER
++typedef struct __declspec(align(16)) mlt_release_s
++#else
+ typedef struct __attribute__((aligned(16))) mlt_release_s
++#endif
+ {
+     mlt_pool pool;
+     int references;
+diff --git a/src/framework/mlt_types.h b/src/framework/mlt_types.h
+index 3e350222..a0b0268c 100644
+--- a/src/framework/mlt_types.h
++++ b/src/framework/mlt_types.h
+@@ -291,20 +291,25 @@ typedef void *(*mlt_thread_function_t)(void *);      /**< generic thread functio
+ #ifdef _WIN32
+ #include <pthread.h>
+ /* Win32 compatibility function declarations */
+-#if !defined(__MINGW32__)
++
++#if !defined(__MINGW32__) && !defined(_MSC_VER)
+ extern int usleep(unsigned int useconds);
+ #endif
+ #ifndef WIN_PTHREADS_TIME_H
+ extern int nanosleep(const struct timespec *rqtp, struct timespec *rmtp);
+ #endif
++#ifndef _MSC_VER
+ extern int setenv(const char *name, const char *value, int overwrite);
++#endif
+ extern char *getlocale();
+ extern FILE *win32_fopen(const char *filename_utf8, const char *mode_utf8);
+ #include <sys/stat.h>
+ #include <sys/types.h>
+ extern int win32_stat(const char *filename_utf8, struct stat *buffer);
+ #include <time.h>
++#ifndef _MSC_VER
+ extern char *strptime(const char *buf, const char *fmt, struct tm *tm);
++#endif
+ #define mlt_fopen win32_fopen
+ #define mlt_stat win32_stat
+ #define MLT_DIRLIST_DELIMITER ";"
+diff --git a/src/win32/strptime.c b/src/win32/strptime.c
+index c3ed8ced..d06c0285 100644
+--- a/src/win32/strptime.c
++++ b/src/win32/strptime.c
+@@ -28,6 +28,8 @@
+  * POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
++#ifndef _MSC_VER
++
+ /*
+ #include <sys/cdefs.h>
+ #if defined(LIBC_SCCS) && !defined(lint)
+@@ -598,3 +600,5 @@ find_string(const u_char *bp, int *tgt, const char * const *n1,
+ 	/* Nothing matched */
+ 	return NULL;
+ }
++
++#endif
+diff --git a/src/modules/sdl2/consumer_sdl2.c b/src/modules/sdl2/consumer_sdl2.c
+index 6befb4c8..1e02e662 100644
+--- a/src/modules/sdl2/consumer_sdl2.c
++++ b/src/modules/sdl2/consumer_sdl2.c
+@@ -35,7 +35,7 @@
+ 
+ #undef MLT_IMAGE_FORMAT // only yuv422 working currently
+ 
+-extern pthread_mutex_t mlt_sdl_mutex;
++__declspec(dllimport) extern pthread_mutex_t mlt_sdl_mutex;
+ 
+ /** This classes definition.
+ */
+diff --git a/src/modules/sdl2/consumer_sdl2_audio.c b/src/modules/sdl2/consumer_sdl2_audio.c
+index 523daf32..87d7385b 100644
+--- a/src/modules/sdl2/consumer_sdl2_audio.c
++++ b/src/modules/sdl2/consumer_sdl2_audio.c
+@@ -33,7 +33,7 @@
+ #include <string.h>
+ #include <sys/time.h>
+ 
+-extern pthread_mutex_t mlt_sdl_mutex;
++__declspec(dllimport) extern pthread_mutex_t mlt_sdl_mutex;
+ 
+ /** This classes definition.
+ */
