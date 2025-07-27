@@ -52,7 +52,7 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.subinfo.options.configure.args += ["-DBUILD_APPLETS=OFF", "-DBUILD_WITH_QT6=ON", "-DCMAKE_DISABLE_FIND_PACKAGE_Qt5WebEngineWidgets=1"]
+        self.subinfo.options.configure.args += ["-DBUILD_APPLETS=OFF", "-DBUILD_WITH_QT6=ON", "-DCMAKE_DISABLE_FIND_PACKAGE_Qt6WebEngineWidgets=1"]
 
     def createPackage(self):
         self.defines["appname"] = "onlinequoteseditor6"
