@@ -15,7 +15,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kservice"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/pim/mailcommon"] = None
         self.runtimeDependencies["kde/pim/mailimporter"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
