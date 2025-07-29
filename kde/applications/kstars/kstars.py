@@ -65,8 +65,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/iconv"] = None
             self.runtimeDependencies["libs/libftdi"] = None
 
-        if CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["qt-libs/phonon-vlc"] = None
+        # Disabling the VLC requirement until we can successfully build VLC on MacOS again.
+        # if CraftCore.compiler.isMacOS:
+        #    self.runtimeDependencies["qt-libs/phonon-vlc"] = None
 
 
 class Package(CMakePackageBase):
