@@ -41,8 +41,8 @@ class Package(CMakePackageBase):
         self.contrib = CraftPackageObject.get("libs/opencv/opencv_contrib").instance
         self.subinfo.options.configure.args += [
             f"-DOPENCV_EXTRA_MODULES_PATH={OsUtils.toUnixPath(self.contrib.sourceDir() / 'modules')}",
-            # build only modules needed by digikam, kdenlive and indiserver 3rd Party Libraries
-            "-DBUILD_LIST=core,objdetect,imgproc,imgcodecs,dnn,flann,ml,tracking,highgui,videoio",
+            # build only modules needed by digikam, kdenlive, kstars and indiserver 3rd Party Libraries
+            "-DBUILD_LIST=core,objdetect,imgproc,imgcodecs,dnn,flann,ml,tracking,highgui,videoio,photo",
             "-DBUILD_EXAMPLES=OFF",
             f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}" "-DBUILD_DOCS=OFF",
             "-DBUILD_PERF_TESTS=OFF",
