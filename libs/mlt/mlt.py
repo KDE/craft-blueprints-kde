@@ -5,6 +5,8 @@ from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
+    # def registerOptions(self):
+    #     self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.GCCLike
 
     def setTargets(self):
         self.description = "Open source multimedia framework"
@@ -15,20 +17,21 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20221103
-        self.svnTargets["a6f6f6e"] = "https://github.com/mltframework/mlt.git||a6f6f6ead71d8cb2def8a2d20f670c9eb17dba9b"
-        self.defaultTarget = "a6f6f6e"
+        self.svnTargets["d57f379"] = "https://github.com/mltframework/mlt.git||d57f379ba93d12ead56b10422e9b8a1b6073b2f4"
+        self.defaultTarget = "d57f379"
 
-        self.patchToApply["a6f6f6e"] = []
+        self.patchToApply["d57f379"] = []
         # if CraftCore.compiler.isWindows:
         #     # self.patchToApply["ed0bb11"] += [("pi_patch.diff", 1)]
         #     self.patchToApply["38af8d6"] += [("revert-mingw-mysy2.diff", 1)]
 
         if CraftCore.compiler.isMSVC:
-            self.patchToApply["a6f6f6e"] += [("msvc-logging.patch", 1)]
-            self.patchToApply["a6f6f6e"] += [("msvc-enable-atomics.patch", 1)]
-            self.patchToApply["a6f6f6e"] += [("msvc-link-kdewin.patch", 1)]
-            self.patchToApply["a6f6f6e"] += [("msvc-libgen.patch", 1)]
-            self.patchToApply["a6f6f6e"] += [("msvc-misc.patch", 1)]
+            # self.patchToApply["d57f379"] += [("msvc-logging.patch", 1)]
+            # self.patchToApply["d57f379"] += [("msvc-enable-atomics.patch", 1)]
+            self.patchToApply["d57f379"] += [("msvc-link-kdewin.patch", 1)]
+            self.patchToApply["d57f379"] += [("msvc-libgen.patch", 1)]
+            self.patchToApply["d57f379"] += [("msvc-misc.patch", 1)]
+            self.patchToApply["d57f379"] += [("msvc-cxx-20.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
@@ -96,7 +99,7 @@ class Package(CMakePackageBase):
             "-DMOD_GDK=OFF", #default: ON
             "-DMOD_GLAXNIMATE=OFF",
             "-DMOD_GLAXNIMATE_QT6=OFF",
-            "-DMOD_JACKRACK=ON",
+            "-DMOD_JACKRACK=OFF", #default: ON
             "-DUSE_LV2=ON",
             "-DUSE_VST2=OFF", #default: ON
             "-DMOD_KDENLIVE=ON",
@@ -108,7 +111,7 @@ class Package(CMakePackageBase):
             "-DMOD_PLUS=OFF", #default: ON
             "-DMOD_PLUSGPL=OFF", #default: ON
             "-DMOD_QT=OFF",
-            "-DMOD_QT6=ON",
+            "-DMOD_QT6=OFF", #default: ON
             "-DMOD_RESAMPLE=ON",
             "-DMOD_RTAUDIO=ON",
             "-DMOD_RUBBERBAND=ON",
@@ -149,7 +152,8 @@ class Package(CMakePackageBase):
             if self.subinfo.options.isActive("libs/opencv/opencv"):
                 self.subinfo.options.configure.args += ["-DMOD_OPENCV=ON"]
 
-        self.subinfo.options.configure.args += ["-DMOD_QT=OFF", "-DMOD_QT6=ON"]
+        # TODO
+        # self.subinfo.options.configure.args += ["-DMOD_QT=OFF", "-DMOD_QT6=ON"]
 
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-Wno-incompatible-pointer-types"]
