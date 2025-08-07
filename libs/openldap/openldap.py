@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.targetDigests["2.4.45"] = (["cdd6cffdebcd95161a73305ec13fc7a78e9707b46ca9f84fb897cd5626df3824"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["2.5.16"] = (["546ba591822e8bb0e467d40c4d4a30f89d937c3a507fe83a578f582f6a211327"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["2.6.6"] = (["082e998cf542984d43634442dbe11da860759e510907152ea579bdc42fe39ea0"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["2.6.10"] = (["2f87787885410ba2337da7f4201293bd023ad9d34e1e133a5cc1caac4550abd1c1069ddeb3605aac99f3c7bcc9d9b69d6be87e2b722097d018613e698d76efde"], CraftHash.HashAlgorithm.SHA512)
+        self.targetDigests["2.6.10"] = (["18129ad9a385457941e3203de5f130fe2571701abf24592c5beffb01361aae3182c196b2cd48ffeecb792b9b0e5f82c8d92445a7ec63819084757bdedba63b20"], CraftHash.HashAlgorithm.SHA512)
 
         self.description = "an open source implementation of the Lightweight Directory Access Protocol"
 
