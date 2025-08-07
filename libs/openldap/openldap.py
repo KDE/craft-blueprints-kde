@@ -1,7 +1,6 @@
 import info
 from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
-from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
 
 
@@ -34,15 +33,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/openssl"] = None
 
 
-if CraftCore.compiler.isWindows:
-
-    class Package(CMakePackageBase):
-        def __init__(self, **kwargs):
-            super().__init__(**kwargs)
-
-else:
-
-    class Package(AutoToolsPackageBase):
-        def __init__(self, **kwargs):
-            super().__init__(**kwargs)
-            self.subinfo.options.configure.args += ["--without-cyrus_sasl", "--disable-bdb", "--disable-hdb"]
+class Package(AutoToolsPackageBase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.subinfo.options.configure.args += ["--without-cyrus_sasl", "--disable-bdb", "--disable-hdb"]
