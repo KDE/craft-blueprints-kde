@@ -805,11 +805,20 @@ diff -Nru -x '*~' openldap-2.6.10-old/include/ac/socket.h openldap-2.6.10/includ
  #undef	sock_errstr
 diff -Nru -x '*~' openldap-2.6.10-old/include/ac/time.h openldap-2.6.10/include/ac/time.h
 --- openldap-2.6.10-old/include/ac/time.h	2025-08-07 08:54:30.589703552 +0200
-+++ openldap-2.6.10/include/ac/time.h	2025-08-07 08:55:03.947456902 +0200
-@@ -32,4 +32,7 @@
++++ openldap-2.6.10/include/ac/time.h	2025-08-07 11:00:08.944346049 +0200
+@@ -25,11 +25,15 @@
+ #endif
+ # include <time.h>
+ 
++#if 0
+ #if defined(_WIN32) && !defined(HAVE_CLOCK_GETTIME)
+ 	struct timespec {
+ 		time_t	tv_sec;
+ 		int 	tv_nsec;
  	};
  #endif
- 
+-
++#endif
 +#ifdef _WIN32
 +#include <winsock2.h> // for struct timeval
 +#endif
