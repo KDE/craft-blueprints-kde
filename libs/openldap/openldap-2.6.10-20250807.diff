@@ -1270,8 +1270,8 @@ diff -Nru -x '*~' openldap-2.6.10-old/libraries/liblunicode/CMakeLists.txt openl
 +install(TARGETS lunicode ${INSTALL_TARGETS_DEFAULT_ARGS})
 diff -Nru -x '*~' openldap-2.6.10-old/libraries/liblutil/CMakeLists.txt openldap-2.6.10/libraries/liblutil/CMakeLists.txt
 --- openldap-2.6.10-old/libraries/liblutil/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.6.10/libraries/liblutil/CMakeLists.txt	2025-08-07 10:24:28.495891367 +0200
-@@ -0,0 +1,32 @@
++++ openldap-2.6.10/libraries/liblutil/CMakeLists.txt	2025-08-07 13:36:06.614184546 +0200
+@@ -0,0 +1,31 @@
 +set(lutil_SRCS
 +base64.c
 +entropy.c
@@ -1284,7 +1284,6 @@ diff -Nru -x '*~' openldap-2.6.10-old/libraries/liblutil/CMakeLists.txt openldap
 +meter.c
 +passfile.c
 +passwd.c
-+ptest.c
 +sasl.c
 +sha1.c
 +signal.c
@@ -1304,6 +1303,8 @@ diff -Nru -x '*~' openldap-2.6.10-old/libraries/liblutil/CMakeLists.txt openldap
 +set_target_properties(lutil PROPERTIES DEFINE_SYMBOL LUTIL_LIBRARY)
 +target_link_libraries(lutil lber rpcrt4)
 +install(TARGETS lutil ${INSTALL_TARGETS_DEFAULT_ARGS})
+Les fichiers binaires openldap-2.6.10-old/libraries/liblutil/.Makefile.in.swp et openldap-2.6.10/libraries/liblutil/.Makefile.in.swp sont différents
+Les fichiers binaires openldap-2.6.10-old/libraries/liblutil/.ptest.c.swp et openldap-2.6.10/libraries/liblutil/.ptest.c.swp sont différents
 diff -Nru -x '*~' openldap-2.6.10-old/libraries/librewrite/CMakeLists.txt openldap-2.6.10/libraries/librewrite/CMakeLists.txt
 --- openldap-2.6.10-old/libraries/librewrite/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
 +++ openldap-2.6.10/libraries/librewrite/CMakeLists.txt	2025-08-07 10:27:36.253336767 +0200
