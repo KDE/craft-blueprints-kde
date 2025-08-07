@@ -1204,6 +1204,23 @@ diff -Nru -x '*~' openldap-2.6.10-old/libraries/libldap/CMakeLists.txt openldap-
 +set_target_properties(ldap PROPERTIES DEFINE_SYMBOL LDAP_LIBRARY)
 +target_link_libraries(ldap lber)
 +install(TARGETS ldap ${INSTALL_TARGETS_DEFAULT_ARGS})
+diff -Nru -x '*~' openldap-2.6.10-old/libraries/libldap/ldif.c openldap-2.6.10/libraries/libldap/ldif.c
+--- openldap-2.6.10-old/libraries/libldap/ldif.c	2025-08-07 08:54:30.590740798 +0200
++++ openldap-2.6.10/libraries/libldap/ldif.c	2025-08-07 14:00:43.871567172 +0200
+@@ -38,11 +38,11 @@
+ #include <ac/socket.h>
+ #include <ac/time.h>
+ 
+-int ldif_debug = 0;
+-
+ #include "ldap-int.h"
+ #include "ldif.h"
+ 
++int ldif_debug = 0;
++
+ #define CONTINUED_LINE_MARKER	'\r'
+ 
+ #ifdef CSRIMALLOC
 diff -Nru -x '*~' openldap-2.6.10-old/libraries/libldap/tls_o.c openldap-2.6.10/libraries/libldap/tls_o.c
 --- openldap-2.6.10-old/libraries/libldap/tls_o.c	2025-08-07 08:54:30.591301682 +0200
 +++ openldap-2.6.10/libraries/libldap/tls_o.c	2025-08-07 08:57:05.231312627 +0200
