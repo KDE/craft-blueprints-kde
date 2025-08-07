@@ -3,6 +3,7 @@
 
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -25,6 +26,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kidletime"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["libs/kdsingleapplication"] = None
+        if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
