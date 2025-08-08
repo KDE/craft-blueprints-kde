@@ -22,9 +22,18 @@ class subinfo(info.infoclass):
         self.patchLevel["master"] = 20221103
         self.svnTargets["8b0f73e"] = "https://github.com/mltframework/mlt.git||8b0f73e7363a8032a98d769900f8ed382e96b1a4"
         self.defaultTarget = "8b0f73e"
+
+        self.patchToApply["8b0f73e"] = []
         if CraftCore.compiler.isWindows:
-            self.patchToApply["8b0f73e"] = [("pi_patch.diff", 1)]
+            self.patchToApply["8b0f73e"] += [("pi_patch.diff", 1)]
+
+        if CraftCore.compiler.isMinGW():
             self.patchToApply["8b0f73e"] += [("revert-mingw-mysy2.diff", 1)]
+
+        if CraftCore.compiler.isMSVC():
+            self.patchToApply["8b0f73e"] += [("msvc-link-kdewin.patch", 1)]
+            self.patchToApply["8b0f73e"] += [("msvc-libgen.patch", 1)]
+            self.patchToApply["8b0f73e"] += [("msvc-misc.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
