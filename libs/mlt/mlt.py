@@ -58,6 +58,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/opencv/opencv_contrib"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/libvorbis"] = None
+        self.runtimeDependencies["libs/glib"] = None
         # dependencies for glaxnimate module
         self.runtimeDependencies["libs/libarchive"] = None
 
