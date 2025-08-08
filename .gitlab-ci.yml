@@ -152,7 +152,6 @@ build-package-linux:
     - cd C:\Craft\craftmaster
     - git pull
     - cd C:\Craft\ci-utilities
-    - git checkout work/switch-vm-ci
     - git pull
     - cd C:\Craft
     # Define a short cut for the lengthy CraftMaster command line
