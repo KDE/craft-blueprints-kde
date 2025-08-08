@@ -71,7 +71,7 @@ class Package(CMakePackageBase):
             "-DRELOCATABLE=ON",
             "-DMOD_GDK=OFF",  # don't pull in gtk
             "-DMOD_SDL2=ON",
-            "-DBUILD_TESTING=OFF",
+            "-DBUILD_TESTS_WITH_QT6=ON",
         ]
 
         if CraftCore.compiler.isAndroid:

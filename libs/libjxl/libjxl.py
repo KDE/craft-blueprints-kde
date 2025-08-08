@@ -42,7 +42,6 @@ class Package(CMakePackageBase):
             "-DJPEGXL_ENABLE_TCMALLOC=OFF",
             "-DJPEGXL_FORCE_SYSTEM_BROTLI=ON",
             "-DJPEGXL_FORCE_SYSTEM_HWY=ON",
-            "-DBUILD_TESTING=OFF",
         ]
 
         if CraftCore.compiler.isMinGW():

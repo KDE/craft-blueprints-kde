@@ -78,7 +78,7 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(self.blueprintDir() / "win-blacklist.txt")
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "mac-blacklist.txt")
-        self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF", "-DBUILD_QT5=OFF", "-DBUILD_TESTING=OFF"]
+        self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF", "-DBUILD_QT5=OFF"]
 
     # Need to copy the indi drivers, driver files, and other resources for kstars to work on MacOS
     def install(self):

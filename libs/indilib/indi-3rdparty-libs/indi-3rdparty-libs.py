@@ -42,7 +42,6 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
         self.subinfo.options.package.disableStriping = True
         self.subinfo.options.configure.args += [
             f"-DBUILD_LIBS={self.subinfo.options.dynamic.buildLibraries.asOnOff}",
-            "-DBUILD_TESTING=OFF",
         ]
 
     def install(self):
