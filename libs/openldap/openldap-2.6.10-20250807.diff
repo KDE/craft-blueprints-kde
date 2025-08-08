@@ -1095,6 +1095,7 @@ diff -Nru -x '*~' openldap-2.6.10-old/libraries/liblber/CMakeLists.txt openldap-
 +target_link_libraries(lber ws2_32)
 +set_target_properties(lber PROPERTIES DEFINE_SYMBOL LBER_LIBRARY)
 +install(TARGETS lber ${INSTALL_TARGETS_DEFAULT_ARGS})
+Les fichiers binaires openldap-2.6.10-old/libraries/liblber/.Makefile.in.swp et openldap-2.6.10/libraries/liblber/.Makefile.in.swp sont différents
 diff -Nru -x '*~' openldap-2.6.10-old/libraries/liblber/nt_err.c openldap-2.6.10/libraries/liblber/nt_err.c
 --- openldap-2.6.10-old/libraries/liblber/nt_err.c	2025-08-07 08:54:30.593507928 +0200
 +++ openldap-2.6.10/libraries/liblber/nt_err.c	2025-08-07 08:55:03.948382698 +0200
@@ -1287,26 +1288,24 @@ diff -Nru -x '*~' openldap-2.6.10-old/libraries/liblunicode/CMakeLists.txt openl
 +install(TARGETS lunicode ${INSTALL_TARGETS_DEFAULT_ARGS})
 diff -Nru -x '*~' openldap-2.6.10-old/libraries/liblutil/CMakeLists.txt openldap-2.6.10/libraries/liblutil/CMakeLists.txt
 --- openldap-2.6.10-old/libraries/liblutil/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.6.10/libraries/liblutil/CMakeLists.txt	2025-08-07 13:36:06.614184546 +0200
-@@ -0,0 +1,31 @@
++++ openldap-2.6.10/libraries/liblutil/CMakeLists.txt	2025-08-08 07:10:33.217386241 +0200
+@@ -0,0 +1,29 @@
 +set(lutil_SRCS
-+base64.c
-+entropy.c
-+getpass.c
-+getpeereid.c
-+hash.c
-+lockf.c
-+md5.c
-+memcmp.c
-+meter.c
++base64.c 
++entropy.c 
++sasl.c 
++signal.c 
++hash.c 
 +passfile.c
-+passwd.c
-+sasl.c
-+sha1.c
-+signal.c
++md5.c 
++passwd.c 
++sha1.c 
++getpass.c 
++lockf.c 
++utils.c 
++uuid.c 
 +sockpair.c
-+utils.c
-+uuid.c
++meter.c
 +)
 +
 +if(WIN32)
@@ -1320,15 +1319,14 @@ diff -Nru -x '*~' openldap-2.6.10-old/libraries/liblutil/CMakeLists.txt openldap
 +set_target_properties(lutil PROPERTIES DEFINE_SYMBOL LUTIL_LIBRARY)
 +target_link_libraries(lutil lber rpcrt4)
 +install(TARGETS lutil ${INSTALL_TARGETS_DEFAULT_ARGS})
-Les fichiers binaires openldap-2.6.10-old/libraries/liblutil/.Makefile.in.swp et openldap-2.6.10/libraries/liblutil/.Makefile.in.swp sont différents
-Les fichiers binaires openldap-2.6.10-old/libraries/liblutil/.ptest.c.swp et openldap-2.6.10/libraries/liblutil/.ptest.c.swp sont différents
 diff -Nru -x '*~' openldap-2.6.10-old/libraries/librewrite/CMakeLists.txt openldap-2.6.10/libraries/librewrite/CMakeLists.txt
 --- openldap-2.6.10-old/libraries/librewrite/CMakeLists.txt	1970-01-01 01:00:00.000000000 +0100
-+++ openldap-2.6.10/libraries/librewrite/CMakeLists.txt	2025-08-07 10:27:36.253336767 +0200
-@@ -0,0 +1,27 @@
++++ openldap-2.6.10/libraries/librewrite/CMakeLists.txt	2025-08-08 07:01:57.404572693 +0200
+@@ -0,0 +1,28 @@
 +set(rewrite_SRCS
 +    config.c
 +    context.c
++    escapemap.c
 +    info.c
 +    ldapmap.c
 +    map.c
