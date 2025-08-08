@@ -8,6 +8,8 @@ from Utils.CraftBool import CraftBool
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.GCCLike
+        # Disable tests by default because they depend on Kwalify which we don't have in Craft
+        self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
         self.description = "Open source multimedia framework"
