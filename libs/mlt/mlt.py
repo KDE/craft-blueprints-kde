@@ -2,6 +2,7 @@ import info
 import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
+from Utils.CraftBool import CraftBool
 
 
 class subinfo(info.infoclass):
@@ -34,7 +35,6 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/libasound2"] = None
-            self.runtimeDependencies["libs/libexif"] = None
             self.runtimeDependencies["libs/movit"] = None
         if CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/dlfcn-win32"] = None
@@ -55,6 +55,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/lilv"] = None
         self.runtimeDependencies["libs/opencv/opencv_contrib"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
+        self.runtimeDependencies["libs/libvorbis"] = None
         # dependencies for glaxnimate module
         self.runtimeDependencies["libs/libarchive"] = None
 
@@ -62,39 +63,53 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
         # enable submodule checkout to get glaximate
         if not CraftCore.compiler.isAndroid:
             self.subinfo.options.fetch.checkoutSubmodules = True
+
+        # General CMake switches
         self.subinfo.options.configure.args += [
-            "-DMOD_DECKLINK=ON",
             "-DWINDOWS_DEPLOY=OFF",
             "-DRELOCATABLE=ON",
-            "-DMOD_GDK=OFF",  # don't pull in gtk
-            "-DMOD_SDL2=ON",
             "-DBUILD_TESTS_WITH_QT6=ON",
         ]
 
-        if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ["-DMOD_RTAUDIO=OFF", "-DMOD_SOX=OFF"]
-
-        if self.subinfo.options.isActive("libs/libarchive"):
-            self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE_QT6=ON"]
-        else:
-            self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE_QT6=OFF"]
-
-        if CraftCore.compiler.isMSVC():
-            # TODO Fix decklink module with MSVC
-            self.subinfo.options.configure.args += ["-DMOD_DECKLINK=OFF"]
-        else:
-            self.subinfo.options.configure.args += ["-DMOD_DECKLINK=ON"]
-            # TODO OpenCV has an issue with its installation and is hence not detected
-            if self.subinfo.options.isActive("libs/opencv/opencv"):
-                self.subinfo.options.configure.args += ["-DMOD_OPENCV=ON"]
-
-        self.subinfo.options.configure.args += ["-DMOD_QT=OFF", "-DMOD_QT6=ON"]
-
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-Wno-incompatible-pointer-types"]
+
+        # CMake switches for MLT modules
+
+        # TODO OpenCV has an issue with its installation on MSVC and is hence not detected
+        useOpenCV = CraftBool(self.subinfo.options.isActive("libs/opencv/opencv") and not CraftCore.compiler.isMSVC())
+        useMovit = CraftBool(self.subinfo.options.isActive("libs/movit") and CraftCore.compiler.isLinux)
+        useSox = CraftBool(self.subinfo.options.isActive("libs/sox") and not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS)
+
+        self.subinfo.options.configure.args += [
+            f"-DMOD_AVFORMAT={self.subinfo.options.isActive('libs/ffmpeg').asOnOff}",
+            # TODO Fix decklink module with MSVC
+            f"-DMOD_DECKLINK={CraftCore.compiler.isMSVC().inverted.asOnOff}",
+            f"-DMOD_FREI0R={self.subinfo.options.isActive('libs/frei0r-plugins').asOnOff}",
+            # don't pull in gtk
+            "-DMOD_GDK=OFF",
+            f"-DMOD_GLAXNIMATE_QT6={self.subinfo.options.isActive('libs/libarchive').asOnOff}",
+            f"-DUSE_LV2={self.subinfo.options.isActive('libs/lilv').asOnOff}",
+            f"-DMOD_MOVIT={useMovit.asOnOff}",
+            f"-DMOD_OPENCV={useOpenCV.asOnOff}",
+            "-DMOD_QT=OFF",
+            "-DMOD_QT6=ON",
+            f"-DMOD_RESAMPLE={self.subinfo.options.isActive('libs/libsamplerate').asOnOff}",
+            f"-DMOD_RTAUDIO={CraftCore.compiler.isAndroid.inverted.asOnOff}",
+            f"-DMOD_RUBBERBAND={self.subinfo.options.isActive('libs/rubberband').asOnOff}",
+            # We don't support SDL 1 anymore, we have SDL 2
+            "-DMOD_SDL1=OFF",
+            f"-DMOD_SDL2={self.subinfo.options.isActive('libs/libsdl2').asOnOff}",
+            f"-DMOD_SOX={useSox.asOnOff}",
+            f"-DMOD_SPATIALAUDIO={self.subinfo.options.isActive('libs/spatialaudio').asOnOff}",
+            f"-DMOD_VIDSTAB={self.subinfo.options.isActive('libs/vidstab').asOnOff}",
+            f"-DMOD_XML={self.subinfo.options.isActive('libs/libxml2').asOnOff}",
+        ]
+
         self.subinfo.options.configure.cxxflags += " -D_XOPEN_SOURCE=700 "
 
     def install(self):
