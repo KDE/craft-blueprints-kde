@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
         ]  # https://gitweb.gentoo.org/repo/gentoo.git/tree/net-nds/openldap/openldap-2.4.59-r2.ebuild#n380
         if CraftCore.compiler.isWindows:
             self.patchToApply["2.4.45"] += [("openldap-2.4.45-20170628.diff", 1)]
+            self.patchToApply["2.4.45"] += [("openldap-2.4.45-20250809.diff", 1)]  # Force usage of compat getopt
             self.patchToApply["2.6.10"] = [("openldap-2.6.10-20250807.diff", 1)]
         self.targetDigests["2.4.45"] = (["cdd6cffdebcd95161a73305ec13fc7a78e9707b46ca9f84fb897cd5626df3824"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["2.5.16"] = (["546ba591822e8bb0e467d40c4d4a30f89d937c3a507fe83a578f582f6a211327"], CraftHash.HashAlgorithm.SHA256)
