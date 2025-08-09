@@ -53,6 +53,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/opentimelineio"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
+        self.runtimeDependencies["data/rustedbronze-theme"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
         # DrMinGW needs build fixes with MinGW 13 before we can re-enable it
@@ -110,12 +111,3 @@ class Package(CraftPackageObject.get("kde").pattern):
         # Appimage
         # self.defines["appimage_extra_plugins"] = ["checkrt"]
         return super().createPackage()
-
-    def postInstall(self):
-        if CraftCore.compiler.isWindows:
-            self.schemeDir = self.installDir() / "bin/data/color-schemes"
-        else:
-            self.schemeDir = self.installDir() / "share/color-schemes"
-        for scheme in ["RustedBronze"]:
-            GetFiles.getFile(f"https://raw.githubusercontent.com/Bartoloni/RustedBronze/master/{scheme}.colors", self.schemeDir)
-        return True
