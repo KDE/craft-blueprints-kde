@@ -71,6 +71,10 @@ class subinfo(info.infoclass):
         # dependencies for glaxnimate module
         self.runtimeDependencies["libs/libarchive"] = None
 
+        if CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["kdesupport/kdewin"] = None
+            self.runtimeDependencies["libs/pthreads"] = None
+
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
@@ -85,6 +89,9 @@ class Package(CMakePackageBase):
             "-DWINDOWS_DEPLOY=OFF",
             "-DRELOCATABLE=ON",
             "-DBUILD_TESTS_WITH_QT6=ON",
+            # Symbol export for MSVC
+            # TODO: fix this upstream
+            "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON",
         ]
 
         if CraftCore.compiler.isMinGW():
