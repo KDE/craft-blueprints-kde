@@ -2,7 +2,6 @@ import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 from Packager.AppImagePackager import AppImagePackager
-from Utils import GetFiles
 
 
 class subinfo(info.infoclass):
