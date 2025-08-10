@@ -25,6 +25,11 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DSDL_STATIC=OFF", "-DSDL_THREADS=ON", "-DSDL_DIRECTX=ON", "-DSDL_LIBSAMPLERATE=ON"]
+        self.subinfo.options.configure.args += [
+            f"-DSDL_STATIC={self.subinfo.options.buildStatic.asOnOff}",
+            "-DSDL_THREADS=ON",
+            "-DSDL_DIRECTX=ON",
+            "-DSDL_LIBSAMPLERATE=ON",
+        ]
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["-DSDL_PULSEAUDIO=ON"]
