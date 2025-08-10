@@ -1,0 +1,48 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 161a2b35..dd5f9e89 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -200,10 +200,7 @@ endif()
+ pkg_check_modules(sdl2 IMPORTED_TARGET sdl2)
+ 
+ if(MOD_QT OR MOD_QT6 OR MOD_PLUS)
+-  pkg_check_modules(FFTW IMPORTED_TARGET fftw3)
+-  if(NOT FFTW_FOUND)
+-    pkg_check_modules(FFTW IMPORTED_TARGET fftw)
+-  endif()
++  find_package(FFTW3)
+ endif()
+ 
+ if(MOD_QT OR MOD_QT6 OR MOD_GDK)
+diff --git a/src/modules/plus/CMakeLists.txt b/src/modules/plus/CMakeLists.txt
+index 9741146a..70c26ed2 100644
+--- a/src/modules/plus/CMakeLists.txt
++++ b/src/modules/plus/CMakeLists.txt
+@@ -46,9 +46,9 @@ if(NOT MSVC)
+   target_link_libraries(mltplus PRIVATE m)
+ endif()
+ 
+-if(TARGET PkgConfig::FFTW)
++if(TARGET FFTW3::fftw3)
+   target_sources(mltplus PRIVATE filter_dance.c filter_fft.c)
+-  target_link_libraries(mltplus PRIVATE PkgConfig::FFTW)
++  target_link_libraries(mltplus PRIVATE FFTW3::fftw3)
+   target_compile_definitions(mltplus PRIVATE USE_FFTW)
+   install(FILES filter_dance.yml filter_fft.yml DESTINATION ${MLT_INSTALL_DATA_DIR}/plus)
+ endif()
+diff --git a/src/modules/qt/CMakeLists.txt b/src/modules/qt/CMakeLists.txt
+index 2c8c86ac..bad645ae 100644
+--- a/src/modules/qt/CMakeLists.txt
++++ b/src/modules/qt/CMakeLists.txt
+@@ -84,9 +84,9 @@ function(mlt_add_qt_module ARG_TARGET)
+       install(FILES transition_vqm.yml DESTINATION ${MLT_INSTALL_DATA_DIR}/${ARG_DATADIR})
+     endif()
+ 
+-    if(TARGET PkgConfig::FFTW)
++    if(TARGET FFTW3::fftw3)
+       target_sources(${ARG_TARGET} PRIVATE filter_audiospectrum.cpp filter_lightshow.cpp)
+-      target_link_libraries(${ARG_TARGET} PRIVATE PkgConfig::FFTW)
++      target_link_libraries(${ARG_TARGET} PRIVATE FFTW3::fftw3)
+       target_compile_definitions(${ARG_TARGET} PRIVATE USE_FFTW)
+       install(FILES filter_audiospectrum.yml filter_lightshow.yml DESTINATION ${MLT_INSTALL_DATA_DIR}/${ARG_DATADIR})
+     endif()

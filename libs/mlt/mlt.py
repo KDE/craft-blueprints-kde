@@ -34,6 +34,9 @@ class subinfo(info.infoclass):
             self.patchToApply["8988ffd"] += [("msvc-link-kdewin.patch", 1)]
             self.patchToApply["8988ffd"] += [("msvc-libgen.patch", 1)]
             self.patchToApply["8988ffd"] += [("msvc-misc.patch", 1)]
+            self.patchToApply["8988ffd"] += [("msvc-cxx20.patch", 1)]
+            self.patchToApply["8988ffd"] += [("msvc-find-fftw3.patch", 1)]
+            # self.patchToApply["8988ffd"] += [("msvc-fix-avformat-module.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
