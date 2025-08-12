@@ -11,39 +11,38 @@ index 180932e3..5343887d 100644
  find_package(Threads REQUIRED)
  find_package(PkgConfig REQUIRED)
 diff --git a/src/framework/CMakeLists.txt b/src/framework/CMakeLists.txt
-index 3882e5f2..e9b8dff0 100644
+index 159dbc11..bde40496 100644
 --- a/src/framework/CMakeLists.txt
 +++ b/src/framework/CMakeLists.txt
 @@ -83,7 +83,7 @@ target_compile_options(mlt PRIVATE ${MLT_COMPILE_OPTIONS})
  target_link_libraries(mlt PRIVATE Threads::Threads ${CMAKE_DL_LIBS})
  
  if(MSVC)
--  target_link_libraries(mlt PRIVATE PThreads4W::PThreads4W)
-+  target_link_libraries(mlt PRIVATE PThreads4W::PThreads4W ${KDEWIN_LIBRARIES})
+-  target_link_libraries(mlt PRIVATE msvccompat PThreads4W::PThreads4W)
++  target_link_libraries(mlt PRIVATE msvccompat PThreads4W::PThreads4W ${KDEWIN_LIBRARIES})
  else()
    target_link_libraries(mlt PRIVATE m)
  endif()
 diff --git a/src/melt/CMakeLists.txt b/src/melt/CMakeLists.txt
-index c56e1d16..9b234b5c 100644
+index 592c3c2e..943f9b04 100644
 --- a/src/melt/CMakeLists.txt
 +++ b/src/melt/CMakeLists.txt
-@@ -15,6 +15,10 @@ if(TARGET PkgConfig::sdl2 AND NOT ANDROID)
-     endif()
+@@ -16,7 +16,7 @@ if(SDL2_FOUND AND NOT ANDROID)
  endif()
  
-+if(MSVC)
-+  target_link_libraries(melt PRIVATE ${KDEWIN_LIBRARIES})
-+endif()
-+
- if(MINGW)
-   target_link_options(melt PRIVATE -mconsole)
+ if(MSVC)
+-  target_link_libraries(melt PRIVATE msvccompat)
++  target_link_libraries(melt PRIVATE msvccompat ${KDEWIN_LIBRARIES})
  endif()
+ 
+ if(MINGW)
+
 diff --git a/src/modules/avformat/CMakeLists.txt b/src/modules/avformat/CMakeLists.txt
-index 7054051d..53ec3067 100644
+index e3ddc962..b1a25b91 100644
 --- a/src/modules/avformat/CMakeLists.txt
 +++ b/src/modules/avformat/CMakeLists.txt
 @@ -23,7 +23,9 @@ target_link_libraries(mltavformat PRIVATE
-   PkgConfig::libavutil
+   ${AVUTIL_LIBRARIES}
  )
  
 -if(NOT MSVC)
@@ -97,20 +96,19 @@ index e592e15a..9e03b923 100644
  endif()
  
 diff --git a/src/modules/plus/CMakeLists.txt b/src/modules/plus/CMakeLists.txt
-index 9741146a..c2d3b7a0 100644
+index c8b6f981..56c2f4b6 100644
 --- a/src/modules/plus/CMakeLists.txt
 +++ b/src/modules/plus/CMakeLists.txt
-@@ -42,7 +42,9 @@ add_custom_target(Other_plus_Files SOURCES
- target_compile_options(mltplus PRIVATE ${MLT_COMPILE_OPTIONS})
+@@ -43,7 +43,7 @@ target_compile_options(mltplus PRIVATE ${MLT_COMPILE_OPTIONS})
  
  target_link_libraries(mltplus PRIVATE mlt Threads::Threads)
--if(NOT MSVC)
-+if(MSVC)
-+  target_link_libraries(mltplus PRIVATE ${KDEWIN_LIBRARIES})
-+else()
+ if(MSVC)
+-  target_link_libraries(mltplus PRIVATE msvccompat)
++  target_link_libraries(mltplus PRIVATE msvccompat ${KDEWIN_LIBRARIES})
+ else()
    target_link_libraries(mltplus PRIVATE m)
  endif()
- 
+
 diff --git a/src/modules/plusgpl/CMakeLists.txt b/src/modules/plusgpl/CMakeLists.txt
 index 4087bd5e..b42acb2f 100644
 --- a/src/modules/plusgpl/CMakeLists.txt
@@ -145,7 +143,7 @@ index f167919f..c27ea192 100644
 +++ b/src/modules/sdl2/CMakeLists.txt
 @@ -14,7 +14,7 @@ target_compile_options(mltsdl2 PRIVATE ${MLT_COMPILE_OPTIONS})
  
- target_link_libraries(mltsdl2 PRIVATE mlt Threads::Threads PkgConfig::sdl2)
+ target_link_libraries(mltsdl2 PRIVATE mlt Threads::Threads SDL2::SDL2)
  if(MSVC)
 -  target_link_libraries(mltsdl2 PRIVATE PThreads4W::PThreads4W)
 +  target_link_libraries(mltsdl2 PRIVATE PThreads4W::PThreads4W ${KDEWIN_LIBRARIES})

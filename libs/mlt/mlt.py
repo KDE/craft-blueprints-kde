@@ -20,23 +20,21 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20221103
-        self.svnTargets["8988ffd"] = "https://github.com/mltframework/mlt.git||8988ffd6677a89445e6307ba7035241abbce3a70"
-        self.defaultTarget = "8988ffd"
+        self.svnTargets["9c3c9e6"] = "https://github.com/mltframework/mlt.git||9c3c9e677f649efc1bf9a5aeb160f5e516be9848"
+        self.defaultTarget = "9c3c9e6"
 
-        self.patchToApply["8988ffd"] = []
+        self.patchToApply["9c3c9e6"] = []
         if CraftCore.compiler.isWindows:
-            self.patchToApply["8988ffd"] += [("pi_patch.diff", 1)]
+            self.patchToApply["9c3c9e6"] += [("pi_patch.diff", 1)]
 
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["8988ffd"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["9c3c9e6"] += [("revert-mingw-mysy2.diff", 1)]
 
         if CraftCore.compiler.isMSVC():
-            self.patchToApply["8988ffd"] += [("msvc-link-kdewin.patch", 1)]
-            self.patchToApply["8988ffd"] += [("msvc-libgen.patch", 1)]
-            self.patchToApply["8988ffd"] += [("msvc-misc.patch", 1)]
-            self.patchToApply["8988ffd"] += [("msvc-cxx20.patch", 1)]
-            self.patchToApply["8988ffd"] += [("msvc-find-fftw3.patch", 1)]
-            # self.patchToApply["8988ffd"] += [("msvc-fix-avformat-module.patch", 1)]
+            self.patchToApply["9c3c9e6"] += [("msvc-link-kdewin.patch", 1)]
+            self.patchToApply["9c3c9e6"] += [("msvc-misc.patch", 1)]
+            # self.patchToApply["9c3c9e6"] += [("msvc-find-fftw3.patch", 1)]
+            self.patchToApply["9c3c9e6"] += [("msvc-fix-avformat-module.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
