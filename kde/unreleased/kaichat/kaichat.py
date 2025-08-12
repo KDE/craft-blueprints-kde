@@ -44,4 +44,8 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["shortcuts"] = [{"name": "KAIChat", "target": "bin/kaichat.exe", "description": self.subinfo.description, "appId": "kaichat"}]
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["alias"] = "kaichat"
+        self.defines["icon"] = self.buildDir() / "src/apps/appIcons.ico"
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-kaichat.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-kaichat.png"
+
         return super().createPackage()
