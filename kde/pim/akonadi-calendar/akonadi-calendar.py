@@ -9,6 +9,9 @@ class subinfo(info.infoclass):
 
         self.description = "Akonadi Calendar library"
 
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildTests", False)
+
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None

@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
 
     def registerOptions(self):
         self.options.dynamic.registerOption("useDesignerPlugin", True)
+        self.options.dynamic.setDefault("buildTests", False)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

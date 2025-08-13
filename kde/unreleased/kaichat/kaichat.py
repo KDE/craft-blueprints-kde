@@ -18,6 +18,9 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://invent.kde.org/utilities/kaichat.git"
 
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildTests", False)
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None

@@ -12,6 +12,9 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/pim/mimetreeparser.git"
         self.description = "Mime parsing and viewer library"
 
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildTests", False)
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
