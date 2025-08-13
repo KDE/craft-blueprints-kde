@@ -14,7 +14,6 @@ class subinfo(info.infoclass):
         #     ninja: error: 'Z:/CraftRoot/lib/libxapian.lib', needed by 'bin/KF5AkonadiSearchXapian.dll', missing and no known rule to make it
         #     Action: compile for kde/pim/akonadi-search:19.12.3 FAILED
         self.options.dynamic.registerOption("useDesignerPlugin", True)
-        self.options.dynamic.setDefault("buildTests", False)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

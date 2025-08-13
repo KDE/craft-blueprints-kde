@@ -8,9 +8,6 @@ class subinfo(info.infoclass):
 
         self.description = "KOrganizer"
 
-    def registerOptions(self):
-        self.options.dynamic.setDefault("buildTests", False)
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

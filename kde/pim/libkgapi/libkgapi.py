@@ -7,9 +7,6 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "KDE library for Google API"
 
-    def registerOptions(self):
-        self.options.dynamic.setDefault("buildTests", False)
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

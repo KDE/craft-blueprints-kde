@@ -10,7 +10,6 @@ class subinfo(info.infoclass):
         self.description = "A storage service for PIM data and meta data"
 
     def registerOptions(self):
-        self.options.dynamic.setDefault("buildTests", False)
         self.options.dynamic.registerOption("useDesignerPlugin", True)
 
     def setDependencies(self):

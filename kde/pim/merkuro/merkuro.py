@@ -9,9 +9,6 @@ class subinfo(info.infoclass):
         self.description = "Calendar application"
         self.webpage = "https://invent.kde.org/pim/merkuro"
 
-    def registerOptions(self):
-        self.options.dynamic.setDefault("buildTests", False)
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None

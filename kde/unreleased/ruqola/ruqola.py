@@ -41,9 +41,6 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/network/ruqola.git"
         self.defaultTarget = "2.5.1"
 
-    def registerOptions(self):
-        self.options.dynamic.setDefault("buildTests", False)
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
