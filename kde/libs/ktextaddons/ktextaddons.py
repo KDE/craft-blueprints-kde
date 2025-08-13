@@ -9,6 +9,7 @@ from CraftCore import CraftCore
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+        self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
         self.description = "Text Addons (autocorrection, grammar checking, text to speak, translator support, AI support)"
