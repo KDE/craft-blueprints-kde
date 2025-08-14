@@ -207,4 +207,19 @@ index 2c8c86ac..1da46428 100644
  
      if(ARG_QT_VERSION EQUAL 6)
 
+diff --git a/src/modules/xine/CMakeLists.txt b/src/modules/xine/CMakeLists.txt
+index bd4e4d71..42065266 100644
+--- a/src/modules/xine/CMakeLists.txt
++++ b/src/modules/xine/CMakeLists.txt
+@@ -16,6 +16,10 @@ target_compile_options(mltxine PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+ target_link_libraries(mltxine PRIVATE mlt ${CMAKE_DL_LIBS})
+ 
++if(MSVC)
++  target_link_libraries(mltxine PRIVATE ${KDEWIN_LIBRARIES})
++endif()
++
+ set_target_properties(mltxine PROPERTIES POSITION_INDEPENDENT_CODE ON)
+ 
+ target_compile_definitions(mltxine PRIVATE PIC)
 

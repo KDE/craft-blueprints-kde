@@ -1,25 +1,3 @@
-diff --git a/src/modules/core/link_timeremap.c b/src/modules/core/link_timeremap.c
-index e0e4f037..e565ccc9 100644
---- a/src/modules/core/link_timeremap.c
-+++ b/src/modules/core/link_timeremap.c
-@@ -342,6 +342,8 @@ static int link_get_audio(mlt_frame frame,
-     return error;
- }
- 
-+#define MAX_BLEND_IMAGES 10
-+
- static int link_get_image_blend(mlt_frame frame,
-                                 uint8_t **image,
-                                 mlt_image_format *format,
-@@ -349,7 +351,7 @@ static int link_get_image_blend(mlt_frame frame,
-                                 int *height,
-                                 int writable)
- {
--    static const int MAX_BLEND_IMAGES = 10;
-+    // static const int MAX_BLEND_IMAGES = 10;
-     mlt_link self = (mlt_link) mlt_frame_pop_get_image(frame);
-     mlt_properties unique_properties = mlt_frame_get_unique_properties(frame,
-                                                                        MLT_LINK_SERVICE(self));
 diff --git a/src/framework/mlt_pool.c b/src/framework/mlt_pool.c
 index e94f668c..65448298 100644
 --- a/src/framework/mlt_pool.c
@@ -87,42 +65,4 @@ index c3ed8ced..d06c0285 100644
  }
 +
 +#endif
-diff --git a/src/modules/sdl2/consumer_sdl2.c b/src/modules/sdl2/consumer_sdl2.c
-index 6befb4c8..1e02e662 100644
---- a/src/modules/sdl2/consumer_sdl2.c
-+++ b/src/modules/sdl2/consumer_sdl2.c
-@@ -35,7 +35,7 @@
- 
- #undef MLT_IMAGE_FORMAT // only yuv422 working currently
- 
--extern pthread_mutex_t mlt_sdl_mutex;
-+__declspec(dllimport) extern pthread_mutex_t mlt_sdl_mutex;
- 
- /** This classes definition.
- */
-diff --git a/src/modules/sdl2/consumer_sdl2_audio.c b/src/modules/sdl2/consumer_sdl2_audio.c
-index 523daf32..87d7385b 100644
---- a/src/modules/sdl2/consumer_sdl2_audio.c
-+++ b/src/modules/sdl2/consumer_sdl2_audio.c
-@@ -33,7 +33,7 @@
- #include <string.h>
- #include <sys/time.h>
- 
--extern pthread_mutex_t mlt_sdl_mutex;
-+__declspec(dllimport) extern pthread_mutex_t mlt_sdl_mutex;
- 
- /** This classes definition.
- */
-diff --git a/src/framework/mlt_repository.h b/src/framework/mlt_repository.h
-index 25631c19..0ef6f35f 100644
---- a/src/framework/mlt_repository.h
-+++ b/src/framework/mlt_repository.h
-@@ -50,7 +50,7 @@ typedef mlt_properties (*mlt_metadata_callback)(mlt_service_type,
-                                                 void * /* callback_data */);
- 
- /** A convenience macro to create an entry point for service registration. */
--#define MLT_REPOSITORY void mlt_register(mlt_repository repository)
-+#define MLT_REPOSITORY __declspec(dllexport) void mlt_register(mlt_repository repository)
- 
- /** A convenience macro to a register service in a more declarative manner. */
- #define MLT_REGISTER(type, service, symbol) \
+

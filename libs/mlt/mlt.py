@@ -32,8 +32,10 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isMSVC():
             self.patchToApply["9c3c9e6"] += [("msvc-link-kdewin.patch", 1)]
+            self.patchToApply["9c3c9e6"] += [("msvc-fix-static-const.patch", 1)]
             self.patchToApply["9c3c9e6"] += [("msvc-misc.patch", 1)]
-            # self.patchToApply["9c3c9e6"] += [("msvc-find-fftw3.patch", 1)]
+            self.patchToApply["9c3c9e6"] += [("msvc-sdl2-import-export.patch", 1)]
+            self.patchToApply["9c3c9e6"] += [("msvc-find-fftw3.patch", 1)]
             self.patchToApply["9c3c9e6"] += [("msvc-fix-avformat-module.patch", 1)]
 
     def setDependencies(self):
