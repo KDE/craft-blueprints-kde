@@ -24,9 +24,9 @@ class subinfo(info.infoclass):
 
         for ver in ["2.9.0"]:
             self.targets[ver] = "https://download.kde.org/stable/labplot/%s/labplot-%s.tar.xz" % (ver, ver)
-        for ver in ["2.10.0", "2.10.1", "2.11.1", "2.12.0"]:
+        for ver in ["2.10.0", "2.10.1", "2.11.1", "2.12.0", "2.12.1"]:
             self.targets[ver] = "https://download.kde.org/stable/labplot/labplot-%s.tar.xz" % ver
-        for ver in ["2.9.0", "2.10.0", "2.10.1", "2.11.1", "2.12.0"]:
+        for ver in ["2.9.0", "2.10.0", "2.10.1", "2.11.1", "2.12.0", "2.12.1"]:
             self.targetInstSrc[ver] = "labplot-%s" % ver
         # beta versions
         # for ver in ["2.8.99"]:
@@ -36,7 +36,7 @@ class subinfo(info.infoclass):
         self.patchToApply["2.9.0"] = [("labplot-2.9.0.patch", 1)]
         self.patchLevel["2.9.0"] = 1
 
-        self.defaultTarget = "2.12.0"
+        self.defaultTarget = "2.12.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
