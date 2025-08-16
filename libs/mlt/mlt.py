@@ -26,6 +26,7 @@ class subinfo(info.infoclass):
         self.patchToApply["9c3c9e6"] = []
         if CraftCore.compiler.isWindows:
             self.patchToApply["9c3c9e6"] += [("pi_patch.diff", 1)]
+            self.patchToApply["9c3c9e6"] += [("typewrite-fix.diff", 1)]
 
         if CraftCore.compiler.isMinGW():
             self.patchToApply["9c3c9e6"] += [("revert-mingw-mysy2.diff", 1)]
