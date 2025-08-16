@@ -1,10 +1,17 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        # HACK work around a case-sensitivity file collision in the kio-extras
+        # tarball, making this unextractable on Windows
+        if CraftCore.compiler.isWindows:
+            self.targets[self.defaultTarget] = None
+            self.svnTargets[self.defaultTarget] = f"https://invent.kde.org/network/kio-extras.git||v{self.defaultTarget}"
+            self.targetInstSrc[self.defaultTarget] = ""
 
         self.description = "Extra plugins for KIO (thumbnail generators, archives, remote filesystems and more)"
 
