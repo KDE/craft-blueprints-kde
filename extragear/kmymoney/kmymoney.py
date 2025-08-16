@@ -60,8 +60,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
-        self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
-        self.runtimeDependencies["kde/pim/akonadi"] = None
+        if CraftCore.compiler.isMSVC():
+          self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
+          self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["libs/sqlite"] = None
         self.runtimeDependencies["libs/libofx"] = None
         self.runtimeDependencies["libs/libical"] = None
