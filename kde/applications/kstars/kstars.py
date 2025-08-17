@@ -79,6 +79,9 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(self.blueprintDir() / "win-blacklist.txt")
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "mac-blacklist.txt")
+            self.addExecutableFilter(
+                r"bin/(?!(dbus-daemon|dbus-send|dbus-daemon-launch-helper|gsc|xplanet|indi)).*"
+            )
         self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF", "-DBUILD_QT5=OFF"]
 
     # Need to copy the indi drivers, driver files, and other resources for kstars to work on MacOS
