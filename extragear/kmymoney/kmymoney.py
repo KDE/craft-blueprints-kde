@@ -73,12 +73,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["extragear/alkimia"] = None
         self.runtimeDependencies["extragear/kdiagram"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.buildDependencies["libs/gettext"] = None
         if self.buildTarget != "master":
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
-        else:
-            self.runtimeDependencies["qt-libs/qtkeychain"] = None
         if CraftCore.compiler.isWindows:
             self.runtimeDependencies["kdesupport/kdewin"] = None
 
