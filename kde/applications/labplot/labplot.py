@@ -35,6 +35,8 @@ class subinfo(info.infoclass):
 
         self.patchToApply["2.9.0"] = [("labplot-2.9.0.patch", 1)]
         self.patchLevel["2.9.0"] = 1
+        self.patchToApply["2.12.1"] = [("labplot-2.12.1.patch", 1)]
+        self.patchLevel["2.12.1"] = 1
 
         self.defaultTarget = "2.12.1"
 
