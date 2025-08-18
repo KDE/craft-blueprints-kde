@@ -42,4 +42,7 @@ class Package(CraftPackageObject.get("kde").pattern):
 
         self.ignoredPackages.append("binary/mysql")
 
+        # define executable alias for launching from terminal
+        self.defines["alias"] = "filelight"
+
         return super().createPackage()
