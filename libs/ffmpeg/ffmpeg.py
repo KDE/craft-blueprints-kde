@@ -23,24 +23,24 @@ class subinfo(info.infoclass):
         self.targetDigests["7.0.1"] = (["5e77e84b6434d656106fafe3bceccc77176449014f3eba24d33db3fbd0939dc9"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["7.1"] = (["fd59e6160476095082e94150ada5a6032d7dcc282fe38ce682a00c18e7820528"], CraftHash.HashAlgorithm.SHA256)
 
+        if CraftCore.compiler.isMSVC():
+            for ver in ["4.4", "5.0.1", "6.0", "6.1.1", "7.0.1", "7.1"]:
+                self.patchToApply[ver] = [("ffmpeg-4.4-20210413.diff", 1)]
+
         # https://github.com/FFmpeg/FFmpeg/commit/effadce6c756247ea8bae32dc13bb3e6f464f0eb
         # Fix assembling with binutil >= 2.41
-        self.patchToApply["6.0"] = [("effadce6c756247ea8bae32dc13bb3e6f464f0eb.diff", 1)]
+        self.patchToApply["6.0"] += [("effadce6c756247ea8bae32dc13bb3e6f464f0eb.diff", 1)]
 
-        if CraftCore.compiler.isMSVC():
-            self.patchToApply["4.4"] = [("ffmpeg-4.4-20210413.diff", 1)]
-            self.patchToApply["5.0.1"] = [("ffmpeg-4.4-20210413.diff", 1)]
-            self.patchToApply["6.0"] += [("ffmpeg-4.4-20210413.diff", 1)]
-            self.patchToApply["6.1.1"] = [("ffmpeg-4.4-20210413.diff", 1)]
-            self.patchToApply["7.0.1"] = [("ffmpeg-4.4-20210413.diff", 1)]
-            self.patchToApply["7.1"] = [("ffmpeg-4.4-20210413.diff", 1)]
-        else:
-            self.patchLevel["4.4"] = 1
+        # https://aur.archlinux.org/cgit/aur.git/tree/040-ffmpeg-add-av_stream_get_first_dts-for-chromium.patch?h=ffmpeg-git
+        # This patch is for Chromium (in QtWebEngine), it has the awful requirement for a FFmpeg with add av_stream_get_first_dts
+        # This function is not upstreamed and hence requires patching, for more context see eg. https://bugs.gentoo.org/831487
+        self.patchToApply["7.1"] += [("040-ffmpeg-add-av_stream_get_first_dts-for-chromium.patch", 1)]
 
+        self.patchLevel["4.4"] = 1
         self.patchLevel["5.0.1"] = 4
         self.patchLevel["6.0"] = 3
         self.patchLevel["6.1.1"] = 2
-        self.patchLevel["7.1"] = 4
+        self.patchLevel["7.1"] = 5
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
