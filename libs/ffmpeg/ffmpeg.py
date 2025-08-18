@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
         for ver in ["4.4", "5.0.1", "6.0", "6.1.1", "7.0.1", "7.1"]:
             self.targets[ver] = f"https://ffmpeg.org/releases/ffmpeg-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"ffmpeg-{ver}"
+            self.patchToApply[ver] = []
         self.svnTargets["master"] = "https://git.ffmpeg.org/ffmpeg.git"
         self.targetDigests["4.4"] = (["42093549751b582cf0f338a21a3664f52e0a9fbe0d238d3c992005e493607d0e"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["5.0.1"] = (["28df33d400a1c1c1b20d07a99197809a3b88ef765f5f07dc1ff067fac64c59d6"], CraftHash.HashAlgorithm.SHA256)
