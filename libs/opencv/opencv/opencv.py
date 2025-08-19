@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.description = "a library for real time computer vision"
 
         for ver in self.targets.keys():
-            self.patchToApply[ver] = [("OpenCVInstallLayout.cmake.patch", 0)]
+            self.patchToApply[ver] = [("opencv_install_layout_combined.patch", 1)]
 
         if CraftCore.compiler.isMacOS:
             self.patchToApply["4.10.0"] += [("orbbec-fix.patch", 1)]
@@ -110,6 +110,7 @@ class Package(CMakePackageBase):
             # it is broken on MSVC
             "-DWITH_OPENJPEG=OFF",
             "-DCMAKE_CXX_STANDARD=17",
+            "-DOPENCV_LIB_INSTALL_PATH=lib",
         ]
         if CraftCore.compiler.architecture & CraftCompiler.Architecture.x86:
             self.subinfo.options.configure.args += [
