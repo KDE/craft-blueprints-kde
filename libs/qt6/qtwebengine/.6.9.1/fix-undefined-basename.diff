@@ -1,0 +1,28 @@
+From: Julius Künzel <julius.kuenzel@kde.org>
+
+Fix for
+
+[21572/22090] CC obj/third_party/minigbm/minigbm/drv.o
+FAILED: [code=1] obj/third_party/minigbm/minigbm/drv.o
+/opt/rh/gcc-toolset-14/root/usr/bin/gcc -MD -MF obj/third_party/minigbm/minigbm/drv.o.d -DUSE_AURA=1 -DUSE_OZONE=1 -DOFFICIAL_BUILD -DTOOLKIT_QT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -DNO_UNWIND_TABLES -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_NONE -D_GLIBCXX_ASSERTIONS=1 -DNDEBUG -DNVALGRIND -DDYNAMIC_ANNOTATIONS_ENABLED=0 -DDRV_I915 -Igen -I../../../../../src/src/3rdparty/chromium -I../../../../../src/src/3rdparty/chromium/third_party/minigbm/src -fno-ident -fno-strict-aliasing -fstack-protector -Wno-unknown-pragmas -Wno-address -Wno-parentheses -Wno-sign-compare -Wno-stringop-overflow -Wno-stringop-overread -Wno-psabi -Wno-multichar -Wno-format-zero-length -fno-unwind-tables -fno-asynchronous-unwind-tables -fPIC -pipe -pthread -m64 -msse3 -O2 -fdata-sections -ffunction-sections -fno-math-errno -fno-omit-frame-pointer -gdwarf-4 -g1 -fvisibility=hidden -Wno-unused-local-typedefs -Wno-maybe-uninitialized -Wno-deprecated-declarations -fno-delete-null-pointer-checks -Wno-comments -Wno-packed-not-aligned -Wno-misleading-indentation -Wno-dangling-else -Wno-missing-field-initializers -Wno-unused-parameter -Wno-psabi -I/usr/include -I/usr/include/libdrm -I/usr/include/valgrind -std=gnu11 -c ../../../../../src/src/3rdparty/chromium/third_party/minigbm/src/drv.c -o obj/third_party/minigbm/minigbm/drv.o
+../../../../../src/src/3rdparty/chromium/third_party/minigbm/src/drv.c: In function ‘drv_log_prefix’:
+../../../../../src/src/3rdparty/chromium/third_party/minigbm/src/drv.c:751:59: error: implicit declaration of function ‘basename’; did you mean ‘rename’? [-Wimplicit-function-declaration]
+751 |         snprintf(buf, sizeof(buf), "[%s:%s(%d)]", prefix, basename(file), line);
+|                                                           ^~~~~~~~
+|                                                           rename
+---
+
+diff --git a/src/3rdparty/chromium/third_party/minigbm/src/drv.c b/src/3rdparty/chromium/third_party/minigbm/src/drv.c
+index 9cfdbfb82d5..bfb08199b23 100644
+--- a/src/3rdparty/chromium/third_party/minigbm/src/drv.c
++++ b/src/3rdparty/chromium/third_party/minigbm/src/drv.c
+@@ -17,8 +17,8 @@
+ 
+ #ifdef __ANDROID__
+ #include <cutils/log.h>
+-#include <libgen.h>
+ #endif
++#include <libgen.h>
+ 
+ #include "drv_helpers.h"
+ #include "drv_priv.h"
