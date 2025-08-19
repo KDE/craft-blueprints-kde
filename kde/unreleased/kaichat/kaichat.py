@@ -48,4 +48,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-kaichat.png"
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-kaichat.png"
 
+        if CraftCore.compiler.isMacOS:
+            self.ignoredPackages.append("libs/dbus")
         return super().createPackage()
