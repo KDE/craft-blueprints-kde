@@ -77,6 +77,11 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        if CraftCore.compiler.isWindows:
+            # Exclude this path as it contains symlinks causing "ERROR: Dangerous symbolic link path was ignored" on Windows
+            self.subinfo.options.unpack.sevenZipExtraArgs = [r"-xr!clang\test\Driver\Inputs\multilib_32bit_linux_tree\usr\i386-unknown-linux\bin"]
+
         self.supportsClang = False
         self.subinfo.options.configure.args += [
             "-DLLVM_ENABLE_PROJECTS=clang;clang-tools-extra;lld",
