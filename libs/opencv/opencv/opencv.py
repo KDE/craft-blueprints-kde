@@ -1,6 +1,10 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
-from Package.CMakePackageBase import *
+from CraftCompiler import CraftCompiler
+from CraftCore import CraftCore
+from CraftOS.osutils import OsUtils
+from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -8,13 +12,17 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "a library for real time computer vision"
 
-        for v in ["4.5.1", "4.5.3"]:
-            self.patchToApply[v] = [("opencv-pkgconfig-win-install.patch", 1), ("OpenCVInstallLayout.cmake.patch", 0)]
+        for ver in self.targets.keys():
+            self.patchToApply[ver] = [("opencv_install_layout.patch", 1)]
 
-        self.patchToApply["4.8.0"] = [("fix-macos-arm64.patch", 1), ("OpenCVInstallLayout.cmake.patch", 0)]  # https://github.com/opencv/opencv/pull/24203
-        self.patchLevel["4.8.0"] = 1
+        if CraftCore.compiler.isMacOS:
+            self.patchToApply["4.10.0"] += [("orbbec-fix.patch", 1)]
 
-        self.targetDigests["4.8.0"] = (["cbf47ecc336d2bff36b0dcd7d6c179a9bb59e805136af6b9670ca944aef889bd"], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["4.9.0"] = 2
+        self.patchLevel["4.10.0"] = 2
+
+        self.targetDigests["4.9.0"] = (["ddf76f9dffd322c7c3cb1f721d0887f62d747b82059342213138dc190f28bc6c"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.10.0"] = (["b2171af5be6b26f7a06b1229948bbb2bdaa74fcf5cd097e0af6378fce50a6eb9"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -29,16 +37,15 @@ class subinfo(info.infoclass):
 
 
 class Package(CMakePackageBase):
-    def __init__(self, **args):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.contrib = CraftPackageObject.get("libs/opencv/opencv_contrib").instance
         self.subinfo.options.configure.args += [
             f"-DOPENCV_EXTRA_MODULES_PATH={OsUtils.toUnixPath(self.contrib.sourceDir() / 'modules')}",
-            # build only modules needed by digikam, kdenlive and indiserver 3rd Party Libraries
-            "-DBUILD_LIST=core,objdetect,imgproc,imgcodecs,dnn,flann,ml,tracking,highgui,videoio",
+            # build only modules needed by digikam, kdenlive, kstars and indiserver 3rd Party Libraries
+            "-DBUILD_LIST=core,objdetect,imgproc,imgcodecs,dnn,flann,ml,tracking,highgui,videoio,photo",
             "-DBUILD_EXAMPLES=OFF",
-            "-DBUILD_TESTS=OFF",
-            "-DBUILD_DOCS=OFF",
+            f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}" "-DBUILD_DOCS=OFF",
             "-DBUILD_PERF_TESTS=OFF",
             "-DINSTALL_C_EXAMPLES=OFF",
             "-DINSTALL_PYTHON_EXAMPLES=OFF",
@@ -100,12 +107,18 @@ class Package(CMakePackageBase):
             # find OpenCV through cmake or pkg-config
             "-DOPENCV_GENERATE_PKGCONFIG=ON",
             "-DOPENCV_SKIP_CMAKE_ROOT_CONFIG=ON",
-            # Work on old machines
-            "-DCPU_BASELINE=SSE2",
-            "-DCPU_DISPATCH=SSE2",
             # it is broken on MSVC
             "-DWITH_OPENJPEG=OFF",
+            "-DCMAKE_CXX_STANDARD=17",
+            "-DOPENCV_LIB_INSTALL_PATH=lib",
         ]
+        if CraftCore.compiler.architecture & CraftCompiler.Architecture.x86:
+            self.subinfo.options.configure.args += [
+                # https://github.com/opencv/opencv/wiki/CPU-optimizations-build-options
+                # Work on old machines
+                "-DCPU_BASELINE=SSE2",
+                "-DCPU_DISPATCH=SSE2",
+            ]
 
     def fetch(self):
         return super().fetch() and self.contrib.fetch(noop=False)
