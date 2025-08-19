@@ -82,7 +82,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|dbus|snoretoast)).*")
         self.defines["shortcuts"] = [{"name": "Ruqola", "target": "bin/ruqola.exe", "description": self.subinfo.description, "appId": "ruqola"}]
 
-        self.defines["icon"] = self.buildDir() / "src/apps/appIcons.ico"
+        self.defines["icon"] = self.buildDir() / "ruqola.ico"
 
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-ruqola.png"
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-ruqola.png"
