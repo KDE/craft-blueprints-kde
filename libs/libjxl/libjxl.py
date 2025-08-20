@@ -47,7 +47,6 @@ class Package(CMakePackageBase):
             "-DJPEGXL_FORCE_SYSTEM_BROTLI=ON",
             "-DJPEGXL_FORCE_SYSTEM_LCMS2=ON"
             "-DJPEGXL_FORCE_SYSTEM_HWY=ON",
-            "-DBUILD_TESTING=OFF",
         ]
 
         if CraftCore.compiler.isMinGW():

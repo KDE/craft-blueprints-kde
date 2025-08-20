@@ -31,7 +31,6 @@ class Package(CMakePackageBase):
             "-DWITH_LIBSHARPYUV=OFF",
             "-DWITH_EXAMPLES=OFF",
             "-DWITH_GDK_PIXBUF=OFF",
-            "-DBUILD_TESTING=OFF",
             "-DWITH_LIBDE265=OFF",
             "-DWITH_X265=OFF",
             "-DWITH_AOM_DECODER=OFF",

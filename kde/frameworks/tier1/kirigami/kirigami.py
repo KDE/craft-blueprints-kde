@@ -8,6 +8,8 @@ class subinfo(info.infoclass):
 
         self.patchToApply["6.14.0"] = [("1380952bd517e83ef2bf5305f26e55a4bfbc57fb.diff", 1)]
         self.patchLevel["6.14.0"] = 1
+        self.patchToApply["6.15.0"] = [("android-fix-busy-indicator-icon-bundling.diff", 1)]
+        self.patchLevel["6.15.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

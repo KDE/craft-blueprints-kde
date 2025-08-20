@@ -1,0 +1,21 @@
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user openldap-2.4.45.orig/ConfigureChecks.cmake openldap-2.4.45/ConfigureChecks.cmake
+--- openldap-2.4.45.orig/ConfigureChecks.cmake	2025-08-09 07:20:03.423752300 -0700
++++ openldap-2.4.45/ConfigureChecks.cmake	2025-08-09 07:19:41.693334600 -0700
+@@ -65,7 +65,7 @@
+ check_include_file("errno.h" HAVE_ERRNO_H)
+ check_include_file("fcntl.h" HAVE_FCNTL_H)
+ check_include_file("filio.h" HAVE_FILIO_H)
+-check_include_file("getopt.h" HAVE_GETOPT_H)
++#check_include_file("getopt.h" HAVE_GETOPT_H)
+ check_include_file("gmp.h" HAVE_GMP_H)
+ check_include_file("gnutls/gnutls.h" HAVE_GNUTLS_GNUTLS_H)
+ check_include_file("grp.h" HAVE_GRP_H)
+@@ -182,7 +182,7 @@
+ check_function_exists("gethostbyname_r" HAVE_GETHOSTBYNAME_R)
+ check_function_exists("gethostname" HAVE_GETHOSTNAME)
+ check_function_exists("getnameinfo" HAVE_GETNAMEINFO)
+-check_function_exists("getopt" HAVE_GETOPT)
++#check_function_exists("getopt" HAVE_GETOPT)
+ check_function_exists("getpassphrase" HAVE_GETPASSPHRASE)
+ check_function_exists("getpeereid" HAVE_GETPEEREID)
+ check_function_exists("getpeerucred" HAVE_GETPEERUCRED)

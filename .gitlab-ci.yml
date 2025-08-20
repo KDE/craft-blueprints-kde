@@ -141,17 +141,19 @@ build-package-linux:
   # the package to a new version. Set CRAFT_PACKAGE to the package you want to
   # test. This test uses the CI image that's used for the craft_windows_qt6_x86_64 job.
   extends: .build-package-base
-  image: invent-registry.kde.org/sysadmin/ci-images/windows-msvc2022:latest
+  image: storage.kde.org/vm-images/windows-msvc2022-qt68
   tags:
-    - Windows
+    - VM
+    - amd64
   variables:
     PYTHONUTF8: 1
-    KDECI_CRAFT_CACHE: C:/Gitlab/Craft/download/
+    KDECI_CRAFT_CACHE: C:/Craft/download/
   before_script:
-    - cd C:\Gitlab\Craft\
-    - Get-ChildItem C:\Gitlab\Craft\ | Remove-Item -Recurse -Force
-    - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
-    - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
+    - cd C:\Craft\craftmaster
+    - git pull
+    - cd C:\Craft\ci-utilities
+    - git pull
+    - cd C:\Craft
     # Define a short cut for the lengthy CraftMaster command line
     - |
       function Run-CraftMaster {
@@ -165,16 +167,16 @@ build-package-linux:
     - Run-CraftMaster -c -i --options virtual.ignored=True --update craft
     - Run-CraftMaster -c craft
     # Switch to this branch of craft-blueprints-kde
-    - cd C:/Gitlab/Craft/blueprints/craft-blueprints-kde
+    - cd C:/Craft/blueprints/craft-blueprints-kde
     - git checkout $env:CI_COMMIT_REF_NAME
-    - cd C:/Gitlab/Craft
+    - cd C:/Craft
     # Install all of our dependencies
     - Run-CraftMaster -c --install-deps --options "[CodeSigning]Enabled=False" $env:CRAFT_PACKAGE
     # Build the package
     - Run-CraftMaster -c --no-cache --options "[CodeSigning]Enabled=False" $env:CRAFT_PACKAGE
   after_script:
     - if (!(Test-Path $env:CI_PROJECT_DIR/.logs)) { New-Item $env:CI_PROJECT_DIR/.logs -ItemType directory }
-    - Copy-item -Path C:/Gitlab/Craft/$env:KDECI_CRAFT_PLATFORM/logs/* -Destination $env:CI_PROJECT_DIR/.logs/ -Recurse
+    - Copy-item -Path C:/Craft/$env:KDECI_CRAFT_PLATFORM/logs/* -Destination $env:CI_PROJECT_DIR/.logs/ -Recurse
   artifacts:
     expire_in: 3 days
     when: always

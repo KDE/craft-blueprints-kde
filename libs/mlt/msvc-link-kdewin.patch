@@ -1,0 +1,225 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 180932e3..5343887d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -176,6 +176,7 @@ endif()
+ 
+ if (MSVC)
+   find_package(PThreads4W REQUIRED)
++  find_package(KDEWin REQUIRED)
+ endif ()
+ find_package(Threads REQUIRED)
+ find_package(PkgConfig REQUIRED)
+diff --git a/src/framework/CMakeLists.txt b/src/framework/CMakeLists.txt
+index 159dbc11..bde40496 100644
+--- a/src/framework/CMakeLists.txt
++++ b/src/framework/CMakeLists.txt
+@@ -83,7 +83,7 @@ target_compile_options(mlt PRIVATE ${MLT_COMPILE_OPTIONS})
+ target_link_libraries(mlt PRIVATE Threads::Threads ${CMAKE_DL_LIBS})
+ 
+ if(MSVC)
+-  target_link_libraries(mlt PRIVATE msvccompat PThreads4W::PThreads4W)
++  target_link_libraries(mlt PRIVATE msvccompat PThreads4W::PThreads4W ${KDEWIN_LIBRARIES})
+ else()
+   target_link_libraries(mlt PRIVATE m)
+ endif()
+diff --git a/src/melt/CMakeLists.txt b/src/melt/CMakeLists.txt
+index 592c3c2e..943f9b04 100644
+--- a/src/melt/CMakeLists.txt
++++ b/src/melt/CMakeLists.txt
+@@ -16,7 +16,7 @@ if(SDL2_FOUND AND NOT ANDROID)
+ endif()
+ 
+ if(MSVC)
+-  target_link_libraries(melt PRIVATE msvccompat)
++  target_link_libraries(melt PRIVATE msvccompat ${KDEWIN_LIBRARIES})
+ endif()
+ 
+ if(MINGW)
+
+diff --git a/src/modules/avformat/CMakeLists.txt b/src/modules/avformat/CMakeLists.txt
+index e3ddc962..b1a25b91 100644
+--- a/src/modules/avformat/CMakeLists.txt
++++ b/src/modules/avformat/CMakeLists.txt
+@@ -23,7 +23,9 @@ target_link_libraries(mltavformat PRIVATE
+   ${AVUTIL_LIBRARIES}
+ )
+ 
+-if(NOT MSVC)
++if(MSVC)
++  target_link_libraries(mltavformat PRIVATE PThreads4W::PThreads4W ${KDEWIN_LIBRARIES})
++else()
+   target_link_libraries(mltavformat PRIVATE m)
+ endif()
+ 
+diff --git a/src/modules/core/CMakeLists.txt b/src/modules/core/CMakeLists.txt
+index 6a344618..5b8b99f2 100644
+--- a/src/modules/core/CMakeLists.txt
++++ b/src/modules/core/CMakeLists.txt
+@@ -58,7 +58,7 @@ target_compile_options(mltcore PRIVATE ${MLT_COMPILE_OPTIONS})
+ target_link_libraries(mltcore PRIVATE mlt Threads::Threads)
+ 
+ if(MSVC)
+-  target_link_libraries(mltcore PRIVATE PThreads4W::PThreads4W)
++  target_link_libraries(mltcore PRIVATE PThreads4W::PThreads4W ${KDEWIN_LIBRARIES})
+ else()
+   target_link_libraries(mltcore PRIVATE m)
+ endif()
+diff --git a/src/modules/frei0r/CMakeLists.txt b/src/modules/frei0r/CMakeLists.txt
+index d0a388c5..b3d80086 100644
+--- a/src/modules/frei0r/CMakeLists.txt
++++ b/src/modules/frei0r/CMakeLists.txt
+@@ -24,7 +24,9 @@ endif()
+ 
+ target_link_libraries(mltfrei0r PRIVATE mlt ${CMAKE_DL_LIBS})
+ 
+-if(NOT MSVC)
++if(MSVC)
++  target_link_libraries(mltfrei0r PRIVATE ${KDEWIN_LIBRARIES})
++else()
+   target_link_libraries(mltfrei0r PRIVATE m)
+ endif()
+ 
+diff --git a/src/modules/kdenlive/CMakeLists.txt b/src/modules/kdenlive/CMakeLists.txt
+index e592e15a..9e03b923 100644
+--- a/src/modules/kdenlive/CMakeLists.txt
++++ b/src/modules/kdenlive/CMakeLists.txt
+@@ -14,7 +14,9 @@ add_custom_target(Other_kdenlive_Files SOURCES
+ target_compile_options(mltkdenlive PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+ target_link_libraries(mltkdenlive PRIVATE mlt)
+-if(NOT MSVC)
++if(MSVC)
++  target_link_libraries(mltkdenlive PRIVATE ${KDEWIN_LIBRARIES})
++else()
+   target_link_libraries(mltkdenlive PRIVATE m)
+ endif()
+ 
+diff --git a/src/modules/plus/CMakeLists.txt b/src/modules/plus/CMakeLists.txt
+index c8b6f981..56c2f4b6 100644
+--- a/src/modules/plus/CMakeLists.txt
++++ b/src/modules/plus/CMakeLists.txt
+@@ -43,7 +43,7 @@ target_compile_options(mltplus PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+ target_link_libraries(mltplus PRIVATE mlt Threads::Threads)
+ if(MSVC)
+-  target_link_libraries(mltplus PRIVATE msvccompat)
++  target_link_libraries(mltplus PRIVATE msvccompat ${KDEWIN_LIBRARIES})
+ else()
+   target_link_libraries(mltplus PRIVATE m)
+ endif()
+
+diff --git a/src/modules/plusgpl/CMakeLists.txt b/src/modules/plusgpl/CMakeLists.txt
+index 4087bd5e..b42acb2f 100644
+--- a/src/modules/plusgpl/CMakeLists.txt
++++ b/src/modules/plusgpl/CMakeLists.txt
+@@ -19,7 +19,9 @@ add_custom_target(Other_plsugpl_Files SOURCES
+ target_compile_options(mltplusgpl PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+ target_link_libraries(mltplusgpl PRIVATE mlt mlt++ Threads::Threads)
+-if(NOT MSVC)
++if(MSVC)
++  target_link_libraries(mltplusgpl PRIVATE ${KDEWIN_LIBRARIES})
++else()
+   target_link_libraries(mltplusgpl PRIVATE m)
+ endif()
+ 
+diff --git a/src/modules/rtaudio/CMakeLists.txt b/src/modules/rtaudio/CMakeLists.txt
+index 9a4fc134..1c91840b 100644
+--- a/src/modules/rtaudio/CMakeLists.txt
++++ b/src/modules/rtaudio/CMakeLists.txt
+@@ -12,7 +12,7 @@ target_compile_options(mltrtaudio PRIVATE ${MLT_COMPILE_OPTIONS})
+ target_link_libraries(mltrtaudio PRIVATE mlt Threads::Threads)
+ 
+ if(MSVC)
+-  target_link_libraries(mltrtaudio PRIVATE PThreads4W::PThreads4W)
++  target_link_libraries(mltrtaudio PRIVATE PThreads4W::PThreads4W ${KDEWIN_LIBRARIES})
+ endif()
+ 
+ if(TARGET PkgConfig::rtaudio)
+diff --git a/src/modules/sdl2/CMakeLists.txt b/src/modules/sdl2/CMakeLists.txt
+index f167919f..c27ea192 100644
+--- a/src/modules/sdl2/CMakeLists.txt
++++ b/src/modules/sdl2/CMakeLists.txt
+@@ -14,7 +14,7 @@ target_compile_options(mltsdl2 PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+ target_link_libraries(mltsdl2 PRIVATE mlt Threads::Threads SDL2::SDL2)
+ if(MSVC)
+-  target_link_libraries(mltsdl2 PRIVATE PThreads4W::PThreads4W)
++  target_link_libraries(mltsdl2 PRIVATE PThreads4W::PThreads4W ${KDEWIN_LIBRARIES})
+ else()
+   target_link_libraries(mltsdl2 PRIVATE m)
+ endif()
+diff --git a/src/modules/xml/CMakeLists.txt b/src/modules/xml/CMakeLists.txt
+index 1b4108dc..09ae8a68 100644
+--- a/src/modules/xml/CMakeLists.txt
++++ b/src/modules/xml/CMakeLists.txt
+@@ -16,7 +16,7 @@ target_compile_options(mltxml PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+ target_link_libraries(mltxml PRIVATE mlt Threads::Threads PkgConfig::xml)
+ if(MSVC)
+-  target_link_libraries(mltxml PRIVATE PThreads4W::PThreads4W)
++  target_link_libraries(mltxml PRIVATE PThreads4W::PThreads4W ${KDEWIN_LIBRARIES})
+ else()
+   target_link_libraries(mltxml PRIVATE m)
+ endif()
+diff --git a/src/modules/jackrack/CMakeLists.txt b/src/modules/jackrack/CMakeLists.txt
+index b32826e6..f7b08646 100644
+--- a/src/modules/jackrack/CMakeLists.txt
++++ b/src/modules/jackrack/CMakeLists.txt
+@@ -29,7 +29,9 @@ if(GPL AND TARGET PkgConfig::xml AND TARGET PkgConfig::glib AND ladspa_h_FOUND)
+     filter_ladspa.c
+   )
+   target_link_libraries(mltjackrack PRIVATE ${CMAKE_DL_LIBS} PkgConfig::xml PkgConfig::glib)
+-  if(NOT MSVC)
++  if(MSVC)
++    target_link_libraries(mltjackrack PRIVATE ${KDEWIN_LIBRARIES})
++  else()
+     target_link_libraries(mltjackrack PRIVATE m)
+   endif()
+ 
+@@ -77,7 +79,9 @@ if(GPL AND TARGET PkgConfig::xml AND TARGET PkgConfig::glib AND ladspa_h_FOUND)
+     filter_ladspa.c
+   )
+   target_link_libraries(mltladspa PRIVATE ${CMAKE_DL_LIBS} PkgConfig::xml PkgConfig::glib)
+-  if(NOT MSVC)
++  if(MSVC)
++    target_link_libraries(mltladspa PRIVATE ${KDEWIN_LIBRARIES})
++  else()
+     target_link_libraries(mltladspa PRIVATE m)
+   endif()
+
+diff --git a/src/modules/qt/CMakeLists.txt b/src/modules/qt/CMakeLists.txt
+index 2c8c86ac..1da46428 100644
+--- a/src/modules/qt/CMakeLists.txt
++++ b/src/modules/qt/CMakeLists.txt
+@@ -56,8 +56,10 @@ function(mlt_add_qt_module ARG_TARGET)
+       Qt${ARG_QT_VERSION}::Xml
+     )
+ 
+-    if(NOT MSVC)
+-      target_link_libraries(${ARG_TARGET} PRIVATE m)
++    if(MSVC)
++      target_link_libraries(${ARG_TARGET} PRIVATE PThreads4W::PThreads4W ${KDEWIN_LIBRARIES})
++    else()
++        target_link_libraries(${ARG_TARGET} PRIVATE m)
+     endif()
+ 
+     if(ARG_QT_VERSION EQUAL 6)
+
+diff --git a/src/modules/xine/CMakeLists.txt b/src/modules/xine/CMakeLists.txt
+index bd4e4d71..42065266 100644
+--- a/src/modules/xine/CMakeLists.txt
++++ b/src/modules/xine/CMakeLists.txt
+@@ -16,6 +16,10 @@ target_compile_options(mltxine PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+ target_link_libraries(mltxine PRIVATE mlt ${CMAKE_DL_LIBS})
+ 
++if(MSVC)
++  target_link_libraries(mltxine PRIVATE ${KDEWIN_LIBRARIES})
++endif()
++
+ set_target_properties(mltxine PROPERTIES POSITION_INDEPENDENT_CODE ON)
+ 
+ target_compile_definitions(mltxine PRIVATE PIC)
+

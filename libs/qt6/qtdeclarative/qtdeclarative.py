@@ -40,7 +40,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             f"-DFEATURE_quickcontrols2_fluentwinui3={self.subinfo.options.dynamic.fluentwinui3Style.asOnOff}",
             f"-DFEATURE_quickcontrols2_fusion={self.subinfo.options.dynamic.fusionStyle.asOnOff}",
             f"-DFEATURE_quickcontrols2_imagine={self.subinfo.options.dynamic.imagineStyle.asOnOff}",
-            f"-DFEATURE_quickcontrols2_universal={self.subinfo.options.dynamic.universalStyle.asOnOff}"
+            f"-DFEATURE_quickcontrols2_universal={self.subinfo.options.dynamic.universalStyle.asOnOff}",
         ]
         if CraftCore.compiler.isWindows and self.buildType() == "Debug":
             # we use a shim pointing to the debug exe, therefor the debug infix is missing here

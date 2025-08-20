@@ -30,7 +30,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["qt-libs/phonon"] = None
         else:
             self.runtimeDependencies["libs/qt/qtmultimedia"] = None
-            self.runtimeDependencies["libs/qt/qtpositioning"] = None
+            self.runtimeDependencies["libs/qt6/qtpositioning"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

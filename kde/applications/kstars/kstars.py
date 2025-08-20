@@ -1,4 +1,7 @@
+from pathlib import Path
+
 import info
+import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Packager.AppxPackager import AppxPackager
@@ -9,9 +12,9 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "a desktop planetarium"
-        self.svnTargets["3.7.7"] = "https://invent.kde.org/education/kstars.git|stable-3.7.7"
+        self.svnTargets["3.7.8"] = "https://invent.kde.org/education/kstars.git|stable-3.7.8"
         self.svnTargets["master"] = "https://github.com/KDE/kstars.git"
-        self.defaultTarget = "3.7.7"
+        self.defaultTarget = "3.7.8"
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
@@ -25,6 +28,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kjobwidgets"] = None
@@ -49,7 +53,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/indilib/indi-3rdparty"] = None
         self.runtimeDependencies["libs/indilib/indi-3rdparty-libs"] = None
 
-        if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
+        if CraftCore.compiler.isWindows:
+            self.runtimeDependencies["libs/libcurl"] = None
+
+        if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/xplanet"] = None
 
         if CraftCore.compiler.isLinux:
@@ -58,6 +65,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["libs/iconv"] = None
             self.runtimeDependencies["libs/libftdi"] = None
+
+        if CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["qt-libs/phonon"] = None
 
 
 class Package(CMakePackageBase):
@@ -69,7 +79,23 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(self.blueprintDir() / "win-blacklist.txt")
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "mac-blacklist.txt")
-        self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF", "-DBUILD_QT5=OFF", "-DBUILD_TESTING=OFF"]
+            self.addExecutableFilter(
+                r"bin/(?!(dbus-daemon|dbus-send|dbus-daemon-launch-helper|gsc|xplanet|indi)).*"
+            )
+        self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF", "-DBUILD_QT5=OFF"]
+
+    # Need to copy the indi drivers, driver files, and other resources for kstars to work on MacOS
+    def install(self):
+        if not super().install():
+            return False
+        if CraftCore.compiler.isMacOS:
+            dest = Path(self.imageDir()) / "Applications/KDE/kstars.app/Contents"
+            src = Path(self.buildDir()) / "bin/KStars.app/Contents"
+            files = ["Plugins", "Resources", "MacOS"]
+            for f in files:
+                if not utils.copyDir(src / f, dest / f):
+                    return False
+        return True
 
     def createPackage(self):
         self.defines["executable"] = "bin\\kstars.exe"

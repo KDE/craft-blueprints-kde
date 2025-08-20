@@ -29,19 +29,18 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["7.0.2", "8.0.4", "8.1.1", "8.1.2"]:
+        for ver in ["7.0.2", "8.0.4", "8.1.1", "8.1.2", "8.2.0", "8.2.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/alkimia/{ver}/alkimia-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/alkimia/{ver}/alkimia-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"alkimia-{ver}"
 
         self.svnTargets["master"] = "https://invent.kde.org/office/alkimia.git"
         self.targetUpdatedRepoUrl["master"] = ("https://anongit.kde.org/alkimia", "https://invent.kde.org/office/alkimia.git")
-        self.patchLevel["8.1.2"] = 1
-        self.patchLevel["master"] = 1
-        self.defaultTarget = "8.1.2"
+
+        self.defaultTarget = "8.2.1"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["libs/libgmp"] = None
@@ -53,9 +52,9 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.subinfo.options.configure.args += ["-DBUILD_APPLETS=OFF", "-DCMAKE_DISABLE_FIND_PACKAGE_Qt5WebEngineWidgets=1"]
+        self.subinfo.options.configure.args += ["-DBUILD_APPLETS=OFF", "-DBUILD_WITH_QT6=ON", "-DCMAKE_DISABLE_FIND_PACKAGE_Qt6WebEngineWidgets=1"]
 
     def createPackage(self):
-        self.defines["appname"] = "onlinequoteseditor5"
-        self.defines["apppath"] = "Applications/KDE/onlinequoteseditor5.app"
+        self.defines["appname"] = "onlinequoteseditor6"
+        self.defines["apppath"] = "Applications/KDE/onlinequoteseditor6.app"
         return super().createPackage()

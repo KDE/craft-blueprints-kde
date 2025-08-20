@@ -1,0 +1,21 @@
+commit 3fc059f5f52503ad3acd8cd31615ee12a26d6d95
+Author: Volker Krause <vkrause@kde.org>
+Date:   Sun Jun 29 11:02:56 2025 +0200
+
+    Fix busy indicator not being shown on Android
+    
+    That relies on the process-working-symbolic icon, which we didn't bundle
+    by default.
+
+diff --git a/KF6KirigamiMacros.cmake b/KF6KirigamiMacros.cmake
+index 140181c2..7682f689 100644
+--- a/KF6KirigamiMacros.cmake
++++ b/KF6KirigamiMacros.cmake
+@@ -50,6 +50,7 @@ function(kirigami_package_breeze_icons)
+         overflow-menu
+         password-show-off
+         password-show-on
++        process-working-symbolic
+         tools-report-bug
+         user
+         view-left-new

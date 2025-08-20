@@ -20,3 +20,5 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        self.subinfo.options.configure.args += [f"-DBUILD_STATIC_LIBS={self.subinfo.options.buildStatic.asOnOff}"]

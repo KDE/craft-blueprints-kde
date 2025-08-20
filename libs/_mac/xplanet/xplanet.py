@@ -20,7 +20,8 @@ class subinfo(info.infoclass):
             ("xplanet-1.3.1-aqua.patch", 1),
             ("xplanet-1.3.1-giflib5.patch", 1),
             ("xplanet-1.3.1-ntimes.patch", 1),
-            ("xplanet-c++11.patch", 1)]
+            ("xplanet-c++11.patch", 1),
+        ]
 
         self.defaultTarget = "1.3.1"
 

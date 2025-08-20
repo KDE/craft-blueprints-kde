@@ -3,12 +3,18 @@
 
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "KAIChat"
         self.description = "Chat with AI"
+
+        for ver in ["0.4.0"]:
+            self.targets[ver] = f"https://download.kde.org/stable/kaichat/kaichat-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kaichat/kaichat-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = f"kaichat-{ver}"
 
         self.svnTargets["master"] = "https://invent.kde.org/utilities/kaichat.git"
 
@@ -25,6 +31,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kidletime"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["libs/kdsingleapplication"] = None
+        if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
@@ -35,4 +44,10 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["shortcuts"] = [{"name": "KAIChat", "target": "bin/kaichat.exe", "description": self.subinfo.description, "appId": "kaichat"}]
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["alias"] = "kaichat"
+        self.defines["icon"] = self.blueprintDir() / "kaichat.ico"
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-kaichat.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-kaichat.png"
+
+        if CraftCore.compiler.isMacOS:
+            self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

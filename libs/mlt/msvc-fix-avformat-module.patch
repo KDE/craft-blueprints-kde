@@ -1,0 +1,42 @@
+diff --git a/src/modules/avformat/consumer_avformat.c b/src/modules/avformat/consumer_avformat.c
+index 22a90dc7..5f24f5e2 100644
+--- a/src/modules/avformat/consumer_avformat.c
++++ b/src/modules/avformat/consumer_avformat.c
+@@ -1421,8 +1421,8 @@ static int encode_audio(encode_ctx_t *ctx)
+                 if (source_offset < ctx->channels) {
+                     // Interleave the audio buffer with the # channels for this stream/mapping.
+                     for (k = 0; k < map_channels; k++, j++, source_offset++, dest_offset++) {
+-                        void *src = ctx->audio_buf_1 + source_offset * ctx->sample_bytes;
+-                        void *dest = ctx->audio_buf_2 + dest_offset * ctx->sample_bytes;
++                        char *src = ctx->audio_buf_1 + source_offset * ctx->sample_bytes;
++                        char *dest = ctx->audio_buf_2 + dest_offset * ctx->sample_bytes;
+                         int s = samples + 1;
+ 
+                         while (--s) {
+diff --git a/src/modules/avformat/link_avfilter.c b/src/modules/avformat/link_avfilter.c
+index 8efda84e..88248669 100644
+--- a/src/modules/avformat/link_avfilter.c
++++ b/src/modules/avformat/link_avfilter.c
+@@ -827,14 +827,17 @@ static int link_get_audio(mlt_frame frame,
+ #endif
+             || *samples != pdata->avoutframe->nb_samples
+             || *frequency != pdata->avoutframe->sample_rate) {
+-            mlt_log_error(self,
+-                          "Unexpected return format c %d->%d\tf %d->%d\tf %d->%d\n",
+-                          *channels,
++
++            int expected_channels;
+ #if HAVE_FFMPEG_CH_LAYOUT
+-                          pdata->avoutframe->ch_layout.nb_channels,
++            expected_channels = pdata->avoutframe->ch_layout.nb_channels;
+ #else
+-                          pdata->avoutframe->channels,
++            expected_channels = pdata->avoutframe->channels;
+ #endif
++            mlt_log_error(self,
++                          "Unexpected return format c %d->%d\tf %d->%d\tf %d->%d\n",
++                          *channels,
++                          expected_channels,
+                           *samples,
+                           pdata->avoutframe->nb_samples,
+                           *frequency,

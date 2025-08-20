@@ -3,6 +3,10 @@ from Blueprints.CraftPackageObject import CraftPackageObject
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # TODO: verify if tests are still failing to build or can be reenabled
+        self.options.dynamic.setDefault("buildTests", False)
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "KConfig"
@@ -18,4 +22,3 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DBUILD_TESTING=OFF"]

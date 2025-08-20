@@ -1,0 +1,68 @@
+diff --git a/src/framework/mlt_pool.c b/src/framework/mlt_pool.c
+index e94f668c..65448298 100644
+--- a/src/framework/mlt_pool.c
++++ b/src/framework/mlt_pool.c
+@@ -95,7 +95,12 @@ typedef struct mlt_pool_s
+  * optimized libraries (sse/altivec).
+  */
+ 
++// In the future with C23 we might be able to use alignas
++#ifdef _MSC_VER
++typedef struct __declspec(align(16)) mlt_release_s
++#else
+ typedef struct __attribute__((aligned(16))) mlt_release_s
++#endif
+ {
+     mlt_pool pool;
+     int references;
+diff --git a/src/framework/mlt_types.h b/src/framework/mlt_types.h
+index 3e350222..a0b0268c 100644
+--- a/src/framework/mlt_types.h
++++ b/src/framework/mlt_types.h
+@@ -291,20 +291,25 @@ typedef void *(*mlt_thread_function_t)(void *);      /**< generic thread functio
+ #ifdef _WIN32
+ #include <pthread.h>
+ /* Win32 compatibility function declarations */
+-#if !defined(__MINGW32__)
++
++#if !defined(__MINGW32__) && !defined(_MSC_VER)
+ extern int usleep(unsigned int useconds);
+ #endif
+ #ifndef WIN_PTHREADS_TIME_H
+ extern int nanosleep(const struct timespec *rqtp, struct timespec *rmtp);
+ #endif
++#ifndef _MSC_VER
+ extern int setenv(const char *name, const char *value, int overwrite);
++#endif
+ extern char *getlocale();
+ extern FILE *win32_fopen(const char *filename_utf8, const char *mode_utf8);
+ #include <sys/stat.h>
+ #include <sys/types.h>
+ extern int win32_stat(const char *filename_utf8, struct stat *buffer);
+ #include <time.h>
++#ifndef _MSC_VER
+ extern char *strptime(const char *buf, const char *fmt, struct tm *tm);
++#endif
+ #define mlt_fopen win32_fopen
+ #define mlt_stat win32_stat
+ #define MLT_DIRLIST_DELIMITER ";"
+diff --git a/src/win32/strptime.c b/src/win32/strptime.c
+index c3ed8ced..d06c0285 100644
+--- a/src/win32/strptime.c
++++ b/src/win32/strptime.c
+@@ -28,6 +28,8 @@
+  * POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
++#ifndef _MSC_VER
++
+ /*
+ #include <sys/cdefs.h>
+ #if defined(LIBC_SCCS) && !defined(lint)
+@@ -598,3 +600,5 @@ find_string(const u_char *bp, int *tgt, const char * const *n1,
+ 	/* Nothing matched */
+ 	return NULL;
+ }
++
++#endif
+

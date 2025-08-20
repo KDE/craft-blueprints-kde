@@ -2,11 +2,14 @@ import info
 import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
+from Utils.CraftBool import CraftBool
 
 
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.GCCLike
+        # Disable tests by default because they depend on Kwalify which we don't have in Craft
+        self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
         self.description = "Open source multimedia framework"
@@ -17,11 +20,24 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20221103
-        self.svnTargets["ed0bb11"] = "https://github.com/mltframework/mlt.git||ed0bb1199e0ae2a29ac4b5a3f77e23431a3397a9"
-        self.defaultTarget = "ed0bb11"
+        self.svnTargets["9c3c9e6"] = "https://github.com/mltframework/mlt.git||9c3c9e677f649efc1bf9a5aeb160f5e516be9848"
+        self.defaultTarget = "9c3c9e6"
+
+        self.patchToApply["9c3c9e6"] = []
         if CraftCore.compiler.isWindows:
-            self.patchToApply["ed0bb11"] = [("pi_patch.diff", 1)]
-            self.patchToApply["ed0bb11"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["9c3c9e6"] += [("pi_patch.diff", 1)]
+            self.patchToApply["9c3c9e6"] += [("typewriter-fix.patch", 1)]
+
+        if CraftCore.compiler.isMinGW():
+            self.patchToApply["9c3c9e6"] += [("revert-mingw-mysy2.diff", 1)]
+
+        if CraftCore.compiler.isMSVC():
+            self.patchToApply["9c3c9e6"] += [("msvc-link-kdewin.patch", 1)]
+            self.patchToApply["9c3c9e6"] += [("msvc-fix-static-const.patch", 1)]
+            self.patchToApply["9c3c9e6"] += [("msvc-misc.patch", 1)]
+            self.patchToApply["9c3c9e6"] += [("msvc-sdl2-import-export.patch", 1)]
+            self.patchToApply["9c3c9e6"] += [("msvc-find-fftw3.patch", 1)]
+            self.patchToApply["9c3c9e6"] += [("msvc-fix-avformat-module.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
@@ -34,7 +50,6 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/libasound2"] = None
-            self.runtimeDependencies["libs/libexif"] = None
             self.runtimeDependencies["libs/movit"] = None
         if CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/dlfcn-win32"] = None
@@ -55,46 +70,69 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/lilv"] = None
         self.runtimeDependencies["libs/opencv/opencv_contrib"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
+        self.runtimeDependencies["libs/libvorbis"] = None
+        self.runtimeDependencies["libs/glib"] = None
         # dependencies for glaxnimate module
         self.runtimeDependencies["libs/libarchive"] = None
+
+        if CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["kdesupport/kdewin"] = None
+            self.runtimeDependencies["libs/pthreads"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
         # enable submodule checkout to get glaximate
         if not CraftCore.compiler.isAndroid:
             self.subinfo.options.fetch.checkoutSubmodules = True
+
+        # General CMake switches
         self.subinfo.options.configure.args += [
-            "-DMOD_DECKLINK=ON",
             "-DWINDOWS_DEPLOY=OFF",
             "-DRELOCATABLE=ON",
-            "-DMOD_GDK=OFF",  # don't pull in gtk
-            "-DMOD_SDL2=ON",
-            "-DBUILD_TESTING=OFF",
+            "-DBUILD_TESTS_WITH_QT6=ON",
+            # Symbol export for MSVC
+            # TODO: fix this upstream
+            "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON",
         ]
-
-        if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ["-DMOD_RTAUDIO=OFF", "-DMOD_SOX=OFF"]
-
-        if self.subinfo.options.isActive("libs/libarchive"):
-            self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE_QT6=ON"]
-        else:
-            self.subinfo.options.configure.args += ["-DMOD_GLAXNIMATE_QT6=OFF"]
-
-        if CraftCore.compiler.isMSVC():
-            # TODO Fix decklink module with MSVC
-            self.subinfo.options.configure.args += ["-DMOD_DECKLINK=OFF"]
-        else:
-            self.subinfo.options.configure.args += ["-DMOD_DECKLINK=ON"]
-            # TODO OpenCV has an issue with its installation and is hence not detected
-            if self.subinfo.options.isActive("libs/opencv/opencv"):
-                self.subinfo.options.configure.args += ["-DMOD_OPENCV=ON"]
-
-        self.subinfo.options.configure.args += ["-DMOD_QT=OFF", "-DMOD_QT6=ON"]
 
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-Wno-incompatible-pointer-types"]
+
+        # CMake switches for MLT modules
+
+        # TODO OpenCV has an issue with its installation on MSVC and is hence not detected
+        useOpenCV = CraftBool(self.subinfo.options.isActive("libs/opencv/opencv") and not CraftCore.compiler.isMSVC())
+        useMovit = CraftBool(self.subinfo.options.isActive("libs/movit") and CraftCore.compiler.isLinux)
+        useSox = CraftBool(self.subinfo.options.isActive("libs/sox") and not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS)
+
+        self.subinfo.options.configure.args += [
+            f"-DMOD_AVFORMAT={self.subinfo.options.isActive('libs/ffmpeg').asOnOff}",
+            # TODO Fix decklink module with MSVC
+            f"-DMOD_DECKLINK={CraftCore.compiler.isMSVC().inverted.asOnOff}",
+            f"-DMOD_FREI0R={self.subinfo.options.isActive('libs/frei0r-plugins').asOnOff}",
+            # don't pull in gtk
+            "-DMOD_GDK=OFF",
+            f"-DMOD_GLAXNIMATE_QT6={self.subinfo.options.isActive('libs/libarchive').asOnOff}",
+            f"-DUSE_LV2={self.subinfo.options.isActive('libs/lilv').asOnOff}",
+            f"-DMOD_MOVIT={useMovit.asOnOff}",
+            f"-DMOD_OPENCV={useOpenCV.asOnOff}",
+            "-DMOD_QT=OFF",
+            "-DMOD_QT6=ON",
+            f"-DMOD_RESAMPLE={self.subinfo.options.isActive('libs/libsamplerate').asOnOff}",
+            f"-DMOD_RTAUDIO={CraftCore.compiler.isAndroid.inverted.asOnOff}",
+            f"-DMOD_RUBBERBAND={self.subinfo.options.isActive('libs/rubberband').asOnOff}",
+            # We don't support SDL 1 anymore, we have SDL 2
+            "-DMOD_SDL1=OFF",
+            f"-DMOD_SDL2={self.subinfo.options.isActive('libs/libsdl2').asOnOff}",
+            f"-DMOD_SOX={useSox.asOnOff}",
+            f"-DMOD_SPATIALAUDIO={self.subinfo.options.isActive('libs/spatialaudio').asOnOff}",
+            f"-DMOD_VIDSTAB={self.subinfo.options.isActive('libs/vidstab').asOnOff}",
+            f"-DMOD_XML={self.subinfo.options.isActive('libs/libxml2').asOnOff}",
+        ]
+
         self.subinfo.options.configure.cxxflags += " -D_XOPEN_SOURCE=700 "
 
     def install(self):

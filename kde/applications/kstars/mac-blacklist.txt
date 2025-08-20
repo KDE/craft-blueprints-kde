@@ -105,6 +105,44 @@ bin/xmlpatterns.*
 bin/xmlpatternsvalidator.*
 bin/qvkgen.*
 bin/windeployqt.*
+bin/qt-configure-module
+bin/qt-cmake-create
+bin/bzmore
+bin/bzgrep
+bin/libtool
+bin/autopoint
+bin/c_rehash
+bin/bzdiff
+bin/icu-config
+bin/zstdless
+bin/gdbus-codegen
+bin/libpng16-config
+bin/xslt-config
+bin/libusb-config
+bin/xml2-config
+bin/setup_vars_opencv4.sh
+bin/libtoolize
+bin/zstdgrep
+bin/gphoto2-config
+bin/gphoto2-port-config
+bin/gsl-config
+bin/curl-config
+bin/libftdi1-config
+bin/gtester-report
+bin/gettext.sh
+bin/xzless
+bin/pcre2-config
+bin/psl-make-dafsa
+bin/glib-gettextize
+bin/glib-genmarshal
+bin/mk-ca-bundle.pl
+bin/xzmore
+bin/glib-mkenums
+bin/xzgrep
+bin/sdl2-config
+bin/xzdiff
+bin/qt-cmake
+bin/gettextize
 
 # Useless stuff
 bin/data/kf5/kmoretools/.*
@@ -115,6 +153,7 @@ bin/designer/.*
 bin/kauth/.*
 lib/mecab/.*
 lib/plugin/.*
+lib/udev/check-ptp-camera
 share/(?!(dbus).*)
 
 # Mac: Avoid packaging errors due to items that are already in the app bundle
@@ -125,6 +164,8 @@ lib/libgphoto2/.*
 lib/libgphoto2_port/.*
 lib/gettext/.*
 lib/indi/.*
+bin/indi.*
+bin/dbus.*
 
 # Only keep bare minimum from VLC plugins to play Ogg and WAV files
 bin/plugins/\b(?!(access|access_output|audio_output|audio_filter|codec).*).*

@@ -1,0 +1,11 @@
+diff -ruNa labplot-2.12.1.orig/CMakeLists.txt labplot-2.12.1/CMakeLists.txt
+--- labplot-2.12.1.orig/CMakeLists.txt	2025-08-15 01:00:33.000000000 +0200
++++ labplot-2.12.1/CMakeLists.txt	2025-08-18 09:09:00.722239197 +0200
+@@ -1,6 +1,6 @@
+ # see https://community.kde.org/Policies/CMake_Coding_Style
+ cmake_minimum_required(VERSION 3.17.0 FATAL_ERROR)
+-project(labplot VERSION 2.12.0 LANGUAGES CXX C)
++project(labplot VERSION 2.12.1 LANGUAGES CXX C)
+ set(YEAR 2025)
+ 
+ set(CMAKE_C_STANDARD 99)

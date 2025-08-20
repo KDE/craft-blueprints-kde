@@ -2,7 +2,6 @@ import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 from Packager.AppImagePackager import AppImagePackager
-from Utils import GetFiles
 
 
 class subinfo(info.infoclass):
@@ -50,8 +49,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/kdemultimedia/ffmpegthumbs"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
-        self.runtimeDependencies["libs/opentimelineio"] = None
+        if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/opentimelineio"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
+        self.runtimeDependencies["data/rustedbronze-theme"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/frei0r-bigsh0t"] = None
         # DrMinGW needs build fixes with MinGW 13 before we can re-enable it
@@ -67,7 +68,7 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DUSE_DBUS=OFF", "-DFETCH_OTIO=OFF"]
+        self.subinfo.options.configure.args += ["-DUSE_DBUS=OFF", f"-DFETCH_OTIO={CraftCore.compiler.isMacOS.asOnOff}"]
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += ["-DRELEASE_BUILD=OFF"]
 
@@ -109,12 +110,3 @@ class Package(CraftPackageObject.get("kde").pattern):
         # Appimage
         # self.defines["appimage_extra_plugins"] = ["checkrt"]
         return super().createPackage()
-
-    def postInstall(self):
-        if CraftCore.compiler.isWindows:
-            self.schemeDir = self.installDir() / "bin/data/color-schemes"
-        else:
-            self.schemeDir = self.installDir() / "share/color-schemes"
-        for scheme in ["RustedBronze"]:
-            GetFiles.getFile(f"https://raw.githubusercontent.com/Bartoloni/RustedBronze/master/{scheme}.colors", self.schemeDir)
-        return True

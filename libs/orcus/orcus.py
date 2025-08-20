@@ -10,9 +10,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.description = (
-            "library that provides a collection of standalone file processing filters for spreadsheet formats"
-        )
+        self.description = "library that provides a collection of standalone file processing filters for spreadsheet formats"
 
         for ver in ["0.20.0"]:
             self.targets[ver] = f"https://gitlab.com/orcus/orcus/-/archive/{ver}/orcus-{ver}.tar.bz2"
@@ -32,17 +30,17 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         # to find mdds and ixion header
         self.subinfo.options.configure.args += [
-            f'-DMDDS_INCLUDEDIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/mdds-3.0',
-            f'-DIXION_INCLUDEDIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/ixion-0.20'
+            f"-DMDDS_INCLUDEDIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/mdds-3.0",
+            f"-DIXION_INCLUDEDIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/ixion-0.20",
         ]
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += [
-                '-DCMAKE_CXX_FLAGS=-EHsc -DBOOST_ALL_NO_LIB -DBOOST_PROGRAM_OPTIONS_DYN_LINK',
-                f'-DCMAKE_SHARED_LINKER_FLAGS=-LIBPATH:{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib boost_filesystem-vc143-mt-x64-1_86.lib boost_program_options-vc143-mt-x64-1_86.lib',
-                f'-DCMAKE_EXE_LINKER_FLAGS=-LIBPATH:{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib boost_program_options-vc143-mt-x64-1_86.lib boost_filesystem-vc143-mt-x64-1_86.lib'
+                "-DCMAKE_CXX_FLAGS=-EHsc -DBOOST_ALL_NO_LIB -DBOOST_PROGRAM_OPTIONS_DYN_LINK",
+                f"-DCMAKE_SHARED_LINKER_FLAGS=-LIBPATH:{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib boost_filesystem-vc143-mt-x64-1_86.lib boost_program_options-vc143-mt-x64-1_86.lib",
+                f"-DCMAKE_EXE_LINKER_FLAGS=-LIBPATH:{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib boost_program_options-vc143-mt-x64-1_86.lib boost_filesystem-vc143-mt-x64-1_86.lib",
             ]
         if CraftCore.compiler.isLinux or CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += [
-                f'-DCMAKE_SHARED_LINKER_FLAGS=-L{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib -lboost_filesystem -lboost_program_options',
-                f'-DCMAKE_EXE_LINKER_FLAGS=-L{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib -lboost_filesystem -lboost_program_options'
+                f"-DCMAKE_SHARED_LINKER_FLAGS=-L{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib -lboost_filesystem -lboost_program_options",
+                f"-DCMAKE_EXE_LINKER_FLAGS=-L{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib -lboost_filesystem -lboost_program_options",
             ]

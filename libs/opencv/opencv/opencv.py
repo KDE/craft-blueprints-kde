@@ -13,12 +13,13 @@ class subinfo(info.infoclass):
         self.description = "a library for real time computer vision"
 
         for ver in self.targets.keys():
-            self.patchToApply[ver] = [("OpenCVInstallLayout.cmake.patch", 0)]
+            self.patchToApply[ver] = [("opencv_install_layout.patch", 1)]
 
         if CraftCore.compiler.isMacOS:
             self.patchToApply["4.10.0"] += [("orbbec-fix.patch", 1)]
 
         self.patchLevel["4.9.0"] = 2
+        self.patchLevel["4.10.0"] = 3
 
         self.targetDigests["4.9.0"] = (["ddf76f9dffd322c7c3cb1f721d0887f62d747b82059342213138dc190f28bc6c"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["4.10.0"] = (["b2171af5be6b26f7a06b1229948bbb2bdaa74fcf5cd097e0af6378fce50a6eb9"], CraftHash.HashAlgorithm.SHA256)
@@ -41,8 +42,8 @@ class Package(CMakePackageBase):
         self.contrib = CraftPackageObject.get("libs/opencv/opencv_contrib").instance
         self.subinfo.options.configure.args += [
             f"-DOPENCV_EXTRA_MODULES_PATH={OsUtils.toUnixPath(self.contrib.sourceDir() / 'modules')}",
-            # build only modules needed by digikam, kdenlive and indiserver 3rd Party Libraries
-            "-DBUILD_LIST=core,objdetect,imgproc,imgcodecs,dnn,flann,ml,tracking,highgui,videoio",
+            # build only modules needed by digikam, kdenlive, kstars and indiserver 3rd Party Libraries
+            "-DBUILD_LIST=core,objdetect,imgproc,imgcodecs,dnn,flann,ml,tracking,highgui,videoio,photo",
             "-DBUILD_EXAMPLES=OFF",
             f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}" "-DBUILD_DOCS=OFF",
             "-DBUILD_PERF_TESTS=OFF",
@@ -109,6 +110,7 @@ class Package(CMakePackageBase):
             # it is broken on MSVC
             "-DWITH_OPENJPEG=OFF",
             "-DCMAKE_CXX_STANDARD=17",
+            "-DOPENCV_LIB_INSTALL_PATH=lib",
         ]
         if CraftCore.compiler.architecture & CraftCompiler.Architecture.x86:
             self.subinfo.options.configure.args += [
