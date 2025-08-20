@@ -79,8 +79,8 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
 
         if CraftCore.compiler.isWindows:
-            # Exclude this path as it contains symlinks causing "ERROR: Dangerous symbolic link path was ignored" on Windows
-            self.subinfo.options.unpack.sevenZipExtraArgs = [r"-xr!clang\test\Driver\Inputs\multilib_32bit_linux_tree\usr\i386-unknown-linux\bin"]
+            # There are some relative symbolic links causing "ERROR: Dangerous symbolic link path was ignored"
+            self.subinfo.options.unpack.sevenZipExtraArgs = ["-snld"]
 
         self.supportsClang = False
         self.subinfo.options.configure.args += [
