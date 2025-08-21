@@ -11,6 +11,8 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-{ver}.tgz"
             self.targetInstSrc[ver] = f"openldap-{ver}"
 
+        self.svnTargets["master"] = "https://git.openldap.org/openldap/openldap.git"
+
         self.patchToApply["2.4.45"] = [
             ("openldap-2.4.45-20231209.diff", 1)
         ]  # https://gitweb.gentoo.org/repo/gentoo.git/tree/net-nds/openldap/openldap-2.4.59-r2.ebuild#n380
