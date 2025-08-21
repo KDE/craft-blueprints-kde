@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user kmail-account-wizard-25.08.0.orig/src/foreigntypes.h kmail-account-wizard-25.08.0/src/foreigntypes.h
+--- kmail-account-wizard-25.08.0.orig/src/foreigntypes.h	2025-08-05 03:58:51.000000000 +0000
++++ kmail-account-wizard-25.08.0/src/foreigntypes.h	2025-08-21 14:37:42.028741916 +0000
+@@ -1,6 +1,8 @@
+ // SPDX-FileCopyrightText: 2023 Carl Schwan <carl@carlschwan.eu>
+ // SPDX-License-Identifier: LGPL-2.0-or-later
+ 
++#pragma once
++
+ #include <MailTransport/Transport>
+ 
+ #include <qqml.h>

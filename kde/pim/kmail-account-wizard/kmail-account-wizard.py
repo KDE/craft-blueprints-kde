@@ -8,6 +8,9 @@ class subinfo(info.infoclass):
 
         self.description = "KMail Account Wizard"
 
+        # https://invent.kde.org/pim/kmail-account-wizard/-/merge_requests/30
+        self.patchToApply["25.08.0"] = [("kmail-account-wizard-25.08.0-20250821.diff", 1)]
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
