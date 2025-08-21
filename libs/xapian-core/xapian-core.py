@@ -18,7 +18,6 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isWindows:
             self.patchToApply["1.4.5"] = [("xapian-core-1.4.5-20180515.diff", 1)]
             self.patchToApply["1.4.9"] = [("xapian-core-1.4.5-20180515.diff", 1)]
-            self.patchToApply["1.4.26"] = [("xapian-core-1.4.5-20180515.diff", 1)]
         self.description = "Open Source Search Engine library"
         self.webpage = "https://xapian.org/"
         self.defaultTarget = "1.4.26"
