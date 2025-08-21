@@ -35,7 +35,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kmail-account-wizard"] = None
         self.runtimeDependencies["kde/pim/kmail"] = None
         self.runtimeDependencies["kde/pim/akonadiconsole"] = None
-        self.runtimeDependencies["kde/pim/akonadiclient"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
 
