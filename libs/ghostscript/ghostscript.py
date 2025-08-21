@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "git://git.ghostscript.com/ghostpdl.git"
-        for ver in ["10.01.2"]:
+        for ver in ["10.05.1"]:
             ver2 = ver.replace(".", "")
             self.targets[ver] = f"https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs{ver2}/ghostscript-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"ghostscript-{ver}"
@@ -35,7 +35,7 @@ class subinfo(info.infoclass):
                 CraftHash.HashAlgorithm.SHA512,
             )
 
-        self.defaultTarget = "10.01.2"
+        self.defaultTarget = "10.05.1"
 
 
 class PackageMSVC(CMakePackageBase):
