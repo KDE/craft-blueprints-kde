@@ -30,7 +30,7 @@ class subinfo(info.infoclass):
 
         self.description = "an open source implementation of the Lightweight Directory Access Protocol"
 
-        self.defaultTarget = "2.4.45"
+        self.defaultTarget = "2.6.10"
 
     def setDependencies(self):
         if not CraftCore.compiler.isWindows:
