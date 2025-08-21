@@ -24,6 +24,8 @@ class subinfo(info.infoclass):
 
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
+        self.runtimeDependencies["libs/xapian-core"] = None
+
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
