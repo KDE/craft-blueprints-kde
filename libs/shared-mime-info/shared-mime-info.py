@@ -42,7 +42,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://invent.kde.org/mirrors/shared-mime-info/-/archive/{ver}/shared-mime-info-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"shared-mime-info-{ver}"
         self.targetDigests["2.3"] = (["96ac085d82e2e654e40e34c13d97b74f6657357ee6b443d922695adcf548961c"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["2.4"] = (["96ac085d82e2e654e40e34c13d97b74f6657357ee6b443d922695adcf548961c"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.4"] = (["32dc32ae39ff1c1bf8434dd3b36770b48538a1772bc0298509d034f057005992"], CraftHash.HashAlgorithm.SHA256)
 
         self.patchToApply["2.3"] = [("12a3a6b1141c704fc594379af1808bb9008d588c.patch", 1), ("7499ac1a85b2487b94e315e6b55c34bcf220295f.patch", 1)]
         if CraftCore.compiler.isMSVC():
