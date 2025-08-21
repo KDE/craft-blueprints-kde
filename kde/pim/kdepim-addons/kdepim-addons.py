@@ -1,4 +1,5 @@
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
 
@@ -36,7 +37,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-import-wizard"] = None
         self.runtimeDependencies["kde/pim/mailimporter"] = None
         self.runtimeDependencies["kde/pim/kpkpass"] = None
-        # Laurent disable it until we understand why compile failed self.runtimeDependencies["kde/pim/kitinerary"] = None
+        if not CraftCore.compiler.isWindows:
+            # Laurent disable it on Windows until we understand why compile failed
+            self.runtimeDependencies["kde/pim/kitinerary"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
         self.runtimeDependencies["kde/pim/kaddressbook"] = None
