@@ -36,6 +36,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
+        self.runtimeDependencies["kde/pim/akonadi-search"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None
