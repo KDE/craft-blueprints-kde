@@ -45,7 +45,7 @@ class Package(CMakePackageBase):
             "-DJPEGXL_ENABLE_SKCMS=OFF",
             "-DJPEGXL_ENABLE_TCMALLOC=OFF",
             "-DJPEGXL_FORCE_SYSTEM_BROTLI=ON",
-            "-DJPEGXL_FORCE_SYSTEM_LCMS2=ON"
+            "-DJPEGXL_FORCE_SYSTEM_LCMS2=ON",
             "-DJPEGXL_FORCE_SYSTEM_HWY=ON",
         ]
 
