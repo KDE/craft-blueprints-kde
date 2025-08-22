@@ -1,0 +1,26 @@
+From: Julius Künzel <julius.kuenzel@kde.org>
+
+Fix https://sourceforge.net/p/sox/bugs/326/
+
+/mnt/linux-64-gcc/build/libs/sox/work/sox-14.4.2/src/sox_sample_test.h:190:3: error: implicit declaration of function ‘fabs’ [-Wimplicit-function-declaration]
+  190 |   assert(fabs(d - 1) < 1e-9 && clips == 0);
+      |   ^~~~~~
+/mnt/linux-64-gcc/build/libs/sox/work/sox-14.4.2/src/sox_sample_test.h:23:1: note: include ‘<math.h>’ or provide a declaration of ‘fabs’
+   22 | #include "sox.h"
+  +++ |+#include <math.h>
+   23 | 
+make[1]: *** [Makefile:1786: sox_sample_test.o] Error 1
+
+---
+
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user sox-14.4.2.orig/src/sox_sample_test.h sox-14.4.2/src/sox_sample_test.h
+--- sox-14.4.2.orig/src/sox_sample_test.h	2012-01-23 22:27:33.000000000 +0000
++++ sox-14.4.2/src/sox_sample_test.h	2025-08-22 22:01:22.861671556 +0000
+@@ -19,6 +19,7 @@
+ #undef NDEBUG /* Must undef above assert.h or other that might include it. */
+ #endif
+ #include <assert.h>
++#include <math.h>
+ #include "sox.h"
+ 
+ #define TEST_UINT(bits) \
