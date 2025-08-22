@@ -9,9 +9,14 @@ class subinfo(info.infoclass):
         for ver in ["1.4.0"]:
             self.targets[ver] = f"https://downloads.sourceforge.net/gmerlin/gavl-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"gavl-{ver}"
+
+        for ver in ["2.0.0pre2"]:
+            self.targets[ver] = f"https://github.com/bplaum/gavl/releases/download/v{ver}/gavl-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"gavl-{ver}"
+
         self.targetDigests["1.4.0"] = (["51aaac41391a915bd9bad07710957424b046410a276e7deaff24a870929d33ce"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["1.4.0"] = ("FixCputest.patch", 1)
-        self.svnTargets["master"] = "https://github.com/bplaum/gavl.git"
+        self.svnTargets["master"] = "https://github.com/bplaum/gavl.git||main"
         self.patchLevel["master"] = 20220321
         # when adding new commit based targets, keep gnutls dependency (below) in mind!
         self.svnTargets["59dd12a"] = "https://github.com/bplaum/gavl.git||59dd12a812141828538e045697148b7a66359181"
@@ -19,7 +24,7 @@ class subinfo(info.infoclass):
 
         self.description = "Low level library, upon which multimedia APIs can be built"
         self.webpage = "https://github.com/bplaum/gavl"
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
             self.defaultTarget = "59dd12a"
         else:
             self.defaultTarget = "1.4.0"
