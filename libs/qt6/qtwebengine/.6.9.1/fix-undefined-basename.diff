@@ -1,5 +1,7 @@
 From: Julius Künzel <julius.kuenzel@kde.org>
 
+Fix for https://bugreports.qt.io/browse/QTBUG-139409
+
 Fix for
 
 [21572/22090] CC obj/third_party/minigbm/minigbm/drv.o
