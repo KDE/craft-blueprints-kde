@@ -47,6 +47,7 @@ class subinfo(info.infoclass):
         self.patchToApply["2.3"] = [("12a3a6b1141c704fc594379af1808bb9008d588c.patch", 1), ("7499ac1a85b2487b94e315e6b55c34bcf220295f.patch", 1)]
         if CraftCore.compiler.isMSVC():
             self.patchToApply["2.3"] += [("disable-translation.patch", 1)]
+            self.patchToApply["2.4"] = [("disable-translation.patch", 1)]
 
         self.svnTargets["master"] = "https://gitlab.freedesktop.org/xdg/shared-mime-info/"
 
@@ -54,7 +55,7 @@ class subinfo(info.infoclass):
 
         self.description = "The shared-mime-info package contains the core database of common types and the update-mime-database command used to extend it"
         self.webpage = "https://www.freedesktop.org/wiki/Software/shared-mime-info/"
-        self.defaultTarget = "2.3"
+        self.defaultTarget = "2.4"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
