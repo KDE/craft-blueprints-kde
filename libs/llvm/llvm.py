@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
-        for ver in ["15.0.2", "15.0.7", "16.0.1", "17.0.6", "18.1.2", "18.1.8"]:
+        for ver in ["15.0.2", "15.0.7", "16.0.1", "17.0.6", "18.1.2", "18.1.8", "19.1.1"]:
             self.targets[ver] = f"https://github.com/llvm/llvm-project/releases/download/llvmorg-{ver}/llvm-project-{ver}.src.tar.xz"
             self.targetInstSrc[ver] = f"llvm-project-{ver}.src"
             self.targetConfigurePath[ver] = "llvm"
@@ -54,7 +54,7 @@ class subinfo(info.infoclass):
         self.description = "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines."
         self.webpage = "http://llvm.org/"
         self.tags = "clang, clang-tools-extra"
-        self.defaultTarget = "18.1.8"
+        self.defaultTarget = "19.1.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
