@@ -48,6 +48,8 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMSVC():
             self.patchToApply["2.3"] += [("disable-translation.patch", 1)]
 
+        self.svnTargets["master"] = "https://gitlab.freedesktop.org/xdg/shared-mime-info/"
+
         self.patchLevel["2.3"] = 2
 
         self.description = "The shared-mime-info package contains the core database of common types and the update-mime-database command used to extend it"
