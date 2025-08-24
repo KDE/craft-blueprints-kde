@@ -1,0 +1,41 @@
+From ea384db4c6f7221bb5c085fb9d7df761d646f6fd Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <julius.kuenzel@kde.org>
+Date: Sun, 24 Aug 2025 22:39:11 +0000
+Subject: [PATCH] Fix if that must be ifdef
+
+---
+ gui/main.cpp | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/gui/main.cpp b/gui/main.cpp
+index a22f1613..6b22b694 100644
+--- a/gui/main.cpp
++++ b/gui/main.cpp
+@@ -10,7 +10,7 @@
+ #include "pimdataexporterwindow.h"
+ 
+ #include <KCrash>
+-#if HAVE_KDBUSADDONS
++#ifdef HAVE_KDBUSADDONS
+ #include <KDBusService>
+ #endif
+ 
+@@ -49,13 +49,13 @@ int main(int argc, char *argv[])
+     }
+ #endif
+ 
+-#if HAVE_KDBUSADDONS
++#ifdef HAVE_KDBUSADDONS
+     KDBusService service(KDBusService::Unique);
+ #endif
+ 
+     auto backupMailWin = new PimDataExporterWindow();
+     parser.setExportWindow(backupMailWin);
+-#if HAVE_KDBUSADDONS
++#ifdef HAVE_KDBUSADDONS
+     QObject::connect(&service, &KDBusService::activateRequested, &parser, &PimDataCommandLineOption::slotActivateRequested);
+ #endif
+     backupMailWin->show();
+-- 
+GitLab
+
