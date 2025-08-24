@@ -1,7 +1,7 @@
 diff --git a/chromium/tools/typescript/validate_tsconfig.py b/chromium/tools/typescript/validate_tsconfig.py
 index a31d2d8e143..814c463d7cb 100644
---- a/chromium/tools/typescript/validate_tsconfig.py
-+++ b/chromium/tools/typescript/validate_tsconfig.py
+--- a/src/3rdparty/chromium/tools/typescript/validate_tsconfig.py
++++ b/src/3rdparty/chromium/tools/typescript/validate_tsconfig.py
 @@ -270,10 +270,15 @@ def validateDefinitionDeps(definitions_files, target_path, gen_dir,
    for f in definitions_files:
      # File path relative to the current working directory.
