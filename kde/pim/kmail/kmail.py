@@ -1,8 +1,13 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # Fails to build, because not maintained on macOS. Needs someone to fix it
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
