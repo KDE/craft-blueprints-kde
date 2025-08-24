@@ -1,8 +1,13 @@
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # Fails to build, because not maintained on macOS. Needs someone to fix it
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
