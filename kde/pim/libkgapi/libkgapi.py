@@ -22,5 +22,6 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += [
-            "-DUSE_UNITY_CMAKE_SUPPORT=ON" f"-DBUILD_SASL_PLUGIN={self.subinfo.options.isActive('libs/cyrus-sasl').asOnOff}"
+            "-DUSE_UNITY_CMAKE_SUPPORT=ON",
+            f"-DBUILD_SASL_PLUGIN={self.subinfo.options.isActive('libs/cyrus-sasl').asOnOff}",
         ]
