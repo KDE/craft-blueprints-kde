@@ -1,0 +1,17 @@
+diff --git a/configure.ac b/configure.ac
+index 381cb601a2..b3782153f1 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1240,12 +1240,6 @@ if test $ol_with_tls = openssl || test $ol_with_tls = auto ; then
+ 	AC_CHECK_HEADERS(openssl/ssl.h)
+ 
+ 	if test $ac_cv_header_openssl_ssl_h = yes ; then
+-			AC_PREPROC_IFELSE([AC_LANG_SOURCE(
+-				[[#include <openssl/opensslv.h>]
+-[#if OPENSSL_VERSION_NUMBER < 0x1010100fL]
+-[#error "OpenSSL is too old"]
+-[#endif]])],
+-					, [AC_MSG_FAILURE([OpenSSL 1.1.1 or newer required])])
+ 
+ 		AC_CHECK_LIB(ssl, SSL_CTX_set_ciphersuites,
+ 			[have_openssl=yes], [have_openssl=no],
