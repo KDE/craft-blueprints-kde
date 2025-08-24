@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user xapian-core-1.4.26.orig/cmake/xapian-config.cmake.in xapian-core-1.4.26/cmake/xapian-config.cmake.in
+--- xapian-core-1.4.26.orig/cmake/xapian-config.cmake.in	2024-07-18 05:45:26.000000000 +0000
++++ xapian-core-1.4.26/cmake/xapian-config.cmake.in	2025-08-25 00:35:26.620167000 +0000
+@@ -1,7 +1,7 @@
+ SET(prefix "@prefix@")
+ SET(exec_prefix "@exec_prefix@")
+ SET(XAPIAN_SHARED @XAPIAN_CMAKE_SHARED@ CACHE BOOL "Use shared xapian library")
+-SET(XAPIAN_SHARED_LIBRARY "@libdir@/libxapian@LIBRARY_VERSION_SUFFIX@@SHLIBEXT@@LIBRARY_SHARED_IMP_EXT@" CACHE FILEPATH "Shared Xapian library")
++SET(XAPIAN_SHARED_LIBRARY "@libdir@/libxapian@LIBRARY_VERSION_SUFFIX@${CMAKE_IMPORT_LIBRARY_SUFFIX}" CACHE FILEPATH "Shared Xapian library")
+ SET(XAPIAN_STATIC_LIBRARY "@libdir@/libxapian@LIBRARY_VERSION_SUFFIX@@LIBRARY_STATIC_EXT@" CACHE FILEPATH "Static Xapian library")
+ SET(XAPIAN_STATIC_DEP_LIBS "@XAPIAN_CMAKE_LIBS@" CACHE STRING "Dependencies of static xapian library")
+ IF(XAPIAN_SHARED)

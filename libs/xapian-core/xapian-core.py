@@ -15,9 +15,14 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"xapian-core-{ver}"
         self.targetDigests["1.4.5"] = (["85b5f952de9df925fd13e00f6e82484162fd506d38745613a50b0a2064c6b02b"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.4.9"] = (["cde9c39d014f04c09b59d9c21551db9794c10617dc69ab4c9826352a533df5cc"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.4.26"] = (["9e6a7903806966d16ce220b49377c9c8fad667c8f0ffcb23a3442946269363a7"], CraftHash.HashAlgorithm.SHA256)
         if CraftCore.compiler.isWindows:
             self.patchToApply["1.4.5"] = [("xapian-core-1.4.5-20180515.diff", 1)]
             self.patchToApply["1.4.9"] = [("xapian-core-1.4.5-20180515.diff", 1)]
+            self.patchToApply["1.4.26"] = [("xapian-core-1.4.26-20250825.diff", 1)]
+
+        self.patchLevel["1.4.26"] = 2
+
         self.description = "Open Source Search Engine library"
         self.webpage = "https://xapian.org/"
         self.defaultTarget = "1.4.26"
