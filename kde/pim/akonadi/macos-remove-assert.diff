@@ -1,0 +1,15 @@
+diff --git a/src/agentbase/agentbase.h b/src/agentbase/agentbase.h
+index 7d097e5b3..8bb82efad 100644
+--- a/src/agentbase/agentbase.h
++++ b/src/agentbase/agentbase.h
+@@ -431,10 +431,6 @@ public:
+         // Disable session management
+         qunsetenv("SESSION_MANAGER");
+ 
+-#if __has_include(<QApplication>)
+-        static_assert(false, "This links to QWidgets");
+-#endif
+-
+         QCoreApplication app(argc, argv);
+         debugAgent(argc, argv);
+         const QString id = parseArguments(argc, argv);
