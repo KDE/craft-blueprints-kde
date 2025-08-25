@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
             self.patchToApply["2.6.10"] = [("openldap-2.6.10-20250807.diff", 1)]
 
         if CraftCore.compiler.isMacOS:
+            #
             self.patchToApply["2.6.10"] = [("no-openssl-version-check.diff", 1)]
 
         self.targetDigests["2.4.45"] = (["cdd6cffdebcd95161a73305ec13fc7a78e9707b46ca9f84fb897cd5626df3824"], CraftHash.HashAlgorithm.SHA256)
@@ -34,7 +35,10 @@ class subinfo(info.infoclass):
 
         self.description = "an open source implementation of the Lightweight Directory Access Protocol"
 
-        self.defaultTarget = "2.6.10"
+        if CraftCore.compiler.isMSVC():
+            self.defaultTarget = "2.4.45"
+        else:
+            self.defaultTarget = "2.6.10"
 
     def setDependencies(self):
         if not CraftCore.compiler.isWindows:
