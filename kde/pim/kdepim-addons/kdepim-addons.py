@@ -9,6 +9,8 @@ class subinfo(info.infoclass):
 
         self.description = "PIM Addons"
 
+        self.patchToApply["25.08.0"] = [("dca345fd96899c182c26539d4603aa8848e8249d.patch", 1)]
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -37,8 +39,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-import-wizard"] = None
         self.runtimeDependencies["kde/pim/mailimporter"] = None
         self.runtimeDependencies["kde/pim/kpkpass"] = None
-        if not CraftCore.compiler.isWindows:
-            # Laurent disable it on Windows until we understand why compile failed
+        if not CraftCore.compiler.isMSVC():
+            # Laurent disable it on MSVC until we understand why compile failed
             self.runtimeDependencies["kde/pim/kitinerary"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
