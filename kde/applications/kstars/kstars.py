@@ -82,7 +82,7 @@ class Package(CMakePackageBase):
             self.addExecutableFilter(
                 r"bin/(?!(dbus-daemon|dbus-send|dbus-daemon-launch-helper|gsc|xplanet|indi)).*"
             )
-        self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF", "-DBUILD_QT5=OFF"]
+        self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF", "-DBUILD_TESTING=OFF", "-DBUILD_WITH_QT6=ON"]
 
     # Need to copy the indi drivers, driver files, and other resources for kstars to work on MacOS
     def install(self):
