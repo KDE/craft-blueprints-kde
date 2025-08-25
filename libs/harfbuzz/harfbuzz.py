@@ -1,4 +1,5 @@
 import info
+from CraftCore import CraftCore
 from Package.MesonPackageBase import MesonPackageBase
 from Utils import CraftHash
 
@@ -17,10 +18,19 @@ class subinfo(info.infoclass):
         self.buildDependencies["python-modules/meson"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/freetype"] = None
-        self.runtimeDependencies["libs/cairo"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/cairo"] = None
 
 
 class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-Ddocs=disabled", "-Dbenchmark=disabled", "-Dglib=disabled", "-Dgobject=disabled"]
+        self.subinfo.options.configure.args += [
+            "-Ddocs=disabled",
+            "-Dbenchmark=disabled",
+            "-Dglib=disabled",
+            "-Dgobject=disabled",
+            "-Dicu=enabled",
+            "-Dfreetype=enabled",
+            f"-Dcairo={CraftCore.compiler.isAndroid.inverted.asEnabledDisabled}",
+        ]
