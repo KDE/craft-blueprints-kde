@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         # https://gitlab.freedesktop.org/pixman/pixman/-/commit/bd4e7a9b9e672105bda35ff736c977adbf719c6c
         self.patchToApply["0.40.0"] = [("bd4e7a9b9e672105bda35ff736c977adbf719c6c.diff", 1)]
 
-        self.defaultTarget = "0.42.4"
+        self.defaultTarget = "0.46.4"
 
     def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None
