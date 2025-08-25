@@ -8,6 +8,8 @@ class subinfo(info.infoclass):
 
         self.description = "PimCommon library"
 
+        self.patchLevel["25.08.0"] = 1
+
     def registerOptions(self):
         self.options.dynamic.registerOption("useDesignerPlugin", True)
 
@@ -31,6 +33,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
+
+        self.runtimeDependencies["kde/plasma/plasma-activities"] = None
 
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
