@@ -8,7 +8,6 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.setDefault("buildTools", False)
 
-
     def setTargets(self):
         self.description = "An open, royalty-free video coding format designed for video transmissions over the Internet"
         for ver in ["3.12.1"]:
