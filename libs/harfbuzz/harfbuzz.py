@@ -31,6 +31,6 @@ class Package(MesonPackageBase):
             "-Dglib=disabled",
             "-Dgobject=disabled",
             "-Dfreetype=enabled",
-            f"-Dicu={self.subinfo.options.isActive('libs/tiff').asEnabledDisabled}",
+            f"-Dicu={self.subinfo.options.isActive('libs/icu').asEnabledDisabled}",
             f"-Dcairo={CraftCore.compiler.isAndroid.inverted.asEnabledDisabled}",
         ]
