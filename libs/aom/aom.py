@@ -5,6 +5,10 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildTools", False)
+
+
     def setTargets(self):
         self.description = "An open, royalty-free video coding format designed for video transmissions over the Internet"
         for ver in ["3.12.1"]:
@@ -28,7 +32,8 @@ class Package(CMakePackageBase):
             "-DENABLE_NASM=ON",
             "-DCONFIG_PIC=1",
             "-DENABLE_EXAMPLES=OFF",
-            "-DENABLE_TESTS=OFF",
+            f"-DENABLE_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
+            f"-DENABLE_TOOLS={self.subinfo.options.dynamic.buildTools.asOnOff}",
             f"-DAOM_TARGET_CPU={CraftCore.compiler.architecture.name.lower()}",
         ]
         if CraftCore.compiler.androidAbi == "armeabi-v7a":
