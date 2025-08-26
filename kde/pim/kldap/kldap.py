@@ -5,6 +5,13 @@ from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # On MinGW it fails to compile because of issues with openldap, just disable it
+        # because on Windows MSVC is used to build the PIM stack anyways
+        self.parent.package.categoryInfo.platforms = (
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+        )
+
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
