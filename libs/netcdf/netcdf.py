@@ -17,19 +17,17 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "[git]https://github.com/Unidata/netcdf-c.git"
-        for ver in ["4.8.0", "4.9.2"]:
+        for ver in ["4.9.3"]:
             self.targets[ver] = f"https://github.com/Unidata/netcdf-c/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"netcdf-c-{ver}"
-        self.targetDigests["4.8.0"] = (["aff58f02b1c3e91dc68f989746f652fe51ff39e6270764e484920cb8db5ad092"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["4.9.2"] = (["bc104d101278c68b303359b3dc4192f81592ae8640f1aee486921138f7f88cb7"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.9.3"] = (["990f46d49525d6ab5dc4249f8684c6deeaf54de6fec63a187e9fb382cc0ffdff"], CraftHash.HashAlgorithm.SHA256)
         self.description = "A set of software libraries and self-describing, machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data"
-        for ver in ["4.8.0", "4.9.2"]:
+        for ver in ["4.9.2"]:
             self.patchToApply[ver] = [("netcdf-MSVC-install.diff", 1)]
             if CraftCore.compiler.isMSVC():
-                self.patchToApply[ver] += [("netcdf-4.7.4-missing-defines.diff", 1)]
                 self.patchToApply[ver] += [("netcdf-4.8.0-missing-defines.diff", 1)]
-        self.defaultTarget = "4.9.2"
+        self.defaultTarget = "4.9.3"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -52,7 +50,7 @@ class Package(CMakePackageBase):
         hdf5dir = CraftStandardDirs.craftRoot() / "cmake/hdf5"
         # -DENABLE_TESTS=OFF -DENABLE_EXAMPLE_TESTS=OFF -DENABLE_UNIT_TESTS=OFF -DENABLE_PARALLEL_TESTS=OFF
         # DAP needs static libcurl
-        self.subinfo.options.configure.args = [f"-DHDF5_DIR={hdf5dir}", "-DENABLE_DAP=OFF"]
+        self.subinfo.options.configure.args = [f"-DHDF5_DIR={hdf5dir}", "-DNETCDF_ENABLE_DAP=OFF"]
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += ['-DCMAKE_C_FLAGS="/D_WIN32"', f"-DPACKAGE_VERSION={self.subinfo.buildTarget}"]
         # several errors building tests on macOS (clang 16?): incompatible function pointer types
