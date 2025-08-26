@@ -1,4 +1,5 @@
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
 
@@ -11,6 +12,12 @@ class subinfo(info.infoclass):
         self.patchLevel["25.08.0"] = 1
 
     def registerOptions(self):
+        # KImap is a required dependency, but disabled on MinGW so we can't build this either
+        # It is probably not a big deal because MSVC is used to build the PIM stack on Windows
+        self.parent.package.categoryInfo.platforms = (
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+        )
+
         self.options.dynamic.registerOption("useDesignerPlugin", True)
 
     def setDependencies(self):
