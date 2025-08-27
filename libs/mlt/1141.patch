@@ -3329,7 +3329,7 @@ index c40f11e64..d19c3348b 100644
  #include "model/assets/composition.hpp"
  #include "model/document.hpp"
 -#include "mltglaxnimate_export.h"
-+#if defined(mltglaxnimate-qt6_EXPORTS) 
++#if defined(mltglaxnimate_qt6_EXPORTS) 
 +    #include "mltglaxnimate-qt6_export.h"
 +    #define MLT_GLAXNIMATE_MODULE_EXPORT MLTGLAXNIMATE_QT6_EXPORT
 +#elif defined(mltglaxnimate_EXPORTS)

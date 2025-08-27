@@ -1,26 +1,22 @@
 diff --git a/src/modules/qt/kdenlivetitle_wrapper.cpp b/src/modules/qt/kdenlivetitle_wrapper.cpp
-index f398a1ea..35455a75 100644
+index acffa1c3..6d30a653 100644
 --- a/src/modules/qt/kdenlivetitle_wrapper.cpp
 +++ b/src/modules/qt/kdenlivetitle_wrapper.cpp
-@@ -163,7 +163,7 @@ public:
+@@ -164,11 +164,11 @@ public:
          updateText(text);
      }
  
 -    void updateText(QString text)
 +    void updateText(const QString text)
      {
- #if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
          m_path.clear();
-@@ -171,7 +171,7 @@ public:
-         m_path = QPainterPath();
- #endif
          // Calculate line width
 -        QStringList lines = text.split('\n');
 +        const QStringList lines = text.split('\n');
          double linePos = m_metrics.ascent();
          foreach (const QString &line, lines) {
              QPainterPath linePath;
-@@ -214,13 +214,15 @@ public:
+@@ -203,14 +203,15 @@ public:
              m_path.addPath(linePath);
          }
          m_path.setFillRule(Qt::WindingFill);
@@ -31,6 +27,7 @@ index f398a1ea..35455a75 100644
 -        }
 -        if (m_boundingRect.height() < minHeight) {
 -            m_boundingRect.setHeight(minHeight);
+-        }
 +        if (!m_path.isEmpty()) {
 +            int minWidth = m_path.boundingRect().width();
 +            int minHeight = m_lineSpacing * lines.size();
@@ -40,10 +37,10 @@ index f398a1ea..35455a75 100644
 +            if (m_boundingRect.height() < minHeight) {
 +                m_boundingRect.setHeight(minHeight);
 +            }
-         }
      }
  
-@@ -298,7 +300,7 @@ private:
+     virtual QRectF boundingRect() const { return m_boundingRect; }
+@@ -284,7 +285,7 @@ private:
  
  QRectF stringToRect(const QString &s)
  {
@@ -52,7 +49,7 @@ index f398a1ea..35455a75 100644
      if (l.size() < 4)
          return QRectF();
      return QRectF(l.at(0).toDouble(), l.at(1).toDouble(), l.at(2).toDouble(), l.at(3).toDouble())
-@@ -307,7 +309,7 @@ QRectF stringToRect(const QString &s)
+@@ -293,7 +294,7 @@ QRectF stringToRect(const QString &s)
  
  QColor stringToColor(const QString &s)
  {
@@ -61,7 +58,7 @@ index f398a1ea..35455a75 100644
      if (l.size() < 4)
          return QColor();
      return QColor(l.at(0).toInt(), l.at(1).toInt(), l.at(2).toInt(), l.at(3).toInt());
-@@ -315,7 +317,7 @@ QColor stringToColor(const QString &s)
+@@ -301,7 +302,7 @@ QColor stringToColor(const QString &s)
  }
  QTransform stringToTransform(const QString &s)
  {
@@ -70,7 +67,7 @@ index f398a1ea..35455a75 100644
      if (l.size() < 9)
          return QTransform();
      return QTransform(l.at(0).toDouble(),
-@@ -385,6 +387,7 @@ void loadFromXml(producer_ktitle self,
+@@ -371,6 +372,7 @@ void loadFromXml(producer_ktitle self,
  
      QDomNode node;
      QDomNodeList items = title.elementsByTagName("item");
@@ -78,7 +75,7 @@ index f398a1ea..35455a75 100644
      for (int i = 0; i < items.count(); i++) {
          QGraphicsItem *gitem = NULL;
          node = items.item(i);
-@@ -463,11 +466,7 @@ void loadFromXml(producer_ktitle self,
+@@ -449,11 +451,7 @@ void loadFromXml(producer_ktitle self,
                      QStringList values = gradientData.split(";");
                      if (values.count() < 5) {
                          // invalid gradient, use default
@@ -91,7 +88,7 @@ index f398a1ea..35455a75 100644
                      }
                      QLinearGradient gr;
                      gr.setColorAt(values.at(2).toDouble() / 100, values.at(0));
-@@ -501,20 +500,20 @@ void loadFromXml(producer_ktitle self,
+@@ -487,20 +485,20 @@ void loadFromXml(producer_ktitle self,
                          txtProperties.namedItem("line-spacing").nodeValue().toInt(),
                          tabWidth);
                      if (txtProperties.namedItem("shadow").isNull() == false) {
@@ -116,18 +113,18 @@ index f398a1ea..35455a75 100644
                              tw->setFrameStep(values.at(1).toInt());
                              int macro = values.at(2).toInt();
                              tw->setStepSigma(values.at(3).toInt());
-@@ -543,7 +542,9 @@ void loadFromXml(producer_ktitle self,
+@@ -529,7 +527,9 @@ void loadFromXml(producer_ktitle self,
                              tw->setPattern(pattern.toStdString());
                              tw->parse();
                              tw->printParseResult();
 -                            txt->setData(0, QVariant::fromValue<std::shared_ptr<TypeWriter>>(tw));
 +                            scene->setProperty(QString::number(itemId).toLatin1(), QVariant::fromValue<std::shared_ptr<TypeWriter>>(tw));
-+                            txt->setData(0, itemId);
-+                            itemId++;
++                            +                            txt->setData(0, itemId);
++                            +                            itemId++;
                          } else {
                              txt->setData(0, QVariant());
                          }
-@@ -577,9 +578,7 @@ void loadFromXml(producer_ktitle self,
+@@ -563,9 +563,7 @@ void loadFromXml(producer_ktitle self,
                      if (!txtProperties.namedItem("typewriter").isNull()) {
                          // typewriter effect
                          mlt_properties_set_int(producer_props, "_animated", 1);
@@ -138,7 +135,7 @@ index f398a1ea..35455a75 100644
                          txt->setData(0, effetData);
                          if (!txtProperties.namedItem("textwidth").isNull())
                              txt->setData(1, txtProperties.namedItem("textwidth").nodeValue());
-@@ -616,11 +615,7 @@ void loadFromXml(producer_ktitle self,
+@@ -602,11 +600,7 @@ void loadFromXml(producer_ktitle self,
                      QStringList values = gradientData.split(";");
                      if (values.count() < 5) {
                          // invalid gradient, use default
@@ -151,7 +148,7 @@ index f398a1ea..35455a75 100644
                      }
                      QLinearGradient gr;
                      gr.setColorAt(values.at(2).toDouble() / 100, values.at(0));
-@@ -771,6 +766,9 @@ int initTitleProducer(mlt_producer producer)
+@@ -757,6 +751,9 @@ int initTitleProducer(mlt_producer producer)
      if (!QMetaType::fromType<QTextCursor>().isRegistered()) {
          qRegisterMetaType<QTextCursor>();
      }
@@ -161,7 +158,7 @@ index f398a1ea..35455a75 100644
  #endif
      return true;
  }
-@@ -864,8 +862,9 @@ void drawKdenliveTitle(producer_ktitle self,
+@@ -850,8 +847,9 @@ void drawKdenliveTitle(producer_ktitle self,
          for (int i = 0; i < items.count(); i++) {
              titem = dynamic_cast<PlainTextItem *>(items.at(i));
              if (titem && !titem->data(0).isNull()) {
