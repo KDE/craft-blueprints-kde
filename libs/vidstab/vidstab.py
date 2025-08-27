@@ -6,6 +6,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
+        # TODO: update, patches for MSVC support landed in vid.stab git master
         self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.GCCLike
 
     def setTargets(self):
