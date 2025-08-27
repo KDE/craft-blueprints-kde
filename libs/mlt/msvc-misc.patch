@@ -1,51 +1,58 @@
-diff --git a/src/framework/mlt_pool.c b/src/framework/mlt_pool.c
-index e94f668c..65448298 100644
---- a/src/framework/mlt_pool.c
-+++ b/src/framework/mlt_pool.c
-@@ -95,7 +95,12 @@ typedef struct mlt_pool_s
-  * optimized libraries (sse/altivec).
-  */
- 
-+// In the future with C23 we might be able to use alignas
-+#ifdef _MSC_VER
-+typedef struct __declspec(align(16)) mlt_release_s
-+#else
- typedef struct __attribute__((aligned(16))) mlt_release_s
-+#endif
- {
-     mlt_pool pool;
-     int references;
 diff --git a/src/framework/mlt_types.h b/src/framework/mlt_types.h
-index 3e350222..a0b0268c 100644
+index 58486d96..bcec11aa 100644
 --- a/src/framework/mlt_types.h
 +++ b/src/framework/mlt_types.h
-@@ -291,20 +291,25 @@ typedef void *(*mlt_thread_function_t)(void *);      /**< generic thread functio
+@@ -292,20 +292,24 @@ typedef void *(*mlt_thread_function_t)(void *);      /**< generic thread functio
  #ifdef _WIN32
  #include <pthread.h>
  /* Win32 compatibility function declarations */
 -#if !defined(__MINGW32__)
-+
 +#if !defined(__MINGW32__) && !defined(_MSC_VER)
- extern int usleep(unsigned int useconds);
+ MLT_EXPORT int usleep(unsigned int useconds);
  #endif
  #ifndef WIN_PTHREADS_TIME_H
- extern int nanosleep(const struct timespec *rqtp, struct timespec *rmtp);
+ MLT_EXPORT int nanosleep(const struct timespec *rqtp, struct timespec *rmtp);
  #endif
 +#ifndef _MSC_VER
- extern int setenv(const char *name, const char *value, int overwrite);
+ MLT_EXPORT int setenv(const char *name, const char *value, int overwrite);
 +#endif
- extern char *getlocale();
- extern FILE *win32_fopen(const char *filename_utf8, const char *mode_utf8);
+ MLT_EXPORT char *getlocale();
+ MLT_EXPORT FILE *win32_fopen(const char *filename_utf8, const char *mode_utf8);
  #include <sys/stat.h>
  #include <sys/types.h>
- extern int win32_stat(const char *filename_utf8, struct stat *buffer);
+ MLT_EXPORT int win32_stat(const char *filename_utf8, struct stat *buffer);
  #include <time.h>
 +#ifndef _MSC_VER
- extern char *strptime(const char *buf, const char *fmt, struct tm *tm);
+ MLT_EXPORT char *strptime(const char *buf, const char *fmt, struct tm *tm);
 +#endif
  #define mlt_fopen win32_fopen
  #define mlt_stat win32_stat
  #define MLT_DIRLIST_DELIMITER ";"
+
+diff --git a/src/win32/win32.c b/src/win32/win32.c
+index 55b91d25..7a37be9c 100644
+--- a/src/win32/win32.c
++++ b/src/win32/win32.c
+@@ -58,6 +58,8 @@ int nanosleep(const struct timespec * rqtp, struct timespec * rmtp)
+ }
+ #endif
+ 
++#ifndef _MSC_VER
++
+ int setenv(const char *name, const char *value, int overwrite)
+ {
+ 	int result = 1; 
+@@ -68,7 +70,9 @@ int setenv(const char *name, const char *value, int overwrite)
+ 	 }
+ 
+ 	return result; 
+-} 
++}
++
++#endif
+ 
+ static int iconv_from_utf8( mlt_properties properties, const char *prop_name, const char *prop_name_out, const char* encoding )
+ {
 diff --git a/src/win32/strptime.c b/src/win32/strptime.c
 index c3ed8ced..d06c0285 100644
 --- a/src/win32/strptime.c

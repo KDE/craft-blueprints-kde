@@ -1,0 +1,3437 @@
+From 87e4f7df27d464b41c7cc8816566f5c331cb00ab Mon Sep 17 00:00:00 2001
+From: sammiler <app.evergreen055@passinbox.com>
+Date: Tue, 26 Aug 2025 15:54:49 +0800
+Subject: [PATCH 1/2] feat(build): Implement system-wide symbol visibility
+
+This commit introduces a comprehensive, system-wide solution for managing
+API symbol visibility, enabling robust shared library builds on Windows/MSVC.
+
+- `generate_export_header()` is now used for the core framework and for
+  every individual module to create dedicated export macros using CMake's
+  default naming convention.
+
+- Module entry points (`mlt_register`) are now correctly prefixed with
+  their module-specific export macro, resolving `dllimport` errors.
+
+- The SWIG interface (`mlt.i`) is updated with `%define` directives for all
+  new export macros to make them invisible to SWIG's parser, preventing
+  syntax errors during wrapper generation.
+---
+ src/framework/CMakeLists.txt                  |  10 ++
+ src/framework/mlt.h                           |   1 +
+ src/framework/mlt_animation.h                 |  47 +++---
+ src/framework/mlt_audio.h                     |  55 +++----
+ src/framework/mlt_cache.h                     |  27 ++--
+ src/framework/mlt_chain.h                     |  21 +--
+ src/framework/mlt_consumer.c                  |   4 +-
+ src/framework/mlt_consumer.h                  |  31 ++--
+ src/framework/mlt_deque.h                     |  47 +++---
+ src/framework/mlt_events.h                    |  47 +++---
+ src/framework/mlt_factory.h                   |  29 ++--
+ src/framework/mlt_field.h                     |  21 +--
+ src/framework/mlt_filter.h                    |  31 ++--
+ src/framework/mlt_frame.h                     |  75 ++++-----
+ src/framework/mlt_image.h                     |  37 ++---
+ src/framework/mlt_link.h                      |  17 +-
+ src/framework/mlt_log.h                       |  11 +-
+ src/framework/mlt_luma_map.h                  |  11 +-
+ src/framework/mlt_multitrack.h                |  25 +--
+ src/framework/mlt_parser.h                    |   9 +-
+ src/framework/mlt_playlist.h                  |  95 ++++++------
+ src/framework/mlt_pool.h                      |  15 +-
+ src/framework/mlt_producer.h                  |  67 ++++----
+ src/framework/mlt_profile.h                   |  29 ++--
+ src/framework/mlt_properties.h                | 145 +++++++++---------
+ src/framework/mlt_property.h                  |  87 +++++------
+ src/framework/mlt_repository.h                |  28 ++--
+ src/framework/mlt_service.h                   |  57 +++----
+ src/framework/mlt_slices.h                    |  16 +-
+ src/framework/mlt_tokeniser.h                 |  14 +-
+ src/framework/mlt_tractor.h                   |  30 ++--
+ src/framework/mlt_transition.h                |  35 +++--
+ src/framework/mlt_types.h                     |  20 +--
+ src/framework/mlt_version.h                   |  12 +-
+ src/modules/avformat/CMakeLists.txt           |   4 +-
+ src/modules/avformat/factory.c                |   3 +-
+ src/modules/core/CMakeLists.txt               |   4 +-
+ src/modules/core/factory.c                    |   4 +-
+ src/modules/decklink/CMakeLists.txt           |   4 +-
+ src/modules/decklink/consumer_decklink.cpp    |   4 +-
+ src/modules/frei0r/CMakeLists.txt             |   5 +-
+ src/modules/frei0r/factory.c                  |   3 +-
+ src/modules/gdk/CMakeLists.txt                |   3 +
+ src/modules/gdk/factory.c                     |   3 +-
+ src/modules/glaxnimate/CMakeLists.txt         |   5 +-
+ .../glaxnimate/producer_glaxnimate.cpp        |   4 +-
+ src/modules/jackrack/CMakeLists.txt           |   9 +-
+ src/modules/jackrack/factory.c                |  12 +-
+ src/modules/kdenlive/CMakeLists.txt           |   5 +-
+ src/modules/kdenlive/factory.c                |   3 +-
+ src/modules/movit/CMakeLists.txt              |   4 +-
+ src/modules/movit/factory.c                   |   4 +-
+ src/modules/ndi/CMakeLists.txt                |   5 +-
+ src/modules/ndi/factory.c                     |   3 +-
+ src/modules/normalize/CMakeLists.txt          |   5 +-
+ src/modules/normalize/factory.c               |   4 +-
+ src/modules/oldfilm/CMakeLists.txt            |   5 +-
+ src/modules/oldfilm/factory.c                 |   4 +-
+ src/modules/opencv/CMakeLists.txt             |   5 +-
+ src/modules/opencv/factory.c                  |   4 +-
+ src/modules/plus/CMakeLists.txt               |   5 +-
+ src/modules/plus/factory.c                    |   4 +-
+ src/modules/plusgpl/CMakeLists.txt            |   5 +-
+ src/modules/plusgpl/factory.c                 |   3 +-
+ src/modules/qt/CMakeLists.txt                 |  12 +-
+ src/modules/qt/factory.c                      |   4 +-
+ src/modules/resample/CMakeLists.txt           |   5 +-
+ src/modules/resample/factory.c                |   4 +-
+ src/modules/rtaudio/CMakeLists.txt            |   5 +-
+ src/modules/rtaudio/consumer_rtaudio.cpp      |   4 +-
+ src/modules/rubberband/CMakeLists.txt         |   5 +-
+ src/modules/rubberband/factory.c              |   4 +-
+ src/modules/sdl/CMakeLists.txt                |   5 +-
+ src/modules/sdl/factory.c                     |   4 +-
+ src/modules/sdl2/CMakeLists.txt               |   5 +-
+ src/modules/sdl2/factory.c                    |   4 +-
+ src/modules/sox/CMakeLists.txt                |   5 +-
+ src/modules/sox/factory.c                     |   4 +-
+ src/modules/spatialaudio/CMakeLists.txt       |   5 +-
+ src/modules/spatialaudio/factory.c            |   4 +-
+ src/modules/vid.stab/CMakeLists.txt           |   5 +-
+ src/modules/vid.stab/factory.c                |   4 +-
+ src/modules/vorbis/CMakeLists.txt             |   5 +-
+ src/modules/vorbis/factory.c                  |   4 +-
+ src/modules/xine/CMakeLists.txt               |   5 +-
+ src/modules/xine/factory.c                    |   4 +-
+ src/modules/xml/CMakeLists.txt                |   5 +-
+ src/modules/xml/factory.c                     |   4 +-
+ src/swig/mlt.i                                |  61 +++++++-
+ src/win32/strptime.c                          |   3 +-
+ 90 files changed, 838 insertions(+), 682 deletions(-)
+
+diff --git a/src/framework/CMakeLists.txt b/src/framework/CMakeLists.txt
+index 159dbc111..caa56222d 100644
+--- a/src/framework/CMakeLists.txt
++++ b/src/framework/CMakeLists.txt
+@@ -76,6 +76,10 @@ add_custom_target("Other_mlt_Files" SOURCES
+ 
+ add_library(Mlt${MLT_VERSION_MAJOR}::mlt ALIAS mlt)
+ 
++
++include(GenerateExportHeader)
++generate_export_header(mlt)
++
+ target_sources(mlt PRIVATE ${MLT_PUBLIC_HEADERS})
+ 
+ target_compile_options(mlt PRIVATE ${MLT_COMPILE_OPTIONS})
+@@ -90,6 +94,7 @@ endif()
+ 
+ target_include_directories(mlt PUBLIC
+   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
++  $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/mlt-${MLT_VERSION_MAJOR}>
+ )
+ 
+@@ -133,6 +138,11 @@ install(TARGETS mlt
+   PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mlt-${MLT_VERSION_MAJOR}/framework
+ )
+ 
++# Install the generated export header
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mlt_export.h 
++  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mlt-${MLT_VERSION_MAJOR}/framework
++)
++
+ install(FILES metaschema.yaml chain_normalizers.ini DESTINATION ${MLT_INSTALL_DATA_DIR})
+ 
+ configure_file(mlt-framework.pc.in mlt-framework-${MLT_VERSION_MAJOR}.pc @ONLY)
+diff --git a/src/framework/mlt.h b/src/framework/mlt.h
+index a38850e0f..753e1ef75 100644
+--- a/src/framework/mlt.h
++++ b/src/framework/mlt.h
+@@ -35,6 +35,7 @@
+ extern "C" {
+ #endif
+ 
++#include "mlt_export.h"
+ #include "mlt_animation.h"
+ #include "mlt_audio.h"
+ #include "mlt_cache.h"
+diff --git a/src/framework/mlt_animation.h b/src/framework/mlt_animation.h
+index 518b94786..4d5fd0054 100644
+--- a/src/framework/mlt_animation.h
++++ b/src/framework/mlt_animation.h
+@@ -25,6 +25,7 @@
+ 
+ #include "mlt_property.h"
+ #include "mlt_types.h"
++#include "mlt_export.h"
+ 
+ /** \brief Animation class
+  *
+@@ -48,29 +49,29 @@ struct mlt_animation_item_s
+ };
+ typedef struct mlt_animation_item_s *mlt_animation_item; /**< pointer to an animation item */
+ 
+-extern mlt_animation mlt_animation_new();
+-extern int mlt_animation_parse(
++MLT_EXPORT mlt_animation mlt_animation_new();
++MLT_EXPORT int mlt_animation_parse(
+     mlt_animation self, const char *data, int length, double fps, mlt_locale_t locale);
+-extern int mlt_animation_refresh(mlt_animation self, const char *data, int length);
+-extern int mlt_animation_get_length(mlt_animation self);
+-extern void mlt_animation_set_length(mlt_animation self, int length);
+-extern int mlt_animation_parse_item(mlt_animation self, mlt_animation_item item, const char *data);
+-extern int mlt_animation_get_item(mlt_animation self, mlt_animation_item item, int position);
+-extern int mlt_animation_insert(mlt_animation self, mlt_animation_item item);
+-extern int mlt_animation_remove(mlt_animation self, int position);
+-extern void mlt_animation_interpolate(mlt_animation self);
+-extern int mlt_animation_next_key(mlt_animation self, mlt_animation_item item, int position);
+-extern int mlt_animation_prev_key(mlt_animation self, mlt_animation_item item, int position);
+-extern char *mlt_animation_serialize_cut_tf(mlt_animation self, int in, int out, mlt_time_format);
+-extern char *mlt_animation_serialize_cut(mlt_animation self, int in, int out);
+-extern char *mlt_animation_serialize_tf(mlt_animation self, mlt_time_format);
+-extern char *mlt_animation_serialize(mlt_animation self);
+-extern int mlt_animation_key_count(mlt_animation self);
+-extern int mlt_animation_key_get(mlt_animation self, mlt_animation_item item, int index);
+-extern void mlt_animation_close(mlt_animation self);
+-extern int mlt_animation_key_set_type(mlt_animation self, int index, mlt_keyframe_type type);
+-extern int mlt_animation_key_set_frame(mlt_animation self, int index, int frame);
+-extern void mlt_animation_shift_frames(mlt_animation self, int shift);
+-extern const char *mlt_animation_get_string(mlt_animation self);
++MLT_EXPORT int mlt_animation_refresh(mlt_animation self, const char *data, int length);
++MLT_EXPORT int mlt_animation_get_length(mlt_animation self);
++MLT_EXPORT void mlt_animation_set_length(mlt_animation self, int length);
++MLT_EXPORT int mlt_animation_parse_item(mlt_animation self, mlt_animation_item item, const char *data);
++MLT_EXPORT int mlt_animation_get_item(mlt_animation self, mlt_animation_item item, int position);
++MLT_EXPORT int mlt_animation_insert(mlt_animation self, mlt_animation_item item);
++MLT_EXPORT int mlt_animation_remove(mlt_animation self, int position);
++MLT_EXPORT void mlt_animation_interpolate(mlt_animation self);
++MLT_EXPORT int mlt_animation_next_key(mlt_animation self, mlt_animation_item item, int position);
++MLT_EXPORT int mlt_animation_prev_key(mlt_animation self, mlt_animation_item item, int position);
++MLT_EXPORT char *mlt_animation_serialize_cut_tf(mlt_animation self, int in, int out, mlt_time_format);
++MLT_EXPORT char *mlt_animation_serialize_cut(mlt_animation self, int in, int out);
++MLT_EXPORT char *mlt_animation_serialize_tf(mlt_animation self, mlt_time_format);
++MLT_EXPORT char *mlt_animation_serialize(mlt_animation self);
++MLT_EXPORT int mlt_animation_key_count(mlt_animation self);
++MLT_EXPORT int mlt_animation_key_get(mlt_animation self, mlt_animation_item item, int index);
++MLT_EXPORT void mlt_animation_close(mlt_animation self);
++MLT_EXPORT int mlt_animation_key_set_type(mlt_animation self, int index, mlt_keyframe_type type);
++MLT_EXPORT int mlt_animation_key_set_frame(mlt_animation self, int index, int frame);
++MLT_EXPORT void mlt_animation_shift_frames(mlt_animation self, int shift);
++MLT_EXPORT const char *mlt_animation_get_string(mlt_animation self);
+ 
+ #endif
+diff --git a/src/framework/mlt_audio.h b/src/framework/mlt_audio.h
+index 75da0723a..bc7db3a47 100644
+--- a/src/framework/mlt_audio.h
++++ b/src/framework/mlt_audio.h
+@@ -24,6 +24,7 @@
+ #define MLT_AUDIO_H
+ 
+ #include "mlt_types.h"
++#include "mlt_export.h"
+ 
+ /** \brief Audio class
+  *
+@@ -42,33 +43,33 @@ struct mlt_audio_s
+     mlt_destructor close;
+ };
+ 
+-extern mlt_audio mlt_audio_new();
+-extern void mlt_audio_close(mlt_audio self);
+-extern void mlt_audio_set_values(
++MLT_EXPORT mlt_audio mlt_audio_new();
++MLT_EXPORT void mlt_audio_close(mlt_audio self);
++MLT_EXPORT void mlt_audio_set_values(
+     mlt_audio self, void *data, int frequency, mlt_audio_format format, int samples, int channels);
+-extern void mlt_audio_get_values(mlt_audio self,
+-                                 void **data,
+-                                 int *frequency,
+-                                 mlt_audio_format *format,
+-                                 int *samples,
+-                                 int *channels);
+-extern void mlt_audio_alloc_data(mlt_audio self);
+-extern void mlt_audio_free_data(mlt_audio self);
+-extern int mlt_audio_calculate_size(mlt_audio self);
+-extern int mlt_audio_plane_count(mlt_audio self);
+-extern int mlt_audio_plane_size(mlt_audio self);
+-extern void mlt_audio_get_planes(mlt_audio self, uint8_t **planes);
+-extern void mlt_audio_silence(mlt_audio self, int samples, int start);
+-extern void mlt_audio_shrink(mlt_audio self, int samples);
+-extern void mlt_audio_reverse(mlt_audio self);
+-extern void mlt_audio_copy(mlt_audio dst, mlt_audio src, int samples, int src_start, int dst_start);
+-extern int mlt_audio_calculate_frame_samples(float fps, int frequency, int64_t position);
+-extern int64_t mlt_audio_calculate_samples_to_position(float fps, int frequency, int64_t position);
+-extern const char *mlt_audio_format_name(mlt_audio_format format);
+-extern int mlt_audio_format_size(mlt_audio_format format, int samples, int channels);
+-extern const char *mlt_audio_channel_layout_name(mlt_channel_layout layout);
+-extern mlt_channel_layout mlt_audio_channel_layout_id(const char *name);
+-extern int mlt_audio_channel_layout_channels(mlt_channel_layout layout);
+-extern mlt_channel_layout mlt_audio_channel_layout_default(int channels);
++MLT_EXPORT void mlt_audio_get_values(mlt_audio self,
++                                   void **data,
++                                   int *frequency,
++                                   mlt_audio_format *format,
++                                   int *samples,
++                                   int *channels);
++MLT_EXPORT void mlt_audio_alloc_data(mlt_audio self);
++MLT_EXPORT void mlt_audio_free_data(mlt_audio self);
++MLT_EXPORT int mlt_audio_calculate_size(mlt_audio self);
++MLT_EXPORT int mlt_audio_plane_count(mlt_audio self);
++MLT_EXPORT int mlt_audio_plane_size(mlt_audio self);
++MLT_EXPORT void mlt_audio_get_planes(mlt_audio self, uint8_t **planes);
++MLT_EXPORT void mlt_audio_silence(mlt_audio self, int samples, int start);
++MLT_EXPORT void mlt_audio_shrink(mlt_audio self, int samples);
++MLT_EXPORT void mlt_audio_reverse(mlt_audio self);
++MLT_EXPORT void mlt_audio_copy(mlt_audio dst, mlt_audio src, int samples, int src_start, int dst_start);
++MLT_EXPORT int mlt_audio_calculate_frame_samples(float fps, int frequency, int64_t position);
++MLT_EXPORT int64_t mlt_audio_calculate_samples_to_position(float fps, int frequency, int64_t position);
++MLT_EXPORT const char *mlt_audio_format_name(mlt_audio_format format);
++MLT_EXPORT int mlt_audio_format_size(mlt_audio_format format, int samples, int channels);
++MLT_EXPORT const char *mlt_audio_channel_layout_name(mlt_channel_layout layout);
++MLT_EXPORT mlt_channel_layout mlt_audio_channel_layout_id(const char *name);
++MLT_EXPORT int mlt_audio_channel_layout_channels(mlt_channel_layout layout);
++MLT_EXPORT mlt_channel_layout mlt_audio_channel_layout_default(int channels);
+ 
+ #endif
+diff --git a/src/framework/mlt_cache.h b/src/framework/mlt_cache.h
+index 9abc430b5..bd2ee6a51 100644
+--- a/src/framework/mlt_cache.h
++++ b/src/framework/mlt_cache.h
+@@ -24,21 +24,22 @@
+ #define MLT_CACHE_H
+ 
+ #include "mlt_types.h"
++#include "mlt_export.h"
+ 
+-extern void *mlt_cache_item_data(mlt_cache_item item, int *size);
+-extern void mlt_cache_item_close(mlt_cache_item item);
++MLT_EXPORT void *mlt_cache_item_data(mlt_cache_item item, int *size);
++MLT_EXPORT void mlt_cache_item_close(mlt_cache_item item);
+ 
+-extern mlt_cache mlt_cache_init();
+-extern void mlt_cache_set_size(mlt_cache cache, int size);
+-extern int mlt_cache_get_size(mlt_cache cache);
+-extern void mlt_cache_close(mlt_cache cache);
+-extern void mlt_cache_purge(mlt_cache cache, void *object);
+-extern void mlt_cache_put(
++MLT_EXPORT mlt_cache mlt_cache_init();
++MLT_EXPORT void mlt_cache_set_size(mlt_cache cache, int size);
++MLT_EXPORT int mlt_cache_get_size(mlt_cache cache);
++MLT_EXPORT void mlt_cache_close(mlt_cache cache);
++MLT_EXPORT void mlt_cache_purge(mlt_cache cache, void *object);
++MLT_EXPORT void mlt_cache_put(
+     mlt_cache cache, void *object, void *data, int size, mlt_destructor destructor);
+-extern mlt_cache_item mlt_cache_get(mlt_cache cache, void *object);
+-extern void mlt_cache_put_frame(mlt_cache cache, mlt_frame frame);
+-extern void mlt_cache_put_frame_audio(mlt_cache cache, mlt_frame frame);
+-extern void mlt_cache_put_frame_image(mlt_cache cache, mlt_frame frame);
+-extern mlt_frame mlt_cache_get_frame(mlt_cache cache, mlt_position position);
++MLT_EXPORT mlt_cache_item mlt_cache_get(mlt_cache cache, void *object);
++MLT_EXPORT void mlt_cache_put_frame(mlt_cache cache, mlt_frame frame);
++MLT_EXPORT void mlt_cache_put_frame_audio(mlt_cache cache, mlt_frame frame);
++MLT_EXPORT void mlt_cache_put_frame_image(mlt_cache cache, mlt_frame frame);
++MLT_EXPORT mlt_frame mlt_cache_get_frame(mlt_cache cache, mlt_position position);
+ 
+ #endif
+diff --git a/src/framework/mlt_chain.h b/src/framework/mlt_chain.h
+index c45d6ebdd..9b02e5526 100644
+--- a/src/framework/mlt_chain.h
++++ b/src/framework/mlt_chain.h
+@@ -25,6 +25,7 @@
+ 
+ #include "mlt_link.h"
+ #include "mlt_producer.h"
++#include "mlt_export.h"
+ 
+ /** \brief Chain class
+  *
+@@ -43,15 +44,15 @@ struct mlt_chain_s
+ #define MLT_CHAIN_SERVICE(chain) MLT_PRODUCER_SERVICE(MLT_CHAIN_PRODUCER(chain))
+ #define MLT_CHAIN_PROPERTIES(chain) MLT_SERVICE_PROPERTIES(MLT_CHAIN_SERVICE(chain))
+ 
+-extern mlt_chain mlt_chain_init(mlt_profile);
+-extern void mlt_chain_set_source(mlt_chain self, mlt_producer source);
+-extern mlt_producer mlt_chain_get_source(mlt_chain self);
+-extern int mlt_chain_attach(mlt_chain self, mlt_link link);
+-extern int mlt_chain_detach(mlt_chain self, mlt_link link);
+-extern int mlt_chain_link_count(mlt_chain self);
+-extern int mlt_chain_move_link(mlt_chain self, int from, int to);
+-extern mlt_link mlt_chain_link(mlt_chain self, int index);
+-extern void mlt_chain_close(mlt_chain self);
+-extern void mlt_chain_attach_normalizers(mlt_chain self);
++MLT_EXPORT mlt_chain mlt_chain_init(mlt_profile);
++MLT_EXPORT void mlt_chain_set_source(mlt_chain self, mlt_producer source);
++MLT_EXPORT mlt_producer mlt_chain_get_source(mlt_chain self);
++MLT_EXPORT int mlt_chain_attach(mlt_chain self, mlt_link link);
++MLT_EXPORT int mlt_chain_detach(mlt_chain self, mlt_link link);
++MLT_EXPORT int mlt_chain_link_count(mlt_chain self);
++MLT_EXPORT int mlt_chain_move_link(mlt_chain self, int from, int to);
++MLT_EXPORT mlt_link mlt_chain_link(mlt_chain self, int index);
++MLT_EXPORT void mlt_chain_close(mlt_chain self);
++MLT_EXPORT void mlt_chain_attach_normalizers(mlt_chain self);
+ 
+ #endif
+diff --git a/src/framework/mlt_consumer.c b/src/framework/mlt_consumer.c
+index a65d7c815..7eb9fcedf 100644
+--- a/src/framework/mlt_consumer.c
++++ b/src/framework/mlt_consumer.c
+@@ -40,11 +40,11 @@
+ 
+ /** This is not the ideal place for this, but it is needed by VDPAU as well.
+  */
+-pthread_mutex_t mlt_sdl_mutex = PTHREAD_MUTEX_INITIALIZER;
++MLT_EXPORT pthread_mutex_t mlt_sdl_mutex = PTHREAD_MUTEX_INITIALIZER;
+ 
+ /** mlt_frame_s::is_processing can not be made atomic, so protect it with a mutex.
+  */
+-pthread_mutex_t mlt_frame_processing_mutex = PTHREAD_MUTEX_INITIALIZER;
++MLT_EXPORT pthread_mutex_t mlt_frame_processing_mutex = PTHREAD_MUTEX_INITIALIZER;
+ 
+ /** \brief private members of mlt_consumer */
+ 
+diff --git a/src/framework/mlt_consumer.h b/src/framework/mlt_consumer.h
+index 412c7f1bf..95b0c673a 100644
+--- a/src/framework/mlt_consumer.h
++++ b/src/framework/mlt_consumer.h
+@@ -25,6 +25,7 @@
+ 
+ #include "mlt_events.h"
+ #include "mlt_service.h"
++#include "mlt_export.h"
+ #include <pthread.h>
+ 
+ /** \brief Consumer abstract service class
+@@ -135,20 +136,20 @@ struct mlt_consumer_s
+ #define MLT_CONSUMER_SERVICE(consumer) (&(consumer)->parent)
+ #define MLT_CONSUMER_PROPERTIES(consumer) MLT_SERVICE_PROPERTIES(MLT_CONSUMER_SERVICE(consumer))
+ 
+-extern int mlt_consumer_init(mlt_consumer self, void *child, mlt_profile profile);
+-extern mlt_consumer mlt_consumer_new(mlt_profile profile);
+-extern mlt_service mlt_consumer_service(mlt_consumer self);
+-extern mlt_properties mlt_consumer_properties(mlt_consumer self);
+-extern int mlt_consumer_connect(mlt_consumer self, mlt_service producer);
+-extern int mlt_consumer_start(mlt_consumer self);
+-extern void mlt_consumer_purge(mlt_consumer self);
+-extern int mlt_consumer_put_frame(mlt_consumer self, mlt_frame frame);
+-extern mlt_frame mlt_consumer_get_frame(mlt_consumer self);
+-extern mlt_frame mlt_consumer_rt_frame(mlt_consumer self);
+-extern int mlt_consumer_stop(mlt_consumer self);
+-extern int mlt_consumer_is_stopped(mlt_consumer self);
+-extern void mlt_consumer_stopped(mlt_consumer self);
+-extern void mlt_consumer_close(mlt_consumer);
+-extern mlt_position mlt_consumer_position(mlt_consumer);
++MLT_EXPORT int mlt_consumer_init(mlt_consumer self, void *child, mlt_profile profile);
++MLT_EXPORT mlt_consumer mlt_consumer_new(mlt_profile profile);
++MLT_EXPORT mlt_service mlt_consumer_service(mlt_consumer self);
++MLT_EXPORT mlt_properties mlt_consumer_properties(mlt_consumer self);
++MLT_EXPORT int mlt_consumer_connect(mlt_consumer self, mlt_service producer);
++MLT_EXPORT int mlt_consumer_start(mlt_consumer self);
++MLT_EXPORT void mlt_consumer_purge(mlt_consumer self);
++MLT_EXPORT int mlt_consumer_put_frame(mlt_consumer self, mlt_frame frame);
++MLT_EXPORT mlt_frame mlt_consumer_get_frame(mlt_consumer self);
++MLT_EXPORT mlt_frame mlt_consumer_rt_frame(mlt_consumer self);
++MLT_EXPORT int mlt_consumer_stop(mlt_consumer self);
++MLT_EXPORT int mlt_consumer_is_stopped(mlt_consumer self);
++MLT_EXPORT void mlt_consumer_stopped(mlt_consumer self);
++MLT_EXPORT void mlt_consumer_close(mlt_consumer);
++MLT_EXPORT mlt_position mlt_consumer_position(mlt_consumer);
+ 
+ #endif
+diff --git a/src/framework/mlt_deque.h b/src/framework/mlt_deque.h
+index fee664fe6..06a766fb9 100644
+--- a/src/framework/mlt_deque.h
++++ b/src/framework/mlt_deque.h
+@@ -24,6 +24,7 @@
+ #define MLT_DEQUE_H
+ 
+ #include "mlt_types.h"
++#include "mlt_export.h"
+ 
+ /** The callback function used to compare items for insert sort.
+  *
+@@ -34,31 +35,31 @@
+ */
+ typedef int (*mlt_deque_compare)(void *a, void *b);
+ 
+-extern mlt_deque mlt_deque_init();
+-extern int mlt_deque_count(mlt_deque self);
+-extern int mlt_deque_push_back(mlt_deque self, void *item);
+-extern void *mlt_deque_pop_back(mlt_deque self);
+-extern int mlt_deque_push_front(mlt_deque self, void *item);
+-extern void *mlt_deque_pop_front(mlt_deque self);
+-extern void *mlt_deque_peek_back(mlt_deque self);
+-extern void *mlt_deque_peek_front(mlt_deque self);
+-extern void *mlt_deque_peek(mlt_deque self, int index);
+-extern int mlt_deque_insert(mlt_deque self, void *item, mlt_deque_compare);
++MLT_EXPORT mlt_deque mlt_deque_init();
++MLT_EXPORT int mlt_deque_count(mlt_deque self);
++MLT_EXPORT int mlt_deque_push_back(mlt_deque self, void *item);
++MLT_EXPORT void *mlt_deque_pop_back(mlt_deque self);
++MLT_EXPORT int mlt_deque_push_front(mlt_deque self, void *item);
++MLT_EXPORT void *mlt_deque_pop_front(mlt_deque self);
++MLT_EXPORT void *mlt_deque_peek_back(mlt_deque self);
++MLT_EXPORT void *mlt_deque_peek_front(mlt_deque self);
++MLT_EXPORT void *mlt_deque_peek(mlt_deque self, int index);
++MLT_EXPORT int mlt_deque_insert(mlt_deque self, void *item, mlt_deque_compare);
+ 
+-extern int mlt_deque_push_back_int(mlt_deque self, int item);
+-extern int mlt_deque_pop_back_int(mlt_deque self);
+-extern int mlt_deque_push_front_int(mlt_deque self, int item);
+-extern int mlt_deque_pop_front_int(mlt_deque self);
+-extern int mlt_deque_peek_back_int(mlt_deque self);
+-extern int mlt_deque_peek_front_int(mlt_deque self);
++MLT_EXPORT int mlt_deque_push_back_int(mlt_deque self, int item);
++MLT_EXPORT int mlt_deque_pop_back_int(mlt_deque self);
++MLT_EXPORT int mlt_deque_push_front_int(mlt_deque self, int item);
++MLT_EXPORT int mlt_deque_pop_front_int(mlt_deque self);
++MLT_EXPORT int mlt_deque_peek_back_int(mlt_deque self);
++MLT_EXPORT int mlt_deque_peek_front_int(mlt_deque self);
+ 
+-extern int mlt_deque_push_back_double(mlt_deque self, double item);
+-extern double mlt_deque_pop_back_double(mlt_deque self);
+-extern int mlt_deque_push_front_double(mlt_deque self, double item);
+-extern double mlt_deque_pop_front_double(mlt_deque self);
+-extern double mlt_deque_peek_back_double(mlt_deque self);
+-extern double mlt_deque_peek_front_double(mlt_deque self);
++MLT_EXPORT int mlt_deque_push_back_double(mlt_deque self, double item);
++MLT_EXPORT double mlt_deque_pop_back_double(mlt_deque self);
++MLT_EXPORT int mlt_deque_push_front_double(mlt_deque self, double item);
++MLT_EXPORT double mlt_deque_pop_front_double(mlt_deque self);
++MLT_EXPORT double mlt_deque_peek_back_double(mlt_deque self);
++MLT_EXPORT double mlt_deque_peek_front_double(mlt_deque self);
+ 
+-extern void mlt_deque_close(mlt_deque self);
++MLT_EXPORT void mlt_deque_close(mlt_deque self);
+ 
+ #endif
+diff --git a/src/framework/mlt_events.h b/src/framework/mlt_events.h
+index 8b70ee491..88451e229 100644
+--- a/src/framework/mlt_events.h
++++ b/src/framework/mlt_events.h
+@@ -24,6 +24,7 @@
+ #define MLT_EVENTS_H
+ 
+ #include "mlt_types.h"
++#include "mlt_export.h"
+ 
+ /** A container for data that may be supplied with an event */
+ typedef struct
+@@ -50,34 +51,34 @@ typedef struct
+  */
+ typedef void (*mlt_listener)(mlt_properties, void *, mlt_event_data);
+ 
+-extern void mlt_events_init(mlt_properties self);
+-extern int mlt_events_register(mlt_properties self, const char *id);
+-extern int mlt_events_fire(mlt_properties self, const char *id, mlt_event_data);
+-extern mlt_event mlt_events_listen(mlt_properties self,
++MLT_EXPORT void mlt_events_init(mlt_properties self);
++MLT_EXPORT int mlt_events_register(mlt_properties self, const char *id);
++MLT_EXPORT int mlt_events_fire(mlt_properties self, const char *id, mlt_event_data);
++MLT_EXPORT mlt_event mlt_events_listen(mlt_properties self,
+                                    void *listener_data,
+                                    const char *id,
+                                    mlt_listener listener);
+-extern void mlt_events_block(mlt_properties self, void *listener_data);
+-extern void mlt_events_unblock(mlt_properties self, void *listener_data);
+-extern void mlt_events_disconnect(mlt_properties self, void *listener_data);
++MLT_EXPORT void mlt_events_block(mlt_properties self, void *listener_data);
++MLT_EXPORT void mlt_events_unblock(mlt_properties self, void *listener_data);
++MLT_EXPORT void mlt_events_disconnect(mlt_properties self, void *listener_data);
+ 
+-extern mlt_event mlt_events_setup_wait_for(mlt_properties self, const char *id);
+-extern void mlt_events_wait_for(mlt_properties self, mlt_event event);
+-extern void mlt_events_close_wait_for(mlt_properties self, mlt_event event);
++MLT_EXPORT mlt_event mlt_events_setup_wait_for(mlt_properties self, const char *id);
++MLT_EXPORT void mlt_events_wait_for(mlt_properties self, mlt_event event);
++MLT_EXPORT void mlt_events_close_wait_for(mlt_properties self, mlt_event event);
+ 
+-extern void mlt_event_inc_ref(mlt_event self);
+-extern void mlt_event_block(mlt_event self);
+-extern void mlt_event_unblock(mlt_event self);
+-extern void mlt_event_close(mlt_event self);
++MLT_EXPORT void mlt_event_inc_ref(mlt_event self);
++MLT_EXPORT void mlt_event_block(mlt_event self);
++MLT_EXPORT void mlt_event_unblock(mlt_event self);
++MLT_EXPORT void mlt_event_close(mlt_event self);
+ 
+-extern mlt_event_data mlt_event_data_none();
+-extern mlt_event_data mlt_event_data_from_int(int value);
+-extern int mlt_event_data_to_int(mlt_event_data);
+-extern mlt_event_data mlt_event_data_from_string(const char *value);
+-extern const char *mlt_event_data_to_string(mlt_event_data);
+-extern mlt_event_data mlt_event_data_from_frame(mlt_frame);
+-extern mlt_frame mlt_event_data_to_frame(mlt_event_data);
+-extern mlt_event_data mlt_event_data_from_object(void *);
+-extern void *mlt_event_data_to_object(mlt_event_data);
++MLT_EXPORT mlt_event_data mlt_event_data_none();
++MLT_EXPORT mlt_event_data mlt_event_data_from_int(int value);
++MLT_EXPORT int mlt_event_data_to_int(mlt_event_data);
++MLT_EXPORT mlt_event_data mlt_event_data_from_string(const char *value);
++MLT_EXPORT const char *mlt_event_data_to_string(mlt_event_data);
++MLT_EXPORT mlt_event_data mlt_event_data_from_frame(mlt_frame);
++MLT_EXPORT mlt_frame mlt_event_data_to_frame(mlt_event_data);
++MLT_EXPORT mlt_event_data mlt_event_data_from_object(void *);
++MLT_EXPORT void *mlt_event_data_to_object(mlt_event_data);
+ 
+ #endif
+diff --git a/src/framework/mlt_factory.h b/src/framework/mlt_factory.h
+index bec854f33..9e3038575 100644
+--- a/src/framework/mlt_factory.h
++++ b/src/framework/mlt_factory.h
+@@ -25,6 +25,7 @@
+ #include "mlt_profile.h"
+ #include "mlt_repository.h"
+ #include "mlt_types.h"
++#include "mlt_export.h"
+ 
+ /**
+  * \envvar \em MLT_PRODUCER the name of a default producer often used by other services, defaults to "loader"
+@@ -59,26 +60,26 @@
+  *   the event data is a pointer to mlt_factory_event_data
+  */
+ 
+-extern mlt_repository mlt_factory_init(const char *directory);
+-extern mlt_repository mlt_factory_repository();
+-extern const char *mlt_factory_directory();
+-extern char *mlt_environment(const char *name);
+-extern int mlt_environment_set(const char *name, const char *value);
+-extern mlt_properties mlt_factory_event_object();
+-extern mlt_producer mlt_factory_producer(mlt_profile profile,
++MLT_EXPORT mlt_repository mlt_factory_init(const char *directory);
++MLT_EXPORT mlt_repository mlt_factory_repository();
++MLT_EXPORT const char *mlt_factory_directory();
++MLT_EXPORT char *mlt_environment(const char *name);
++MLT_EXPORT int mlt_environment_set(const char *name, const char *value);
++MLT_EXPORT mlt_properties mlt_factory_event_object();
++MLT_EXPORT mlt_producer mlt_factory_producer(mlt_profile profile,
+                                          const char *service,
+                                          const void *resource);
+-extern mlt_filter mlt_factory_filter(mlt_profile profile, const char *service, const void *input);
+-extern mlt_link mlt_factory_link(const char *service, const void *input);
+-extern mlt_transition mlt_factory_transition(mlt_profile profile,
++MLT_EXPORT mlt_filter mlt_factory_filter(mlt_profile profile, const char *service, const void *input);
++MLT_EXPORT mlt_link mlt_factory_link(const char *service, const void *input);
++MLT_EXPORT mlt_transition mlt_factory_transition(mlt_profile profile,
+                                              const char *service,
+                                              const void *input);
+-extern mlt_consumer mlt_factory_consumer(mlt_profile profile,
++MLT_EXPORT mlt_consumer mlt_factory_consumer(mlt_profile profile,
+                                          const char *service,
+                                          const void *input);
+-extern void mlt_factory_register_for_clean_up(void *ptr, mlt_destructor destructor);
+-extern void mlt_factory_close();
+-extern mlt_properties mlt_global_properties();
++MLT_EXPORT void mlt_factory_register_for_clean_up(void *ptr, mlt_destructor destructor);
++MLT_EXPORT void mlt_factory_close();
++MLT_EXPORT mlt_properties mlt_global_properties();
+ 
+ /** The event data for all factory-related events */
+ 
+diff --git a/src/framework/mlt_field.h b/src/framework/mlt_field.h
+index 99584f1d8..acd826fa8 100644
+--- a/src/framework/mlt_field.h
++++ b/src/framework/mlt_field.h
+@@ -24,16 +24,17 @@
+ #define MLT_FIELD_H
+ 
+ #include "mlt_types.h"
++#include "mlt_export.h"
+ 
+-extern mlt_field mlt_field_init();
+-extern mlt_field mlt_field_new(mlt_multitrack multitrack, mlt_tractor tractor);
+-extern mlt_service mlt_field_service(mlt_field self);
+-extern mlt_tractor mlt_field_tractor(mlt_field self);
+-extern mlt_multitrack mlt_field_multitrack(mlt_field self);
+-extern mlt_properties mlt_field_properties(mlt_field self);
+-extern int mlt_field_plant_filter(mlt_field self, mlt_filter that, int track);
+-extern int mlt_field_plant_transition(mlt_field self, mlt_transition that, int a_track, int b_track);
+-extern void mlt_field_close(mlt_field self);
+-extern void mlt_field_disconnect_service(mlt_field self, mlt_service service);
++MLT_EXPORT mlt_field mlt_field_init();
++MLT_EXPORT mlt_field mlt_field_new(mlt_multitrack multitrack, mlt_tractor tractor);
++MLT_EXPORT mlt_service mlt_field_service(mlt_field self);
++MLT_EXPORT mlt_tractor mlt_field_tractor(mlt_field self);
++MLT_EXPORT mlt_multitrack mlt_field_multitrack(mlt_field self);
++MLT_EXPORT mlt_properties mlt_field_properties(mlt_field self);
++MLT_EXPORT int mlt_field_plant_filter(mlt_field self, mlt_filter that, int track);
++MLT_EXPORT int mlt_field_plant_transition(mlt_field self, mlt_transition that, int a_track, int b_track);
++MLT_EXPORT void mlt_field_close(mlt_field self);
++MLT_EXPORT void mlt_field_disconnect_service(mlt_field self, mlt_service service);
+ 
+ #endif
+diff --git a/src/framework/mlt_filter.h b/src/framework/mlt_filter.h
+index bf5e35a82..a9224c2fd 100644
+--- a/src/framework/mlt_filter.h
++++ b/src/framework/mlt_filter.h
+@@ -24,6 +24,7 @@
+ #define MLT_FILTER_H
+ 
+ #include "mlt_service.h"
++#include "mlt_export.h"
+ 
+ /** \brief Filter abstract service class
+  *
+@@ -54,20 +55,20 @@ struct mlt_filter_s
+ #define MLT_FILTER_SERVICE(filter) (&(filter)->parent)
+ #define MLT_FILTER_PROPERTIES(filter) MLT_SERVICE_PROPERTIES(MLT_FILTER_SERVICE(filter))
+ 
+-extern int mlt_filter_init(mlt_filter self, void *child);
+-extern mlt_filter mlt_filter_new();
+-extern mlt_service mlt_filter_service(mlt_filter self);
+-extern mlt_properties mlt_filter_properties(mlt_filter self);
+-extern mlt_frame mlt_filter_process(mlt_filter self, mlt_frame that);
+-extern int mlt_filter_connect(mlt_filter self, mlt_service producer, int index);
+-extern void mlt_filter_set_in_and_out(mlt_filter self, mlt_position in, mlt_position out);
+-extern int mlt_filter_get_track(mlt_filter self);
+-extern mlt_position mlt_filter_get_in(mlt_filter self);
+-extern mlt_position mlt_filter_get_out(mlt_filter self);
+-extern mlt_position mlt_filter_get_length(mlt_filter self);
+-extern mlt_position mlt_filter_get_length2(mlt_filter self, mlt_frame frame);
+-extern mlt_position mlt_filter_get_position(mlt_filter self, mlt_frame frame);
+-extern double mlt_filter_get_progress(mlt_filter self, mlt_frame frame);
+-extern void mlt_filter_close(mlt_filter);
++MLT_EXPORT int mlt_filter_init(mlt_filter self, void *child);
++MLT_EXPORT mlt_filter mlt_filter_new();
++MLT_EXPORT mlt_service mlt_filter_service(mlt_filter self);
++MLT_EXPORT mlt_properties mlt_filter_properties(mlt_filter self);
++MLT_EXPORT mlt_frame mlt_filter_process(mlt_filter self, mlt_frame that);
++MLT_EXPORT int mlt_filter_connect(mlt_filter self, mlt_service producer, int index);
++MLT_EXPORT void mlt_filter_set_in_and_out(mlt_filter self, mlt_position in, mlt_position out);
++MLT_EXPORT int mlt_filter_get_track(mlt_filter self);
++MLT_EXPORT mlt_position mlt_filter_get_in(mlt_filter self);
++MLT_EXPORT mlt_position mlt_filter_get_out(mlt_filter self);
++MLT_EXPORT mlt_position mlt_filter_get_length(mlt_filter self);
++MLT_EXPORT mlt_position mlt_filter_get_length2(mlt_filter self, mlt_frame frame);
++MLT_EXPORT mlt_position mlt_filter_get_position(mlt_filter self, mlt_frame frame);
++MLT_EXPORT double mlt_filter_get_progress(mlt_filter self, mlt_frame frame);
++MLT_EXPORT void mlt_filter_close(mlt_filter);
+ 
+ #endif
+diff --git a/src/framework/mlt_frame.h b/src/framework/mlt_frame.h
+index 334eda9d7..f1b7ff4cf 100644
+--- a/src/framework/mlt_frame.h
++++ b/src/framework/mlt_frame.h
+@@ -28,6 +28,7 @@
+ #include "mlt_image.h"
+ #include "mlt_properties.h"
+ #include "mlt_service.h"
++#include "mlt_export.h"
+ 
+ /** Callback function to get video data.
+  *
+@@ -125,57 +126,57 @@ struct mlt_frame_s
+ #define MLT_FRAME_IMAGE_STACK(frame) ((frame)->stack_image)
+ #define MLT_FRAME_AUDIO_STACK(frame) ((frame)->stack_audio)
+ 
+-extern mlt_frame mlt_frame_init(mlt_service service);
+-extern mlt_properties mlt_frame_properties(mlt_frame self);
+-extern int mlt_frame_is_test_card(mlt_frame self);
+-extern int mlt_frame_is_test_audio(mlt_frame self);
+-extern double mlt_frame_get_aspect_ratio(mlt_frame self);
+-extern int mlt_frame_set_aspect_ratio(mlt_frame self, double value);
+-extern mlt_position mlt_frame_get_position(mlt_frame self);
+-extern mlt_position mlt_frame_original_position(mlt_frame self);
+-extern int mlt_frame_set_position(mlt_frame self, mlt_position value);
+-extern int mlt_frame_set_image(mlt_frame self, uint8_t *image, int size, mlt_destructor destroy);
+-extern int mlt_frame_set_alpha(mlt_frame self, uint8_t *alpha, int size, mlt_destructor destroy);
+-extern void mlt_frame_replace_image(
++MLT_EXPORT mlt_frame mlt_frame_init(mlt_service service);
++MLT_EXPORT mlt_properties mlt_frame_properties(mlt_frame self);
++MLT_EXPORT int mlt_frame_is_test_card(mlt_frame self);
++MLT_EXPORT int mlt_frame_is_test_audio(mlt_frame self);
++MLT_EXPORT double mlt_frame_get_aspect_ratio(mlt_frame self);
++MLT_EXPORT int mlt_frame_set_aspect_ratio(mlt_frame self, double value);
++MLT_EXPORT mlt_position mlt_frame_get_position(mlt_frame self);
++MLT_EXPORT mlt_position mlt_frame_original_position(mlt_frame self);
++MLT_EXPORT int mlt_frame_set_position(mlt_frame self, mlt_position value);
++MLT_EXPORT int mlt_frame_set_image(mlt_frame self, uint8_t *image, int size, mlt_destructor destroy);
++MLT_EXPORT int mlt_frame_set_alpha(mlt_frame self, uint8_t *alpha, int size, mlt_destructor destroy);
++MLT_EXPORT void mlt_frame_replace_image(
+     mlt_frame self, uint8_t *image, mlt_image_format format, int width, int height);
+-extern int mlt_frame_get_image(mlt_frame self,
++MLT_EXPORT int mlt_frame_get_image(mlt_frame self,
+                                uint8_t **buffer,
+                                mlt_image_format *format,
+                                int *width,
+                                int *height,
+                                int writable);
+-extern uint8_t *mlt_frame_get_alpha(mlt_frame self);
+-extern uint8_t *mlt_frame_get_alpha_size(mlt_frame self, int *size);
+-extern int mlt_frame_get_audio(mlt_frame self,
++MLT_EXPORT uint8_t *mlt_frame_get_alpha(mlt_frame self);
++MLT_EXPORT uint8_t *mlt_frame_get_alpha_size(mlt_frame self, int *size);
++MLT_EXPORT int mlt_frame_get_audio(mlt_frame self,
+                                void **buffer,
+                                mlt_audio_format *format,
+                                int *frequency,
+                                int *channels,
+                                int *samples);
+-extern int mlt_frame_set_audio(
++MLT_EXPORT int mlt_frame_set_audio(
+     mlt_frame self, void *buffer, mlt_audio_format, int size, mlt_destructor);
+-extern unsigned char *mlt_frame_get_waveform(mlt_frame self, int w, int h);
+-extern int mlt_frame_push_get_image(mlt_frame self, mlt_get_image get_image);
+-extern mlt_get_image mlt_frame_pop_get_image(mlt_frame self);
+-extern int mlt_frame_push_frame(mlt_frame self, mlt_frame that);
+-extern mlt_frame mlt_frame_pop_frame(mlt_frame self);
+-extern int mlt_frame_push_service(mlt_frame self, void *that);
+-extern void *mlt_frame_pop_service(mlt_frame self);
+-extern int mlt_frame_push_service_int(mlt_frame self, int that);
+-extern int mlt_frame_pop_service_int(mlt_frame self);
+-extern int mlt_frame_push_audio(mlt_frame self, void *that);
+-extern void *mlt_frame_pop_audio(mlt_frame self);
+-extern mlt_deque mlt_frame_service_stack(mlt_frame self);
+-extern mlt_producer mlt_frame_get_original_producer(mlt_frame self);
+-extern void mlt_frame_close(mlt_frame self);
+-extern mlt_properties mlt_frame_unique_properties(mlt_frame self, mlt_service service);
+-extern mlt_properties mlt_frame_get_unique_properties(mlt_frame self, mlt_service service);
+-extern mlt_frame mlt_frame_clone(mlt_frame self, int is_deep);
+-extern mlt_frame mlt_frame_clone_audio(mlt_frame self, int is_deep);
+-extern mlt_frame mlt_frame_clone_image(mlt_frame self, int is_deep);
++MLT_EXPORT unsigned char *mlt_frame_get_waveform(mlt_frame self, int w, int h);
++MLT_EXPORT int mlt_frame_push_get_image(mlt_frame self, mlt_get_image get_image);
++MLT_EXPORT mlt_get_image mlt_frame_pop_get_image(mlt_frame self);
++MLT_EXPORT int mlt_frame_push_frame(mlt_frame self, mlt_frame that);
++MLT_EXPORT mlt_frame mlt_frame_pop_frame(mlt_frame self);
++MLT_EXPORT int mlt_frame_push_service(mlt_frame self, void *that);
++MLT_EXPORT void *mlt_frame_pop_service(mlt_frame self);
++MLT_EXPORT int mlt_frame_push_service_int(mlt_frame self, int that);
++MLT_EXPORT int mlt_frame_pop_service_int(mlt_frame self);
++MLT_EXPORT int mlt_frame_push_audio(mlt_frame self, void *that);
++MLT_EXPORT void *mlt_frame_pop_audio(mlt_frame self);
++MLT_EXPORT mlt_deque mlt_frame_service_stack(mlt_frame self);
++MLT_EXPORT mlt_producer mlt_frame_get_original_producer(mlt_frame self);
++MLT_EXPORT void mlt_frame_close(mlt_frame self);
++MLT_EXPORT mlt_properties mlt_frame_unique_properties(mlt_frame self, mlt_service service);
++MLT_EXPORT mlt_properties mlt_frame_get_unique_properties(mlt_frame self, mlt_service service);
++MLT_EXPORT mlt_frame mlt_frame_clone(mlt_frame self, int is_deep);
++MLT_EXPORT mlt_frame mlt_frame_clone_audio(mlt_frame self, int is_deep);
++MLT_EXPORT mlt_frame mlt_frame_clone_image(mlt_frame self, int is_deep);
+ 
+ /* convenience functions */
+-extern void mlt_frame_write_ppm(mlt_frame frame);
++MLT_EXPORT void mlt_frame_write_ppm(mlt_frame frame);
+ 
+ /** This macro scales RGB into the YUV gamut - y is scaled by 219/255 and uv by 224/255. */
+ #define RGB2YUV_601_SCALED(r, g, b, y, u, v) \
+diff --git a/src/framework/mlt_image.h b/src/framework/mlt_image.h
+index b013e25ef..2d9407b92 100644
+--- a/src/framework/mlt_image.h
++++ b/src/framework/mlt_image.h
+@@ -24,6 +24,7 @@
+ #define MLT_IMAGE_H
+ 
+ #include "mlt_types.h"
++#include "mlt_export.h"
+ 
+ /** \brief Image class
+  *
+@@ -46,28 +47,28 @@ struct mlt_image_s
+     mlt_destructor close;
+ };
+ 
+-extern mlt_image mlt_image_new();
+-extern void mlt_image_close(mlt_image self);
+-extern void mlt_image_set_values(
++MLT_EXPORT mlt_image mlt_image_new();
++MLT_EXPORT void mlt_image_close(mlt_image self);
++MLT_EXPORT void mlt_image_set_values(
+     mlt_image self, void *data, mlt_image_format format, int width, int height);
+-extern void mlt_image_get_values(
++MLT_EXPORT void mlt_image_get_values(
+     mlt_image self, void **data, mlt_image_format *format, int *width, int *height);
+-extern void mlt_image_alloc_data(mlt_image self);
+-extern void mlt_image_alloc_alpha(mlt_image self);
+-extern int mlt_image_calculate_size(mlt_image self);
+-extern void mlt_image_fill_black(mlt_image self);
+-extern void mlt_image_fill_checkerboard(mlt_image self, double sample_aspect_ratio);
+-extern void mlt_image_fill_white(mlt_image self, int full_range);
+-extern void mlt_image_fill_opaque(mlt_image self);
+-extern int mlt_image_is_opaque(mlt_image self);
+-extern const char *mlt_image_format_name(mlt_image_format format);
+-extern mlt_image_format mlt_image_format_id(const char *name);
+-extern int mlt_image_rgba_opaque(uint8_t *image, int width, int height);
+-extern int mlt_image_full_range(const char *color_range);
++MLT_EXPORT void mlt_image_alloc_data(mlt_image self);
++MLT_EXPORT void mlt_image_alloc_alpha(mlt_image self);
++MLT_EXPORT int mlt_image_calculate_size(mlt_image self);
++MLT_EXPORT void mlt_image_fill_black(mlt_image self);
++MLT_EXPORT void mlt_image_fill_checkerboard(mlt_image self, double sample_aspect_ratio);
++MLT_EXPORT void mlt_image_fill_white(mlt_image self, int full_range);
++MLT_EXPORT void mlt_image_fill_opaque(mlt_image self);
++MLT_EXPORT int mlt_image_is_opaque(mlt_image self);
++MLT_EXPORT const char *mlt_image_format_name(mlt_image_format format);
++MLT_EXPORT mlt_image_format mlt_image_format_id(const char *name);
++MLT_EXPORT int mlt_image_rgba_opaque(uint8_t *image, int width, int height);
++MLT_EXPORT int mlt_image_full_range(const char *color_range);
+ 
+ // Deprecated functions
+-extern int mlt_image_format_size(mlt_image_format format, int width, int height, int *bpp);
+-extern void mlt_image_format_planes(
++MLT_DEPRECATED_EXPORT  int mlt_image_format_size(mlt_image_format format, int width, int height, int *bpp);
++MLT_DEPRECATED_EXPORT  void mlt_image_format_planes(
+     mlt_image_format format, int width, int height, void *data, uint8_t *planes[4], int strides[4]);
+ 
+ #endif
+diff --git a/src/framework/mlt_link.h b/src/framework/mlt_link.h
+index 381e62f97..3c8d7936b 100644
+--- a/src/framework/mlt_link.h
++++ b/src/framework/mlt_link.h
+@@ -24,6 +24,7 @@
+ #define MLT_LINK_H
+ 
+ #include "mlt_producer.h"
++#include "mlt_export.h"
+ 
+ /** \brief Link class
+  *
+@@ -69,15 +70,15 @@ struct mlt_link_s
+ #define MLT_LINK_SERVICE(link) MLT_PRODUCER_SERVICE(MLT_LINK_PRODUCER(link))
+ #define MLT_LINK_PROPERTIES(link) MLT_SERVICE_PROPERTIES(MLT_LINK_SERVICE(link))
+ 
+-extern mlt_link mlt_link_init();
+-extern int mlt_link_connect_next(mlt_link self, mlt_producer next, mlt_profile chain_profile);
+-extern void mlt_link_close(mlt_link self);
++MLT_EXPORT mlt_link mlt_link_init();
++MLT_EXPORT int mlt_link_connect_next(mlt_link self, mlt_producer next, mlt_profile chain_profile);
++MLT_EXPORT void mlt_link_close(mlt_link self);
+ 
+ // Link filter wrapper functions
+-extern mlt_link mlt_link_filter_init(mlt_profile profile,
+-                                     mlt_service_type type,
+-                                     const char *id,
+-                                     char *arg);
+-extern mlt_properties mlt_link_filter_metadata(mlt_service_type type, const char *id, void *data);
++MLT_EXPORT mlt_link mlt_link_filter_init(mlt_profile profile,
++                                       mlt_service_type type,
++                                       const char *id,
++                                       char *arg);
++MLT_EXPORT mlt_properties mlt_link_filter_metadata(mlt_service_type type, const char *id, void *data);
+ 
+ #endif
+diff --git a/src/framework/mlt_log.h b/src/framework/mlt_log.h
+index 81c4cabf4..3373ad825 100644
+--- a/src/framework/mlt_log.h
++++ b/src/framework/mlt_log.h
+@@ -22,6 +22,7 @@
+ #ifndef MLT_LOG_H
+ #define MLT_LOG_H
+ 
++#include "mlt_export.h"
+ #include <stdarg.h>
+ #include <stdint.h>
+ 
+@@ -74,10 +75,10 @@
+  * \see mlt_vlog
+  */
+ #ifdef __GNUC__
+-void mlt_log(void *service, int level, const char *fmt, ...)
++MLT_EXPORT void mlt_log(void *service, int level, const char *fmt, ...)
+     __attribute__((__format__(__printf__, 3, 4)));
+ #else
+-void mlt_log(void *service, int level, const char *fmt, ...);
++MLT_EXPORT void mlt_log(void *service, int level, const char *fmt, ...);
+ #endif
+ 
+ #ifdef _MSC_VER
+@@ -118,8 +119,8 @@ void mlt_log(void *service, int level, const char *fmt, ...);
+ #endif
+ 
+ void mlt_vlog(void *service, int level, const char *fmt, va_list);
+-int mlt_log_get_level(void);
+-void mlt_log_set_level(int);
++MLT_EXPORT int mlt_log_get_level(void);
++MLT_EXPORT void mlt_log_set_level(int);
+ void mlt_log_set_callback(void (*)(void *, int, const char *, va_list));
+ 
+ #define mlt_log_timings_begin() \
+@@ -136,6 +137,6 @@ void mlt_log_set_callback(void (*)(void *, int, const char *, va_list));
+                     _mlt_log_timings_end - _mlt_log_timings_begin); \
+     }
+ 
+-int64_t mlt_log_timings_now(void);
++MLT_EXPORT int64_t mlt_log_timings_now(void);
+ 
+ #endif /* MLT_LOG_H */
+diff --git a/src/framework/mlt_luma_map.h b/src/framework/mlt_luma_map.h
+index 76bf518b5..9394f16df 100644
+--- a/src/framework/mlt_luma_map.h
++++ b/src/framework/mlt_luma_map.h
+@@ -24,6 +24,7 @@
+ 
+ #include <stdint.h>
+ #include <stdio.h>
++#include "mlt_export.h"
+ 
+ #ifdef __cplusplus
+ extern "C" {
+@@ -51,11 +52,11 @@ struct mlt_luma_map_s
+ 
+ typedef struct mlt_luma_map_s *mlt_luma_map;
+ 
+-extern void mlt_luma_map_init(mlt_luma_map self);
+-extern mlt_luma_map mlt_luma_map_new(const char *path);
+-extern uint16_t *mlt_luma_map_render(mlt_luma_map self);
+-extern int mlt_luma_map_from_pgm(const char *filename, uint16_t **map, int *width, int *height);
+-extern void mlt_luma_map_from_yuv422(uint8_t *image, uint16_t **map, int width, int height);
++MLT_EXPORT void mlt_luma_map_init(mlt_luma_map self);
++MLT_EXPORT mlt_luma_map mlt_luma_map_new(const char *path);
++MLT_EXPORT uint16_t *mlt_luma_map_render(mlt_luma_map self);
++MLT_EXPORT int mlt_luma_map_from_pgm(const char *filename, uint16_t **map, int *width, int *height);
++MLT_EXPORT void mlt_luma_map_from_yuv422(uint8_t *image, uint16_t **map, int width, int height);
+ 
+ #ifdef __cplusplus
+ }
+diff --git a/src/framework/mlt_multitrack.h b/src/framework/mlt_multitrack.h
+index f8ee60340..15efb2e58 100644
+--- a/src/framework/mlt_multitrack.h
++++ b/src/framework/mlt_multitrack.h
+@@ -24,6 +24,7 @@
+ #define MLT_MULITRACK_H
+ 
+ #include "mlt_producer.h"
++#include "mlt_export.h"
+ 
+ /** \brief Track class used by mlt_multitrack_s
+  */
+@@ -58,17 +59,17 @@ struct mlt_multitrack_s
+ #define MLT_MULTITRACK_PROPERTIES(multitrack) \
+     MLT_SERVICE_PROPERTIES(MLT_MULTITRACK_SERVICE(multitrack))
+ 
+-extern mlt_multitrack mlt_multitrack_init();
+-extern mlt_producer mlt_multitrack_producer(mlt_multitrack self);
+-extern mlt_service mlt_multitrack_service(mlt_multitrack self);
+-extern mlt_properties mlt_multitrack_properties(mlt_multitrack self);
+-extern int mlt_multitrack_connect(mlt_multitrack self, mlt_producer producer, int track);
+-extern int mlt_multitrack_insert(mlt_multitrack self, mlt_producer producer, int track);
+-extern int mlt_multitrack_disconnect(mlt_multitrack self, int track);
+-extern mlt_position mlt_multitrack_clip(mlt_multitrack self, mlt_whence whence, int index);
+-extern void mlt_multitrack_close(mlt_multitrack self);
+-extern int mlt_multitrack_count(mlt_multitrack self);
+-extern void mlt_multitrack_refresh(mlt_multitrack self);
+-extern mlt_producer mlt_multitrack_track(mlt_multitrack self, int track);
++MLT_EXPORT mlt_multitrack mlt_multitrack_init();
++MLT_EXPORT mlt_producer mlt_multitrack_producer(mlt_multitrack self);
++MLT_EXPORT mlt_service mlt_multitrack_service(mlt_multitrack self);
++MLT_EXPORT mlt_properties mlt_multitrack_properties(mlt_multitrack self);
++MLT_EXPORT int mlt_multitrack_connect(mlt_multitrack self, mlt_producer producer, int track);
++MLT_EXPORT int mlt_multitrack_insert(mlt_multitrack self, mlt_producer producer, int track);
++MLT_EXPORT int mlt_multitrack_disconnect(mlt_multitrack self, int track);
++MLT_EXPORT mlt_position mlt_multitrack_clip(mlt_multitrack self, mlt_whence whence, int index);
++MLT_EXPORT void mlt_multitrack_close(mlt_multitrack self);
++MLT_EXPORT int mlt_multitrack_count(mlt_multitrack self);
++MLT_EXPORT void mlt_multitrack_refresh(mlt_multitrack self);
++MLT_EXPORT mlt_producer mlt_multitrack_track(mlt_multitrack self, int track);
+ 
+ #endif
+diff --git a/src/framework/mlt_parser.h b/src/framework/mlt_parser.h
+index f81309ac2..681f3d15c 100644
+--- a/src/framework/mlt_parser.h
++++ b/src/framework/mlt_parser.h
+@@ -24,6 +24,7 @@
+ #define MLT_PARSER_H
+ 
+ #include "mlt_types.h"
++#include "mlt_export.h"
+ 
+ /** \brief Parser class
+  *
+@@ -55,9 +56,9 @@ struct mlt_parser_s
+     int (*on_end_link)(mlt_parser self, mlt_link object);
+ };
+ 
+-extern mlt_parser mlt_parser_new();
+-extern mlt_properties mlt_parser_properties(mlt_parser self);
+-extern int mlt_parser_start(mlt_parser self, mlt_service object);
+-extern void mlt_parser_close(mlt_parser self);
++MLT_EXPORT mlt_parser mlt_parser_new();
++MLT_EXPORT mlt_properties mlt_parser_properties(mlt_parser self);
++MLT_EXPORT int mlt_parser_start(mlt_parser self, mlt_service object);
++MLT_EXPORT void mlt_parser_close(mlt_parser self);
+ 
+ #endif
+diff --git a/src/framework/mlt_playlist.h b/src/framework/mlt_playlist.h
+index f6b0bf887..58816b1ab 100644
+--- a/src/framework/mlt_playlist.h
++++ b/src/framework/mlt_playlist.h
+@@ -24,6 +24,7 @@
+ #define MLT_PLAYLIST_H
+ 
+ #include "mlt_producer.h"
++#include "mlt_export.h"
+ 
+ /** \brief structure for returning clip information from a playlist entry
+  */
+@@ -82,56 +83,56 @@ struct mlt_playlist_s
+ #define MLT_PLAYLIST_SERVICE(playlist) MLT_PRODUCER_SERVICE(MLT_PLAYLIST_PRODUCER(playlist))
+ #define MLT_PLAYLIST_PROPERTIES(playlist) MLT_SERVICE_PROPERTIES(MLT_PLAYLIST_SERVICE(playlist))
+ 
+-extern mlt_playlist mlt_playlist_init();
+-extern mlt_playlist mlt_playlist_new(mlt_profile profile);
+-extern mlt_producer mlt_playlist_producer(mlt_playlist self);
+-extern mlt_service mlt_playlist_service(mlt_playlist self);
+-extern mlt_properties mlt_playlist_properties(mlt_playlist self);
+-extern int mlt_playlist_count(mlt_playlist self);
+-extern int mlt_playlist_clear(mlt_playlist self);
+-extern int mlt_playlist_append(mlt_playlist self, mlt_producer producer);
+-extern int mlt_playlist_append_io(mlt_playlist self,
+-                                  mlt_producer producer,
+-                                  mlt_position in,
+-                                  mlt_position out);
+-extern int mlt_playlist_blank(mlt_playlist self, mlt_position out);
+-extern int mlt_playlist_blank_time(mlt_playlist self, const char *length);
+-extern mlt_position mlt_playlist_clip(mlt_playlist self, mlt_whence whence, int index);
+-extern int mlt_playlist_current_clip(mlt_playlist self);
+-extern mlt_producer mlt_playlist_current(mlt_playlist self);
+-extern int mlt_playlist_get_clip_info(mlt_playlist self, mlt_playlist_clip_info *info, int index);
+-extern int mlt_playlist_insert(
++MLT_EXPORT mlt_playlist mlt_playlist_init();
++MLT_EXPORT mlt_playlist mlt_playlist_new(mlt_profile profile);
++MLT_EXPORT mlt_producer mlt_playlist_producer(mlt_playlist self);
++MLT_EXPORT mlt_service mlt_playlist_service(mlt_playlist self);
++MLT_EXPORT mlt_properties mlt_playlist_properties(mlt_playlist self);
++MLT_EXPORT int mlt_playlist_count(mlt_playlist self);
++MLT_EXPORT int mlt_playlist_clear(mlt_playlist self);
++MLT_EXPORT int mlt_playlist_append(mlt_playlist self, mlt_producer producer);
++MLT_EXPORT int mlt_playlist_append_io(mlt_playlist self,
++                                    mlt_producer producer,
++                                    mlt_position in,
++                                    mlt_position out);
++MLT_EXPORT int mlt_playlist_blank(mlt_playlist self, mlt_position out);
++MLT_EXPORT int mlt_playlist_blank_time(mlt_playlist self, const char *length);
++MLT_EXPORT mlt_position mlt_playlist_clip(mlt_playlist self, mlt_whence whence, int index);
++MLT_EXPORT int mlt_playlist_current_clip(mlt_playlist self);
++MLT_EXPORT mlt_producer mlt_playlist_current(mlt_playlist self);
++MLT_EXPORT int mlt_playlist_get_clip_info(mlt_playlist self, mlt_playlist_clip_info *info, int index);
++MLT_EXPORT int mlt_playlist_insert(
+     mlt_playlist self, mlt_producer producer, int where, mlt_position in, mlt_position out);
+-extern int mlt_playlist_remove(mlt_playlist self, int where);
+-extern int mlt_playlist_move(mlt_playlist self, int from, int to);
+-extern int mlt_playlist_reorder(mlt_playlist self, const int *indices);
+-extern int mlt_playlist_resize_clip(mlt_playlist self, int clip, mlt_position in, mlt_position out);
+-extern int mlt_playlist_repeat_clip(mlt_playlist self, int clip, int repeat);
+-extern int mlt_playlist_split(mlt_playlist self, int clip, mlt_position position);
+-extern int mlt_playlist_split_at(mlt_playlist self, mlt_position position, int left);
+-extern int mlt_playlist_join(mlt_playlist self, int clip, int count, int merge);
+-extern int mlt_playlist_mix(mlt_playlist self, int clip, int length, mlt_transition transition);
+-extern int mlt_playlist_mix_in(mlt_playlist self, int clip, int length);
+-extern int mlt_playlist_mix_out(mlt_playlist self, int clip, int length);
+-extern int mlt_playlist_mix_add(mlt_playlist self, int clip, mlt_transition transition);
+-extern mlt_producer mlt_playlist_get_clip(mlt_playlist self, int clip);
+-extern mlt_producer mlt_playlist_get_clip_at(mlt_playlist self, mlt_position position);
+-extern int mlt_playlist_get_clip_index_at(mlt_playlist self, mlt_position position);
+-extern int mlt_playlist_clip_is_mix(mlt_playlist self, int clip);
+-extern void mlt_playlist_consolidate_blanks(mlt_playlist self, int keep_length);
+-extern int mlt_playlist_is_blank(mlt_playlist self, int clip);
+-extern int mlt_playlist_is_blank_at(mlt_playlist self, mlt_position position);
+-extern void mlt_playlist_insert_blank(mlt_playlist self, int clip, int out);
+-extern void mlt_playlist_pad_blanks(mlt_playlist self, mlt_position position, int length, int find);
+-extern mlt_producer mlt_playlist_replace_with_blank(mlt_playlist self, int clip);
+-extern int mlt_playlist_insert_at(mlt_playlist self,
++MLT_EXPORT int mlt_playlist_remove(mlt_playlist self, int where);
++MLT_EXPORT int mlt_playlist_move(mlt_playlist self, int from, int to);
++MLT_EXPORT int mlt_playlist_reorder(mlt_playlist self, const int *indices);
++MLT_EXPORT int mlt_playlist_resize_clip(mlt_playlist self, int clip, mlt_position in, mlt_position out);
++MLT_EXPORT int mlt_playlist_repeat_clip(mlt_playlist self, int clip, int repeat);
++MLT_EXPORT int mlt_playlist_split(mlt_playlist self, int clip, mlt_position position);
++MLT_EXPORT int mlt_playlist_split_at(mlt_playlist self, mlt_position position, int left);
++MLT_EXPORT int mlt_playlist_join(mlt_playlist self, int clip, int count, int merge);
++MLT_EXPORT int mlt_playlist_mix(mlt_playlist self, int clip, int length, mlt_transition transition);
++MLT_EXPORT int mlt_playlist_mix_in(mlt_playlist self, int clip, int length);
++MLT_EXPORT int mlt_playlist_mix_out(mlt_playlist self, int clip, int length);
++MLT_EXPORT int mlt_playlist_mix_add(mlt_playlist self, int clip, mlt_transition transition);
++MLT_EXPORT mlt_producer mlt_playlist_get_clip(mlt_playlist self, int clip);
++MLT_EXPORT mlt_producer mlt_playlist_get_clip_at(mlt_playlist self, mlt_position position);
++MLT_EXPORT int mlt_playlist_get_clip_index_at(mlt_playlist self, mlt_position position);
++MLT_EXPORT int mlt_playlist_clip_is_mix(mlt_playlist self, int clip);
++MLT_EXPORT void mlt_playlist_consolidate_blanks(mlt_playlist self, int keep_length);
++MLT_EXPORT int mlt_playlist_is_blank(mlt_playlist self, int clip);
++MLT_EXPORT int mlt_playlist_is_blank_at(mlt_playlist self, mlt_position position);
++MLT_EXPORT void mlt_playlist_insert_blank(mlt_playlist self, int clip, int out);
++MLT_EXPORT void mlt_playlist_pad_blanks(mlt_playlist self, mlt_position position, int length, int find);
++MLT_EXPORT mlt_producer mlt_playlist_replace_with_blank(mlt_playlist self, int clip);
++MLT_EXPORT int mlt_playlist_insert_at(mlt_playlist self,
+                                   mlt_position position,
+                                   mlt_producer producer,
+                                   int mode);
+-extern int mlt_playlist_clip_start(mlt_playlist self, int clip);
+-extern int mlt_playlist_clip_length(mlt_playlist self, int clip);
+-extern int mlt_playlist_blanks_from(mlt_playlist self, int clip, int bounded);
+-extern int mlt_playlist_remove_region(mlt_playlist self, mlt_position position, int length);
+-extern void mlt_playlist_close(mlt_playlist self);
++MLT_EXPORT int mlt_playlist_clip_start(mlt_playlist self, int clip);
++MLT_EXPORT int mlt_playlist_clip_length(mlt_playlist self, int clip);
++MLT_EXPORT int mlt_playlist_blanks_from(mlt_playlist self, int clip, int bounded);
++MLT_EXPORT int mlt_playlist_remove_region(mlt_playlist self, mlt_position position, int length);
++MLT_EXPORT void mlt_playlist_close(mlt_playlist self);
+ 
+ #endif
+diff --git a/src/framework/mlt_pool.h b/src/framework/mlt_pool.h
+index 264eafb7a..0580abbf7 100644
+--- a/src/framework/mlt_pool.h
++++ b/src/framework/mlt_pool.h
+@@ -23,12 +23,13 @@
+ #ifndef MLT_POOL_H
+ #define MLT_POOL_H
+ 
+-extern void mlt_pool_init();
+-extern void *mlt_pool_alloc(int size);
+-extern void *mlt_pool_realloc(void *ptr, int size);
+-extern void mlt_pool_release(void *release);
+-extern void mlt_pool_purge();
+-extern void mlt_pool_close();
+-extern void mlt_pool_stat();
++#include "mlt_export.h"
++MLT_EXPORT void mlt_pool_init();
++MLT_EXPORT void *mlt_pool_alloc(int size);
++MLT_EXPORT void *mlt_pool_realloc(void *ptr, int size);
++MLT_EXPORT void mlt_pool_release(void *release);
++MLT_EXPORT void mlt_pool_purge();
++MLT_EXPORT void mlt_pool_close();
++MLT_EXPORT void mlt_pool_stat();
+ 
+ #endif
+diff --git a/src/framework/mlt_producer.h b/src/framework/mlt_producer.h
+index 9b7bcff7b..78c491815 100644
+--- a/src/framework/mlt_producer.h
++++ b/src/framework/mlt_producer.h
+@@ -26,6 +26,7 @@
+ #include "mlt_filter.h"
+ #include "mlt_profile.h"
+ #include "mlt_service.h"
++#include "mlt_export.h"
+ 
+ /** \brief Producer abstract service class
+  *
+@@ -112,38 +113,38 @@ struct mlt_producer_s
+ #define MLT_PRODUCER_SERVICE(producer) (&(producer)->parent)
+ #define MLT_PRODUCER_PROPERTIES(producer) MLT_SERVICE_PROPERTIES(MLT_PRODUCER_SERVICE(producer))
+ 
+-extern int mlt_producer_init(mlt_producer self, void *child);
+-extern mlt_producer mlt_producer_new(mlt_profile);
+-extern mlt_service mlt_producer_service(mlt_producer self);
+-extern mlt_properties mlt_producer_properties(mlt_producer self);
+-extern int mlt_producer_seek(mlt_producer self, mlt_position position);
+-extern int mlt_producer_seek_time(mlt_producer self, const char *time);
+-extern mlt_position mlt_producer_position(mlt_producer self);
+-extern mlt_position mlt_producer_frame(mlt_producer self);
+-char *mlt_producer_frame_time(mlt_producer self, mlt_time_format);
+-extern int mlt_producer_set_speed(mlt_producer self, double speed);
+-extern double mlt_producer_get_speed(mlt_producer self);
+-extern double mlt_producer_get_fps(mlt_producer self);
+-extern int mlt_producer_set_in_and_out(mlt_producer self, mlt_position in, mlt_position out);
+-extern int mlt_producer_clear(mlt_producer self);
+-extern mlt_position mlt_producer_get_in(mlt_producer self);
+-extern mlt_position mlt_producer_get_out(mlt_producer self);
+-extern mlt_position mlt_producer_get_playtime(mlt_producer self);
+-extern mlt_position mlt_producer_get_length(mlt_producer self);
+-extern char *mlt_producer_get_length_time(mlt_producer self, mlt_time_format);
+-extern void mlt_producer_prepare_next(mlt_producer self);
+-extern int mlt_producer_attach(mlt_producer self, mlt_filter filter);
+-extern int mlt_producer_detach(mlt_producer self, mlt_filter filter);
+-extern mlt_filter mlt_producer_filter(mlt_producer self, int index);
+-extern mlt_producer mlt_producer_cut(mlt_producer self, int in, int out);
+-extern int mlt_producer_is_cut(mlt_producer self);
+-extern int mlt_producer_is_mix(mlt_producer self);
+-extern int mlt_producer_is_blank(mlt_producer self);
+-extern mlt_producer mlt_producer_cut_parent(mlt_producer self);
+-extern int mlt_producer_optimise(mlt_producer self);
+-extern void mlt_producer_close(mlt_producer self);
+-int64_t mlt_producer_get_creation_time(mlt_producer self);
+-void mlt_producer_set_creation_time(mlt_producer self, int64_t creation_time);
+-extern int mlt_producer_probe(mlt_producer self);
++MLT_EXPORT int mlt_producer_init(mlt_producer self, void *child);
++MLT_EXPORT mlt_producer mlt_producer_new(mlt_profile);
++MLT_EXPORT mlt_service mlt_producer_service(mlt_producer self);
++MLT_EXPORT mlt_properties mlt_producer_properties(mlt_producer self);
++MLT_EXPORT int mlt_producer_seek(mlt_producer self, mlt_position position);
++MLT_EXPORT int mlt_producer_seek_time(mlt_producer self, const char *time);
++MLT_EXPORT mlt_position mlt_producer_position(mlt_producer self);
++MLT_EXPORT mlt_position mlt_producer_frame(mlt_producer self);
++MLT_EXPORT char *mlt_producer_frame_time(mlt_producer self, mlt_time_format);
++MLT_EXPORT int mlt_producer_set_speed(mlt_producer self, double speed);
++MLT_EXPORT double mlt_producer_get_speed(mlt_producer self);
++MLT_EXPORT double mlt_producer_get_fps(mlt_producer self);
++MLT_EXPORT int mlt_producer_set_in_and_out(mlt_producer self, mlt_position in, mlt_position out);
++MLT_EXPORT int mlt_producer_clear(mlt_producer self);
++MLT_EXPORT mlt_position mlt_producer_get_in(mlt_producer self);
++MLT_EXPORT mlt_position mlt_producer_get_out(mlt_producer self);
++MLT_EXPORT mlt_position mlt_producer_get_playtime(mlt_producer self);
++MLT_EXPORT mlt_position mlt_producer_get_length(mlt_producer self);
++MLT_EXPORT char *mlt_producer_get_length_time(mlt_producer self, mlt_time_format);
++MLT_EXPORT void mlt_producer_prepare_next(mlt_producer self);
++MLT_EXPORT int mlt_producer_attach(mlt_producer self, mlt_filter filter);
++MLT_EXPORT int mlt_producer_detach(mlt_producer self, mlt_filter filter);
++MLT_EXPORT mlt_filter mlt_producer_filter(mlt_producer self, int index);
++MLT_EXPORT mlt_producer mlt_producer_cut(mlt_producer self, int in, int out);
++MLT_EXPORT int mlt_producer_is_cut(mlt_producer self);
++MLT_EXPORT int mlt_producer_is_mix(mlt_producer self);
++MLT_EXPORT int mlt_producer_is_blank(mlt_producer self);
++MLT_EXPORT mlt_producer mlt_producer_cut_parent(mlt_producer self);
++MLT_EXPORT int mlt_producer_optimise(mlt_producer self);
++MLT_EXPORT void mlt_producer_close(mlt_producer self);
++MLT_EXPORT int64_t mlt_producer_get_creation_time(mlt_producer self);
++MLT_EXPORT void mlt_producer_set_creation_time(mlt_producer self, int64_t creation_time);
++MLT_EXPORT int mlt_producer_probe(mlt_producer self);
+ 
+ #endif
+diff --git a/src/framework/mlt_profile.h b/src/framework/mlt_profile.h
+index 908859696..151bcad20 100644
+--- a/src/framework/mlt_profile.h
++++ b/src/framework/mlt_profile.h
+@@ -24,6 +24,7 @@
+ #define MLT_PROFILE_H
+ 
+ #include "mlt_types.h"
++#include "mlt_export.h"
+ 
+ /** \brief Profile class
+  *
+@@ -47,18 +48,18 @@ struct mlt_profile_s
+     int is_explicit; /**< used internally to indicate if the profile was requested explicitly or computed or defaulted */
+ };
+ 
+-extern mlt_profile mlt_profile_init(const char *name);
+-extern mlt_profile mlt_profile_load_file(const char *file);
+-extern mlt_profile mlt_profile_load_properties(mlt_properties properties);
+-extern mlt_profile mlt_profile_load_string(const char *string);
+-extern double mlt_profile_fps(mlt_profile profile);
+-extern double mlt_profile_sar(mlt_profile profile);
+-extern double mlt_profile_dar(mlt_profile profile);
+-extern void mlt_profile_close(mlt_profile profile);
+-extern mlt_profile mlt_profile_clone(mlt_profile profile);
+-extern mlt_properties mlt_profile_list();
+-extern void mlt_profile_from_producer(mlt_profile profile, mlt_producer producer);
+-extern char *mlt_profile_lumas_dir(mlt_profile profile);
+-extern double mlt_profile_scale_width(mlt_profile profile, int width);
+-extern double mlt_profile_scale_height(mlt_profile profile, int height);
++MLT_EXPORT mlt_profile mlt_profile_init(const char *name);
++MLT_EXPORT mlt_profile mlt_profile_load_file(const char *file);
++MLT_EXPORT mlt_profile mlt_profile_load_properties(mlt_properties properties);
++MLT_EXPORT mlt_profile mlt_profile_load_string(const char *string);
++MLT_EXPORT double mlt_profile_fps(mlt_profile profile);
++MLT_EXPORT double mlt_profile_sar(mlt_profile profile);
++MLT_EXPORT double mlt_profile_dar(mlt_profile profile);
++MLT_EXPORT void mlt_profile_close(mlt_profile profile);
++MLT_EXPORT mlt_profile mlt_profile_clone(mlt_profile profile);
++MLT_EXPORT mlt_properties mlt_profile_list();
++MLT_EXPORT void mlt_profile_from_producer(mlt_profile profile, mlt_producer producer);
++MLT_EXPORT char *mlt_profile_lumas_dir(mlt_profile profile);
++MLT_EXPORT double mlt_profile_scale_width(mlt_profile profile, int width);
++MLT_EXPORT double mlt_profile_scale_height(mlt_profile profile, int height);
+ #endif
+diff --git a/src/framework/mlt_properties.h b/src/framework/mlt_properties.h
+index d4d8c9589..41f66f678 100644
+--- a/src/framework/mlt_properties.h
++++ b/src/framework/mlt_properties.h
+@@ -25,6 +25,7 @@
+ 
+ #include "mlt_events.h"
+ #include "mlt_types.h"
++#include "mlt_export.h"
+ #include <stdio.h>
+ 
+ /** \brief Properties class
+@@ -46,129 +47,129 @@ struct mlt_properties_s
+     void *close_object; /**< the object supplied to the close virtual function */
+ };
+ 
+-extern int mlt_properties_init(mlt_properties, void *child);
+-extern mlt_properties mlt_properties_new();
+-extern int mlt_properties_set_lcnumeric(mlt_properties, const char *locale);
+-extern const char *mlt_properties_get_lcnumeric(mlt_properties self);
+-extern mlt_properties mlt_properties_load(const char *file);
+-extern int mlt_properties_preset(mlt_properties self, const char *name);
+-extern int mlt_properties_inc_ref(mlt_properties self);
+-extern int mlt_properties_dec_ref(mlt_properties self);
+-extern int mlt_properties_ref_count(mlt_properties self);
+-extern void mlt_properties_mirror(mlt_properties self, mlt_properties that);
+-extern int mlt_properties_inherit(mlt_properties self, mlt_properties that);
+-extern int mlt_properties_copy(mlt_properties self, mlt_properties that, const char *prefix);
+-extern int mlt_properties_pass(mlt_properties self, mlt_properties that, const char *prefix);
+-extern void mlt_properties_pass_property(mlt_properties self, mlt_properties that, const char *name);
+-extern int mlt_properties_pass_list(mlt_properties self, mlt_properties that, const char *list);
+-extern int mlt_properties_set(mlt_properties self, const char *name, const char *value);
+-extern int mlt_properties_set_or_default(mlt_properties self,
++MLT_EXPORT int mlt_properties_init(mlt_properties, void *child);
++MLT_EXPORT mlt_properties mlt_properties_new();
++MLT_EXPORT int mlt_properties_set_lcnumeric(mlt_properties, const char *locale);
++MLT_EXPORT const char *mlt_properties_get_lcnumeric(mlt_properties self);
++MLT_EXPORT mlt_properties mlt_properties_load(const char *file);
++MLT_EXPORT int mlt_properties_preset(mlt_properties self, const char *name);
++MLT_EXPORT int mlt_properties_inc_ref(mlt_properties self);
++MLT_EXPORT int mlt_properties_dec_ref(mlt_properties self);
++MLT_EXPORT int mlt_properties_ref_count(mlt_properties self);
++MLT_EXPORT void mlt_properties_mirror(mlt_properties self, mlt_properties that);
++MLT_EXPORT int mlt_properties_inherit(mlt_properties self, mlt_properties that);
++MLT_EXPORT int mlt_properties_copy(mlt_properties self, mlt_properties that, const char *prefix);
++MLT_EXPORT int mlt_properties_pass(mlt_properties self, mlt_properties that, const char *prefix);
++MLT_EXPORT void mlt_properties_pass_property(mlt_properties self, mlt_properties that, const char *name);
++MLT_EXPORT int mlt_properties_pass_list(mlt_properties self, mlt_properties that, const char *list);
++MLT_EXPORT int mlt_properties_set(mlt_properties self, const char *name, const char *value);
++MLT_EXPORT int mlt_properties_set_or_default(mlt_properties self,
+                                          const char *name,
+                                          const char *value,
+                                          const char *def);
+-extern int mlt_properties_set_string(mlt_properties self, const char *name, const char *value);
+-extern int mlt_properties_parse(mlt_properties self, const char *namevalue);
+-extern char *mlt_properties_get(mlt_properties self, const char *name);
+-extern char *mlt_properties_get_name(mlt_properties self, int index);
+-extern char *mlt_properties_get_value_tf(mlt_properties self, int index, mlt_time_format);
+-extern char *mlt_properties_get_value(mlt_properties self, int index);
+-extern void *mlt_properties_get_data_at(mlt_properties self, int index, int *size);
+-extern int mlt_properties_get_int(mlt_properties self, const char *name);
+-extern int mlt_properties_set_int(mlt_properties self, const char *name, int value);
+-extern int64_t mlt_properties_get_int64(mlt_properties self, const char *name);
+-extern int mlt_properties_set_int64(mlt_properties self, const char *name, int64_t value);
+-extern double mlt_properties_get_double(mlt_properties self, const char *name);
+-extern int mlt_properties_set_double(mlt_properties self, const char *name, double value);
+-extern mlt_position mlt_properties_get_position(mlt_properties self, const char *name);
+-extern int mlt_properties_set_position(mlt_properties self, const char *name, mlt_position value);
+-extern int mlt_properties_set_data(
++MLT_EXPORT int mlt_properties_set_string(mlt_properties self, const char *name, const char *value);
++MLT_EXPORT int mlt_properties_parse(mlt_properties self, const char *namevalue);
++MLT_EXPORT char *mlt_properties_get(mlt_properties self, const char *name);
++MLT_EXPORT char *mlt_properties_get_name(mlt_properties self, int index);
++MLT_EXPORT char *mlt_properties_get_value_tf(mlt_properties self, int index, mlt_time_format);
++MLT_EXPORT char *mlt_properties_get_value(mlt_properties self, int index);
++MLT_EXPORT void *mlt_properties_get_data_at(mlt_properties self, int index, int *size);
++MLT_EXPORT int mlt_properties_get_int(mlt_properties self, const char *name);
++MLT_EXPORT int mlt_properties_set_int(mlt_properties self, const char *name, int value);
++MLT_EXPORT int64_t mlt_properties_get_int64(mlt_properties self, const char *name);
++MLT_EXPORT int mlt_properties_set_int64(mlt_properties self, const char *name, int64_t value);
++MLT_EXPORT double mlt_properties_get_double(mlt_properties self, const char *name);
++MLT_EXPORT int mlt_properties_set_double(mlt_properties self, const char *name, double value);
++MLT_EXPORT mlt_position mlt_properties_get_position(mlt_properties self, const char *name);
++MLT_EXPORT int mlt_properties_set_position(mlt_properties self, const char *name, mlt_position value);
++MLT_EXPORT int mlt_properties_set_data(
+     mlt_properties self, const char *name, void *value, int length, mlt_destructor, mlt_serialiser);
+-extern void *mlt_properties_get_data(mlt_properties self, const char *name, int *length);
+-extern int mlt_properties_rename(mlt_properties self, const char *source, const char *dest);
+-extern int mlt_properties_count(mlt_properties self);
+-extern void mlt_properties_dump(mlt_properties self, FILE *output);
+-extern void mlt_properties_debug(mlt_properties self, const char *title, FILE *output);
+-extern int mlt_properties_save(mlt_properties, const char *);
+-extern int mlt_properties_dir_list(mlt_properties, const char *, const char *, int);
+-extern void mlt_properties_close(mlt_properties self);
+-extern int mlt_properties_is_sequence(mlt_properties self);
+-extern mlt_properties mlt_properties_parse_yaml(const char *file);
+-extern char *mlt_properties_serialise_yaml(mlt_properties self);
+-extern void mlt_properties_lock(mlt_properties self);
+-extern void mlt_properties_unlock(mlt_properties self);
+-extern void mlt_properties_clear(mlt_properties self, const char *name);
+-extern int mlt_properties_exists(mlt_properties self, const char *name);
++MLT_EXPORT void *mlt_properties_get_data(mlt_properties self, const char *name, int *length);
++MLT_EXPORT int mlt_properties_rename(mlt_properties self, const char *source, const char *dest);
++MLT_EXPORT int mlt_properties_count(mlt_properties self);
++MLT_EXPORT void mlt_properties_dump(mlt_properties self, FILE *output);
++MLT_EXPORT void mlt_properties_debug(mlt_properties self, const char *title, FILE *output);
++MLT_EXPORT int mlt_properties_save(mlt_properties, const char *);
++MLT_EXPORT int mlt_properties_dir_list(mlt_properties, const char *, const char *, int);
++MLT_EXPORT void mlt_properties_close(mlt_properties self);
++MLT_EXPORT int mlt_properties_is_sequence(mlt_properties self);
++MLT_EXPORT mlt_properties mlt_properties_parse_yaml(const char *file);
++MLT_EXPORT char *mlt_properties_serialise_yaml(mlt_properties self);
++MLT_EXPORT void mlt_properties_lock(mlt_properties self);
++MLT_EXPORT void mlt_properties_unlock(mlt_properties self);
++MLT_EXPORT void mlt_properties_clear(mlt_properties self, const char *name);
++MLT_EXPORT int mlt_properties_exists(mlt_properties self, const char *name);
+ 
+-extern char *mlt_properties_get_time(mlt_properties, const char *name, mlt_time_format);
+-extern char *mlt_properties_frames_to_time(mlt_properties, mlt_position, mlt_time_format);
+-extern mlt_position mlt_properties_time_to_frames(mlt_properties, const char *time);
++MLT_EXPORT char *mlt_properties_get_time(mlt_properties, const char *name, mlt_time_format);
++MLT_EXPORT char *mlt_properties_frames_to_time(mlt_properties, mlt_position, mlt_time_format);
++MLT_EXPORT mlt_position mlt_properties_time_to_frames(mlt_properties, const char *time);
+ 
+-extern int mlt_properties_set_color(mlt_properties, const char *name, mlt_color value);
+-extern mlt_color mlt_properties_get_color(mlt_properties, const char *name);
+-extern int mlt_properties_anim_set_color(mlt_properties self,
++MLT_EXPORT int mlt_properties_set_color(mlt_properties, const char *name, mlt_color value);
++MLT_EXPORT mlt_color mlt_properties_get_color(mlt_properties, const char *name);
++MLT_EXPORT int mlt_properties_anim_set_color(mlt_properties self,
+                                          const char *name,
+                                          mlt_color value,
+                                          int position,
+                                          int length,
+                                          mlt_keyframe_type keyframe_type);
+-extern mlt_color mlt_properties_anim_get_color(mlt_properties self,
++MLT_EXPORT mlt_color mlt_properties_anim_get_color(mlt_properties self,
+                                                const char *name,
+                                                int position,
+                                                int length);
+ 
+-extern char *mlt_properties_anim_get(mlt_properties self,
++MLT_EXPORT char *mlt_properties_anim_get(mlt_properties self,
+                                      const char *name,
+                                      int position,
+                                      int length);
+-extern int mlt_properties_anim_set(
++MLT_EXPORT int mlt_properties_anim_set(
+     mlt_properties self, const char *name, const char *value, int position, int length);
+-extern int mlt_properties_anim_get_int(mlt_properties self,
++MLT_EXPORT int mlt_properties_anim_get_int(mlt_properties self,
+                                        const char *name,
+                                        int position,
+                                        int length);
+-extern int mlt_properties_anim_set_int(mlt_properties self,
++MLT_EXPORT int mlt_properties_anim_set_int(mlt_properties self,
+                                        const char *name,
+                                        int value,
+                                        int position,
+                                        int length,
+                                        mlt_keyframe_type keyframe_type);
+-extern double mlt_properties_anim_get_double(mlt_properties self,
++MLT_EXPORT double mlt_properties_anim_get_double(mlt_properties self,
+                                              const char *name,
+                                              int position,
+                                              int length);
+-extern int mlt_properties_anim_set_double(mlt_properties self,
++MLT_EXPORT int mlt_properties_anim_set_double(mlt_properties self,
+                                           const char *name,
+                                           double value,
+                                           int position,
+                                           int length,
+                                           mlt_keyframe_type keyframe_type);
+-extern mlt_animation mlt_properties_get_animation(mlt_properties self, const char *name);
+-extern int mlt_properties_is_anim(mlt_properties self, const char *name);
++MLT_EXPORT mlt_animation mlt_properties_get_animation(mlt_properties self, const char *name);
++MLT_EXPORT int mlt_properties_is_anim(mlt_properties self, const char *name);
+ 
+-extern int mlt_properties_set_rect(mlt_properties self, const char *name, mlt_rect value);
+-extern mlt_rect mlt_properties_get_rect(mlt_properties self, const char *name);
+-extern int mlt_properties_anim_set_rect(mlt_properties self,
++MLT_EXPORT int mlt_properties_set_rect(mlt_properties self, const char *name, mlt_rect value);
++MLT_EXPORT mlt_rect mlt_properties_get_rect(mlt_properties self, const char *name);
++MLT_EXPORT int mlt_properties_anim_set_rect(mlt_properties self,
+                                         const char *name,
+                                         mlt_rect value,
+                                         int position,
+                                         int length,
+                                         mlt_keyframe_type keyframe_type);
+-extern mlt_rect mlt_properties_anim_get_rect(mlt_properties self,
++MLT_EXPORT mlt_rect mlt_properties_anim_get_rect(mlt_properties self,
+                                              const char *name,
+                                              int position,
+                                              int length);
+ 
+-extern int mlt_properties_from_utf8(mlt_properties properties,
++MLT_EXPORT int mlt_properties_from_utf8(mlt_properties properties,
+                                     const char *name_from,
+                                     const char *name_to);
+-extern int mlt_properties_to_utf8(mlt_properties properties,
++MLT_EXPORT int mlt_properties_to_utf8(mlt_properties properties,
+                                   const char *name_from,
+                                   const char *name_to);
+ 
+-extern int mlt_properties_set_properties(mlt_properties self,
++MLT_EXPORT int mlt_properties_set_properties(mlt_properties self,
+                                          const char *name,
+                                          mlt_properties properties);
+-extern mlt_properties mlt_properties_get_properties(mlt_properties self, const char *name);
+-extern mlt_properties mlt_properties_get_properties_at(mlt_properties self, int index);
++MLT_EXPORT mlt_properties mlt_properties_get_properties(mlt_properties self, const char *name);
++MLT_EXPORT mlt_properties mlt_properties_get_properties_at(mlt_properties self, int index);
+ 
+ #endif
+diff --git a/src/framework/mlt_property.h b/src/framework/mlt_property.h
+index e50c55aa2..496e95f84 100644
+--- a/src/framework/mlt_property.h
++++ b/src/framework/mlt_property.h
+@@ -24,6 +24,7 @@
+ #define MLT_PROPERTY_H
+ 
+ #include "mlt_types.h"
++#include "mlt_export.h"
+ 
+ #if defined(__FreeBSD__)
+ /* This header has existed since 1994 and defines __FreeBSD_version below. */
+@@ -45,91 +46,91 @@ struct mlt_locale_t;
+ typedef char *mlt_locale_t;
+ #endif
+ 
+-extern mlt_property mlt_property_init();
+-extern void mlt_property_clear(mlt_property self);
+-extern int mlt_property_is_clear(mlt_property self);
+-extern int mlt_property_set_int(mlt_property self, int value);
+-extern int mlt_property_set_double(mlt_property self, double value);
+-extern int mlt_property_set_position(mlt_property self, mlt_position value);
+-extern int mlt_property_set_int64(mlt_property self, int64_t value);
+-extern int mlt_property_set_string(mlt_property self, const char *value);
+-extern int mlt_property_set_data(mlt_property self,
++MLT_EXPORT mlt_property mlt_property_init();
++MLT_EXPORT void mlt_property_clear(mlt_property self);
++MLT_EXPORT int mlt_property_is_clear(mlt_property self);
++MLT_EXPORT int mlt_property_set_int(mlt_property self, int value);
++MLT_EXPORT int mlt_property_set_double(mlt_property self, double value);
++MLT_EXPORT int mlt_property_set_position(mlt_property self, mlt_position value);
++MLT_EXPORT int mlt_property_set_int64(mlt_property self, int64_t value);
++MLT_EXPORT int mlt_property_set_string(mlt_property self, const char *value);
++MLT_EXPORT int mlt_property_set_data(mlt_property self,
+                                  void *value,
+                                  int length,
+                                  mlt_destructor destructor,
+                                  mlt_serialiser serialiser);
+-extern int mlt_property_get_int(mlt_property self, double fps, mlt_locale_t);
+-extern double mlt_property_get_double(mlt_property self, double fps, mlt_locale_t);
+-extern mlt_position mlt_property_get_position(mlt_property self, double fps, mlt_locale_t);
+-extern int64_t mlt_property_get_int64(mlt_property self);
+-extern char *mlt_property_get_string_tf(mlt_property self, mlt_time_format);
+-extern char *mlt_property_get_string(mlt_property self);
+-extern char *mlt_property_get_string_l_tf(mlt_property self, mlt_locale_t, mlt_time_format);
+-extern char *mlt_property_get_string_l(mlt_property self, mlt_locale_t);
+-extern void *mlt_property_get_data(mlt_property self, int *length);
+-extern void mlt_property_close(mlt_property self);
+-extern void mlt_property_pass(mlt_property self, mlt_property that);
+-extern char *mlt_property_get_time(mlt_property self, mlt_time_format, double fps, mlt_locale_t);
++MLT_EXPORT int mlt_property_get_int(mlt_property self, double fps, mlt_locale_t);
++MLT_EXPORT double mlt_property_get_double(mlt_property self, double fps, mlt_locale_t);
++MLT_EXPORT mlt_position mlt_property_get_position(mlt_property self, double fps, mlt_locale_t);
++MLT_EXPORT int64_t mlt_property_get_int64(mlt_property self);
++MLT_EXPORT char *mlt_property_get_string_tf(mlt_property self, mlt_time_format);
++MLT_EXPORT char *mlt_property_get_string(mlt_property self);
++MLT_EXPORT char *mlt_property_get_string_l_tf(mlt_property self, mlt_locale_t, mlt_time_format);
++MLT_EXPORT char *mlt_property_get_string_l(mlt_property self, mlt_locale_t);
++MLT_EXPORT void *mlt_property_get_data(mlt_property self, int *length);
++MLT_EXPORT void mlt_property_close(mlt_property self);
++MLT_EXPORT void mlt_property_pass(mlt_property self, mlt_property that);
++MLT_EXPORT char *mlt_property_get_time(mlt_property self, mlt_time_format, double fps, mlt_locale_t);
+ 
+-extern int mlt_property_interpolate(mlt_property self,
++MLT_EXPORT int mlt_property_interpolate(mlt_property self,
+                                     mlt_property points[],
+                                     double progress,
+                                     double fps,
+                                     mlt_locale_t locale,
+                                     mlt_keyframe_type interp);
+-extern double mlt_property_anim_get_double(
++MLT_EXPORT double mlt_property_anim_get_double(
+     mlt_property self, double fps, mlt_locale_t locale, int position, int length);
+-extern int mlt_property_anim_get_int(
++MLT_EXPORT int mlt_property_anim_get_int(
+     mlt_property self, double fps, mlt_locale_t locale, int position, int length);
+-extern char *mlt_property_anim_get_string(
++MLT_EXPORT char *mlt_property_anim_get_string(
+     mlt_property self, double fps, mlt_locale_t locale, int position, int length);
+-extern int mlt_property_anim_set_double(mlt_property self,
++MLT_EXPORT int mlt_property_anim_set_double(mlt_property self,
+                                         double value,
+                                         double fps,
+                                         mlt_locale_t locale,
+                                         int position,
+                                         int length,
+                                         mlt_keyframe_type keyframe_type);
+-extern int mlt_property_anim_set_int(mlt_property self,
++MLT_EXPORT int mlt_property_anim_set_int(mlt_property self,
+                                      int value,
+                                      double fps,
+                                      mlt_locale_t locale,
+                                      int position,
+                                      int length,
+                                      mlt_keyframe_type keyframe_type);
+-extern int mlt_property_anim_set_string(
++MLT_EXPORT int mlt_property_anim_set_string(
+     mlt_property self, const char *value, double fps, mlt_locale_t locale, int position, int length);
+-extern mlt_animation mlt_property_get_animation(mlt_property self);
+-extern int mlt_property_is_anim(mlt_property self);
++MLT_EXPORT mlt_animation mlt_property_get_animation(mlt_property self);
++MLT_EXPORT int mlt_property_is_anim(mlt_property self);
+ 
+-extern int mlt_property_set_color(mlt_property self, mlt_color value);
+-extern mlt_color mlt_property_get_color(mlt_property self, double fps, mlt_locale_t locale);
+-extern int mlt_property_anim_set_color(mlt_property self,
++MLT_EXPORT int mlt_property_set_color(mlt_property self, mlt_color value);
++MLT_EXPORT mlt_color mlt_property_get_color(mlt_property self, double fps, mlt_locale_t locale);
++MLT_EXPORT int mlt_property_anim_set_color(mlt_property self,
+                                        mlt_color value,
+                                        double fps,
+                                        mlt_locale_t locale,
+                                        int position,
+                                        int length,
+                                        mlt_keyframe_type keyframe_type);
+-extern mlt_color mlt_property_anim_get_color(
++MLT_EXPORT mlt_color mlt_property_anim_get_color(
+     mlt_property self, double fps, mlt_locale_t locale, int position, int length);
+ 
+-extern int mlt_property_set_rect(mlt_property self, mlt_rect value);
+-extern mlt_rect mlt_property_get_rect(mlt_property self, mlt_locale_t locale);
+-extern int mlt_property_anim_set_rect(mlt_property self,
++MLT_EXPORT int mlt_property_set_rect(mlt_property self, mlt_rect value);
++MLT_EXPORT mlt_rect mlt_property_get_rect(mlt_property self, mlt_locale_t locale);
++MLT_EXPORT int mlt_property_anim_set_rect(mlt_property self,
+                                       mlt_rect value,
+                                       double fps,
+                                       mlt_locale_t locale,
+                                       int position,
+                                       int length,
+                                       mlt_keyframe_type keyframe_type);
+-extern mlt_rect mlt_property_anim_get_rect(
++MLT_EXPORT mlt_rect mlt_property_anim_get_rect(
+     mlt_property self, double fps, mlt_locale_t locale, int position, int length);
+ 
+-extern int mlt_property_set_properties(mlt_property self, mlt_properties properties);
+-extern mlt_properties mlt_property_get_properties(mlt_property self);
+-extern int mlt_property_is_color(mlt_property self);
+-extern int mlt_property_is_numeric(mlt_property self, mlt_locale_t locale);
+-extern int mlt_property_is_rect(mlt_property self);
++MLT_EXPORT int mlt_property_set_properties(mlt_property self, mlt_properties properties);
++MLT_EXPORT mlt_properties mlt_property_get_properties(mlt_property self);
++MLT_EXPORT int mlt_property_is_color(mlt_property self);
++MLT_EXPORT int mlt_property_is_numeric(mlt_property self, mlt_locale_t locale);
++MLT_EXPORT int mlt_property_is_rect(mlt_property self);
+ 
+ #endif
+diff --git a/src/framework/mlt_repository.h b/src/framework/mlt_repository.h
+index 25631c191..7d41fe7ee 100644
+--- a/src/framework/mlt_repository.h
++++ b/src/framework/mlt_repository.h
+@@ -25,7 +25,7 @@
+ 
+ #include "mlt_profile.h"
+ #include "mlt_types.h"
+-
++#include "mlt_export.h"
+ /** This callback is the main entry point into a module, which must be exported
+  *  with the symbol "mlt_register".
+  *
+@@ -64,31 +64,31 @@ typedef mlt_properties (*mlt_metadata_callback)(mlt_service_type,
+                                       (mlt_metadata_callback) (callback), \
+                                       (data)))
+ 
+-extern mlt_repository mlt_repository_init(const char *directory);
+-extern void mlt_repository_register(mlt_repository self,
++MLT_EXPORT mlt_repository mlt_repository_init(const char *directory);
++MLT_EXPORT void mlt_repository_register(mlt_repository self,
+                                     mlt_service_type service_type,
+                                     const char *service,
+                                     mlt_register_callback);
+-extern void *mlt_repository_create(mlt_repository self,
++MLT_EXPORT void *mlt_repository_create(mlt_repository self,
+                                    mlt_profile profile,
+                                    mlt_service_type type,
+                                    const char *service,
+                                    const void *arg);
+-extern void mlt_repository_close(mlt_repository self);
+-extern mlt_properties mlt_repository_consumers(mlt_repository self);
+-extern mlt_properties mlt_repository_filters(mlt_repository self);
+-extern mlt_properties mlt_repository_links(mlt_repository self);
+-extern mlt_properties mlt_repository_producers(mlt_repository self);
+-extern mlt_properties mlt_repository_transitions(mlt_repository self);
+-extern void mlt_repository_register_metadata(mlt_repository self,
++MLT_EXPORT void mlt_repository_close(mlt_repository self);
++MLT_EXPORT mlt_properties mlt_repository_consumers(mlt_repository self);
++MLT_EXPORT mlt_properties mlt_repository_filters(mlt_repository self);
++MLT_EXPORT mlt_properties mlt_repository_links(mlt_repository self);
++MLT_EXPORT mlt_properties mlt_repository_producers(mlt_repository self);
++MLT_EXPORT mlt_properties mlt_repository_transitions(mlt_repository self);
++MLT_EXPORT void mlt_repository_register_metadata(mlt_repository self,
+                                              mlt_service_type type,
+                                              const char *service,
+                                              mlt_metadata_callback,
+                                              void *callback_data);
+-extern mlt_properties mlt_repository_metadata(mlt_repository self,
++MLT_EXPORT mlt_properties mlt_repository_metadata(mlt_repository self,
+                                               mlt_service_type type,
+                                               const char *service);
+-extern mlt_properties mlt_repository_languages(mlt_repository self);
+-extern mlt_properties mlt_repository_presets();
++MLT_EXPORT mlt_properties mlt_repository_languages(mlt_repository self);
++MLT_EXPORT mlt_properties mlt_repository_presets();
+ 
+ #endif
+diff --git a/src/framework/mlt_service.h b/src/framework/mlt_service.h
+index 4bbfe92c6..2ecbb58c1 100644
+--- a/src/framework/mlt_service.h
++++ b/src/framework/mlt_service.h
+@@ -25,6 +25,7 @@
+ 
+ #include "mlt_properties.h"
+ #include "mlt_types.h"
++#include "mlt_export.h"
+ 
+ /** \brief Service abstract base class
+  *
+@@ -77,35 +78,35 @@ struct mlt_service_s
+ 
+ #define MLT_SERVICE_PROPERTIES(service) (&(service)->parent)
+ 
+-extern int mlt_service_init(mlt_service self, void *child);
+-extern void mlt_service_lock(mlt_service self);
+-extern void mlt_service_unlock(mlt_service self);
+-extern mlt_service_type mlt_service_identify(mlt_service self);
+-extern int mlt_service_connect_producer(mlt_service self, mlt_service producer, int index);
+-extern int mlt_service_insert_producer(mlt_service self, mlt_service producer, int index);
+-extern int mlt_service_disconnect_producer(mlt_service self, int index);
+-extern int mlt_service_disconnect_all_producers(mlt_service self);
+-extern mlt_service mlt_service_get_producer(mlt_service self);
+-extern int mlt_service_get_frame(mlt_service self, mlt_frame_ptr frame, int index);
+-extern mlt_properties mlt_service_properties(mlt_service self);
+-extern void mlt_service_set_consumer(mlt_service self, mlt_service consumer);
+-extern mlt_service mlt_service_consumer(mlt_service self);
+-extern mlt_service mlt_service_producer(mlt_service self);
+-extern int mlt_service_attach(mlt_service self, mlt_filter filter);
+-extern int mlt_service_detach(mlt_service self, mlt_filter filter);
+-extern void mlt_service_apply_filters(mlt_service self, mlt_frame frame, int index);
+-extern int mlt_service_filter_count(mlt_service self);
+-extern int mlt_service_move_filter(mlt_service self, int from, int to);
+-extern mlt_filter mlt_service_filter(mlt_service self, int index);
+-extern mlt_profile mlt_service_profile(mlt_service self);
+-extern void mlt_service_set_profile(mlt_service self, mlt_profile profile);
+-extern void mlt_service_close(mlt_service self);
++MLT_EXPORT int mlt_service_init(mlt_service self, void *child);
++MLT_EXPORT void mlt_service_lock(mlt_service self);
++MLT_EXPORT void mlt_service_unlock(mlt_service self);
++MLT_EXPORT mlt_service_type mlt_service_identify(mlt_service self);
++MLT_EXPORT int mlt_service_connect_producer(mlt_service self, mlt_service producer, int index);
++MLT_EXPORT int mlt_service_insert_producer(mlt_service self, mlt_service producer, int index);
++MLT_EXPORT int mlt_service_disconnect_producer(mlt_service self, int index);
++MLT_EXPORT int mlt_service_disconnect_all_producers(mlt_service self);
++MLT_EXPORT mlt_service mlt_service_get_producer(mlt_service self);
++MLT_EXPORT int mlt_service_get_frame(mlt_service self, mlt_frame_ptr frame, int index);
++MLT_EXPORT mlt_properties mlt_service_properties(mlt_service self);
++MLT_EXPORT void mlt_service_set_consumer(mlt_service self, mlt_service consumer);
++MLT_EXPORT mlt_service mlt_service_consumer(mlt_service self);
++MLT_EXPORT mlt_service mlt_service_producer(mlt_service self);
++MLT_EXPORT int mlt_service_attach(mlt_service self, mlt_filter filter);
++MLT_EXPORT int mlt_service_detach(mlt_service self, mlt_filter filter);
++MLT_EXPORT void mlt_service_apply_filters(mlt_service self, mlt_frame frame, int index);
++MLT_EXPORT int mlt_service_filter_count(mlt_service self);
++MLT_EXPORT int mlt_service_move_filter(mlt_service self, int from, int to);
++MLT_EXPORT mlt_filter mlt_service_filter(mlt_service self, int index);
++MLT_EXPORT mlt_profile mlt_service_profile(mlt_service self);
++MLT_EXPORT void mlt_service_set_profile(mlt_service self, mlt_profile profile);
++MLT_EXPORT void mlt_service_close(mlt_service self);
+ 
+-extern void mlt_service_cache_put(
++MLT_EXPORT void mlt_service_cache_put(
+     mlt_service self, const char *name, void *data, int size, mlt_destructor destructor);
+-extern mlt_cache_item mlt_service_cache_get(mlt_service self, const char *name);
+-extern void mlt_service_cache_set_size(mlt_service self, const char *name, int size);
+-extern int mlt_service_cache_get_size(mlt_service self, const char *name);
+-extern void mlt_service_cache_purge(mlt_service self);
++MLT_EXPORT mlt_cache_item mlt_service_cache_get(mlt_service self, const char *name);
++MLT_EXPORT void mlt_service_cache_set_size(mlt_service self, const char *name, int size);
++MLT_EXPORT int mlt_service_cache_get_size(mlt_service self, const char *name);
++MLT_EXPORT void mlt_service_cache_purge(mlt_service self);
+ 
+ #endif
+diff --git a/src/framework/mlt_slices.h b/src/framework/mlt_slices.h
+index d0c7ee5da..eb52756ca 100644
+--- a/src/framework/mlt_slices.h
++++ b/src/framework/mlt_slices.h
+@@ -24,7 +24,7 @@
+ #define MLT_SLICES_H
+ 
+ #include "mlt_types.h"
+-
++#include "mlt_export.h"
+ /**
+  * \envvar \em MLT_SLICES_COUNT Set the number of slices to use, which
+  * defaults to number of CPUs found.
+@@ -34,18 +34,18 @@ struct mlt_slices_s;
+ 
+ typedef int (*mlt_slices_proc)(int id, int idx, int jobs, void *cookie);
+ 
+-extern int mlt_slices_count_normal();
++MLT_EXPORT int mlt_slices_count_normal();
+ 
+-extern int mlt_slices_count_rr();
++MLT_EXPORT int mlt_slices_count_rr();
+ 
+-extern int mlt_slices_count_fifo();
++MLT_EXPORT int mlt_slices_count_fifo();
+ 
+-extern void mlt_slices_run_normal(int jobs, mlt_slices_proc proc, void *cookie);
++MLT_EXPORT void mlt_slices_run_normal(int jobs, mlt_slices_proc proc, void *cookie);
+ 
+-extern void mlt_slices_run_rr(int jobs, mlt_slices_proc proc, void *cookie);
++MLT_EXPORT void mlt_slices_run_rr(int jobs, mlt_slices_proc proc, void *cookie);
+ 
+-extern void mlt_slices_run_fifo(int jobs, mlt_slices_proc proc, void *cookie);
++MLT_EXPORT void mlt_slices_run_fifo(int jobs, mlt_slices_proc proc, void *cookie);
+ 
+-extern int mlt_slices_size_slice(int jobs, int index, int input_size, int *start);
++MLT_EXPORT int mlt_slices_size_slice(int jobs, int index, int input_size, int *start);
+ 
+ #endif
+diff --git a/src/framework/mlt_tokeniser.h b/src/framework/mlt_tokeniser.h
+index 0286ac1fa..73ebc8f0d 100644
+--- a/src/framework/mlt_tokeniser.h
++++ b/src/framework/mlt_tokeniser.h
+@@ -22,7 +22,7 @@
+ 
+ #ifndef MLT_TOKENISER_H
+ #define MLT_TOKENISER_H
+-
++#include "mlt_export.h"
+ /** \brief Tokeniser class
+  *
+  */
+@@ -38,11 +38,11 @@ typedef struct
+ /* Remote parser API.
+ */
+ 
+-extern mlt_tokeniser mlt_tokeniser_init();
+-extern int mlt_tokeniser_parse_new(mlt_tokeniser tokeniser, char *text, const char *delimiter);
+-extern char *mlt_tokeniser_get_input(mlt_tokeniser tokeniser);
+-extern int mlt_tokeniser_count(mlt_tokeniser tokeniser);
+-extern char *mlt_tokeniser_get_string(mlt_tokeniser tokeniser, int index);
+-extern void mlt_tokeniser_close(mlt_tokeniser tokeniser);
++MLT_EXPORT mlt_tokeniser mlt_tokeniser_init();
++MLT_EXPORT int mlt_tokeniser_parse_new(mlt_tokeniser tokeniser, char *text, const char *delimiter);
++MLT_EXPORT char *mlt_tokeniser_get_input(mlt_tokeniser tokeniser);
++MLT_EXPORT int mlt_tokeniser_count(mlt_tokeniser tokeniser);
++MLT_EXPORT char *mlt_tokeniser_get_string(mlt_tokeniser tokeniser, int index);
++MLT_EXPORT void mlt_tokeniser_close(mlt_tokeniser tokeniser);
+ 
+ #endif
+diff --git a/src/framework/mlt_tractor.h b/src/framework/mlt_tractor.h
+index e8206ed96..302e7c06e 100644
+--- a/src/framework/mlt_tractor.h
++++ b/src/framework/mlt_tractor.h
+@@ -24,7 +24,7 @@
+ #define MLT_TRACTOR_H
+ 
+ #include "mlt_producer.h"
+-
++#include "mlt_export.h"
+ /** \brief Tractor class
+  *
+  * The tractor is a convenience class that works with the field class
+@@ -46,19 +46,19 @@ struct mlt_tractor_s
+ #define MLT_TRACTOR_SERVICE(tractor) MLT_PRODUCER_SERVICE(MLT_TRACTOR_PRODUCER(tractor))
+ #define MLT_TRACTOR_PROPERTIES(tractor) MLT_SERVICE_PROPERTIES(MLT_TRACTOR_SERVICE(tractor))
+ 
+-extern mlt_tractor mlt_tractor_init();
+-extern mlt_tractor mlt_tractor_new();
+-extern mlt_service mlt_tractor_service(mlt_tractor self);
+-extern mlt_producer mlt_tractor_producer(mlt_tractor self);
+-extern mlt_properties mlt_tractor_properties(mlt_tractor self);
+-extern mlt_field mlt_tractor_field(mlt_tractor self);
+-extern mlt_multitrack mlt_tractor_multitrack(mlt_tractor self);
+-extern int mlt_tractor_connect(mlt_tractor self, mlt_service service);
+-extern void mlt_tractor_refresh(mlt_tractor self);
+-extern int mlt_tractor_set_track(mlt_tractor self, mlt_producer producer, int index);
+-extern int mlt_tractor_insert_track(mlt_tractor self, mlt_producer producer, int index);
+-extern int mlt_tractor_remove_track(mlt_tractor self, int index);
+-extern mlt_producer mlt_tractor_get_track(mlt_tractor self, int index);
+-extern void mlt_tractor_close(mlt_tractor self);
++MLT_EXPORT mlt_tractor mlt_tractor_init();
++MLT_EXPORT mlt_tractor mlt_tractor_new();
++MLT_EXPORT mlt_service mlt_tractor_service(mlt_tractor self);
++MLT_EXPORT mlt_producer mlt_tractor_producer(mlt_tractor self);
++MLT_EXPORT mlt_properties mlt_tractor_properties(mlt_tractor self);
++MLT_EXPORT mlt_field mlt_tractor_field(mlt_tractor self);
++MLT_EXPORT mlt_multitrack mlt_tractor_multitrack(mlt_tractor self);
++MLT_EXPORT int mlt_tractor_connect(mlt_tractor self, mlt_service service);
++MLT_EXPORT void mlt_tractor_refresh(mlt_tractor self);
++MLT_EXPORT int mlt_tractor_set_track(mlt_tractor self, mlt_producer producer, int index);
++MLT_EXPORT int mlt_tractor_insert_track(mlt_tractor self, mlt_producer producer, int index);
++MLT_EXPORT int mlt_tractor_remove_track(mlt_tractor self, int index);
++MLT_EXPORT mlt_producer mlt_tractor_get_track(mlt_tractor self, int index);
++MLT_EXPORT void mlt_tractor_close(mlt_tractor self);
+ 
+ #endif
+diff --git a/src/framework/mlt_transition.h b/src/framework/mlt_transition.h
+index e8e2a3006..3691a93ac 100644
+--- a/src/framework/mlt_transition.h
++++ b/src/framework/mlt_transition.h
+@@ -24,6 +24,7 @@
+ #define MLT_TRANSITION_H
+ 
+ #include "mlt_service.h"
++#include "mlt_export.h"
+ #include <pthread.h>
+ 
+ /** \brief Transition abstract service class
+@@ -66,25 +67,25 @@ struct mlt_transition_s
+ #define MLT_TRANSITION_PROPERTIES(transition) \
+     MLT_SERVICE_PROPERTIES(MLT_TRANSITION_SERVICE(transition))
+ 
+-extern int mlt_transition_init(mlt_transition self, void *child);
+-extern mlt_transition mlt_transition_new();
+-extern mlt_service mlt_transition_service(mlt_transition self);
+-extern mlt_properties mlt_transition_properties(mlt_transition self);
+-extern int mlt_transition_connect(mlt_transition self,
++MLT_EXPORT int mlt_transition_init(mlt_transition self, void *child);
++MLT_EXPORT mlt_transition mlt_transition_new();
++MLT_EXPORT mlt_service mlt_transition_service(mlt_transition self);
++MLT_EXPORT mlt_properties mlt_transition_properties(mlt_transition self);
++MLT_EXPORT int mlt_transition_connect(mlt_transition self,
+                                   mlt_service producer,
+                                   int a_track,
+                                   int b_track);
+-extern void mlt_transition_set_in_and_out(mlt_transition self, mlt_position in, mlt_position out);
+-extern void mlt_transition_set_tracks(mlt_transition self, int a_track, int b_track);
+-extern int mlt_transition_get_a_track(mlt_transition self);
+-extern int mlt_transition_get_b_track(mlt_transition self);
+-extern mlt_position mlt_transition_get_in(mlt_transition self);
+-extern mlt_position mlt_transition_get_out(mlt_transition self);
+-extern mlt_position mlt_transition_get_length(mlt_transition self);
+-extern mlt_position mlt_transition_get_position(mlt_transition self, mlt_frame frame);
+-extern double mlt_transition_get_progress(mlt_transition self, mlt_frame frame);
+-extern double mlt_transition_get_progress_delta(mlt_transition self, mlt_frame frame);
+-extern mlt_frame mlt_transition_process(mlt_transition self, mlt_frame a_frame, mlt_frame b_frame);
+-extern void mlt_transition_close(mlt_transition self);
++MLT_EXPORT void mlt_transition_set_in_and_out(mlt_transition self, mlt_position in, mlt_position out);
++MLT_EXPORT void mlt_transition_set_tracks(mlt_transition self, int a_track, int b_track);
++MLT_EXPORT int mlt_transition_get_a_track(mlt_transition self);
++MLT_EXPORT int mlt_transition_get_b_track(mlt_transition self);
++MLT_EXPORT mlt_position mlt_transition_get_in(mlt_transition self);
++MLT_EXPORT mlt_position mlt_transition_get_out(mlt_transition self);
++MLT_EXPORT mlt_position mlt_transition_get_length(mlt_transition self);
++MLT_EXPORT mlt_position mlt_transition_get_position(mlt_transition self, mlt_frame frame);
++MLT_EXPORT double mlt_transition_get_progress(mlt_transition self, mlt_frame frame);
++MLT_EXPORT double mlt_transition_get_progress_delta(mlt_transition self, mlt_frame frame);
++MLT_EXPORT mlt_frame mlt_transition_process(mlt_transition self, mlt_frame a_frame, mlt_frame b_frame);
++MLT_EXPORT void mlt_transition_close(mlt_transition self);
+ 
+ #endif
+diff --git a/src/framework/mlt_types.h b/src/framework/mlt_types.h
+index f09542ad9..58486d966 100644
+--- a/src/framework/mlt_types.h
++++ b/src/framework/mlt_types.h
+@@ -30,7 +30,7 @@ extern "C" {
+ #include <inttypes.h>
+ #include <limits.h>
+ #include <stdio.h>
+-
++#include "mlt_export.h"
+ #ifndef PATH_MAX
+ #define PATH_MAX 4096
+ #endif
+@@ -293,19 +293,19 @@ typedef void *(*mlt_thread_function_t)(void *);      /**< generic thread functio
+ #include <pthread.h>
+ /* Win32 compatibility function declarations */
+ #if !defined(__MINGW32__)
+-extern int usleep(unsigned int useconds);
++MLT_EXPORT int usleep(unsigned int useconds);
+ #endif
+ #ifndef WIN_PTHREADS_TIME_H
+-extern int nanosleep(const struct timespec *rqtp, struct timespec *rmtp);
++MLT_EXPORT int nanosleep(const struct timespec *rqtp, struct timespec *rmtp);
+ #endif
+-extern int setenv(const char *name, const char *value, int overwrite);
+-extern char *getlocale();
+-extern FILE *win32_fopen(const char *filename_utf8, const char *mode_utf8);
++MLT_EXPORT int setenv(const char *name, const char *value, int overwrite);
++MLT_EXPORT char *getlocale();
++MLT_EXPORT FILE *win32_fopen(const char *filename_utf8, const char *mode_utf8);
+ #include <sys/stat.h>
+ #include <sys/types.h>
+-extern int win32_stat(const char *filename_utf8, struct stat *buffer);
++MLT_EXPORT int win32_stat(const char *filename_utf8, struct stat *buffer);
+ #include <time.h>
+-extern char *strptime(const char *buf, const char *fmt, struct tm *tm);
++MLT_EXPORT char *strptime(const char *buf, const char *fmt, struct tm *tm);
+ #define mlt_fopen win32_fopen
+ #define mlt_stat win32_stat
+ #define MLT_DIRLIST_DELIMITER ";"
+@@ -315,8 +315,8 @@ extern char *strptime(const char *buf, const char *fmt, struct tm *tm);
+ #define MLT_DIRLIST_DELIMITER ":"
+ #endif /* ifdef _WIN32 */
+ 
+-extern const char *mlt_deinterlacer_name(mlt_deinterlacer method);
+-extern mlt_deinterlacer mlt_deinterlacer_id(const char *name);
++MLT_EXPORT const char *mlt_deinterlacer_name(mlt_deinterlacer method);
++MLT_EXPORT mlt_deinterlacer mlt_deinterlacer_id(const char *name);
+ 
+ #ifdef __cplusplus
+ }
+diff --git a/src/framework/mlt_version.h b/src/framework/mlt_version.h
+index d773d26ce..4c04627a7 100644
+--- a/src/framework/mlt_version.h
++++ b/src/framework/mlt_version.h
+@@ -21,7 +21,7 @@
+ 
+ #ifndef MLT_VERSION_H
+ #define MLT_VERSION_H
+-
++#include "mlt_export.h"
+ // Add quotes around any #define variables
+ #define MLT_STRINGIZE2(s) #s
+ #define MLT_STRINGIZE(s) MLT_STRINGIZE2(s)
+@@ -34,10 +34,10 @@
+ #define LIBMLT_VERSION \
+     MLT_STRINGIZE(LIBMLT_VERSION_MAJOR.LIBMLT_VERSION_MINOR.LIBMLT_VERSION_REVISION)
+ 
+-extern int mlt_version_get_int();
+-extern int mlt_version_get_major();
+-extern int mlt_version_get_minor();
+-extern int mlt_version_get_revision();
+-extern char *mlt_version_get_string();
++MLT_EXPORT int mlt_version_get_int();
++MLT_EXPORT int mlt_version_get_major();
++MLT_EXPORT int mlt_version_get_minor();
++MLT_EXPORT int mlt_version_get_revision();
++MLT_EXPORT char *mlt_version_get_string();
+ 
+ #endif
+diff --git a/src/modules/avformat/CMakeLists.txt b/src/modules/avformat/CMakeLists.txt
+index dde330f50..709d1d82f 100644
+--- a/src/modules/avformat/CMakeLists.txt
++++ b/src/modules/avformat/CMakeLists.txt
+@@ -25,10 +25,12 @@ add_custom_target(Other_avformat_Files SOURCES
+   yuv_only.txt
+ )
+ 
++include(GenerateExportHeader)
++generate_export_header(mltavformat)
+ target_compile_options(mltavformat PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+ target_include_directories(mltavformat SYSTEM PRIVATE ${FFMPEG_INCLUDE_DIRS})
+-
++target_include_directories(mltavformat PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltavformat PRIVATE
+   mlt
+   Threads::Threads
+diff --git a/src/modules/avformat/factory.c b/src/modules/avformat/factory.c
+index 4b777c43a..3e34c7b56 100644
+--- a/src/modules/avformat/factory.c
++++ b/src/modules/avformat/factory.c
+@@ -41,6 +41,7 @@ extern mlt_link link_swresample_init(mlt_profile profile, mlt_service_type, cons
+ #include <libavfilter/avfilter.h>
+ #include <libavformat/avformat.h>
+ #include <libavutil/opt.h>
++#include "mltavformat_export.h"
+ 
+ // A static flag used to determine if avformat has been initialised
+ static int avformat_initialised = 0;
+@@ -414,7 +415,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTAVFORMAT_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_consumer_type, "avformat", create_service);
+     MLT_REGISTER(mlt_service_producer_type, "avformat", create_service);
+diff --git a/src/modules/core/CMakeLists.txt b/src/modules/core/CMakeLists.txt
+index 6a344618c..b59df7947 100644
+--- a/src/modules/core/CMakeLists.txt
++++ b/src/modules/core/CMakeLists.txt
+@@ -52,11 +52,13 @@ add_custom_target(Other_core_Files SOURCES
+   loader.dict
+   loader.ini
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltcore)
+ target_compile_options(mltcore PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+ target_link_libraries(mltcore PRIVATE mlt Threads::Threads)
+ 
++target_include_directories(mltcore PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ if(MSVC)
+   target_link_libraries(mltcore PRIVATE PThreads4W::PThreads4W)
+ else()
+diff --git a/src/modules/core/factory.c b/src/modules/core/factory.c
+index a08009fd2..cef08daed 100644
+--- a/src/modules/core/factory.c
++++ b/src/modules/core/factory.c
+@@ -20,7 +20,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltcore_export.h"
+ extern mlt_consumer consumer_multi_init(mlt_profile profile,
+                                         mlt_service_type type,
+                                         const char *id,
+@@ -202,7 +202,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTCORE_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_consumer_type, "multi", consumer_multi_init);
+     MLT_REGISTER(mlt_service_consumer_type, "null", consumer_null_init);
+diff --git a/src/modules/decklink/CMakeLists.txt b/src/modules/decklink/CMakeLists.txt
+index 9a86baa65..8b6d3cfd4 100644
+--- a/src/modules/decklink/CMakeLists.txt
++++ b/src/modules/decklink/CMakeLists.txt
+@@ -8,11 +8,13 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_decklink_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltdecklink)
+ target_compile_options(mltdecklink PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+ target_link_libraries(mltdecklink PRIVATE mlt Threads::Threads)
+ 
++target_include_directories(mltdecklink PRIVATE  ${CMAKE_CURRENT_BINARY_DIR})
+ if(WIN32)
+   target_sources(mltdecklink PRIVATE win/DeckLinkAPI_i.cpp)
+   target_include_directories(mltdecklink PRIVATE win)
+diff --git a/src/modules/decklink/consumer_decklink.cpp b/src/modules/decklink/consumer_decklink.cpp
+index bda7d6b99..e2be4e26d 100644
+--- a/src/modules/decklink/consumer_decklink.cpp
++++ b/src/modules/decklink/consumer_decklink.cpp
+@@ -26,7 +26,7 @@
+ #include <string.h>
+ #include <sys/time.h>
+ #include <unistd.h>
+-
++#include "mltdecklink_export.h"
+ #define SWAB_SLICED_ALIGN_POW 5
+ static int swab_sliced(int id, int idx, int jobs, void *cookie)
+ {
+@@ -1252,7 +1252,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTDECKLINK_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_consumer_type, "decklink", consumer_decklink_init);
+     MLT_REGISTER(mlt_service_producer_type, "decklink", producer_decklink_init);
+diff --git a/src/modules/frei0r/CMakeLists.txt b/src/modules/frei0r/CMakeLists.txt
+index d0a388c51..38f4ab3fd 100644
+--- a/src/modules/frei0r/CMakeLists.txt
++++ b/src/modules/frei0r/CMakeLists.txt
+@@ -16,8 +16,11 @@ add_custom_target(Other_frei0r_Files SOURCES
+   param_name_map.yaml
+ )
+ 
++include(GenerateExportHeader)
++generate_export_header(mltfrei0r)
+ target_compile_options(mltfrei0r PRIVATE ${MLT_COMPILE_OPTIONS})
+-target_include_directories(mltfrei0r PRIVATE ${FREI0R_INCLUDE_DIRS})
++target_include_directories(mltfrei0r PRIVATE ${FREI0R_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})
++
+ if(RELOCATABLE)
+   target_compile_definitions(mltfrei0r PRIVATE RELOCATABLE)
+ endif()
+diff --git a/src/modules/frei0r/factory.c b/src/modules/frei0r/factory.c
+index afcec5ae7..183287933 100644
+--- a/src/modules/frei0r/factory.c
++++ b/src/modules/frei0r/factory.c
+@@ -31,6 +31,7 @@
+ #include <stdlib.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
++#include "mltfrei0r_export.h"
+ 
+ #ifdef _WIN32
+ #define LIBSUF ".dll"
+@@ -481,7 +482,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTFREI0R_EXPORT MLT_REPOSITORY
+ {
+     mlt_tokeniser tokeniser = mlt_tokeniser_init();
+     char *frei0r_path = get_frei0r_path();
+diff --git a/src/modules/gdk/CMakeLists.txt b/src/modules/gdk/CMakeLists.txt
+index ef35a4768..e27435113 100644
+--- a/src/modules/gdk/CMakeLists.txt
++++ b/src/modules/gdk/CMakeLists.txt
+@@ -10,7 +10,10 @@ add_custom_target(Other_gdk_Files SOURCES
+   ${YML}
+ )
+ 
++include(GenerateExportHeader)
++generate_export_header(mltgdk)
+ target_compile_options(mltgdk PRIVATE ${MLT_COMPILE_OPTIONS})
++target_include_directories(mltgdk PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ 
+ target_link_libraries(mltgdk PRIVATE mlt Threads::Threads PkgConfig::GdkPixbuf)
+ if(NOT MSVC)
+diff --git a/src/modules/gdk/factory.c b/src/modules/gdk/factory.c
+index b961be346..31854c405 100644
+--- a/src/modules/gdk/factory.c
++++ b/src/modules/gdk/factory.c
+@@ -21,6 +21,7 @@
+ #include <gdk-pixbuf/gdk-pixbuf.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include "mltgdk_export.h"
+ 
+ #ifdef USE_PIXBUF
+ extern mlt_producer producer_pixbuf_init(char *filename);
+@@ -82,7 +83,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTGDK_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_filter_type, "gtkrescale", create_service);
+     MLT_REGISTER(mlt_service_link_type, "gtkrescale", mlt_link_filter_init);
+diff --git a/src/modules/glaxnimate/CMakeLists.txt b/src/modules/glaxnimate/CMakeLists.txt
+index 332c5808d..22227398a 100644
+--- a/src/modules/glaxnimate/CMakeLists.txt
++++ b/src/modules/glaxnimate/CMakeLists.txt
+@@ -140,7 +140,7 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_glaxnimate_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
+ function(mlt_add_glaxnimate_module ARG_TARGET)
+     cmake_parse_arguments(PARSE_ARGV 1 ARG "" "QT_VERSION;DATADIR" "")
+ 
+@@ -171,6 +171,7 @@ function(mlt_add_glaxnimate_module ARG_TARGET)
+       ${GLAX_SOURCES}
+     )
+ 
++    generate_export_header(mltglaxnimate)
+     target_compile_options(${ARG_TARGET} PRIVATE ${MLT_COMPILE_OPTIONS})
+     add_definitions(-DWITHOUT_POTRACE -DWITHOUT_QT_COLOR_WIDGETS)
+ 
+@@ -192,7 +193,7 @@ function(mlt_add_glaxnimate_module ARG_TARGET)
+       ${LibArchive_LIBRARIES}
+       ZLIB::ZLIB
+     )
+-
++    target_include_directories(${ARG_TARGET} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+     if(NOT WINDOWS_DEPLOY)
+       target_compile_definitions(${ARG_TARGET} PRIVATE NODEPLOY)
+     endif()
+diff --git a/src/modules/glaxnimate/producer_glaxnimate.cpp b/src/modules/glaxnimate/producer_glaxnimate.cpp
+index 959bc371e..c40f11e64 100644
+--- a/src/modules/glaxnimate/producer_glaxnimate.cpp
++++ b/src/modules/glaxnimate/producer_glaxnimate.cpp
+@@ -28,6 +28,8 @@
+ #include "model/assets/assets.hpp"
+ #include "model/assets/composition.hpp"
+ #include "model/document.hpp"
++#include "mltglaxnimate_export.h"
++
+ using namespace glaxnimate;
+ 
+ class Glaxnimate
+@@ -281,7 +283,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTGLAXNIMATE_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_producer_type, "glaxnimate", producer_glaxnimate_init);
+     MLT_REGISTER_METADATA(mlt_service_producer_type, "glaxnimate", metadata, NULL);
+diff --git a/src/modules/jackrack/CMakeLists.txt b/src/modules/jackrack/CMakeLists.txt
+index b32826e62..a5261e21e 100644
+--- a/src/modules/jackrack/CMakeLists.txt
++++ b/src/modules/jackrack/CMakeLists.txt
+@@ -5,10 +5,12 @@ add_custom_target(Other_jackrack_Files SOURCES
+   ${YML}
+ )
+ 
++include(GenerateExportHeader)
++generate_export_header(mltjackrack)
+ target_compile_options(mltjackrack PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+ target_link_libraries(mltjackrack PRIVATE mlt Threads::Threads)
+-
++target_include_directories(mltjackrack PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ if(TARGET JACK::JACK)
+   target_sources(mltjackrack PRIVATE consumer_jack.c)
+   target_link_libraries(mltjackrack PRIVATE JACK::JACK)
+@@ -50,6 +52,10 @@ set_target_properties(mltjackrack PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${MLT_MOD
+ 
+ add_library(mltladspa MODULE factory.c)
+ 
++
++generate_export_header(mltladspa
++  EXPORT_MACRO_NAME MLTLADSPA_EXPORT
++)
+ target_compile_options(mltladspa PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+ target_link_libraries(mltladspa PRIVATE mlt Threads::Threads)
+@@ -111,6 +117,7 @@ if(GPL AND TARGET PkgConfig::xml AND TARGET PkgConfig::glib AND ladspa_h_FOUND)
+     install(FILES filter_vst2.yml producer_vst2.yml DESTINATION ${MLT_INSTALL_DATA_DIR}/jackrack)
+   endif()
+ 
++  target_include_directories(mltladspa PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ endif()
+ 
+ set_target_properties(mltladspa PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${MLT_MODULE_OUTPUT_DIRECTORY}")
+diff --git a/src/modules/jackrack/factory.c b/src/modules/jackrack/factory.c
+index e71ce75d1..5f4fb90ba 100644
+--- a/src/modules/jackrack/factory.c
++++ b/src/modules/jackrack/factory.c
+@@ -24,6 +24,16 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#if defined(mltjackrack_EXPORTS)
++    #include "mltjackrack_export.h"
++    #define JACKRACK_MODULE_EXPORT MLTJACKRACK_EXPORT
++#elif defined(mltladspa_EXPORTS)
++    #include "mltladspa_export.h"
++    #define JACKRACK_MODULE_EXPORT MLTLADSPA_EXPORT
++#else
++    #define JACKRACK_MODULE_EXPORT
++#endif
++
+ 
+ extern mlt_consumer consumer_jack_init(mlt_profile profile,
+                                        mlt_service_type type,
+@@ -692,7 +702,7 @@ static mlt_properties vst2_metadata(mlt_service_type type, const char *id, char
+ 
+ #endif
+ 
+-MLT_REPOSITORY
++JACKRACK_MODULE_EXPORT MLT_REPOSITORY
+ {
+ #ifdef GPL
+     GSList *list;
+diff --git a/src/modules/kdenlive/CMakeLists.txt b/src/modules/kdenlive/CMakeLists.txt
+index e592e15a1..06454404b 100644
+--- a/src/modules/kdenlive/CMakeLists.txt
++++ b/src/modules/kdenlive/CMakeLists.txt
+@@ -10,9 +10,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_kdenlive_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltkdenlive)
+ target_compile_options(mltkdenlive PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltkdenlive PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltkdenlive PRIVATE mlt)
+ if(NOT MSVC)
+   target_link_libraries(mltkdenlive PRIVATE m)
+diff --git a/src/modules/kdenlive/factory.c b/src/modules/kdenlive/factory.c
+index 7e30dc512..b0c5760fd 100644
+--- a/src/modules/kdenlive/factory.c
++++ b/src/modules/kdenlive/factory.c
+@@ -20,6 +20,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
++#include "mltkdenlive_export.h"
+ 
+ extern mlt_filter filter_boxblur_init(mlt_profile profile,
+                                       mlt_service_type type,
+@@ -45,7 +46,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTKDENLIVE_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_filter_type, "boxblur", filter_boxblur_init);
+     MLT_REGISTER(mlt_service_filter_type, "freeze", filter_freeze_init);
+diff --git a/src/modules/movit/CMakeLists.txt b/src/modules/movit/CMakeLists.txt
+index e7a36159a..28cbf8160 100644
+--- a/src/modules/movit/CMakeLists.txt
++++ b/src/modules/movit/CMakeLists.txt
+@@ -28,7 +28,9 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_movit_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltmovit)
++target_include_directories(mltmovit PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_compile_options(mltmovit PRIVATE ${MLT_COMPILE_OPTIONS})
+ if(RELOCATABLE)
+   target_compile_definitions(mltmovit PRIVATE RELOCATABLE)
+diff --git a/src/modules/movit/factory.c b/src/modules/movit/factory.c
+index 8fc079823..b1fd7ef54 100644
+--- a/src/modules/movit/factory.c
++++ b/src/modules/movit/factory.c
+@@ -20,7 +20,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltmovit_export.h"
+ extern mlt_consumer consumer_xgl_init(mlt_profile profile,
+                                       mlt_service_type type,
+                                       const char *id,
+@@ -113,7 +113,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTMOVIT_EXPORT MLT_REPOSITORY
+ {
+ #if !defined(__APPLE__) && !defined(_WIN32)
+     MLT_REGISTER(mlt_service_consumer_type, "xgl", consumer_xgl_init);
+diff --git a/src/modules/ndi/CMakeLists.txt b/src/modules/ndi/CMakeLists.txt
+index 3e296f136..aaf37ae49 100644
+--- a/src/modules/ndi/CMakeLists.txt
++++ b/src/modules/ndi/CMakeLists.txt
+@@ -3,14 +3,15 @@ add_library(mltndi MODULE
+   factory.c factory.h
+   producer_ndi.c
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltndi)
+ file(GLOB YML "*.yml")
+ add_custom_target(Other_ndi_Files SOURCES
+   ${YML}
+ )
+ 
+ target_compile_options(mltndi PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltndi PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltndi PRIVATE mlt NDI::NDI)
+ 
+ if(CPU_SSE)
+diff --git a/src/modules/ndi/factory.c b/src/modules/ndi/factory.c
+index f954d1e45..e495feffa 100644
+--- a/src/modules/ndi/factory.c
++++ b/src/modules/ndi/factory.c
+@@ -34,6 +34,7 @@
+ #include "factory.h"
+ 
+ #include "Processing.NDI.Lib.h"
++#include "mltndi_export.h"
+ 
+ void swab2(const void *from, void *to, int n)
+ {
+@@ -113,7 +114,7 @@ static void *create_service(mlt_profile profile, mlt_service_type type, const ch
+     return NULL;
+ }
+ 
+-MLT_REPOSITORY
++MLTNDI_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_consumer_type, "ndi", create_service);
+     MLT_REGISTER(mlt_service_producer_type, "ndi", create_service);
+diff --git a/src/modules/normalize/CMakeLists.txt b/src/modules/normalize/CMakeLists.txt
+index b1334e3e3..0558b2e0f 100644
+--- a/src/modules/normalize/CMakeLists.txt
++++ b/src/modules/normalize/CMakeLists.txt
+@@ -8,9 +8,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_normalize_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltnormalize)
+ target_compile_options(mltnormalize PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltnormalize PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltnormalize PRIVATE mlt)
+ if(NOT MSVC)
+   target_link_libraries(mltnormalize PRIVATE m)
+diff --git a/src/modules/normalize/factory.c b/src/modules/normalize/factory.c
+index b84dc7096..82103945d 100644
+--- a/src/modules/normalize/factory.c
++++ b/src/modules/normalize/factory.c
+@@ -20,7 +20,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltnormalize_export.h"
+ extern mlt_filter filter_audiolevel_init(mlt_profile profile,
+                                          mlt_service_type type,
+                                          const char *id,
+@@ -37,7 +37,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTNORMALIZE_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_filter_type, "audiolevel", filter_audiolevel_init);
+     MLT_REGISTER(mlt_service_filter_type, "volume", filter_volume_init);
+diff --git a/src/modules/oldfilm/CMakeLists.txt b/src/modules/oldfilm/CMakeLists.txt
+index 4f515abaa..c8566d76e 100644
+--- a/src/modules/oldfilm/CMakeLists.txt
++++ b/src/modules/oldfilm/CMakeLists.txt
+@@ -13,9 +13,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_oldfilm_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltoldfilm)
+ target_compile_options(mltoldfilm PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltoldfilm PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltoldfilm PRIVATE mlt)
+ if(NOT MSVC)
+   target_link_libraries(mltoldfilm PRIVATE m)
+diff --git a/src/modules/oldfilm/factory.c b/src/modules/oldfilm/factory.c
+index 0a7cb7eb9..2a1be080a 100644
+--- a/src/modules/oldfilm/factory.c
++++ b/src/modules/oldfilm/factory.c
+@@ -20,7 +20,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltoldfilm_export.h"
+ extern mlt_filter filter_dust_init(mlt_profile profile,
+                                    mlt_service_type type,
+                                    const char *id,
+@@ -53,7 +53,7 @@ static mlt_properties oldfilm_metadata(mlt_service_type type, const char *id, vo
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTOLDFILM_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_filter_type, "oldfilm", filter_oldfilm_init);
+     MLT_REGISTER(mlt_service_filter_type, "dust", filter_dust_init);
+diff --git a/src/modules/opencv/CMakeLists.txt b/src/modules/opencv/CMakeLists.txt
+index 15e7ed35f..e445474f1 100644
+--- a/src/modules/opencv/CMakeLists.txt
++++ b/src/modules/opencv/CMakeLists.txt
+@@ -4,9 +4,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_opencv_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltopencv)
+ target_compile_options(mltopencv PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltopencv PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltopencv PRIVATE mlt ${OpenCV_LIBS})
+ 
+ set_target_properties(mltopencv PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${MLT_MODULE_OUTPUT_DIRECTORY}")
+diff --git a/src/modules/opencv/factory.c b/src/modules/opencv/factory.c
+index e46339a32..680b793df 100644
+--- a/src/modules/opencv/factory.c
++++ b/src/modules/opencv/factory.c
+@@ -20,7 +20,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltopencv_export.h"
+ extern mlt_filter filter_tracker_init(mlt_profile profile,
+                                       mlt_service_type type,
+                                       const char *id,
+@@ -33,7 +33,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTOPENCV_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_filter_type, "opencv.tracker", filter_tracker_init);
+     MLT_REGISTER_METADATA(mlt_service_filter_type,
+diff --git a/src/modules/plus/CMakeLists.txt b/src/modules/plus/CMakeLists.txt
+index f9980bd4b..4d0180276 100644
+--- a/src/modules/plus/CMakeLists.txt
++++ b/src/modules/plus/CMakeLists.txt
+@@ -38,9 +38,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_plus_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltplus)
+ target_compile_options(mltplus PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltplus PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltplus PRIVATE mlt Threads::Threads)
+ if(MSVC)
+   target_link_libraries(mltplus PRIVATE msvccompat)
+diff --git a/src/modules/plus/factory.c b/src/modules/plus/factory.c
+index 5f1b27d22..b873c032e 100644
+--- a/src/modules/plus/factory.c
++++ b/src/modules/plus/factory.c
+@@ -20,7 +20,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltplus_export.h"
+ extern mlt_consumer consumer_blipflash_init(mlt_profile profile,
+                                             mlt_service_type type,
+                                             const char *id,
+@@ -160,7 +160,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTPLUS_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_consumer_type, "blipflash", consumer_blipflash_init);
+     MLT_REGISTER(mlt_service_filter_type, "affine", filter_affine_init);
+diff --git a/src/modules/plusgpl/CMakeLists.txt b/src/modules/plusgpl/CMakeLists.txt
+index 4087bd5e8..f63529eef 100644
+--- a/src/modules/plusgpl/CMakeLists.txt
++++ b/src/modules/plusgpl/CMakeLists.txt
+@@ -15,9 +15,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_plsugpl_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltplusgpl)
+ target_compile_options(mltplusgpl PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltplusgpl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltplusgpl PRIVATE mlt mlt++ Threads::Threads)
+ if(NOT MSVC)
+   target_link_libraries(mltplusgpl PRIVATE m)
+diff --git a/src/modules/plusgpl/factory.c b/src/modules/plusgpl/factory.c
+index a7f0a4ca6..e822b4e64 100644
+--- a/src/modules/plusgpl/factory.c
++++ b/src/modules/plusgpl/factory.c
+@@ -18,6 +18,7 @@
+  */
+ 
+ #include <framework/mlt.h>
++#include "mltplusgpl_export.h"
+ 
+ extern mlt_consumer consumer_cbrts_init(mlt_profile profile,
+                                         mlt_service_type type,
+@@ -51,7 +52,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTPLUSGPL_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_consumer_type, "cbrts", consumer_cbrts_init);
+     MLT_REGISTER(mlt_service_filter_type, "BurningTV", filter_burn_init);
+diff --git a/src/modules/qt/CMakeLists.txt b/src/modules/qt/CMakeLists.txt
+index b3915dd12..2769cee4c 100644
+--- a/src/modules/qt/CMakeLists.txt
++++ b/src/modules/qt/CMakeLists.txt
+@@ -1,5 +1,5 @@
+ set(CMAKE_AUTOMOC ON)
+-
++include(GenerateExportHeader)
+ function(mlt_add_qt_module ARG_TARGET)
+     cmake_parse_arguments(PARSE_ARGV 1 ARG "" "QT_VERSION;DATADIR" "")
+ 
+@@ -45,6 +45,14 @@ function(mlt_add_qt_module ARG_TARGET)
+       ${YML}
+     )
+ 
++    # Note: We explicitly define a common macro and file name here because this
++    # function creates two separate targets (mltqt and mltqt6) that share the
++    # same source code. This ensures a single, consistent export macro can be
++    # used throughout the C++ files.
++    generate_export_header(${ARG_TARGET}
++        EXPORT_MACRO_NAME MLTQT_EXPORT
++        EXPORT_FILE_NAME  mltqt_export.h
++    )
+     target_compile_options(${ARG_TARGET} PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+     target_link_libraries(${ARG_TARGET} PRIVATE
+@@ -55,7 +63,7 @@ function(mlt_add_qt_module ARG_TARGET)
+       Qt${ARG_QT_VERSION}::Gui
+       Qt${ARG_QT_VERSION}::Xml
+     )
+-
++    target_include_directories(${ARG_TARGET} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+     if(MSVC)
+       target_link_libraries(${ARG_TARGET} PRIVATE PThreads4W::PThreads4W)
+     else()
+diff --git a/src/modules/qt/factory.c b/src/modules/qt/factory.c
+index 10d94bde2..9eaa133cf 100644
+--- a/src/modules/qt/factory.c
++++ b/src/modules/qt/factory.c
+@@ -20,7 +20,7 @@
+ #include <limits.h>
+ #include <string.h>
+ #include <QtGlobal>
+-
++#include "mltqt_export.h"
+ #ifdef USE_QT_OPENGL
+ extern mlt_consumer consumer_qglsl_init(mlt_profile profile,
+                                         mlt_service_type type,
+@@ -106,7 +106,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTQT_EXPORT MLT_REPOSITORY
+ {
+ #ifdef USE_QT_OPENGL
+     MLT_REGISTER(mlt_service_consumer_type, "qglsl", consumer_qglsl_init);
+diff --git a/src/modules/resample/CMakeLists.txt b/src/modules/resample/CMakeLists.txt
+index 62729a196..4a7bdd599 100644
+--- a/src/modules/resample/CMakeLists.txt
++++ b/src/modules/resample/CMakeLists.txt
+@@ -4,9 +4,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_resample_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltresample)
+ target_compile_options(mltresample PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltresample PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltresample PRIVATE mlt PkgConfig::samplerate)
+ 
+ set_target_properties(mltresample PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${MLT_MODULE_OUTPUT_DIRECTORY}")
+diff --git a/src/modules/resample/factory.c b/src/modules/resample/factory.c
+index 7675420e7..a911e083b 100644
+--- a/src/modules/resample/factory.c
++++ b/src/modules/resample/factory.c
+@@ -20,7 +20,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltresample_export.h"
+ extern mlt_filter filter_resample_init(mlt_profile profile,
+                                        mlt_service_type type,
+                                        const char *id,
+@@ -37,7 +37,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTRESAMPLE_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_filter_type, "resample", filter_resample_init);
+     MLT_REGISTER(mlt_service_link_type, "resample", link_resample_init);
+diff --git a/src/modules/rtaudio/CMakeLists.txt b/src/modules/rtaudio/CMakeLists.txt
+index 9a4fc134d..b7e05f3f7 100644
+--- a/src/modules/rtaudio/CMakeLists.txt
++++ b/src/modules/rtaudio/CMakeLists.txt
+@@ -6,9 +6,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_rtaudio_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltrtaudio)
+ target_compile_options(mltrtaudio PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltrtaudio PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltrtaudio PRIVATE mlt Threads::Threads)
+ 
+ if(MSVC)
+diff --git a/src/modules/rtaudio/consumer_rtaudio.cpp b/src/modules/rtaudio/consumer_rtaudio.cpp
+index acc557308..488051acf 100644
+--- a/src/modules/rtaudio/consumer_rtaudio.cpp
++++ b/src/modules/rtaudio/consumer_rtaudio.cpp
+@@ -27,7 +27,7 @@
+ #else
+ #include <RtAudio.h>
+ #endif
+-
++#include "mltrtaudio_export.h"
+ #if defined(RTAUDIO_VERSION_MAJOR) && RTAUDIO_VERSION_MAJOR >= 6
+ #define RTAUDIO_VERSION_6
+ #endif
+@@ -923,7 +923,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTRTAUDIO_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_consumer_type, "rtaudio", consumer_rtaudio_init);
+     MLT_REGISTER_METADATA(mlt_service_consumer_type, "rtaudio", metadata, nullptr);
+diff --git a/src/modules/rubberband/CMakeLists.txt b/src/modules/rubberband/CMakeLists.txt
+index 0ae5914ce..a2a0118be 100644
+--- a/src/modules/rubberband/CMakeLists.txt
++++ b/src/modules/rubberband/CMakeLists.txt
+@@ -4,9 +4,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_rubberband_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltrubberband)
+ target_compile_options(mltrubberband PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltrubberband PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltrubberband PRIVATE mlt PkgConfig::rubberband)
+ 
+ set_target_properties(mltrubberband PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${MLT_MODULE_OUTPUT_DIRECTORY}")
+diff --git a/src/modules/rubberband/factory.c b/src/modules/rubberband/factory.c
+index 43124e434..e3f7d88b3 100644
+--- a/src/modules/rubberband/factory.c
++++ b/src/modules/rubberband/factory.c
+@@ -20,7 +20,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltrubberband_export.h"
+ extern mlt_filter filter_rbpitch_init(mlt_profile profile,
+                                       mlt_service_type type,
+                                       const char *id,
+@@ -33,7 +33,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTRUBBERBAND_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_filter_type, "rbpitch", filter_rbpitch_init);
+     MLT_REGISTER_METADATA(mlt_service_filter_type, "rbpitch", metadata, "filter_rbpitch.yml");
+diff --git a/src/modules/sdl/CMakeLists.txt b/src/modules/sdl/CMakeLists.txt
+index 46d4d6a37..baa524b36 100644
+--- a/src/modules/sdl/CMakeLists.txt
++++ b/src/modules/sdl/CMakeLists.txt
+@@ -10,9 +10,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_sdl_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltsdl)
+ target_compile_options(mltsdl PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltsdl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltsdl PRIVATE mlt Threads::Threads PkgConfig::sdl)
+ if(NOT MSVC)
+   target_link_libraries(mltsdl PRIVATE m)
+diff --git a/src/modules/sdl/factory.c b/src/modules/sdl/factory.c
+index 3066e8242..44d2eaa99 100644
+--- a/src/modules/sdl/factory.c
++++ b/src/modules/sdl/factory.c
+@@ -21,7 +21,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltsdl_export.h"
+ extern mlt_consumer consumer_sdl_init(mlt_profile profile,
+                                       mlt_service_type type,
+                                       const char *id,
+@@ -47,7 +47,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTSDL_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_consumer_type, "sdl", consumer_sdl_init);
+     MLT_REGISTER_METADATA(mlt_service_consumer_type, "sdl", metadata, "consumer_sdl.yml");
+diff --git a/src/modules/sdl2/CMakeLists.txt b/src/modules/sdl2/CMakeLists.txt
+index b1194080e..56299bb63 100644
+--- a/src/modules/sdl2/CMakeLists.txt
++++ b/src/modules/sdl2/CMakeLists.txt
+@@ -9,9 +9,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_sdl2_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltsdl2)
+ target_compile_options(mltsdl2 PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltsdl2 PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltsdl2 PRIVATE mlt Threads::Threads SDL2::SDL2)
+ if(MSVC)
+   target_link_libraries(mltsdl2 PRIVATE PThreads4W::PThreads4W)
+diff --git a/src/modules/sdl2/factory.c b/src/modules/sdl2/factory.c
+index b74c624b2..b6aa30ae7 100644
+--- a/src/modules/sdl2/factory.c
++++ b/src/modules/sdl2/factory.c
+@@ -21,7 +21,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltsdl2_export.h"
+ extern mlt_consumer consumer_sdl2_init(mlt_profile profile,
+                                        mlt_service_type type,
+                                        const char *id,
+@@ -38,7 +38,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTSDL2_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_consumer_type, "sdl2", consumer_sdl2_init);
+     MLT_REGISTER_METADATA(mlt_service_consumer_type, "sdl2", metadata, "consumer_sdl2.yml");
+diff --git a/src/modules/sox/CMakeLists.txt b/src/modules/sox/CMakeLists.txt
+index bcefb5d3b..4d25b543d 100644
+--- a/src/modules/sox/CMakeLists.txt
++++ b/src/modules/sox/CMakeLists.txt
+@@ -4,9 +4,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_sox_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltsox)
+ target_compile_options(mltsox PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltsox PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltsox PRIVATE mlt PkgConfig::sox)
+ if(NOT MSVC)
+   target_link_libraries(mltsox PRIVATE m)
+diff --git a/src/modules/sox/factory.c b/src/modules/sox/factory.c
+index 95b4f2898..057ca450e 100644
+--- a/src/modules/sox/factory.c
++++ b/src/modules/sox/factory.c
+@@ -24,7 +24,7 @@
+ #ifdef SOX14
+ #include <sox.h>
+ #endif
+-
++#include "mltsox_export.h"
+ extern mlt_filter filter_sox_init(mlt_profile profile,
+                                   mlt_service_type type,
+                                   const char *id,
+@@ -69,7 +69,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return result;
+ }
+ 
+-MLT_REPOSITORY
++MLTSOX_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_filter_type, "sox", filter_sox_init);
+     MLT_REGISTER_METADATA(mlt_service_filter_type, "sox", metadata, NULL);
+diff --git a/src/modules/spatialaudio/CMakeLists.txt b/src/modules/spatialaudio/CMakeLists.txt
+index 5919c9499..359d0453a 100644
+--- a/src/modules/spatialaudio/CMakeLists.txt
++++ b/src/modules/spatialaudio/CMakeLists.txt
+@@ -8,9 +8,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_spatialaudio_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltspatialaudio)
+ target_compile_options(mltspatialaudio PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltspatialaudio PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltspatialaudio PRIVATE mlt PkgConfig::spatialaudio)
+ 
+ set_target_properties(mltspatialaudio PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${MLT_MODULE_OUTPUT_DIRECTORY}")
+diff --git a/src/modules/spatialaudio/factory.c b/src/modules/spatialaudio/factory.c
+index a282d8bc5..b0c0e682f 100644
+--- a/src/modules/spatialaudio/factory.c
++++ b/src/modules/spatialaudio/factory.c
+@@ -21,7 +21,7 @@
+ 
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltspatialaudio_export.h"
+ extern mlt_filter filter_ambisonic_decoder_init(mlt_profile profile,
+                                                 mlt_service_type type,
+                                                 const char *id,
+@@ -43,7 +43,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return result;
+ }
+ 
+-MLT_REPOSITORY
++MLTSPATIALAUDIO_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_filter_type, "ambisonic-decoder", filter_ambisonic_decoder_init);
+     MLT_REGISTER_METADATA(mlt_service_filter_type, "ambisonic-decoder", metadata, NULL);
+diff --git a/src/modules/vid.stab/CMakeLists.txt b/src/modules/vid.stab/CMakeLists.txt
+index b37f9da06..65ce6a7bf 100644
+--- a/src/modules/vid.stab/CMakeLists.txt
++++ b/src/modules/vid.stab/CMakeLists.txt
+@@ -4,14 +4,15 @@ add_library(mltvidstab MODULE
+   filter_deshake.cpp
+   filter_vidstab.cpp
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltvidstab)
+ file(GLOB YML "*.yml")
+ add_custom_target(Other_vidstab_Files SOURCES
+   ${YML}
+ )
+ 
+ target_compile_options(mltvidstab PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltvidstab PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltvidstab PRIVATE mlt mlt++ PkgConfig::vidstab)
+ if(NOT MSVC)
+   target_link_libraries(mltvidstab PRIVATE m)
+diff --git a/src/modules/vid.stab/factory.c b/src/modules/vid.stab/factory.c
+index d108b237f..46974f25c 100644
+--- a/src/modules/vid.stab/factory.c
++++ b/src/modules/vid.stab/factory.c
+@@ -20,7 +20,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltvidstab_export.h"
+ extern mlt_filter filter_deshake_init(mlt_profile profile,
+                                       mlt_service_type type,
+                                       const char *id,
+@@ -37,7 +37,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTVIDSTAB_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_filter_type, "deshake", filter_deshake_init);
+     MLT_REGISTER(mlt_service_filter_type, "vidstab", filter_vidstab_init);
+diff --git a/src/modules/vorbis/CMakeLists.txt b/src/modules/vorbis/CMakeLists.txt
+index b3b9f1653..3ba5644b3 100644
+--- a/src/modules/vorbis/CMakeLists.txt
++++ b/src/modules/vorbis/CMakeLists.txt
+@@ -4,9 +4,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_vorbis_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltvorbis)
+ target_compile_options(mltvorbis PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltvorbis PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltvorbis PRIVATE mlt PkgConfig::vorbis PkgConfig::vorbisfile)
+ 
+ set_target_properties(mltvorbis PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${MLT_MODULE_OUTPUT_DIRECTORY}")
+diff --git a/src/modules/vorbis/factory.c b/src/modules/vorbis/factory.c
+index c6ba0c13b..3eb3df9fb 100644
+--- a/src/modules/vorbis/factory.c
++++ b/src/modules/vorbis/factory.c
+@@ -20,7 +20,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltvorbis_export.h"
+ extern mlt_producer producer_vorbis_init(mlt_profile profile,
+                                          mlt_service_type type,
+                                          const char *id,
+@@ -33,7 +33,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTVORBIS_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_producer_type, "vorbis", producer_vorbis_init);
+     MLT_REGISTER_METADATA(mlt_service_producer_type, "vorbis", metadata, "producer_vorbis.yml");
+diff --git a/src/modules/xine/CMakeLists.txt b/src/modules/xine/CMakeLists.txt
+index bd4e4d716..5eedb0414 100644
+--- a/src/modules/xine/CMakeLists.txt
++++ b/src/modules/xine/CMakeLists.txt
+@@ -11,9 +11,10 @@ file(GLOB YML "*.yml")
+ add_custom_target(Other_xine_Files SOURCES
+   ${YML}
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltxine)
+ target_compile_options(mltxine PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltxine PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltxine PRIVATE mlt ${CMAKE_DL_LIBS})
+ 
+ set_target_properties(mltxine PROPERTIES POSITION_INDEPENDENT_CODE ON)
+diff --git a/src/modules/xine/factory.c b/src/modules/xine/factory.c
+index 6d1272df5..18e33d845 100644
+--- a/src/modules/xine/factory.c
++++ b/src/modules/xine/factory.c
+@@ -19,7 +19,7 @@
+ 
+ #include <framework/mlt.h>
+ #include <string.h>
+-
++#include "mltxine_export.h"
+ extern mlt_filter filter_deinterlace_init(mlt_profile profile,
+                                           mlt_service_type type,
+                                           const char *id,
+@@ -36,7 +36,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTXINE_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_filter_type, "deinterlace", filter_deinterlace_init);
+     MLT_REGISTER_METADATA(mlt_service_filter_type,
+diff --git a/src/modules/xml/CMakeLists.txt b/src/modules/xml/CMakeLists.txt
+index 1b4108dc4..f9b9e74ce 100644
+--- a/src/modules/xml/CMakeLists.txt
++++ b/src/modules/xml/CMakeLists.txt
+@@ -11,9 +11,10 @@ add_custom_target(Other_xml_Files SOURCES
+   ${YML}
+   mlt-xml.dtd
+ )
+-
++include(GenerateExportHeader)
++generate_export_header(mltxml)
+ target_compile_options(mltxml PRIVATE ${MLT_COMPILE_OPTIONS})
+-
++target_include_directories(mltxml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+ target_link_libraries(mltxml PRIVATE mlt Threads::Threads PkgConfig::xml)
+ if(MSVC)
+   target_link_libraries(mltxml PRIVATE PThreads4W::PThreads4W)
+diff --git a/src/modules/xml/factory.c b/src/modules/xml/factory.c
+index 1794041f4..c100f3e91 100644
+--- a/src/modules/xml/factory.c
++++ b/src/modules/xml/factory.c
+@@ -20,7 +20,7 @@
+ #include <framework/mlt.h>
+ #include <limits.h>
+ #include <string.h>
+-
++#include "mltxml_export.h"
+ extern mlt_consumer consumer_xml_init(mlt_profile profile,
+                                       mlt_service_type type,
+                                       const char *id,
+@@ -41,7 +41,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLT_REPOSITORY
++MLTXML_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_consumer_type, "xml", consumer_xml_init);
+     MLT_REGISTER(mlt_service_producer_type, "xml", producer_xml_init);
+diff --git a/src/swig/mlt.i b/src/swig/mlt.i
+index 8637254ff..7277738ee 100644
+--- a/src/swig/mlt.i
++++ b/src/swig/mlt.i
+@@ -18,13 +18,68 @@
+  */
+ 
+ %module mlt
++%define MLT_EXPORT
++%enddef
++%define MLTAVFORMAT_EXPORT
++%enddef
++%define MLTCORE_EXPORT
++%enddef
++%define MLTDECKLINK_EXPORT
++%enddef
++%define MLTFREI0R_EXPORT
++%enddef
++%define MLTGDK_EXPORT
++%enddef
++%define MLTGLAXNIMATE_EXPORT
++%enddef
++%define MLTJACKRACK_EXPORT
++%enddef
++%define MLTKDENLIVE_EXPORT
++%enddef
++%define MLTMOVIT_EXPORT
++%enddef
++%define MLTNDI_EXPORT
++%enddef
++%define MLTNORMALIZE_EXPORT
++%enddef
++%define MLTOLDFILM_EXPORT
++%enddef
++%define MLTOPENCV_EXPORT
++%enddef
++%define MLTPLUS_EXPORT
++%enddef
++%define MLTPLUSGPL_EXPORT
++%enddef
++%define MLTQT_EXPORT
++%enddef
++%define MLTRESAMPLE_EXPORT
++%enddef
++%define MLTRTAUDIO_EXPORT
++%enddef
++%define MLTRUBBERBAND_EXPORT
++%enddef
++%define MLTSDL_EXPORT
++%enddef
++%define MLTSDL2_EXPORT
++%enddef
++%define MLTSOX_EXPORT
++%enddef
++%define MLTSPATIALAUDIO_EXPORT
++%enddef
++%define MLTVIDSTAB_EXPORT
++%enddef
++%define MLTVORBIS_EXPORT
++%enddef
++%define MLTXINE_EXPORT
++%enddef
++%define MLTXML_EXPORT
++%enddef
+ %include "carrays.i"
+ %array_class(unsigned char, UnsignedCharArray);
+ 
+ %{
+ #include <mlt++/Mlt.h>
+-int mlt_log_get_level( void );
+-void mlt_log_set_level( int );
++#include <framework/mlt_log.h>
+ %}
+ 
+ /** These methods return objects which should be gc'd.
+@@ -84,8 +139,6 @@ namespace Mlt {
+ %include <framework/mlt_types.h>
+ %include <framework/mlt_factory.h>
+ %include <framework/mlt_version.h>
+-int mlt_log_get_level( void );
+-void mlt_log_set_level( int );
+ %include <MltFactory.h>
+ %include <MltRepository.h>
+ %include <MltEvent.h>
+diff --git a/src/win32/strptime.c b/src/win32/strptime.c
+index c3ed8cedc..15456533c 100644
+--- a/src/win32/strptime.c
++++ b/src/win32/strptime.c
+@@ -42,6 +42,7 @@ __RCSID("$NetBSD: strptime.c,v 1.36 2012/03/13 21:13:48 christos Exp $");
+ #include <string.h>
+ #include <time.h>
+ #include <stdint.h>
++#include "../framework/mlt_export.h"
+ /*
+ #include <tzfile.h>
+ #include "private.h"
+@@ -95,7 +96,7 @@ static const u_char *find_string(const u_char *, int *, const char * const *,
+ 	const char * const *, int);
+ 
+ 
+-char *
++MLT_EXPORT char *
+ strptime(const char *buf, const char *fmt, struct tm *tm)
+ {
+ 	unsigned char c;
+
+From ac160b9b9377149b7458ae3aab8d682e2b34a986 Mon Sep 17 00:00:00 2001
+From: sammiler <app.evergreen055@passinbox.com>
+Date: Wed, 27 Aug 2025 22:25:26 +0800
+Subject: [PATCH 2/2] Unifies export macro handling for modular builds
+
+Introduces conditional export macro definitions to support multiple build targets and reduce macro conflicts.
+Improves compatibility with both Qt5/Qt6 modules and addresses SWIG parsing issues by hiding compiler-specific keywords.
+Enhances maintainability and cross-platform support for modular extensions.
+---
+ src/modules/glaxnimate/CMakeLists.txt          |  2 +-
+ src/modules/glaxnimate/producer_glaxnimate.cpp | 12 ++++++++++--
+ src/modules/qt/CMakeLists.txt                  | 10 ++--------
+ src/modules/qt/factory.c                       | 12 ++++++++++--
+ src/swig/mlt.i                                 |  9 ++++++++-
+ 5 files changed, 31 insertions(+), 14 deletions(-)
+
+diff --git a/src/modules/glaxnimate/CMakeLists.txt b/src/modules/glaxnimate/CMakeLists.txt
+index 22227398a..419515277 100644
+--- a/src/modules/glaxnimate/CMakeLists.txt
++++ b/src/modules/glaxnimate/CMakeLists.txt
+@@ -171,7 +171,7 @@ function(mlt_add_glaxnimate_module ARG_TARGET)
+       ${GLAX_SOURCES}
+     )
+ 
+-    generate_export_header(mltglaxnimate)
++    generate_export_header(${ARG_TARGET})
+     target_compile_options(${ARG_TARGET} PRIVATE ${MLT_COMPILE_OPTIONS})
+     add_definitions(-DWITHOUT_POTRACE -DWITHOUT_QT_COLOR_WIDGETS)
+ 
+diff --git a/src/modules/glaxnimate/producer_glaxnimate.cpp b/src/modules/glaxnimate/producer_glaxnimate.cpp
+index c40f11e64..d19c3348b 100644
+--- a/src/modules/glaxnimate/producer_glaxnimate.cpp
++++ b/src/modules/glaxnimate/producer_glaxnimate.cpp
+@@ -28,7 +28,15 @@
+ #include "model/assets/assets.hpp"
+ #include "model/assets/composition.hpp"
+ #include "model/document.hpp"
+-#include "mltglaxnimate_export.h"
++#if defined(mltglaxnimate_qt6_EXPORTS) 
++    #include "mltglaxnimate-qt6_export.h"
++    #define MLT_GLAXNIMATE_MODULE_EXPORT MLTGLAXNIMATE_QT6_EXPORT
++#elif defined(mltglaxnimate_EXPORTS)
++    #include "mltglaxnimate_export.h"
++    #define MLT_GLAXNIMATE_MODULE_EXPORT MLTGLAXNIMATE_EXPORT
++#else
++    #define MLT_GLAXNIMATE_MODULE_EXPORT
++#endif
+ 
+ using namespace glaxnimate;
+ 
+@@ -283,7 +291,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLTGLAXNIMATE_EXPORT MLT_REPOSITORY
++MLT_GLAXNIMATE_MODULE_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_producer_type, "glaxnimate", producer_glaxnimate_init);
+     MLT_REGISTER_METADATA(mlt_service_producer_type, "glaxnimate", metadata, NULL);
+diff --git a/src/modules/qt/CMakeLists.txt b/src/modules/qt/CMakeLists.txt
+index 2769cee4c..208a8d13e 100644
+--- a/src/modules/qt/CMakeLists.txt
++++ b/src/modules/qt/CMakeLists.txt
+@@ -45,14 +45,8 @@ function(mlt_add_qt_module ARG_TARGET)
+       ${YML}
+     )
+ 
+-    # Note: We explicitly define a common macro and file name here because this
+-    # function creates two separate targets (mltqt and mltqt6) that share the
+-    # same source code. This ensures a single, consistent export macro can be
+-    # used throughout the C++ files.
+-    generate_export_header(${ARG_TARGET}
+-        EXPORT_MACRO_NAME MLTQT_EXPORT
+-        EXPORT_FILE_NAME  mltqt_export.h
+-    )
++
++    generate_export_header(${ARG_TARGET})
+     target_compile_options(${ARG_TARGET} PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+     target_link_libraries(${ARG_TARGET} PRIVATE
+diff --git a/src/modules/qt/factory.c b/src/modules/qt/factory.c
+index 9eaa133cf..29ba7ac7c 100644
+--- a/src/modules/qt/factory.c
++++ b/src/modules/qt/factory.c
+@@ -20,7 +20,15 @@
+ #include <limits.h>
+ #include <string.h>
+ #include <QtGlobal>
+-#include "mltqt_export.h"
++#if defined(mltqt6_EXPORTS) 
++    #include "mltqt6_export.h"
++    #define MLT_QT_MODULE_EXPORT MLTQT6_EXPORT
++#elif defined(mltqt_EXPORTS)
++    #include "mltqt_export.h"
++    #define MLT_QT_MODULE_EXPORT MLTQT_EXPORT
++#else
++    #define MLT_QT_MODULE_EXPORT
++#endif
+ #ifdef USE_QT_OPENGL
+ extern mlt_consumer consumer_qglsl_init(mlt_profile profile,
+                                         mlt_service_type type,
+@@ -106,7 +114,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLTQT_EXPORT MLT_REPOSITORY
++MLT_QT_MODULE_EXPORT  MLT_REPOSITORY
+ {
+ #ifdef USE_QT_OPENGL
+     MLT_REGISTER(mlt_service_consumer_type, "qglsl", consumer_qglsl_init);
+diff --git a/src/swig/mlt.i b/src/swig/mlt.i
+index 7277738ee..515304aa7 100644
+--- a/src/swig/mlt.i
++++ b/src/swig/mlt.i
+@@ -16,7 +16,10 @@
+  * along with this program; if not, write to the Free Software Foundation,
+  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  */
+-
++// SWIG is a parser, not a full C++ compiler, and it fails on compiler-specific
++// keywords like __declspec(dllexport). These %define directives make all of
++// our module-specific export macros invisible *only* to SWIG's parser,
++// resolving syntax errors during wrapper generation.
+ %module mlt
+ %define MLT_EXPORT
+ %enddef
+@@ -32,6 +35,8 @@
+ %enddef
+ %define MLTGLAXNIMATE_EXPORT
+ %enddef
++%define MLTGLAXNIMATE_QT6_EXPORT
++%enddef
+ %define MLTJACKRACK_EXPORT
+ %enddef
+ %define MLTKDENLIVE_EXPORT
+@@ -52,6 +57,8 @@
+ %enddef
+ %define MLTQT_EXPORT
+ %enddef
++%define MLTQT6_EXPORT
++%enddef
+ %define MLTRESAMPLE_EXPORT
+ %enddef
+ %define MLTRTAUDIO_EXPORT

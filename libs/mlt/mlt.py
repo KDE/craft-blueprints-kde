@@ -7,7 +7,6 @@ from Utils.CraftBool import CraftBool
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.GCCLike
         # Disable tests by default because they depend on Kwalify which we don't have in Craft
         self.options.dynamic.setDefault("buildTests", False)
 
@@ -20,24 +19,23 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20221103
-        self.svnTargets["9c3c9e6"] = "https://github.com/mltframework/mlt.git||9c3c9e677f649efc1bf9a5aeb160f5e516be9848"
-        self.defaultTarget = "9c3c9e6"
 
-        self.patchToApply["9c3c9e6"] = []
-        if CraftCore.compiler.isWindows:
-            self.patchToApply["9c3c9e6"] += [("pi_patch.diff", 1)]
-            self.patchToApply["9c3c9e6"] += [("typewriter-fix.patch", 1)]
+        self.svnTargets["ae83cee"] = "https://github.com/mltframework/mlt.git||ae83ceee72a0a39c063b02310f6ce928839712a2"
+        self.defaultTarget = "ae83cee"
 
+        self.patchToApply["ae83cee"] = []
+        self.patchToApply["ae83cee"] += [("1141.patch", 1)]
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["9c3c9e6"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["ae83cee"] += [("pi_patch.diff", 1)]
+            self.patchToApply["ae83cee"] += [("typewriter-fix.patch", 1)]
+            self.patchToApply["ae83cee"] += [("revert-mingw-mysy2.diff", 1)]
 
         if CraftCore.compiler.isMSVC():
-            self.patchToApply["9c3c9e6"] += [("msvc-link-kdewin.patch", 1)]
-            self.patchToApply["9c3c9e6"] += [("msvc-fix-static-const.patch", 1)]
-            self.patchToApply["9c3c9e6"] += [("msvc-misc.patch", 1)]
-            self.patchToApply["9c3c9e6"] += [("msvc-sdl2-import-export.patch", 1)]
-            self.patchToApply["9c3c9e6"] += [("msvc-find-fftw3.patch", 1)]
-            self.patchToApply["9c3c9e6"] += [("msvc-fix-avformat-module.patch", 1)]
+            self.patchToApply["ae83cee"] += [("msvc-misc.patch", 1)]
+            self.patchToApply["ae83cee"] += [("msvc-misc-02.diff", 1)]
+            self.patchToApply["ae83cee"] += [("msvc-sdl2-import-export.patch", 1)]
+            self.patchToApply["ae83cee"] += [("msvc-link-kdewin.patch", 1)]
+            self.patchToApply["ae83cee"] += [("msvc-fix-void-pointers.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
@@ -85,7 +83,7 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
 
         # enable submodule checkout to get glaximate
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMSVC():
             self.subinfo.options.fetch.checkoutSubmodules = True
 
         # General CMake switches
@@ -93,9 +91,6 @@ class Package(CMakePackageBase):
             "-DWINDOWS_DEPLOY=OFF",
             "-DRELOCATABLE=ON",
             "-DBUILD_TESTS_WITH_QT6=ON",
-            # Symbol export for MSVC
-            # TODO: fix this upstream
-            "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON",
         ]
 
         if CraftCore.compiler.isMinGW():
@@ -107,6 +102,8 @@ class Package(CMakePackageBase):
         useOpenCV = CraftBool(self.subinfo.options.isActive("libs/opencv/opencv") and not CraftCore.compiler.isMSVC())
         useMovit = CraftBool(self.subinfo.options.isActive("libs/movit") and CraftCore.compiler.isLinux)
         useSox = CraftBool(self.subinfo.options.isActive("libs/sox") and not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS)
+        # TODO: enable Glaxnimate on MSVC after the submodule in MLT has been updated
+        useGlaxnimate = CraftBool(self.subinfo.options.isActive("libs/libarchive") and not CraftCore.compiler.isMSVC())
 
         self.subinfo.options.configure.args += [
             f"-DMOD_AVFORMAT={self.subinfo.options.isActive('libs/ffmpeg').asOnOff}",
@@ -115,10 +112,16 @@ class Package(CMakePackageBase):
             f"-DMOD_FREI0R={self.subinfo.options.isActive('libs/frei0r-plugins').asOnOff}",
             # don't pull in gtk
             "-DMOD_GDK=OFF",
-            f"-DMOD_GLAXNIMATE_QT6={self.subinfo.options.isActive('libs/libarchive').asOnOff}",
+            f"-DMOD_GLAXNIMATE_QT6={useGlaxnimate.asOnOff}",
+            # TODO Fix jackrack module with MSVC
+            f"-DMOD_JACKRACK={CraftCore.compiler.isMSVC().inverted.asOnOff}",  # default: ON
             f"-DUSE_LV2={self.subinfo.options.isActive('libs/lilv').asOnOff}",
             f"-DMOD_MOVIT={useMovit.asOnOff}",
             f"-DMOD_OPENCV={useOpenCV.asOnOff}",
+            # TODO Fix plus module with MSVC, it needs sys/cdefs.h in ebur128
+            f"-DMOD_PLUS={CraftCore.compiler.isMSVC().inverted.asOnOff}",
+            # TODO Fix plusgpl module with MSVC
+            f"-DMOD_PLUSGPL={CraftCore.compiler.isMSVC().inverted.asOnOff}",
             "-DMOD_QT=OFF",
             "-DMOD_QT6=ON",
             f"-DMOD_RESAMPLE={self.subinfo.options.isActive('libs/libsamplerate').asOnOff}",
@@ -130,6 +133,8 @@ class Package(CMakePackageBase):
             f"-DMOD_SOX={useSox.asOnOff}",
             f"-DMOD_SPATIALAUDIO={self.subinfo.options.isActive('libs/spatialaudio').asOnOff}",
             f"-DMOD_VIDSTAB={self.subinfo.options.isActive('libs/vidstab').asOnOff}",
+            # TODO Fix plusgpl module with MSVC
+            f"-DMOD_XINE={CraftCore.compiler.isMSVC().inverted.asOnOff}",
             f"-DMOD_XML={self.subinfo.options.isActive('libs/libxml2').asOnOff}",
         ]
 

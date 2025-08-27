@@ -38,38 +38,38 @@ index 592c3c2e..943f9b04 100644
  if(MINGW)
 
 diff --git a/src/modules/avformat/CMakeLists.txt b/src/modules/avformat/CMakeLists.txt
-index e3ddc962..b1a25b91 100644
+index 709d1d82..ca1e6eb6 100644
 --- a/src/modules/avformat/CMakeLists.txt
 +++ b/src/modules/avformat/CMakeLists.txt
-@@ -23,7 +23,9 @@ target_link_libraries(mltavformat PRIVATE
-   ${AVUTIL_LIBRARIES}
+@@ -38,7 +38,7 @@ target_link_libraries(mltavformat PRIVATE
  )
  
--if(NOT MSVC)
-+if(MSVC)
+ if(MSVC)
+-  target_link_libraries(mltavformat PRIVATE PThreads4W::PThreads4W)
 +  target_link_libraries(mltavformat PRIVATE PThreads4W::PThreads4W ${KDEWIN_LIBRARIES})
-+else()
-   target_link_libraries(mltavformat PRIVATE m)
+ else()
+    target_link_libraries(mltavformat PRIVATE m)
  endif()
- 
+
 diff --git a/src/modules/core/CMakeLists.txt b/src/modules/core/CMakeLists.txt
-index 6a344618..5b8b99f2 100644
+index b59df794..38681d59 100644
 --- a/src/modules/core/CMakeLists.txt
 +++ b/src/modules/core/CMakeLists.txt
-@@ -58,7 +58,7 @@ target_compile_options(mltcore PRIVATE ${MLT_COMPILE_OPTIONS})
- target_link_libraries(mltcore PRIVATE mlt Threads::Threads)
+@@ -60,7 +60,7 @@ target_link_libraries(mltcore PRIVATE mlt Threads::Threads)
  
+ target_include_directories(mltcore PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
  if(MSVC)
 -  target_link_libraries(mltcore PRIVATE PThreads4W::PThreads4W)
 +  target_link_libraries(mltcore PRIVATE PThreads4W::PThreads4W ${KDEWIN_LIBRARIES})
  else()
    target_link_libraries(mltcore PRIVATE m)
  endif()
+
 diff --git a/src/modules/frei0r/CMakeLists.txt b/src/modules/frei0r/CMakeLists.txt
-index d0a388c5..b3d80086 100644
+index 38f4ab3f..ca428f25 100644
 --- a/src/modules/frei0r/CMakeLists.txt
 +++ b/src/modules/frei0r/CMakeLists.txt
-@@ -24,7 +24,9 @@ endif()
+@@ -27,7 +27,9 @@ endif()
  
  target_link_libraries(mltfrei0r PRIVATE mlt ${CMAKE_DL_LIBS})
  
@@ -81,12 +81,12 @@ index d0a388c5..b3d80086 100644
  endif()
  
 diff --git a/src/modules/kdenlive/CMakeLists.txt b/src/modules/kdenlive/CMakeLists.txt
-index e592e15a..9e03b923 100644
+index 06454404..3e6d370b 100644
 --- a/src/modules/kdenlive/CMakeLists.txt
 +++ b/src/modules/kdenlive/CMakeLists.txt
-@@ -14,7 +14,9 @@ add_custom_target(Other_kdenlive_Files SOURCES
+@@ -15,7 +15,9 @@ generate_export_header(mltkdenlive)
  target_compile_options(mltkdenlive PRIVATE ${MLT_COMPILE_OPTIONS})
- 
+ target_include_directories(mltkdenlive PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
  target_link_libraries(mltkdenlive PRIVATE mlt)
 -if(NOT MSVC)
 +if(MSVC)
@@ -96,11 +96,11 @@ index e592e15a..9e03b923 100644
  endif()
  
 diff --git a/src/modules/plus/CMakeLists.txt b/src/modules/plus/CMakeLists.txt
-index c8b6f981..56c2f4b6 100644
+index 4d018027..ea24d3ba 100644
 --- a/src/modules/plus/CMakeLists.txt
 +++ b/src/modules/plus/CMakeLists.txt
-@@ -43,7 +43,7 @@ target_compile_options(mltplus PRIVATE ${MLT_COMPILE_OPTIONS})
- 
+@@ -44,7 +44,7 @@ target_compile_options(mltplus PRIVATE ${MLT_COMPILE_OPTIONS})
+ target_include_directories(mltplus PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
  target_link_libraries(mltplus PRIVATE mlt Threads::Threads)
  if(MSVC)
 -  target_link_libraries(mltplus PRIVATE msvccompat)
@@ -110,12 +110,12 @@ index c8b6f981..56c2f4b6 100644
  endif()
 
 diff --git a/src/modules/plusgpl/CMakeLists.txt b/src/modules/plusgpl/CMakeLists.txt
-index 4087bd5e..b42acb2f 100644
+index f63529ee..10c58731 100644
 --- a/src/modules/plusgpl/CMakeLists.txt
 +++ b/src/modules/plusgpl/CMakeLists.txt
-@@ -19,7 +19,9 @@ add_custom_target(Other_plsugpl_Files SOURCES
+@@ -20,7 +20,9 @@ generate_export_header(mltplusgpl)
  target_compile_options(mltplusgpl PRIVATE ${MLT_COMPILE_OPTIONS})
- 
+ target_include_directories(mltplusgpl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
  target_link_libraries(mltplusgpl PRIVATE mlt mlt++ Threads::Threads)
 -if(NOT MSVC)
 +if(MSVC)
@@ -138,11 +138,11 @@ index 9a4fc134..1c91840b 100644
  
  if(TARGET PkgConfig::rtaudio)
 diff --git a/src/modules/sdl2/CMakeLists.txt b/src/modules/sdl2/CMakeLists.txt
-index f167919f..c27ea192 100644
+index 56299bb6..8091ee8d 100644
 --- a/src/modules/sdl2/CMakeLists.txt
 +++ b/src/modules/sdl2/CMakeLists.txt
-@@ -14,7 +14,7 @@ target_compile_options(mltsdl2 PRIVATE ${MLT_COMPILE_OPTIONS})
- 
+@@ -15,7 +15,7 @@ target_compile_options(mltsdl2 PRIVATE ${MLT_COMPILE_OPTIONS})
+ target_include_directories(mltsdl2 PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
  target_link_libraries(mltsdl2 PRIVATE mlt Threads::Threads SDL2::SDL2)
  if(MSVC)
 -  target_link_libraries(mltsdl2 PRIVATE PThreads4W::PThreads4W)
@@ -150,12 +150,13 @@ index f167919f..c27ea192 100644
  else()
    target_link_libraries(mltsdl2 PRIVATE m)
  endif()
+
 diff --git a/src/modules/xml/CMakeLists.txt b/src/modules/xml/CMakeLists.txt
-index 1b4108dc..09ae8a68 100644
+index f9b9e74c..c52ae557 100644
 --- a/src/modules/xml/CMakeLists.txt
 +++ b/src/modules/xml/CMakeLists.txt
-@@ -16,7 +16,7 @@ target_compile_options(mltxml PRIVATE ${MLT_COMPILE_OPTIONS})
- 
+@@ -17,7 +17,7 @@ target_compile_options(mltxml PRIVATE ${MLT_COMPILE_OPTIONS})
+ target_include_directories(mltxml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
  target_link_libraries(mltxml PRIVATE mlt Threads::Threads PkgConfig::xml)
  if(MSVC)
 -  target_link_libraries(mltxml PRIVATE PThreads4W::PThreads4W)
@@ -163,6 +164,7 @@ index 1b4108dc..09ae8a68 100644
  else()
    target_link_libraries(mltxml PRIVATE m)
  endif()
+
 diff --git a/src/modules/jackrack/CMakeLists.txt b/src/modules/jackrack/CMakeLists.txt
 index b32826e6..f7b08646 100644
 --- a/src/modules/jackrack/CMakeLists.txt
@@ -190,29 +192,25 @@ index b32826e6..f7b08646 100644
    endif()
 
 diff --git a/src/modules/qt/CMakeLists.txt b/src/modules/qt/CMakeLists.txt
-index 2c8c86ac..1da46428 100644
+index 208a8d13..223c1ff8 100644
 --- a/src/modules/qt/CMakeLists.txt
 +++ b/src/modules/qt/CMakeLists.txt
-@@ -56,8 +56,10 @@ function(mlt_add_qt_module ARG_TARGET)
-       Qt${ARG_QT_VERSION}::Xml
+@@ -59,7 +59,7 @@ function(mlt_add_qt_module ARG_TARGET)
      )
- 
--    if(NOT MSVC)
--      target_link_libraries(${ARG_TARGET} PRIVATE m)
-+    if(MSVC)
+     target_include_directories(${ARG_TARGET} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+     if(MSVC)
+-      target_link_libraries(${ARG_TARGET} PRIVATE PThreads4W::PThreads4W)
 +      target_link_libraries(${ARG_TARGET} PRIVATE PThreads4W::PThreads4W ${KDEWIN_LIBRARIES})
-+    else()
-+        target_link_libraries(${ARG_TARGET} PRIVATE m)
+     else()
+         target_link_libraries(${ARG_TARGET} PRIVATE m)
      endif()
- 
-     if(ARG_QT_VERSION EQUAL 6)
 
 diff --git a/src/modules/xine/CMakeLists.txt b/src/modules/xine/CMakeLists.txt
-index bd4e4d71..42065266 100644
+index 5eedb041..39ce971a 100644
 --- a/src/modules/xine/CMakeLists.txt
 +++ b/src/modules/xine/CMakeLists.txt
-@@ -16,6 +16,10 @@ target_compile_options(mltxine PRIVATE ${MLT_COMPILE_OPTIONS})
- 
+@@ -17,6 +17,10 @@ target_compile_options(mltxine PRIVATE ${MLT_COMPILE_OPTIONS})
+ target_include_directories(mltxine PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
  target_link_libraries(mltxine PRIVATE mlt ${CMAKE_DL_LIBS})
  
 +if(MSVC)
