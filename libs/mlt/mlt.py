@@ -20,24 +20,22 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20221103
-        self.svnTargets["9c3c9e6"] = "https://github.com/mltframework/mlt.git||9c3c9e677f649efc1bf9a5aeb160f5e516be9848"
-        self.defaultTarget = "9c3c9e6"
 
-        self.patchToApply["9c3c9e6"] = []
-        if CraftCore.compiler.isWindows:
-            self.patchToApply["9c3c9e6"] += [("pi_patch.diff", 1)]
-            self.patchToApply["9c3c9e6"] += [("typewriter-fix.patch", 1)]
+        self.svnTargets["ae83cee"] = "https://github.com/mltframework/mlt.git||ae83ceee72a0a39c063b02310f6ce928839712a2"
+        self.defaultTarget = "ae83cee"
 
+        self.patchToApply["ae83cee"] = []
+        self.patchToApply["ae83cee"] += [("1141.patch", 1)]
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["9c3c9e6"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["ae83cee"] += [("pi_patch.diff", 1)]
+            self.patchToApply["ae83cee"] += [("typewriter-fix.patch", 1)]
+            self.patchToApply["ae83cee"] += [("revert-mingw-mysy2.diff", 1)]
 
-        if CraftCore.compiler.isMSVC():
-            self.patchToApply["9c3c9e6"] += [("msvc-link-kdewin.patch", 1)]
-            self.patchToApply["9c3c9e6"] += [("msvc-fix-static-const.patch", 1)]
-            self.patchToApply["9c3c9e6"] += [("msvc-misc.patch", 1)]
-            self.patchToApply["9c3c9e6"] += [("msvc-sdl2-import-export.patch", 1)]
-            self.patchToApply["9c3c9e6"] += [("msvc-find-fftw3.patch", 1)]
-            self.patchToApply["9c3c9e6"] += [("msvc-fix-avformat-module.patch", 1)]
+        # if CraftCore.compiler.isMSVC():
+        #     self.patchToApply["ae83cee"] += [("msvc-link-kdewin.patch", 1)]
+        #     self.patchToApply["9c3c9e6"] += [("msvc-fix-static-const.patch", 1)]
+        #     self.patchToApply["ae83cee"] += [("msvc-misc.patch", 1)]
+        #     self.patchToApply["ae83cee"] += [("msvc-sdl2-import-export.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
@@ -85,7 +83,7 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
 
         # enable submodule checkout to get glaximate
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMSVC():
             self.subinfo.options.fetch.checkoutSubmodules = True
 
         # General CMake switches
