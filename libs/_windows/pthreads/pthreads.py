@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
         self.svnTargets["8e467a6"] = "https://git.code.sf.net/p/pthreads4w/code||8e467a62a14fd9de15af33beec0a913d23f4d2f9"
         self.patchToApply["8e467a6"] = [("pthreads-20240811.patch", 1)]
 
-        self.patchLevel["8e467a6"] = 1
+        self.patchLevel["8e467a6"] = 2
 
         self.description = "A POSIX thread implementation for windows"
         self.defaultTarget = "8e467a6"
