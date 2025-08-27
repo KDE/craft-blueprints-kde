@@ -119,8 +119,8 @@ index acffa1c3..6d30a653 100644
                              tw->printParseResult();
 -                            txt->setData(0, QVariant::fromValue<std::shared_ptr<TypeWriter>>(tw));
 +                            scene->setProperty(QString::number(itemId).toLatin1(), QVariant::fromValue<std::shared_ptr<TypeWriter>>(tw));
-+                            +                            txt->setData(0, itemId);
-+                            +                            itemId++;
++                            txt->setData(0, itemId);
++                            itemId++;
                          } else {
                              txt->setData(0, QVariant());
                          }
