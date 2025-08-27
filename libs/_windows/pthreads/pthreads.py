@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2025 Julius Künzel <julius.kuenzel@kde.org>
 
 import info
+import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
@@ -25,6 +26,8 @@ class subinfo(info.infoclass):
         self.svnTargets["8e467a6"] = "https://git.code.sf.net/p/pthreads4w/code||8e467a62a14fd9de15af33beec0a913d23f4d2f9"
         self.patchToApply["8e467a6"] = [("pthreads-20240811.patch", 1)]
 
+        self.patchLevel["8e467a6"] = 1
+
         self.description = "A POSIX thread implementation for windows"
         self.defaultTarget = "8e467a6"
 
@@ -35,3 +38,11 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+    def install(self):
+        if not super().install():
+            return False
+        # See https://github.com/microsoft/vcpkg/blob/13a0b7ba8dd2af538fdf24d860e67c5b951788fb/ports/pthreads/portfile.cmake#L59
+        if not utils.copyFile(self.blueprintDir() / "PThreads4WConfig.cmake", self.imageDir() / "share/PThreads4W/PThreads4WConfig.cmake"):
+            return False
+        return True
