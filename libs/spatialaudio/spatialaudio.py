@@ -21,4 +21,9 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.subinfo.options.configure.args += [f"-DBUILD_STATIC_LIBS={self.subinfo.options.buildStatic.asOnOff}"]
+        self.subinfo.options.configure.args += [
+            f"-DBUILD_STATIC_LIBS={self.subinfo.options.buildStatic.asOnOff}",
+            # TODO: exporting all symbols is no ideal, it should be fixed
+            # upstream by using cmake's GenerateExportHeader etc.
+            "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON",
+        ]
