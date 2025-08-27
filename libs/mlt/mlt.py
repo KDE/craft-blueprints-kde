@@ -92,9 +92,6 @@ class Package(CMakePackageBase):
             "-DWINDOWS_DEPLOY=OFF",
             "-DRELOCATABLE=ON",
             "-DBUILD_TESTS_WITH_QT6=ON",
-            # Symbol export for MSVC
-            # TODO: fix this upstream
-            # "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON",
         ]
 
         if CraftCore.compiler.isMinGW():
@@ -106,6 +103,8 @@ class Package(CMakePackageBase):
         useOpenCV = CraftBool(self.subinfo.options.isActive("libs/opencv/opencv") and not CraftCore.compiler.isMSVC())
         useMovit = CraftBool(self.subinfo.options.isActive("libs/movit") and CraftCore.compiler.isLinux)
         useSox = CraftBool(self.subinfo.options.isActive("libs/sox") and not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS)
+        # TODO: enable Glaxnimate on MSVC after the submodule in MLT has been updated
+        useGlaxnimate = CraftBool(self.subinfo.options.isActive('libs/libarchive') and not CraftCore.compiler.isMSVC())
 
         self.subinfo.options.configure.args += [
             f"-DMOD_AVFORMAT={self.subinfo.options.isActive('libs/ffmpeg').asOnOff}",
@@ -114,10 +113,16 @@ class Package(CMakePackageBase):
             f"-DMOD_FREI0R={self.subinfo.options.isActive('libs/frei0r-plugins').asOnOff}",
             # don't pull in gtk
             "-DMOD_GDK=OFF",
-            f"-DMOD_GLAXNIMATE_QT6={self.subinfo.options.isActive('libs/libarchive').asOnOff}",
+            f"-DMOD_GLAXNIMATE_QT6={useGlaxnimate.asOnOff}",
+            # TODO Fix jackrack module with MSVC
+            f"-DMOD_JACKRACK={CraftCore.compiler.isMSVC().inverted.asOnOff}",  # default: ON
             f"-DUSE_LV2={self.subinfo.options.isActive('libs/lilv').asOnOff}",
             f"-DMOD_MOVIT={useMovit.asOnOff}",
             f"-DMOD_OPENCV={useOpenCV.asOnOff}",
+            # TODO Fix plus module with MSVC, it needs sys/cdefs.h in ebur128
+            f"-DMOD_PLUS={CraftCore.compiler.isMSVC().inverted.asOnOff}",
+            # TODO Fix plusgpl module with MSVC
+            f"-DMOD_PLUSGPL={CraftCore.compiler.isMSVC().inverted.asOnOff}",
             "-DMOD_QT=OFF",
             "-DMOD_QT6=ON",
             f"-DMOD_RESAMPLE={self.subinfo.options.isActive('libs/libsamplerate').asOnOff}",
@@ -129,6 +134,8 @@ class Package(CMakePackageBase):
             f"-DMOD_SOX={useSox.asOnOff}",
             f"-DMOD_SPATIALAUDIO={self.subinfo.options.isActive('libs/spatialaudio').asOnOff}",
             f"-DMOD_VIDSTAB={self.subinfo.options.isActive('libs/vidstab').asOnOff}",
+            # TODO Fix plusgpl module with MSVC
+            f"-DMOD_XINE={CraftCore.compiler.isMSVC().inverted.asOnOff}",
             f"-DMOD_XML={self.subinfo.options.isActive('libs/libxml2').asOnOff}",
         ]
 
