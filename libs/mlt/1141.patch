@@ -1,7 +1,7 @@
 From 87e4f7df27d464b41c7cc8816566f5c331cb00ab Mon Sep 17 00:00:00 2001
 From: sammiler <app.evergreen055@passinbox.com>
 Date: Tue, 26 Aug 2025 15:54:49 +0800
-Subject: [PATCH] feat(build): Implement system-wide symbol visibility
+Subject: [PATCH 1/2] feat(build): Implement system-wide symbol visibility
 
 This commit introduces a comprehensive, system-wide solution for managing
 API symbol visibility, enabling robust shared library builds on Windows/MSVC.
@@ -3290,3 +3290,148 @@ index c3ed8cedc..15456533c 100644
  strptime(const char *buf, const char *fmt, struct tm *tm)
  {
  	unsigned char c;
+
+From ac160b9b9377149b7458ae3aab8d682e2b34a986 Mon Sep 17 00:00:00 2001
+From: sammiler <app.evergreen055@passinbox.com>
+Date: Wed, 27 Aug 2025 22:25:26 +0800
+Subject: [PATCH 2/2] Unifies export macro handling for modular builds
+
+Introduces conditional export macro definitions to support multiple build targets and reduce macro conflicts.
+Improves compatibility with both Qt5/Qt6 modules and addresses SWIG parsing issues by hiding compiler-specific keywords.
+Enhances maintainability and cross-platform support for modular extensions.
+---
+ src/modules/glaxnimate/CMakeLists.txt          |  2 +-
+ src/modules/glaxnimate/producer_glaxnimate.cpp | 12 ++++++++++--
+ src/modules/qt/CMakeLists.txt                  | 10 ++--------
+ src/modules/qt/factory.c                       | 12 ++++++++++--
+ src/swig/mlt.i                                 |  9 ++++++++-
+ 5 files changed, 31 insertions(+), 14 deletions(-)
+
+diff --git a/src/modules/glaxnimate/CMakeLists.txt b/src/modules/glaxnimate/CMakeLists.txt
+index 22227398a..419515277 100644
+--- a/src/modules/glaxnimate/CMakeLists.txt
++++ b/src/modules/glaxnimate/CMakeLists.txt
+@@ -171,7 +171,7 @@ function(mlt_add_glaxnimate_module ARG_TARGET)
+       ${GLAX_SOURCES}
+     )
+ 
+-    generate_export_header(mltglaxnimate)
++    generate_export_header(${ARG_TARGET})
+     target_compile_options(${ARG_TARGET} PRIVATE ${MLT_COMPILE_OPTIONS})
+     add_definitions(-DWITHOUT_POTRACE -DWITHOUT_QT_COLOR_WIDGETS)
+ 
+diff --git a/src/modules/glaxnimate/producer_glaxnimate.cpp b/src/modules/glaxnimate/producer_glaxnimate.cpp
+index c40f11e64..d19c3348b 100644
+--- a/src/modules/glaxnimate/producer_glaxnimate.cpp
++++ b/src/modules/glaxnimate/producer_glaxnimate.cpp
+@@ -28,7 +28,15 @@
+ #include "model/assets/assets.hpp"
+ #include "model/assets/composition.hpp"
+ #include "model/document.hpp"
+-#include "mltglaxnimate_export.h"
++#if defined(mltglaxnimate-qt6_EXPORTS) 
++    #include "mltglaxnimate-qt6_export.h"
++    #define MLT_GLAXNIMATE_MODULE_EXPORT MLTGLAXNIMATE_QT6_EXPORT
++#elif defined(mltglaxnimate_EXPORTS)
++    #include "mltglaxnimate_export.h"
++    #define MLT_GLAXNIMATE_MODULE_EXPORT MLTGLAXNIMATE_EXPORT
++#else
++    #define MLT_GLAXNIMATE_MODULE_EXPORT
++#endif
+ 
+ using namespace glaxnimate;
+ 
+@@ -283,7 +291,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLTGLAXNIMATE_EXPORT MLT_REPOSITORY
++MLT_GLAXNIMATE_MODULE_EXPORT MLT_REPOSITORY
+ {
+     MLT_REGISTER(mlt_service_producer_type, "glaxnimate", producer_glaxnimate_init);
+     MLT_REGISTER_METADATA(mlt_service_producer_type, "glaxnimate", metadata, NULL);
+diff --git a/src/modules/qt/CMakeLists.txt b/src/modules/qt/CMakeLists.txt
+index 2769cee4c..208a8d13e 100644
+--- a/src/modules/qt/CMakeLists.txt
++++ b/src/modules/qt/CMakeLists.txt
+@@ -45,14 +45,8 @@ function(mlt_add_qt_module ARG_TARGET)
+       ${YML}
+     )
+ 
+-    # Note: We explicitly define a common macro and file name here because this
+-    # function creates two separate targets (mltqt and mltqt6) that share the
+-    # same source code. This ensures a single, consistent export macro can be
+-    # used throughout the C++ files.
+-    generate_export_header(${ARG_TARGET}
+-        EXPORT_MACRO_NAME MLTQT_EXPORT
+-        EXPORT_FILE_NAME  mltqt_export.h
+-    )
++
++    generate_export_header(${ARG_TARGET})
+     target_compile_options(${ARG_TARGET} PRIVATE ${MLT_COMPILE_OPTIONS})
+ 
+     target_link_libraries(${ARG_TARGET} PRIVATE
+diff --git a/src/modules/qt/factory.c b/src/modules/qt/factory.c
+index 9eaa133cf..29ba7ac7c 100644
+--- a/src/modules/qt/factory.c
++++ b/src/modules/qt/factory.c
+@@ -20,7 +20,15 @@
+ #include <limits.h>
+ #include <string.h>
+ #include <QtGlobal>
+-#include "mltqt_export.h"
++#if defined(mltqt6_EXPORTS) 
++    #include "mltqt6_export.h"
++    #define MLT_QT_MODULE_EXPORT MLTQT6_EXPORT
++#elif defined(mltqt_EXPORTS)
++    #include "mltqt_export.h"
++    #define MLT_QT_MODULE_EXPORT MLTQT_EXPORT
++#else
++    #define MLT_QT_MODULE_EXPORT
++#endif
+ #ifdef USE_QT_OPENGL
+ extern mlt_consumer consumer_qglsl_init(mlt_profile profile,
+                                         mlt_service_type type,
+@@ -106,7 +114,7 @@ static mlt_properties metadata(mlt_service_type type, const char *id, void *data
+     return mlt_properties_parse_yaml(file);
+ }
+ 
+-MLTQT_EXPORT MLT_REPOSITORY
++MLT_QT_MODULE_EXPORT  MLT_REPOSITORY
+ {
+ #ifdef USE_QT_OPENGL
+     MLT_REGISTER(mlt_service_consumer_type, "qglsl", consumer_qglsl_init);
+diff --git a/src/swig/mlt.i b/src/swig/mlt.i
+index 7277738ee..515304aa7 100644
+--- a/src/swig/mlt.i
++++ b/src/swig/mlt.i
+@@ -16,7 +16,10 @@
+  * along with this program; if not, write to the Free Software Foundation,
+  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+  */
+-
++// SWIG is a parser, not a full C++ compiler, and it fails on compiler-specific
++// keywords like __declspec(dllexport). These %define directives make all of
++// our module-specific export macros invisible *only* to SWIG's parser,
++// resolving syntax errors during wrapper generation.
+ %module mlt
+ %define MLT_EXPORT
+ %enddef
+@@ -32,6 +35,8 @@
+ %enddef
+ %define MLTGLAXNIMATE_EXPORT
+ %enddef
++%define MLTGLAXNIMATE_QT6_EXPORT
++%enddef
+ %define MLTJACKRACK_EXPORT
+ %enddef
+ %define MLTKDENLIVE_EXPORT
+@@ -52,6 +57,8 @@
+ %enddef
+ %define MLTQT_EXPORT
+ %enddef
++%define MLTQT6_EXPORT
++%enddef
+ %define MLTRESAMPLE_EXPORT
+ %enddef
+ %define MLTRTAUDIO_EXPORT

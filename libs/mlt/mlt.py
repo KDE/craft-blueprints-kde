@@ -31,11 +31,12 @@ class subinfo(info.infoclass):
             self.patchToApply["ae83cee"] += [("typewriter-fix.patch", 1)]
             self.patchToApply["ae83cee"] += [("revert-mingw-mysy2.diff", 1)]
 
-        # if CraftCore.compiler.isMSVC():
-        #     self.patchToApply["ae83cee"] += [("msvc-link-kdewin.patch", 1)]
-        #     self.patchToApply["9c3c9e6"] += [("msvc-fix-static-const.patch", 1)]
-        #     self.patchToApply["ae83cee"] += [("msvc-misc.patch", 1)]
-        #     self.patchToApply["ae83cee"] += [("msvc-sdl2-import-export.patch", 1)]
+        if CraftCore.compiler.isMSVC():
+            self.patchToApply["ae83cee"] += [("msvc-misc.patch", 1)]
+            self.patchToApply["ae83cee"] += [("msvc-misc-02.diff", 1)]
+            self.patchToApply["ae83cee"] += [("msvc-sdl2-import-export.patch", 1)]
+            self.patchToApply["ae83cee"] += [("msvc-link-kdewin.patch", 1)]
+            self.patchToApply["ae83cee"] += [("msvc-fix-void-pointers.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
@@ -93,7 +94,7 @@ class Package(CMakePackageBase):
             "-DBUILD_TESTS_WITH_QT6=ON",
             # Symbol export for MSVC
             # TODO: fix this upstream
-            "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON",
+            # "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON",
         ]
 
         if CraftCore.compiler.isMinGW():
