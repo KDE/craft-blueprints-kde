@@ -103,7 +103,7 @@ class Package(CMakePackageBase):
         useMovit = CraftBool(self.subinfo.options.isActive("libs/movit") and CraftCore.compiler.isLinux)
         useSox = CraftBool(self.subinfo.options.isActive("libs/sox") and not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS)
         # TODO: enable Glaxnimate on MSVC after the submodule in MLT has been updated
-        useGlaxnimate = CraftBool(self.subinfo.options.isActive('libs/libarchive') and not CraftCore.compiler.isMSVC())
+        useGlaxnimate = CraftBool(self.subinfo.options.isActive("libs/libarchive") and not CraftCore.compiler.isMSVC())
 
         self.subinfo.options.configure.args += [
             f"-DMOD_AVFORMAT={self.subinfo.options.isActive('libs/ffmpeg').asOnOff}",
