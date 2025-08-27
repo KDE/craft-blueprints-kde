@@ -16,7 +16,7 @@ index acffa1c3..6d30a653 100644
          double linePos = m_metrics.ascent();
          foreach (const QString &line, lines) {
              QPainterPath linePath;
-@@ -203,14 +203,15 @@ public:
+@@ -203,14 +203,16 @@ public:
              m_path.addPath(linePath);
          }
          m_path.setFillRule(Qt::WindingFill);
@@ -37,6 +37,7 @@ index acffa1c3..6d30a653 100644
 +            if (m_boundingRect.height() < minHeight) {
 +                m_boundingRect.setHeight(minHeight);
 +            }
++        }
      }
  
      virtual QRectF boundingRect() const { return m_boundingRect; }
