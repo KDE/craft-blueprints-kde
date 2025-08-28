@@ -28,6 +28,7 @@ class Package(MesonPackageBase):
         self.subinfo.options.configure.args += [
             "-Ddocs=disabled",
             "-Dbenchmark=disabled",
+            f"-Dtests={self.subinfo.options.dynamic.buildTests.asEnabledDisabled}",
             "-Dglib=disabled",
             "-Dgobject=disabled",
             "-Dfreetype=enabled",
