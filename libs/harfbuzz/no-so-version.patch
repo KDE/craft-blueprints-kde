@@ -1,0 +1,31 @@
+diff --git i/src/meson.build w/src/meson.build
+index a7d5674c9..7ba231afb 100644
+--- i/src/meson.build
++++ w/src/meson.build
+@@ -624,8 +624,6 @@ libharfbuzz = library('harfbuzz', hb_sources,
+   include_directories: incconfig,
+   dependencies: harfbuzz_deps,
+   cpp_args: cpp_args + extra_hb_cpp_args,
+-  soversion: hb_so_version,
+-  version: version,
+   install: true,
+   darwin_versions: darwin_versions,
+   link_language: libharfbuzz_link_language,
+@@ -649,8 +647,6 @@ libharfbuzz_subset = library('harfbuzz-subset', hb_subset_sources,
+   dependencies: [m_dep],
+   link_with: [libharfbuzz],
+   cpp_args: cpp_args + extra_hb_cpp_args,
+-  soversion: hb_so_version,
+-  version: version,
+   install: true,
+   darwin_versions: darwin_versions,
+   link_language: chosen_linker,
+@@ -913,7 +909,7 @@ elif host_machine.system() == 'windows'
+   cmake_config.set('HB_LIB_SUFFIX', '${CMAKE_IMPORT_LIBRARY_SUFFIX}')
+ else
+   cmake_config.set('HB_LIB_PREFIX', '${CMAKE_SHARED_LIBRARY_PREFIX}')
+-  cmake_config.set('HB_LIB_SUFFIX', '${CMAKE_SHARED_LIBRARY_SUFFIX}.@0@'.format(version))
++  cmake_config.set('HB_LIB_SUFFIX', '${CMAKE_SHARED_LIBRARY_SUFFIX}')
+ endif
+ 
+ configure_file(input: 'harfbuzz-config.cmake.in',

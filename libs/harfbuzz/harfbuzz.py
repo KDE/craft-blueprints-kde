@@ -9,6 +9,9 @@ class subinfo(info.infoclass):
         for ver in ["11.2.0"]:
             self.targets[ver] = f"https://github.com/harfbuzz/harfbuzz/archive/{ver}.tar.gz"
             self.targetInstSrc[ver] = f"harfbuzz-{ver}"
+            if CraftCore.compiler.isAndroid:
+                self.patchToApply[ver] = [("no-so-version.patch", 1)]
+            self.patchLevel[ver] = 1
         self.targetDigests["11.2.0"] = (["16c0204704f3ebeed057aba100fe7db18d71035505cb10e595ea33d346457fc8"], CraftHash.HashAlgorithm.SHA256)
         self.description = "Text shaping library"
         self.defaultTarget = "11.2.0"
