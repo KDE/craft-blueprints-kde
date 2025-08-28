@@ -104,6 +104,8 @@ class Package(CMakePackageBase):
         useSox = CraftBool(self.subinfo.options.isActive("libs/sox") and not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS)
         # TODO: enable Glaxnimate on MSVC after the submodule in MLT has been updated
         useGlaxnimate = CraftBool(self.subinfo.options.isActive("libs/libarchive") and not CraftCore.compiler.isMSVC())
+        # TODO: fix spatialaudio tries to link against m on MSVC
+        useSpatialaudio = CraftBool(self.subinfo.options.isActive("libs/spatialaudio").asOnOff and not CraftCore.compiler.isMSVC())
 
         self.subinfo.options.configure.args += [
             f"-DMOD_AVFORMAT={self.subinfo.options.isActive('libs/ffmpeg').asOnOff}",
@@ -131,7 +133,7 @@ class Package(CMakePackageBase):
             "-DMOD_SDL1=OFF",
             f"-DMOD_SDL2={self.subinfo.options.isActive('libs/libsdl2').asOnOff}",
             f"-DMOD_SOX={useSox.asOnOff}",
-            f"-DMOD_SPATIALAUDIO={self.subinfo.options.isActive('libs/spatialaudio').asOnOff}",
+            f"-DMOD_SPATIALAUDIO={useSpatialaudio.asOnOff}",
             f"-DMOD_VIDSTAB={self.subinfo.options.isActive('libs/vidstab').asOnOff}",
             # TODO Fix plusgpl module with MSVC
             f"-DMOD_XINE={CraftCore.compiler.isMSVC().inverted.asOnOff}",
