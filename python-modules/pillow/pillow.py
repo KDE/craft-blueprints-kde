@@ -13,8 +13,11 @@ from utils import ScopedEnv
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = ""
+        self.svnTargets["11.1.0"] = ""
         self.description = "Pillow is the friendly PIL fork. The Python Imaging Library adds image processing capabilities to your Python interpreter."
-        self.defaultTarget = "master"
+        # Pin to 11.1.0 until we have a newer Python in Craft.
+        # New pillow versions will fail like described in https://github.com/python-pillow/Pillow/pull/8891
+        self.defaultTarget = "11.1.0"
 
         # webp: provides the WebP format.
         self.runtimeDependencies["libs/webp"] = None
