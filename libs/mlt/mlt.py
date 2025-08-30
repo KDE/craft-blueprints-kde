@@ -20,22 +20,21 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20221103
 
-        self.svnTargets["ae83cee"] = "https://github.com/mltframework/mlt.git||ae83ceee72a0a39c063b02310f6ce928839712a2"
-        self.defaultTarget = "ae83cee"
+        self.svnTargets["1312449"] = "https://github.com/mltframework/mlt.git||1312449ffaceb15d3aabf79d4fccb527228dc438"
+        self.defaultTarget = "1312449"
 
-        self.patchToApply["ae83cee"] = []
-        self.patchToApply["ae83cee"] += [("1141.patch", 1)]
+        self.patchToApply["1312449"] = []
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["ae83cee"] += [("pi_patch.diff", 1)]
-            self.patchToApply["ae83cee"] += [("typewriter-fix.patch", 1)]
-            self.patchToApply["ae83cee"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["1312449"] += [("pi_patch.diff", 1)]
+            self.patchToApply["1312449"] += [("typewriter-fix.patch", 1)]
+            self.patchToApply["1312449"] += [("revert-mingw-mysy2.diff", 1)]
 
         if CraftCore.compiler.isMSVC():
-            self.patchToApply["ae83cee"] += [("msvc-misc.patch", 1)]
-            self.patchToApply["ae83cee"] += [("msvc-misc-02.diff", 1)]
-            self.patchToApply["ae83cee"] += [("msvc-sdl2-import-export.patch", 1)]
-            self.patchToApply["ae83cee"] += [("msvc-link-kdewin.patch", 1)]
-            self.patchToApply["ae83cee"] += [("msvc-fix-void-pointers.diff", 1)]
+            self.patchToApply["1312449"] += [("msvc-misc.patch", 1)]
+            self.patchToApply["1312449"] += [("msvc-misc-02.diff", 1)]
+            self.patchToApply["1312449"] += [("msvc-sdl2-import-export.patch", 1)]
+            self.patchToApply["1312449"] += [("msvc-link-kdewin.patch", 1)]
+            self.patchToApply["1312449"] += [("msvc-fix-void-pointers.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
@@ -43,7 +42,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/libsamplerate"] = None
 
