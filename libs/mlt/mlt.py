@@ -20,21 +20,21 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20221103
 
-        self.svnTargets["1312449"] = "https://github.com/mltframework/mlt.git||1312449ffaceb15d3aabf79d4fccb527228dc438"
-        self.defaultTarget = "1312449"
+        self.svnTargets["a98e909"] = "https://github.com/mltframework/mlt.git||a98e90970fae804856daa9a66a8a6e7a077c3414"
+        self.defaultTarget = "a98e909"
 
-        self.patchToApply["1312449"] = []
+        self.patchToApply["a98e909"] = []
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["1312449"] += [("pi_patch.diff", 1)]
-            self.patchToApply["1312449"] += [("typewriter-fix.patch", 1)]
-            self.patchToApply["1312449"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["a98e909"] += [("pi_patch.diff", 1)]
+            self.patchToApply["a98e909"] += [("typewriter-fix.patch", 1)]
+            self.patchToApply["a98e909"] += [("revert-mingw-mysy2.diff", 1)]
 
         if CraftCore.compiler.isMSVC():
-            self.patchToApply["1312449"] += [("msvc-misc.patch", 1)]
-            self.patchToApply["1312449"] += [("msvc-misc-02.diff", 1)]
-            self.patchToApply["1312449"] += [("msvc-sdl2-import-export.patch", 1)]
-            self.patchToApply["1312449"] += [("msvc-link-kdewin.patch", 1)]
-            self.patchToApply["1312449"] += [("msvc-fix-void-pointers.diff", 1)]
+            self.patchToApply["a98e909"] += [("msvc-misc.patch", 1)]
+            self.patchToApply["a98e909"] += [("msvc-misc-02.diff", 1)]
+            self.patchToApply["a98e909"] += [("msvc-sdl2-import-export.patch", 1)]
+            self.patchToApply["a98e909"] += [("msvc-link-kdewin.patch", 1)]
+            self.patchToApply["a98e909"] += [("msvc-fix-void-pointers.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
