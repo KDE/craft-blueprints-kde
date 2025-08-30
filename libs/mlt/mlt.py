@@ -43,6 +43,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
+        self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/libsamplerate"] = None
 
