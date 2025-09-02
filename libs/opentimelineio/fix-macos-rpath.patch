@@ -2,9 +2,9 @@ diff --git a/src/opentime/CMakeLists.txt b/src/opentime/CMakeLists.txt
 index b7cc47c..838483f 100644
 --- a/src/opentime/CMakeLists.txt
 +++ b/src/opentime/CMakeLists.txt
-@@ -24,12 +24,6 @@ set_target_properties(opentime PROPERTIES
-     POSITION_INDEPENDENT_CODE TRUE
-     WINDOWS_EXPORT_ALL_SYMBOLS true)
+@@ -34,12 +34,6 @@ if(BUILD_SHARED_LIBS)
+         VERSION ${OTIO_VERSION})
+ endif()
  
 -if(APPLE)
 -    set_target_properties(opentime PROPERTIES 
@@ -19,9 +19,9 @@ diff --git a/src/opentimelineio/CMakeLists.txt b/src/opentimelineio/CMakeLists.t
 index 728b485..9e72806 100644
 --- a/src/opentimelineio/CMakeLists.txt
 +++ b/src/opentimelineio/CMakeLists.txt
-@@ -98,12 +98,6 @@ set_target_properties(opentimelineio PROPERTIES
-     POSITION_INDEPENDENT_CODE TRUE
-     WINDOWS_EXPORT_ALL_SYMBOLS true)
+@@ -109,12 +109,6 @@ if(BUILD_SHARED_LIBS)
+         VERSION ${OTIO_VERSION})
+ endif()
  
 -if(APPLE)
 -    set_target_properties(opentimelineio PROPERTIES 
