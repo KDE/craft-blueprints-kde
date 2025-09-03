@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git"
 
         for ver in ["0.17.0", "6b9d292"]:
-            self.patchToApply[ver] = [("fix-windows-locations.patch", 1), ("fix-macos-rpath.patch", 1), ("1920.patch", 1)]
+            self.patchToApply[ver] = [("fix-windows-locations.patch", 1), ("fix-macos-rpath.patch", 1)]
 
         self.patchLevel["0.17.0"] = 5
 
