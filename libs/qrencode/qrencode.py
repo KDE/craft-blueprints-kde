@@ -13,6 +13,11 @@ class subinfo(info.infoclass):
             self.options.dynamic.setDefault("buildStatic", True)
 
     def setTargets(self):
+        self.patchToApply["4.1.1"] = [
+           ("qrencode-fix-install-lib-4.1.1-20250903.patch", 1)
+        ]
+        self.patchLevel["4.1.1"] = 1
+
         for ver in ["4.1.1"]:
             self.targets[ver] = f"https://github.com/fukuchi/libqrencode/archive/refs/tags/v{ver}.tar.gz"
             self.targetDigests["4.1.1"] = (["5385bc1b8c2f20f3b91d258bf8ccc8cf62023935df2d2676b5b67049f31a049c"], CraftHash.HashAlgorithm.SHA256)

@@ -1,0 +1,12 @@
+diff -Nru -x '*~' libqrencode-4.1.1-old/CMakeLists.txt libqrencode-4.1.1/CMakeLists.txt
+--- libqrencode-4.1.1-old/CMakeLists.txt	2020-09-28 07:42:00.000000000 +0200
++++ libqrencode-4.1.1/CMakeLists.txt	2025-09-03 12:35:14.154735638 +0200
+@@ -133,7 +133,7 @@
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qrencode.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libqrencode.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+ install(FILES qrencode.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+-install(TARGETS qrencode DESTINATION ${CMAKE_INSTALL_LIBDIR})
++install(TARGETS qrencode LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} )
+ 
+ ## Build utility tools
+ if(WITH_TOOLS)
