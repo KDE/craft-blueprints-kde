@@ -53,6 +53,7 @@ class PackageMinGW(AutoToolsPackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--without-openssl", "--disable-crypto-dl"]
         self.subinfo.options.configure.ldflags += "-lgcrypt "
+        self.subinfo.options.configure.cflags += " -Wno-discarded-qualifiers"
 
 
 if CraftCore.compiler.isGCCLike():
