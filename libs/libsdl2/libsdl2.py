@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/libsamplerate"] = None
         self.runtimeDependencies["libs/iconv"] = None
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["libs/pulseaudio"] = None
 
 
@@ -31,5 +31,5 @@ class Package(CMakePackageBase):
             "-DSDL_DIRECTX=ON",
             "-DSDL_LIBSAMPLERATE=ON",
         ]
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += ["-DSDL_PULSEAUDIO=ON"]

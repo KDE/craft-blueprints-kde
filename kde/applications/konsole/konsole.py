@@ -41,7 +41,7 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(konsole|update-mime-database|kioworker|kdeinit5)).*")
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "excludelist.txt")
 
         self.defines["shortcuts"] = [{"name": "Konsole", "target": "bin/konsole.exe", "description": self.subinfo.description}]

@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         # akonadi-calendar is a required dependency, but disabled on MinGW so we can't build this either
         # It is probably not a big deal because MSVC is used to build the PIM stack on Windows
         self.parent.package.categoryInfo.platforms = (
-            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.compiler.isMinGW else CraftCore.compiler.Platforms.All()
         )
 
     def setTargets(self):

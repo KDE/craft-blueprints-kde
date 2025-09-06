@@ -39,7 +39,7 @@ class subinfo(info.infoclass):
         self.targetDigests["6.1.2"] = (["5275bb04f4863a13516b2f39392ac5e272f5e1bb8057b18aec1c9b79d73d8fb2"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["6.2.1"] = (["eae9326beb4158c386e39a356818031bd28f3124cf915f8c5b1dc4c7a36b4d7c"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["6.3.0"] = (["a3c2b80201b89e68616f4ad30bc66aee4927c3ce50e33929ca819d5c43538898"], CraftHash.HashAlgorithm.SHA256)
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             # https://github.com/microsoft/vcpkg/tree/64adda19c86e89526b5e27703a193c14477cce07/ports/gmp
             self.patchToApply["6.2.1"] = [(".msvc", 1)]
             self.patchToApply["6.3.0"] = [(".msvc", 1)]
@@ -47,9 +47,9 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.buildDependencies["dev-utils/msys"] = None
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             # with msvc clang.exe is used instead of yasm
             self.buildDependencies["libs/llvm"] = None
 
@@ -60,7 +60,7 @@ class PackageAutoTools(AutoToolsPackageBase):
         self.shell.useMSVCCompatEnv = True
         self.subinfo.options.package.withCompiler = False
         self.subinfo.options.configure.args += ["--enable-cxx", "--with-pic", "--with-readline=no"]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             # https://github.com/microsoft/vcpkg/tree/64adda19c86e89526b5e27703a193c14477cce07/ports/gmp
             self.subinfo.options.configure.args += [
                 "ASMFLAGS=-c --target=x86_64-pc-windows-msvc",
@@ -68,7 +68,7 @@ class PackageAutoTools(AutoToolsPackageBase):
                 "ac_cv_func_memset=yes",
                 "gmp_cv_asm_w32=.word",
             ]
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.subinfo.options.configure.args += [
                 # checking size of mp_limb_t... 0
                 # configure: error: Oops, mp_limb_t doesn't seem to work

@@ -7,7 +7,7 @@ from Package.CMakePackageBase import CMakePackageBase
 class subinfo(info.infoclass):
     def registerOptions(self):
         # mingw-w64 (gfortran) 8.1 includes only static libgfortran and fails to build dll
-        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.isWindows)
+        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.platform.isWindows)
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()

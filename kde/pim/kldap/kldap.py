@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         # On MinGW it fails to compile because of issues with openldap, just disable it
         # because on Windows MSVC is used to build the PIM stack anyways
         self.parent.package.categoryInfo.platforms = (
-            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.compiler.isMinGW else CraftCore.compiler.Platforms.All()
         )
 
     def setTargets(self):
@@ -35,7 +35,7 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += [
                 f"-DLdap_INCLUDE_DIRS={CraftStandardDirs.craftRoot() / 'include'}",
                 f"-DLdap_LIBRARY={CraftStandardDirs.craftRoot() / 'lib' / 'libldap.2.dylib'}",

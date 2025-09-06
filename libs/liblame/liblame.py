@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import info
 import utils
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Package.MakeFilePackageBase import MakeFilePackageBase
@@ -24,7 +23,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/nasm"] = None
 
 
-if CraftCore.compiler.isGCCLike():
+if CraftCore.compiler.compiler.isGCCLike:
 
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):
@@ -38,8 +37,8 @@ else:
             super().__init__(**kwargs)
             self.subinfo.options.useShadowBuild = False
             self.subinfo.options.make.supportsMultijob = False
-            self.subinfo.options.make.args += f"-f Makefile.MSVC dll comp=msvc GTK=NO CRAFT_ARCH=x{CraftCore.compiler.bits}"
-            if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+            self.subinfo.options.make.args += f"-f Makefile.MSVC dll comp=msvc GTK=NO CRAFT_ARCH=x{CraftCore.compiler.architecture.bits}"
+            if CraftCore.compiler.architecture.isX86_64:
                 self.subinfo.options.make.args += " MSVCVER=Win64 ASM=NO"
             else:
                 self.subinfo.options.make.args += " ASM=YES"

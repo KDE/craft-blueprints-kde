@@ -20,14 +20,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt6/qtshadertools"] = None
         self.runtimeDependencies["libs/pulseaudio"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/ffmpeg"] = None
 
 
 class Package(CraftPackageObject.get("libs/qt6").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_pulseaudio=ON"]
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_ffmpeg=OFF"]

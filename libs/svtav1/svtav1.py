@@ -4,6 +4,10 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # this requires a proper gtest install
+        self.options.dynamic.setDefault("buildTests", False)
+
     def setTargets(self):
         for ver in ["v2.1.2"]:
             self.targets[ver] = f"https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/{ver}/SVT-AV1-{ver}.tar.bz2"

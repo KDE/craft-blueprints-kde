@@ -33,9 +33,9 @@ class Package(CMakePackageBase):
             "-DENABLE_EXAMPLES=OFF",
             f"-DENABLE_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
             f"-DENABLE_TOOLS={self.subinfo.options.dynamic.buildTools.asOnOff}",
-            f"-DAOM_TARGET_CPU={CraftCore.compiler.architecture.name.lower()}",
+            f"-DAOM_TARGET_CPU={CraftCore.compiler.architecture.key.name.lower()}",
         ]
-        if CraftCore.compiler.androidAbi == "armeabi-v7a":
+        if CraftCore.compiler.architecture.androidAbi == "armeabi-v7a":
             # building libwebm fails on Android ARM32; disable it
             self.subinfo.options.configure.args += [
                 "-DCONFIG_WEBM_IO=0",

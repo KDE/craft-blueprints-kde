@@ -52,7 +52,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/nodejs"] = None
         self.buildDependencies["python-modules/html5lib"] = None
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.buildDependencies["libs/llvm"] = None
 
         self.runtimeDependencies["libs/qt6/qtbase"] = None
@@ -74,7 +74,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/glib"] = None
 
-        if self.options.dynamic.withICU and CraftCore.compiler.isLinux:
+        if self.options.dynamic.withICU and CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["libs/icu"] = None
         if self.options.dynamic.withHarfBuzz:
             self.runtimeDependencies["libs/harfbuzz"] = None
@@ -95,8 +95,8 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             pythonRoot = CraftCore.standardDirs.craftRoot()
         self.subinfo.options.configure.args += [
             # no idea why cmake ignores the path env
-            f"-DPython3_EXECUTABLE={(CraftShortPath(pythonRoot / 'bin').shortPath / 'python').as_posix()}{CraftCore.compiler.executableSuffix}",
-            f"-DQT_FEATURE_qtwebengine_build={CraftCore.compiler.isMinGW().inverted.asOnOff}",
+            f"-DPython3_EXECUTABLE={(CraftShortPath(pythonRoot / 'bin').shortPath / 'python').as_posix()}{CraftCore.compiler.platform.executableSuffix}",
+            f"-DQT_FEATURE_qtwebengine_build={CraftCore.compiler.compiler.isMinGW.inverted.asOnOff}",
             # Package harfbuzz-subset was not found
             f"-DQT_FEATURE_webengine_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
             "-DQT_FEATURE_webengine_system_libwebp=ON",
@@ -110,12 +110,12 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         ]
         # See https://bugs.kde.org/show_bug.cgi?id=486905 and https://github.com/Homebrew/homebrew-core/issues/104008 :
         # option not correctly supported on Windows and MacOS (as of Qt 6.7.0)
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += [f"-DQT_FEATURE_webengine_system_icu={self.subinfo.options.dynamic.withICU.asOnOff}"]
         else:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_icu=OFF"]
 
-        if CraftCore.compiler.isMSVC() and CraftVersion(self.buildTarget) < CraftVersion("6.7.0"):
+        if CraftCore.compiler.compiler.isMSVC and CraftVersion(self.buildTarget) < CraftVersion("6.7.0"):
             self.subinfo.options.configure.args += [
                 "-DCMAKE_CXX_COMPILER=clang-cl",
                 "-DCMAKE_C_COMPILER=clang-cl",
@@ -124,16 +124,20 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             ]
 
         if (
-            (CraftCore.compiler.isMacOS and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2") and CraftVersion(self.buildTarget) < CraftVersion("6.6.2"))
+            (
+                CraftCore.compiler.platform.isMacOS
+                and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2")
+                and CraftVersion(self.buildTarget) < CraftVersion("6.6.2")
+            )
             # macOS is fixed with 6.6.2, Windows still not :-(
-            or CraftCore.compiler.isWindows
+            or CraftCore.compiler.platform.isWindows
         ):
             # See https://bugreports.qt.io/browse/QTBUG-115357
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=OFF"]
         else:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_libpng=ON"]
 
-        if CraftCore.compiler.isMSVC() and CraftVersion(self.buildTarget) >= CraftVersion("6.6.0"):
+        if CraftCore.compiler.compiler.isMSVC and CraftVersion(self.buildTarget) >= CraftVersion("6.6.0"):
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_zlib=OFF"]
         else:
             self.subinfo.options.configure.args += ["-DQT_FEATURE_webengine_system_zlib=ON"]
@@ -144,7 +148,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             # webengine requires enormous amounts of ram
             jobs = int(CraftCore.settings.get("Compile", "Jobs", multiprocessing.cpu_count()))
             env["NINJAFLAGS"] = f"-j{int(jobs/2)}"
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             env["PATH"] = os.pathsep.join(
                 str(x)
                 for x in [
@@ -154,7 +158,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
                     os.environ["PATH"],
                 ]
             )
-        elif CraftCore.compiler.isLinux:
+        elif CraftCore.compiler.platform.isLinux:
             # this build system is broken and ignore ldflags
             env["LD_LIBRARY_PATH"] = CraftCore.standardDirs.craftRoot() / "lib"
         return env
@@ -177,7 +181,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         if not super().install():
             return False
 
-        if CraftCore.compiler.isWindows and os.path.isdir(self.imageDir() / "resources"):
+        if CraftCore.compiler.platform.isWindows and os.path.isdir(self.imageDir() / "resources"):
             # move webengine resource files into location where they will still be found after deplyoment
             # see https://doc.qt.io/qt-6/qtwebengine-deploying.html for lookup rules
             if not utils.mergeTree(self.imageDir() / "resources", self.imageDir() / "bin"):

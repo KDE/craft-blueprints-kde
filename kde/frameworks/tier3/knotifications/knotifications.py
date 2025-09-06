@@ -16,11 +16,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["libs/libcanberra"] = None
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/qt/qtspeech"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["dev-utils/snoretoast"] = None
 
 

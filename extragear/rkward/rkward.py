@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "master"
 
     def setDependencies(self):
-        if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isWindows or CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["binary/r-base"] = None
         else:
             self.runtimeDependencies["libs/r-base"] = None
@@ -39,10 +39,10 @@ class subinfo(info.infoclass):
         # optional, but should be in the package
         self.runtimeDependencies["binary/pandoc"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             # For packaging with Innosetup-packager, which is not the default packager (yet)
             self.buildDependencies["dev-utils/innosetup"] = None
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             # NOTE: the following are not actually direct dependencies, but rather an optional dependency of kate->kuserfeedback, and others
             #       Added, here, as a workaround, because kuserfeedback may have been built with the lib in the cache, without anything declaring the dependency
             self.runtimeDependencies["libs/qt/qtcharts"] = None
@@ -53,7 +53,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["dev-utils/sed"] = None
             # tags io-slave used by KEncodingFileDialog (producing ugly warning, if not present)
             self.runtimeDependencies["kde/frameworks/tier3/baloo"] = None
-        elif CraftCore.compiler.isMacOS:
+        elif CraftCore.compiler.platform.isMacOS:
             # indirectly required by kate, but not declared as dependency, there
             self.runtimeDependencies["kde/plasma/plasma-activities"] = None
 
@@ -62,11 +62,11 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             # Usually found, automatically, but make extra sure, never to pick up a separate installation of R
             r_dir = CraftCore.standardDirs.craftRoot() / "lib/R/bin/x64"
             self.subinfo.options.configure.args += [f"-DR_EXECUTABLE={OsUtils.toUnixPath(r_dir / 'R.exe')}"]
-        elif CraftCore.compiler.isMacOS:
+        elif CraftCore.compiler.platform.isMacOS:
             rhome = CraftCore.standardDirs.craftRoot() / "lib/R/R.framework/Resources"
             self.subinfo.options.configure.args += [
                 f"-DR_EXECUTABLE={rhome / 'R'}",
@@ -84,18 +84,18 @@ class Package(CMakePackageBase):
 
     def setDefaults(self, defines: {str: str}) -> {str: str}:
         defines = super().setDefaults(defines)
-        if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
+        if CraftCore.compiler.platform.isLinux and isinstance(self, AppImagePackager):
             defines["runenv"].append('CURL_CA_BUNDLE="$this_dir/etc/cacert.pem"')
         return defines
 
     def install(self):
         ret = super().install()
-        if CraftCore.compiler.isWindows or CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isWindows or CraftCore.compiler.platform.isLinux:
             # Make installation movable, by providing rkward.ini with relative path to R
             rkward_ini = open(self.imageDir() / "bin/rkward.ini", "w")
-            if CraftCore.compiler.isLinux:
+            if CraftCore.compiler.platform.isLinux:
                 rkward_ini.write("R executable=../lib/R/bin/R\n")
-            elif CraftCore.compiler.isWindows:
+            elif CraftCore.compiler.platform.isWindows:
                 rkward_ini.write("R executable=../lib/R/bin/x64/R.exe\n")
             else:
                 # On Mac there is no sane way to bundle R along with RKWard, so make the default behavior to detect an R installation, automatically.
@@ -104,7 +104,7 @@ class Package(CMakePackageBase):
         return ret
 
     def createPackage(self):
-        if CraftCore.compiler.isWindows and (not CraftCore.settings.get("Packager", "PackageType", "")):
+        if CraftCore.compiler.platform.isWindows and (not CraftCore.settings.get("Packager", "PackageType", "")):
             self.changePackager("InnoSetupPackager")
 
         self.defines["executable"] = "bin\\rkward.exe"
@@ -122,7 +122,7 @@ class Package(CMakePackageBase):
         # "data" contains no actual executables, but occasionally, some plugin scripts are mis-detected as such!
         self.addExecutableFilter(r"(bin)/(?!(kate|data|dbus|okular|kbibtex|rkward|pandoc|update-mime-database|kioworker|sed|qtwebengine|R|Rscript)).*")
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
             # We cannot reliably package R inside the bundle. Users will have to install it separately.
             self.ignoredPackages.append("binary/r-base")
@@ -141,7 +141,7 @@ class Package(CMakePackageBase):
             f.write(content.replace(old, new))
 
     def preArchive(self):
-        if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
+        if CraftCore.compiler.platform.isLinux and isinstance(self, AppImagePackager):
             for filename in ["bin/R", "lib/R/bin/R", "lib/R/bin/libtool", "lib/R/etc/ldpaths", "lib/R/etc/Renviron"]:
                 filename = self.archiveDir() / filename
                 self.reinplace(filename, str(CraftCore.standardDirs.craftRoot()), "${APPDIR}/usr")

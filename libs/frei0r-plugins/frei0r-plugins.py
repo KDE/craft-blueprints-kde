@@ -22,27 +22,27 @@ class subinfo(info.infoclass):
         # TODO MSVC: it looks as if cairo and gavl are not detected
 
         self.runtimeDependencies["virtual/base"] = None
-        if not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.compiler.isMSVC:
             # TODO check why build fails with OpenCV, shouldn't be too hard to fix
             self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/cairo"] = None
-        # if not CraftCore.compiler.isMacOS:
+        # if not CraftCore.compiler.platform.isMacOS:
         self.runtimeDependencies["libs/gavl"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # if CraftCore.compiler.isMacOS:
+        # if CraftCore.compiler.platform.isMacOS:
         #    self.subinfo.options.configure.args += ["-DWITHOUT_GAVL=1"]
 
         # TODO check why build fails with OpenCV, shouldn't be too hard to fix
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.configure.args += ["-DWITHOUT_OPENCV=1"]
 
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             return utils.mergeTree(self.installDir() / "lib/frei0r-1", self.installDir() / "plugins/frei0r-1")
         return True

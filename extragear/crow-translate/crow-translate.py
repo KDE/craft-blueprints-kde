@@ -31,7 +31,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["libs/tesseract"] = None
         self.runtimeDependencies["kde/plasma/kwayland"] = None
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["libs/onnxruntime"] = None
 
 
@@ -44,6 +44,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["appname"] = "CrowTranslate"
         self.defines["executable"] = r"bin\crow.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(crow|update-mime-database)).*")
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

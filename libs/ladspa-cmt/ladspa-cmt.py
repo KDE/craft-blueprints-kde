@@ -7,7 +7,9 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Platforms.All
+        self.parent.package.categoryInfo.platforms = (
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.compiler.isMSVC else CraftCore.compiler.Platforms.All()
+        )
 
     def setTargets(self):
         self.description = "The Computer Music Toolkit LADSPA plugin collection"
@@ -30,6 +32,6 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             return utils.mergeTree(self.installDir() / "lib", self.installDir() / "plugins")
         return True

@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         # Fix regression caused by https://invent.kde.org/pim/akonadi/-/merge_requests/255
         self.patchToApply["25.08.0"] = [("akonadi-25.08.0-20250821.diff", 1)]
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # Hack to unblock build
             # It might an xcode issue because I couldn't reproduce locally anymore
             # after I updated xcode (or maybe that was placebo and it was something else)

@@ -45,7 +45,7 @@ class Package(AutoToolsPackageBase):
 
     def install(self):
         ret = super().install()
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.fixLibraryFolder(self.imageDir() / "lib")
             self.fixLibraryFolder(self.imageDir() / "lib/libgphoto2/2.5.27")
             self.fixLibraryFolder(self.imageDir() / "lib/libgphoto2_port/0.12.0")

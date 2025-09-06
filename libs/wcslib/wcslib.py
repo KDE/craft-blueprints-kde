@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://indilib.org/jdownloads/wcslib/wcslib-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"wcslib-{ver}"
 
-        if not CraftCore.compiler.isWindows:
+        if not CraftCore.compiler.platform.isWindows:
             self.patchToApply["7.7"] = [("int64.diff", 1)]
 
         self.patchLevel["7.7"] = 2

@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"mdds-{ver}"
         self.targetDigests["2.1.1"] = (["1483d90cefb8aa4563c4d0a85cb7b243aa95217d235d422e9ca6722fd5b97e56"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["3.0.0"] = (["9b077e8d929050e9a432cc131beed2380ac85cfe98b17fc26d01d0ed532129c8"], CraftHash.HashAlgorithm.SHA256)
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply["2.1.1"] = [("mdds-2.1.1_MSVC-c++17.patch", 1)]
             # the new ax_cxx_compile_stdcxx.m4 does not work, using the old one from 2.1.1
             self.patchToApply["3.0.0"] = [("mdds-3.0.0_MSVC-c++17.patch", 1)]
@@ -30,7 +30,7 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             # MSVC explicitly needs to update __cplusplus
             # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
             self.subinfo.options.configure.cxxflags += "/Zc:__cplusplus"

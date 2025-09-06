@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         # netcdf on MinGW does not work out of the box. It is a dependency of labplot which uses MSVC. Needs someone who cares.
         self.parent.package.categoryInfo.platforms = (
-            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.compiler.isMinGW else CraftCore.compiler.Platforms.All()
         )
 
     def setTargets(self):
@@ -25,7 +25,7 @@ class subinfo(info.infoclass):
         self.description = "A set of software libraries and self-describing, machine-independent data formats that support the creation, access, and sharing of array-oriented scientific data"
         for ver in ["4.9.2"]:
             self.patchToApply[ver] = [("netcdf-MSVC-install.diff", 1)]
-            if CraftCore.compiler.isMSVC():
+            if CraftCore.compiler.compiler.isMSVC:
                 self.patchToApply[ver] += [("netcdf-4.8.0-missing-defines.diff", 1)]
         self.defaultTarget = "4.9.3"
 
@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/pkgconf"] = None
         self.runtimeDependencies["libs/hdf5"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/libzip"] = None
         # only required for DAP
         # self.runtimeDependencies["libs/libcurl"] = None
@@ -44,17 +44,17 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
 
         self.supportsNinja = False
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.make.supportsMultijob = False
 
         hdf5dir = CraftStandardDirs.craftRoot() / "cmake/hdf5"
         # -DENABLE_TESTS=OFF -DENABLE_EXAMPLE_TESTS=OFF -DENABLE_UNIT_TESTS=OFF -DENABLE_PARALLEL_TESTS=OFF
         # DAP needs static libcurl
         self.subinfo.options.configure.args = [f"-DHDF5_DIR={hdf5dir}", "-DNETCDF_ENABLE_DAP=OFF"]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.configure.args += ['-DCMAKE_C_FLAGS="/D_WIN32"', f"-DPACKAGE_VERSION={self.subinfo.buildTarget}"]
         # several errors building tests on macOS (clang 16?): incompatible function pointer types
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["-DENABLE_TESTS=OFF"]
 
     def createPackage(self):

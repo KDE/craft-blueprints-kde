@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         # QtWebEngine is a required dependency, but disabled on MinGW so we can't build this either
         # It is probably not a big deal because MSVC is used to build the PIM stack on Windows
         self.parent.package.categoryInfo.platforms = (
-            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.compiler.isMinGW else CraftCore.compiler.Platforms.All()
         )
 
     def setTargets(self):
@@ -46,7 +46,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-import-wizard"] = None
         self.runtimeDependencies["kde/pim/mailimporter"] = None
         self.runtimeDependencies["kde/pim/kpkpass"] = None
-        if not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.compiler.isMSVC:
             # Laurent disable it on MSVC until we understand why compile failed
             self.runtimeDependencies["kde/pim/kitinerary"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None

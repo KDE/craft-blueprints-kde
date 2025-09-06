@@ -33,7 +33,7 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         self.addExecutableFilter(r"bin/(?!(kdiff3|kbuildsycoca5|update-mime-database|kioworker|QtWebEngineProcess)).*")
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(os.path.join(self.blueprintDir(), "blacklist_mac.txt"))
 
         self.defines["executable"] = r"bin\kdiff3.exe"

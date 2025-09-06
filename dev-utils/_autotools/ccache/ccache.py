@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libzstd"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 
@@ -42,7 +42,7 @@ class Package(CMakePackageBase):
             return False
         for t in [Path(os.environ["CXX"]), Path(os.environ["CC"])]:
             if not utils.createShim(
-                self.installDir() / "ccache/bin" / t.name, self.installDir() / f"bin/ccache{CraftCore.compiler.executableSuffix}", args=[t]
+                self.installDir() / "ccache/bin" / t.name, self.installDir() / f"bin/ccache{CraftCore.compiler.platform.executableSuffix}", args=[t]
             ):
                 return False
         return True

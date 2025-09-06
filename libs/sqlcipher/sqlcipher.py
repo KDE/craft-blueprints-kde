@@ -44,7 +44,7 @@ class subinfo(info.infoclass):
 
         self.targetDigests["3.4.2"] = (["f2afbde554423fd3f8e234d21e91a51b6f6ba7fc4971e73fdf5d388a002f79f1"], CraftHash.HashAlgorithm.SHA256)
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.patchToApply["3.4.2"] = [("sqlcipher-3.4.2-20180727.diff", 1)]
 
         self.defaultTarget = "3.4.2"
@@ -55,7 +55,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/tcl"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/sqlite"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 
@@ -64,7 +64,7 @@ class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--enable-tempstore=yes"]
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.make.supportsMultijob = False
             self.subinfo.options.configure.args += ["CFLAGS='-DSQLITE_HAS_CODEC'"]
         else:
@@ -72,7 +72,7 @@ class PackageAutotools(AutoToolsPackageBase):
 
     def configure(self):
         isConfigured = super().configure()
-        if isConfigured and CraftCore.compiler.isMinGW():
+        if isConfigured and CraftCore.compiler.compiler.isMinGW:
             Makefile = self.buildDir() / "Makefile"
 
             with open(Makefile, "rt") as f:
@@ -98,7 +98,7 @@ class PackageAutotools(AutoToolsPackageBase):
         return isConfigured
 
     def postInstall(self):
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             cmakes = [self.installDir() / "lib/pkgconfig/sqlcipher.pc"]
         else:
             cmakes = []
@@ -201,7 +201,7 @@ class PackageMSVC(MSBuildPackageBase):
         return isInstalled
 
 
-if CraftCore.compiler.isGCCLike():
+if CraftCore.compiler.compiler.isGCCLike:
 
     class Package(PackageAutotools):
         def __init__(self, **kwargs):

@@ -35,7 +35,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.2.25"] = (["967ca83edf25ccb5b48a3c4a09ad3405a63365576503bf34290a42de1b92fcd2"], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["1.2.25"] = "xmlsec1-1.2.25"
         self.defaultTarget = "1.2.25"
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.patchToApply["1.2.25"] = [("xmlsec1-1.2.25-20180503.diff", 1)]
 
     def setDependencies(self):
@@ -44,7 +44,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/libidn"] = None
         self.runtimeDependencies["libs/gnutls"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 
@@ -55,7 +55,7 @@ class PackageMinGW(AutoToolsPackageBase):
         self.subinfo.options.configure.ldflags += "-lgcrypt "
 
 
-if CraftCore.compiler.isGCCLike():
+if CraftCore.compiler.compiler.isGCCLike:
 
     class Package(PackageMinGW):
         def __init__(self, **kwargs):

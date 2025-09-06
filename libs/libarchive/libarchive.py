@@ -43,5 +43,5 @@ class Package(CMakePackageBase):
             "-DENABLE_LZ4=OFF",
             "-DENABLE_TEST=OFF",
         ]
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += [f"-DCMAKE_C_FLAGS='-I {self.sourceDir()}/contrib/android/include'"]

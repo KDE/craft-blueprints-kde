@@ -26,5 +26,5 @@ class Package(MesonPackageBase):
             "-Djpeg=disabled",
             "-Dtiff=disabled",
         ]
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += ["-Dversionedlibs=false"]

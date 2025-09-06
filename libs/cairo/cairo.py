@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/freetype"] = None
         self.runtimeDependencies["libs/fontconfig"] = None
         self.runtimeDependencies["libs/pixman"] = None
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+        if CraftCore.compiler.platform.isLinux or CraftCore.compiler.platform.isFreeBSD:
             self.runtimeDependencies["libs/glib"] = None
 
 
@@ -30,4 +30,4 @@ class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # tests don't build with 1.18.4 and libspectre present
-        self.subinfo.options.configure.args += ["-Dtests=disabled", "-Dfreetype=enabled", f"-Dxcb={CraftCore.compiler.isLinux.asEnabledDisabled}"]
+        self.subinfo.options.configure.args += ["-Dtests=disabled", "-Dfreetype=enabled", f"-Dxcb={CraftCore.compiler.platform.isLinux.asEnabledDisabled}"]

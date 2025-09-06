@@ -34,7 +34,9 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # Disable on MinGW as gwenhywfar is broken but apparently a mandatory dep, needs someone to care
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
+        self.parent.package.categoryInfo.platforms = (
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.compiler.isMinGW else CraftCore.compiler.Compiler.All()
+        )
 
     def setTargets(self):
         self.targets["6.5.4"] = "https://www.aquamaniac.de/rdm/attachments/download/499/aqbanking-6.5.4.tar.gz"
@@ -51,7 +53,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/libbzip2"] = None
         self.runtimeDependencies["libs/xmlsec1"] = None
         self.runtimeDependencies["libs/gwenhywfar"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 
@@ -61,7 +63,7 @@ class Package(AutoToolsPackageBase):
 
         # For appImage builds the --enable-local-install is needed so that
         # the appImage is searched for aqbanking plugins
-        if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isMacOS or CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += ["--enable-local-install"]
 
         if not self.subinfo.options.isActive("libs/gwenhywfar"):
@@ -79,14 +81,14 @@ class Package(AutoToolsPackageBase):
             with open(cmake, "rt") as f:
                 cmakeFileContents = f.readlines()
             for i in range(len(cmakeFileContents)):
-                if CraftCore.compiler.isMinGW():
+                if CraftCore.compiler.compiler.isMinGW:
                     m = re.search(r'set_and_check\(prefix "(?P<root>[^"]*)"\)', cmakeFileContents[i])
                     if m is not None:
                         craftRoot = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
                         if craftRoot.endswith("/"):
                             craftRoot = craftRoot[:-1]
                         cmakeFileContents[i] = cmakeFileContents[i].replace(m.group("root"), craftRoot)
-                elif CraftCore.compiler.isMacOS:
+                elif CraftCore.compiler.platform.isMacOS:
                     m2 = re.search(r"(libaqbanking.so.(\d*))", cmakeFileContents[i])
                     if m2 is not None:
                         cmakeFileContents[i] = cmakeFileContents[i].replace(m2.group(1), f"libaqbanking.{m2.group(2)}.dylib")

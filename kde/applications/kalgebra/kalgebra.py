@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/applications/analitza"] = None
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
 

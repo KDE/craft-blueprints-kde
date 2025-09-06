@@ -10,6 +10,10 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # this requires a proper gtest install
+        self.options.dynamic.setDefault("buildTests", False)
+
     def setTargets(self):
         for ver in ["0.11.1"]:
             self.targets[ver] = f"https://github.com/libjxl/libjxl/archive/refs/tags/v{ver}.tar.gz"
@@ -49,7 +53,7 @@ class Package(CMakePackageBase):
             "-DJPEGXL_FORCE_SYSTEM_HWY=ON",
         ]
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.args += [
                 # necessary to avoid crashes
                 "-DCMAKE_C_FLAGS=-DHWY_COMPILE_ONLY_SCALAR",
@@ -59,7 +63,7 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             for pc in utils.filterDirectoryContent(
                 self.installDir(),
                 whitelist=lambda x, root: Path(x).suffix.lower() in [".pc"],

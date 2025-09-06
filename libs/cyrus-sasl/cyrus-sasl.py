@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         # cyrus-sasl on MinGW does not work out of the box. It needs someone who cares
         self.parent.package.categoryInfo.platforms = (
-            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.compiler.isMinGW else CraftCore.compiler.Platforms.All()
         )
 
     def setTargets(self):
@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
             # http://www.linuxfromscratch.org/blfs/view/svn/postlfs/cyrus-sasl.html
 
         self.patchToApply["2.1.26"] = [("cyrus-sasl-2.1.26-fixes-3.patch", 1), ("cyrus-sasl-2.1.26-openssl-1.1.0-1.patch", 1)]
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.patchToApply["2.1.26"] += [("cyrus-sasl-2.1.26.patch", 1)]
 
         # Backport https://github.com/cyrusimap/cyrus-sasl/pull/709 which is an error, not warning for us
@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
         self.patchLevel["2.1.26"] = 2
         self.patchLevel["2.1.28"] = 1
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             # We use the older version on Windows, because someone needs
             # to port the CMake patch to a newer version to make it work
             self.defaultTarget = "2.1.26"
@@ -57,7 +57,7 @@ class PackageAutotools(AutoToolsPackageBase):
         self.subinfo.options.configure.args += ["--disable-macos-framework"]
 
 
-if CraftCore.compiler.isWindows:
+if CraftCore.compiler.platform.isWindows:
 
     class Package(CMakePackage):
         pass

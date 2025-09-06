@@ -7,7 +7,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.isWindows)
+        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.platform.isWindows)
 
     def setDependencies(self):
         pass
