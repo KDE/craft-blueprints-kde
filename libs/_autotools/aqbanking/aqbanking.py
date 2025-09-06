@@ -48,7 +48,7 @@ class subinfo(info.infoclass):
 
         self.targets["6.6.2"] = "https://www.aquamaniac.de/rdm/attachments/download/537/aqbanking-6.6.2beta.tar.gz"
         self.targetDigests["6.6.2"] = (["47db4c4dd0e9da9991169edee5c939152d906db34535865ebfa90c4891cdded2"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["6.6.2"] = "aqbanking-6.6.2"
+        self.targetInstSrc["6.6.2"] = "aqbanking-6.6.2beta"
         self.defaultTarget = "6.6.2"
 
     def setDependencies(self):
