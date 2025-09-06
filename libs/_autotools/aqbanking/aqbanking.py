@@ -46,10 +46,14 @@ class subinfo(info.infoclass):
         self.targetInstSrc["6.6.1"] = "aqbanking-6.6.1"
         self.defaultTarget = "6.6.1"
 
+        self.targets["6.6.2"] = "https://www.aquamaniac.de/rdm/attachments/download/537/aqbanking-6.6.2beta.tar.gz"
+        self.targetDigests["6.6.2"] = (["47db4c4dd0e9da9991169edee5c939152d906db34535865ebfa90c4891cdded2"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["6.6.2"] = "aqbanking-6.6.2"
+        self.defaultTarget = "6.6.2"
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["libs/libbzip2"] = None
-        self.runtimeDependencies["libs/xmlsec1"] = None
         self.runtimeDependencies["libs/gwenhywfar"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
@@ -66,6 +70,9 @@ class Package(AutoToolsPackageBase):
 
         if not self.subinfo.options.isActive("libs/gwenhywfar"):
             self.subinfo.options.configure.args += ["--enable-gwenhywfar=no"]
+
+        # prevent building aqebics which requires xmlsec1
+        self.subinfo.options.configure.args += ["--with-backends=aqhbci aqpaypal aqgivve aqofxconnect aqnone"]
 
         # this prevents "cannot find the library libaqhbci.la or unhandled argument libaqhbci.la"
         self.subinfo.options.make.supportsMultijob = False
