@@ -31,7 +31,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.options.dynamic.setDefault("buildStatic", not CraftCore.compiler.isMinGW())
+        self.options.dynamic.setDefault("buildStatic", not CraftCore.compiler.compiler.isMinGW)
 
     def setTargets(self):
         self.targets["1.3.0"] = "https://github.com/yasm/yasm/archive/v1.3.0.tar.gz"
@@ -46,7 +46,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.3.0"
 
     def setDependencies(self):
-        if CraftCore.compiler.isUnix:
+        if CraftCore.compiler.platform.isUnix:
             self.buildDependencies["libs/gettext"] = None
             self.buildDependencies["libs/iconv"] = None
             self.buildDependencies["dev-utils/intltool"] = None
@@ -55,7 +55,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-if CraftCore.compiler.isMinGW():
+if CraftCore.compiler.compiler.isMinGW:
 
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):

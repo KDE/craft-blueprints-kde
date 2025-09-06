@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/brotli"] = None
         self.runtimeDependencies["libs/libcurl"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             # inih on Android uses versioned .so.0
             self.runtimeDependencies["libs/inih"] = None
         self.runtimeDependencies["virtual/base"] = None
@@ -36,7 +36,7 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DEXIV2_BUILD_SAMPLES=OFF", "-DEXIV2_ENABLE_NLS=OFF", "-DIconv_IS_BUILT_IN=OFF"]
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.subinfo.options.configure.args += ["-DICONV_ACCEPTS_CONST_INPUT=ON", "-DEXIV2_ENABLE_WIN_UNICODE=OFF"]
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += ["-DEXIV2_ENABLE_INIH=OFF", "-DEXIV2_BUILD_EXIV2_COMMAND=OFF"]

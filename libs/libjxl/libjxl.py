@@ -49,7 +49,7 @@ class Package(CMakePackageBase):
             "-DJPEGXL_FORCE_SYSTEM_HWY=ON",
         ]
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.args += [
                 # necessary to avoid crashes
                 "-DCMAKE_C_FLAGS=-DHWY_COMPILE_ONLY_SCALAR",
@@ -59,7 +59,7 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             for pc in utils.filterDirectoryContent(
                 self.installDir(),
                 whitelist=lambda x, root: Path(x).suffix.lower() in [".pc"],

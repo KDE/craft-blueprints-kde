@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
 
-        if not CraftCore.compiler.isWindows:
+        if not CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
 
 

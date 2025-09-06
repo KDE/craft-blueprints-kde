@@ -38,7 +38,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/libs/kquickimageeditor"] = None
         self.runtimeDependencies["qt-libs/qcoro"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
@@ -46,7 +46,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["kde/libs/kunifiedpush"] = None
             self.runtimeDependencies["dev-utils/libtool"] = None
 
@@ -54,12 +54,12 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += ["-DNEOCHAT_APPIMAGE=ON"]
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_android.txt")
         icon = self.buildDir() / "src/app/NEOCHAT_ICON.ico"
         if not icon.exists():
@@ -76,7 +76,7 @@ class Package(CraftPackageObject.get("kde").pattern):
             self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-neochat.png"
         self.addExecutableFilter(r"(bin|libexec)/(?!(neochat|update-mime-database|snoretoast)).*")
         self.ignoredPackages.append("binary/mysql")
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
         return super().createPackage()

@@ -10,7 +10,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
         self.targetDigests["2.11.7"] = (["5a2d54e1ca0f1facd1632bcc94c73b9f071a80c5fdbbb3f26e79f02aaa586ca3"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["3.8.0"] = (["b068fff34e6256806deb5bcdfe9a213955850abe056d162f2b166510e4a63823"], CraftHash.HashAlgorithm.SHA256)
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             # https://github.com/msys2/MINGW-packages/tree/66db4d3812a8b1bfde805246d2d0c97d0d9307ec/mingw-w64-freerdp
             self.patchToApply["2.11.7"] = [(".2.11.7-mingw", 1)]
 
@@ -36,7 +36,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCore.compiler.Architecture.x86_64:
+        if CraftCore.compiler.platform.isMacOS and CraftCore.compiler.architecture == CraftCore.compiler.Architecture.x86_64:
             self.subinfo.options.configure.args += ["-DWITH_NEON=OFF"]
 
     def fixEncoding(self, filename):
@@ -51,6 +51,6 @@ class Package(CMakePackageBase):
     def unpack(self):
         if not super().unpack():
             return False
-        if CraftCore.compiler.isMinGW() and self.buildTarget < CraftVersion("3.0.0"):
+        if CraftCore.compiler.compiler.isMinGW and self.buildTarget < CraftVersion("3.0.0"):
             self.fixEncoding(self.sourceDir() / "client/Windows/wfreerdp.rc")
         return True

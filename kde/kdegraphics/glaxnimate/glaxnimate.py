@@ -46,7 +46,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["libs/python"] = None
-        if not CraftCore.compiler.isAndroid:  # and not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isAndroid:  # and not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["python-modules/lottie"] = None
             self.runtimeDependencies["python-modules/pillow"] = None
 
@@ -60,7 +60,7 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def setDefaults(self, defines: {str: str}) -> {str: str}:
         defines = super().setDefaults(defines)
-        if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
+        if CraftCore.compiler.platform.isLinux and isinstance(self, AppImagePackager):
             defines["runenv"] += [
                 "PYTHONHOME=$this_dir/usr",
             ]
@@ -72,10 +72,10 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.ignoredPackages.append("binary/mysql")
         # llvm is pulled in by QtTools
         self.ignoredPackages.append("libs/llvm")
-        # if not CraftCore.compiler.isLinux:
+        # if not CraftCore.compiler.platform.isLinux:
         #     self.ignoredPackages.append("libs/dbus")
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "exclude_macos.list")
 
         # For the Microsoft Store

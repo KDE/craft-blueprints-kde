@@ -6,7 +6,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):

@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         for ver in self.targets.keys():
             self.patchToApply[ver] = [("opencv_install_layout.patch", 1)]
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.patchToApply["4.10.0"] += [("orbbec-fix.patch", 1)]
 
         self.patchLevel["4.9.0"] = 2

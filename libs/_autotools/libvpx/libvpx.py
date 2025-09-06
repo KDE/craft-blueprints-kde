@@ -32,10 +32,10 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.configure.noCacheFile = True
         self.platform = ""
-        if CraftCore.compiler.isMacOS and not CraftCore.compiler.isNative():
+        if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
             self.platform = [
-                f"--target={CraftCore.compiler.architecture.name.lower()}-darwin{os.uname().release.split('.')[0]}-gcc",
+                f"--target={CraftCore.compiler.architecture.key.name.lower()}-darwin{os.uname().release.split('.')[0]}-gcc",
             ]
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.staticArgs = Arguments()
         self.subinfo.options.configure.args += ["--disable-examples", "--disable-install-docs", "--disable-unit-tests", "--disable-avx512"]

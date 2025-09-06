@@ -23,5 +23,5 @@ class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-Ddocs=false"]
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += ["-Ddefault_library=static"]

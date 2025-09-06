@@ -34,6 +34,6 @@ class Package(CMakePackageBase):
 
     def postInstall(self):
         hardCoded = []
-        if not CraftCore.compiler.isWindows:
+        if not CraftCore.compiler.platform.isWindows:
             hardCoded += [(self.installDir() / x) for x in ["bin/taglib-config"]]
         return self.patchInstallPrefix(hardCoded, self.subinfo.buildPrefix, CraftCore.standardDirs.craftRoot())

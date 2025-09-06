@@ -36,7 +36,7 @@ class Package(PipPackageBase):
 
     def install(self):
         env = {}
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             env.update(
                 {
                     "INCLUDE": f"{os.environ['INCLUDE']};{CraftStandardDirs.craftRoot() / 'include/python3.11'}",

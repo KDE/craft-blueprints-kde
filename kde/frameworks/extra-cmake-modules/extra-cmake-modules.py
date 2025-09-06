@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.buildDependencies["dev-utils/icoutils"] = None
         # needed for many kf5's
         self.buildDependencies["dev-utils/flexbison"] = None
@@ -41,7 +41,7 @@ class subinfo(info.infoclass):
         if CraftCore.settings.getboolean("CMake", "KDE_L10N_AUTO_TRANSLATIONS", False):
             self.buildDependencies["dev-utils/ruby"] = None
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.buildDependencies["python-modules/requests"] = None
             self.buildDependencies["python-modules/pyxdg"] = None
             self.buildDependencies["python-modules/pyyaml"] = None

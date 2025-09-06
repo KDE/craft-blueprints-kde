@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
 
         self.description = "Low level library, upon which multimedia APIs can be built"
         self.webpage = "https://github.com/bplaum/gavl"
-        if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isMacOS or CraftCore.compiler.platform.isLinux:
             self.defaultTarget = "59dd12a"
         else:
             self.defaultTarget = "1.4.0"

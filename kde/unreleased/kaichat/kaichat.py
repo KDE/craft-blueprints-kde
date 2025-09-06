@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kidletime"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["libs/kdsingleapplication"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
 
@@ -49,6 +49,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-kaichat.png"
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-kaichat.png"
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
 
-if CraftCore.compiler.isMSVC():
+if CraftCore.compiler.compiler.isMSVC:
 
     class Package(MSBuildPackageBase):
         def __init__(self, **kwargs):

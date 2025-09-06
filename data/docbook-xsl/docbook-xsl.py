@@ -34,7 +34,7 @@ class Package(BinaryPackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isUnix:
+        if CraftCore.compiler.platform.isUnix:
             return True
         return utils.moveDir(self.imageDir() / "share", self.imageDir() / "bin/data") and utils.copyFile(
             self.blueprintDir() / "docbook-xsl-stylesheets-1.78.1.xml", self.imageDir() / "etc/xml/docbook-xsl-stylesheets.xml"

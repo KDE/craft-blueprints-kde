@@ -36,7 +36,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "5.2"
 
     def setDependencies(self):
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.buildDependencies["dev-utils/subversion"] = None
         self.buildDependencies["libs/python"] = None
         self.buildDependencies["dev-utils/system-python3"] = None
@@ -60,7 +60,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
             self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["libs/sqlite"] = None
@@ -68,7 +68,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libical"] = None
         self.runtimeDependencies["libs/sqlcipher"] = None
         self.runtimeDependencies["libs/pulseaudio"] = None
-        if not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.compiler.isMSVC:
             self.runtimeDependencies["libs/aqbanking"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["extragear/alkimia"] = None
@@ -78,7 +78,7 @@ class subinfo(info.infoclass):
         if self.buildTarget != "master":
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["kdesupport/kdewin"] = None
 
 
@@ -87,7 +87,7 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DFETCH_TRANSLATIONS=ON", "-DBUILD_WITH_QT6=ON"]
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["-DENABLE_WOOB=OFF"]
 
     def install(self):
@@ -96,7 +96,7 @@ class Package(CMakePackageBase):
 
         # For AppImages create a gpgconf.ctl file that forces gpgconf to use the actual APPDIR
         # as rootdir and not the ci build dir which causes gpg operations to fail.
-        if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
+        if CraftCore.compiler.platform.isLinux and isinstance(self, AppImagePackager):
             with open(self.installDir() / "bin/gpgconf.ctl", "wt") as f:
                 f.write("rootdir=${APPDIR}/usr")
         return True
@@ -116,7 +116,7 @@ class Package(CMakePackageBase):
         self.defines["website"] = "https://kmymoney.org/"
 
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(kmymoney|update-mime-database|kioworker|kdeinit5|QtWebEngineProcess)).*")

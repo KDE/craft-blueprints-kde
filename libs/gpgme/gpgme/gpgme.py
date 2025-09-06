@@ -29,7 +29,7 @@ from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Package.BinaryPackageBase import BinaryPackageBase
 from Utils import CraftHash
 
-if not CraftCore.compiler.isMSVC():
+if not CraftCore.compiler.compiler.isMSVC:
 
     class subinfo(info.infoclass):
         def registerOptions(self):
@@ -63,7 +63,7 @@ if not CraftCore.compiler.isMSVC():
         def install(self):
             if not super().install():
                 return False
-            if CraftCore.compiler.isWindows:
+            if CraftCore.compiler.platform.isWindows:
                 return utils.mergeTree(self.installDir() / "libexec", self.installDir() / "bin")
             return True
 

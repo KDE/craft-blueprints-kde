@@ -25,5 +25,5 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DRAPIDJSON_BUILD_EXAMPLES=OFF"]
-        if CraftCore.compiler.isGCCLike():
+        if CraftCore.compiler.compiler.isGCCLike:
             self.subinfo.options.configure.args += ["-DCMAKE_CXX_FLAGS=-Wno-deprecated-declarations"]

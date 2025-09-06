@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
 
         self.buildDependencies["libs/eigen3"] = None
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/glew"] = None
 
 

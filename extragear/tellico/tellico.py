@@ -39,7 +39,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/shared-mime-info"] = None
         # master (and 3.4) build against qtcharts and qtwebengine (MSVC)
         self.runtimeDependencies["libs/qt/qtcharts"] = None
-        if not CraftCore.compiler.isMinGW():
+        if not CraftCore.compiler.compiler.isMinGW:
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
 
 

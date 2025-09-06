@@ -6,7 +6,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             # Theoretically gpgmepp supports mingw but the cmake patches are incomplete
             self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
 
@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
             ("cmake.patch", 1),
             ("gpgmepp-1.21.0-20231109.diff", 1),
         ]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply["1.23.2"] += [
                 ("0001-Workaround-compile-errors-with-MSVC-2022.patch", 1),
             ]

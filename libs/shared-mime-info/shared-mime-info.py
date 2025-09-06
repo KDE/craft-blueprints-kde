@@ -32,9 +32,9 @@ from Utils.PostInstallRoutines import PostInstallRoutines
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+        self.parent.package.categoryInfo.platforms = ~CraftCore.compiler.Platforms.Android
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
@@ -45,7 +45,7 @@ class subinfo(info.infoclass):
         self.targetDigests["2.4"] = (["32dc32ae39ff1c1bf8434dd3b36770b48538a1772bc0298509d034f057005992"], CraftHash.HashAlgorithm.SHA256)
 
         self.patchToApply["2.3"] = [("12a3a6b1141c704fc594379af1808bb9008d588c.patch", 1), ("7499ac1a85b2487b94e315e6b55c34bcf220295f.patch", 1)]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply["2.3"] += [("disable-translation.patch", 1)]
             self.patchToApply["2.4"] = [("disable-translation.patch", 1)]
 
@@ -74,7 +74,7 @@ class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             # stripping a embedManifest patched binary fails
             self.subinfo.options.package.disableStriping = True
 
@@ -85,7 +85,7 @@ class Package(MesonPackageBase):
         if not super().install():
             return False
         # must be called before we sign
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             if not utils.embedManifest(self.installDir() / "bin/update-mime-database.exe", self.blueprintDir() / "update-mime-database.exe.manifest"):
                 return False
         return True

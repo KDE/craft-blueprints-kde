@@ -44,14 +44,14 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.defines["shortcuts"] = [{"name": "Dolphin", "target": "bin/dolphin.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\dolphin.ico"}]
         self.defines["icon"] = self.buildDir() / "src/dolphin.ico"
 
         self.ignoredPackages.append("binary/mysql")
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
         return super().createPackage()

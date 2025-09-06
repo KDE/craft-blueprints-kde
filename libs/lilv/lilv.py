@@ -9,7 +9,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
@@ -46,7 +46,7 @@ class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             # There are some relative symbolic links causing "ERROR: Dangerous symbolic link path was ignored"
             self.subinfo.options.unpack.sevenZipExtraArgs = ["-snld"]
 

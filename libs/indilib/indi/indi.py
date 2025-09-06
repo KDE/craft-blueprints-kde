@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
 
     def registerOptions(self):
         self.options.dynamic.registerOption("buildClient", True)
-        self.options.dynamic.registerOption("buildServer", CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux)
+        self.options.dynamic.registerOption("buildServer", CraftCore.compiler.platform.isMacOS or CraftCore.compiler.platform.isLinux)
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/grep"] = None
@@ -40,7 +40,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libev"] = None
             self.runtimeDependencies["libs/libxisf"] = None
             self.runtimeDependencies["libs/iconv"] = None
-            if CraftCore.compiler.isLinux:
+            if CraftCore.compiler.platform.isLinux:
                 self.buildDependencies["libs/iconv"] = None
 
 
@@ -51,14 +51,14 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
             f"-DINDI_BUILD_SERVER={self.subinfo.options.dynamic.buildServer.asOnOff}",
             f"-DINDI_BUILD_DRIVERS={self.subinfo.options.dynamic.buildServer.asOnOff}",
             f"-DINDI_BUILD_CLIENT={self.subinfo.options.dynamic.buildClient.asOnOff}",
-            f"-DINDI_BUILD_STATIC={CraftBool(CraftCore.compiler.isWindows and self.subinfo.options.dynamic.buildClient).asOnOff}",
-            f"-DINDI_BUILD_SHARED={CraftBool(not CraftCore.compiler.isWindows and self.subinfo.options.dynamic.buildClient).asOnOff}",
+            f"-DINDI_BUILD_STATIC={CraftBool(CraftCore.compiler.platform.isWindows and self.subinfo.options.dynamic.buildClient).asOnOff}",
+            f"-DINDI_BUILD_SHARED={CraftBool(not CraftCore.compiler.platform.isWindows and self.subinfo.options.dynamic.buildClient).asOnOff}",
             "-DINDI_BUILD_QT5_CLIENT=OFF",
         ]
 
     def install(self):
         ret = super().install()
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.fixLibraryFolder(self.imageDir() / "lib")
             self.fixLibraryFolder(self.imageDir() / "lib/indi/MathPlugins")
             self.fixLibraryFolder(self.imageDir() / "bin")

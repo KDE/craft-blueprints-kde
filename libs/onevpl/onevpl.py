@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/nasm"] = None
-        if not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.compiler.isMSVC:
             self.runtimeDependencies["libs/intel-mfx"] = None
 
 

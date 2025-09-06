@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        if not CraftCore.compiler.isMSVC():  # no mpv on MSVC
+        if not CraftCore.compiler.compiler.isMSVC:  # no mpv on MSVC
             self.runtimeDependencies["kde/unreleased/mpvqt"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/taglib"] = None
@@ -26,14 +26,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/syndication"] = None
         self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["binary/vlc"] = None
 
 
@@ -46,6 +46,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["executable"] = r"bin\kasts.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(kasts|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

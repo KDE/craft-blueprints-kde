@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libsndfile"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["libs/dlfcn-win32"] = None
 
 

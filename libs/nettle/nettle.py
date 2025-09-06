@@ -45,9 +45,9 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/libgmp"] = None
         self.runtimeDependencies["libs/openssl"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.buildDependencies["dev-utils/m4"] = None
 
 
@@ -55,14 +55,14 @@ class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--enable-public-key", "--enable-mini-gmp", "--disable-documentation"]
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # for some reason the version of m4 built by craft will segfault
             # /bin/sh: line 1: 39726 Abort trap: 6
             #           /Users/alex/kde/dev-utils/bin/m4 /Users/alex/kde/build/libs/nettle/work/nettle-3.4/asm.m4 machine.m4 config.m4 aes-decrypt-internal.asm > aes-decrypt-internal.s
             self.subinfo.options.configure.args += ["M4=/usr/bin/m4"]
 
 
-if not CraftCore.compiler.isMSVC():
+if not CraftCore.compiler.compiler.isMSVC:
 
     class Package(PackageAutoTools):
         def __init__(self, **kwargs):

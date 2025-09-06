@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.description = "x264 video coding library"
         self.svnTargets["eaa68fa"] = "https://github.com/mirror/x264.git||eaa68fad9e5d201d42fde51665f2d137ae96baf0"
         self.patchToApply["eaa68fa"] = [("shebang-fix.diff", 1)]
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             # copy make file instead of creating a symlink
             self.patchToApply["eaa68fa"] = [("fix-paths-and-symlinks-win.diff", 1)]
 
@@ -33,7 +33,7 @@ class Package(AutoToolsPackageBase):
             "--disable-gpac",
             "--enable-pic",
         ]
-        if CraftCore.compiler.isAndroid and (
+        if CraftCore.compiler.platform.isAndroid and (
             CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64 or CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32
         ):
             self.subinfo.options.configure.args += ["--disable-asm"]

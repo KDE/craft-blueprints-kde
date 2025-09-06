@@ -52,7 +52,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libtasn1"] = None
         self.runtimeDependencies["libs/p11kit"] = None
         self.runtimeDependencies["libs/brotli"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 
@@ -60,7 +60,7 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # gtk-doc is missing
-        self.subinfo.options.configure.autoreconf = not CraftCore.compiler.isWindows
+        self.subinfo.options.configure.autoreconf = not CraftCore.compiler.platform.isWindows
         # 2018-02-11: without --enable-openssl-compatibility xmlmerge.exe from gwenhywfar doesn't display any console output and in effect doesn't allow compilation of aqbanking
         # 2018-02-11: --enable-nls is probably needed on the same ground as above
         self.subinfo.options.configure.args += [
@@ -74,5 +74,5 @@ class Package(AutoToolsPackageBase):
             "--enable-openssl-compatibility",
             "--with-brotli",
         ]
-        if not self.subinfo.options.isActive("libs/p11kit") or CraftCore.compiler.isWindows:  # TODO Remove platform check in the future. See issue #3
+        if not self.subinfo.options.isActive("libs/p11kit") or CraftCore.compiler.platform.isWindows:  # TODO Remove platform check in the future. See issue #3
             self.subinfo.options.configure.args += ["--without-p11-kit"]

@@ -6,7 +6,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.isWindows)
+        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.platform.isWindows)
 
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/Orc/discount.git"

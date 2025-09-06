@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["python-modules/meson"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/freetype"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/cairo"] = None
 
 
@@ -32,5 +32,5 @@ class Package(MesonPackageBase):
             "-Dgobject=disabled",
             "-Dfreetype=enabled",
             f"-Dicu={self.subinfo.options.isActive('libs/icu').asEnabledDisabled}",
-            f"-Dcairo={CraftCore.compiler.isAndroid.inverted.asEnabledDisabled}",
+            f"-Dcairo={CraftCore.compiler.platform.isAndroid.inverted.asEnabledDisabled}",
         ]

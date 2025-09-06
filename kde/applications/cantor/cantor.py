@@ -24,10 +24,10 @@ class subinfo(info.infoclass):
         # using included discount
         # self.runtimeDependencies["libs/discount"] = None
         # required on macOS
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["binary/r-base"] = None
         else:
             self.runtimeDependencies["libs/r-base"] = None
@@ -53,7 +53,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # if CraftCore.compiler.isWindows:
+        # if CraftCore.compiler.platform.isWindows:
         # self.subinfo.options.make.supportsMultijob = False
 
         # R backend fail compiling on Windows
@@ -65,7 +65,7 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += [f"-DPython3_ROOT_DIR={CraftCore.standardDirs.craftRoot()}"]
 
         # old method
-        # if CraftCore.compiler.isMSVC():
+        # if CraftCore.compiler.compiler.isMSVC:
         #    self.subinfo.options.configure.args += [
         #        f"-DPython3_EXECUTABLE:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/bin/python.exe",
         #        f"-DPython3_LIBRARY:FILEPATH={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/lib/python311.lib",
@@ -74,17 +74,17 @@ class Package(CMakePackageBase):
         #    ]
 
         # help thirdparty discount on macOS.x86_64
-        if CraftCore.compiler.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+        if CraftCore.compiler.platform.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             self.subinfo.options.configure.cflags += "-arch x86_64"
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         # Some plugins files break code signing on macOS, which is picky about file names
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         self.ignoredPackages.append("binary/mysql")
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
         self.defines["appname"] = "cantor"

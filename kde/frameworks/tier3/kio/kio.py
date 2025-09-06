@@ -29,23 +29,23 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kded"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
             self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
-        if not CraftCore.compiler.isAndroid and not CraftCore.compiler.isWindows and not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isAndroid and not CraftCore.compiler.platform.isWindows and not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
 
 
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isAndroid or CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isAndroid or CraftCore.compiler.platform.isWindows or CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["-DCMAKE_DISABLE_FIND_PACKAGE_KF6Wallet=ON"]
 
     def configure(self):
         cfg = super().configure()
-        if not cfg and CraftCore.compiler.isLinux:
+        if not cfg and CraftCore.compiler.platform.isLinux:
             CraftCore.log.info("You may need to install libmount-dev(el) and blkid-dev(el) on builder")
         return cfg

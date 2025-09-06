@@ -15,12 +15,12 @@ class subinfo(info.infoclass):
 
         for ver in ["1.6.43", "1.6.45"]:
             self.patchToApply[ver] = []
-            if CraftCore.compiler.isWindows or CraftCore.compiler.isAndroid:
+            if CraftCore.compiler.platform.isWindows or CraftCore.compiler.platform.isAndroid:
                 self.patchToApply[ver] += [
                     ("libpng-1.6.40-install.pc-on-windows.diff", 1),
                     ("libpng-android-remove-zlib-dependency.diff", 1),
                 ]
-                if CraftCore.compiler.isMinGW():
+                if CraftCore.compiler.compiler.isMinGW:
                     # disable broken symlink creation
                     self.patchToApply[ver] += [("libpng-1.6.43-20240730.diff", 1)]
 
@@ -50,7 +50,7 @@ class Package(CMakePackageBase):
             # don't add a postfix, we don't allow parallel install and this breaks the .pc
             "-DPNG_DEBUG_POSTFIX=",
         ]
-        if CraftCore.compiler.isMacOS and self.subinfo.buildTarget == "1.6.39":
+        if CraftCore.compiler.platform.isMacOS and self.subinfo.buildTarget == "1.6.39":
             self.subinfo.options.configure.args += ["-DPNG_ARM_NEON=off"]
         # PNG_EXECUTABLES is used for <= 1.6.40, PNG_TOOLS for > 1.6.40
         self.subinfo.options.configure.args += [

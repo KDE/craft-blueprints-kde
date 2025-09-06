@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/dbus"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/pcre2"] = None
-        if not CraftCore.compiler.isWindows:
+        if not CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["libs/iconv"] = None
 
 
@@ -45,9 +45,9 @@ class Package(MesonPackageBase):
                 f" -I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot() / 'lib/dbus-1.0/include')}"
             )
         self.subinfo.options.configure.args += ["--wrap-mode=nodownload", "-Dgtk_doc=false", "-Dinstalled_tests=false", "-Dman=false"]
-        if CraftCore.compiler.isUnix:
+        if CraftCore.compiler.platform.isUnix:
             self.subinfo.options.configure.ldflags += " -lintl -liconv"
-        if CraftCore.compiler.isFreeBSD:
+        if CraftCore.compiler.platform.isFreeBSD:
             self.subinfo.options.configure.args += ["-Dxattr=false", "-Dlibmount=disabled", "-Dselinux=disabled", "-Db_lundef=false"]
 
         if not self.subinfo.options.dynamic.buildTests:

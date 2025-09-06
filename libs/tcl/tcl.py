@@ -49,7 +49,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/zlib"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 
@@ -59,17 +59,17 @@ class PackageAutotools(AutoToolsPackageBase):
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.configure.args += ["--enable-threads", "--enable-64bit"]
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.projectFile = "win/configure"
         else:
             self.subinfo.options.configure.projectFile = "unix/configure"
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["--enable-framework", "--disable-corefoundation"]
 
     def configure(self):
         isConfigured = super().configure()
-        if isConfigured and CraftCore.compiler.isMinGW():
+        if isConfigured and CraftCore.compiler.compiler.isMinGW:
             Makefile = self.buildDir() / "Makefile"
 
             with open(Makefile, "rt") as f:
@@ -88,22 +88,22 @@ class PackageAutotools(AutoToolsPackageBase):
         return isConfigured
 
     def install(self):
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             shutil.copy(self.buildDir() / "tclsh86.exe", CraftCore.standardDirs.craftRoot() / "bin/tclsh.exe")  # otherwise super().install() fails
             shutil.copy(self.buildDir() / "tclsh86.exe", CraftCore.standardDirs.craftRoot() / "bin/tclsh8.6.exe")
 
         isInstalled = super().install()
 
         if isInstalled:
-            if CraftCore.compiler.isMinGW():
+            if CraftCore.compiler.compiler.isMinGW:
                 shutil.copy(self.installDir() / "bin/tclsh86.exe", self.installDir() / "bin/tclsh.exe")
 
-            if CraftCore.compiler.isLinux:
+            if CraftCore.compiler.platform.isLinux:
                 os.chmod(
                     self.installDir() / "lib/libtcl8.6.so",
                     stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH,
                 )
-            elif CraftCore.compiler.isMacOS:
+            elif CraftCore.compiler.platform.isMacOS:
                 os.chmod(
                     self.installDir() / "lib/libtcl8.6.dylib",
                     stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH,
@@ -131,7 +131,7 @@ class PackageMSVC(MSBuildPackageBase):
         return isInstalled
 
 
-if CraftCore.compiler.isGCCLike():
+if CraftCore.compiler.compiler.isGCCLike:
 
     class Package(PackageAutotools):
         def __init__(self, **kwargs):

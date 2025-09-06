@@ -33,5 +33,5 @@ class Package(CMakePackageBase):
             "-DPCRE2_BUILD_PCRE2_32=ON",
             f"-DPCRE2_BUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
         ]
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += ["-DPCRE2_BUILD_PCRE2GREP=OFF"]

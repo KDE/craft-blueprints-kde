@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/freetype"] = None
         self.runtimeDependencies["qt-libs/phonon"] = None
-        if not CraftCore.compiler.isMacOS and not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["qt-libs/phonon-vlc"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kimageformats"] = None
@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
         self.runtimeDependencies["kde/kdegraphics/kdegraphics-mobipocket"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.buildDependencies["libs/chm"] = None
             self.runtimeDependencies["libs/libspectre"] = None
             self.runtimeDependencies["libs/discount"] = None
@@ -55,15 +55,15 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += ["-DOKULAR_UI=mobile", "-DANDROID_LINK_EXTRA_LIBRARIES=ON"]
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["-DFORCE_NOT_REQUIRED_DEPENDENCIES=LibSpectre"]
 
     def createPackage(self):
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.addExecutableFilter(r"bin/(?!(okular|update-mime-database|kioworker)).*")
         self.defines["executable"] = r"bin\okular.exe"

@@ -16,9 +16,9 @@ class subinfo(info.infoclass):
         self.targetDigests["0.19.0"] = (["b4864d7a55351a09adbe9be44e5c65b1d417e80e946c947951d0e8428b9dcd15"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["0.19.0"] = [("libixion-0.19.0_WIN32.patch", 1)]
         self.patchToApply["0.19.0"] += [("libixion-0.19.0_boost.patch", 1)]
-        if CraftCore.compiler.isMSVC() or CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.compiler.isMSVC or CraftCore.compiler.platform.isMacOS:
             self.patchToApply["0.19.0"] += [("libixion-0.19.0_MSVC.patch", 1)]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply["0.19.0"] += [("mdds-2.1.1_MSVC-c++17.patch", 1)]
 
         self.defaultTarget = "0.19.0"
@@ -37,10 +37,10 @@ class Package(AutoToolsPackageBase):
             f'PKG_CONFIG_PATH="{CraftCore.standardDirs.craftRoot()}/lib/pkgconfig:{CraftCore.standardDirs.craftRoot()}/share/pkgconfig"'
         )
         self.subinfo.options.configure.args += f'CPPFLAGS="-I{CraftCore.standardDirs.craftRoot()}/include"'
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # currently breaks signing due to ixion.so in lib/python3.11/site-packages
             self.subinfo.options.configure.args += "--disable-python"
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             # MSVC explicitly needs to update __cplusplus
             # https://devblogs.microsoft.com/cppblog/msvc-now-correctly-reports-__cplusplus/
             self.subinfo.options.configure.cxxflags += "/Zc:__cplusplus -showIncludes"

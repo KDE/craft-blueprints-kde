@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "5.3.1"
 
         self.patchToApply["5.3.1"] = []
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.patchToApply["5.3.1"] += [("0001-Don-t-use-dot-in-folder-name-to-prevent-macOS-issues.patch", 1)]
         self.patchToApply["5.3.1"] += [("grantlee-5.3.1-20201117.diff", 1)]
         self.patchLevel["5.3.1"] = 2
