@@ -103,9 +103,10 @@ build-package-linux:
   # the package to a new version. Set CRAFT_PACKAGE to the package you want to
   # test. This test uses the CI image that's also used for the AppImages.
   extends: .build-package-base
-  image: invent-registry.kde.org/sysadmin/ci-images/sles15-craft:latest
+  image: storage.kde.org/vm-images/craft-appimage
   tags:
-    - Linux
+    - VM
+    - amd64
   variables:
     KDECI_CRAFT_PLATFORM: linux-64-gcc
   before_script:
@@ -116,6 +117,10 @@ build-package-linux:
     # Define a short cut for the lengthy CraftMaster command line
     - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
+    # explicitly set PKG_CONFIG_PATH, so /opt/rh/gcc-toolset-14/enable will append it to its own path
+    - export PKG_CONFIG_PATH=`/usr/bin/pkg-config --variable pc_path pkg-config`
+    # Make the compiler available
+    - source /opt/rh/gcc-toolset-14/enable
     # Set up craft settings and blueprint settings
     - craftmaster --setup
     # Get Craft itself ready
