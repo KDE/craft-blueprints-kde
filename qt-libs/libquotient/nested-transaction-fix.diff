@@ -1,0 +1,36 @@
+commit 6081912c46b5616efc2065b1b722187eaf7ee0b4
+Author: Joshua Goins <josh@redstrate.com>
+Date:   Mon Sep 1 11:14:54 2025 -0400
+
+    Remove problematic transaction in Database::setMasterKeyVerified
+    
+    This was causing issues inside of ConnectionEncryptionData::handleQueryKeys
+    and how I redone the transactions. (Because handleQueryKeys starts one
+    big transaction inside of it's function body.)
+    
+    If you try to start another transaction while one is already begun, it
+    will error out and fall back to flushing each operation to disk - that's
+    slow, of course. This is especially relevant because the setMasterKeyVerified
+    call happens before saveDevicesList - one of the slowest functions for
+    us.
+    
+    Fixing this is simple though, we can remove this problematic nested
+    transaction in setMasterKeyVerified. I'm not even sure what this does in
+    the first place, because it's only committing one UPDATE operation.
+    
+    (cherry picked from commit 2120c34752e58b6d13bece3456463015f6de315f)
+
+diff --git a/Quotient/database.cpp b/Quotient/database.cpp
+index 5a2266d1..b70568cc 100644
+--- a/Quotient/database.cpp
++++ b/Quotient/database.cpp
+@@ -629,9 +629,7 @@ void Database::setMasterKeyVerified(const QString& masterKey)
+ {
+     auto query = prepareQuery(u"UPDATE master_keys SET verified=true WHERE key=:key;"_s);
+     query.bindValue(u":key"_s, masterKey);
+-    transaction();
+     execute(query);
+-    commit();
+ }
+ 
+ QString Database::userSigningPublicKey()

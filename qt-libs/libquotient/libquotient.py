@@ -16,6 +16,8 @@ class subinfo(info.infoclass):
             self.targets[ver] = "https://github.com/quotient-im/libQuotient/archive/%s.tar.gz" % ver
             self.archiveNames[ver] = "libQuotient-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "libQuotient-%s" % ver
+            self.patchToApply[ver] = [("nested-transaction-fix.diff", 1)]
+            self.patchLevel[ver] = 1
 
         self.targetDigests["0.9.4"] = (["f5dfd8dd7652161e6699baef6cd7e8ded5c91bd2ceb691b7ba4379e9fe319502"], CraftHash.HashAlgorithm.SHA256)
 
