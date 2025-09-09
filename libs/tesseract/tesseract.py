@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2024 Hennadii Chernyshchyk <genaloner@gmail.com>
 
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
 
@@ -16,6 +17,9 @@ class subinfo(info.infoclass):
         self.webpage = "https://github.com/tesseract-ocr/tesseract"
         self.patchLevel["5.4.1"] = 1
         self.defaultTarget = "5.4.1"
+
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
