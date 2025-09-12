@@ -141,7 +141,7 @@ build-package-linux:
   # the package to a new version. Set CRAFT_PACKAGE to the package you want to
   # test. This test uses the CI image that's used for the craft_windows_qt6_x86_64 job.
   extends: .build-package-base
-  image: storage.kde.org/vm-images/windows-msvc2022-qt68
+  image: storage.kde.org/vm-images/windows-msvc2022-qt69
   tags:
     - VM
     - amd64
