@@ -66,7 +66,7 @@ class subinfo(info.infoclass):
         self.patchToApply["5.12.2"] = [
             ("binreloc.diff", 0)
         ]
-        self.patchLevel["5.12.2"] = 1
+        self.patchLevel["5.12.2"] = 2
 
         self.defaultTarget = "5.12.2"
 
