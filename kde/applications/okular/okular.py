@@ -65,7 +65,7 @@ class Package(CraftPackageObject.get("kde").pattern):
             self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
-        self.addExecutableFilter(r"bin/(?!(okular|update-mime-database|kioworker)).*")
+        self.addExecutableFilter(r"bin/(?!(okular|update-mime-database|kioworker|gpgme-w32spawn)).*")
         self.defines["executable"] = r"bin\okular.exe"
         self.defines["mimetypes"] = ["application/pdf"]
         self.defines["file_types"] = [".pdf", ".mobi", ".epub", ".tiff", ".djvu"]
