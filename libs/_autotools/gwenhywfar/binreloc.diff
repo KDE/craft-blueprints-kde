@@ -1,0 +1,21 @@
+diff --git src/binreloc.c src/binreloc.c
+index 18ef9563..d649ff18 100644
+--- src/binreloc.c
++++ src/binreloc.c
+@@ -342,7 +342,15 @@ br_init(BrInitError *error)
+ int
+ br_init_lib(BrInitError *error)
+ {
+-  exe = _br_find_exe_for_symbol((const void *) "", error);
++  const void* p0 = (const void *) "";
++  const void* p1 = br_init_lib;
++
++  exe = _br_find_exe_for_symbol(p0, error);
++  fprintf(stderr, exe == NULL ? "br_init_lib: %p - %p\n" : "br_init_lib: %p - '%s'\n", p0, exe);
++  if (exe == NULL) {
++    exe = _br_find_exe_for_symbol(p1, error);
++    fprintf(stderr, exe == NULL ? "br_init_lib: %p - %p\n" : "br_init_lib: %p - '%s'\n", p1, exe);
++  }
+   return exe != NULL;
+ }
+ 
