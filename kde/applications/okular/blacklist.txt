@@ -6,5 +6,3 @@ bin/data/icons/.*
 # remove plasma parts
 bin/data/wallpapers/.*
 
-# strip most executables
-bin/(?!(okular|kbuildsycoca5|update-mime-database|kioworker|gpgme-w32spawn)).*\.(exe|pdb)
