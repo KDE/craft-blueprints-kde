@@ -11,11 +11,11 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/zxing-cpp/zxing-cpp.git"
-        self.defaultTarget = "2.1.0"
+        self.defaultTarget = "2.3.0"
         self.targets[self.defaultTarget] = f"https://github.com/zxing-cpp/zxing-cpp/archive/v{self.defaultTarget}.tar.gz"
         self.archiveNames[self.defaultTarget] = f"zxing-cpp-v{self.defaultTarget}.tar.gz"
         self.targetInstSrc[self.defaultTarget] = f"zxing-cpp-{self.defaultTarget}"
-        self.targetDigests[self.defaultTarget] = (["6d54e403592ec7a143791c6526c1baafddf4c0897bb49b1af72b70a0f0c4a3fe"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[self.defaultTarget] = (["64e4139103fdbc57752698ee15b5f0b0f7af9a0331ecbdc492047e0772c417ba"], CraftHash.HashAlgorithm.SHA256)
 
 
 class Package(CMakePackageBase):
