@@ -8,6 +8,10 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.setDefault("buildType", "Release")
 
+        # Clazy does not like either MSVC or MingW so disable this on Windows
+        if CraftCore.compiler.isMSVC() or CraftCore.compiler.isMinGW():
+            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libxml2"] = None
