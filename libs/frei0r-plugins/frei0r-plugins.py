@@ -6,6 +6,12 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # MSVC is not well supported by frei0r-plugins, and it currently does not compile there so skip building it
+        # This is not a major deal as the main user is Kdenlive and it has other dependencies that are MingW only
+        if CraftCore.compiler.isMSVC():
+            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler
+
     def setTargets(self):
         self.description = "Minimalistic plugin API for video effects, plugins collection"
         self.webpage = "http://frei0r.dyne.org/"
