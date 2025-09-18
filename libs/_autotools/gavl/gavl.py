@@ -22,7 +22,8 @@ class subinfo(info.infoclass):
         self.patchLevel["master"] = 20220321
         # when adding new commit based targets, keep gnutls dependency (below) in mind!
         self.svnTargets["59dd12a"] = "https://github.com/bplaum/gavl.git||59dd12a812141828538e045697148b7a66359181"
-        self.patchLevel["59dd12a"] = 2
+        self.patchToApply["59dd12a"] = ("gavl-no-optimize.patch", 1)
+        self.patchLevel["59dd12a"] = 3
 
         self.description = "Low level library, upon which multimedia APIs can be built"
         self.webpage = "https://github.com/bplaum/gavl"

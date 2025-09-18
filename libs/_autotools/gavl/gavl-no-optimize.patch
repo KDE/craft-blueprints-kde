@@ -1,0 +1,30 @@
+diff --git a/configure.ac b/configure.ac
+index 25e4d93..a731f17 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -214,7 +214,7 @@ dnl
+ dnl Build optimization flags
+ dnl
+ 
+-LQT_OPT_CFLAGS(["-O3 -fomit-frame-pointer"])
++dnl LQT_OPT_CFLAGS(["-O3 -fomit-frame-pointer"])
+ 
+ dnl
+ dnl Check for SIMD
+@@ -262,11 +262,11 @@ dnl
+ 
+ CFLAGS="$CFLAGS $OPT_CFLAGS"
+ 
+-LQT_TRY_CFLAGS([-Wall], CFLAGS="$CFLAGS -Wall")
+-LQT_TRY_CFLAGS([-Wmissing-declarations], CFLAGS="$CFLAGS -Wmissing-declarations" )
+-LQT_TRY_CFLAGS([-Wdeclaration-after-statement], CFLAGS="$CFLAGS -Wdeclaration-after-statement")
+-dnl LQT_TRY_CFLAGS([-mfpmath=387], CFLAGS="$CFLAGS -mfpmath=387")
+-LQT_TRY_CFLAGS([-fvisibility=hidden], CFLAGS="$CFLAGS -fvisibility=hidden")
++dnl LQT_TRY_CFLAGS([-Wall], CFLAGS="$CFLAGS -Wall")
++dnl LQT_TRY_CFLAGS([-Wmissing-declarations], CFLAGS="$CFLAGS -Wmissing-declarations" )
++dnl LQT_TRY_CFLAGS([-Wdeclaration-after-statement], CFLAGS="$CFLAGS -Wdeclaration-after-statement")
++dnl dnl LQT_TRY_CFLAGS([-mfpmath=387], CFLAGS="$CFLAGS -mfpmath=387")
++dnl LQT_TRY_CFLAGS([-fvisibility=hidden], CFLAGS="$CFLAGS -fvisibility=hidden")
+ 
+ dnl
+ dnl Stuff from libsamplerate
