@@ -1,0 +1,19 @@
+diff --git a/src/modules/qt/transition_qtblend.cpp b/src/modules/qt/transition_qtblend.cpp
+index 92d395f0..f9ce9d21 100644
+--- a/src/modules/qt/transition_qtblend.cpp
++++ b/src/modules/qt/transition_qtblend.cpp
+@@ -204,9 +204,13 @@ static int get_image(mlt_frame a_frame,
+     if (!forceAlpha) {
+         if (!hasAlpha || format_is_rgba(*format)) {
+             // fetch image in native format
++            *format = mlt_image_none;
+             error = mlt_frame_get_image(b_frame, &b_image, format, &b_width, &b_height, 0);
+             imageFetched = true;
+-            if (!hasAlpha && (format_is_rgba(*format) || mlt_frame_get_alpha(b_frame))) {
++            struct mlt_image_s img;
++            mlt_image_set_values(&img, b_image, *format, b_width, b_height);
++
++            if (!hasAlpha && (format_is_rgba(*format) || img.alpha)) {
+                 hasAlpha = true;
+             }
+             if (hasAlpha && format_is_rgba(*format)) {
