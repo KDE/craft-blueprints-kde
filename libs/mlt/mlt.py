@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
 
         self.svnTargets["a98e909"] = "https://github.com/mltframework/mlt.git||a98e90970fae804856daa9a66a8a6e7a077c3414"
         self.defaultTarget = "a98e909"
-        self.patchLevel["a98e909"] = 1
+        self.patchLevel["a98e909"] = 2
 
         self.patchToApply["a98e909"] = []
         self.patchToApply["a98e909"] += [("qtblend_mlt_image.diff", 1)]
