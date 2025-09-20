@@ -13,14 +13,10 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Text Addons (autocorrection, grammar checking, text to speak, translator support, AI support)"
 
-        for ver in ["1.5.4", "1.6.0", "1.7.0", "1.7.1"]:
+        for ver in ["1.6.0", "1.7.0", "1.7.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/ktextaddons/ktextaddons-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/ktextaddons/ktextaddons-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"ktextaddons-{ver}"
-
-        # Remove unused DBus includes https://invent.kde.org/libraries/ktextaddons/-/merge_requests/11
-        self.patchToApply["1.5.4"] = [("63fb82f2a83b6fb1900329c347f2b41fb39990ce.patch", 1)]
-        self.patchLevel["1.5.4"] = 1
 
         self.svnTargets["master"] = "https://invent.kde.org/libraries/ktextaddons.git"
 
