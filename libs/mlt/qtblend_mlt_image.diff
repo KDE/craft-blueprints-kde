@@ -1,26 +1,26 @@
-diff --git a/src/modules/qt/transition_qtblend.cpp b/src/modules/qt/transition_qtblend.cpp
-index 92d395f0..fef0b7ca 100644
---- a/src/modules/qt/transition_qtblend.cpp
-+++ b/src/modules/qt/transition_qtblend.cpp
-@@ -204,15 +204,17 @@ static int get_image(mlt_frame a_frame,
-     if (!forceAlpha) {
-         if (!hasAlpha || format_is_rgba(*format)) {
-             // fetch image in native format
-+            *format = mlt_image_none;
-             error = mlt_frame_get_image(b_frame, &b_image, format, &b_width, &b_height, 0);
-             imageFetched = true;
--            if (!hasAlpha && (format_is_rgba(*format) || mlt_frame_get_alpha(b_frame))) {
-+            struct mlt_image_s b_img;
-+            mlt_image_set_values(&b_img, b_image, *format, b_width, b_height);
-+
-+            if (!hasAlpha && (format_is_rgba(*format) || b_img.alpha)) {
-                 hasAlpha = true;
-             }
-             if (hasAlpha && format_is_rgba(*format)) {
--                struct mlt_image_s bimg;
--                mlt_image_set_values(&bimg, NULL, *format, b_width, b_height);
--                hasAlpha = !mlt_image_is_opaque(&bimg);
-+                hasAlpha = !mlt_image_is_opaque(&b_img);
+diff --git a/src/framework/mlt_frame.c b/src/framework/mlt_frame.c
+index e63efb9a..acc23156 100644
+--- a/src/framework/mlt_frame.c
++++ b/src/framework/mlt_frame.c
+@@ -553,7 +553,7 @@ uint8_t *mlt_frame_get_alpha(mlt_frame self)
+         alpha = mlt_properties_get_data(&self->parent, "alpha", NULL);
+         if (alpha) {
+             mlt_image_format format = mlt_properties_get_int(&self->parent, "format");
+-            if (mlt_image_rgba == format || mlt_image_rgba64) {
++            if (mlt_image_rgba == format || mlt_image_rgba64 == format) {
+                 alpha = NULL;
              }
          }
-         if (!hasAlpha) {
+diff --git a/src/modules/qt/transition_qtblend.cpp b/src/modules/qt/transition_qtblend.cpp
+index c350d060..f243e630 100644
+--- a/src/modules/qt/transition_qtblend.cpp
++++ b/src/modules/qt/transition_qtblend.cpp
+@@ -207,7 +207,7 @@ static int get_image(mlt_frame a_frame,
+             }
+             if (hasAlpha && format_is_rgba(*format)) {
+                 struct mlt_image_s bimg;
+-                mlt_image_set_values(&bimg, NULL, *format, b_width, b_height);
++                mlt_image_set_values(&bimg, b_image, *format, b_width, b_height);
+                 hasAlpha = !mlt_image_is_opaque(&bimg);
+             }
+         }
