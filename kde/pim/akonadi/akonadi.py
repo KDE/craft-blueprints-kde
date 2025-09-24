@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
             # after I updated xcode (or maybe that was placebo and it was something else)
             # Related to https://invent.kde.org/pim/akonadi/-/merge_requests/244
             self.patchToApply["25.08.0"] += [("macos-remove-assert.diff", 1)]
+            self.patchToApply["25.08.1"] += [("macos-remove-assert.diff", 1)]
 
     def registerOptions(self):
         self.options.dynamic.registerOption("useDesignerPlugin", True)
