@@ -1,0 +1,19 @@
+Test for QTBUG-139235
+
+Partly reverts https://chromium-review.googlesource.com/c/chromium/src/+/5240863
+
+---
+
+diff --git a/src/3rdparty/chromium/build/config/linux/pkg_config.gni b/src/3rdparty/chromium/build/config/linux/pkg_config.gni
+index 591afd7d1dc..98677149640 100644
+--- a/src/3rdparty/chromium/build/config/linux/pkg_config.gni
++++ b/src/3rdparty/chromium/build/config/linux/pkg_config.gni
+@@ -111,7 +111,7 @@ template("pkg_config") {
+         include_relativized = rebase_path(include, root_build_dir)
+         cflags += [ "-isystem$include_relativized" ]
+       } else {
+-        cflags += [ "-isystem$include" ]
++        cflags += [ "-I$include" ]
+       }
+     }
+ 

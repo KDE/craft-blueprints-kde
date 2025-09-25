@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
         self.patchToApply["6.5.3"] = [(".6.5.3", 1)]
         self.patchToApply["6.6.0"] = [(".6.5.3", 1)]
         self.patchToApply["6.9.1"] = [(".6.9.1", 1)]
+        self.patchToApply["6.9.2"] = [(".6.9.2", 1)]
         self.patchLevel["6.7.0"] = 3
 
         for ver in ["6.6.1", "6.6.2"]:
