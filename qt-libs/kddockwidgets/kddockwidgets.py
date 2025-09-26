@@ -16,7 +16,8 @@ class subinfo(info.infoclass):
             self.archiveNames[ver] = f"kddockwidgets-{ver}.tar.gz"
         self.targetDigests["2.2.5"] = (["1c202d03a0c7018aebcb249b09122d846b34298d88d0bc247a601f48c7513c89"], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "2.2.5"
+        self.svnTargets["b828904"] = "https://github.com/KDAB/KDDockWidgets.git||b828904cf9dbb1e79aad1b9b19a6ad1bf77df5f0"
+        self.defaultTarget = "b828904"
 
         self.description = "KDDockWidgets is a Qt dock widget library written by KDAB, suitable for replacing QDockWidget and implementing advanced functionalities missing in Qt."
         self.webpage = "https://www.kdab.com/introducing-kddockwidgets/"
