@@ -30,7 +30,6 @@ from CraftOS.osutils import OsUtils
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
 
-
 class subinfo(info.infoclass):
     def registerOptions(self):
         # Disable on MinGW as gwenhywfar is broken but apparently a mandatory dep, needs someone to care
@@ -51,14 +50,11 @@ class subinfo(info.infoclass):
         self.targetInstSrc["6.6.3"] = "aqbanking-6.6.3"
         self.defaultTarget = "6.6.3"
 
-
-    def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["libs/libbzip2"] = None
         self.runtimeDependencies["libs/gwenhywfar"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
-
 
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
