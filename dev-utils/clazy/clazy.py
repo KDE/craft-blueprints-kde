@@ -6,6 +6,7 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows
         self.options.dynamic.setDefault("buildType", "Release")
 
     def setDependencies(self):
