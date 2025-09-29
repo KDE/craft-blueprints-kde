@@ -94,8 +94,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ixion"] = None
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
-            # later required for Python SDK?
-            self.runtimeDependencies["libs/python"] = None
+        # required for Python SDK?
+        self.runtimeDependencies["libs/python"] = None
+        self.runtimeDependencies["python-modules/pyside6"] = None
 
 
 class Package(CMakePackageBase):
@@ -110,9 +111,6 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
-        # disable Python scripting in AppImage until Craft supports PySide6
-        if CraftCore.compiler.isLinux:
-            self.subinfo.options.configure.args += ["-DENABLE_PYTHON_SDK=OFF", "-DENABLE_PYTHON_SCRIPTING=OFF"]
 
         # TODO: use available versions
         self.subinfo.options.configure.args += [
