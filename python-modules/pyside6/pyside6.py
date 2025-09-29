@@ -10,9 +10,8 @@ from Package.PipPackageBase import PipPackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Python Qt bindings project"
-        #self.defaultTarget = "master"
         self.defaultTarget = "6.9.2"
- 
+
 
 class Package(PipPackageBase):
     def __init__(self, **kwargs):
