@@ -128,7 +128,8 @@ class Package(CMakePackageBase):
 
     def configure(self):
         # remove Findzstd.cmake, as it is not compatible with the zstd package
-        if not utils.deleteFile(self.sourceDir() / "llvm/cmake/modules/Findzstd.cmake"):
+        findzstd = self.sourceDir() / "llvm/cmake/modules/Findzstd.cmake"
+        if findzstd.exists() and not utils.deleteFile(findzstd):
             return False
         return super().configure()
 
