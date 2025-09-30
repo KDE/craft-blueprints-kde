@@ -30,7 +30,6 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.isMSVC():
             self.patchToApply["0e0b634"] += [("msvc-misc.patch", 1)]
-            self.patchToApply["0e0b634"] += [("msvc-misc-02.diff", 1)]
             self.patchToApply["0e0b634"] += [("msvc-sdl2-import-export.patch", 1)]
             self.patchToApply["0e0b634"] += [("msvc-link-kdewin.patch", 1)]
 
