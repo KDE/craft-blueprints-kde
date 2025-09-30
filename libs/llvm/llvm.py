@@ -154,10 +154,11 @@ class Package(CMakePackageBase):
     def postInstall(self):
         if CraftCore.compiler.isWindows:
             # wrapper for python scripts
-            if not utils.createShim(
-                self.installDir() / "bin/git-clang-format.exe",
-                "python3.exe",
-                [CraftCore.standardDirs.craftRoot() / "bin/git-clang-format"],
-            ):
-                return False
+            for command in ["git-clang-format", "run-clang-tidy"]:
+                if not utils.createShim(
+                    self.installDir() / f"bin/{command}.exe",
+                    "python3.exe",
+                    [CraftCore.standardDirs.craftRoot() / f"bin/{command}"],
+                ):
+                    return False
         return True
