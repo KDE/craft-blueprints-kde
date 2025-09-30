@@ -33,7 +33,6 @@ class subinfo(info.infoclass):
             self.patchToApply["0e0b634"] += [("msvc-misc-02.diff", 1)]
             self.patchToApply["0e0b634"] += [("msvc-sdl2-import-export.patch", 1)]
             self.patchToApply["0e0b634"] += [("msvc-link-kdewin.patch", 1)]
-            self.patchToApply["0e0b634"] += [("msvc-fix-void-pointers.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
