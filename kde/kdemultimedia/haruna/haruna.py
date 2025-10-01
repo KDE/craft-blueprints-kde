@@ -15,14 +15,14 @@ class subinfo(info.infoclass):
         self.displayName = "Haruna"
         self.description = "Media player built with Qt/QML, KDE Frameworks and libmpv"
         self.svnTargets["master"] = "https://invent.kde.org/multimedia/haruna.git"
-        self.defaultTarget = "1.2.1"
+        self.defaultTarget = "1.5.0"
 
-        for ver in ["1.2.1"]:
+        for ver in ["1.5.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/haruna/{ver}/haruna-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"haruna-{ver}"
             self.archiveNames[ver] = f"haruna-{ver}.tar.gz"
 
-        self.targetDigests["1.2.1"] = (["eb01261a3498c6e25c28064e6ccea37aeb38cd8aa5006f02c92760b124c362fb"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.5.0"] = (["d3e74e62f36808868a5ef5253b3ab080674eb702528cf56ab37f7a893e48ef5d"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -36,6 +36,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcolorscheme"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
