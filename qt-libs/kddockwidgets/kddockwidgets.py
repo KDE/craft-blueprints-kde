@@ -10,13 +10,12 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "[git]https://github.com/KDAB/KDDockWidgets.git"
-        for ver in ["2.2.5"]:
+        for ver in ["2.3.0"]:
             self.targets[ver] = f"https://github.com/KDAB/KDDockWidgets/releases/download/v{ver}/kddockwidgets-{ver}.tar.gz"
-            self.targetInstSrc[ver] = f"kddockwidgets-{ver}"
-            self.archiveNames[ver] = f"kddockwidgets-{ver}.tar.gz"
-        self.targetDigests["2.2.5"] = (["1c202d03a0c7018aebcb249b09122d846b34298d88d0bc247a601f48c7513c89"], CraftHash.HashAlgorithm.SHA256)
-
-        self.defaultTarget = "2.2.5"
+            self.targetInstSrc[ver] = f"KDDockWidgets-{ver}"
+            self.archiveNames[ver] = f"KDDockWidgets-{ver}.tar.gz"
+        self.targetDigests["2.3.0"] = (["843baf9e1812c1ab82fd81d85b57cbc0d29bb43245efeb2539039780004b1056"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "2.3.0"
 
         self.description = "KDDockWidgets is a Qt dock widget library written by KDAB, suitable for replacing QDockWidget and implementing advanced functionalities missing in Qt."
         self.webpage = "https://www.kdab.com/introducing-kddockwidgets/"
