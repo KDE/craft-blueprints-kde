@@ -95,8 +95,9 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
         # required for Python SDK?
-        self.runtimeDependencies["libs/python"] = None
-        self.runtimeDependencies["python-modules/pyside6"] = None
+        if not CraftCore.compiler.isWindows:
+            self.runtimeDependencies["libs/python"] = None
+            self.runtimeDependencies["python-modules/pyside6"] = None
 
 
 class Package(CMakePackageBase):
