@@ -98,6 +98,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/python"] = None
             self.runtimeDependencies["python-modules/pyside6"] = None
+            self.buildDependencies["python-modules/shiboken6-generator"] = None
 
 
 class Package(CMakePackageBase):
