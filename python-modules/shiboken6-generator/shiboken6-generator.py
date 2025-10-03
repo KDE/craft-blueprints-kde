@@ -18,11 +18,3 @@ class Package(PipPackageBase):
         super().__init__(**kwargs)
         self.allowPrebuildBinaries = True
         self.subinfo.options.configure.args += ["-v", "-v", "-v"]
-
-    def install(self):
-        if not super().install():
-            return False
-
-        # utils.createSymlink(CraftCore.standardDirs.craftRoot() / "lib/python3.11/site-packages/PySide6", CraftCore.standardDirs.craftRoot() / "share/PySide6")
-
-        return True
