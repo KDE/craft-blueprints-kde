@@ -2,8 +2,6 @@
 # SPDX-FileCopyrightText: 2025 Stefan Gerlach <stefan.gerlach@uni.kn>
 
 import info
-import utils
-from CraftCore import CraftCore
 from Package.PipPackageBase import PipPackageBase
 
 
