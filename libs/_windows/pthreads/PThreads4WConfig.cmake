@@ -57,7 +57,7 @@ set(PThreads4W_VERSION "${PThreads4W_MAJOR_VERSION}.${PThreads4W_MINOR_VERSION}.
 # Allow libraries to be set manually
 if(NOT PThreads4W_LIBRARY)
   find_library(PThreads4W_LIBRARY_RELEASE NAMES pthreadVC${PThreads4W_MAJOR_VERSION} PATHS "${CMAKE_INSTALL_PREFIX}/lib" NO_DEFAULT_PATH)
-  find_library(PThreads4W_LIBRARY_DEBUG NAMES pthreadVC${PThreads4W_MAJOR_VERSION}d PATHS "$${CMAKE_INSTALL_PREFIX}/debug/lib" NO_DEFAULT_PATH)
+  find_library(PThreads4W_LIBRARY_DEBUG NAMES pthreadVC${PThreads4W_MAJOR_VERSION}d PATHS "${CMAKE_INSTALL_PREFIX}/debug/lib" NO_DEFAULT_PATH)
   select_library_configurations(PThreads4W)
 endif()
 if(NOT PThreads4W_CXXEXC_LIBRARY)
