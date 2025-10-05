@@ -99,6 +99,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/python"] = None
             self.runtimeDependencies["python-modules/pyside6"] = None
             self.buildDependencies["python-modules/shiboken6-generator"] = None
+        if CraftCore.compiler.isMacOS:
+            self.buildDependencies["python-modules/build"] = None
 
 
 class Package(CMakePackageBase):
