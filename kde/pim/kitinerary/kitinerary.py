@@ -10,7 +10,6 @@ class subinfo(info.infoclass):
 
         self.patchLevel["25.08.1"] = 1
 
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
