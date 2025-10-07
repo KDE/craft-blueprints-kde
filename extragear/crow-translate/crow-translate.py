@@ -4,6 +4,7 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -12,11 +13,11 @@ class subinfo(info.infoclass):
         self.description = "A simple and lightweight translator that allows you to translate and speak text."
         self.webpage = "https://apps.kde.org/crow-translate"
         self.svnTargets["master"] = "https://invent.kde.org/office/crow-translate.git|master"
-        for ver in ["4.0.0"]:
-            self.targets[ver] = f"https://download.kde.org/stable/crow-translate/{ver}/crow-translate-v{ver}.tar.gz"
-            self.targetInstSrc[ver] = "crow-translate-v" + ver
-            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/crow-translate/{ver}/crow-translate-v{ver}.tar.gz.sha256"
-        self.defaultTarget = "4.0.0"
+        for ver in ["4.0.2"]:
+            self.targets[ver] = f"https://download.kde.org/stable/crow-translate/{ver}/crow-translate-{ver}.tar.gz"
+            self.targetInstSrc[ver] = "crow-translate"
+            self.targetDigests[ver] = ("e24b8e78b0bffa5dd02875e25126c371967f53729102c784e4e02d165feb3753", CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "4.0.2"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
