@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/hunspell"] = None
         self.runtimeDependencies["libs/runtime"] = None
-        self.runtimeDependencies["qt-libs/kddockwidgets/kddockwidgets"] = None
+        self.runtimeDependencies["qt-libs/kddockwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
