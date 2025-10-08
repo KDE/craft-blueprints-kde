@@ -68,7 +68,12 @@ class subinfo(info.infoclass):
         ]
         self.patchLevel["5.12.2"] = 2
 
-        self.defaultTarget = "5.12.2"
+        self.targets["5.13.0"] = "https://www.aquamaniac.de/rdm/attachments/download/550/gwenhywfar-5.13.0.tar.gz"
+        self.targetDigests["5.13.0"] = (["26513d4b032eb8108ff2b6bf234b7d60c710fd16059fb80077acd79c250824b9"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["5.13.0"] = "gwenhywfar-5.13.0"
+        self.patchLevel["5.13.0"] = 1
+
+        self.defaultTarget = "5.13.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
