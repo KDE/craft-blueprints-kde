@@ -23,4 +23,8 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args = f'-DCMAKE_C_FLAGS="-isystem {CraftCore.standardDirs.craftRoot()}/include/python3.11"'
+        self.subinfo.options.configure.args = [
+                f"-DCMAKE_C_FLAGS=-isystem {CraftCore.standardDirs.craftRoot()}/include/python3.11",
+                f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}"
+                ]
+        self.supportsNinja = False
