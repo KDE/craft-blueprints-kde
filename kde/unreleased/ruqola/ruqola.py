@@ -33,13 +33,13 @@ class subinfo(info.infoclass):
         self.description = "Rocket.Chat Client"
         self.webpage = "https://apps.kde.org/ruqola"
 
-        for ver in ["2.1.0", "2.1.1", "2.2.0", "2.3.0", "2.3.1", "2.3.2", "2.4.0", "2.4.1", "2.5.0", "2.5.1"]:
+        for ver in ["2.4.0", "2.4.1", "2.5.0", "2.5.1", "2.5.2", "2.5.3", "2.6.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/ruqola/ruqola-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/ruqola/ruqola-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"ruqola-{ver}"
 
         self.svnTargets["master"] = "https://invent.kde.org/network/ruqola.git"
-        self.defaultTarget = "2.5.1"
+        self.defaultTarget = "2.6.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
