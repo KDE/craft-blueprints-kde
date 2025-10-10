@@ -28,6 +28,8 @@ class subinfo(info.infoclass):
             # These are patches that we can't submit upstream
             # Apply them to all future versions
             self.patchToApply[ver] = [(".craft", 1)]
+            if CraftVersion(ver) < "6.9.999999":
+                self.patchToApply[ver] = [(".craft_before_6.10", 1)]
             if CraftVersion(ver) < "6.6.999999":
                 self.patchToApply[ver] = [(".craft_before_6.7", 1)]
 
