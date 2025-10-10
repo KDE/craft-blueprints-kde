@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user dbus-1.14.10.orig/CMakeLists.txt dbus-1.14.10/CMakeLists.txt
+--- dbus-1.14.10.orig/CMakeLists.txt	2022-10-02 16:06:53.000000000 +0200
++++ dbus-1.14.10/CMakeLists.txt	2025-10-10 15:32:33.102827600 +0200
+@@ -8,7 +8,7 @@
+ project(dbus)
+ 
+ # we need to be up to date
+-cmake_minimum_required(VERSION 3.4 FATAL_ERROR)
++cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+ if(COMMAND cmake_policy)
+     cmake_policy(SET CMP0003 NEW)
+ endif()
