@@ -17,7 +17,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
-        self.runtimeDependencies["libs/python"] = None
 
 
 class Package(PipPackageBase):
@@ -30,8 +29,6 @@ class Package(PipPackageBase):
         # see https://doc.qt.io/qtforpython-6/building_from_source/index.html
         # only pyside6: --build-type=pyside6
         return utils.system(
-            "python setup.py install --verbose-build --parallel=8",
+            "python setup.py install --verbose-build",
             cwd=src,
         )
-
-#        self.subinfo.options.configure.args = ["--build-type=shiboken6","--no-tests","--no-examples"]
