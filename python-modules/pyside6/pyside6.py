@@ -29,6 +29,6 @@ class Package(PipPackageBase):
         # see https://doc.qt.io/qtforpython-6/building_from_source/index.html
         # only pyside6: --build-type=pyside6
         return utils.system(
-            "python setup.py install --verbose-build",
+            "python setup.py install --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test",
             cwd=src,
         )
