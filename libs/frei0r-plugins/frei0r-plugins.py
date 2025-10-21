@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         for ver in ["2.5.0"]:
             self.targets[ver] = f"https://github.com/dyne/frei0r/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"frei0r-{ver}"
-        self.targetDigests["2.5.0"] = (["6ce8e9c1fd721c183c9524bd12f397f04121dd5bb655ee7c7d38d0dfa50faa23"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.5.0"] = (["c511aeb51faeb0de2afe47327c30026d5b76ccc910a0b93d286029f07d29c656"], CraftHash.HashAlgorithm.SHA256)
 
         self.svnTargets["master"] = "https://github.com/dyne/frei0r.git"
         self.defaultTarget = "2.5.0"
