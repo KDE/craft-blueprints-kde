@@ -7,12 +7,14 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.12.1"]:
+        for ver in ["2.12.1", "2.14.1"]:
             self.targets[ver] = "https://downloads.sourceforge.net/freetype/freetype-" + ver + ".tar.xz"
             self.targetInstSrc[ver] = "freetype-" + ver
         self.targetDigests["2.12.1"] = (["4766f20157cc4cf0cd292f80bf917f92d1c439b243ac3018debf6b9140c41a7f"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "2.12.1"
+        self.targetDigests["2.14.1"] = (["32427e8c471ac095853212a37aef816c60b42052d4d9e48230bab3bdf2936ccc"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "2.14.1"
         self.description = "A Free, High-Quality, and Portable Font Engine"
+        self.webpage = "https://freetype.org/"
 
         self.patchToApply["2.12.1"] = [("freetype-no-zlib-pkgconfig-android.patch", 1), ("freetype-different-bz2-name-pkgconfig-windows.patch", 1)]
         self.patchLevel["2.12.1"] = 4
@@ -37,7 +39,7 @@ class PackageMSys(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.autoreconf = False
-        self.subinfo.options.configure.args += ["--with-harfbuzz=off", "--with-brotli=on"]
+        self.subinfo.options.configure.args += ["--with-harfbuzz=no", "--with-brotli=on"]
 
 
 if CraftCore.compiler.isGCCLike() and not CraftCore.compiler.isAndroid:
