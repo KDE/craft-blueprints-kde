@@ -160,9 +160,6 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             env["LD_LIBRARY_PATH"] = CraftCore.standardDirs.craftRoot() / "lib"
         return env
 
-    def workDir(self):
-        return CraftShortPath(super().workDir(), CraftShortPath.createSubstShortPath).shortPath
-
     def configure(self):
         if CraftPackageObject.get("libs/protobuf").isInstalled:
             raise BlueprintException("qtwebengine does clash with our system protobuf, please remove libs/protobuf before building qtwebengine", self.package)
