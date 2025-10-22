@@ -1,0 +1,17 @@
+Based on patches by Carl Schwan <carl.schwan@gnupg.com>
+
+diff --git a/src/dn.cpp b/src/dn.cpp
+index 836158b0..cb1b1c2e 100644
+--- a/src/dn.cpp
++++ b/src/dn.cpp
+@@ -41,6 +41,10 @@
+ 
+ // Note: part of this file is also duplicated in kde:okular.git and freedesktop:poppler.git
+ 
++#ifdef _MSC_VER
++#define strcasecmp _stricmp
++#endif
++
+ #include "dn.h"
+ 
+ #include <QByteArray>
