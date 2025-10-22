@@ -30,13 +30,13 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["2.4.5"]:
+        for ver in ["2.4.8"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"gnupg-{ver}"
 
-        self.targetDigests["2.4.5"] = (["f68f7d75d06cb1635c336d34d844af97436c3f64ea14bcb7c869782f96f44277"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.4.8"] = (["b58c80d79b04d3243ff49c1c3fc6b5f83138eb3784689563bcdd060595318616"], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "2.4.5"
+        self.defaultTarget = "2.4.8"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
