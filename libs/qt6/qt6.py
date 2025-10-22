@@ -7,6 +7,9 @@ class Pattern(CMakePackageBase):
         super().__init__(**kwargs)
         # Qt has a silent config step for unknown reasons
         self.subinfo.options.configure.args += ["--log-level=STATUS"]
+        if CraftCore.compiler.isWindows:
+            # force qt to accept our shortpaths
+            self.subinfo.options.configure.args += ["-DQT_ALLOW_SYMLINK_IN_PATHS=ON"]
         # Updating this always needs a corresponding change to the host tools in the CI image!
         if CraftCore.compiler.isAndroid:
             self.subinfo.defaultTarget = "6.9.3"
