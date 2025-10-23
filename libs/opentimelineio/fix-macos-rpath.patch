@@ -1,9 +1,9 @@
 diff --git a/src/opentime/CMakeLists.txt b/src/opentime/CMakeLists.txt
-index b7cc47c..838483f 100644
+index a274ef1..09a23f2 100644
 --- a/src/opentime/CMakeLists.txt
 +++ b/src/opentime/CMakeLists.txt
-@@ -34,12 +34,6 @@ if(BUILD_SHARED_LIBS)
-         VERSION ${OTIO_VERSION})
+@@ -43,12 +43,6 @@ else()
+         OPENTIME_STATIC)
  endif()
  
 -if(APPLE)
@@ -16,11 +16,11 @@ index b7cc47c..838483f 100644
       $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>:
       -Wall>
 diff --git a/src/opentimelineio/CMakeLists.txt b/src/opentimelineio/CMakeLists.txt
-index 728b485..9e72806 100644
+index 7c62556..5760969 100644
 --- a/src/opentimelineio/CMakeLists.txt
 +++ b/src/opentimelineio/CMakeLists.txt
-@@ -109,12 +109,6 @@ if(BUILD_SHARED_LIBS)
-         VERSION ${OTIO_VERSION})
+@@ -118,12 +118,6 @@ else()
+         OTIO_STATIC)
  endif()
  
 -if(APPLE)
