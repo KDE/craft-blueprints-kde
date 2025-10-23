@@ -1,0 +1,36 @@
+From 2eac96b03ff67953354cb0a649c08aa3a23267ef Mon Sep 17 00:00:00 2001
+From: Peter Toft <peter.toft@dirac.com>
+Date: Thu, 3 Apr 2025 16:31:26 +0200
+Subject: [PATCH] Update minimum cmake version from 3.0 to 3.6
+
+With cmake 4 [1] the support for cmake 3.5 or lower was cut [2]
+cmake 4 was deployed on github.com around 2025-04-02
+which started to break many things e.g. ogg
+cmake 3.5 was released in 2016 [3] and many versions in the
+3.30 range has warned about the deprecation
+
+[1] https://cmake.org/download/#latest
+
+[2] https://cmake.org/cmake/help/v4.0/release/4.0.html
+
+[3] https://www.kitware.com/cmake-3-5-0-available-for-download/
+
+Note that the PR is similar to
+https://gitlab.xiph.org/xiph/ogg/-/merge_requests/29
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 33f684f5..e78fc37b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 2.8.12)
++cmake_minimum_required(VERSION 3.6)
+ project(vorbis)
+ 
+ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+-- 
+GitLab
+
