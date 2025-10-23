@@ -170,7 +170,7 @@ build-package-linux:
     - Run-CraftMaster --setup
     # Get Craft itself ready
     - Run-CraftMaster -c -i --options virtual.ignored=True --update craft
-    - Run-CraftMaster -c craft
+    - Run-CraftMaster -c --options "[CodeSigning]Enabled=False" craft
     # Switch to this branch of craft-blueprints-kde
     - cd C:/Craft/blueprints/craft-blueprints-kde
     - git checkout $env:CI_COMMIT_REF_NAME
