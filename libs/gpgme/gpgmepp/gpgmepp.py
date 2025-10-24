@@ -14,6 +14,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMSVC():
             self.patchToApply["2.0.0"] = [
                 ("msvc.patch", 1),
+                ("gpgmepp-2.0.0.patch", 1),
             ]
 
         self.defaultTarget = "2.0.0"
