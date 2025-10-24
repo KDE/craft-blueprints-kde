@@ -5,11 +5,6 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        if CraftCore.compiler.isMinGW():
-            # Theoretically qgpgme supports mingw but the cmake patches are incomplete
-            self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.NoCompiler
-
     def setTargets(self):
         for ver in ["2.0.0"]:
             self.targets[ver] = f"https://gnupg.org/ftp/gcrypt/qgpgme/qgpgme-{ver}.tar.xz"
