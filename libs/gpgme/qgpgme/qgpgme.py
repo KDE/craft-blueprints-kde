@@ -17,7 +17,7 @@ class subinfo(info.infoclass):
 
         self.targetDigests["2.0.0"] = (["15645b2475cca6118eb2ed331b3a8d9442c9d4019c3846ba3f6d25321b4a61ad"], CraftHash.HashAlgorithm.SHA256)
         if CraftCore.compiler.isMSVC():
-            self.patchToApply["2.0.0"] += [
+            self.patchToApply["2.0.0"] = [
                 ("msvc.patch", 1),
                 ("0001-Workaround-compile-errors-with-MSVC-2022.patch", 1),
             ]
