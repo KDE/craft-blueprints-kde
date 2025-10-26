@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.targetDigests["8.0"] = (["3e74acc48ddb9f5f70b6747d3f439d51e7cc5497f097d58e5975c84488f4d186"], CraftHash.HashAlgorithm.SHA256)
 
         if CraftCore.compiler.isMSVC():
-            for ver in ["6.1.1", "7.0.1", "7.1"]:
+            for ver in self.targets:
                 self.patchToApply[ver] = [("ffmpeg-4.4-20210413.diff", 1)]
 
         # https://aur.archlinux.org/cgit/aur.git/tree/040-ffmpeg-add-av_stream_get_first_dts-for-chromium.patch?h=ffmpeg-git
