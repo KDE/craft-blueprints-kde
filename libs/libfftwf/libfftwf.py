@@ -32,6 +32,7 @@ class Package(CMakePackageBase):
             "-DENABLE_AVX=OFF",
             "-DENABLE_THREADS=ON",
             "-DWITH_COMBINED_THREADS=ON",
+            "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
         ]
         if CraftCore.compiler.isWindows:
             self.subinfo.options.configure.args += ["-DWITH_OUR_MALLOC=ON", "-DFFTW_ENABLE_ALLOCA=OFF", "-DWINDOWS_F77_MANGLING=ON"]
