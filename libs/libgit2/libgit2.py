@@ -32,4 +32,4 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
 
         # ensure the more recent PCRE2 is used, per default it will pick up PCRE1 if found otherwise
-        self.subinfo.options.configure.args += ["-DBUILD_CLAR=OFF", "-DREGEX_BACKEND=pcre2"]
+        self.subinfo.options.configure.args += ["-DBUILD_CLAR=OFF", "-DREGEX_BACKEND=pcre2", "-DUSE_SSH=ON"]
