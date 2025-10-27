@@ -10,13 +10,13 @@ threadedjobmixin.h(149): error C2039: 'type': is not a member of 'std'
 Seems to be a regression in MSVC because the identical code can be
 built with MSVC 2019 and it also compiled with MSVC 2022 in April.
 ---
- lang/qt/src/threadedjobmixin.h | 16 ----------------
+ src/threadedjobmixin.h | 16 ----------------
  1 file changed, 16 deletions(-)
 
-diff --git a/lang/qt/src/threadedjobmixin.h b/lang/qt/src/threadedjobmixin.h
+diff --git a/src/threadedjobmixin.h b/src/threadedjobmixin.h
 index 7a18aa4d..412c32ec 100644
---- a/lang/qt/src/threadedjobmixin.h
-+++ b/lang/qt/src/threadedjobmixin.h
+--- a/src/threadedjobmixin.h
++++ b/src/threadedjobmixin.h
 @@ -137,22 +137,6 @@ public:
  protected:
      static_assert(std::tuple_size<T_result>::value > 2,
@@ -38,7 +38,7 @@ index 7a18aa4d..412c32ec 100644
 -                  >::value,
 -                  "Last result type not a GpgME::Error");
 
-     explicit ThreadedJobMixin(GpgME::Context *ctx)
-         : T_base(nullptr), m_ctx(ctx), m_thread(), m_auditLog(), m_auditLogError()
+     // Constructor used if a private class is specified (i.e. T_private is not void)
+     template<typename T_private_ = T_private,
 --
 2.43.1
