@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         if CraftCore.compiler.isAndroid:
             self.options.dynamic.setDefault("buildStatic", True)
+        self.options.dynamic.setDefault("buildTests", not CraftCore.compiler.isWindows)
 
     def setTargets(self):
         self.patchToApply["4.1.1"] = [
