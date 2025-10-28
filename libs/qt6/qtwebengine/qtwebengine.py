@@ -141,7 +141,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
 
     def _getEnv(self):
         env = {}
-        if CraftCore.settings.getboolean("ContinuousIntegration", "Enabled", False):
+        if CraftCore.settings.ciMode:
             # webengine requires enormous amounts of ram
             jobs = int(CraftCore.settings.get("Compile", "Jobs", multiprocessing.cpu_count()))
             env["NINJAFLAGS"] = f"-j{int(jobs/2)}"
