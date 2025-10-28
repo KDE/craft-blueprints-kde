@@ -2,29 +2,33 @@
 # SPDX-FileCopyrightText: 2025 Stefan Gerlach <stefan.gerlach@uni.kn>
 
 import info
-from CraftCore import CraftCore
-from Package.CMakePackageBase import CMakePackageBase
+import utils
+from Package.PipPackageBase import PipPackageBase
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Python Qt bindings project"
-
-        for ver in ["6.9.3"]:
-            self.svnTargets[ver] = f"git://code.qt.io/pyside/pyside-setup.git||v{ver}"
-            self.targetInstSrc[ver] = "."
-
         self.defaultTarget = "6.9.3"
 
+        for ver in ["6.9.3"]:
+            self.targets[ver] = f"https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-{ver}-src/pyside-setup-everywhere-src-{ver}.zip"
+            self.targetInstSrc[ver] = "pyside-setup-everywhere-src-%s" % ver
+
     def setDependencies(self):
-        self.runtimeDependencies["libs/python"] = None
+        self.buildDependencies["python-modules/setuptools"] = None
 
 
-class Package(CMakePackageBase):
+class Package(PipPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args = [
-                f"-DCMAKE_C_FLAGS=-isystem {CraftCore.standardDirs.craftRoot()}/include/python3.11",
-                f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}"
-                ]
-        self.supportsNinja = False
+
+    def install(self):
+        """Override default pip install with setup.py install."""
+        src = self.sourceDir()
+        # see https://doc.qt.io/qtforpython-6/building_from_source/index.html
+        # only pyside6: --build-type=pyside6
+        return utils.system(
+            "python setup.py install --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test",
+            cwd=src,
+        )

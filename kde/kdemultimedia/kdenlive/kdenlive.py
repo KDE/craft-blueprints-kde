@@ -46,6 +46,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["kde/frameworks/tier4/frameworkintegration"] = None
         self.runtimeDependencies["kde/kdenetwork/kio-extras"] = None
+        self.runtimeDependencies["qt-libs/kddockwidgets"] = None
         self.runtimeDependencies["kde/kdemultimedia/ffmpegthumbs"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None

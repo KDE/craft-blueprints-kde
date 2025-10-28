@@ -63,6 +63,8 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         if not CraftCore.compiler.isAndroid:
             self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        else:
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_android.txt")
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.addExecutableFilter(r"bin/(?!(okular|update-mime-database|kioworker|gpgme-w32spawn)).*")

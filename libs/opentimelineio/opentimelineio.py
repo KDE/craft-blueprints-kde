@@ -14,16 +14,16 @@ class subinfo(info.infoclass):
             # self.targetInstSrc[ver] = f"OpenTimelineIO-{ver}"
             self.svnTargets[ver] = f"https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git||v{ver}"
 
-        self.svnTargets["6b9d292"] = "https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git||6b9d292bf09159c4f20b2bdccfe3ad6a9300809f"
+        self.svnTargets["65e5ccf"] = "https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git||65e5ccf66fdc3a1b768e73ed61a6d9c9ce8ef503"
 
         self.svnTargets["master"] = "https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git"
 
-        for ver in ["0.17.0", "6b9d292"]:
+        for ver in ["0.17.0", "65e5ccf"]:
             self.patchToApply[ver] = [("fix-windows-locations.patch", 1), ("fix-macos-rpath.patch", 1)]
 
         self.patchLevel["0.17.0"] = 5
 
-        self.defaultTarget = "6b9d292"
+        self.defaultTarget = "65e5ccf"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/imath"] = None

@@ -15,12 +15,12 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/qxmpp.git"
-        for ver in ["1.11.2"]:
+        for ver in ["1.11.3"]:
             self.targets[ver] = f"https://download.kde.org/unstable/qxmpp/qxmpp-{ver}.tar.xz"
             self.archiveNames[ver] = f"qxmpp-v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"qxmpp-{ver}"
-        self.targetDigests["1.11.2"] = (["8196a64f32d7cb4a3ed07ed02baef55c5cb6b122cf8567bf58bc45ff88870857"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "1.11.2"
+        self.targetDigests["1.11.3"] = (["36b81d7ca269731ce9313a3346af87d84e234f15703ad3adafd2f9308ae188a5"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "1.11.3"
 
 
 class Package(CMakePackageBase):
