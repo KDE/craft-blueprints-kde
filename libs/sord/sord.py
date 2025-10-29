@@ -2,7 +2,6 @@
 # SPDX-FileCopyrightText: 2024 Julius Künzel <julius.kuenzel@kde.org>
 
 import info
-from CraftCore import CraftCore
 from Package.MesonPackageBase import MesonPackageBase
 from Utils import CraftHash
 
@@ -31,7 +30,3 @@ class subinfo(info.infoclass):
 class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-        if CraftCore.compiler.isWindows:
-            # There are some relative symbolic links causing "ERROR: Dangerous symbolic link path was ignored"
-            self.subinfo.options.unpack.sevenZipExtraArgs = ["-snld"]

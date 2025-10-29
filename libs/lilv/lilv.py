@@ -46,10 +46,6 @@ class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        if CraftCore.compiler.isWindows:
-            # There are some relative symbolic links causing "ERROR: Dangerous symbolic link path was ignored"
-            self.subinfo.options.unpack.sevenZipExtraArgs = ["-snld"]
-
         self.subinfo.options.configure.args += [
             "-Dbindings_py=disabled",
             f"-Dtools={self.subinfo.options.dynamic.buildTools.asEnabledDisabled}",
