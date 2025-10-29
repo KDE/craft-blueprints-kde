@@ -47,7 +47,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/gtk-doc"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
         self.runtimeDependencies["libs/nettle"] = None
-        self.runtimeDependencies["libs/libidn"] = None
+        self.runtimeDependencies["libs/libidn2"] = None
         self.runtimeDependencies["libs/libunistring"] = None
         self.runtimeDependencies["libs/libtasn1"] = None
         self.runtimeDependencies["libs/p11kit"] = None
