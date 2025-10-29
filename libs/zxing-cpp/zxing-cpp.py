@@ -22,8 +22,4 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        if CraftCore.compiler.isWindows:
-            # There are some relative symbolic links causing "ERROR: Dangerous symbolic link path was ignored"
-            self.subinfo.options.unpack.sevenZipExtraArgs = ["-snld"]
-
         self.subinfo.options.configure.args += ["-DBUILD_DEPENDENCIES=LOCAL", "-DBUILD_EXAMPLES=OFF", "-DBUILD_UNIT_TESTS=OFF", "-DBUILD_BLACKBOX_TESTS=OFF"]
