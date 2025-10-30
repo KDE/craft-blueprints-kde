@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
             self.patchToApply["1.11.0"] = [("libssh2-1.11.0-MSVC-libprefix.pc.diff", 1)]
             self.patchToApply["1.11.1"] = [("libssh2-1.11.1-20251027.diff", 1)]
         else:
-            self.patchToApply["1.11.1"] = [("libssh2-1.10.0-20221026.diff", 1)]  # don't let pkg-config search for ws2_32
+            self.patchToApply["1.11.1"] = [("libssh2-1.11.1-non-MSVC.diff", 1)]  # don't let pkg-config search for ws2_32
         self.patchLevel["1.10.0"] = 1
         self.patchLevel["1.11.1"] = 1
         self.webpage = "https://github.com/libssh2/libssh2"

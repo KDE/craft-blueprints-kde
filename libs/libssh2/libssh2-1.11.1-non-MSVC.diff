@@ -1,0 +1,10 @@
+--- libssh2-1.11.1.orig/libssh2.pc.in	2016-02-24 23:44:12.000000000 +0100
++++ libssh2-1.11.1/libssh2.pc.in	2022-10-26 10:52:01.664608700 +0200
+@@ -12,6 +12,6 @@
+ Version: @LIBSSH2_VERSION@
+ Requires: @LIBSSH2_PC_REQUIRES@
+ Requires.private: @LIBSSH2_PC_REQUIRES_PRIVATE@
+-Libs: -L${libdir} -lssh2 @LIBSSH2_PC_LIBS@
++Libs: -L${libdir} -lssh2
+ Libs.private: @LIBSSH2_PC_LIBS_PRIVATE@
+ Cflags: -I${includedir}
