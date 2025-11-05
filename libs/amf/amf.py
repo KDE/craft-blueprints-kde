@@ -1,6 +1,6 @@
 import info
 import utils
-from Package.SourceOnlyPackageBase import SourceOnlyPackageBase
+from Package.BinaryPackageBase import BinaryPackageBase
 from Utils import CraftHash
 
 
@@ -16,6 +16,6 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.4.36"
 
 
-class Package(SourceOnlyPackageBase):
+class Package(BinaryPackageBase):
     def install(self):
         return utils.createDir(self.installDir() / "include/AMF") and utils.copyDir(self.sourceDir() / "amf/public/include", self.installDir() / "include/AMF")
