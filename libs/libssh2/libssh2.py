@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import info
 from CraftCore import CraftCore
-from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
 
@@ -29,17 +28,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/openssl"] = None
 
 
-if not CraftCore.compiler.isGCCLike():
-
-    class Package(CMakePackageBase):
-        def __init__(self, **kwargs):
-            super().__init__(**kwargs)
-            self.subinfo.options.configure.args += ["-DENABLE_ZLIB_COMPRESSION=ON", "-DBUILD_EXAMPLES=OFF"]
-
-else:
-
-    class Package(AutoToolsPackageBase):
-        def __init__(self, **kwargs):
-            super().__init__(**kwargs)
-            # configure.ac:129: error: m4_undefine: undefined macro: backend
-            self.subinfo.options.configure.autoreconf = False
+class Package(CMakePackageBase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.subinfo.options.configure.args += [
+            "-DENABLE_ZLIB_COMPRESSION=ON",
+            "-DBUILD_EXAMPLES=OFF",
+            "-DCRYPTO_BACKEND=OpenSSL",
+            f"-DBUILD_SHARED_LIBS={self.subinfo.options.dynamic.buildStatic.inverted.asOnOff}",
+            f"-DBUILD_STATIC_LIBS={self.subinfo.options.dynamic.buildStatic.asOnOff}",
+        ]
