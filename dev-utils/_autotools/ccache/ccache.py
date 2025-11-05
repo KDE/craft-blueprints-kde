@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
             self.targetInstallPath[ver] = "dev-utils"
         self.targetDigests["4.6"] = (["73a1767ac6b7c0404a1a55f761a746d338e702883c7137fbf587023062258625"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["4.9"] = (["866b2223d59333640f0e7a003cbb85b32d9ca3c9445bd9e3cf142942e69dd3ec"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["4.12.1"] = (['a3da50ab0fb0d42f60c17d1450312e6ace9b681f6221cb77c8a09a845f9d760c'], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.12.1"] = (["a3da50ab0fb0d42f60c17d1450312e6ace9b681f6221cb77c8a09a845f9d760c"], CraftHash.HashAlgorithm.SHA256)
 
         self.webpage = "https://ccache.dev/"
         self.defaultTarget = "4.12.1"
@@ -36,7 +36,7 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.supportsCCACHE = False
-        self.subinfo.options.configure.args += ["-DREDIS_STORAGE_BACKEND=OFF"]
+        self.subinfo.options.configure.args += ["-DREDIS_STORAGE_BACKEND=OFF", "-DDISABLE_FASTEST_LINKER=ON"]
 
     def install(self):
         if not super().install():
