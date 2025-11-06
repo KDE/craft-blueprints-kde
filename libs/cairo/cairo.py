@@ -29,4 +29,9 @@ class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # tests don't build with 1.18.4 and libspectre present
-        self.subinfo.options.configure.args += ["-Dtests=disabled", "-Dfreetype=enabled", f"-Dxcb={CraftCore.compiler.isLinux.asEnabledDisabled}"]
+        self.subinfo.options.configure.args += [
+            "-Dtests=disabled",
+            "-Dfreetype=enabled",
+            f"-Dxcb={CraftCore.compiler.isLinux.asEnabledDisabled}",
+            "-Dquartz=disabled",
+        ]
