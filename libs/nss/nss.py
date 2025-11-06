@@ -35,6 +35,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMSVC():
             self.patchToApply[ver] = [("install-instead-of-nsinstall.diff", 1), ("cygwin-is-windows.diff", 1)]
         self.defaultTarget = ver
+        self.targets[ver] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -60,7 +61,7 @@ class Package(MakeFilePackageBase):
         self._shell = BashShell()
         self._shell.environment["MAKE"] = self.makeProgram
 
-        buildArgs = ["-v", "--disable-tests", "--opt", "--system-sqlite", "-Dsign_libs=0"]
+        buildArgs = ["-v", "--disable-tests", "--opt", "--system-sqlite", "-Dsign_libs=0", "--enable-libpkix"]
 
         if CraftCore.compiler.isMSVC():
             # When you say --system-sqlite it just tries to find it in the path, that doesn't work for MSVC
