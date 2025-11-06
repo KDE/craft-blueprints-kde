@@ -24,7 +24,7 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += [
-            f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
+            f"-DBUILD_TESTS={CraftBool(self.subinfo.options.dynamic.buildStatic and self.subinfo.options.dynamic.buildTests).asOnOff}",
             f"-DBUILD_TOOLS={CraftBool(self.subinfo.options.dynamic.buildStatic and self.subinfo.options.dynamic.buildTools).asOnOff}",
             f"-DBUILD_STATIC={self.subinfo.options.dynamic.buildStatic.asOnOff}",
         ]
