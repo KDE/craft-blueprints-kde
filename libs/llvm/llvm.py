@@ -6,6 +6,7 @@ import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
+from Utils.CraftBool import CraftBool
 
 
 class subinfo(info.infoclass):
@@ -107,13 +108,13 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=ON"]
 
         # build static in general
-        self.subinfo.options.dynamic.buildStatic = True
+        self.subinfo.options.dynamic.buildStatic = CraftBool(True)
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += ["-DLLVM_EXPORT_SYMBOLS_FOR_PLUGINS=ON"]
             # CMake Error at CMakeLists.txt:555 (message): BUILD_SHARED_LIBS options is not supported on Windows
         elif CraftCore.compiler.isMinGW():
             # LLVM_BUILD_LLVM_DYLIB would result in "error: export ordinal too large: 72285"
-            self.subinfo.options.dynamic.buildStatic = True
+            pass
         else:
             # generate a shared lib from the gathered static libs
             self.subinfo.options.configure.args += ["-DLLVM_BUILD_LLVM_DYLIB=ON", "-DLLVM_LINK_LLVM_DYLIB=ON"]
