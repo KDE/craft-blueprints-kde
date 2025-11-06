@@ -16,8 +16,6 @@ class subinfo(info.infoclass):
 
         self.description = "PIM Addons"
 
-        self.patchToApply["25.08.0"] = [("dca345fd96899c182c26539d4603aa8848e8249d.patch", 1)]
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
