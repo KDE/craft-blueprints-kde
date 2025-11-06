@@ -22,8 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/freetype"] = None
         self.runtimeDependencies["libs/fontconfig"] = None
         self.runtimeDependencies["libs/pixman"] = None
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
-            self.runtimeDependencies["libs/glib"] = None
+        self.runtimeDependencies["libs/glib"] = None
 
 
 class Package(MesonPackageBase):
