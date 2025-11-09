@@ -12,7 +12,9 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://github.com/libsndfile/libsndfile/releases/download/{ver}/libsndfile-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"libsndfile-{ver}"
         self.targetDigests["1.0.31"] = (["a8cfb1c09ea6e90eff4ca87322d4168cdbe5035cb48717b40bf77e751cc02163"], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["1.0.31"] = 1
         self.targetDigests["1.2.2"] = (["3799ca9924d3125038880367bf1468e53a1b7e3686a934f098b7e1d286cdb80e"], CraftHash.HashAlgorithm.SHA256)
+
         self.description = "A C library for reading and writing files containing sampled sound"
         self.webpage = "https://github.com/libsndfile/libsndfile/"
         self.releaseManagerId = 13277
@@ -22,8 +24,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libogg"] = None
         self.runtimeDependencies["libs/libvorbis"] = None
-
-        self.patchLevel["1.0.31"] = 1
+        self.runtimeDependencies["libs/libflac"] = None
+        self.runtimeDependencies["libs/libopus"] = None
 
 
 class Package(CMakePackageBase):
