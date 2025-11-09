@@ -35,7 +35,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMSVC():
             self.patchToApply[ver] = [("install-instead-of-nsinstall.diff", 1), ("cygwin-is-windows.diff", 1)]
         self.defaultTarget = ver
-        self.targets[ver] = 2
+        self.patchLevel[ver] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
