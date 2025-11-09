@@ -34,7 +34,7 @@ class subinfo(info.infoclass):
 
         self.description = "A library to display png images"
         self.webpage = "http://www.libpng.org/pub/png/libpng.html"
-        self.releaseManagerId = "1705"
+        self.releaseManagerId = 1705
         self.defaultTarget = "1.6.45"
 
     def setDependencies(self):
