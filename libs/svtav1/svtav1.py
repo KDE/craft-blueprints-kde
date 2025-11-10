@@ -7,7 +7,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # fails to build in combination with lto
-        self.options.dynamic.setDefault("buildTests", not CraftCore.compiler.isMinGW())
+        self.options.dynamic.setDefault("buildTests", self.options.dynamic.buildTests and not CraftCore.compiler.isMinGW())
 
     def setTargets(self):
         for ver in ["2.1.2", "3.1.2"]:
