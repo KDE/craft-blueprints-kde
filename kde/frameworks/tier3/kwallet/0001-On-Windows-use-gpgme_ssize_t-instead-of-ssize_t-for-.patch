@@ -1,0 +1,41 @@
+From 1942555c32e2c084f5b427e9d3a9303e2c38c037 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ingo=20Kl=C3=B6cker?= <dev@ingo-kloecker.de>
+Date: Mon, 10 Nov 2025 20:11:46 +0100
+Subject: [PATCH] On Windows use gpgme_ssize_t instead of ssize_t for gpgme
+
+ssize_t doesn't exist on Windows. gpgme defines gpgme_ssize_t to ensure
+correct bit-size for its API.
+---
+ src/runtime/kwalletbackend/backendpersisthandler.cpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/src/runtime/kwalletbackend/backendpersisthandler.cpp b/src/runtime/kwalletbackend/backendpersisthandler.cpp
+index ddcd8a51..3bf5830b 100644
+--- a/src/runtime/kwalletbackend/backendpersisthandler.cpp
++++ b/src/runtime/kwalletbackend/backendpersisthandler.cpp
+@@ -470,7 +470,11 @@ int GpgPersistHandler::write(Backend *wb, QSaveFile &sf, QByteArray &version, WI
+     }
+
+     char buffer[4096];
++#if defined(Q_OS_WIN)
++    gpgme_ssize_t bytes = 0;
++#else
+     ssize_t bytes = 0;
++#endif
+     encryptedData.seek(0, SEEK_SET);
+     while ((bytes = encryptedData.read(buffer, sizeof(buffer) / sizeof(buffer[0]))) > 0) {
+         if (sf.write(buffer, bytes) != bytes) {
+@@ -510,7 +514,11 @@ int GpgPersistHandler::read(Backend *wb, QFile &sf, WId w)
+     // the remainder of the file is GPG encrypted. Let's decrypt it
+     GpgME::Data encryptedData;
+     char buffer[4096];
++#if defined(Q_OS_WIN)
++    gpgme_ssize_t bytes = 0;
++#else
+     ssize_t bytes = 0;
++#endif
+     while ((bytes = sf.read(buffer, sizeof(buffer) / sizeof(buffer[0])))) {
+         encryptedData.write(buffer, bytes);
+     }
+--
+2.51.1
