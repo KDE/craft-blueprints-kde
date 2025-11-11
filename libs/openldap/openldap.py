@@ -43,9 +43,10 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         if not CraftCore.compiler.isWindows:
             self.buildDependencies["libs/groff"] = None
+        else:
+            self.runtimeDependencies["libs/pcre"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/cyrus-sasl"] = None
-        self.runtimeDependencies["libs/pcre"] = None
         self.runtimeDependencies["libs/openssl"] = None
 
 
