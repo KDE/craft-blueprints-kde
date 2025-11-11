@@ -14,6 +14,9 @@ class subinfo(info.infoclass):
         self.patchLevel["0.40"] = 1
         self.targetDigests["0.40"] = "5231d7531e8808420d7f89fd1e4fdbac1ed7a167"
 
+        self.releaseManagerId = 17678
+        self.webpage = "http://www.jedrea.com/chmlib/"
+
         self.defaultTarget = "0.40"
 
     def setDependencies(self):
@@ -25,4 +28,4 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
 
         # building examples and debugging tools
-        self.subinfo.options.configure.args += ["-DBUILD_examples=OFF"]
+        self.subinfo.options.configure.args += ["-DCMAKE_POLICY_VERSION_MINIMUM=3.5", "-DBUILD_examples=OFF"]
