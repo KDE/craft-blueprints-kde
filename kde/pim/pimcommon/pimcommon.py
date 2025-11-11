@@ -9,8 +9,6 @@ class subinfo(info.infoclass):
 
         self.description = "PimCommon library"
 
-        self.patchLevel["25.08.0"] = 1
-
     def registerOptions(self):
         # KImap is a required dependency, but disabled on MinGW so we can't build this either
         # It is probably not a big deal because MSVC is used to build the PIM stack on Windows

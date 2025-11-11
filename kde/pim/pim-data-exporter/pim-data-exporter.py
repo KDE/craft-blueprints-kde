@@ -16,9 +16,6 @@ class subinfo(info.infoclass):
 
         self.description = "PIM Data Exporter"
 
-        # https://invent.kde.org/pim/pim-data-exporter/-/merge_requests/25
-        self.patchToApply["25.08.0"] = [("25.patch", 1)]
-
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
