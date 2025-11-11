@@ -13,6 +13,8 @@ class subinfo(info.infoclass):
         self.targetDigests["8.45"] = (["4dae6fdcd2bb0bb6c37b5f97c33c2be954da743985369cddac3546e3218bffb8"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Perl-Compatible Regular Expressions"
+        self.webpage = "https://www.pcre.org/"
+        self.releaseManagerId = 2610
         self.defaultTarget = "8.45"
 
     def setDependencies(self):
@@ -24,6 +26,11 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DPCRE_SUPPORT_UNICODE_PROPERTIES=ON", "-DPCRE_SUPPORT_UTF8=ON", "-DPCRE_EBCDIC=OFF"]
+        self.subinfo.options.configure.args += [
+            "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
+            "-DPCRE_SUPPORT_UNICODE_PROPERTIES=ON",
+            "-DPCRE_SUPPORT_UTF8=ON",
+            "-DPCRE_EBCDIC=OFF",
+        ]
         if CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["-DHAVE_STRTOQ=FALSE", "-DPCRE_BUILD_PCREGREP=FALSE", "-DPCRE_BUILD_TEST=FALSE"]
