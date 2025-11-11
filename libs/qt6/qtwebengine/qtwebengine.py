@@ -11,6 +11,9 @@ from Utils.CraftShortPath import CraftShortPath
 
 class subinfo(info.infoclass):
     def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = (
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+        )
         self.options.dynamic.registerOption("withICU", self.options.isActive("libs/icu"))
         self.options.dynamic.registerOption("withHarfBuzz", self.options.isActive("libs/harfbuzz"))
 
