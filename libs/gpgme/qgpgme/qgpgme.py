@@ -11,11 +11,15 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"qgpgme-{ver}"
 
         self.targetDigests["2.0.0"] = (["15645b2475cca6118eb2ed331b3a8d9442c9d4019c3846ba3f6d25321b4a61ad"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["2.0.0"] = [
+            ("qgpgme-2.0.0-0001-build-Fix-installation-of-camel-case-headers.patch", 1),
+        ]
         if CraftCore.compiler.isMSVC():
-            self.patchToApply["2.0.0"] = [
+            self.patchToApply["2.0.0"] += [
                 ("msvc.patch", 1),
                 ("0001-Workaround-compile-errors-with-MSVC-2022.patch", 1),
             ]
+        self.patchLevel["2.0.0"] = 1
 
         self.defaultTarget = "2.0.0"
 
