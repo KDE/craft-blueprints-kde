@@ -5,15 +5,18 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.1.2"]:
+        for ver in ["1.1.2", "1.4.2"]:
             self.targets[ver] = f"https://github.com/dlfcn-win32/dlfcn-win32/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"dlfcn-win32-{ver}"
         self.svnTargets["master"] = "https://github.com/dlfcn-win32/dlfcn-win32.git"
         self.targetDigests["1.1.2"] = (["a4ff75ffa4b8ce90b4be923da69045b2077bba780f792b29f6f46d52d68cbc50"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.4.2"] = (["f61a874bc9163ab488accb364fd681d109870c86e8071f4710cbcdcbaf9f2565"], CraftHash.HashAlgorithm.SHA256)
+
+        self.defaultTarget = "1.4.2"
 
         self.description = "POSIX dlfcn wrapper for Windows"
         self.webpage = "https://github.com/dlfcn-win32/dlfcn-win32"
-        self.defaultTarget = "1.1.2"
+        self.releaseManagerId = 15379
 
 
 class Package(CMakePackageBase):
