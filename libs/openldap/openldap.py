@@ -17,9 +17,12 @@ class subinfo(info.infoclass):
             ("openldap-2.4.45-20231209.diff", 1)
         ]  # https://gitweb.gentoo.org/repo/gentoo.git/tree/net-nds/openldap/openldap-2.4.59-r2.ebuild#n380
         if CraftCore.compiler.isWindows:
-            self.patchToApply["2.4.45"] += [("openldap-2.4.45-20170628.diff", 1)]
-            self.patchToApply["2.4.45"] += [("openldap-2.4.45-20250809.diff", 1)]  # Force usage of compat getopt
-            self.patchToApply["2.6.10"] = [("openldap-2.6.10-20250807.diff", 1)]
+            self.patchToApply["2.4.45"] += [
+                ("openldap-2.4.45-20170628.diff", 1),
+                ("openldap-2.4.45-20250809.diff", 1),  # Force usage of compat getopt
+                ("openldap-2.4.45-20251112.diff", 1),  # pcre2 instead of pcre
+            ]
+            self.patchToApply["2.6.10"] = [("openldap-2.6.10-20250807.diff", 1), ("openldap-2.4.45-20251112.diff", 1)]  # pcre2 instead of pcre
 
         if CraftCore.compiler.isMacOS:
             #
@@ -35,7 +38,7 @@ class subinfo(info.infoclass):
 
         self.description = "an open source implementation of the Lightweight Directory Access Protocol"
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.isWindows:
             self.defaultTarget = "2.4.45"
         else:
             self.defaultTarget = "2.6.10"
@@ -44,7 +47,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isWindows:
             self.buildDependencies["libs/groff"] = None
         else:
-            self.runtimeDependencies["libs/pcre"] = None
+            self.runtimeDependencies["libs/pcre2"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/cyrus-sasl"] = None
         self.runtimeDependencies["libs/openssl"] = None
