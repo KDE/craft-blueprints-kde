@@ -28,15 +28,20 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.description = "a working SSH implementation by the mean of a library"
         self.svnTargets["master"] = "git://git.libssh.org/projects/libssh.git"
 
-        self.defaultTarget = "0.9.5"
-        self.targets[self.defaultTarget] = f"https://www.libssh.org/files/{self.defaultTarget[:3]}/libssh-{self.defaultTarget}.tar.xz"
-        self.targetInstSrc[self.defaultTarget] = f"libssh-{self.defaultTarget}"
-        self.targetDigests[self.defaultTarget] = (["acffef2da98e761fc1fd9c4fddde0f3af60ab44c4f5af05cd1b2d60a3fa08718"], CraftHash.HashAlgorithm.SHA256)
-
+        for ver in ["0.9.5", "0.11.3"]:
+            major, minor, patch = ver.split(".")
+            self.targets[ver] = f"https://www.libssh.org/files/{major}.{minor}/libssh-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"libssh-{ver}"
+        self.targetDigests["0.9.5"] = (["acffef2da98e761fc1fd9c4fddde0f3af60ab44c4f5af05cd1b2d60a3fa08718"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.11.3"] = (["7d8a1361bb094ec3f511964e78a5a4dba689b5986e112afabe4f4d0d6c6125c3"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["0.9.5"] = [("fix-clang15.patch", 1)]
+        self.defaultTarget = "0.11.3"
+
+        self.releaseManagerId = 1729
+        self.description = "a working SSH implementation by the mean of a library"
+        self.webpage = "https://www.libssh.org/"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
