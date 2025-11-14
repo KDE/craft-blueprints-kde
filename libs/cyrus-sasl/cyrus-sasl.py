@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
         self.patchToApply["2.1.28"] = [("266f0acf7f5e029afbb3e263437039e50cd6c262.patch", 1)]
         self.targetDigests["2.1.28"] = (["7ccfc6abd01ed67c1a0924b353e526f1b766b21f42d4562ee635a8ebfc5bb38c"], CraftHash.HashAlgorithm.SHA256)
 
-        self.patchLevel["2.1.28"] = 2
+        self.patchLevel["2.1.28"] = 3
 
         self.defaultTarget = "2.1.28"
         self.webpage = "https://github.com/cyrusimap/cyrus-sasl"

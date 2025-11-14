@@ -329,36 +329,6 @@ diff -Nrub -x '*~' -x '*\.orig' -x'*\.o' lmdb-LMDB_0.9.16.orig/libraries/liblmdb
 +mdb_txn_renew
 +mdb_txn_reset
 +mdb_version
-diff -Nrub -x '*~' -x '*\.orig' -x'*\.o' lmdb-LMDB_0.9.16.orig/libraries/liblmdb/mdb.c lmdb-LMDB_0.9.16/libraries/liblmdb/mdb.c
---- lmdb-LMDB_0.9.16.orig/libraries/liblmdb/mdb.c	2015-08-14 02:00:38.000000000 +0200
-+++ lmdb-LMDB_0.9.16/libraries/liblmdb/mdb.c	2015-10-01 13:26:24.081607700 +0200
-@@ -55,6 +55,7 @@
- # ifndef SSIZE_MAX
- #  define SSIZE_MAX	INT_MAX
- # endif
-+#define ssize_t SSIZE_T
- #endif
- #else
- #include <sys/types.h>
-@@ -96,7 +97,9 @@
- #include <stdlib.h>
- #include <string.h>
- #include <time.h>
-+#ifndef _WIN32
- #include <unistd.h>
-+#endif
- 
- #if defined(__sun) || defined(ANDROID)
- /* Most platforms have posix_memalign, older may only have memalign */
-@@ -229,7 +232,7 @@
- #define pthread_mutex_lock(x)	WaitForSingleObject(*x, INFINITE)
- #define pthread_cond_signal(x)	SetEvent(*x)
- #define pthread_cond_wait(cond,mutex)	do{SignalObjectAndWait(*mutex, *cond, INFINITE, FALSE); WaitForSingleObject(*mutex, INFINITE);}while(0)
--#define THREAD_CREATE(thr,start,arg)	thr=CreateThread(NULL,0,start,arg,0,NULL)
-+#define THREAD_CREATE(thr,start,arg)	thr=CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)start,arg,0,NULL)
- #define THREAD_FINISH(thr)	WaitForSingleObject(thr, INFINITE)
- #define LOCK_MUTEX_R(env)	pthread_mutex_lock(&(env)->me_rmutex)
- #define UNLOCK_MUTEX_R(env)	pthread_mutex_unlock(&(env)->me_rmutex)
 diff -Nrub -x '*~' -x '*\.orig' -x'*\.o' lmdb-LMDB_0.9.16.orig/libraries/liblmdb/mdb_copy.c lmdb-LMDB_0.9.16/libraries/liblmdb/mdb_copy.c
 --- lmdb-LMDB_0.9.16.orig/libraries/liblmdb/mdb_copy.c	2015-08-14 02:00:38.000000000 +0200
 +++ lmdb-LMDB_0.9.16/libraries/liblmdb/mdb_copy.c	2015-10-01 14:22:15.830316700 +0200

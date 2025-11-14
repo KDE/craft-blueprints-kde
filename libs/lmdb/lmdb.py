@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
 import info
 from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 from Utils.CraftBool import CraftBool
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["0.9.16"]:
-            self.targets[ver] = f"https://github.com/LMDB/lmdb/archive/LMDB_{ver}.tar.gz"
-            self.targetInstSrc[ver] = "lmdb-LMDB_" + ver + "/libraries/liblmdb"
-        self.patchToApply["0.9.16"] = [("lmdb-LMDB_0.9.16-20151004.diff", 3)]
-        self.targetDigests["0.9.16"] = "367182e1d9dbc314db76459a71be719209f131b4"
-        self.patchLevel["0.9.16"] = 1
+        for ver in ["0.9.33"]:
+            self.targets[ver] = f"https://git.openldap.org/openldap/openldap/-/archive/LMDB_{ver}/openldap-LMDB_{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"openldap-LMDB_{ver}/libraries/liblmdb"
+        self.patchToApply["0.9.33"] = [("lmdb-LMDB_0.9.16-20151004.diff", 3)]
+        self.targetDigests["0.9.33"] = (["476801f5239c88c7de61c3390502a5d13965ecedef80105b5fb0fcb8373d1e53"], CraftHash.HashAlgorithm.SHA256)
+
+        self.defaultTarget = "0.9.33"
 
         self.description = "in memory database from the openldap project"
-        self.defaultTarget = "0.9.16"
+        self.releaseManagerId = 6974
+        self.webpage = "https://symas.com/lmdb/"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
