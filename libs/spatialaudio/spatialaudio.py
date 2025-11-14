@@ -22,6 +22,7 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
 
         self.subinfo.options.configure.args += [
+            "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
             f"-DBUILD_STATIC_LIBS={self.subinfo.options.buildStatic.asOnOff}",
             # TODO: exporting all symbols is no ideal, it should be fixed
             # upstream by using cmake's GenerateExportHeader etc.
