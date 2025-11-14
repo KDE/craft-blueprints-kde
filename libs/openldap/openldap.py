@@ -66,4 +66,4 @@ else:
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            self.subinfo.options.configure.args += ["--without-cyrus_sasl", "--disable-bdb", "--disable-hdb"]
+            self.subinfo.options.configure.args += ["--with-cyrus_sasl"]
