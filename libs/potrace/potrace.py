@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.displayName = "Potrace"
         self.description = "Transforming bitmaps into vector graphics"
         self.webpage = "https://potrace.sourceforge.net/"
+        self.releaseManagerId = 3691
 
         for ver in ["1.16"]:
             self.targets[ver] = f"https://potrace.sourceforge.net/download/{ver}/potrace-{ver}.tar.gz"
@@ -27,3 +28,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += ["-DCMAKE_POLICY_VERSION_MINIMUM=3.5"]
