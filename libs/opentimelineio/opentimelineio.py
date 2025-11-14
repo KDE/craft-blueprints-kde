@@ -3,27 +3,25 @@
 
 import info
 from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Open Source API and interchange format for editorial timeline information."
         self.webpage = "https://opentimeline.io"
-        for ver in ["0.17.0"]:
-            # self.targets[ver] = f"https://github.com/AcademySoftwareFoundation/OpenTimelineIO/archive/refs/tags/v{ver}.tar.gz"
-            # self.targetInstSrc[ver] = f"OpenTimelineIO-{ver}"
-            self.svnTargets[ver] = f"https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git||v{ver}"
+        for ver in ["0.18.1"]:
+            self.targets[ver] = f"https://github.com/AcademySoftwareFoundation/OpenTimelineIO/archive/refs/tags/v{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"OpenTimelineIO-{ver}"
 
-        self.svnTargets["65e5ccf"] = "https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git||65e5ccf66fdc3a1b768e73ed61a6d9c9ce8ef503"
+        self.targetDigests["0.18.1"] = (["bcb516a43a962dac0cde3e1f9da634c1fd409915d499ff8f3ce6f738a4637d72"], CraftHash.HashAlgorithm.SHA256)
 
         self.svnTargets["master"] = "https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git"
 
-        for ver in ["0.17.0", "65e5ccf"]:
+        for ver in ["0.18.1"]:
             self.patchToApply[ver] = [("fix-windows-locations.patch", 1), ("fix-macos-rpath.patch", 1)]
 
-        self.patchLevel["0.17.0"] = 5
-
-        self.defaultTarget = "65e5ccf"
+        self.defaultTarget = "0.18.1"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/imath"] = None
