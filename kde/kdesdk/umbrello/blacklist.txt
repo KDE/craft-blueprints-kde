@@ -28,7 +28,6 @@ bin/data/(?!(icontheme.rcc|umbrello|kxmlgui5|dbus-1)).*
 dev-utils/.*
 share/dbus-1/services/.*
 share/pkgconfig/.*
-share/.*
 etc/.*
 certs/.*
 
