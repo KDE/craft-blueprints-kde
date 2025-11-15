@@ -8,10 +8,10 @@ from Package.BinaryPackageBase import BinaryPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["continous"] = ["https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"]
+        self.targets["continous"] = ["https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage"]
         self.targetInstallPath["continous"] = "dev-utils/bin"
         self.description = "Converts an AppDir into a self-mounting filesystem image"
-        self.webpage = "https://github.com/AppImage/AppImageKit"
+        self.webpage = "https://github.com/AppImage/appimagetool"
         self.defaultTarget = "continous"
 
     def setDependencies(self):
