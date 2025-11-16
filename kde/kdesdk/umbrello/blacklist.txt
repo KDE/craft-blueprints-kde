@@ -30,7 +30,7 @@ share/dbus-1/services/.*
 share/pkgconfig/.*
 etc/.*
 certs/.*
-
+libexec/.*
 
 # doubled qt dlls
 lib/[^/]*\.dll
