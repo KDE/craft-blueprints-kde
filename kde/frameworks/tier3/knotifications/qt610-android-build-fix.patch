@@ -1,0 +1,20 @@
+commit fcdba0d9a8048c906e89b66da2ed4538c3022571
+Author: Volker Krause <vkrause@kde.org>
+Date:   Mon Nov 17 17:16:35 2025 +0100
+
+    Fix build with Qt 6.10 on Android
+    
+    We need to explicitly look for private Qt libraries starting with Qt 6.10.
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d6a36459..5c9baee3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -46,6 +46,7 @@ find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Gui)
+ 
+ if (ANDROID)
+     find_package(Gradle REQUIRED)
++    find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED CorePrivate)
+ endif()
+ 
+ # shall we use DBus?
