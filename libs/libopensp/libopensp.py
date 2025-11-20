@@ -34,8 +34,12 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://downloads.sourceforge.net/project/openjade/opensp/{ver}/OpenSP-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"OpenSP-{ver}"
 
+        self.patchToApply["1.5.2"] = [
+            # https://github.com/microsoft/vcpkg/blob/782419385291ae2db643c928314efe626853c702/ports/libopensp/use-cpp-using-declarations.patch
+            ("use-cpp-using-declarations.patch", 1)
+        ]
         if CraftCore.compiler.isWindows:
-            self.patchToApply["1.5.2"] = ("OpenSP-1.5.2-20110111.diff", 1)
+            self.patchToApply["1.5.2"] += ("OpenSP-1.5.2-20110111.diff", 1)
         # elif CraftCore.compiler.isMinGW():
         #     self.patchToApply['1.5.2'] = ("OpenSP-1.5.2-20180505.diff", 1)
         self.targetDigests["1.5.2"] = "b4e903e980f8a8b3887396a24e067bef126e97d5"
