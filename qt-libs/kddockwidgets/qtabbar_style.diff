@@ -1,5 +1,5 @@
 diff --git a/src/qtwidgets/views/TabBar.cpp b/src/qtwidgets/views/TabBar.cpp
-index 10f88cdc0..0a43ee803 100644
+index 10f88cdc0..53c90ca69 100644
 --- a/src/qtwidgets/views/TabBar.cpp
 +++ b/src/qtwidgets/views/TabBar.cpp
 @@ -25,6 +25,9 @@
@@ -12,7 +12,7 @@ index 10f88cdc0..0a43ee803 100644
  
  using namespace KDDockWidgets;
  using namespace KDDockWidgets::QtWidgets;
-@@ -54,6 +57,29 @@ public:
+@@ -54,6 +57,27 @@ public:
          }
          return baseStyle()->styleHint(hint, option, widget, returnData);
      }
@@ -20,9 +20,7 @@ index 10f88cdc0..0a43ee803 100644
 +    void drawControl(ControlElement element, const QStyleOption* option, QPainter* painter, const QWidget* widget) const override {
 +        if (element == CE_TabBarTabLabel) {
 +            if (auto tab = qstyleoption_cast<const QStyleOptionTab*>(option)) {
-+                QStyleOptionTab opt(*tab);
-+                auto tabBar = static_cast<const QTabBar *>(widget);
-+                if (tab->tabIndex == tabBar->currentIndex()) {
++                if (tab->state & QStyle::State_Selected) {
 +                    painter->fillRect(tab->rect, qApp->palette().alternateBase());
 +                } else {
 +                    painter->fillRect(tab->rect, qApp->palette().button());

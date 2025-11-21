@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.4.0"
 
         self.patchToApply["2.4.0"] = [("qtabbar_style.diff", 1)]
-        self.patchLevel["2.4.0"] = 1
+        self.patchLevel["2.4.0"] = 2
 
         self.description = "KDDockWidgets is a Qt dock widget library written by KDAB, suitable for replacing QDockWidget and implementing advanced functionalities missing in Qt."
         self.webpage = "https://www.kdab.com/introducing-kddockwidgets/"
