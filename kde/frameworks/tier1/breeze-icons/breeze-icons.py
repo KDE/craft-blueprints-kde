@@ -33,4 +33,6 @@ class Package(CraftPackageObject.get("kde/frameworks").pattern):
         self.subinfo.options.configure.args += ["-DSKIP_INSTALL_ICONS=ON", "-DICONS_LIBRARY=ON"]
         if CraftCore.compiler.isWindows:  # workaround for failure of generate-24px-versions.py to create any output
             self.subinfo.options.configure.args += ["-DWITH_ICON_GENERATION=OFF"]
+        if CraftCore.compiler.isMacOS:  # restore pre-KF 6.20 behavior, the build environment lacks lxml for this
+            self.subinfo.options.configure.args += ["-DWITH_ICON_GENERATION=OFF"]
         self.subinfo.options.unpack.keepSymlinksOnWindows = CraftVersion(self.buildTarget) > "6.2.99"
