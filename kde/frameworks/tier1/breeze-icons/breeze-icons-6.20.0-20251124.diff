@@ -1,0 +1,45 @@
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user -x .idea -x .clang-format breeze-icons-6.20.0.orig/tools/generate-symbolic-dark.cpp breeze-icons-6.20.0/tools/generate-symbolic-dark.cpp
+--- breeze-icons-6.20.0.orig/tools/generate-symbolic-dark.cpp	2025-11-07 19:58:06.000000000 +0100
++++ breeze-icons-6.20.0/tools/generate-symbolic-dark.cpp	2025-11-24 11:57:57.644276800 +0100
+@@ -131,7 +131,26 @@
+ 
+             // keep symlinks
+             if (inputFileInfo.isSymLink()) {
+-                QFile::link(inputFileInfo.absoluteDir().relativeFilePath(inputFileInfo.symLinkTarget()), outputFilePath);
++                if (outputFileInfo.exists()) {
++                    if (!QFile::remove(outputFileInfo.filePath())) {
++                        qWarning() << "Failed to remove old symlink:" << outputFilePath;
++                        return 1;
++                    }
++                }
++                std::error_code ec;
++                const auto targetAbsolute = QFileInfo(inputFileInfo.symLinkTarget()).filesystemFilePath();;
++                const auto targetRelative = std::filesystem::relative(targetAbsolute, inputFileInfo.filesystemAbsolutePath(), ec);
++                if (ec) {
++                    qWarning() << u"Failed to resolve symlink:" << targetAbsolute.native();
++                    return 1;
++                }
++                const auto symlink = outputFileInfo.filesystemFilePath();
++                //qInfo() << u"Create symlink:" << symlink.native() << u"with target" << targetRelative.native();
++                std::filesystem::create_symlink(targetRelative, symlink, ec);
++                if (ec) {
++                    qWarning() << u"Failed to create symlink:" << symlink.native() << u"with target" << targetRelative.native();
++                    return 1;
++                }
+                 continue;
+             }
+ 
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user -x .idea -x .clang-format breeze-icons-6.20.0.orig/tools/qrcAlias.cpp breeze-icons-6.20.0/tools/qrcAlias.cpp
+--- breeze-icons-6.20.0.orig/tools/qrcAlias.cpp	2025-11-07 19:58:06.000000000 +0100
++++ breeze-icons-6.20.0/tools/qrcAlias.cpp	2025-11-24 12:07:21.062177600 +0100
+@@ -184,8 +184,8 @@
+ 
+             // more checks for links
+             if (isLink) {
+-                // empty canonical path means not found
+-                if (fullPath.isEmpty()) {
++                // empty canonical path means not found, on Windows the path will be resolved
++                if (fullPath.isEmpty() || !QFileInfo::exists(fullPath) ) {
+                     // qFatal() << "Broken symlink" << file << "in input directory" << indir;
+                     // ATM we allow that as otherwise the generation misses links
+                     // see https://invent.kde.org/frameworks/breeze-icons/-/merge_requests/467
