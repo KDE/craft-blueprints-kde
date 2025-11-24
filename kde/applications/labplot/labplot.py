@@ -49,7 +49,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/libzip"] = None
         self.runtimeDependencies["libs/hdf5"] = None
-        self.runtimeDependencies["libs/netcdf"] = None
+        # netcdf installation is broken for MSVC atm
+        if not CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["libs/netcdf"] = None
         self.runtimeDependencies["libs/liblz4"] = None
         self.runtimeDependencies["libs/orcus"] = None
 
@@ -94,7 +96,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ixion"] = None
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
-        if not CraftCore.compiler.isWindows:
+        if CraftCore.compiler.isLinux:
             self.buildDependencies["python-modules/pyside6"] = None
 
 

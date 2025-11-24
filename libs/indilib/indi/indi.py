@@ -53,7 +53,7 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
             f"-DINDI_BUILD_CLIENT={self.subinfo.options.dynamic.buildClient.asOnOff}",
             f"-DINDI_BUILD_STATIC={CraftBool(CraftCore.compiler.isWindows and self.subinfo.options.dynamic.buildClient).asOnOff}",
             f"-DINDI_BUILD_SHARED={CraftBool(not CraftCore.compiler.isWindows and self.subinfo.options.dynamic.buildClient).asOnOff}",
-            "-DINDI_BUILD_QT5_CLIENT=OFF",
+            "-DINDI_BUILD_QT_CLIENT=OFF",
         ]
 
     def install(self):

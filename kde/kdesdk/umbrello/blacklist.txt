@@ -22,16 +22,15 @@ share/apps/ark/.*
 share/apps/kgpg/.*
 share/kf5/kdoctools/.*
 lib/.*
-bin/data/(?!(icontheme.rcc|umbrello|kxmlgui5|dbus-1)).*
+bin/data/(?!(icontheme.rcc|umbrello|doc|share|kxmlgui5|dbus-1)).*
 
 # unrelated
 dev-utils/.*
 share/dbus-1/services/.*
 share/pkgconfig/.*
-share/.*
 etc/.*
 certs/.*
-
+libexec/.*
 
 # doubled qt dlls
 lib/[^/]*\.dll

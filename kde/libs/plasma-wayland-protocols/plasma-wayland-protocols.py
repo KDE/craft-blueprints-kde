@@ -12,12 +12,12 @@ class subinfo(info.infoclass):
         self.description = "Plasma-specific protocols for Wayland"
         self.svnTargets["master"] = "https://invent.kde.org/libraries/plasma-wayland-protocols"
 
-        for ver in ["1.16.0"]:
+        for ver in ["1.19.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/plasma-wayland-protocols/plasma-wayland-protocols-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/plasma-wayland-protocols/plasma-wayland-protocols-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"plasma-wayland-protocols-{ver}"
 
-        self.defaultTarget = "1.16.0"
+        self.defaultTarget = "1.19.0"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None

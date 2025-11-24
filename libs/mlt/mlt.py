@@ -20,18 +20,18 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20221103
 
-        self.svnTargets["c0b1f17"] = "https://github.com/mltframework/mlt.git||c0b1f17beaae309ac20173fba78565650faaf87d"
-        self.defaultTarget = "c0b1f17"
+        self.svnTargets["5e15d61"] = "https://github.com/mltframework/mlt.git||5e15d61f68b3e27f48cc5aa73c9a6afc42f013f7"
+        self.defaultTarget = "5e15d61"
 
-        self.patchToApply["c0b1f17"] = []
+        self.patchToApply["5e15d61"] = []
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["c0b1f17"] += [("pi_patch.diff", 1)]
-            self.patchToApply["c0b1f17"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["5e15d61"] += [("pi_patch.diff", 1)]
+            self.patchToApply["5e15d61"] += [("revert-mingw-mysy2.diff", 1)]
 
         if CraftCore.compiler.isMSVC():
-            self.patchToApply["c0b1f17"] += [("msvc-misc.patch", 1)]
-            self.patchToApply["c0b1f17"] += [("msvc-sdl2-import-export.patch", 1)]
-            self.patchToApply["c0b1f17"] += [("msvc-link-kdewin.patch", 1)]
+            self.patchToApply["5e15d61"] += [("msvc-misc.patch", 1)]
+            self.patchToApply["5e15d61"] += [("msvc-sdl2-import-export.patch", 1)]
+            self.patchToApply["5e15d61"] += [("msvc-link-kdewin.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
