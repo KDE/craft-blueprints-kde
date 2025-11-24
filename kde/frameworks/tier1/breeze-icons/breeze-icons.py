@@ -12,6 +12,7 @@ from CraftCore import CraftCore
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+        self.patchToApply["6.20.0"] = [("breeze-icons-6.20.0-20251124.diff", 1)]
 
         self.description = "Breeze icon theme."
 
