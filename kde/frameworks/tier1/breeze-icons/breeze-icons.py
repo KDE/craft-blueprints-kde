@@ -31,7 +31,7 @@ class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += [
-            f"-DPython3_EXECUTABLE={(CraftCore.standardDirs.craftRoot() / f'bin/python{CraftCore.compiler.executableSuffix}').as_posix()}",
+            f"-DPython_ROOT_DIR={(CraftCore.standardDirs.craftRoot() / 'bin').as_posix()}",
             "-DSKIP_INSTALL_ICONS=ON",
             "-DICONS_LIBRARY=ON",
         ]
