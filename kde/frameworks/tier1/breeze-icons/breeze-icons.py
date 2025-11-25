@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.patchToApply["6.20.0"] = [("breeze-icons-6.20.0-20251124.diff", 1)]
+        self.patchLevel["6.20.0"] = 1
 
         self.description = "Breeze icon theme."
 
@@ -22,9 +23,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
-        if not CraftCore.compiler.isWindows:
-            # Required when -DWITH_ICON_GENERATION=ON
-            self.buildDependencies["python-modules/lxml"] = None
+        self.buildDependencies["python-modules/lxml"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
 
@@ -36,6 +35,4 @@ class Package(CraftPackageObject.get("kde/frameworks").pattern):
             "-DSKIP_INSTALL_ICONS=ON",
             "-DICONS_LIBRARY=ON",
         ]
-        if CraftCore.compiler.isWindows:  # workaround for failure of generate-24px-versions.py to create any output
-            self.subinfo.options.configure.args += ["-DWITH_ICON_GENERATION=OFF"]
         self.subinfo.options.unpack.keepSymlinksOnWindows = CraftVersion(self.buildTarget) > "6.2.99"
