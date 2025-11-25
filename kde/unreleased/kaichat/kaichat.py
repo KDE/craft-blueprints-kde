@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.displayName = "KAIChat"
         self.description = "Chat with AI"
 
-        for ver in ["0.4.0"]:
+        for ver in ["0.4.0", "0.5.0", "0.5.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/kaichat/kaichat-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kaichat/kaichat-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"kaichat-{ver}"
