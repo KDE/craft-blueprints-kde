@@ -41,6 +41,7 @@ class subinfo(info.infoclass):
         self.description = "an open source implementation of the Lightweight Directory Access Protocol"
 
         self.patchLevel["2.4.45"] = 1
+        self.patchLevel["2.6.10"] = 1
         if CraftCore.compiler.isWindows:
             self.defaultTarget = "2.4.45"
         else:
