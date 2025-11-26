@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtlocation"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/zxing-cpp"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["qt-libs/qxmpp"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/prison"] = None
