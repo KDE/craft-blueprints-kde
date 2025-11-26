@@ -6,6 +6,10 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # TODO: openssl detection sometimes does not work, cyrus-sassl detecion doesnt work either
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotLinux
+
     def setTargets(self):
         for ver in ["2.4.45", "2.5.16", "2.6.6", "2.6.10"]:
             self.targets[ver] = f"https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-{ver}.tgz"
