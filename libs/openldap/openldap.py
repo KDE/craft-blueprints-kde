@@ -6,10 +6,6 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        # TODO: openssl detection sometimes does not work, cyrus-sassl detecion doesnt work either
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotLinux
-
     def setTargets(self):
         for ver in ["2.4.45", "2.5.16", "2.6.6", "2.6.10"]:
             self.targets[ver] = f"https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-{ver}.tgz"
@@ -20,17 +16,19 @@ class subinfo(info.infoclass):
         self.patchToApply["2.4.45"] = [
             ("openldap-2.4.45-20231209.diff", 1)
         ]  # https://gitweb.gentoo.org/repo/gentoo.git/tree/net-nds/openldap/openldap-2.4.59-r2.ebuild#n380
+        self.patchToApply["2.6.10"] = [
+            # https://github.com/microsoft/vcpkg/tree/d1ff36c6520ee43f1a656c03cd6425c2974a449e/ports/openldap
+            ("cyrus-sasl.diff", 1),
+            ("openssl.patch", 1),
+            ("no-openssl-version-check.diff", 1),
+        ]
         if CraftCore.compiler.isWindows:
             self.patchToApply["2.4.45"] += [
                 ("openldap-2.4.45-20170628.diff", 1),
                 ("openldap-2.4.45-20250809.diff", 1),  # Force usage of compat getopt
                 ("openldap-2.4.45-20251112.diff", 1),  # pcre2 instead of pcre
             ]
-            self.patchToApply["2.6.10"] = [("openldap-2.6.10-20250807.diff", 1), ("openldap-2.4.45-20251112.diff", 1)]  # pcre2 instead of pcre
-
-        if CraftCore.compiler.isMacOS:
-            #
-            self.patchToApply["2.6.10"] = [("no-openssl-version-check.diff", 1)]
+            self.patchToApply["2.6.10"] += [("openldap-2.6.10-20250807.diff", 1), ("openldap-2.4.45-20251112.diff", 1)]  # pcre2 instead of pcre
 
         self.targetDigests["2.4.45"] = (["cdd6cffdebcd95161a73305ec13fc7a78e9707b46ca9f84fb897cd5626df3824"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["2.5.16"] = (["546ba591822e8bb0e467d40c4d4a30f89d937c3a507fe83a578f582f6a211327"], CraftHash.HashAlgorithm.SHA256)
@@ -70,4 +68,4 @@ else:
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            self.subinfo.options.configure.args += ["--with-cyrus_sasl"]
+            self.subinfo.options.configure.args += ["--with-cyrus_sasl", "--with-tls=openssl", "--without-systemd", "--disable-dependency-tracking"]
