@@ -7,7 +7,7 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/utilities/kaichat-addons.git")
+        self.svnTargets["master"] = "https://invent.kde.org/utilities/kaichat-addons.git"
         self.description = "KAIChat Addons"
         self.defaultTarget = "48121bbfe1fde"
 
