@@ -77,19 +77,19 @@ run-tests:
     GIT_STRATEGY: none
     KDECI_CRAFT_PLATFORM: linux-64-gcc
     KDECI_CRAFT_CACHE: /mnt/craft-cache/$KDECI_CRAFT_PLATFORM/
-    KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6/CraftConfig.ini
+    KDECI_CRAFT_CONFIG: craft-ci/qt6/CraftConfig.ini
     CRAFT_PACKAGE:
   rules:
     - if:  $CI_COMMIT_REF_NAME == "dev"
       when: manual
       variables:
-        KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6-dev/CraftConfig.ini
+        KDECI_CRAFT_CONFIG: craft-ci/qt6-dev/CraftConfig.ini
       # we don't want the manual job to block the pipeline
       allow_failure: true
     - if:  $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev"
       when: manual
       variables:
-        KDECI_CRAFT_CONFIG: ci-utilities/craft/qt6-dev/CraftConfig.ini
+        KDECI_CRAFT_CONFIG: craft-ci/qt6-dev/CraftConfig.ini
       # we don't want the manual job to block the pipeline
       allow_failure: true
     - when: manual
@@ -114,6 +114,7 @@ build-package-linux:
     - export LANG=en_US.UTF-8
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
+    - git clone https://invent.kde.org/sysadmin/craft-ci.git --depth=1
     # Define a short cut for the lengthy CraftMaster command line
     - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
@@ -157,6 +158,8 @@ build-package-linux:
     - cd C:\Craft\craftmaster
     - git pull
     - cd C:\Craft\ci-utilities
+    - git pull
+    - cd C:\Craft\craft-ci
     - git pull
     - cd C:\Craft
     # Define a short cut for the lengthy CraftMaster command line
@@ -218,6 +221,7 @@ build-package-windows_qt6_mingw64:
     - export LANG=en_US.UTF-8
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
+    - git clone https://invent.kde.org/sysadmin/craft-ci.git --depth=1
     # Define a short cut for the lengthy CraftMaster command line
     - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
@@ -273,6 +277,7 @@ build-package-macos_qt6_x86_64:
   before_script:
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
+    - git clone https://invent.kde.org/sysadmin/craft-ci.git --depth=1
     # Define a short cut for the lengthy CraftMaster command line
     - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
