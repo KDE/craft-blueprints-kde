@@ -10,6 +10,8 @@ from Utils.Arguments import Arguments
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "VP8 and VP9 video codec"
+        self.releaseManagerId = 11083
+        self.webpage = "https://www.webmproject.org/"
 
         for ver in ["1.13.1", "1.15.0"]:
             self.targets[ver] = f"https://github.com/webmproject/libvpx/archive/v{ver}.tar.gz"
