@@ -32,14 +32,14 @@ from Utils import CraftHash
 if not CraftCore.compiler.isMSVC():
 
     class subinfo(info.infoclass):
-        def registerOptions(self):
-            # Be aware that ther is also gpgmepp to provide C++
-            self.options.dynamic.registerOption("enableCPP", False)
-
         def setTargets(self):
-            self.versionInfo.setDefaultValues()
-            self.targetDigests["1.23.2"] = (["9499e8b1f33cccb6815527a1bc16049d35a6198a6c5fae0185f2bd561bce5224"], CraftHash.HashAlgorithm.SHA256)
-            self.patchLevel["1.23.2"] = 1
+            for ver in ["2.0.0"]:
+                self.targetInstSrc[ver] = f"gpgme-{ver}"
+                self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-{ver}.tar.bz2"
+            self.svnTargets["master"] = "git://git.gnupg.org/gpgme.git"
+            self.targetDigests["2.0.0"] = (["ddf161d3c41ff6a3fcbaf4be6c6e305ca4ef1cc3f1ecdfce0c8c2a167c0cc36d"], CraftHash.HashAlgorithm.SHA256)
+            self.defaultTarget = "2.0.0"
+            self.description = "GnuPG cryptography support library (runtime)"
 
         def setDependencies(self):
             self.buildDependencies["dev-utils/msys"] = None
@@ -47,18 +47,12 @@ if not CraftCore.compiler.isMSVC():
             self.runtimeDependencies["libs/gpg-error"] = None
             self.runtimeDependencies["libs/assuan2"] = None
             self.runtimeDependencies["libs/gnupg"] = None
-            if self.options.dynamic.enableCPP:
-                self.runtimeDependencies["libs/qt/qtbase"] = None
 
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
             self.subinfo.options.configure.cflags += " -Wno-incompatible-pointer-types"
             self.subinfo.options.configure.args += ["--disable-gpg-test"]
-            if not self.subinfo.options.dynamic.enableCPP:
-                self.subinfo.options.configure.args += ["--enable-languages=no"]
-            else:
-                self.subinfo.options.configure.args += ["--enable-languages=cpp,qt"]
 
         def install(self):
             if not super().install():

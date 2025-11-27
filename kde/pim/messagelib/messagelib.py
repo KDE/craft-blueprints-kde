@@ -52,6 +52,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
 
         self.runtimeDependencies["libs/gpgme"] = None
+        self.runtimeDependencies["libs/gpgmepp"] = None
+        self.runtimeDependencies["libs/qgpgme"] = None
 
 
 class Package(CMakePackageBase):

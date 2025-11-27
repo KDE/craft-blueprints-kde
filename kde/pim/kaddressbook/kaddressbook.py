@@ -30,8 +30,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kde/pim/pimcommon"] = None
         self.runtimeDependencies["kde/pim/grantleetheme"] = None
-        self.runtimeDependencies["libs/gpgme/gpgme"] = None
-        self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None

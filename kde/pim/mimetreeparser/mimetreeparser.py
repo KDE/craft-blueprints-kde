@@ -23,7 +23,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/kmbox"] = None
         self.runtimeDependencies["kde/pim/libkleo"] = None
-        self.runtimeDependencies["libs/gpgme/gpgme"] = None
+        self.runtimeDependencies["libs/gpgme"] = None
+        self.runtimeDependencies["libs/gpgmepp"] = None
+        self.runtimeDependencies["libs/qgpgme"] = None
 
 
 class Package(CMakePackageBase):

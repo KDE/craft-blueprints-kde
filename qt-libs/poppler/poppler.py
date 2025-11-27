@@ -61,6 +61,7 @@ class subinfo(info.infoclass):
         # Craft doesn't know how compile gpgme in Android
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/gpgme"] = None
+            self.runtimeDependencies["libs/gpgmepp"] = None
         if self.options.dynamic.buildQtFrontend:
             self.runtimeDependencies["libs/qt/qtbase"] = None
         if self.options.dynamic.buildGlibFrontend:

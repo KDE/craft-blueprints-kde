@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/gcrypt"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["libs/gpgme"] = None
+        self.runtimeDependencies["libs/gpgmepp"] = None
         self.runtimeDependencies["libs/libsecret"] = None
 
 
