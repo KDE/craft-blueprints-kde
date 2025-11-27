@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
             ("cyrus-sasl.diff", 1),
             ("openssl.patch", 1),
             ("no-openssl-version-check.diff", 1),
+            ("autotools_is_awesome.diff", 1)
         ]
         if CraftCore.compiler.isWindows:
             self.patchToApply["2.4.45"] += [
@@ -69,4 +70,4 @@ else:
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            self.subinfo.options.configure.args += ["--with-cyrus_sasl", "--with-tls=openssl", "--without-systemd", "--disable-dependency-tracking"]
+            self.subinfo.options.configure.args += ["--with-cyrus_sasl", "--with-tls=openssl", "--without-systemd"]
