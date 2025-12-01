@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://invent.kde.org/utilities/kaichat-addons.git"
         self.description = "KAIChat Addons"
-        self.defaultTarget = "48121bbfe1fde"
+        self.versionInfo.setDefaultValues()
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
