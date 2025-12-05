@@ -22,8 +22,10 @@ class subinfo(info.infoclass):
 
         self.svnTargets["5e15d61"] = "https://github.com/mltframework/mlt.git||5e15d61f68b3e27f48cc5aa73c9a6afc42f013f7"
         self.defaultTarget = "5e15d61"
+        self.patchLevel["5e15d61"] = 1
 
         self.patchToApply["5e15d61"] = []
+        self.patchToApply["5e15d61"] += [("qtblend-filter.diff", 1)]
         if CraftCore.compiler.isMinGW():
             self.patchToApply["5e15d61"] += [("pi_patch.diff", 1)]
             self.patchToApply["5e15d61"] += [("revert-mingw-mysy2.diff", 1)]
