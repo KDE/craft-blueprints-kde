@@ -2,10 +2,10 @@
 # SPDX-FileCopyrightText: 2025 Stefan Gerlach <stefan.gerlach@uni.kn>
 
 import os
+import subprocess
 
 import info
 import utils
-import subprocess
 from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
