@@ -96,6 +96,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ixion"] = None
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
+            self.buildDependencies["python-modules/build"] = None
         if not CraftCore.compiler.isWindows:
             self.buildDependencies["python-modules/pyside6"] = None
 
