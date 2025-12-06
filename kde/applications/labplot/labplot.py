@@ -5,6 +5,7 @@ import os
 
 import info
 import utils
+import subprocess
 from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
@@ -127,19 +128,22 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += f'-DCMAKE_CXX_FLAGS="-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/boost-1_86 -EHsc"'
 
     # required on macOS to find type_traits
+    def _getEnv(self):
+        env = {}
+        sdk = subprocess.check_output(["xcrun", "--show-sdk-path"], text=True).strip()
+        print("SDKROOT =", sdk)
+        env["SDKROOT"] = sdk
+        return env
+
     def make(self):
         if CraftCore.compiler.isMacOS:
-            env = {}
-            env["SDKROOT"] = "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
-            with utils.ScopedEnv(env):
+            with utils.ScopedEnv(self._getEnv()):
                 return super().make()
         return super().make()
 
     def install(self):
         if CraftCore.compiler.isMacOS:
-            env = {}
-            env["SDKROOT"] = "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
-            with utils.ScopedEnv(env):
+            with utils.ScopedEnv(self._getEnv()):
                 return super().install()
         return super().install()
 
