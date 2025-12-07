@@ -36,44 +36,12 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
 
     def setTargets(self):
-        self.targets["5.8.1"] = "https://www.aquamaniac.de/rdm/attachments/download/402/gwenhywfar-5.8.1.tar.gz"
-        self.targetDigests["5.8.1"] = (["05397618b9cae0197a181835f67e19ba09652cf30e2c9d1fbb98f3f34dbf4e1f"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["5.8.1"] = "gwenhywfar-5.8.1"
-        self.patchToApply["5.8.1"] = [("gwenhywfar-5.8.1-20211230.diff", 0)]
-        if CraftCore.compiler.isMinGW():
-            self.patchToApply["5.8.1"] += [("gwenhywfar-4.19.0-20180218.diff", 1)]
-        self.patchLevel["5.8.1"] = 3
+        self.targets["5.14.0"] = "https://www.aquamaniac.de/rdm/attachments/download/626/gwenhywfar-5.14.0.tar.gz"
+        self.targetDigests["5.14.0"] = (["85b1e711dcab1911f70ba9e6f8696b4b0b7134cbec66c57c5bf1122ec1284bfb"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["5.14.0"] = "gwenhywfar-5.14.0"
+        self.patchLevel["5.14.0"] = 1
 
-        self.targets["5.10.2"] = "https://www.aquamaniac.de/rdm/attachments/download/501/gwenhywfar-5.10.2.tar.gz"
-        self.targetDigests["5.10.2"] = (["60a7da03542865501208f20e18de32b45a75e3f4aa8515ca622b391a2728a9e1"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["5.10.2"] = "gwenhywfar-5.10.2"
-        self.patchToApply["5.10.2"] = [
-            ("gwenhywfar-5.10.2-20231024.diff", 1)
-        ]  # https://github.com/aqbanking/gwenhywfar/commit/0047982d2a2b83cdd3405732b84a3ee8788e0269
-        self.patchLevel["5.10.2"] = 1
-
-        self.targets["5.12.1"] = "https://www.aquamaniac.de/rdm/attachments/download/533/gwenhywfar-5.12.1.tar.gz"
-        self.targetDigests["5.12.1"] = (["d188448b9c3a9709721422ee0134b9d0b7790ab7514058d99e04399e39465dda"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["5.12.1"] = "gwenhywfar-5.12.1"
-        self.patchToApply["5.12.1"] = [
-            ("gwenhywfar-5.12.1-20250724.diff", 0)
-        ]  # https://github.com/aqbanking/gwenhywfar/commit/174fe9de36856d2af009c56f6b03ac374b9a684c
-        self.patchLevel["5.12.1"] = 1
-
-        self.targets["5.12.2"] = "https://www.aquamaniac.de/rdm/attachments/download/539/gwenhywfar-5.12.2.tar.gz"
-        self.targetDigests["5.12.2"] = (["4351ac71d22b6819238d62e71f1f40be835c0ac239c9e59174aed5db6a1e8b58"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["5.12.2"] = "gwenhywfar-5.12.2"
-        self.patchToApply["5.12.2"] = [
-            ("binreloc.diff", 0)
-        ]
-        self.patchLevel["5.12.2"] = 2
-
-        self.targets["5.13.0"] = "https://www.aquamaniac.de/rdm/attachments/download/550/gwenhywfar-5.13.0.tar.gz"
-        self.targetDigests["5.13.0"] = (["26513d4b032eb8108ff2b6bf234b7d60c710fd16059fb80077acd79c250824b9"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["5.13.0"] = "gwenhywfar-5.13.0"
-        self.patchLevel["5.13.0"] = 1
-
-        self.defaultTarget = "5.13.0"
+        self.defaultTarget = "5.14.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
