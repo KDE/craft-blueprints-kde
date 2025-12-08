@@ -36,12 +36,12 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
 
     def setTargets(self):
-        self.targets["5.14.0"] = "https://www.aquamaniac.de/rdm/attachments/download/626/gwenhywfar-5.14.0.tar.gz"
-        self.targetDigests["5.14.0"] = (["85b1e711dcab1911f70ba9e6f8696b4b0b7134cbec66c57c5bf1122ec1284bfb"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["5.14.0"] = "gwenhywfar-5.14.0"
-        self.patchLevel["5.14.0"] = 1
+        self.targets["5.14.1"] = "https://www.aquamaniac.de/rdm/attachments/download/630/gwenhywfar-5.14.1.tar.gz"
+        self.targetDigests["5.14.1"] = (["8916feaa99cb954f963f2cba8dd2dffe57cacf7f284daf00eab071aad6fe2ab3"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["5.14.1"] = "gwenhywfar-5.14.1"
+        self.patchLevel["5.14.1"] = 1
 
-        self.defaultTarget = "5.14.0"
+        self.defaultTarget = "5.14.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

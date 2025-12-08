@@ -37,11 +37,11 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
 
     def setTargets(self):
-        self.targets["6.8.0"] = "https://www.aquamaniac.de/rdm/attachments/download/627/aqbanking-6.8.0.tar.gz"
-        self.targetDigests["6.8.0"] = (["4428857b00514d8781b09be2c23442ad657e213fbd09f49040e47c6d568a01f7"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["6.8.0"] = "aqbanking-6.8.0"
+        self.targets["6.8.2"] = "https://www.aquamaniac.de/rdm/attachments/download/634/aqbanking-6.8.2.tar.gz"
+        self.targetDigests["6.8.2"] = (["10b14c92d76ff13652e00b5c496001601f0d9465c5acb1b1b682d451022406ec"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["6.8.2"] = "aqbanking-6.8.2"
 
-        self.defaultTarget = "6.8.0"
+        self.defaultTarget = "6.8.2"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
