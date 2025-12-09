@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2025 Stefan Gerlach <stefan.gerlach@uni.kn>
 
 import os
+import subprocess
 
 import info
 import utils
@@ -96,7 +97,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ixion"] = None
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
-        if CraftCore.compiler.isLinux:
+            self.buildDependencies["python-modules/build"] = None
+        if not CraftCore.compiler.isWindows:
             self.buildDependencies["python-modules/pyside6"] = None
 
 
@@ -112,6 +114,10 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
+            # create missing Qt header paths for shiboken6
+            for subpath in ["QtCore", "QtGui", "QtWidgets"]:
+                if not os.path.exists(CraftCore.standardDirs.craftRoot() / "include" / subpath):
+                    utils.createSymlink(CraftCore.standardDirs.craftRoot() / "lib" / f"{subpath}.framework" / "Versions/A/Headers", CraftCore.standardDirs.craftRoot() / "include" / subpath, targetIsDirectory=True)
 
         # TODO: use available versions
         self.subinfo.options.configure.args += [
@@ -120,6 +126,26 @@ class Package(CMakePackageBase):
         ]
         if CraftCore.compiler.isMSVC():
             self.subinfo.options.configure.args += f'-DCMAKE_CXX_FLAGS="-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/boost-1_86 -EHsc"'
+
+    # required on macOS to find type_traits
+    def _getEnv(self):
+        env = {}
+        sdk = subprocess.check_output(["xcrun", "--show-sdk-path"], text=True).strip()
+        print("SDKROOT =", sdk)
+        env["SDKROOT"] = sdk
+        return env
+
+    def make(self):
+        if CraftCore.compiler.isMacOS:
+            with utils.ScopedEnv(self._getEnv()):
+                return super().make()
+        return super().make()
+
+    def install(self):
+        if CraftCore.compiler.isMacOS:
+            with utils.ScopedEnv(self._getEnv()):
+                return super().install()
+        return super().install()
 
     def createPackage(self):
         self.defines["appname"] = "LabPlot"

@@ -37,23 +37,11 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
 
     def setTargets(self):
-        self.targets["6.5.4"] = "https://www.aquamaniac.de/rdm/attachments/download/499/aqbanking-6.5.4.tar.gz"
-        self.targetDigests["6.5.4"] = (["0d16ceae76f0718e466638f4547a8b14927f1d8d98322079cd6481adde30ac99"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["6.5.4"] = "aqbanking-6.5.4"
+        self.targets["6.8.2"] = "https://www.aquamaniac.de/rdm/attachments/download/634/aqbanking-6.8.2.tar.gz"
+        self.targetDigests["6.8.2"] = (["10b14c92d76ff13652e00b5c496001601f0d9465c5acb1b1b682d451022406ec"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["6.8.2"] = "aqbanking-6.8.2"
 
-        self.targets["6.6.1"] = "https://www.aquamaniac.de/rdm/attachments/download/535/aqbanking-6.6.1.tar.gz"
-        self.targetDigests["6.6.1"] = (["3250fa6d893f816d29c19af35fe5fccb74c080e21753fd9e52579a792dd48567"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["6.6.1"] = "aqbanking-6.6.1"
-
-        self.targets["6.6.3"] = "https://www.aquamaniac.de/rdm/attachments/download/543/aqbanking-6.6.3.tar.gz"
-        self.targetDigests["6.6.3"] = (["792a04d384089daf643eed5bffafadabaef0ecd55c66554e5822c433cb93b610"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["6.6.3"] = "aqbanking-6.6.3"
-
-        self.targets["6.6.4"] = "https://www.aquamaniac.de/rdm/attachments/download/548/aqbanking-6.6.4.tar.gz"
-        self.targetDigests["6.6.4"] = (["a25c209538fa163f3749676a084493c9a43d9045a945aeee2db25dfd9a502b7f"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["6.6.4"] = "aqbanking-6.6.4"
-
-        self.defaultTarget = "6.6.4"
+        self.defaultTarget = "6.8.2"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

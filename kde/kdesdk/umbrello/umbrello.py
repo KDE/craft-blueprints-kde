@@ -55,8 +55,8 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.addExecutableFilter(
             r"bin/(?!(dbus-daemon|dbus-send|dbus-monitor|dbus-launch|qdbus|qdbusviewer|kbuildsycoca5|umbrello|update-mime-database|kioworker)).*"
         )
-        self.defines["appname"] = "umbrello5"
-        self.defines["executable"] = "bin\\umbrello5.exe"
+        self.defines["appname"] = "umbrello"
+        self.defines["executable"] = "bin\\umbrello6.exe"
         # self.defines["icon"] = os.path.join(self.blueprintDir(), "umbrello.ico")
 
         self.ignoredPackages.append("binary/mysql")

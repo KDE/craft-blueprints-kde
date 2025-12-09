@@ -144,6 +144,19 @@ bin/xzdiff
 bin/qt-cmake
 bin/gettextize
 
+bin/libpng-config
+bin/lzcmp
+bin/lzdiff
+bin/lzegrep
+bin/lzfgrep
+bin/lzgrep
+bin/lzless
+bin/lzmore
+bin/xzcmp
+bin/xzegrep
+bin/xzfgrep
+bin/libpng16-config
+
 # Useless stuff
 bin/data/kf5/kmoretools/.*
 bin/data/kservices5/.*
