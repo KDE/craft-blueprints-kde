@@ -39,7 +39,7 @@ class subinfo(info.infoclass):
             ("use-cpp-using-declarations.patch", 1)
         ]
         if CraftCore.compiler.isWindows:
-            self.patchToApply["1.5.2"] += ("OpenSP-1.5.2-20110111.diff", 1)
+            self.patchToApply["1.5.2"] += [("OpenSP-1.5.2-20110111.diff", 1)]
         # elif CraftCore.compiler.isMinGW():
         #     self.patchToApply['1.5.2'] = ("OpenSP-1.5.2-20180505.diff", 1)
         self.targetDigests["1.5.2"] = "b4e903e980f8a8b3887396a24e067bef126e97d5"
