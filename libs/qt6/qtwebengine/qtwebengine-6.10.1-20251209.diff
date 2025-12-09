@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user -x .idea -x .clang-format qtwebengine-everywhere-src-6.10.1.orig/src/3rdparty/chromium/third_party/libdrm/src/xf86drm.c qtwebengine-everywhere-src-6.10.1/src/3rdparty/chromium/third_party/libdrm/src/xf86drm.c
+--- qtwebengine-everywhere-src-6.10.1.orig/src/3rdparty/chromium/third_party/libdrm/src/xf86drm.c	2025-11-14 07:55:10.000000000 +0000
++++ qtwebengine-everywhere-src-6.10.1/src/3rdparty/chromium/third_party/libdrm/src/xf86drm.c	2025-12-09 16:49:29.332571762 +0000
+@@ -30,7 +30,7 @@
+  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+  * DEALINGS IN THE SOFTWARE.
+  */
+-
++#define _GNU_SOURCE
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <stdbool.h>
