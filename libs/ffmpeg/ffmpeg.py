@@ -10,6 +10,10 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # this blueprint is currently not maintained for Android
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
+
     def setTargets(self):
         for ver in ["6.1.1", "7.0.1", "7.1", "8.0"]:
             self.targets[ver] = f"https://ffmpeg.org/releases/ffmpeg-{ver}.tar.bz2"
