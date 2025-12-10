@@ -98,7 +98,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
             self.buildDependencies["python-modules/build"] = None
-        if not CraftCore.compiler.isWindows:
+        if CraftCore.compiler.isLinux:
             self.runtimeDependencies["python-modules/pyside6"] = None
 
 
@@ -114,6 +114,8 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
+            # disable Python support until fixed
+            self.subinfo.options.configure.args += ["-DENABLE_PYTHON_SDK=OFF", "-DENABLE_PYTHON_SCRIPTING=OFF"]
             # create missing Qt header paths for shiboken6
             for subpath in ["QtCore", "QtGui", "QtWidgets"]:
                 if not os.path.exists(CraftCore.standardDirs.craftRoot() / "include" / subpath):
