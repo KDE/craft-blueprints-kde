@@ -21,6 +21,8 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"olm-{ver}"
         self.targetDigests["3.2.14"] = (["221e2e33230e8644da89d2064851124b04e9caf846cad2aaa3626b876b42d14a"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["3.2.16"] = (["1e90f9891009965fd064be747616da46b232086fe270b77605ec9bda34272a68"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["3.2.16"] = [("const.diff", 0)]
+
         self.defaultTarget = "3.2.16"
 
         self.releaseManagerId = 29706
