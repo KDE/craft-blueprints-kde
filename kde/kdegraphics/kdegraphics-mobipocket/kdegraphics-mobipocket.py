@@ -6,6 +6,8 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
+        self.patchToApply["25.12.0"] = [("kdegraphics-mobipocket-25.12.0-20251211.diff", 1)]
+
         self.description = "A collection of plugins to handle mobipocket files"
 
     def setDependencies(self):
