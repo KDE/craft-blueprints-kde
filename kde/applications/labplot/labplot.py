@@ -227,9 +227,6 @@ class Package(CMakePackageBase):
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
-        # needed by cantor_pythonserver
-        if not CraftCore.compiler.isMacOS or CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
-            self.ignoredPackages.append("libs/python")
 
         return super().createPackage()
 
