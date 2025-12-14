@@ -34,6 +34,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += ["-DCMAKE_POLICY_VERSION_MINIMUM=3.5"]
         # required for package generating because we build from svnHEAD by default
         #        self.subinfo.options.package.version = '0.5.4'
         self.subinfo.options.configure.args += ["-DBUILD_PNG2ICO=OFF"]

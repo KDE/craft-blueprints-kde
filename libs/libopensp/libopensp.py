@@ -34,43 +34,35 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://downloads.sourceforge.net/project/openjade/opensp/{ver}/OpenSP-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"OpenSP-{ver}"
 
+        self.patchToApply["1.5.2"] = [
+            # https://github.com/microsoft/vcpkg/blob/782419385291ae2db643c928314efe626853c702/ports/libopensp/use-cpp-using-declarations.patch
+            ("use-cpp-using-declarations.patch", 1)
+        ]
         if CraftCore.compiler.isWindows:
-            self.patchToApply["1.5.2"] = ("OpenSP-1.5.2-20110111.diff", 1)
+            self.patchToApply["1.5.2"] += [("OpenSP-1.5.2-20110111.diff", 1)]
         # elif CraftCore.compiler.isMinGW():
         #     self.patchToApply['1.5.2'] = ("OpenSP-1.5.2-20180505.diff", 1)
         self.targetDigests["1.5.2"] = "b4e903e980f8a8b3887396a24e067bef126e97d5"
-        self.description = "a library for a SGML parser algorithm"
         self.defaultTarget = "1.5.2"
+
+        self.releaseManagerId = 377818
+        self.webpage = "http://www.sourceforge.net/projects/openjade/"
+        self.description = "a library for a SGML parser algorithm"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        # if CraftCore.compiler.isMinGW():
-        #     self.buildDependencies["dev-utils/msys"] = None
-
-
-class PackageAutotools(AutoToolsPackageBase):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["--disable-doc-build"]
-
-        if CraftCore.compiler.isMinGW():
-            self.subinfo.options.configure.noDataRootDir = True
-
-    def configure(self):
-        if CraftCore.compiler.isMinGW():
-            # to fix MessageReporter.cxx:126:49: error: cast from 'const OpenSP::MessageModule*' to 'long unsigned int' loses precision [-fpermissive]
-            self.subinfo.options.configure.cxxflags += "-fpermissive "
-        return super().configure()
 
 
 if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
 
-    class Package(PackageAutotools):
+    class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
+            self.subinfo.options.configure.args += ["--disable-doc-build"]
 
 else:
 
     class Package(CMakePackageBase):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
+            self.subinfo.options.configure.args += ["-DCMAKE_POLICY_VERSION_MINIMUM=3.5"]

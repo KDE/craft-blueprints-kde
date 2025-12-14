@@ -1,0 +1,23 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user -x .idea -x .clang-format openldap-2.6.10.orig/configure.ac openldap-2.6.10/configure.ac
+--- openldap-2.6.10.orig/configure.ac	2025-11-27 23:06:23.354857834 +0000
++++ openldap-2.6.10/configure.ac	2025-11-27 23:03:59.283293428 +0000
+@@ -2015,7 +2015,8 @@
+ 		ol_link_sasl="$SASL_LIBS"
+ 	fi
+ 
+-	if test $ol_link_sasl = no ; then
++    echo "x${ol_link_sasl}"
++	if test "x${ol_link_sasl}" = "xno" ; then
+ 		if test $ol_with_cyrus_sasl != auto ; then
+ 			AC_MSG_ERROR([Could not locate Cyrus SASL])
+ 		else
+@@ -2027,7 +2028,8 @@
+ 		fi
+ 	else
+ 		OL_SASL_COMPAT
+-		if test $ol_cv_sasl_compat = no ; then
++		ol_cv_sasl_compat=yes
++		if test "x${ol_cv_sasl_compat}" = "xno" ; then
+ 			ol_link_sasl=no
+ 			AC_MSG_ERROR([Cyrus SASL library located but is incompatible])
+ 		fi

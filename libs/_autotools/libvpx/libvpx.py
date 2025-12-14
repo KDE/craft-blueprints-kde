@@ -10,17 +10,17 @@ from Utils.Arguments import Arguments
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "VP8 and VP9 video codec"
+        self.releaseManagerId = 11083
+        self.webpage = "https://www.webmproject.org/"
 
-        for ver in ["1.13.1", "1.15.0"]:
+        for ver in ["1.15.2"]:
             self.targets[ver] = f"https://github.com/webmproject/libvpx/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = "libvpx-" + ver
-        self.targetDigests["1.13.1"] = (["00dae80465567272abd077f59355f95ac91d7809a2d3006f9ace2637dd429d14"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["1.15.0"] = (["e935eded7d81631a538bfae703fd1e293aad1c7fd3407ba00440c95105d2011e"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.15.2"] = (["26fcd3db88045dee380e581862a6ef106f49b74b6396ee95c2993a260b4636aa"], CraftHash.HashAlgorithm.SHA256)
 
-        self.patchToApply["1.13.1"] = [("detect-clang.diff", 1)]
-        self.patchToApply["1.15.0"] = [("detect-clang.diff", 1), ("mac.diff", 1)]
+        self.patchToApply["1.15.2"] = [("detect-clang.diff", 1), ("mac.diff", 1)]
 
-        self.defaultTarget = "1.15.0"
+        self.defaultTarget = "1.15.2"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/nasm"] = None

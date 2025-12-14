@@ -1,0 +1,56 @@
+From e0b20e967654446dbe06b09e8d73cc97e02aac2b Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ingo=20Kl=C3=B6cker?= <dev@ingo-kloecker.de>
+Date: Fri, 24 Oct 2025 17:17:18 +0200
+Subject: [PATCH] build: Fix install with MSVC
+
+* CMakeLists.txt: Add missing DESTINATION keyword to install arguments.
+--
+---
+ src/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index d28ed8f..bcdfb1a 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -195,7 +195,7 @@ configure_package_config_file(GpgmeppConfig.cmake.in
+
+ if(ENABLE_SHARED)
+     if (MSVC)
+-        install(TARGETS Gpgmepp EXPORT GpgmeppTargets "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
++        install(TARGETS Gpgmepp EXPORT GpgmeppTargets DESTINATION "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
+     else()
+         install(TARGETS Gpgmepp EXPORT GpgmeppTargets)
+     endif()
+--
+2.51.0
+
+From 268f2feea0b0c7025016170a4a2e3dee2c3aa0fd Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ingo=20Kl=C3=B6cker?= <dev@ingo-kloecker.de>
+Date: Fri, 24 Oct 2025 17:50:27 +0200
+Subject: [PATCH] Use gpgme_ssize_t everywhere
+
+* src/editinteractor.cpp (edit_interactor_callback_impl): Replace
+ssize_t with gpgme_ssize_t.
+--
+
+This ensures the correct type on all platforms.
+---
+ src/editinteractor.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/editinteractor.cpp b/src/editinteractor.cpp
+index 5f9236c..b755682 100644
+--- a/src/editinteractor.cpp
++++ b/src/editinteractor.cpp
+@@ -134,7 +134,7 @@ public:
+                     // if there's a result, write it:
+                     if (*result) {
+                         gpgme_err_set_errno(0);
+-                        const ssize_t len = std::strlen(result);
++                        const gpgme_ssize_t len = std::strlen(result);
+                         if (writeAll(fd, result, len) != len) {
+                             err = Error::fromSystemError();
+                             if (ei->debug) {
+--
+2.51.0

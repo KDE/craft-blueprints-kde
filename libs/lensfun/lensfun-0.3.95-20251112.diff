@@ -1,0 +1,154 @@
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user lensfun-0.3.95.orig/CMakeLists.txt lensfun-0.3.95/CMakeLists.txt
+--- lensfun-0.3.95.orig/CMakeLists.txt	2018-06-29 12:29:17.000000000 +0200
++++ lensfun-0.3.95/CMakeLists.txt	2025-11-12 11:25:28.135807900 +0100
+@@ -78,30 +78,18 @@
+   ENDIF()
+ ENDIF()
+ 
+-IF(WIN32)
+-  # base path for searching for glib on windows
+-  IF(NOT GLIB2_BASE_DIR)
+-    SET(GLIB2_BASE_DIR "${SOURCE_BASE_DIR}/glib-2.28.1" CACHE STRING "Base path of glib2 dir." FORCE)
+-  ENDIF()
+-  # install glib dll on windows next to lensfun.dll
+-  IF (GLIB2_DLL)
+-    INSTALL(FILES ${GLIB2_DLL} DESTINATION ${CMAKE_INSTALL_BINDIR})
+-  ENDIF()
+-ENDIF()
+ 
+ 
+ IF (BUILD_TESTS)
+   # automatic tests need at least glib version 2.40
+   # NOTE: must be one of the macros listed in https://developer.gnome.org/glib/stable/glib-Version-Information.html
+   SET(LENSFUN_GLIB_REQUIREMENT_MACRO "GLIB_VERSION_2_40")
+-  FIND_PACKAGE(GLIB2 REQUIRED)
+ ELSE()
+   SET(LENSFUN_GLIB_REQUIREMENT_MACRO "GLIB_VERSION_2_26")
+-  FIND_PACKAGE(GLIB2 REQUIRED)
+ ENDIF()
+ 
+-INCLUDE_DIRECTORIES(SYSTEM ${GLIB2_INCLUDE_DIRS})
+-LINK_DIRECTORIES(${GLIB2_LIBRARY_DIRS})
++find_package(PkgConfig REQUIRED)
++pkg_check_modules(GLIB2 REQUIRED IMPORTED_TARGET glib-2.0)
+ 
+ 
+ IF(BUILD_STATIC)
+@@ -174,13 +162,13 @@
+   ADD_SUBDIRECTORY(docs)
+ ENDIF()
+ 
+-IF(WIN32 AND NOT BUILD_STATIC)
+-  FIND_FILE(GLIB2_DLL
+-            NAMES glib-2.dll glib-2-vs9.dll
+-            PATHS "${GLIB2_BASE_DIR}/bin"
+-            NO_SYSTEM_ENVIRONMENT_PATH)
+-  INSTALL(FILES ${GLIB2_DLL} DESTINATION ${CMAKE_INSTALL_BINDIR})
+-ENDIF()
++#IF(WIN32 AND NOT BUILD_STATIC)
++#  FIND_FILE(GLIB2_DLL 
++#            NAMES glib-2.dll glib-2-vs9.dll
++#            PATHS "${GLIB2_BASE_DIR}/bin"
++#            NO_SYSTEM_ENVIRONMENT_PATH)
++#  INSTALL(FILES ${GLIB2_DLL} DESTINATION ${CMAKE_INSTALL_BINDIR})
++#ENDIF()
+ 
+ # print some information
+ MESSAGE(STATUS "-------------------------------------------------------------------------------------")
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user lensfun-0.3.95.orig/apps/CMakeLists.txt lensfun-0.3.95/apps/CMakeLists.txt
+--- lensfun-0.3.95.orig/apps/CMakeLists.txt	2018-06-29 12:29:17.000000000 +0200
++++ lensfun-0.3.95/apps/CMakeLists.txt	2025-11-12 11:22:42.758696100 +0100
+@@ -20,7 +20,7 @@
+
+ # Inspired by http://bloerg.net/2012/11/10/cmake-and-distutils.html
+
+-FIND_PROGRAM(PYTHON "python3")
++#FIND_PROGRAM(PYTHON "python3")
+ IF(PYTHON)
+     SET(SETUP_PY_IN "${CMAKE_CURRENT_SOURCE_DIR}/setup.py.in")
+     SET(SETUP_PY    "${CMAKE_CURRENT_BINARY_DIR}/setup.py")
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user lensfun-0.3.95.orig/cmake/modules/FindGLIB2.cmake lensfun-0.3.95/cmake/modules/FindGLIB2.cmake
+--- lensfun-0.3.95.orig/cmake/modules/FindGLIB2.cmake	2018-06-29 12:29:17.000000000 +0200
++++ lensfun-0.3.95/cmake/modules/FindGLIB2.cmake	1970-01-01 01:00:00.000000000 +0100
+@@ -1,69 +0,0 @@
+-IF (NOT MSVC)
+-    INCLUDE(FindPkgConfig)
+-    PKG_SEARCH_MODULE( GLIB2 glib-2.0 )
+-    IF(WIN32 AND NOT BUILD_STATIC)
+-        FIND_FILE(GLIB2_DLL 
+-                NAMES glib-2.dll glib-2-vs9.dll libglib-2.0-0.dll
+-                PATHS "${GLIB2_LIBRARY_DIRS}/../bin"
+-                NO_SYSTEM_ENVIRONMENT_PATH)
+-    ENDIF()
+-ENDIF()
+-
+-IF (NOT GLIB2_FOUND OR NOT PKG_CONFIG_FOUND)
+-    FIND_PATH(GLIB2_GLIB2CONFIG_INCLUDE_PATH
+-        NAMES glibconfig.h
+-        PATHS
+-          /usr/local/lib
+-          /usr/lib
+-          /usr/lib64
+-          /opt/local/lib
+-          ${GLIB2_BASE_DIR}/lib
+-          ${CMAKE_LIBRARY_PATH}
+-        PATH_SUFFIXES glib-2.0/include
+-    )
+-
+-
+-    FIND_PATH(GLIB2_INCLUDE_DIRS
+-        NAMES glib.h
+-        PATHS
+-            /usr/local/include
+-            /usr/include
+-            /opt/local/include
+-            ${GLIB2_BASE_DIR}/include
+-        PATH_SUFFIXES gtk-2.0 glib-2.0 glib20 
+-    )
+-
+-    FIND_LIBRARY(GLIB2_LIBRARIES
+-        NAMES  glib-2.0 glib20 glib
+-        PATHS  
+-            /usr/local/lib
+-            /usr/lib
+-            /usr/lib64
+-            /opt/local/lib
+-            ${GLIB2_BASE_DIR}/lib
+-    )
+-    
+-    IF(GLIB2_GLIB2CONFIG_INCLUDE_PATH AND GLIB2_INCLUDE_DIRS AND GLIB2_LIBRARIES)
+-        SET( GLIB2_INCLUDE_DIRS  ${GLIB2_GLIB2CONFIG_INCLUDE_PATH} ${GLIB2_INCLUDE_DIRS} )
+-        SET( GLIB2_LIBRARIES ${GLIB2_LIBRARIES} )
+-        SET( GLIB2_FOUND 1 )
+-    ELSE()
+-        SET( GLIB2_INCLUDE_DIRS )
+-        SET( GLIB2_LIBRARIES )
+-        SET( GLIB2_FOUND 0)
+-    ENDIF()    
+-    
+-    IF(WIN32 AND NOT BUILD_STATIC)
+-        FIND_FILE(GLIB2_DLL 
+-                NAMES glib-2.dll glib-2-vs9.dll libglib-2.0-0.dll
+-                PATHS "${GLIB2_BASE_DIR}/bin"
+-                NO_SYSTEM_ENVIRONMENT_PATH)
+-    ENDIF()    
+-ENDIF ()
+-
+-#INCLUDE( FindPackageHandleStandardArgs )
+-#FIND_PACKAGE_HANDLE_STANDARD_ARGS( GLIB2 DEFAULT_MSG GLIB2_LIBRARIES GLIB2_GLIB2CONFIG_INCLUDE_PATH GLIB2_GLIB2_INCLUDE_PATH )
+-
+-IF (NOT GLIB2_FOUND AND GLIB2_FIND_REQUIRED)
+-        MESSAGE(FATAL_ERROR "Could not find glib2")
+-ENDIF()
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user lensfun-0.3.95.orig/libs/lensfun/CMakeLists.txt lensfun-0.3.95/libs/lensfun/CMakeLists.txt
+--- lensfun-0.3.95.orig/libs/lensfun/CMakeLists.txt	2018-06-29 12:29:17.000000000 +0200
++++ lensfun-0.3.95/libs/lensfun/CMakeLists.txt	2025-11-12 11:26:48.996901900 +0100
+@@ -19,7 +19,7 @@
+ ENDIF()
+ SET_TARGET_PROPERTIES(lensfun PROPERTIES SOVERSION "${VERSION_API}" VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_MICRO}")
+ 
+-TARGET_LINK_LIBRARIES(lensfun ${GLIB2_LIBRARIES})
++TARGET_LINK_LIBRARIES(lensfun PkgConfig::GLIB2)
+ 
+ INSTALL(TARGETS lensfun 
+         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

@@ -1,6 +1,14 @@
 # SPDX-FileCopyrightText: none
 # SPDX-License-Identifier: CC0-1.0
 
+spec:
+  inputs:
+    package:
+      description: 'Enter the package you want to test'
+      default: ''
+
+---
+
 include:
   - project: sysadmin/ci-utilities
     file:
@@ -78,7 +86,7 @@ run-tests:
     KDECI_CRAFT_PLATFORM: linux-64-gcc
     KDECI_CRAFT_CACHE: /mnt/craft-cache/$KDECI_CRAFT_PLATFORM/
     KDECI_CRAFT_CONFIG: craft-ci/qt6/CraftConfig.ini
-    CRAFT_PACKAGE:
+    CRAFT_PACKAGE: $[[ inputs.package ]]
   rules:
     - if:  $CI_COMMIT_REF_NAME == "dev"
       when: manual
@@ -173,7 +181,7 @@ build-package-linux:
     - Run-CraftMaster --setup
     # Get Craft itself ready
     - Run-CraftMaster -c -i --options virtual.ignored=True --update craft
-    - Run-CraftMaster -c craft
+    - Run-CraftMaster -c --options "[CodeSigning]Enabled=False" craft
     # Switch to this branch of craft-blueprints-kde
     - cd C:/Craft/blueprints/craft-blueprints-kde
     - git checkout $env:CI_COMMIT_REF_NAME
@@ -216,6 +224,7 @@ build-package-windows_qt6_mingw64:
   tags:
     - macOS
   before_script:
+    - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE to the package you want to test."; false; fi
     # ensure we start with an empty folder
     - rm -rf *
     - export LANG=en_US.UTF-8
@@ -275,6 +284,7 @@ build-package-macos_qt6_x86_64:
   tags:
     - Linux
   before_script:
+    - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE to the package you want to test."; false; fi
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
     - git clone https://invent.kde.org/sysadmin/craft-ci.git --depth=1

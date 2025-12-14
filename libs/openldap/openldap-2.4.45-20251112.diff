@@ -1,0 +1,100 @@
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user openldap-2.4.45.orig/CMakeLists.txt openldap-2.4.45/CMakeLists.txt
+--- openldap-2.4.45.orig/CMakeLists.txt	2025-11-12 12:31:41.190345200 +0100
++++ openldap-2.4.45/CMakeLists.txt	2025-11-12 12:29:47.015795000 +0100
+@@ -39,10 +39,10 @@
+ # find required packages
+ find_package(OpenSSL REQUIRED)
+ # KDE doesn't provide another pcre library - so accomodate with pcre
+-find_package(PCRE REQUIRED)
++find_package(PCRE2 REQUIRED COMPONENTS POSIX 8BIT)
+ find_package(Sasl2)
+ 
+-include_directories(${OPENSSL_INCLUDE_DIR} ${PCRE_INCLUDE_DIR})
++include_directories(${OPENSSL_INCLUDE_DIR} ${PCRE2_INCLUDE_DIR})
+ include(ConfigureChecks.cmake)
+ 
+ if(NOT MINGW)
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user openldap-2.4.45.orig/ConfigureChecks.cmake openldap-2.4.45/ConfigureChecks.cmake
+--- openldap-2.4.45.orig/ConfigureChecks.cmake	2025-11-12 12:31:41.611634900 +0100
++++ openldap-2.4.45/ConfigureChecks.cmake	2025-11-12 12:27:33.327626100 +0100
+@@ -91,7 +91,7 @@
+ check_include_file("pth.h" HAVE_PTH_H)
+ check_include_file("pwd.h" HAVE_PWD_H)
+ check_include_file("regex.h" HAVE_REGEX_H)
+-check_include_file("pcreposix.h" HAVE_PCREPOSIX_H)
++check_include_file("pcre2posix.h" HAVE_PCREPOSIX_H)
+ if(HAVE_PCREPOSIX_H)
+     set(HAVE_REGEX_H 1)
+ endif(HAVE_PCREPOSIX_H)
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user openldap-2.4.45.orig/cmake/modules/FindPCRE.cmake openldap-2.4.45/cmake/modules/FindPCRE.cmake
+--- openldap-2.4.45.orig/cmake/modules/FindPCRE.cmake	2025-11-12 12:31:41.145609800 +0100
++++ openldap-2.4.45/cmake/modules/FindPCRE.cmake	1970-01-01 01:00:00.000000000 +0100
+@@ -1,44 +0,0 @@
+-# - Try to find the PCRE regular expression library
+-# Once done this will define
+-#
+-#  PCRE_FOUND - system has the PCRE library
+-#  PCRE_INCLUDE_DIR - the PCRE include directory
+-#  PCRE_LIBRARIES - The libraries needed to use PCRE
+-
+-# Copyright (c) 2006, Alexander Neundorf, <neundorf@kde.org>
+-#
+-# Redistribution and use is allowed according to the terms of the BSD license.
+-# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+-
+-
+-if (PCRE_INCLUDE_DIR AND PCRE_PCREPOSIX_LIBRARY AND PCRE_PCRE_LIBRARY)
+-  # Already in cache, be silent
+-  set(PCRE_FIND_QUIETLY TRUE)
+-endif (PCRE_INCLUDE_DIR AND PCRE_PCREPOSIX_LIBRARY AND PCRE_PCRE_LIBRARY)
+-
+-
+-if (NOT WIN32)
+-  # use pkg-config to get the directories and then use these values
+-  # in the FIND_PATH() and FIND_LIBRARY() calls
+-  find_package(PkgConfig)
+-
+-  pkg_check_modules(PC_PCRE QUIET libpcre)
+-
+-  set(PCRE_DEFINITIONS ${PC_PCRE_CFLAGS_OTHER})
+-
+-endif (NOT WIN32)
+-
+-find_path(PCRE_INCLUDE_DIR pcre.h 
+-          HINTS ${PC_PCRE_INCLUDEDIR} ${PC_PCRE_INCLUDE_DIRS} 
+-          PATH_SUFFIXES pcre)
+-
+-find_library(PCRE_PCRE_LIBRARY NAMES pcre pcred HINTS ${PC_PCRE_LIBDIR} ${PC_PCRE_LIBRARY_DIRS})
+-
+-find_library(PCRE_PCREPOSIX_LIBRARY NAMES pcreposix pcreposixd HINTS ${PC_PCRE_LIBDIR} ${PC_PCRE_LIBRARY_DIRS})
+-
+-include(FindPackageHandleStandardArgs)
+-find_package_handle_standard_args(PCRE DEFAULT_MSG PCRE_INCLUDE_DIR PCRE_PCRE_LIBRARY PCRE_PCREPOSIX_LIBRARY )
+-
+-set(PCRE_LIBRARIES ${PCRE_PCRE_LIBRARY} ${PCRE_PCREPOSIX_LIBRARY})
+-
+-mark_as_advanced(PCRE_INCLUDE_DIR PCRE_LIBRARIES PCRE_PCREPOSIX_LIBRARY PCRE_PCRE_LIBRARY)
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user openldap-2.4.45.orig/include/ac/regex.h openldap-2.4.45/include/ac/regex.h
+--- openldap-2.4.45.orig/include/ac/regex.h	2025-11-12 12:31:41.225496000 +0100
++++ openldap-2.4.45/include/ac/regex.h	2025-11-12 12:29:05.665488800 +0100
+@@ -30,7 +30,7 @@
+ 
+ #elif HAVE_PCREPOSIX_H
+ 	/* system has pcre pcreposix.h */
+-#	include <pcreposix.h>
++#	include <pcre2posix.h>
+ #elif HAVE_GNUREGEX_H
+ 	/* system has GNU gnuregex.h */
+ #	include <gnuregex.h>
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user openldap-2.4.45.orig/libraries/librewrite/CMakeLists.txt openldap-2.4.45/libraries/librewrite/CMakeLists.txt
+--- openldap-2.4.45.orig/libraries/librewrite/CMakeLists.txt	2025-11-12 12:31:41.480933600 +0100
++++ openldap-2.4.45/libraries/librewrite/CMakeLists.txt	2025-11-12 12:29:57.870315700 +0100
+@@ -16,7 +16,7 @@
+ add_library(rewrite ${LDAP_SHARED} ${rewrite_SRCS})
+ set_target_properties(rewrite PROPERTIES DEFINE_SYMBOL REWRITE_LIBRARY)
+ target_link_libraries(rewrite lber lutil)
+-target_link_libraries(rewrite ${PCRE_LIBRARIES})
++target_link_libraries(rewrite PCRE2::POSIX)
+ 
+ set(rewrite_bin_SRCS
+     rewrite.c

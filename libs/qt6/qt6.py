@@ -1,5 +1,6 @@
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
+from Utils.CraftShortPath import CraftShortPath
 
 
 class Pattern(CMakePackageBase):
@@ -12,3 +13,6 @@ class Pattern(CMakePackageBase):
             self.subinfo.defaultTarget = "6.9.3"
         elif CraftCore.compiler.isWindows:
             self.subinfo.options.configure.args += ["-DQT_GENERATE_SBOM=OFF"]
+
+    def workDir(self):
+        return CraftShortPath(super().workDir(), CraftShortPath.createSubstShortPath).shortPath

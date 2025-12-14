@@ -1,0 +1,56 @@
+From c77dca93af83247ee11454839fa829ebe852f2d6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ingo=20Kl=C3=B6cker?= <dev@ingo-kloecker.de>
+Date: Tue, 11 Nov 2025 21:05:39 +0100
+Subject: [PATCH] build: Fix installation of camel-case headers
+
+* src/CMakeLists.txt: Install generated camel-case headers instead of
+entire QGpgME folder.
+--
+
+On case-insensitive file systems the old method of installation resulted
+in the installation of the lower-case convenience forwarding headers
+that ecm_generate_headers generates over the actual original headers.
+This breaks the build of projects that use qgpgme.
+---
+ src/CMakeLists.txt | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 9c684f0..38f9015 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -170,7 +170,8 @@ if (${QT_MAJOR_VERSION} EQUAL "5")
+ endif()
+
+ # the public headers
+-set(qgpgme_CAMELCASE_HEADERS
++ecm_generate_headers(qgpgme_CAMELCASE_HEADERS
++    HEADER_NAMES
+     AbstractImportJob
+     AddExistingSubkeyJob
+     AddUserIDJob
+@@ -220,11 +221,6 @@ set(qgpgme_CAMELCASE_HEADERS
+     WKDLookupResult
+     WKDRefreshJob
+     WKSPublishJob
+-)
+-
+-ecm_generate_headers(dummy
+-    HEADER_NAMES
+-    ${qgpgme_CAMELCASE_HEADERS}
+     REQUIRED_HEADERS qgpgme_HEADERS
+     PREFIX QGpgME
+ )
+@@ -279,8 +275,8 @@ install(FILES ${qgpgme_HEADERS}
+               ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_version.h
+               ${CMAKE_CURRENT_BINARY_DIR}/qgpgme_export.h
+         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qgpgme-qt${QT_MAJOR_VERSION}/qgpgme)
+-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/QGpgME
+-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qgpgme-qt${QT_MAJOR_VERSION})
++install(FILES ${qgpgme_CAMELCASE_HEADERS}
++        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qgpgme-qt${QT_MAJOR_VERSION}/QGpgME)
+
+ set(CMAKECONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/QGpgme${config_suffix})
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/QGpgme${config_suffix}ConfigVersion.cmake
+--
+2.51.1

@@ -29,13 +29,13 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.2.0"]:
+        for ver in ["1.3.2"]:
             self.targets[ver] = f"https://gnupg.org/ftp/gcrypt/pinentry/pinentry-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"pinentry-{ver}"
 
-        self.targetDigests["1.2.0"] = (["68076686fa724a290ea49cdf0d1c0c1500907d1b759a3bcbfbec0293e8f56570"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.3.2"] = (["8e986ed88561b4da6e9efe0c54fa4ca8923035c99264df0b0464497c5fb94e9e"], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "1.2.0"
+        self.defaultTarget = "1.3.2"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None

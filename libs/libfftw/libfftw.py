@@ -26,11 +26,7 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.subinfo.options.configure.args += [
-            "-DENABLE_AVX=OFF",
-            "-DENABLE_THREADS=ON",
-            "-DWITH_COMBINED_THREADS=ON",
-        ]
+        self.subinfo.options.configure.args += ["-DENABLE_AVX=OFF", "-DENABLE_THREADS=ON", "-DWITH_COMBINED_THREADS=ON", "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"]
         if CraftCore.compiler.architecture & CraftCompiler.Architecture.x86:
             self.subinfo.options.configure.args += ["-DENABLE_SSE2=ON"]
         if CraftCore.compiler.isWindows:

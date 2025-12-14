@@ -30,8 +30,10 @@ class subinfo(info.infoclass):
             # Adjusted version of https://github.com/microsoft/vcpkg/blob/master/ports/x265/disable-install-pdb.patch
             ("disable-install-pdb.patch", 1),
             ("0001-Fix-.pc-for-msvc.patch", 1),
+            ("0001-Fix-CMake-build-error-with-latest-CMake-4.0-release.patch", 1),
+            ("0002-Fix-for-CMake-Build-Errors-in-MacOS.patch", 1),
         ]
-        self.patchLevel["8f18e3a"] = 1
+        self.patchLevel["8f18e3a"] = 2
 
         self.description = "H.265/HEVC video stream encoder"
         self.defaultTarget = "8f18e3a"

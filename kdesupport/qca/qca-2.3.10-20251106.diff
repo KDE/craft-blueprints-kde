@@ -1,0 +1,44 @@
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user qca-2.3.10.orig/cmake/modules/QcaMacro.cmake qca-2.3.10/cmake/modules/QcaMacro.cmake
+--- qca-2.3.10.orig/cmake/modules/QcaMacro.cmake	2025-03-09 13:09:03.000000000 +0100
++++ qca-2.3.10/cmake/modules/QcaMacro.cmake	2025-11-06 16:07:10.116044500 +0100
+@@ -65,10 +65,6 @@
+ endmacro(add_qca_test)
+ 
+ macro(install_pdb TARGET INSTALL_PATH)
+-  if(MSVC)
+-    install(FILES $<TARGET_PDB_FILE:${TARGET}> DESTINATION ${INSTALL_PATH} CONFIGURATIONS Debug)
+-    install(FILES $<TARGET_PDB_FILE:${TARGET}> DESTINATION ${INSTALL_PATH} CONFIGURATIONS RelWithDebInfo)
+-  endif()
+ endmacro(install_pdb)
+ 
+ macro(normalize_path PATH)
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user qca-2.3.10.orig/plugins/qca-cyrus-sasl/CMakeLists.txt qca-2.3.10/plugins/qca-cyrus-sasl/CMakeLists.txt
+--- qca-2.3.10.orig/plugins/qca-cyrus-sasl/CMakeLists.txt	2025-03-09 13:09:03.000000000 +0100
++++ qca-2.3.10/plugins/qca-cyrus-sasl/CMakeLists.txt	2025-11-06 16:15:48.420828600 +0100
+@@ -1,21 +1,21 @@
++find_package(PkgConfig REQUIRED)
+ if(WITH_cyrus-sasl_PLUGIN STREQUAL "yes")
+-  find_package(Sasl2 REQUIRED)
++  pkg_check_modules(Sasl2 REQUIRED IMPORTED_TARGET libsasl2)
+ else()
+-  find_package(Sasl2)
++  pkg_check_modules(Sasl2 IMPORTED_TARGET libsasl2)
+ endif()
+ 
+-if(SASL2_FOUND)
++if(TARGET PkgConfig::Sasl2)
+   enable_plugin("cyrus-sasl")
+ 
+   set(QCA_SASL_SOURCES qca-cyrus-sasl.cpp)
+-  include_directories( ${SASL2_INCLUDE_DIR} )
+   add_library(qca-cyrus-sasl ${PLUGIN_TYPE} ${QCA_SASL_SOURCES})
+ 
+   if(APPLE AND ${PLUGIN_TYPE} STREQUAL "MODULE")
+     set_property(TARGET qca-cyrus-sasl PROPERTY SUFFIX ".dylib")
+   endif()
+ 
+-  target_link_libraries(qca-cyrus-sasl Qt${QT_MAJOR_VERSION}::Core ${QCA_LIB_NAME} ${SASL2_LIBRARIES})
++  target_link_libraries(qca-cyrus-sasl Qt${QT_MAJOR_VERSION}::Core ${QCA_LIB_NAME} PkgConfig::Sasl2)
+ 
+   if(NOT DEVELOPER_MODE)
+     install(TARGETS qca-cyrus-sasl

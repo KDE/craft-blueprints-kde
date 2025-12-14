@@ -11,6 +11,9 @@ from Utils.CraftShortPath import CraftShortPath
 
 class subinfo(info.infoclass):
     def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = (
+            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
+        )
         self.options.dynamic.registerOption("withICU", self.options.isActive("libs/icu"))
         self.options.dynamic.registerOption("withHarfBuzz", self.options.isActive("libs/harfbuzz"))
 
@@ -43,6 +46,8 @@ class subinfo(info.infoclass):
 
         # https://bugreports.qt.io/browse/QTBUG-128907
         self.patchToApply["6.8.0"] = [("bfeea6231dfacb37de3ca5ee2e0167c71b540b90.patch", 1)]
+        if CraftCore.compiler.isLinux:
+            self.patchToApply["6.10.1"] = [("qtwebengine-6.10.1-20251209.diff", 1)]
 
         self.patchLevel["6.6.1"] = 1
         self.patchLevel["6.8.1"] = 1
@@ -72,7 +77,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libpng"] = None
         self.runtimeDependencies["libs/tiff"] = None
         self.runtimeDependencies["libs/lcms2"] = None
-        self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/glib"] = None
 
         if self.options.dynamic.withICU and CraftCore.compiler.isLinux:
@@ -107,7 +111,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DQT_FEATURE_webengine_system_glib=ON",
             "-DQT_FEATURE_webengine_system_lcms2=ON",
             "-DQT_FEATURE_webengine_system_pulseaudio=OFF",
-            "-DQT_FEATURE_webengine_system_ffmpeg=ON",
+            "-DQT_FEATURE_webengine_system_ffmpeg=OFF",  # needs a patched ffmpeg  https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/qtwebengine-6.10.1.ebuild#n208
         ]
         # See https://bugs.kde.org/show_bug.cgi?id=486905 and https://github.com/Homebrew/homebrew-core/issues/104008 :
         # option not correctly supported on Windows and MacOS (as of Qt 6.7.0)
@@ -141,7 +145,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
 
     def _getEnv(self):
         env = {}
-        if CraftCore.settings.getboolean("ContinuousIntegration", "Enabled", False):
+        if CraftCore.settings.ciMode:
             # webengine requires enormous amounts of ram
             jobs = int(CraftCore.settings.get("Compile", "Jobs", multiprocessing.cpu_count()))
             env["NINJAFLAGS"] = f"-j{int(jobs/2)}"
@@ -159,9 +163,6 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             # this build system is broken and ignore ldflags
             env["LD_LIBRARY_PATH"] = CraftCore.standardDirs.craftRoot() / "lib"
         return env
-
-    def workDir(self):
-        return CraftShortPath(super().workDir(), CraftShortPath.createSubstShortPath).shortPath
 
     def configure(self):
         if CraftPackageObject.get("libs/protobuf").isInstalled:

@@ -19,8 +19,11 @@ class subinfo(info.infoclass):
         self.targetDigests["3.5.25.3"] = "ad35056aabb1950f385360ff59520a82a6f779ec"
         self.targetDigests["3.5.27"] = "99c4f2c621c063bf8c8a1626030539fe5a8675f9"
 
-        self.description = "DjVuLibre is an implementation of DjVu image file format"
         self.defaultTarget = "3.5.27"
+
+        self.releaseManagerId = 10159
+        self.webpage = "http://djvu.sourceforge.net/"
+        self.description = "DjVuLibre is an implementation of DjVu image file format"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -37,7 +40,7 @@ class PackageAutoTools(AutoToolsPackageBase):
 class PackageCMake(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DBUILD_TOOLS=OFF"]
+        self.subinfo.options.configure.args += ["-DCMAKE_POLICY_VERSION_MINIMUM=3.5", "-DBUILD_TOOLS=OFF"]
 
 
 if CraftCore.compiler.isWindows:

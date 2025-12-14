@@ -2593,8 +2593,8 @@ diff -Nru -x '*~' openldap-2.4.45-old/libraries/liblunicode/CMakeLists.txt openl
 +add_executable(ucgendat ${CMAKE_CURRENT_SOURCE_DIR}/ucdata/ucgendat.c)
 +target_link_libraries(ucgendat lutil lber)
 +
-+get_target_property(UCGENDAT ucgendat LOCATION)
-+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/uctable.h COMMAND ${UCGENDAT} ${CMAKE_CURRENT_SOURCE_DIR}/UnicodeData.txt -x ${CMAKE_CURRENT_SOURCE_DIR}/CompositionExclusions.txt DEPENDS ${UCGENDAT})
++#get_target_property(UCGENDAT ucgendat LOCATION)
++add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/uctable.h COMMAND "$<TARGET_FILE:ucgendat>" ${CMAKE_CURRENT_SOURCE_DIR}/UnicodeData.txt -x ${CMAKE_CURRENT_SOURCE_DIR}/CompositionExclusions.txt DEPENDS ${UCGENDAT})
 +
 +set(lunicode_SRCS
 +    ${CMAKE_CURRENT_BINARY_DIR}/uctable.h

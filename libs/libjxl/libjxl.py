@@ -10,6 +10,10 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # requires gtests
+        self.options.dynamic.setDefault("buildTests", False)
+
     def setTargets(self):
         for ver in ["0.11.1"]:
             self.targets[ver] = f"https://github.com/libjxl/libjxl/archive/refs/tags/v{ver}.tar.gz"

@@ -58,6 +58,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["libs/gpgme/gpgme"] = None
         self.runtimeDependencies["libs/gpgme/gpgmepp"] = None
+        self.runtimeDependencies["libs/gpgme/qgpgme"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         if CraftCore.compiler.isMSVC():

@@ -14,9 +14,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.setDefault("buildTests", not CraftCore.compiler.isWindows)
 
     def setTargets(self):
-        self.patchToApply["4.1.1"] = [
-           ("qrencode-fix-install-lib-4.1.1-20250903.patch", 1)
-        ]
+        self.patchToApply["4.1.1"] = [("qrencode-fix-install-lib-4.1.1-20250903.patch", 1)]
         self.patchLevel["4.1.1"] = 1
 
         for ver in ["4.1.1"]:
@@ -25,6 +23,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"libqrencode-{ver}"
 
         self.description = "Libqrencode is a fast and compact library for encoding data in a QR Code symbol, a 2D symbology that can be scanned by handy terminals such as a mobile phone with CCD. The capacity of QR Code is up to 7000 digits or 4000 characters and has high robustness."
+        self.webpage = "https://github.com/fukuchi/libqrencode"
         self.defaultTarget = "4.1.1"
 
     def setDependencies(self):
@@ -36,7 +35,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DWITH_TOOLS=OFF"]
+        self.subinfo.options.configure.args += ["-DCMAKE_POLICY_VERSION_MINIMUM=3.5", "-DWITH_TOOLS=OFF"]
 
     def install(self):
         if not super().install():

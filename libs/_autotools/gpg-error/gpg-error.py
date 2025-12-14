@@ -7,15 +7,14 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.50"]:
+        for ver in ["1.56"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"libgpg-error-{ver}"
 
-        self.targetDigests["1.50"] = (["69405349e0a633e444a28c5b35ce8f14484684518a508dc48a089992fe93e20a"], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply["1.50"] = [("0001-core-Declare-environ-for-macOS-and-others.patch", 1)]
+        self.targetDigests["1.56"] = (["82c3d2deb4ad96ad3925d6f9f124fe7205716055ab50e291116ef27975d169c0"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Small library with error codes and descriptions shared by most GnuPG related software"
-        self.defaultTarget = "1.50"
+        self.defaultTarget = "1.56"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None

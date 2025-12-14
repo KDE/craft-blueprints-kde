@@ -8,6 +8,10 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        # the ffmmpeg blueprint is currently not maintained for Android
+        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
+
     def setTargets(self):
         self.displayName = "mpv"
         self.description = "Command line video player"

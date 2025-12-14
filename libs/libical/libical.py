@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
             self.options.dynamic.setDefault("buildStatic", True)
 
     def setTargets(self):
-        for ver in ["2.0.0", "3.0.1", "3.0.2", "3.0.9"]:
+        for ver in ["2.0.0", "3.0.1", "3.0.2", "3.0.9", "3.0.20"]:
             self.targets[ver] = f"https://github.com/libical/libical/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libical-{ver}"
             self.archiveNames[ver] = f"libical-{ver}.tar.gz"
@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
 
         self.description = "Reference implementation of the icalendar data type and serialization format"
         self.webpage = "http://libical.github.io/libical/"
-        self.defaultTarget = "3.0.9"
+        self.defaultTarget = "3.0.20"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

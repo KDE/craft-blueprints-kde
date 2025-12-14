@@ -1,0 +1,86 @@
+Based on patches by Carl Schwan <carl.schwan@gnupg.com>
+
+diff --git a/src/callbacks.cpp b/src/callbacks.cpp
+index 21c2a813..7b0dc1fc 100644
+--- a/src/callbacks.cpp
++++ b/src/callbacks.cpp
+@@ -40,8 +40,9 @@
+ #include <cassert>
+ #include <cerrno>
+ #include <cstring>
+-#include <unistd.h>
+-#include <stdlib.h>
++#ifndef _MSC_VER
++  #include <unistd.h>
++#endif
+ 
+ static inline gpgme_error_t make_err_from_syserror()
+ {
+diff --git a/src/importresult.cpp b/src/importresult.cpp
+index 0a7ad03d..f513dc9c 100644
+--- a/src/importresult.cpp
++++ b/src/importresult.cpp
+@@ -35,7 +35,12 @@
+ #include <cstring>
+ 
+ #include <string.h>
+-#include <strings.h>
++#ifdef _MSC_VER
++#  define strcasecmp _stricmp
++#  define strncasecmp _strnicmp
++#else
++#  include <strings.h>
++#endif
+ #include <istream>
+ #include <iterator>
+ 
+diff --git a/src/key.cpp b/src/key.cpp
+index b18cfaee..c4cec048 100644
+--- a/src/key.cpp
++++ b/src/key.cpp
+@@ -34,7 +34,11 @@
+ #include <gpgme.h>
+ 
+ #include <string.h>
+-#include <strings.h>
++#ifdef _MSC_VER
++#  define strcasecmp _stricmp
++#else
++#  include <strings.h>
++#endif
+ #include <cassert>
+ #include <istream>
+ #include <iterator>
+diff --git a/src/context.cpp b/src/context.cpp
+index bdcfabed..85601557 100644
+--- a/src/context.cpp
++++ b/src/context.cpp
+@@ -782,9 +782,12 @@ Error Context::startPasswd(const Key &key)
+     return Error(d->lasterr = gpgme_op_passwd_start(d->ctx, key.impl(), 0U));
+ }
+ 
+-
+-#pragma GCC diagnostic push
+-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#ifdef _MSC_VER
++#  pragma warning(disable:4995)
++#else
++#  pragma GCC diagnostic push
++#  pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#endif
+ 
+ Error Context::edit(const Key &key, std::unique_ptr<EditInteractor> func, Data &data)
+ {
+@@ -843,7 +846,11 @@ Error Context::startCardEditing(const Key &key, std::unique_ptr<EditInteractor>
+                               dp ? dp->data : nullptr));
+ }
+ 
+-#pragma GCC diagnostic pop
++#ifdef _MSC_VER
++#  pragma warning(default:4995)
++#else
++#  pragma GCC diagnostic pop
++#endif
+ 
+ EditInteractor *Context::lastCardEditInteractor() const
+ {
