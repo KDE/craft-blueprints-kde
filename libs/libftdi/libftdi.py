@@ -6,6 +6,10 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
+
+        self.patchToApply["1.5"] = [("0001-patch-cmakelist.patch", 1)]
+        self.patchLevel["1.5"] = 1
+
         for ver in ["1.4", "1.5"]:
             self.targets[ver] = f"https://www.intra2net.com/en/developer/libftdi/download/libftdi1-{ver}.tar.bz2"
             self.archiveNames[ver] = f"libftdi1-{ver}.tar.bz2"
