@@ -8,12 +8,12 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/swig/swig.git"
 
-        for ver in ["4.1.1"]:
+        for ver in ["4.4.1"]:
             self.targets[ver] = f"http://prdownloads.sourceforge.net/swig/swig-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"swig-{ver}"
 
-        self.targetDigests["4.1.1"] = (["2af08aced8fcd65cdb5cc62426768914bedc735b1c250325203716f78e39ac9b"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "4.1.1"
+        self.targetDigests["4.4.1"] = (["40162a706c56f7592d08fd52ef5511cb7ac191f3593cf07306a0a554c6281fcf"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "4.4.1"
         self.description = "Simplified Wrapper and Interface Generator"
         self.displayName = "SWIG"
         self.webpage = "https://www.swig.org/"
