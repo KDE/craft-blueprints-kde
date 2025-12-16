@@ -10,9 +10,9 @@ from Package.PipPackageBase import PipPackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Python Qt bindings project"
-        self.defaultTarget = "6.9.3"
+        self.defaultTarget = "6.10.1"
 
-        for ver in ["6.9.3"]:
+        for ver in ["6.10.1"]:
             self.targets[ver] = f"https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-{ver}-src/pyside-setup-everywhere-src-{ver}.zip"
             self.targetInstSrc[ver] = "pyside-setup-everywhere-src-%s" % ver
 
