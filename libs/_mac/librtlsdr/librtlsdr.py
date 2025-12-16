@@ -8,12 +8,12 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["0.6.0"]:
+        for ver in ["2.0.2"]:
             self.targets[ver] = f"https://github.com/steve-m/librtlsdr/archive/refs/tags/{ver}.tar.gz"
             self.archiveNames[ver] = f"librtlsdr-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"librtlsdr-{ver}"
         self.description = "Use Realtek DVT-T dongles as a cheap SDR"
-        self.defaultTarget = "0.6.0"
+        self.defaultTarget = "2.0.2"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
