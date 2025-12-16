@@ -6,12 +6,16 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["20.10.0"]:
+
+        self.patchToApply["23.11.0"] = [("0001-patch-cmakelist.patch", 1)]
+        self.patchLevel["23.11.0"] = 1
+
+        for ver in ["23.11.0"]:
             self.targets[ver] = f"https://github.com/myriadrf/LimeSuite/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"limesuite-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"LimeSuite-{ver}"
         self.description = "Lime suite device drivers, GUI, and SDR support"
-        self.defaultTarget = "20.10.0"
+        self.defaultTarget = "23.11.0"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
