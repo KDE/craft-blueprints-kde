@@ -37,6 +37,7 @@ class subinfo(info.infoclass):
 
         self.patchLevel["6.1.1"] = 2
         self.patchLevel["7.1"] = 5
+        self.patchLevel["8.0"] = 1
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
