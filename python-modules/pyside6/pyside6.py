@@ -18,6 +18,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
+        self.buildDependencies["python-modules/packaging"] = None
+        self.buildDependencies["libs/qt6"] = None
         # required by shiboken6
         if CraftCore.compiler.isMacOS:
             self.buildDependencies["libs/llvm"] = None
@@ -29,17 +31,18 @@ class Package(PipPackageBase):
 
     def install(self):
         """Override default pip install with setup.py install."""
-        src = self.sourceDir()
+        sourceDir = self.sourceDir()
+        imageDir = self.imageDir()
         # see https://doc.qt.io/qtforpython-6/building_from_source/index.html
         # options: --build-type=pyside6 (only pysde6), --macos-use-libc++, --macos-sysroot=, --shiboken-extra-include-paths=,  --standalone, --verbose
         # macOS: SDKROOT required to find type_traits and skip failing WebEngineCore and dependencies
         if CraftCore.compiler.isMacOS:
             return utils.system(
-                "SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py install --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
-                cwd=src
+                ["SDKROOT=$(xcrun --show-sdk-path)", "PYSIDE_DISABLE_UNITY=1", "python", "setup.py", "install", f"--prefix={imageDir}", "--verbose-build", "--macos-use-libc++", "--disable-pyi", "--skip-mypy-test", "--skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick"],
+                cwd=sourceDir
             )
         else:
             return utils.system(
-                "python setup.py install --verbose-build --disable-pyi --skip-mypy-test",
-                cwd=src,
+                ["python", "setup.py", "install", f"--prefix={imageDir}", "--verbose-build", "--disable-pyi", "--skip-mypy-test"],
+                cwd=sourceDir
             )
