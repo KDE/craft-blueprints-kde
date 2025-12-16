@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index cd04b9745..6d8013685 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -555,7 +555,10 @@ set(PKGCONFIG_LIBS_PRIVATE "")
+ if (ZLIB_FOUND)
+   target_link_libraries(freetype PRIVATE ZLIB::ZLIB)
+-  list(APPEND PKGCONFIG_REQUIRES_PRIVATE "zlib")
++  # on Android zlib has no pkgconfig to depend on, it's just always in the NDK
++  if (NOT ANDROID)
++    list(APPEND PKGCONFIG_REQUIRES_PRIVATE "zlib")
++  endif()
+ endif ()
+ if (BZIP2_FOUND)
+   target_link_libraries(freetype PRIVATE BZip2::BZip2)

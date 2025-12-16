@@ -18,6 +18,8 @@ class subinfo(info.infoclass):
 
         self.patchToApply["2.12.1"] = [("freetype-no-zlib-pkgconfig-android.patch", 1), ("freetype-different-bz2-name-pkgconfig-windows.patch", 1)]
         self.patchLevel["2.12.1"] = 4
+        self.patchToApply["2.14.1"] = [("freetype-no-zlib-pkgconfig-android-2-14.patch", 1)]
+        self.patchLevel["2.14.1"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
