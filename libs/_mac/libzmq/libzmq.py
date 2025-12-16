@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         for ver in ["4.3.6"]:
             self.targets[ver] = f"https://github.com/knro/libzmq/archive/refs/tags/{ver}.tar.gz"
             self.archiveNames[ver] = f"libzmq-{ver}.tar.gz"
-            self.targetInstSrc[ver] = f"zeromq-{ver}"
+            self.targetInstSrc[ver] = f"libzmq-{ver}"
         self.description = "ZeroMQ lightweight messaging kernel"
         self.defaultTarget = "4.3.6"
 
