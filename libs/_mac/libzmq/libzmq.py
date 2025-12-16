@@ -5,12 +5,12 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["4.3.5"]:
-            self.targets[ver] = f"https://github.com/zeromq/libzmq/releases/download/v{ver}/zeromq-{ver}.tar.gz"
+        for ver in ["4.3.6"]:
+            self.targets[ver] = f"https://github.com/knro/libzmq/archive/refs/tags/{ver}.tar.gz"
             self.archiveNames[ver] = f"libzmq-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"zeromq-{ver}"
         self.description = "ZeroMQ lightweight messaging kernel"
-        self.defaultTarget = "4.3.5"
+        self.defaultTarget = "4.3.6"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
