@@ -14,8 +14,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        if not CraftCore.compiler.isMSVC():  # no mpv on MSVC
-            self.runtimeDependencies["kde/unreleased/mpvqt"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/taglib"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
