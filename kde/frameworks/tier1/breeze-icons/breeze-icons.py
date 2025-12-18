@@ -14,6 +14,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.patchToApply["6.20.0"] = [("breeze-icons-6.20.0-20251124.diff", 1)]
         self.patchLevel["6.20.0"] = 1
+        self.patchToApply["6.21.0"] = [("breeze-icons-6.20.0-20251124.diff", 1)]
+        self.patchLevel["6.21.0"] = 1
 
         self.description = "Breeze icon theme."
 
