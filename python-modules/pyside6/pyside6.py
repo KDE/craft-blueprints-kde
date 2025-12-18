@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
         self.buildDependencies["python-modules/packaging"] = None
-        self.buildDependencies["libs/qt6"] = None
+        self.runtimeDependencies["libs/qt6"] = None
         # required by shiboken6
         if CraftCore.compiler.isMacOS:
             self.buildDependencies["libs/llvm"] = None
