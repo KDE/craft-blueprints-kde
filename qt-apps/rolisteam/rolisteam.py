@@ -15,17 +15,17 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt6/qtimageformats"] = None
+        self.runtimeDependencies["libs/qt/qtimageformats"] = None
         self.runtimeDependencies["libs/qt6/qtquick3dphysics"] = None
-        self.runtimeDependencies["libs/qt6/qtmultimedia"] = None
-        self.runtimeDependencies["libs/qt6/qtwebengine"] = None
+        self.runtimeDependencies["libs/qt/qtmultimedia"] = None
+        self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["libs/qt/qtwebsockets"] = None
-        self.runtimeDependencies["libs/qt6/qtscxml"] = None
+        self.runtimeDependencies["libs/qt/qtscxml"] = None
         self.runtimeDependencies["libs/qt6/qthttpserver"] = None
         self.runtimeDependencies["libs/qt6/qtquick3d"] = None
         self.runtimeDependencies["libs/qt6/qtremoteobjects"] = None
-        self.runtimeDependencies["libs/qt6/qttools"] = None
-        self.runtimeDependencies["libs/qt6/qtsvg"] = None
+        self.runtimeDependencies["libs/qt/qttools"] = None
+        self.runtimeDependencies["libs/qt/qtsvg"] = None
 
 
 class Package(CMakePackageBase):
