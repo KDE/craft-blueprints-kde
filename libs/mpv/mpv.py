@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"mpv-{ver}"
             self.archiveNames[ver] = f"mpv-{ver}.tar.gz"
 
+        self.patchToApply["0.40.0"] = [("mpv_fix-build.diff", 1)]
         self.targetDigests["0.40.0"] = (["10a0f4654f62140a6dd4d380dcf0bbdbdcf6e697556863dc499c296182f081a3"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.39.0"] = (["2ca92437affb62c2b559b4419ea4785c70d023590500e8a52e95ea3ab4554683"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.38.0"] = (["86d9ef40b6058732f67b46d0bbda24a074fae860b3eaae05bab3145041303066"], CraftHash.HashAlgorithm.SHA256)
