@@ -9,27 +9,27 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        # the ffmmpeg blueprint is currently not maintained for Android
+        # the ffmpeg blueprint is currently not maintained for Android
         self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
         self.displayName = "mpv"
         self.description = "Command line video player"
         self.svnTargets["master"] = "https://github.com/mpv-player/mpv.git"
-        self.defaultTarget = "0.40.0"
+        self.defaultTarget = "0.41.0"
 
-        for ver in ["0.40.0", "0.39.0", "0.38.0"]:
+        for ver in ["0.41.0", "0.40.0"]:
             self.targets[ver] = f"https://github.com/mpv-player/mpv/archive/refs/tags/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"mpv-{ver}"
             self.archiveNames[ver] = f"mpv-{ver}.tar.gz"
 
-        self.patchToApply["0.40.0"] = [("mpv_fix-build.diff", 1)]
+        self.targetDigests["0.41.0"] = (["ee21092a5ee427353392360929dc64645c54479aefdb5babc5cfbb5fad626209"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.40.0"] = (["10a0f4654f62140a6dd4d380dcf0bbdbdcf6e697556863dc499c296182f081a3"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["0.39.0"] = (["2ca92437affb62c2b559b4419ea4785c70d023590500e8a52e95ea3ab4554683"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["0.38.0"] = (["86d9ef40b6058732f67b46d0bbda24a074fae860b3eaae05bab3145041303066"], CraftHash.HashAlgorithm.SHA256)
+
+        self.patchToApply["0.40.0"] = [("mpv_fix-build.diff", 1)]
 
         # force rebuild after libplacebo ABI break
-        self.patchLevel["0.39.0"] = 1
+        # self.patchLevel["0.39.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None
