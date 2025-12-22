@@ -109,6 +109,9 @@ class PackageAutotools(AutoToolsPackageBase):
             "--enable-verbose-mode",
             "--without-x",
             "--disable-tests",
+            # disable selinux support
+            "--enable-selinux=no",
+            "--enable-libaudit=no"
         ]
         if CraftCore.compiler.isMacOS:
             self.subinfo.options.configure.args += (
