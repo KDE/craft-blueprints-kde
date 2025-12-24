@@ -107,6 +107,7 @@ class Package(CMakePackageBase):
             "-DWITH_WEBP=OFF",
             "-DWITH_WIN32UI=OFF",
             "-DWITH_XINE=OFF",
+            "-DWITH_AVIF=OFF",
             # find OpenCV through cmake or pkg-config
             "-DOPENCV_GENERATE_PKGCONFIG=ON",
             "-DOPENCV_SKIP_CMAKE_ROOT_CONFIG=ON",
