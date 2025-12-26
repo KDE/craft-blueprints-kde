@@ -50,8 +50,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/kdemultimedia/ffmpegthumbs"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/mlt"] = None
-        if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["libs/opentimelineio"] = None
+        self.runtimeDependencies["libs/opentimelineio"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["data/rustedbronze-theme"] = None
         if not CraftCore.compiler.isMacOS:
