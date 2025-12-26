@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
 
         self.patchLevel["4.9.0"] = 2
         self.patchLevel["4.10.0"] = 4
+        self.patchLevel["4.12.0"] = 1
 
         self.targetDigests["4.9.0"] = (["ddf76f9dffd322c7c3cb1f721d0887f62d747b82059342213138dc190f28bc6c"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["4.10.0"] = (["b2171af5be6b26f7a06b1229948bbb2bdaa74fcf5cd097e0af6378fce50a6eb9"], CraftHash.HashAlgorithm.SHA256)
