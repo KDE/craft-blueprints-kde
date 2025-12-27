@@ -131,22 +131,25 @@ class Package(CMakePackageBase):
     # required on macOS to find type_traits
     def _getEnv(self):
         env = {}
+        if not CraftCore.compiler.isMacOS:
+            return env
         sdk = subprocess.check_output(["xcrun", "--show-sdk-path"], text=True).strip()
         print("SDKROOT =", sdk)
         env["SDKROOT"] = sdk
+        env["PYTHONPATH"] = CraftCore.standardDirs.craftRoot() / "lib/python3.11/site-packages"
         return env
 
+    def configure(self):
+        with utils.ScopedEnv(self._getEnv()):
+            return super().configure()
+
     def make(self):
-        if CraftCore.compiler.isMacOS:
-            with utils.ScopedEnv(self._getEnv()):
-                return super().make()
-        return super().make()
+        with utils.ScopedEnv(self._getEnv()):
+            return super().make()
 
     def install(self):
-        if CraftCore.compiler.isMacOS:
-            with utils.ScopedEnv(self._getEnv()):
-                return super().install()
-        return super().install()
+        with utils.ScopedEnv(self._getEnv()):
+            return super().install()
 
     def createPackage(self):
         self.defines["appname"] = "LabPlot"
