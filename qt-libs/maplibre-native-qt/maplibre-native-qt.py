@@ -14,13 +14,12 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/maplibre/maplibre-native-qt|main"
-        self.defaultTarget = "master"
-
         self.svnTargets["181f28b"] = "https://github.com/maplibre/maplibre-native-qt||181f28b8d147d10b9160e106694fbca811c911b9"
         self.defaultTarget = "181f28b"
 
         # See https://github.com/maplibre/maplibre-native-qt/pull/265
-        self.patchToApply["master"] = [("265.patch", 1)]
+        self.patchToApply["master"] = [("265.patch", 1), ("lto-disable.patch", 1)]
+        self.patchLevel["181f28b"] = 3
 
 
 class Package(CMakePackageBase):

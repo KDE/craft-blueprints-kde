@@ -1,0 +1,28 @@
+diff --git a/vendor/maplibre-native/platform/android/android.cmake b/vendor/maplibre-native/platform/android/android.cmake
+index cb9e28e5a5de..763bcb63232c 100644
+--- a/vendor/maplibre-native/platform/android/android.cmake
++++ b/vendor/maplibre-native/platform/android/android.cmake
+@@ -11,11 +11,11 @@ include(${PROJECT_SOURCE_DIR}/vendor/icu.cmake)
+ include(${PROJECT_SOURCE_DIR}/vendor/sqlite.cmake)
+ 
+ # cmake-format: off
+-target_compile_options(mbgl-vendor-csscolorparser PRIVATE $<$<CONFIG:Release>:-Oz> $<$<CONFIG:Release>:-Qunused-arguments> $<$<CONFIG:Release>:-flto>)
+-target_compile_options(mbgl-vendor-icu PRIVATE $<$<CONFIG:Release>:-Oz> $<$<CONFIG:Release>:-Qunused-arguments> $<$<CONFIG:Release>:-flto>)
+-target_compile_options(mbgl-vendor-parsedate PRIVATE $<$<CONFIG:Release>:-Oz> $<$<CONFIG:Release>:-Qunused-arguments> $<$<CONFIG:Release>:-flto>)
+-target_compile_options(mbgl-vendor-sqlite PRIVATE $<$<CONFIG:Release>:-Oz> $<$<CONFIG:Release>:-Qunused-arguments> $<$<CONFIG:Release>:-flto>)
+-target_compile_options(mbgl-compiler-options INTERFACE $<$<CONFIG:Release>:-Oz> $<$<CONFIG:Release>:-Qunused-arguments> $<$<CONFIG:Release>:-flto>)
++target_compile_options(mbgl-vendor-csscolorparser PRIVATE $<$<CONFIG:Release>:-Oz> $<$<CONFIG:Release>:-Qunused-arguments>)
++target_compile_options(mbgl-vendor-icu PRIVATE $<$<CONFIG:Release>:-Oz> $<$<CONFIG:Release>:-Qunused-arguments>)
++target_compile_options(mbgl-vendor-parsedate PRIVATE $<$<CONFIG:Release>:-Oz> $<$<CONFIG:Release>:-Qunused-arguments>)
++target_compile_options(mbgl-vendor-sqlite PRIVATE $<$<CONFIG:Release>:-Oz> $<$<CONFIG:Release>:-Qunused-arguments>)
++target_compile_options(mbgl-compiler-options INTERFACE $<$<CONFIG:Release>:-Oz> $<$<CONFIG:Release>:-Qunused-arguments>)
+ # cmake-format: on
+ 
+ target_link_libraries(
+@@ -23,7 +23,6 @@ target_link_libraries(
+     INTERFACE
+         $<$<CONFIG:Release>:-O2>
+         $<$<CONFIG:Release>:-Wl,--icf=all>
+-        $<$<CONFIG:Release>:-flto>
+         $<$<CONFIG:Release>:-fuse-ld=gold>
+ )
