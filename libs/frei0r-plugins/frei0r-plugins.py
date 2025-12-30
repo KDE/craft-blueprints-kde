@@ -15,13 +15,13 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Minimalistic plugin API for video effects, plugins collection"
         self.webpage = "http://frei0r.dyne.org/"
-        for ver in ["2.4.0"]:
+        for ver in ["2.5.0"]:
             self.targets[ver] = f"https://github.com/dyne/frei0r/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"frei0r-{ver}"
-        self.targetDigests["2.4.0"] = (["6b3491ee65c775b251ecd0ba2cb86955ca2469de47c73718170442732cb9ce75"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.5.0"] = (["c511aeb51faeb0de2afe47327c30026d5b76ccc910a0b93d286029f07d29c656"], CraftHash.HashAlgorithm.SHA256)
 
         self.svnTargets["master"] = "https://github.com/dyne/frei0r.git"
-        self.defaultTarget = "2.4.0"
+        self.defaultTarget = "2.5.0"
 
     def setDependencies(self):
         # TODO MSVC: it looks as if cairo and gavl are not detected
