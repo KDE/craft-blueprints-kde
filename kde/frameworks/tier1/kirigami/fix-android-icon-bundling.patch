@@ -1,0 +1,29 @@
+commit 75875ce055d528c6d951afd1839a8e60d288d095
+Author: Volker Krause <vkrause@kde.org>
+Date:   Sun Jan 4 11:27:02 2026 +0100
+
+    Fix Android icon bundling
+    
+    Only resolve BREEZEICONS_DIR when it's actually set, otherwise we end up
+    with the current working directory here and skip the below block actually
+    retrieving the icons.
+    
+    Amends 1819fb36d3f98a.
+    
+    Fixes all current CD APK builds lacking icons.
+
+diff --git a/KF6KirigamiMacros.cmake b/KF6KirigamiMacros.cmake
+index fd8c8ef0..5acd18af 100644
+--- a/KF6KirigamiMacros.cmake
++++ b/KF6KirigamiMacros.cmake
+@@ -100,7 +100,9 @@ function(kirigami_package_breeze_icons)
+ 
+     # We need to expand the 'real' path of the root because if it has relative path
+     # elements or symlinks in it that breaks the symlink test in _find_breeze_icon.
+-    file(REAL_PATH "${BREEZEICONS_DIR}" _BREEZEICONS_DIR EXPAND_TILDE)
++    if (BREEZEICONS_DIR)
++        file(REAL_PATH "${BREEZEICONS_DIR}" _BREEZEICONS_DIR EXPAND_TILDE)
++    endif()
+ 
+     #FIXME: this is a terrible hack
+     if(NOT _BREEZEICONS_DIR)
