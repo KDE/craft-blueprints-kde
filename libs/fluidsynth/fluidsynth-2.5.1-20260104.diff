@@ -1,0 +1,13 @@
+diff --git a/src/utils/fluid_sys.h b/src/utils/fluid_sys.h
+index 91caf579..0f9495a6 100644
+--- a/src/utils/fluid_sys.h
++++ b/src/utils/fluid_sys.h
+@@ -511,7 +511,7 @@ enum
+     sample data.
+  */
+ 
+-#if defined(HAVE_SYS_MMAN_H) && !defined(__OS2__)
++#if defined(HAVE_SYS_MMAN_H) && !defined(__OS2__) && !defined(_WIN32)
+ #define fluid_mlock(_p,_n)      mlock(_p, _n)
+ #define fluid_munlock(_p,_n)    munlock(_p,_n)
+ #else
