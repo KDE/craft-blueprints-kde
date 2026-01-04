@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         self.description = "KItinerary"
 
         self.patchLevel["25.08.1"] = 1
+        self.patchLevel["25.12.0"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
