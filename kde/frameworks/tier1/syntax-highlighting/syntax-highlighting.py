@@ -11,6 +11,10 @@ class subinfo(info.infoclass):
         self.description = "Syntax highlighting engine for Kate syntax definitions."
         self.displayName = "KSyntaxHighlighting"
 
+        if CraftCore.compiler.isWindows:
+            self.patchToApply["6.21.0"] = [("0001-Revert-Add-tool-for-generating-Jinja-highlighting-an.patch", 1)]
+            self.patchLevel["6.21.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/perl"] = None
