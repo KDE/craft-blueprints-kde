@@ -15,10 +15,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/glib"] = None
         self.runtimeDependencies["libs/fluidsynth"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
