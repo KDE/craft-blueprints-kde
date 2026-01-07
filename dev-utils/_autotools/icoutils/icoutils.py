@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for ver in ["0.32.3"]:
-            self.targets[ver] = f"https://savannah.nongnu.org/download/icoutils/icoutils-{ver}.tar.bz2"
+            self.targets[ver] = f"https://download.savannah.gnu.org/releases/icoutils/icoutils-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"icoutils-{ver}"
 
         # Fix build with new libpng version (libpng16)
