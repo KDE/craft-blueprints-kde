@@ -20,6 +20,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        if not CraftCore.compiler.isUnix:
+            self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
