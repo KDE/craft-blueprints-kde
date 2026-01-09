@@ -12,8 +12,8 @@ class subinfo(info.infoclass):
         self.displayName = "KSyntaxHighlighting"
 
         if CraftCore.compiler.isWindows:
-            self.patchToApply["6.21.0"] = [("0001-Revert-Add-tool-for-generating-Jinja-highlighting-an.patch", 1)]
-            self.patchLevel["6.21.0"] = 1
+            self.patchToApply["6.21.0"] = [("0001-Do-not-resolve-symbolic-links-in-generate_jinja.patch", 1)]
+            self.patchLevel["6.21.0"] = 2
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
