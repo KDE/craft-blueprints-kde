@@ -18,21 +18,20 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = "mlt-" + ver
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
-        self.patchLevel["master"] = 20221103
+        self.patchLevel["master"] = 20260108
 
-        self.svnTargets["1485652"] = "https://github.com/mltframework/mlt.git||1485652d11432914e6c976972ddcdc89b0e901fc"
-        self.defaultTarget = "1485652"
+        self.svnTargets["c5534c8"] = "https://github.com/mltframework/mlt.git||c5534c8fa856940a397a1fe84d5ef3110d35ec43"
+        self.defaultTarget = "c5534c8"
 
-        self.patchToApply["1485652"] = []
-        self.patchToApply["1485652"] += [("qtblend-filter.diff", 1)]
+        self.patchToApply["c5534c8"] = []
+        self.patchToApply["c5534c8"] += [("qtblend-filter.diff", 1)]
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["1485652"] += [("pi_patch.diff", 1)]
-            self.patchToApply["1485652"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["c5534c8"] += [("pi_patch.diff", 1)]
+            self.patchToApply["c5534c8"] += [("revert-mingw-mysy2.diff", 1)]
 
         if CraftCore.compiler.isMSVC():
-            self.patchToApply["1485652"] += [("msvc-misc.patch", 1)]
-            self.patchToApply["1485652"] += [("msvc-sdl2-import-export.patch", 1)]
-            self.patchToApply["1485652"] += [("msvc-link-kdewin.patch", 1)]
+            self.patchToApply["c5534c8"] += [("msvc-misc.patch", 1)]
+            self.patchToApply["c5534c8"] += [("msvc-link-kdewin.patch", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
