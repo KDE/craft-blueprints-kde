@@ -117,12 +117,14 @@ build-package-linux:
     - amd64
   variables:
     KDECI_CRAFT_PLATFORM: linux-64-gcc
+    GIT_STRATEGY: none
   before_script:
     - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE to the package you want to test."; false; fi
     - export LANG=en_US.UTF-8
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
     - git clone https://invent.kde.org/sysadmin/craft-ci.git --depth=1
+    - python3 -u ci-utilities/gitlab-ci-clone.py $CI_PROJECT_DIR/blueprints/craft-blueprints-kde
     # Define a short cut for the lengthy CraftMaster command line
     - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
@@ -223,6 +225,8 @@ build-package-windows_qt6_mingw64:
   extends: .build-package-base
   tags:
     - macOS
+  variables:
+    GIT_STRATEGY: none
   before_script:
     - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE to the package you want to test."; false; fi
     # ensure we start with an empty folder
@@ -231,6 +235,7 @@ build-package-windows_qt6_mingw64:
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
     - git clone https://invent.kde.org/sysadmin/craft-ci.git --depth=1
+    - python3 -u ci-utilities/gitlab-ci-clone.py $CI_PROJECT_DIR/blueprints/craft-blueprints-kde
     # Define a short cut for the lengthy CraftMaster command line
     - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
@@ -283,11 +288,14 @@ build-package-macos_qt6_x86_64:
   image: invent-registry.kde.org/sysadmin/ci-images/android-qt69:latest
   tags:
     - Linux
+  variables:
+    GIT_STRATEGY: none
   before_script:
     - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE to the package you want to test."; false; fi
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
     - git clone https://invent.kde.org/sysadmin/craft-ci.git --depth=1
+    - python3 -u ci-utilities/gitlab-ci-clone.py $CI_PROJECT_DIR/blueprints/craft-blueprints-kde
     # Define a short cut for the lengthy CraftMaster command line
     - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
