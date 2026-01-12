@@ -15,7 +15,6 @@ class subinfo(info.infoclass):
             # It might an xcode issue because I couldn't reproduce locally anymore
             # after I updated xcode (or maybe that was placebo and it was something else)
             # Related to https://invent.kde.org/pim/akonadi/-/merge_requests/244
-            self.patchToApply["25.08.1"] = [("macos-remove-assert.diff", 1)]
             self.patchToApply["25.08.2"] = [("macos-remove-assert.diff", 1)]
             self.patchToApply["25.08.3"] = [("macos-remove-assert.diff", 1)]
 
