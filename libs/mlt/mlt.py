@@ -35,6 +35,7 @@ class subinfo(info.infoclass):
     #
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
+        self.buildDependencies["libs/dirent"] = None
         self.buildDependencies["libs/ladspa-sdk"] = None
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
@@ -71,7 +72,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libarchive"] = None
 
         if CraftCore.compiler.isMSVC():
-            self.runtimeDependencies["kdesupport/kdewin"] = None
             self.runtimeDependencies["libs/pthreads"] = None
 
 
@@ -99,6 +99,8 @@ class Package(CMakePackageBase):
         useOpenCV = CraftBool(self.subinfo.options.isActive("libs/opencv/opencv") and not CraftCore.compiler.isMSVC())
         useMovit = CraftBool(self.subinfo.options.isActive("libs/movit") and CraftCore.compiler.isLinux)
         useSox = CraftBool(self.subinfo.options.isActive("libs/sox") and not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS)
+        # TODO Fix and enable RtAudio with MSVC
+        useRtAudio = CraftBool(not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMSVC())
         # TODO: enable Glaxnimate on MSVC after the submodule in MLT has been updated
         useGlaxnimate = CraftBool(self.subinfo.options.isActive("libs/libarchive") and not CraftCore.compiler.isMSVC())
         # TODO: fix spatialaudio tries to link against m on MSVC
@@ -124,7 +126,7 @@ class Package(CMakePackageBase):
             "-DMOD_QT=OFF",
             "-DMOD_QT6=ON",
             f"-DMOD_RESAMPLE={self.subinfo.options.isActive('libs/libsamplerate').asOnOff}",
-            f"-DMOD_RTAUDIO={CraftCore.compiler.isAndroid.inverted.asOnOff}",
+            f"-DMOD_RTAUDIO={useRtAudio.asOnOff}",
             f"-DMOD_RUBBERBAND={self.subinfo.options.isActive('libs/rubberband').asOnOff}",
             # We don't support SDL 1 anymore, we have SDL 2
             "-DMOD_SDL1=OFF",
