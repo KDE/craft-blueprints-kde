@@ -30,9 +30,9 @@ class subinfo(info.infoclass):
             self.patchToApply["c5534c8"] += [("revert-mingw-mysy2.diff", 1)]
 
         if CraftCore.compiler.isMSVC():
-            self.patchToApply["c5534c8"] += [("msvc-misc.patch", 1)]
-            self.patchToApply["c5534c8"] += [("msvc-link-kdewin.patch", 1)]
+            self.patchToApply["c5534c8"] += [("msvc-dirent.patch", 1)]
 
+    #
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
         self.buildDependencies["libs/ladspa-sdk"] = None
