@@ -45,11 +45,12 @@ class Package(CMakePackageBase):
         self.whitelist_file.append(self.blueprintDir() / "includelist.txt")
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.addExecutableFilter(
-            r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kcmshell5|kbuildsycoca5|update-mime-database|kioworker|SnoreToast).*)"
+            r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kbuildsycoca6|update-mime-database|kioworker|SnoreToast).*)"
         )
 
         if CraftCore.compiler.isMacOS:
             self.defines["appname"] = "KDE Connect"
+            self.defines["apppath"] = "Applications/KDE/KDE Connect.app"
         else:
             self.defines["appname"] = "kdeconnect-indicator"
             self.defines["executable"] = "bin/kdeconnect-app.exe"
@@ -129,35 +130,3 @@ class Package(CMakePackageBase):
 
         self.ignoredPackages.append("binary/mysql")
         return super().createPackage()
-
-    def preArchive(self):
-        archiveDir = self.archiveDir()
-
-        # move everything to the location where Qt expects it
-
-        if CraftCore.compiler.isMacOS:
-            # Move kdeconnect, kdeconnect-sms to the package
-            defines = self.setDefaults(self.defines)
-            appPath = self.getMacAppPath(defines)
-            if not utils.copyFile(
-                archiveDir / "Applications/KDE/kdeconnect-app.app/Contents/MacOS/kdeconnect-app",
-                appPath / "Contents/MacOS",
-                linkOnly=False,
-            ):
-                return False
-
-            if not utils.copyFile(
-                archiveDir / "Applications/KDE/kdeconnect-sms.app/Contents/MacOS/kdeconnect-sms",
-                appPath / "Contents/MacOS",
-                linkOnly=False,
-            ):
-                return False
-
-            if not utils.copyFile(
-                archiveDir / "Applications/KDE/kdeconnect-handler.app/Contents/MacOS/kdeconnect-handler",
-                appPath / "Contents/MacOS",
-                linkOnly=False,
-            ):
-                return False
-
-        return True
