@@ -14,6 +14,8 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isWindows:
             self.patchToApply["6.21.0"] = [("0001-Do-not-resolve-symbolic-links-in-generate_jinja.patch", 1)]
             self.patchLevel["6.21.0"] = 2
+            self.patchToApply["6.22.0"] = [("0001-Do-not-resolve-symbolic-links-in-generate_jinja.patch", 1)]
+            self.patchLevel["6.22.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
