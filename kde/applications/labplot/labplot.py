@@ -102,7 +102,6 @@ class subinfo(info.infoclass):
             self.buildDependencies["python-modules/build"] = None
         if not CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/python"] = None
-            self.runtimeDependencies["dev-utils/system-python3"] = None
             self.runtimeDependencies["python-modules/pyside6"] = None
 
 
