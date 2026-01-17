@@ -9,13 +9,13 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.23.0"]:
+        for ver in ["1.24.0"]:
             self.targets[ver] = f"https://invent.kde.org/mirrors/wayland/-/archive/{ver}/wayland-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"wayland-{ver}"
-        self.targetDigests["1.23.0"] = (["30bc2d0b0d8a32343aedbb530c927f11e7b140ce8c821f191c2d0052a5c6e900"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.24.0"] = (["ef9224f1a8b6dbd3049a2e51a547abb7e89612414c192a4349f3c83c7f553672"], CraftHash.HashAlgorithm.SHA256)
         self.description = "Core Wayland window system code and protocol"
 
-        self.defaultTarget = "1.23.0"
+        self.defaultTarget = "1.24.0"
 
     def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None
