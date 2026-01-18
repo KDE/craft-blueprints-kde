@@ -14,17 +14,13 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/dino/libomemo-c.git"
-        self.defaultTarget = "0.5.1"
+        self.defaultTarget = "0.5.0"
         self.targets[self.defaultTarget] = f"https://github.com/dino/libomemo-c/archive/v{self.defaultTarget}.tar.gz"
         self.archiveNames[self.defaultTarget] = f"libomemo-c-v{self.defaultTarget}.tar.gz"
         self.targetInstSrc[self.defaultTarget] = f"libomemo-c-{self.defaultTarget}"
-        self.targetDigests[self.defaultTarget] = (["d1b65dbf7bccc67523abfd5e429707f540b2532932d128b2982f0246be2b22a0"], CraftHash.HashAlgorithm.SHA256)
-
-        self.webpage = "https://github.com/dino/libomemo-c"
-        self.releaseManagerId = 359676
+        self.targetDigests[self.defaultTarget] = (["03195a24ef7a86c339cdf9069d7f7569ed511feaf55e853bfcb797d2698ba983"], CraftHash.HashAlgorithm.SHA256)
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DCMAKE_POLICY_VERSION_MINIMUM=3.5"]
