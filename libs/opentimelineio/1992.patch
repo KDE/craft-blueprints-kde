@@ -1,0 +1,148 @@
+From 19698dbbee0116b8767c20f4311345d0495b892c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <julius.kuenzel@kde.org>
+Date: Sun, 18 Jan 2026 00:51:17 +0100
+Subject: [PATCH] Add missing export markers (OTIO_API) for constructors
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Julius Künzel <julius.kuenzel@kde.org>
+---
+ src/opentimelineio/effect.h                 | 2 +-
+ src/opentimelineio/errorStatus.h            | 8 ++++----
+ src/opentimelineio/freezeFrame.h            | 2 +-
+ src/opentimelineio/gap.h                    | 1 +
+ src/opentimelineio/generatorReference.h     | 2 +-
+ src/opentimelineio/imageSequenceReference.h | 2 +-
+ src/opentimelineio/missingReference.h       | 2 +-
+ src/opentimelineio/timeEffect.h             | 2 +-
+ 8 files changed, 11 insertions(+), 10 deletions(-)
+
+diff --git a/src/opentimelineio/effect.h b/src/opentimelineio/effect.h
+index fb43265fc..86a6f82a4 100644
+--- a/src/opentimelineio/effect.h
++++ b/src/opentimelineio/effect.h
+@@ -27,7 +27,7 @@ class OTIO_API_TYPE Effect : public SerializableObjectWithMetadata
+     /// @param name The name of the effect.
+     /// @param metadata The metadata for the clip.
+     /// @param enabled Whether the effect is enabled.
+-    Effect(
++    OTIO_API Effect(
+         std::string const&   name        = std::string(),
+         std::string const&   effect_name = std::string(),
+         AnyDictionary const& metadata    = AnyDictionary(),
+diff --git a/src/opentimelineio/errorStatus.h b/src/opentimelineio/errorStatus.h
+index b9386c8e0..04a478a8f 100644
+--- a/src/opentimelineio/errorStatus.h
++++ b/src/opentimelineio/errorStatus.h
+@@ -49,13 +49,13 @@ struct OTIO_API_TYPE ErrorStatus
+     };
+ 
+     /// @brief Construct a new status with no error.
+-    ErrorStatus()
++    OTIO_API ErrorStatus()
+         : outcome(OK)
+         , object_details(nullptr)
+     {}
+ 
+     /// @brief Construct a new status with the given outcome.
+-    ErrorStatus(Outcome in_outcome)
++    OTIO_API ErrorStatus(Outcome in_outcome)
+         : outcome(in_outcome)
+         , details(outcome_to_string(in_outcome))
+         , full_description(details)
+@@ -63,7 +63,7 @@ struct OTIO_API_TYPE ErrorStatus
+     {}
+ 
+     /// @brief Construct a new status with the given outcome, details, and object.
+-    ErrorStatus(
++    OTIO_API ErrorStatus(
+         Outcome                   in_outcome,
+         std::string const&        in_details,
+         SerializableObject const* object = nullptr)
+@@ -74,7 +74,7 @@ struct OTIO_API_TYPE ErrorStatus
+     {}
+ 
+     /// @brief Copy operator.
+-    ErrorStatus& operator=(Outcome in_outcome)
++    OTIO_API ErrorStatus& operator=(Outcome in_outcome)
+     {
+         *this = ErrorStatus(in_outcome);
+         return *this;
+diff --git a/src/opentimelineio/freezeFrame.h b/src/opentimelineio/freezeFrame.h
+index b7a31a3e6..65def3857 100644
+--- a/src/opentimelineio/freezeFrame.h
++++ b/src/opentimelineio/freezeFrame.h
+@@ -25,7 +25,7 @@ class OTIO_API_TYPE FreezeFrame : public LinearTimeWarp
+     ///
+     /// @param name The name of the time effect.
+     /// @param metadata The metadata for the time effect.
+-    FreezeFrame(
++    OTIO_API FreezeFrame(
+         std::string const&   name     = std::string(),
+         AnyDictionary const& metadata = AnyDictionary());
+ 
+diff --git a/src/opentimelineio/gap.h b/src/opentimelineio/gap.h
+index 87e6e77e7..94c722b54 100644
+--- a/src/opentimelineio/gap.h
++++ b/src/opentimelineio/gap.h
+@@ -47,6 +47,7 @@ class OTIO_API_TYPE Gap : public Item
+     /// @param markers The list of markers for the gap. Note that the
+     /// the gap keeps a retainer to each marker.
+     /// @param metadata The metadata for the gap.
++    OTIO_API
+     Gap(RationalTime                duration,
+         std::string const&          name     = std::string(),
+         std::vector<Effect*> const& effects  = std::vector<Effect*>(),
+diff --git a/src/opentimelineio/generatorReference.h b/src/opentimelineio/generatorReference.h
+index c5eeabadd..25c99396c 100644
+--- a/src/opentimelineio/generatorReference.h
++++ b/src/opentimelineio/generatorReference.h
+@@ -29,7 +29,7 @@ class OTIO_API_TYPE GeneratorReference final : public MediaReference
+     /// @param parameters The parameters used to configure the generator.
+     /// @param metadata The metadata for the generator.
+     /// @param available_image_bounds The spatial bounds of the generator.
+-    GeneratorReference(
++    OTIO_API GeneratorReference(
+         std::string const&              name            = std::string(),
+         std::string const&              generator_kind  = std::string(),
+         std::optional<TimeRange> const& available_range = std::nullopt,
+diff --git a/src/opentimelineio/imageSequenceReference.h b/src/opentimelineio/imageSequenceReference.h
+index c629ef224..20fa5f55c 100644
+--- a/src/opentimelineio/imageSequenceReference.h
++++ b/src/opentimelineio/imageSequenceReference.h
+@@ -50,7 +50,7 @@ class OTIO_API_TYPE ImageSequenceReference final : public MediaReference
+     /// @param available_range The available range of the image sequence.
+     /// @param metadata The metadata for the image sequence.
+     /// @param available_image_bounds The spatial bounds of the image sequence.
+-    ImageSequenceReference(
++    OTIO_API ImageSequenceReference(
+         std::string const&       target_url_base    = std::string(),
+         std::string const&       name_prefix        = std::string(),
+         std::string const&       name_suffix        = std::string(),
+diff --git a/src/opentimelineio/missingReference.h b/src/opentimelineio/missingReference.h
+index 2f8c28dd7..700d234ee 100644
+--- a/src/opentimelineio/missingReference.h
++++ b/src/opentimelineio/missingReference.h
+@@ -30,7 +30,7 @@ class OTIO_API_TYPE MissingReference final : public MediaReference
+     /// @param available_range The available range of the missing reference.
+     /// @param metadata The metadata for the missing reference.
+     /// @param available_image_bounds The spatial bounds for the missing reference.
+-    MissingReference(
++    OTIO_API MissingReference(
+         std::string const&              name            = std::string(),
+         std::optional<TimeRange> const& available_range = std::nullopt,
+         AnyDictionary const&            metadata        = AnyDictionary(),
+diff --git a/src/opentimelineio/timeEffect.h b/src/opentimelineio/timeEffect.h
+index a8a920cf0..62bcc174b 100644
+--- a/src/opentimelineio/timeEffect.h
++++ b/src/opentimelineio/timeEffect.h
+@@ -26,7 +26,7 @@ class OTIO_API_TYPE TimeEffect : public Effect
+     /// @param name The name of the object.
+     /// @param effect_name The time effect name.
+     /// @param metadata The metadata for the time effect.
+-    TimeEffect(
++    OTIO_API TimeEffect(
+         std::string const&   name        = std::string(),
+         std::string const&   effect_name = std::string(),
+         AnyDictionary const& metadata    = AnyDictionary());
