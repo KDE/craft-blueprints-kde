@@ -44,12 +44,11 @@ class Package(CMakePackageBase):
         self.whitelist_file.append(self.blueprintDir() / "includelist.txt")
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.addExecutableFilter(
-            r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|kbuildsycoca6|update-mime-database|kioworker|SnoreToast).*)"
+            r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|update-mime-database|kioworker|SnoreToast).*)"
         )
 
         if CraftCore.compiler.isMacOS:
             self.defines["appname"] = "KDE Connect"
-            self.defines["apppath"] = "Applications/KDE/KDE Connect.app"
         else:
             self.defines["appname"] = "kdeconnect-indicator"
             self.defines["executable"] = "bin/kdeconnect-app.exe"
