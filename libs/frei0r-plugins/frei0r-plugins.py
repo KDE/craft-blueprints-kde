@@ -21,7 +21,8 @@ class subinfo(info.infoclass):
         self.targetDigests["2.5.0"] = (["c511aeb51faeb0de2afe47327c30026d5b76ccc910a0b93d286029f07d29c656"], CraftHash.HashAlgorithm.SHA256)
 
         self.svnTargets["master"] = "https://github.com/dyne/frei0r.git"
-        self.defaultTarget = "2.5.0"
+        self.svnTargets["74edaeb"] = "https://github.com/dyne/frei0r.git||74edaeb1b69081017f0c80dd4cebac15cf375e62"
+        self.defaultTarget = "74edaeb"
 
     def setDependencies(self):
         # TODO MSVC: it looks as if cairo and gavl are not detected
