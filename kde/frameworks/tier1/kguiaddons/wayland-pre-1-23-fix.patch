@@ -1,0 +1,24 @@
+commit f7ddb5589bc6176b62ae2fe40153b9397d1df199
+Author: Volker Krause <vkrause@kde.org>
+Date:   Tue Jan 20 17:56:43 2026 +0100
+
+    Restore building with wayland < 1.23.0
+    
+    Should fix the Craft AppImage builds.
+
+diff --git a/src/systemclipboard/waylandclipboard.cpp b/src/systemclipboard/waylandclipboard.cpp
+index 8135709..f3d8243 100644
+--- a/src/systemclipboard/waylandclipboard.cpp
++++ b/src/systemclipboard/waylandclipboard.cpp
+@@ -524,7 +524,11 @@ public:
+     ClipboardThread(wl_display *display)
+         : m_display(display)
+     {
++#if QT_VERSION_CHECK(WAYLAND_VERSION_MAJOR, WAYLAND_VERSION_MINOR, WAYLAND_VERSION_MICRO) >= QT_VERSION_CHECK(1, 23, 0)
+         m_queue = wl_display_create_queue_with_name(m_display, "ksystemclipboard queue");
++#else
++        m_queue = wl_display_create_queue(m_display);
++#endif
+     }
+ 
+     ~ClipboardThread()

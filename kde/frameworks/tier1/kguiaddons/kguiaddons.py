@@ -8,6 +8,9 @@ class subinfo(info.infoclass):
 
         self.description = "KGuiAddons"
 
+        self.patchToApply["6.22.0"] = [("wayland-pre-1-23-fix.patch", 1)]
+        self.patchLevel["6.22.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
