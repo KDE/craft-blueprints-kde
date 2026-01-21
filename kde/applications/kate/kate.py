@@ -11,6 +11,9 @@ class subinfo(info.infoclass):
         self.description = "Modern text editor built on the KDE Frameworks and Qt"
         self.webpage = "https://kate-editor.org/"
 
+        self.patchToApply["25.12.1"] = [("0001-Avoid-ambiguous-constructor-call-to-fix-Windows-buil.patch", 1)]
+        self.patchLevel["25.12.1"] = 1
+
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
