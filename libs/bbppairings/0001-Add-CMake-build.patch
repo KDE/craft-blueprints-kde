@@ -1,0 +1,69 @@
+From 22b0ee56635c44530adf43e5e204383aa1359151 Mon Sep 17 00:00:00 2001
+From: Manuel Alcaraz Zambrano <manuel@alcarazzam.dev>
+Date: Sun, 25 Jan 2026 17:49:42 +0100
+Subject: [PATCH] Add CMake build
+
+---
+ .gitignore         |  2 ++
+ CMakeLists.txt     |  8 ++++++++
+ src/CMakeLists.txt | 23 +++++++++++++++++++++++
+ 3 files changed, 33 insertions(+)
+ create mode 100644 CMakeLists.txt
+ create mode 100644 src/CMakeLists.txt
+
+diff --git a/.gitignore b/.gitignore
+index eaf6836..797fbc8 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -4,3 +4,5 @@
+ bbpPairings*
+ test/test-includes.h
+ test/tests/*.output
++/build/
++/_build/
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+new file mode 100644
+index 0000000..620f68c
+--- /dev/null
++++ b/CMakeLists.txt
+@@ -0,0 +1,8 @@
++cmake_minimum_required(VERSION 3.16)
++
++project(bbpPairings)
++
++set(CMAKE_CXX_STANDARD 20)
++set(CMAKE_CXX_STANDARD_REQUIRED ON)
++
++add_subdirectory(src)
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+new file mode 100644
+index 0000000..a265249
+--- /dev/null
++++ b/src/CMakeLists.txt
+@@ -0,0 +1,23 @@
++add_executable(bbpPairings)
++
++target_compile_definitions(bbpPairings PRIVATE VERSION_INFO=v6.0.0)
++
++target_sources(bbpPairings PRIVATE
++    fileformats/generatorconfiguration.cpp
++    fileformats/trf.cpp
++    main.cpp
++    matching/computer.cpp
++    matching/detail/graph.cpp
++    matching/detail/parentblossom.cpp
++    matching/detail/rootblossom.cpp
++    swisssystems/burstein.cpp
++    swisssystems/common.cpp
++    swisssystems/dutch.cpp
++    tournament/checker.cpp
++    tournament/generator.cpp
++    tournament/tournament.cpp
++)
++
++target_include_directories(bbpPairings PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
++
++install(TARGETS bbpPairings DESTINATION ${CMAKE_INSTALL_BINDIR})
+-- 
+2.52.0
+
