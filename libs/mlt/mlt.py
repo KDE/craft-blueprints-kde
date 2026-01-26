@@ -68,7 +68,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/libvorbis"] = None
         self.runtimeDependencies["libs/glib"] = None
-        self.runtimeDependencies["libs/libebur128"] = None
         # dependencies for glaxnimate module
         self.runtimeDependencies["libs/libarchive"] = None
 
@@ -121,7 +120,7 @@ class Package(CMakePackageBase):
             f"-DMOD_MOVIT={useMovit.asOnOff}",
             f"-DMOD_OPENCV={useOpenCV.asOnOff}",
             # TODO Fix plus module with MSVC, it needs sys/cdefs.h in ebur128
-            "-DMOD_PLUS=ON",
+            f"-DMOD_PLUS={CraftCore.compiler.isMSVC().inverted.asOnOff}",
             # TODO Fix plusgpl module with MSVC
             f"-DMOD_PLUSGPL={CraftCore.compiler.isMSVC().inverted.asOnOff}",
             "-DMOD_QT=OFF",
