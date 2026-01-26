@@ -20,19 +20,15 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20260108
 
-        self.svnTargets["c5534c8"] = "https://github.com/mltframework/mlt.git||c5534c8fa856940a397a1fe84d5ef3110d35ec43"
-        self.defaultTarget = "c5534c8"
+        self.svnTargets["aadad0a"] = "https://github.com/mltframework/mlt.git||aadad0a7037ebc7a6eca32c6fd30de6a03c336e3"
+        self.defaultTarget = "aadad0a"
 
-        self.patchToApply["c5534c8"] = []
-        self.patchToApply["c5534c8"] += [("qtblend-filter.diff", 1)]
+        self.patchToApply["aadad0a"] = []
+        self.patchToApply["aadad0a"] += [("qtblend-filter.diff", 1)]
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["c5534c8"] += [("pi_patch.diff", 1)]
-            self.patchToApply["c5534c8"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["aadad0a"] += [("pi_patch.diff", 1)]
+            self.patchToApply["aadad0a"] += [("revert-mingw-mysy2.diff", 1)]
 
-        if CraftCore.compiler.isMSVC():
-            self.patchToApply["c5534c8"] += [("msvc-dirent.patch", 1)]
-
-    #
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
         self.buildDependencies["libs/dirent"] = None
