@@ -28,4 +28,4 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.subinfo.options.configure.args += ["-DCMAKE_POLICY_VERSION_MINIMUM=3.5", f"-DENABLE_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff()}]
+        self.subinfo.options.configure.args += ["-DCMAKE_POLICY_VERSION_MINIMUM=3.5", f"-DENABLE_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}"]
