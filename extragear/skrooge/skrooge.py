@@ -9,7 +9,6 @@ class subinfo(info.infoclass):
         self.displayName = "Skrooge"
         self.defaultTarget = "master"
 
-
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
