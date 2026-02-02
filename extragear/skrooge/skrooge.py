@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["libs/sqlcipher"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
