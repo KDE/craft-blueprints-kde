@@ -100,7 +100,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
             self.buildDependencies["python-modules/build"] = None
-        if not CraftCore.compiler.isWindows:
+        if not CraftCore.compiler.isWindows and not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/python"] = None
             self.runtimeDependencies["python-modules/pyside6"] = None
 
