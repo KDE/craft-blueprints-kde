@@ -8,11 +8,9 @@ manifest/.*
 .*\.prl
 
 # multiple docs
-doc/(?!HTML/[^/]+/umbrello/apphelp/).*
 share/man/.*
 man/.*
 share/xml/.*
-share/locale/(?![^/]+/LC_MESSAGES/umbrello(_kdevphp5)?\.mo).*
 
 # cmake stuff
 share/apps/cmake/.*
