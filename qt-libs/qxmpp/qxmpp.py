@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.buildDependencies["libs/qt/qttools"] = None
         self.buildDependencies["libs/qt6/qt5compat"] = None
+        self.runtimeDependencies["libs/gstreamer"] = None
         self.runtimeDependencies["libs/libomemo-c"] = None
         self.runtimeDependencies["kdesupport/qca"] = None
 
@@ -31,4 +32,5 @@ class Package(CMakePackageBase):
             "-DBUILD_EXAMPLES=OFF",
             f"-DBUILD_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
             "-DBUILD_OMEMO=ON",
+            "-DWITH_GSTREAMER=ON",
         ]
