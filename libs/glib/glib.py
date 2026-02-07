@@ -33,8 +33,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/dbus"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/pcre2"] = None
-        if not CraftCore.compiler.isWindows:
-            self.runtimeDependencies["libs/iconv"] = None
 
 
 class Package(MesonPackageBase):
