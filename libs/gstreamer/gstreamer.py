@@ -17,8 +17,8 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.28.0"
 
     def setDependencies(self):
-        self.buildDependencies["libs/glib"] = None
         self.buildDependencies["dev-utils/bison"] = None
+        self.runtimeDependencies["libs/glib"] = None
 
 
 class Package(MesonPackageBase):
