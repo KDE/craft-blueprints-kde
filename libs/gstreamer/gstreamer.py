@@ -24,4 +24,8 @@ class subinfo(info.infoclass):
 class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += [
+            "-Dexamples=disabled",
+            "-Dtests=disabled",
+        ]
         self.subinfo.options.configure.ldflags += " -lintl"
