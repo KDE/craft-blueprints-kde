@@ -27,7 +27,6 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/pkgconf"] = None
         self.buildDependencies["python-modules/meson"] = None
         self.buildDependencies["python-modules/packaging"] = None
-        self.runtimeDependencies["libs/libffi"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/iconv"] = None
         self.runtimeDependencies["libs/dbus"] = None
