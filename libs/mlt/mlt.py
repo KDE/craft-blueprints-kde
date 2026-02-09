@@ -45,9 +45,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/movit"] = None
         if CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/dlfcn-win32"] = None
-        # ladspa-swh currently breaks MLT, making render impossible. So disable for now
-        # else:
-        #    self.runtimeDependencies["libs/ladspa-swh"] = None
         if not CraftCore.compiler.isMacOS:
             # self.runtimeDependencies["libs/jack2"] = None
             self.runtimeDependencies["libs/sox"] = None
@@ -58,6 +55,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ladspa-cmt"] = None
         self.runtimeDependencies["libs/ladspa-rnnoise"] = None
         self.runtimeDependencies["libs/ladspa-tap"] = None
+        if not CraftCore.compiler.isWindows:
+            # TODO: fix ladspa-swh build on Windows
+            self.runtimeDependencies["libs/ladspa-swh"] = None
         self.runtimeDependencies["libs/spatialaudio"] = None
         self.runtimeDependencies["libs/lilv"] = None
         self.runtimeDependencies["libs/opencv/opencv_contrib"] = None
