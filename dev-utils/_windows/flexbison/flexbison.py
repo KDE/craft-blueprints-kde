@@ -3,14 +3,16 @@ import os
 import info
 import utils
 from Package.BinaryPackageBase import BinaryPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        ver = "2.5.14"
-        self.targets[ver] = f"https://downloads.sourceforge.net/sourceforge/winflexbison/win_flex_bison-{ver}.zip"
+        ver = "2.5.25"
+        self.targets[ver] = f"https://github.com/lexxmark/winflexbison/releases/download/v{ver}/win_flex_bison-{ver}.zip"
         self.targetInstallPath[ver] = os.path.join("dev-utils", "bin")
-        self.targetDigests[ver] = "e15a1b8780a36ffda9ef70c4f09283867b32a12b"
+        self.targetDigests[ver] = (["8d324b62be33604b2c45ad1dd34ab93d722534448f55a16ca7292de32b6ac135"], CraftHash.HashAlgorithm.SHA256)
+
         self.defaultTarget = ver
 
     def setDependencies(self):
