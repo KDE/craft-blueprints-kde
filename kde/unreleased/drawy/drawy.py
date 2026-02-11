@@ -22,6 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
