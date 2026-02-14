@@ -35,7 +35,11 @@ class Package(CMakePackageBase):
         # self.subinfo.options.configure.args = "-DSKG_WEBENGINE=ON"
 
     def createPackage(self):
+        self.defines["executable"] = "bin\\skrooge.exe"  # Windows-only, mac is handled implicitly
+        self.defines["icon"] = self.blueprintDir() / "skrooge.ico"
+        self.defines["file_types"] = [".skg", ".kmy", ".mny", ".gnucash", ".gsb", ".xhb", ".mmb", ".afb120", ".mt940", ".iif", ".ofx", ".qfx", ".qif", ".csv"]
         self.defines["website"] = "https://skrooge.org/"
         # self.defines["icon"] = self.blueprintDir() / "skrooge.ico"
 
         return super().createPackage()
+
