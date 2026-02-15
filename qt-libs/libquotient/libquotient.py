@@ -13,16 +13,14 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/quotient-im/libQuotient.git||dev"
         self.svnTargets["rust"] = "https://github.com/quotient-im/libQuotient.git||tobias/rust-sdk-crypto"
 
-        for ver in ["0.9.5"]:
+        for ver in ["0.9.6"]:
             self.targets[ver] = "https://github.com/quotient-im/libQuotient/archive/%s.tar.gz" % ver
             self.archiveNames[ver] = "libQuotient-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "libQuotient-%s" % ver
 
-        self.targetDigests["0.9.5"] = (["24366dd59aca7b991756e45c3c8823c43fc6a8fdb161ea6dcce5b666c6300766"], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply["0.9.5"] = [("qt610-static-build-fix.patch", 1)]
-        self.patchLevel["0.9.5"] = 1
+        self.targetDigests["0.9.6"] = (["67a286a36343b9b3a02e95d52985f8042aee70f8a12a7513b9f5cb68e1a85721"], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "0.9.5"
+        self.defaultTarget = "0.9.6"
         self.description = "A Qt library to write cross-platform clients for Matrix"
 
     def setDependencies(self):
