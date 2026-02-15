@@ -42,4 +42,3 @@ class Package(CMakePackageBase):
         # self.defines["icon"] = self.blueprintDir() / "skrooge.ico"
 
         return super().createPackage()
-
