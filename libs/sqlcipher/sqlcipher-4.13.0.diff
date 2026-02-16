@@ -1,0 +1,23 @@
+diff --git sqlcipher-4.13.0.ori/src/sqlite.h.in sqlcipher-4.13.0/src/sqlite.h.in
+index 48f7cfd..7f82dd0 100644
+--- sqlcipher-4.13.0.ori/src/sqlite.h.in
++++ sqlcipher-4.13.0/src/sqlite.h.in
+@@ -72,18 +72,7 @@ extern "C" {
+ # define SQLITE_EXTERN extern
+ #endif
+ #ifndef SQLITE_API
++# ifdef _MSC_VER
++#  if defined(SQLITE3_STATIC)
++    /* No export/import for static libraries */
+ # define SQLITE_API
++#  elif defined(libsqlcipher_EXPORTS)
++#   define SQLITE_API __declspec(dllexport)
++#  else
++#   define SQLITE_API __declspec(dllimport)
++#  endif
++# else
++#  define SQLITE_API
++# endif
+ #endif
+ #ifndef SQLITE_CDECL
+ # define SQLITE_CDECL
