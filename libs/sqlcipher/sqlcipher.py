@@ -36,18 +36,20 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["3.4.2"]:
-            self.targets[ver] = f"https://github.com/sqlcipher/sqlcipher/archive/v{ver}.zip"
+        for ver in ["3.4.2", "4.13.0"]:
+            self.targets[ver] = f"https://github.com/sqlcipher/sqlcipher/archive/refs/tags/v{ver}.zip"
             self.archiveNames[ver] = f"sqlcipher-{ver}.zip"
             self.targetInstSrc[ver] = f"sqlcipher-{ver}"
             self.patchLevel[ver] = 6
 
         self.targetDigests["3.4.2"] = (["f2afbde554423fd3f8e234d21e91a51b6f6ba7fc4971e73fdf5d388a002f79f1"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.13.0"] = (["cf1f8150e1c35012f2166c0b368bfbe5c73c32cae971eb67ed9a95fe1f820be9"], CraftHash.HashAlgorithm.SHA256)
 
         if CraftCore.compiler.isWindows:
             self.patchToApply["3.4.2"] = [("sqlcipher-3.4.2-20180727.diff", 1)]
+            self.patchToApply["4.13.0"] = [("sqlcipher-4.13.0.diff", 1)]
 
-        self.defaultTarget = "3.4.2"
+        self.defaultTarget = "4.13.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
