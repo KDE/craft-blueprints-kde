@@ -15,13 +15,12 @@ class subinfo(info.infoclass):
         self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
-        for ver in ["0.11.1"]:
+        for ver in ["0.11.2"]:
             self.targets[ver] = f"https://github.com/libjxl/libjxl/archive/refs/tags/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libjxl-{ver}"
-        self.targetDigests["0.11.1"] = (["1492dfef8dd6c3036446ac3b340005d92ab92f7d48ee3271b5dac1d36945d3d9"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.11.2"] = (["ab38928f7f6248e2a98cc184956021acb927b16a0dee71b4d260dc040a4320ea"], CraftHash.HashAlgorithm.SHA256)
         self.description = "JPEG XL image format reference implementation"
-        self.patchLevel["0.11.1"] = 2
-        self.defaultTarget = "0.11.1"
+        self.defaultTarget = "0.11.2"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/brotli"] = None
