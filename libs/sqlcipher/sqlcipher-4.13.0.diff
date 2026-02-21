@@ -1,8 +1,8 @@
 diff --git sqlcipher-4.13.0.ori/src/sqlite.h.in sqlcipher-4.13.0/src/sqlite.h.in
-index 48f7cfd..7f82dd0 100644
+index 7f82dd0..48f7cfd 100644
 --- sqlcipher-4.13.0.ori/src/sqlite.h.in
 +++ sqlcipher-4.13.0/src/sqlite.h.in
-@@ -72,18 +72,7 @@ extern "C" {
+@@ -72,7 +72,18 @@ extern "C" {
  # define SQLITE_EXTERN extern
  #endif
  #ifndef SQLITE_API
