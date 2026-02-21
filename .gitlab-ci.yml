@@ -119,7 +119,7 @@ build-package-linux:
     KDECI_CRAFT_PLATFORM: linux-64-gcc
     GIT_STRATEGY: none
   before_script:
-    - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE to the package you want to test."; false; fi
+    - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE environment variable to the package you want to test."; false; fi
     - export LANG=en_US.UTF-8
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
@@ -165,6 +165,7 @@ build-package-linux:
     PYTHONUTF8: 1
     KDECI_CRAFT_CACHE: C:/Craft/download/
   before_script:
+    - if (-not $env:CRAFT_PACKAGE) { Write-Error "Error - Set CRAFT_PACKAGE environment variable to the package you want to test."; exit 1 }
     - cd C:\Craft\craftmaster
     - git pull
     - cd C:\Craft\ci-utilities
