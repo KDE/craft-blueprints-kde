@@ -1,0 +1,32 @@
+From 19d4e3c33b2f5b2d07cec10e5cf23551bdf1538c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <julius.kuenzel@kde.org>
+Date: Sun, 22 Feb 2026 13:04:34 +0100
+Subject: [PATCH] fix(mirr0r): fix M_PI not defined on MSVC
+
+The _USE_MATH_DEFINES needs to be defined before all math header includes. In this case it means we have to put it on top to ensure it takes effect for all subsequent includes (eg. in cairo.h)
+---
+ src/filter/mirr0r/mirr0r.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/filter/mirr0r/mirr0r.cpp b/src/filter/mirr0r/mirr0r.cpp
+index a6113db1..f0526a9e 100755
+--- a/src/filter/mirr0r/mirr0r.cpp
++++ b/src/filter/mirr0r/mirr0r.cpp
+@@ -17,9 +17,9 @@
+  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++#define _USE_MATH_DEFINES
+ #include "frei0r.hpp"
+ #include <cairo.h>
+-#define _USE_MATH_DEFINES
+ #include <cmath>
+ 
+ class Mirr0r : public frei0r::filter {
+@@ -133,4 +133,4 @@ frei0r::construct<Mirr0r> plugin(
+     "Johann JEG",
+     1, 0,
+     F0R_COLOR_MODEL_RGBA8888);
+-    
+\ No newline at end of file
++    

@@ -6,12 +6,6 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        # MSVC is not well supported by frei0r-plugins, and it currently does not compile there so skip building it
-        # This is not a major deal as the main user is Kdenlive and it has other dependencies that are MingW only
-        if CraftCore.compiler.isMSVC():
-            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler
-
     def setTargets(self):
         self.description = "Minimalistic plugin API for video effects, plugins collection"
         self.webpage = "http://frei0r.dyne.org/"
@@ -21,30 +15,31 @@ class subinfo(info.infoclass):
         self.targetDigests["2.5.0"] = (["c511aeb51faeb0de2afe47327c30026d5b76ccc910a0b93d286029f07d29c656"], CraftHash.HashAlgorithm.SHA256)
 
         self.svnTargets["master"] = "https://github.com/dyne/frei0r.git"
-        self.svnTargets["74edaeb"] = "https://github.com/dyne/frei0r.git||74edaeb1b69081017f0c80dd4cebac15cf375e62"
-        self.defaultTarget = "74edaeb"
+        self.svnTargets["4df55c8"] = "https://github.com/dyne/frei0r.git||4df55c8f7b41b5a0438914721f3fe94e560dd560"
+        self.patchToApply["4df55c8"] = [
+            # https://github.com/dyne/frei0r/pull/249
+            ("pr-249.patch", 1),
+            # https://github.com/dyne/frei0r/pull/250
+            ("pr-250.patch", 1),
+        ]
+        self.defaultTarget = "4df55c8"
 
     def setDependencies(self):
-        # TODO MSVC: it looks as if cairo and gavl are not detected
-
         self.runtimeDependencies["virtual/base"] = None
-        if not CraftCore.compiler.isMSVC():
-            # TODO check why build fails with OpenCV, shouldn't be too hard to fix
-            self.runtimeDependencies["libs/opencv/opencv"] = None
+        self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/cairo"] = None
-        # if not CraftCore.compiler.isMacOS:
         self.runtimeDependencies["libs/gavl"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # if CraftCore.compiler.isMacOS:
-        #    self.subinfo.options.configure.args += ["-DWITHOUT_GAVL=1"]
 
-        # TODO check why build fails with OpenCV, shouldn't be too hard to fix
-        if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.args += ["-DWITHOUT_OPENCV=1"]
+        self.subinfo.options.configure.args += [
+            f"-DWITHOUT_GAVL={self.subinfo.options.isActive('libs/gavl').inverted.asOnOff}",
+            f"-DWITHOUT_OPENCV={self.subinfo.options.isActive('libs/opencv').inverted.asOnOff}",
+            f"-DWITHOUT_CAIRO={self.subinfo.options.isActive('libs/cairo').inverted.asOnOff}",
+        ]
 
     def install(self):
         if not super().install():
