@@ -20,14 +20,14 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20260108
 
-        self.svnTargets["aadad0a"] = "https://github.com/mltframework/mlt.git||aadad0a7037ebc7a6eca32c6fd30de6a03c336e3"
-        self.defaultTarget = "aadad0a"
+        self.svnTargets["27b48c1"] = "https://github.com/mltframework/mlt.git||27b48c1f585cfe6ef5cd43df26e1360da1788198"
+        self.defaultTarget = "27b48c1"
 
-        self.patchToApply["aadad0a"] = []
-        self.patchToApply["aadad0a"] += [("qtblend-filter.diff", 1)]
+        self.patchToApply["27b48c1"] = []
+        self.patchToApply["27b48c1"] += [("qtblend-filter.diff", 1)]
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["aadad0a"] += [("pi_patch.diff", 1)]
-            self.patchToApply["aadad0a"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["27b48c1"] += [("pi_patch.diff", 1)]
+            self.patchToApply["27b48c1"] += [("revert-mingw-mysy2.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
@@ -92,8 +92,6 @@ class Package(CMakePackageBase):
 
         # CMake switches for MLT modules
 
-        # TODO OpenCV has an issue with its installation on MSVC and is hence not detected
-        useOpenCV = CraftBool(self.subinfo.options.isActive("libs/opencv/opencv") and not CraftCore.compiler.isMSVC())
         useMovit = CraftBool(self.subinfo.options.isActive("libs/movit") and CraftCore.compiler.isLinux)
         useSox = CraftBool(self.subinfo.options.isActive("libs/sox") and not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS)
         # TODO Fix and enable RtAudio with MSVC
@@ -115,7 +113,7 @@ class Package(CMakePackageBase):
             f"-DMOD_JACKRACK={CraftCore.compiler.isMSVC().inverted.asOnOff}",  # default: ON
             f"-DUSE_LV2={self.subinfo.options.isActive('libs/lilv').asOnOff}",
             f"-DMOD_MOVIT={useMovit.asOnOff}",
-            f"-DMOD_OPENCV={useOpenCV.asOnOff}",
+            f"-DMOD_OPENCV={self.subinfo.options.isActive('libs/opencv/opencv').asOnOff}",
             # TODO Fix plus module with MSVC, it needs sys/cdefs.h in ebur128
             "-DMOD_PLUS=ON",
             # TODO Fix plusgpl module with MSVC
@@ -131,7 +129,7 @@ class Package(CMakePackageBase):
             f"-DMOD_SOX={useSox.asOnOff}",
             f"-DMOD_SPATIALAUDIO={useSpatialaudio.asOnOff}",
             f"-DMOD_VIDSTAB={self.subinfo.options.isActive('libs/vidstab').asOnOff}",
-            # TODO Fix plusgpl module with MSVC
+            # TODO Fix xine module with MSVC
             f"-DMOD_XINE={CraftCore.compiler.isMSVC().inverted.asOnOff}",
             f"-DMOD_XML={self.subinfo.options.isActive('libs/libxml2').asOnOff}",
         ]
