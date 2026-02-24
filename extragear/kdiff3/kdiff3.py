@@ -15,7 +15,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.buildDependencies["libs/boost"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
