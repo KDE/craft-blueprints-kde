@@ -3,7 +3,7 @@
 # common app stuff
 share/apps/ark/.*
 share/apps/kgpg/.*
-share/kf5/kdoctools/.*
+share/kf[0-9]*/kdoctools/.*
 
 # Build only depency
 .*/gettext.*/*
@@ -31,5 +31,3 @@ bin/dbus-env\.bat
 bin/android_emulator_launcher\.sh
 bin/qt-cmake.*
 bin/.*test.*
-
-.*qt_cyclonedx_generator\.py
