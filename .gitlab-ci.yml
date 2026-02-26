@@ -122,7 +122,7 @@ build-package-linux:
     KDECI_CRAFT_PLATFORM: linux-64-gcc
     GIT_STRATEGY: none
   before_script:
-    - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE environment variable to the package you want to test."; false; fi
+    - |
     - export LANG=en_US.UTF-8
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
@@ -135,6 +135,8 @@ build-package-linux:
     - export PKG_CONFIG_PATH=`/usr/bin/pkg-config --variable pc_path pkg-config`
     # Make the compiler available
     - source /opt/rh/gcc-toolset-14/enable
+    # determine package name
+    - CRAFT_PACKAGE="$(craftmaster --determine-package)"
     # Set up craft settings and blueprint settings
     - craftmaster --setup
     # Get Craft itself ready
@@ -166,7 +168,7 @@ build-package-linux:
     PYTHONUTF8: 1
     KDECI_CRAFT_CACHE: C:/Craft/download/
   before_script:
-    - if (-not $env:CRAFT_PACKAGE) { Write-Error "Error - Set CRAFT_PACKAGE environment variable to the package you want to test."; exit 1 }
+    - |
     - cd C:\Craft\craftmaster
     - git pull
     - cd C:\Craft\ci-utilities
@@ -181,6 +183,8 @@ build-package-linux:
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       }
   script:
+    # determine package name
+    - $env:CRAFT_PACKAGE = Run-CraftMaster --determine-package
     # Set up craft settings and blueprint settings
     - Run-CraftMaster --setup
     # Get Craft itself ready
@@ -230,7 +234,7 @@ build-package-windows_qt6_mingw64:
   variables:
     GIT_STRATEGY: none
   before_script:
-    - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE to the package you want to test."; false; fi
+    - |
     # ensure we start with an empty folder
     - rm -rf *
     - export LANG=en_US.UTF-8
@@ -241,6 +245,8 @@ build-package-windows_qt6_mingw64:
     # Define a short cut for the lengthy CraftMaster command line
     - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
+    # determine package name
+    - CRAFT_PACKAGE="$(craftmaster --determine-package)"
     # Set up craft settings and blueprint settings
     - craftmaster --setup
     # Get Craft itself ready
@@ -292,7 +298,7 @@ build-package-macos_qt6_x86_64:
   variables:
     GIT_STRATEGY: none
   before_script:
-    - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE to the package you want to test."; false; fi
+    - |
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
     - git clone https://invent.kde.org/sysadmin/craft-ci.git --depth=1
@@ -300,6 +306,8 @@ build-package-macos_qt6_x86_64:
     # Define a short cut for the lengthy CraftMaster command line
     - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
+    # determine package name
+    - CRAFT_PACKAGE="$(craftmaster --determine-package)"
     # Set up craft settings and blueprint settings
     - craftmaster --setup
     # Get Craft itself ready
