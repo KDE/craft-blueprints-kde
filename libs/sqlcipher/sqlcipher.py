@@ -59,7 +59,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/sqlite"] = None
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
-
+        if not CraftCore.compiler.isGCCLike():
+            self.buildDependencies["libs/icu"] = None
 
 # warning: empty sqlite3.h can prevent successfull build
 class PackageAutotools(AutoToolsPackageBase):
@@ -72,6 +73,9 @@ class PackageAutotools(AutoToolsPackageBase):
             self.subinfo.options.configure.args += ["CFLAGS='-DSQLITE_HAS_CODEC'"]
         else:
             self.subinfo.options.configure.args += ["CFLAGS=-DSQLITE_HAS_CODEC"]
+
+        if CraftCore.compiler.isLinux:
+            os.environ["LDFLAGS"] = "-lcrypto"
 
     def configure(self):
         isConfigured = super().configure()
