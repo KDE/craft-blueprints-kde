@@ -57,8 +57,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/tcl"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/sqlite"] = None
+
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
+
         if not CraftCore.compiler.isGCCLike():
             self.buildDependencies["libs/icu"] = None
 
@@ -74,8 +76,11 @@ class PackageAutotools(AutoToolsPackageBase):
         else:
             self.subinfo.options.configure.args += ["CFLAGS=-DSQLITE_HAS_CODEC"]
 
+        if self.defaultTarget == "4.13.0":
+            os.environ["CFLAGS"] = "-DSQLITE_EXTRA_INIT=sqlcipher_extra_init -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown -DSQLITE_HAS_CODEC"
+
         if CraftCore.compiler.isLinux:
-            os.environ["LDFLAGS"] = "-lcrypto"
+            self.subinfo.options.configure.ldflags += " -lcrypto"
 
     def configure(self):
         isConfigured = super().configure()
