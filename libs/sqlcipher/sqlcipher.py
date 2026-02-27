@@ -64,6 +64,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isGCCLike():
             self.buildDependencies["libs/icu"] = None
 
+
 # warning: empty sqlite3.h can prevent successfull build
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **kwargs):
