@@ -4,7 +4,7 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues()
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/games/kdominate.git")
         self.description = "KDominate"
 
     def setDependencies(self):
