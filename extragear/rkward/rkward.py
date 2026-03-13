@@ -51,8 +51,6 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["core/cacert"] = None
             # Needed for building some R packages
             self.runtimeDependencies["dev-utils/sed"] = None
-            # tags io-slave used by KEncodingFileDialog (producing ugly warning, if not present)
-            self.runtimeDependencies["kde/frameworks/tier3/baloo"] = None
         elif CraftCore.compiler.isMacOS:
             # indirectly required by kate, but not declared as dependency, there
             self.runtimeDependencies["kde/plasma/plasma-activities"] = None
