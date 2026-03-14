@@ -20,6 +20,8 @@ class subinfo(info.infoclass):
         self.patchLevel["6.22.0"] = 1
         self.patchToApply["6.23.0"] = [("breeze-icons-6.23.0-symlink-fix.diff", 1)]
         self.patchLevel["6.23.0"] = 1
+        self.patchToApply["6.24.0"] = [("breeze-icons-6.23.0-symlink-fix.diff", 1)]
+        self.patchLevel["6.24.0"] = 1
 
         self.description = "Breeze icon theme."
 
