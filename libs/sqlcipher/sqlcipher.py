@@ -35,6 +35,40 @@ from Package.MSBuildPackageBase import MSBuildPackageBase
 from Utils import CraftHash
 
 
+def _writePkgConfigFile(sourceDir, version, pkgConfigFile):
+    utils.createDir(pkgConfigFile.parent)
+    templateFile = sourceDir / "sqlcipher.pc.in"
+    if templateFile.exists():
+        utils.copyFile(templateFile, pkgConfigFile)
+        with open(pkgConfigFile, "rt") as f:
+            content = f.read()
+        content = content.replace(r"@prefix@", str(CraftCore.standardDirs.craftRoot()))
+        content = content.replace(r"@exec_prefix@", r"${prefix}/bin")
+        content = content.replace(r"@libdir@", r"${prefix}/lib")
+        content = content.replace(r"@includedir@", r"${prefix}/include")
+        content = content.replace(r"@PACKAGE_VERSION@", version)
+    else:
+        prefix = str(CraftCore.standardDirs.craftRoot()).replace("\\", "/")
+        content = "\n".join(
+            [
+                f"prefix={prefix}",
+                "exec_prefix=${prefix}/bin",
+                "libdir=${prefix}/lib",
+                "includedir=${prefix}/include",
+                "",
+                "Name: sqlcipher",
+                "Description: SQLCipher library",
+                f"Version: {version}",
+                "Libs: -L${libdir} -lsqlite3",
+                "Cflags: -I${includedir}/sqlcipher",
+                "",
+            ]
+        )
+
+    with open(pkgConfigFile, "wt") as f:
+        f.write(content)
+
+
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["3.4.2", "4.13.0"]:
@@ -179,6 +213,38 @@ class PackageAutotools(AutoToolsPackageBase):
             options = [opt for opt in options if not str(opt).startswith("--target=")]
         return options
 
+    def install(self):
+        if not CraftCore.compiler.isMinGW():
+            return super().install()
+
+        includeDir = self.installDir() / "include/sqlcipher"
+        libDir = self.installDir() / "lib"
+        binDir = self.installDir() / "bin"
+        pkgConfigFile = libDir / "pkgconfig/sqlcipher.pc"
+
+        for path in [includeDir, libDir, binDir, pkgConfigFile.parent]:
+            if not utils.createDir(path):
+                return False
+
+        files = [
+            (self.buildDir() / "libsqlite3-0.dll", binDir / "libsqlite3-0.dll"),
+            (self.buildDir() / "libsqlite3.dll.a", libDir / "libsqlite3.dll.a"),
+            (self.buildDir() / "sqlite3.h", includeDir / "sqlite3.h"),
+            (self.buildDir() / "sqlite3ext.h", includeDir / "sqlite3ext.h"),
+            (self.buildDir() / "sqlite3session.h", includeDir / "sqlite3session.h"),
+            (self.sourceDir() / "src/sqlcipher.h", includeDir / "sqlcipher.h"),
+        ]
+
+        for source, dest in files:
+            if not source.exists():
+                CraftCore.log.error(f"Missing install artifact: {source}")
+                return False
+            if not utils.copyFile(source, dest):
+                return False
+
+        _writePkgConfigFile(self.sourceDir(), self.version, pkgConfigFile)
+        return True
+
     def postInstall(self):
         if CraftCore.compiler.isMinGW():
             cmakes = [self.installDir() / "lib/pkgconfig/sqlcipher.pc"]
@@ -192,36 +258,7 @@ class PackageMSVC(MSBuildPackageBase):
         super().__init__(**kwargs)
 
     def _writePkgConfigFile(self, pkgConfigFile):
-        templateFile = self.sourceDir() / "sqlcipher.pc.in"
-        if templateFile.exists():
-            utils.copyFile(templateFile, pkgConfigFile)
-            with open(pkgConfigFile, "rt") as f:
-                content = f.read()
-            content = content.replace(r"@prefix@", str(CraftCore.standardDirs.craftRoot()))
-            content = content.replace(r"@exec_prefix@", r"${prefix}/bin")
-            content = content.replace(r"@libdir@", r"${prefix}/lib")
-            content = content.replace(r"@includedir@", r"${prefix}/include")
-            content = content.replace(r"@PACKAGE_VERSION@", self.version)
-        else:
-            prefix = str(CraftCore.standardDirs.craftRoot()).replace("\\", "/")
-            content = "\n".join(
-                [
-                    f"prefix={prefix}",
-                    "exec_prefix=${prefix}/bin",
-                    "libdir=${prefix}/lib",
-                    "includedir=${prefix}/include",
-                    "",
-                    "Name: sqlcipher",
-                    "Description: SQLCipher library",
-                    f"Version: {self.version}",
-                    "Libs: -L${libdir} -lsqlcipher",
-                    "Cflags: -I${includedir}/sqlcipher",
-                    "",
-                ]
-            )
-
-        with open(pkgConfigFile, "wt") as f:
-            f.write(content)
+        _writePkgConfigFile(self.sourceDir(), self.version, pkgConfigFile)
 
     def configure(self):
         self.enterSourceDir()
