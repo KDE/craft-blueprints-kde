@@ -36,18 +36,20 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["3.4.2"]:
-            self.targets[ver] = f"https://github.com/sqlcipher/sqlcipher/archive/v{ver}.zip"
+        for ver in ["3.4.2", "4.13.0"]:
+            self.targets[ver] = f"https://github.com/sqlcipher/sqlcipher/archive/refs/tags/v{ver}.zip"
             self.archiveNames[ver] = f"sqlcipher-{ver}.zip"
             self.targetInstSrc[ver] = f"sqlcipher-{ver}"
             self.patchLevel[ver] = 6
 
         self.targetDigests["3.4.2"] = (["f2afbde554423fd3f8e234d21e91a51b6f6ba7fc4971e73fdf5d388a002f79f1"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.13.0"] = (["cf1f8150e1c35012f2166c0b368bfbe5c73c32cae971eb67ed9a95fe1f820be9"], CraftHash.HashAlgorithm.SHA256)
 
         if CraftCore.compiler.isWindows:
             self.patchToApply["3.4.2"] = [("sqlcipher-3.4.2-20180727.diff", 1)]
+            self.patchToApply["4.13.0"] = [("sqlcipher-4.13.0.diff", 1)]
 
-        self.defaultTarget = "3.4.2"
+        self.defaultTarget = "4.13.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -55,22 +57,64 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/tcl"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/sqlite"] = None
+
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
+
+        if not CraftCore.compiler.isGCCLike():
+            self.buildDependencies["libs/icu"] = None
 
 
 # warning: empty sqlite3.h can prevent successfull build
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["--enable-tempstore=yes"]
+        self.subinfo.options.configure.args += ["--with-tempstore=yes"]
+        self.subinfo.options.configure.noCacheFile = True
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.make.supportsMultijob = False
-            self.subinfo.options.configure.args += ["CFLAGS='-DSQLITE_HAS_CODEC'"]
+            self.subinfo.options.configure.noDataRootDir = True
+
+        if "4.13.0" in self.version:
+            os.environ["CFLAGS"] = "-DSQLITE_EXTRA_INIT=sqlcipher_extra_init -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown -DSQLITE_HAS_CODEC"
+            self.subinfo.options.configure.cflags += " -DSQLITE_EXTRA_INIT=sqlcipher_extra_init -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown -DSQLITE_HAS_CODEC"
         else:
-            self.subinfo.options.configure.args += ["CFLAGS=-DSQLITE_HAS_CODEC"]
+            self.subinfo.options.configure.cflags += " -DSQLITE_HAS_CODEC"
+
+        if CraftCore.compiler.isLinux:
+            self.subinfo.options.configure.ldflags += " -lcrypto"
+
+    @staticmethod
+    def _coerce_configure_args(args):
+        if isinstance(args, list):
+            return args
+        if hasattr(args, "toList"):
+            return args.toList()
+        if hasattr(args, "asList"):
+            return args.asList()
+        if hasattr(args, "args"):
+            return list(args.args)
+        if hasattr(args, "arguments"):
+            return list(args.arguments)
+        if hasattr(args, "options"):
+            return list(args.options)
+        if isinstance(args, tuple):
+            return list(args)
+        if hasattr(args, "__iter__") and not isinstance(args, (str, bytes)):
+            return list(args)
+        return [args]
+
+    def _sanitize_configure_args(self):
+        options = self._coerce_configure_args(self.subinfo.options.configure.args)
+
+        if CraftCore.compiler.isWindows or CraftCore.compiler.isMinGW():
+            options = [opt for opt in options if not str(opt).startswith("--target=")]
+
+        self.subinfo.options.configure.args = options
+        return options
 
     def configure(self):
+        self._sanitize_configure_args()
         isConfigured = super().configure()
         if isConfigured and CraftCore.compiler.isMinGW():
             Makefile = self.buildDir() / "Makefile"
@@ -96,6 +140,14 @@ class PackageAutotools(AutoToolsPackageBase):
                 f.write(content)
 
         return isConfigured
+
+    def configureOptions(self, defines=""):
+        options = super().configureOptions(defines)
+        options = self._coerce_configure_args(options)
+
+        if CraftCore.compiler.isWindows or CraftCore.compiler.isMinGW():
+            options = [opt for opt in options if not str(opt).startswith("--target=")]
+        return options
 
     def postInstall(self):
         if CraftCore.compiler.isMinGW():
@@ -124,6 +176,11 @@ class PackageMSVC(MSBuildPackageBase):
         includeDir = CraftCore.standardDirs.craftRoot() / "include"
         libDir = CraftCore.standardDirs.craftRoot() / "lib"
         binDir = CraftCore.standardDirs.craftRoot() / "bin"
+
+        # Ensure MSVC can find ICU headers/libs from Craft prefix during nmake build
+        os.environ["INCLUDE"] = str(includeDir) + ";" + os.environ.get("INCLUDE", "")
+        os.environ["LIB"] = str(libDir) + ";" + os.environ.get("LIB", "")
+
         includeDirs = f"TCC = $(TCC) -I{includeDir}\n" f"RCC = $(RCC) -I{includeDir}\n"
 
         index = content.find("TCC = $(TCC) -DSQLITE_TEMP_STORE=1")
