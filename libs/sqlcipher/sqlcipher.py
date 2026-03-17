@@ -24,6 +24,7 @@
 
 import os
 import re
+import stat
 
 import info
 import utils
@@ -158,6 +159,8 @@ class PackageAutotools(AutoToolsPackageBase):
             content = content.replace(r"$(DESTDIR)$(TCLLIBDIR)", r"$(DESTDIR)/" + relativePath)
             content = content.replace(r"$(DESTDIR)$(pkgconfigdir)", r"$(DESTDIR)/lib/pkgconfig")
 
+            # Windows configure may leave Makefile read-only when extracted from the source archive.
+            os.chmod(Makefile, stat.S_IRUSR | stat.S_IWUSR)
             with open(Makefile, "wt") as f:
                 f.write(content)
 
