@@ -82,11 +82,6 @@ class PackageAutotools(AutoToolsPackageBase):
         else:
             self.subinfo.options.configure.cflags += " -DSQLITE_HAS_CODEC"
 
-        if CraftCore.compiler.isMinGW():
-            # The generated Makefile does not pick up OpenSSL from dependencies automatically.
-            os.environ["LIBS"] = (os.environ.get("LIBS", "") + " -lssl -lcrypto").strip()
-            self.subinfo.options.configure.ldflags += " -lssl -lcrypto"
-
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.ldflags += " -lcrypto"
 
@@ -163,6 +158,9 @@ class PackageAutotools(AutoToolsPackageBase):
             content = content.replace(r"$(DESTDIR)$(mandir)", r"$(DESTDIR)/share/man")
             content = content.replace(r"$(DESTDIR)$(TCLLIBDIR)", r"$(DESTDIR)/" + relativePath)
             content = content.replace(r"$(DESTDIR)$(pkgconfigdir)", r"$(DESTDIR)/lib/pkgconfig")
+            content, replacements = re.subn(r"^(LIBS\s*=\s*.*)$", r"\1 -lssl -lcrypto", content, count=1, flags=re.MULTILINE)
+            if replacements == 0:
+                content += "\nLIBS = -lssl -lcrypto\n"
 
             # Windows configure may leave Makefile read-only when extracted from the source archive.
             os.chmod(Makefile, stat.S_IRUSR | stat.S_IWUSR)
