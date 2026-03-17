@@ -158,9 +158,11 @@ class PackageAutotools(AutoToolsPackageBase):
             content = content.replace(r"$(DESTDIR)$(mandir)", r"$(DESTDIR)/share/man")
             content = content.replace(r"$(DESTDIR)$(TCLLIBDIR)", r"$(DESTDIR)/" + relativePath)
             content = content.replace(r"$(DESTDIR)$(pkgconfigdir)", r"$(DESTDIR)/lib/pkgconfig")
-            content, replacements = re.subn(r"^(LIBS\s*=\s*.*)$", r"\1 -lssl -lcrypto", content, count=1, flags=re.MULTILINE)
+            content, replacements = re.subn(
+                r"^(LDFLAGS\.libsqlite3\s*[+?:]?=\s*.*)$", r"\1 -lssl -lcrypto", content, count=1, flags=re.MULTILINE
+            )
             if replacements == 0:
-                content += "\nLIBS = -lssl -lcrypto\n"
+                content += "\nLDFLAGS.libsqlite3 += -lssl -lcrypto\n"
 
             # Windows configure may leave Makefile read-only when extracted from the source archive.
             os.chmod(Makefile, stat.S_IRUSR | stat.S_IWUSR)
