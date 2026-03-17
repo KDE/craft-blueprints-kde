@@ -84,7 +84,8 @@ class PackageAutotools(AutoToolsPackageBase):
 
         if CraftCore.compiler.isMinGW():
             # The generated Makefile does not pick up OpenSSL from dependencies automatically.
-            self.subinfo.options.configure.args += 'LIBS="-lssl -lcrypto"'
+            os.environ["LIBS"] = (os.environ.get("LIBS", "") + " -lssl -lcrypto").strip()
+            self.subinfo.options.configure.ldflags += " -lssl -lcrypto"
 
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.ldflags += " -lcrypto"
