@@ -86,22 +86,27 @@ class PackageAutotools(AutoToolsPackageBase):
 
     @staticmethod
     def _coerce_configure_args(args):
+        if hasattr(args, "get"):
+            return PackageAutotools._coerce_configure_args(args.get())
         if isinstance(args, list):
-            return args
+            options = []
+            for arg in args:
+                options.extend(PackageAutotools._coerce_configure_args(arg))
+            return options
         if hasattr(args, "toList"):
-            return args.toList()
+            return PackageAutotools._coerce_configure_args(args.toList())
         if hasattr(args, "asList"):
-            return args.asList()
+            return PackageAutotools._coerce_configure_args(args.asList())
         if hasattr(args, "args"):
-            return list(args.args)
+            return PackageAutotools._coerce_configure_args(list(args.args))
         if hasattr(args, "arguments"):
-            return list(args.arguments)
+            return PackageAutotools._coerce_configure_args(list(args.arguments))
         if hasattr(args, "options"):
-            return list(args.options)
+            return PackageAutotools._coerce_configure_args(list(args.options))
         if isinstance(args, tuple):
-            return list(args)
+            return PackageAutotools._coerce_configure_args(list(args))
         if hasattr(args, "__iter__") and not isinstance(args, (str, bytes)):
-            return list(args)
+            return PackageAutotools._coerce_configure_args(list(args))
         return [args]
 
     def _sanitize_configure_args(self):
@@ -160,6 +165,38 @@ class PackageAutotools(AutoToolsPackageBase):
 class PackageMSVC(MSBuildPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+    def _writePkgConfigFile(self, pkgConfigFile):
+        templateFile = self.sourceDir() / "sqlcipher.pc.in"
+        if templateFile.exists():
+            utils.copyFile(templateFile, pkgConfigFile)
+            with open(pkgConfigFile, "rt") as f:
+                content = f.read()
+            content = content.replace(r"@prefix@", str(CraftCore.standardDirs.craftRoot()))
+            content = content.replace(r"@exec_prefix@", r"${prefix}/bin")
+            content = content.replace(r"@libdir@", r"${prefix}/lib")
+            content = content.replace(r"@includedir@", r"${prefix}/include")
+            content = content.replace(r"@PACKAGE_VERSION@", self.version)
+        else:
+            prefix = str(CraftCore.standardDirs.craftRoot()).replace("\\", "/")
+            content = "\n".join(
+                [
+                    f"prefix={prefix}",
+                    "exec_prefix=${prefix}/bin",
+                    "libdir=${prefix}/lib",
+                    "includedir=${prefix}/include",
+                    "",
+                    "Name: sqlcipher",
+                    "Description: SQLCipher library",
+                    f"Version: {self.version}",
+                    "Libs: -L${libdir} -lsqlcipher",
+                    "Cflags: -I${includedir}/sqlcipher",
+                    "",
+                ]
+            )
+
+        with open(pkgConfigFile, "wt") as f:
+            f.write(content)
 
     def configure(self):
         self.enterSourceDir()
@@ -239,17 +276,7 @@ class PackageMSVC(MSBuildPackageBase):
             pkgConfigDir = self.installDir() / "lib/pkgconfig"
             pkgConfigFile = pkgConfigDir / "sqlcipher.pc"
             utils.createDir(pkgConfigDir)
-            utils.copyFile(self.sourceDir() / "sqlcipher.pc.in", pkgConfigFile)
-            with open(pkgConfigFile, "rt") as f:
-                content = f.read()
-            content = content.replace(r"@prefix@", str(CraftCore.standardDirs.craftRoot()))
-            content = content.replace(r"@exec_prefix@", r"${prefix}/bin")
-            content = content.replace(r"@libdir@", r"${prefix}/lib")
-            content = content.replace(r"@includedir@", r"${prefix}/include")
-            content = content.replace(r"@PACKAGE_VERSION@", self.version)
-
-            with open(pkgConfigFile, "wt") as f:
-                f.write(content)
+            self._writePkgConfigFile(pkgConfigFile)
 
             # remove a dummy library and replace it with the real one
             utils.rmtree(self.installDir() / "lib/sqlcipher.lib")
