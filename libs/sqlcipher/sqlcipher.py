@@ -82,6 +82,10 @@ class PackageAutotools(AutoToolsPackageBase):
         else:
             self.subinfo.options.configure.cflags += " -DSQLITE_HAS_CODEC"
 
+        if CraftCore.compiler.isMinGW():
+            # The generated Makefile does not pick up OpenSSL from dependencies automatically.
+            self.subinfo.options.configure.args += 'LIBS="-lssl -lcrypto"'
+
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.ldflags += " -lcrypto"
 
