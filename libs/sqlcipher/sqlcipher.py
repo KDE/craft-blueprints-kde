@@ -127,12 +127,29 @@ class PackageAutotools(AutoToolsPackageBase):
             with open(Makefile, "rt") as f:
                 content = f.read()
 
-            m = re.search("TCLLIBDIR = (?P<absolutePath>.*)", content)
+            m = re.search(r"^TCLLIBDIR\s*=\s*(?P<absolutePath>.*)$", content, re.MULTILINE)
             if not m:
                 return False
 
-            relativePath = os.path.relpath(m.group("absolutePath"), CraftCore.standardDirs.craftRoot())
-            relativePath = relativePath.replace("\\", "/")
+            absolutePath = m.group("absolutePath").strip().strip('"')
+            if absolutePath:
+                try:
+                    absolutePath = self.shell.toNativePath(absolutePath)
+                except Exception:
+                    pass
+
+                try:
+                    relativePath = os.path.relpath(absolutePath, CraftCore.standardDirs.craftRoot())
+                    relativePath = relativePath.replace("\\", "/")
+                except ValueError:
+                    relativePath = None
+            else:
+                relativePath = None
+
+            if not relativePath:
+                versionMatch = re.search(r"^VERSION\s*=\s*(?P<version>\S+)$", content, re.MULTILINE)
+                version = versionMatch.group("version") if versionMatch else "8.6"
+                relativePath = f"lib/tcl{version}"
 
             content = content.replace(r"$(DESTDIR)$(bindir)", r"$(DESTDIR)/bin")
             content = content.replace(r"$(DESTDIR)$(libdir)", r"$(DESTDIR)/lib")
