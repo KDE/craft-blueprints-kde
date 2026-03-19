@@ -35,4 +35,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["shortcuts"] = [{"name": "Drawy", "target": "bin/drawy.exe", "description": self.subinfo.description, "appId": "drawy"}]
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["alias"] = "drawy"
+        self.defines["icon"] = self.blueprintDir() / "drawy.ico"
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-drawy.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-drawy.png"
         return super().createPackage()
