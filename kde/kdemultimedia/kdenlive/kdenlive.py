@@ -9,6 +9,9 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Libre Video Editor, by KDE community"
+        self.webpage = "https://kdenlive.org/"
+        self.displayName = "Kdenlive"
+
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
