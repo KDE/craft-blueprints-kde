@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "A FREE, open-source and cross-platform Data Visualization and Analysis software accessible to everyone"
-        self.webpage = "https://labplot.kde.org/"
+        self.webpage = "https://labplot.org/"
         self.displayName = "LabPlot"
 
         for ver in ["2.9.0"]:
@@ -164,7 +164,7 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess|python3)).*")
 
-        self.defines["website"] = "https://labplot.kde.org/"
+        self.defines["website"] = "https://labplot.org/"
         self.defines["executable"] = "bin\\labplot.exe"
         self.defines["shortcuts"] = [{"name": "LabPlot", "target": "bin/labplot.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\labplot.ico"}]
         self.defines["icon"] = self.blueprintDir() / "labplot.ico"
