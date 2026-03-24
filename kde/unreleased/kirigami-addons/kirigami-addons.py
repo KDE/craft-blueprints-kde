@@ -10,11 +10,11 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/kirigami-addons.git"
 
         # stable
-        for ver in ["1.10.0", "1.11.0"]:
+        for ver in ["1.11.0", "1.12.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = "kirigami-addons-" + ver
-        self.defaultTarget = "1.11.0"
+        self.defaultTarget = "1.12.0"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
