@@ -12,7 +12,6 @@ class subinfo(info.infoclass):
         self.webpage = "https://kdenlive.org/"
         self.displayName = "Kdenlive"
 
-
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
