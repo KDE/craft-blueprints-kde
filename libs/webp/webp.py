@@ -5,13 +5,12 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.3.0", "1.3.2"]:
+        for ver in ["1.6.0"]:
             self.targets[ver] = f"https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libwebp-{ver}"
-        self.targetDigests["1.3.0"] = (["64ac4614db292ae8c5aa26de0295bf1623dbb3985054cb656c55e67431def17c"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["1.3.2"] = (["2a499607df669e40258e53d0ade8035ba4ec0175244869d1025d460562aa09b4"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.6.0"] = (["e4ab7009bf0629fd11982d4c2aa83964cf244cffba7347ecd39019a9e38c4564"], CraftHash.HashAlgorithm.SHA256)
         self.webpage = "https://chromium.googlesource.com/webm/libwebp/"
-        self.defaultTarget = "1.3.2"
+        self.defaultTarget = "1.6.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
