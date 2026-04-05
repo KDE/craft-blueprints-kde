@@ -9,11 +9,11 @@ class subinfo(info.infoclass):
         self.description = "a library to manipulate TIFF image files"
         self.webpage = "http://www.simplesystems.org/libtiff/"
 
-        for ver in ["4.4.0"]:
+        for ver in ["4.7.1"]:
             self.targets[ver] = f"http://download.osgeo.org/libtiff/tiff-{ver}.tar.gz"
-            self.targetDigests[ver] = (["917223b37538959aca3b790d2d73aa6e626b688e02dcda272aec24c2f498abed"], CraftHash.HashAlgorithm.SHA256)
+            self.targetDigests[ver] = (["f698d94f3103da8ca7438d84e0344e453fe0ba3b7486e04c5bf7a9a3fabe9b69"], CraftHash.HashAlgorithm.SHA256)
             self.targetInstSrc[ver] = f"tiff-{ver}"
-        self.defaultTarget = "4.4.0"
+        self.defaultTarget = "4.7.1"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/zlib"] = None
