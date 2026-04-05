@@ -1,5 +1,4 @@
 import info
-from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
 
@@ -20,8 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/liblzma"] = None
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
         self.runtimeDependencies["virtual/base"] = None
-        if not CraftCore.compiler.isWindows:
-            self.runtimeDependencies["libs/webp"] = None
+        self.runtimeDependencies["libs/webp"] = None
 
 
 class Package(CMakePackageBase):
