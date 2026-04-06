@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2025 Renaud Guezennec <renaud@rolisteam.org>
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
 
@@ -37,4 +38,8 @@ class Package(CMakePackageBase):
         self.defines["appname"] = "rolisteam"
         self.defines["icon"] = self.sourceDir() / "resources/rolisteam/logo/rolisteam.ico"
         self.defines["shortcuts"] = [{"name" : self.subinfo.displayName, "target": "bin/rolisteam.exe"}, {"name" : "rcse", "target" : "bin/rcse.exe"}, {"name" : "dice", "target" : "bin/dice.exe"}]
+
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
+
         return super().createPackage()
