@@ -86,7 +86,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/matio"] = None
         self.runtimeDependencies["libs/discount"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/qt6/qtwebsockets"] = None
         # required on macOS currently
         self.runtimeDependencies["libs/readstat"] = None
