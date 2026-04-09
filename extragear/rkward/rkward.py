@@ -32,7 +32,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
-        self.runtimeDependencies["libs/qt/qtwebengine"] = None
+        if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/qt/qtwebengine"] = None
+        self.runtimeDependencies["libs/qt/qtwebview"] = None
+        self.runtimeDependencies["libs/qt/qtwebsockets"] = None
         # not strictly runtimeDependencies, but should be included in the package for plugins and extra functionality
         self.runtimeDependencies["kde/applications/kate"] = None
         self.runtimeDependencies["extragear/kbibtex"] = None
@@ -73,6 +76,7 @@ class Package(CMakePackageBase):
                 f"-DR_INCLUDEDIR={rhome / 'include'}",
                 f"-DR_SHAREDLIBDIR={rhome / 'lib'}",
                 "-DUSE_BINARY_PACKAGES=1",
+                "-DFORCE_WITH_QWEBVIEW=ON",
             ]
 
     def fetch(self):
