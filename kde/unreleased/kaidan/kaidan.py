@@ -12,28 +12,28 @@ class subinfo(info.infoclass):
         self.defaultTarget = "master"
 
     def setDependencies(self):
-        self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt/qtmultimedia"] = None
-        self.runtimeDependencies["libs/qt6/qtpositioning"] = None
-        self.runtimeDependencies["libs/qt/qtlocation"] = None
-        self.runtimeDependencies["libs/qt/qtsvg"] = None
-        self.runtimeDependencies["libs/zxing-cpp"] = None
-        self.runtimeDependencies["qt-libs/qtkeychain"] = None
-        self.runtimeDependencies["qt-libs/qxmpp"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/prison"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/libs/kquickimageeditor"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["libs/icu"] = None
+        self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt/qtlocation"] = None
+        self.runtimeDependencies["libs/qt/qtmultimedia"] = None
+        self.runtimeDependencies["libs/qt/qtsvg"] = None
+        self.runtimeDependencies["libs/qt6/qtpositioning"] = None
+        self.runtimeDependencies["libs/zxing-cpp"] = None
+        self.runtimeDependencies["qt-libs/qtkeychain"] = None
+        self.runtimeDependencies["qt-libs/qxmpp"] = None
 
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+            self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
-            self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
             self.runtimeDependencies["libs/kdsingleapplication"] = None
 
 
