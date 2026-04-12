@@ -7,9 +7,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        self.patchToApply["6.20.0"] = [("qt610-android-build-fix.patch", 1)]
-        self.patchLevel["6.20.0"] = 1
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
