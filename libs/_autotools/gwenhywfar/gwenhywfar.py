@@ -96,6 +96,6 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.cxxflags += f"-I{widgetsdir} -I{guidir} -I{coredir} -I{includedir} "
 
         if CraftCore.compiler.isMacOS:
-            CraftCore.cache.utils.prependSystemPath(CraftCore.standardDirs.craftRoot() / “libexec”)
+            CraftCore.cache.utils.prependSystemPath(CraftCore.standardDirs.craftRoot() / "libexec")
 
         return super().configure()
