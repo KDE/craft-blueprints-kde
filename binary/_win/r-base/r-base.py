@@ -16,10 +16,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
     def setTargets(self):
-        for version in ["4.3.3"]:
+        for version in ["4.3.3", "4.5.3"]:
             self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + version + "/" + "R-" + version + "-win.exe"
         self.targets["devel"] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "R-devel.exe"
-        self.defaultTarget = "4.3.3"
+        self.defaultTarget = "4.5.3"
 
 
 # Installation approach based on expat-src-2.0.1.py.
