@@ -22,9 +22,11 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
+import os
 import re
 
 import info
+import utils
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
@@ -71,6 +73,13 @@ class Package(AutoToolsPackageBase):
 
         # Including libtool from the newer autotools in craftroot breaks the build (at least on macOS)
         self.subinfo.options.configure.autoreconf = False
+
+    def configure(self):
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.ldflags += " -Wl,-headerpad_max_install_names"
+            with utils.ScopedEnv({"PATH": f"{CraftCore.standardDirs.craftRoot() / 'libexec'}:{os.environ.get('PATH')}"}):
+                return super().configure()
+        return super().configure()
 
     def postInstall(self):
         cmakes = [self.installDir() / f"lib/cmake/aqbanking-{self.subinfo.buildTarget[:-2]}/aqbanking-config.cmake"]

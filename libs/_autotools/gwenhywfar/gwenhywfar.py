@@ -25,6 +25,7 @@
 import os
 
 import info
+import utils
 from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
@@ -96,6 +97,8 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.cxxflags += f"-I{widgetsdir} -I{guidir} -I{coredir} -I{includedir} "
 
         if CraftCore.compiler.isMacOS:
-            CraftCore.cache.utils.prependSystemPath(CraftCore.standardDirs.craftRoot() / "libexec")
+            self.subinfo.options.configure.ldflags += " -Wl,-headerpad_max_install_names"
+            with utils.ScopedEnv({"PATH": f"{CraftCore.standardDirs.craftRoot() / 'libexec'}:{os.environ.get('PATH')}"}):
+                return super().configure()
 
         return super().configure()
