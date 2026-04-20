@@ -11,7 +11,6 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/quotient-im/libQuotient.git||dev"
-        self.svnTargets["rust"] = "https://github.com/quotient-im/libQuotient.git||tobias/rust-sdk-crypto"
 
         for ver in ["0.9.6"]:
             self.targets[ver] = "https://github.com/quotient-im/libQuotient/archive/%s.tar.gz" % ver
@@ -29,7 +28,7 @@ class subinfo(info.infoclass):
 
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
-        if self.buildTarget == "rust":
+        if self.buildTarget == "master":
             self.runtimeDependencies["libs/corrosion"] = None
         else:
             self.runtimeDependencies["libs/olm"] = None
