@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 4b8ebd6a..39207bfa 100644
+index 08f79464..f3544134 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -192,9 +192,6 @@ if(WIN32)
+@@ -203,9 +203,6 @@ if(WIN32)
      find_package(dlfcn-win32 REQUIRED)
      set(CMAKE_DL_LIBS dlfcn-win32::dl)
    endif()
@@ -12,9 +12,8 @@ index 4b8ebd6a..39207bfa 100644
  endif()
  
  find_package(SDL2)
-
 diff --git a/src/framework/CMakeLists.txt b/src/framework/CMakeLists.txt
-index caa56222..912cd7bc 100644
+index 6d16e093..4ef43fb6 100644
 --- a/src/framework/CMakeLists.txt
 +++ b/src/framework/CMakeLists.txt
 @@ -107,7 +107,6 @@ set_target_properties(mlt PROPERTIES
@@ -25,9 +24,8 @@ index caa56222..912cd7bc 100644
      target_link_options(mlt PRIVATE -Wl,--output-def,${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libmlt-${MLT_VERSION_MAJOR}.def)
      install(FILES "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libmlt-${MLT_VERSION_MAJOR}.def" DESTINATION ${CMAKE_INSTALL_LIBDIR})
    endif()
-
 diff --git a/src/framework/mlt_types.h b/src/framework/mlt_types.h
-index 3e350222..a1bb3cbc 100644
+index 23f0c188..999b4368 100644
 --- a/src/framework/mlt_types.h
 +++ b/src/framework/mlt_types.h
 @@ -2,7 +2,7 @@
@@ -51,7 +49,7 @@ index 3e350222..a1bb3cbc 100644
  extern "C" {
  #endif
 diff --git a/src/melt/CMakeLists.txt b/src/melt/CMakeLists.txt
-index 592c3c2e..d406dc13 100644
+index 557bac72..d406dc13 100644
 --- a/src/melt/CMakeLists.txt
 +++ b/src/melt/CMakeLists.txt
 @@ -10,9 +10,7 @@ if(SDL2_FOUND AND NOT ANDROID)
@@ -64,12 +62,12 @@ index 592c3c2e..d406dc13 100644
 +        target_link_libraries(melt PRIVATE mingw32)
      endif()
  endif()
-
+ 
 diff --git a/src/modules/avformat/CMakeLists.txt b/src/modules/avformat/CMakeLists.txt
-index 709d1d82..957aa54f 100644
+index dbef25fa..dae766cb 100644
 --- a/src/modules/avformat/CMakeLists.txt
 +++ b/src/modules/avformat/CMakeLists.txt
-@@ -45,9 +45,6 @@ endif()
+@@ -46,9 +46,6 @@ endif()
  
  if(WIN32)
    target_compile_definitions(mltavformat PRIVATE AVDATADIR="share/ffmpeg/")
@@ -79,9 +77,8 @@ index 709d1d82..957aa54f 100644
  endif()
  
  if(CPU_MMX)
-
 diff --git a/src/modules/sdl2/CMakeLists.txt b/src/modules/sdl2/CMakeLists.txt
-index 56299bb6..3733e337 100644
+index e46abb04..844686d2 100644
 --- a/src/modules/sdl2/CMakeLists.txt
 +++ b/src/modules/sdl2/CMakeLists.txt
 @@ -20,10 +20,6 @@ else()
@@ -95,7 +92,6 @@ index 56299bb6..3733e337 100644
  set_target_properties(mltsdl2 PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${MLT_MODULE_OUTPUT_DIRECTORY}")
  
  install(TARGETS mltsdl2 LIBRARY DESTINATION ${MLT_INSTALL_MODULE_DIR})
-
 diff --git a/src/win32/win32.c b/src/win32/win32.c
 index 55b91d25..6c70076b 100644
 --- a/src/win32/win32.c
