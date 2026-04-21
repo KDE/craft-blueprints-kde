@@ -25,7 +25,6 @@ class subinfo(info.infoclass):
 
         self.patchToApply["f03d93f"] = []
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["f03d93f"] += [("pi_patch.diff", 1)]
             self.patchToApply["f03d93f"] += [("revert-mingw-mysy2.diff", 1)]
 
     def setDependencies(self):
