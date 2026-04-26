@@ -112,6 +112,8 @@ class Package(CMakePackageBase):
             f"-DUSE_LV2={self.subinfo.options.isActive('libs/lilv').asOnOff}",
             f"-DMOD_MOVIT={useMovit.asOnOff}",
             f"-DMOD_OPENCV={self.subinfo.options.isActive('libs/opencv/opencv').asOnOff}",
+            # TODO Fix on MSVC
+            f"-DMOD_OPENFX={CraftCore.compiler.isMSVC().inverted.asOnOff}",
             # TODO Fix plus module with MSVC, it needs sys/cdefs.h in ebur128
             "-DMOD_PLUS=ON",
             # TODO Fix plusgpl module with MSVC
