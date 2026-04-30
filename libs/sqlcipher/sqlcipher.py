@@ -108,7 +108,7 @@ class PackageAutotools(AutoToolsPackageBase):
         self.subinfo.options.configure.noCacheFile = True
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.make.supportsMultijob = False
-            self.subinfo.options.configure.noDataRootDir = True
+            self.subinfo.options.configure.noPlatform = True
 
         if "4.13.0" in self.version:
             os.environ["CFLAGS"] = "-DSQLITE_EXTRA_INIT=sqlcipher_extra_init -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown -DSQLITE_HAS_CODEC"
@@ -146,10 +146,6 @@ class PackageAutotools(AutoToolsPackageBase):
 
     def _sanitize_configure_args(self):
         options = self._coerce_configure_args(self.subinfo.options.configure.args)
-
-        if CraftCore.compiler.isWindows or CraftCore.compiler.isMinGW():
-            options = [opt for opt in options if not str(opt).startswith("--target=")]
-
         self.subinfo.options.configure.args = options
         return options
 
@@ -207,11 +203,7 @@ class PackageAutotools(AutoToolsPackageBase):
 
     def configureOptions(self, defines=""):
         options = super().configureOptions(defines)
-        options = self._coerce_configure_args(options)
-
-        if CraftCore.compiler.isWindows or CraftCore.compiler.isMinGW():
-            options = [opt for opt in options if not str(opt).startswith("--target=")]
-        return options
+        return self._coerce_configure_args(options)
 
     def install(self):
         if not CraftCore.compiler.isMinGW():
