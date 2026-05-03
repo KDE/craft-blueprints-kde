@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Open source multimedia framework"
         self.webpage = "https://www.mltframework.org"
-        for ver in ["7.14.0"]:
+        for ver in ["7.38.0"]:
             self.targets[ver] = f"https://github.com/mltframework/mlt/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = "mlt-" + ver
 
@@ -34,7 +34,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/libsamplerate"] = None
 
