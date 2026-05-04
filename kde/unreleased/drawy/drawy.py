@@ -10,6 +10,11 @@ class subinfo(info.infoclass):
         self.displayName = "Drawy"
         self.description = "Your handy, infinite, brainstorming tool!"
 
+        for ver in ["1.0.0"]:
+            self.targets[ver] = f"https://download.kde.org/stable/drawy/{ver}/drawy-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/drawy/{ver}/drawy-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = f"drawy-{ver}"
+
         self.svnTargets["master"] = "https://invent.kde.org/graphics/drawy.git"
 
     def setDependencies(self):
