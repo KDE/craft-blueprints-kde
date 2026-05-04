@@ -5,7 +5,9 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/multimedia/kasts.git")
+        self.versionInfo.setDefaultValues(
+            gitUrl="https://invent.kde.org/multimedia/kasts.git"
+        )
         self.displayName = "Kasts"
         self.description = "Podcast player"
 
@@ -16,6 +18,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/taglib"] = None
+        self.runtimeDependencies["libs/gstreamer"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
