@@ -12,6 +12,8 @@ class subinfo(info.infoclass):
 
         self.description = "Baloo is a file indexing and searching framework."
 
+        self.patchToApply["6.25.0"] = [("baloo-6.25.0-20260504.diff", 1)]
+
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/solid"] = None
