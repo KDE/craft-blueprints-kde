@@ -1,5 +1,4 @@
 import info
-from pathlib import Path
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
@@ -39,6 +38,8 @@ class Package(CMakePackageBase):
             installedLib = installedLibs[0]
             prefixDir = installedLib.parents[2]
             libDir = prefixDir / "lib"
+            if not utils.copyFile(installedLib, libDir / installedLib.name, linkOnly=False):
+                return False
             if not utils.copyFile(installedLib, libDir / "liboboe.so", linkOnly=False):
                 return False
         else:
@@ -51,7 +52,7 @@ class Package(CMakePackageBase):
 
         prefix = prefixDir
         if CraftCore.compiler.isAndroid:
-            prefix = Path("/") / prefixDir.relative_to(imageRoot)
+            prefix = CraftCore.standardDirs.craftRoot()
 
         with open(pkgConfigDir / "oboe-1.0.pc", "wt", encoding="utf-8") as pcFile:
             pcFile.write(

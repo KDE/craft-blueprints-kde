@@ -61,3 +61,41 @@ class Package(CMakePackageBase):
                 "-Denable-openmp=OFF",
                 "-Denable-native-dls=OFF",
             ]
+
+    def install(self):
+        if not super().install():
+            return False
+
+        if CraftCore.compiler.isAndroid:
+            imageRoot = self.installDir()
+            configFiles = sorted(imageRoot.glob("**/lib/cmake/fluidsynth/FluidSynthConfig.cmake"))
+            if not configFiles:
+                CraftCore.log.error(f"Could not find FluidSynthConfig.cmake below {imageRoot}")
+                return False
+
+            configFile = configFiles[0]
+            oboeLib = CraftCore.standardDirs.craftRoot() / "lib" / f"liboboe_{CraftCore.compiler.androidAbi}.so"
+            oboeIncludeDir = CraftCore.standardDirs.craftRoot() / "include"
+
+            with open(configFile, "a", encoding="utf-8") as config:
+                config.write(
+                    f"""
+
+if(ANDROID)
+    if(NOT TARGET Oboe::oboe)
+        add_library(Oboe::oboe SHARED IMPORTED)
+        set_target_properties(Oboe::oboe PROPERTIES
+            IMPORTED_LOCATION "{oboeLib}"
+            INTERFACE_INCLUDE_DIRECTORIES "{oboeIncludeDir}"
+        )
+    endif()
+    foreach(_fluidsynth_target FluidSynth::libfluidsynth FluidSynth::fluidsynth)
+        if(TARGET ${{_fluidsynth_target}})
+            set_property(TARGET ${{_fluidsynth_target}} APPEND PROPERTY INTERFACE_LINK_LIBRARIES Oboe::oboe)
+        endif()
+    endforeach()
+endif()
+"""
+                )
+
+        return True
