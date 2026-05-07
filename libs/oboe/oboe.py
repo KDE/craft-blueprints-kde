@@ -1,4 +1,5 @@
 import info
+from pathlib import Path
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
@@ -26,18 +27,35 @@ class Package(CMakePackageBase):
         if not super().install():
             return False
 
+        imageRoot = self.installDir()
         if CraftCore.compiler.isAndroid:
-            libName = "liboboe.so"
-            abiLibDir = self.installDir() / "lib" / CraftCore.compiler.androidAbi
-            if not utils.copyFile(abiLibDir / libName, self.installDir() / "lib" / libName, linkOnly=False):
+            installedLibs = sorted(imageRoot.glob(f"**/lib/{CraftCore.compiler.androidAbi}/liboboe*.so"))
+            if not installedLibs:
+                installedLibs = sorted(imageRoot.glob("**/liboboe*.so"))
+            if not installedLibs:
+                CraftCore.log.error(f"Could not find installed Oboe library below {imageRoot}")
                 return False
 
-        pkgConfigDir = self.installDir() / "lib/pkgconfig"
+            installedLib = installedLibs[0]
+            prefixDir = installedLib.parents[2]
+            libDir = prefixDir / "lib"
+            if not utils.copyFile(installedLib, libDir / "liboboe.so", linkOnly=False):
+                return False
+        else:
+            prefixDir = imageRoot
+            libDir = prefixDir / "lib"
+
+        pkgConfigDir = libDir / "pkgconfig"
         if not utils.createDir(pkgConfigDir):
             return False
+
+        prefix = prefixDir
+        if CraftCore.compiler.isAndroid:
+            prefix = Path("/") / prefixDir.relative_to(imageRoot)
+
         with open(pkgConfigDir / "oboe-1.0.pc", "wt", encoding="utf-8") as pcFile:
             pcFile.write(
-                f"""prefix={self.installDir()}
+                f"""prefix={prefix}
 exec_prefix=${{prefix}}
 libdir=${{prefix}}/lib
 includedir=${{prefix}}/include
