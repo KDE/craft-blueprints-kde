@@ -31,6 +31,8 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/glib"] = None
             self.runtimeDependencies["libs/libsndfile"] = None
+        else:
+            self.runtimeDependencies["libs/oboe"] = None
 
 
 class Package(CMakePackageBase):
@@ -42,7 +44,7 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += [
                 "-Dosal=cpp11",
                 "-Denable-opensles=ON",
-                "-Denable-oboe=OFF",
+                "-Denable-oboe=ON",
                 "-Denable-aufile=OFF",
                 "-Denable-libsndfile=OFF",
                 "-Denable-libinstpatch=OFF",
