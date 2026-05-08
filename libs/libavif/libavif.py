@@ -9,12 +9,12 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.3.0"]:
+        for ver in ["1.4.1"]:
             self.targets[ver] = f"https://github.com/AOMediaCodec/libavif/archive/refs/tags/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libavif-{ver}"
-        self.targetDigests["1.3.0"] = (["0a545e953cc049bf5bcf4ee467306a2f113a75110edf59e61248873101cd26c1"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.4.1"] = (["d4aea31a4becb3273ba7968221be2e48148ba05eb8a68d14e671963e17785648"], CraftHash.HashAlgorithm.SHA256)
         self.description = "Library for encoding and decoding .avif files"
-        self.defaultTarget = "1.3.0"
+        self.defaultTarget = "1.4.1"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/aom"] = None
@@ -28,4 +28,4 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         if not CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.args += ["-DAVIF_CODEC_DAV1D=SYSTEM"]
-        self.subinfo.options.configure.args += ["-DAVIF_CODEC_AOM=SYSTEM", "-DAVIF_ENABLE_GTEST=OFF", "-DAVIF_LIBYUV=OFF"]
+        self.subinfo.options.configure.args += ["-DAVIF_CODEC_AOM=SYSTEM", "-DAVIF_LIBYUV=OFF"]
