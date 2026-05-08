@@ -10,11 +10,12 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.description = "An open, royalty-free video coding format designed for video transmissions over the Internet"
-        for ver in ["3.12.1"]:
+        for ver in ["3.12.1", "3.13.3"]:
             self.targets[ver] = f"https://storage.googleapis.com/aom-releases/libaom-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libaom-{ver}"
         self.targetDigests["3.12.1"] = (["9e9775180dec7dfd61a79e00bda3809d43891aee6b2e331ff7f26986207ea22e"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "3.12.1"
+        self.targetDigests["3.13.3"] = (["446a4ae9741cb8f3eeb98c949d25f91b48cb2b8569cae975c4b737392e9024fc"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "3.13.3"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/cmake"] = None
