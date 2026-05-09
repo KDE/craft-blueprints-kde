@@ -1,8 +1,8 @@
 import info
+import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
-import utils
 
 
 class subinfo(info.infoclass):
