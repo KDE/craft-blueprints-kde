@@ -36,37 +36,42 @@ from Utils import CraftHash
 
 
 def _writePkgConfigFile(sourceDir, version, pkgConfigFile):
-    utils.createDir(pkgConfigFile.parent)
     templateFile = sourceDir / "sqlcipher.pc.in"
     if templateFile.exists():
-        utils.copyFile(templateFile, pkgConfigFile)
-        with open(pkgConfigFile, "rt") as f:
-            content = f.read()
-        content = content.replace(r"@prefix@", str(CraftCore.standardDirs.craftRoot()))
-        content = content.replace(r"@exec_prefix@", r"${prefix}/bin")
-        content = content.replace(r"@libdir@", r"${prefix}/lib")
-        content = content.replace(r"@includedir@", r"${prefix}/include")
-        content = content.replace(r"@PACKAGE_VERSION@", version)
-    else:
-        prefix = str(CraftCore.standardDirs.craftRoot()).replace("\\", "/")
-        content = "\n".join(
-            [
-                f"prefix={prefix}",
-                "exec_prefix=${prefix}/bin",
-                "libdir=${prefix}/lib",
-                "includedir=${prefix}/include",
-                "",
-                "Name: sqlcipher",
-                "Description: SQLCipher library",
-                f"Version: {version}",
-                "Libs: -L${libdir} -lsqlite3",
-                "Cflags: -I${includedir}/sqlcipher",
-                "",
-            ]
+        return utils.configureFile(
+            templateFile,
+            pkgConfigFile,
+            {
+                "prefix": CraftCore.standardDirs.craftRoot(),
+                "exec_prefix": "${prefix}/bin",
+                "libdir": "${prefix}/lib",
+                "includedir": "${prefix}/include",
+                "PACKAGE_VERSION": version,
+            },
+            atOnly=True,
         )
 
+    prefix = str(CraftCore.standardDirs.craftRoot()).replace("\\", "/")
+    content = "\n".join(
+        [
+            f"prefix={prefix}",
+            "exec_prefix=${prefix}/bin",
+            "libdir=${prefix}/lib",
+            "includedir=${prefix}/include",
+            "",
+            "Name: sqlcipher",
+            "Description: SQLCipher library",
+            f"Version: {version}",
+            "Libs: -L${libdir} -lsqlite3",
+            "Cflags: -I${includedir}/sqlcipher",
+            "",
+        ]
+    )
+
+    utils.createDir(pkgConfigFile.parent)
     with open(pkgConfigFile, "wt") as f:
         f.write(content)
+    return True
 
 
 class subinfo(info.infoclass):
@@ -234,8 +239,7 @@ class PackageAutotools(AutoToolsPackageBase):
             if not utils.copyFile(source, dest):
                 return False
 
-        _writePkgConfigFile(self.sourceDir(), self.version, pkgConfigFile)
-        return True
+        return _writePkgConfigFile(self.sourceDir(), self.version, pkgConfigFile)
 
     def postInstall(self):
         if CraftCore.compiler.isMinGW():
@@ -330,7 +334,8 @@ class PackageMSVC(MSBuildPackageBase):
             pkgConfigDir = self.installDir() / "lib/pkgconfig"
             pkgConfigFile = pkgConfigDir / "sqlcipher.pc"
             utils.createDir(pkgConfigDir)
-            self._writePkgConfigFile(pkgConfigFile)
+            if not self._writePkgConfigFile(pkgConfigFile):
+                return False
 
             # remove a dummy library and replace it with the real one
             utils.rmtree(self.installDir() / "lib/sqlcipher.lib")
