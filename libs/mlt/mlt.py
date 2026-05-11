@@ -20,12 +20,12 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
         self.patchLevel["master"] = 20260108
 
-        self.svnTargets["86b1877"] = "https://github.com/mltframework/mlt.git||86b18776f27f4ddbb5352a18bdaee8deba131134"
-        self.defaultTarget = "86b1877"
+        self.svnTargets["953b09a"] = "https://github.com/mltframework/mlt.git||953b09a1bd625bb6c4053e15f116b7031151ca99"
+        self.defaultTarget = "953b09a"
 
-        self.patchToApply["86b1877"] = []
+        self.patchToApply["953b09a"] = []
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["86b1877"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["953b09a"] += [("revert-mingw-mysy2.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
@@ -74,7 +74,7 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
 
         # enable submodule checkout to get glaximate
-        if not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.isAndroid:
             self.subinfo.options.fetch.checkoutSubmodules = True
 
         # General CMake switches
@@ -91,12 +91,6 @@ class Package(CMakePackageBase):
 
         useMovit = CraftBool(self.subinfo.options.isActive("libs/movit") and CraftCore.compiler.isLinux)
         useSox = CraftBool(self.subinfo.options.isActive("libs/sox") and not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS)
-        # TODO Fix and enable RtAudio with MSVC
-        useRtAudio = CraftBool(not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMSVC())
-        # TODO: enable Glaxnimate on MSVC after the submodule in MLT has been updated
-        useGlaxnimate = CraftBool(self.subinfo.options.isActive("libs/libarchive") and not CraftCore.compiler.isMSVC())
-        # TODO: fix spatialaudio tries to link against m on MSVC
-        useSpatialaudio = CraftBool(self.subinfo.options.isActive("libs/spatialaudio").asOnOff and not CraftCore.compiler.isMSVC())
 
         self.subinfo.options.configure.args += [
             f"-DMOD_AVFORMAT={self.subinfo.options.isActive('libs/ffmpeg').asOnOff}",
@@ -105,28 +99,25 @@ class Package(CMakePackageBase):
             f"-DMOD_FREI0R={self.subinfo.options.isActive('libs/frei0r-plugins').asOnOff}",
             # don't pull in gtk
             "-DMOD_GDK=OFF",
-            f"-DMOD_GLAXNIMATE_QT6={useGlaxnimate.asOnOff}",
-            # TODO Fix jackrack module with MSVC
-            f"-DMOD_JACKRACK={CraftCore.compiler.isMSVC().inverted.asOnOff}",  # default: ON
+            f"-DMOD_GLAXNIMATE_QT6={self.subinfo.options.isActive('libs/libarchive').asOnOff}",
+            "-DMOD_JACKRACK=ON",
             f"-DUSE_LV2={self.subinfo.options.isActive('libs/lilv').asOnOff}",
+            "-DUSE_VST2=ON",
             f"-DMOD_MOVIT={useMovit.asOnOff}",
             f"-DMOD_OPENCV={self.subinfo.options.isActive('libs/opencv/opencv').asOnOff}",
-            # TODO Fix on MSVC
-            f"-DMOD_OPENFX={CraftCore.compiler.isMSVC().inverted.asOnOff}",
-            # TODO Fix plus module with MSVC, it needs sys/cdefs.h in ebur128
+            "-DMOD_OPENFX=ON",
             "-DMOD_PLUS=ON",
-            # TODO Fix plusgpl module with MSVC
-            f"-DMOD_PLUSGPL={CraftCore.compiler.isMSVC().inverted.asOnOff}",
+            "-DMOD_PLUSGPL=ON",
             "-DMOD_QT=OFF",
             "-DMOD_QT6=ON",
             f"-DMOD_RESAMPLE={self.subinfo.options.isActive('libs/libsamplerate').asOnOff}",
-            f"-DMOD_RTAUDIO={useRtAudio.asOnOff}",
+            f"-DMOD_RTAUDIO={CraftCore.compiler.isAndroid.inverted.asOnOff}",
             f"-DMOD_RUBBERBAND={self.subinfo.options.isActive('libs/rubberband').asOnOff}",
             # We don't support SDL 1 anymore, we have SDL 2
             "-DMOD_SDL1=OFF",
             f"-DMOD_SDL2={self.subinfo.options.isActive('libs/libsdl2').asOnOff}",
             f"-DMOD_SOX={useSox.asOnOff}",
-            f"-DMOD_SPATIALAUDIO={useSpatialaudio.asOnOff}",
+            f"-DMOD_SPATIALAUDIO={self.subinfo.options.isActive('libs/spatialaudio').asOnOff}",
             f"-DMOD_VIDSTAB={self.subinfo.options.isActive('libs/vidstab').asOnOff}",
             # TODO Fix xine module with MSVC
             f"-DMOD_XINE={CraftCore.compiler.isMSVC().inverted.asOnOff}",
