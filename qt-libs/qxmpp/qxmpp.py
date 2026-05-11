@@ -11,6 +11,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["libs/gstreamer"] = None
         self.runtimeDependencies["libs/libomemo-c"] = None
+        self.runtimeDependencies["libs/openssl"] = None
 
     def setTargets(self):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/qxmpp.git"
