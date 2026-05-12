@@ -110,6 +110,7 @@ class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--with-tempstore=yes"]
+        self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.configure.noCacheFile = True
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.make.supportsMultijob = False
