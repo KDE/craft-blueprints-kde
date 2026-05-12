@@ -209,7 +209,10 @@ class PackageAutotools(AutoToolsPackageBase):
 
     def configureOptions(self, defines=""):
         options = super().configureOptions(defines)
-        return self._coerce_configure_args(options)
+        options = self._coerce_configure_args(options)
+        if CraftCore.compiler.isMinGW():
+            options = [option for option in options if not str(option).startswith("--target")]
+        return options
 
     def install(self):
         if not CraftCore.compiler.isMinGW():
