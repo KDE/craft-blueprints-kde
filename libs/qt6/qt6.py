@@ -10,7 +10,7 @@ class Pattern(CMakePackageBase):
         self.subinfo.options.configure.args += ["--log-level=STATUS"]
         # Updating this always needs a corresponding change to the host tools in the CI image!
         if CraftCore.compiler.isAndroid:
-            self.subinfo.defaultTarget = "6.9.3"
+            self.subinfo.defaultTarget = "6.11.0"
         elif CraftCore.compiler.isWindows:
             self.subinfo.options.configure.args += ["-DQT_GENERATE_SBOM=OFF"]
 
