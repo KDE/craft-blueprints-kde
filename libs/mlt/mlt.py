@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = "mlt-" + ver
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
-        self.patchLevel["master"] = 20260108
+        self.patchLevel["953b09a"] = 1
 
         self.svnTargets["953b09a"] = "https://github.com/mltframework/mlt.git||953b09a1bd625bb6c4053e15f116b7031151ca99"
         self.defaultTarget = "953b09a"
@@ -102,7 +102,7 @@ class Package(CMakePackageBase):
             f"-DMOD_GLAXNIMATE_QT6={self.subinfo.options.isActive('libs/libarchive').asOnOff}",
             "-DMOD_JACKRACK=ON",
             f"-DUSE_LV2={self.subinfo.options.isActive('libs/lilv').asOnOff}",
-            "-DUSE_VST2=ON",
+            "-DUSE_VST2=OFF",
             f"-DMOD_MOVIT={useMovit.asOnOff}",
             f"-DMOD_OPENCV={self.subinfo.options.isActive('libs/opencv/opencv').asOnOff}",
             "-DMOD_OPENFX=ON",
