@@ -163,7 +163,6 @@ class Package(CMakePackageBase):
         # Some plugin files break codesigning on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
-            self.whitelist_file.append(self.blueprintDir() / "whitelist_mac.txt")
             self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess)).*")
         else:
             self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess|python3)).*")
@@ -253,6 +252,21 @@ class Package(CMakePackageBase):
                 linkOnly=False,
             ):
                 return False
+
+            # Move dylibs from forbidden python3.11 directory
+            dylibs = [
+                "libpyside6.abi.3.6.10.dylib",
+                "libpyside6qml.abi.3.6.10.dylib",
+                "libshiboken6.abi.3.6.10.dylib"
+            ]
+
+            for dylib in dylibs:
+                if not utils.copyFile(
+                    os.path.join(archiveDir / "Applications/LabPlot.app/Contents/Resources/lib/python3.11/site-packages/PySide6/", dylib),
+                    appPath / "Contents/Frameworks",
+                    linkOnly=False,
+                ):
+                    return False
 
             # fix falsely picked up system Python lib
             # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
