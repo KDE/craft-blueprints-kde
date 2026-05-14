@@ -16,6 +16,9 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = "kirigami-addons-" + ver
         self.defaultTarget = "1.12.0"
 
+        self.patchToApply["1.12.0"] = [("android-qt611-compat.diff", 1)]
+        self.patchLevel["1.12.0"] = 1
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
