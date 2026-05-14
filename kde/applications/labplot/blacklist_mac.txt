@@ -10,3 +10,4 @@ lib/systemd/user/plasma-kglobalaccel.service
 .*/libscanbuild/.*
 .*/libear/.*
 .*/include/module.modulemap
+lib/python3.11/.*
