@@ -262,7 +262,7 @@ class Package(CMakePackageBase):
 
             for dylib in dylibs:
                 if not utils.copyFile(
-                    os.path.join(archiveDir / "Applications/LabPlot.app/Contents/Frameworks/python3.11/site-packages/PySide6/", dylib),
+                    os.path.join(archiveDir / "Applications/KDE/LabPlot.app/Contents/Frameworks/python3.11/site-packages/PySide6/", dylib),
                     appPath / "Contents/Frameworks",
                     linkOnly=False,
                 ):
