@@ -1,0 +1,2 @@
+lib/python3.11/site-packages/PySide6/libpyside6.*dylib
+lib/python3.11/site-packages/shiboken6/libshiboken6.*dylib
