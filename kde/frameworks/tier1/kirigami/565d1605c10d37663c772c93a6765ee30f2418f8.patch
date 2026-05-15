@@ -1,0 +1,44 @@
+commit 565d1605c10d37663c772c93a6765ee30f2418f8
+Author: Marco Martin <notmart@gmail.com>
+Date:   Tue May 5 15:43:49 2026 +0200
+
+    ToolbarLayout: don't crash when moreButton is not valid
+    
+    a ToolBarLAyout instance could have no moreButton, the qml context could
+    be invalid, or its component could not instantiate correctly, so
+    make sure it has been created correctly.
+    
+    Fixes a crash in koko in mobile mode
+
+diff --git a/src/layouts/toolbarlayout.cpp b/src/layouts/toolbarlayout.cpp
+index 3a81dd7b..ed6a47b1 100644
+--- a/src/layouts/toolbarlayout.cpp
++++ b/src/layouts/toolbarlayout.cpp
+@@ -614,16 +614,19 @@ QList<ToolBarLayoutDelegate *> ToolBarLayoutPrivate::createDelegates()
+         }
+     }
+ 
+-    if (!moreButtonInstance) {
++    if (!moreButtonInstance && moreButton) {
+         moreButtonInstance = qobject_cast<QQuickItem *>(
+             moreButton->createWithInitialProperties({{u"parent"_s, QVariant::fromValue(q)}, {u"visible"_s, false}}, qmlContext(moreButton)));
+-        moreButtonInstance->setParent(q);
+-        QObject::connect(moreButtonInstance, &QQuickItem::visibleChanged, q, [this]() {
+-            moreButtonInstance->setVisible(shouldShowMoreButton);
+-        });
+-        QObject::connect(moreButtonInstance, &QQuickItem::widthChanged, q, &ToolBarLayout::minimumWidthChanged);
+-        q->relayout();
+-        Q_EMIT q->minimumWidthChanged();
++
++        if (moreButtonInstance) {
++            moreButtonInstance->setParent(q);
++            QObject::connect(moreButtonInstance, &QQuickItem::visibleChanged, q, [this]() {
++                moreButtonInstance->setVisible(shouldShowMoreButton);
++            });
++            QObject::connect(moreButtonInstance, &QQuickItem::widthChanged, q, &ToolBarLayout::minimumWidthChanged);
++            q->relayout();
++            Q_EMIT q->minimumWidthChanged();
++        }
+     }
+ 
+     return result;
