@@ -249,7 +249,7 @@ class Package(CMakePackageBase):
             if not utils.copyFile(
                 archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
                 appPath / "Contents/MacOS",
-                linkOnly=False,
+                linkOnly=False
             ):
                 return False
 
@@ -260,11 +260,12 @@ class Package(CMakePackageBase):
                 "libshiboken6.abi.3.6.10.dylib"
             ]
 
+            pythonSitePackages = os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python3.11/site-packages/PySide6")
             for dylib in dylibs:
                 if not utils.copyFile(
-                    os.path.join(archiveDir / "Applications/KDE/LabPlot.app/Contents/Frameworks/python3.11/site-packages/PySide6/", dylib),
+                    os.path.join(pythonSitePackages, dylib),
                     appPath / "Contents/Frameworks",
-                    linkOnly=False,
+                    linkOnly=False
                 ):
                     return False
 
@@ -276,7 +277,7 @@ class Package(CMakePackageBase):
                     "-change",
                     "/Library/Frameworks/Python.framework/Versions/3.12/Python",
                     "@executable_path/../Frameworks/Python.framework/Versions/3.11/Python",
-                    os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver"),
+                    os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")
                 ]
             )
 
