@@ -265,6 +265,14 @@ class Package(CMakePackageBase):
             utils.copyFile(os.path.join(pysideLocations[0], "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.10.dylib"), linkOnly=False)
             utils.copyFile(os.path.join(shibokenLocations[0], "libshiboken6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.10.dylib"), linkOnly=False)
 
+            # also copy site-packages
+            sitePackageDirs = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
+            sitePackageDests = glob.glob(os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.*/lib/python*/site-packages"))
+            print("preArchive(), site-packages locations:", sitePackageDirs)
+            print("preArchive(), site-packages destinations:", sitePackageDests)
+            for pkg in ["PySide6", "shiboken6"]:
+                utils.copyDir(sitePackageDirs[0], sitePackageDests[0])
+
             # fix falsely picked up system Python lib
             # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
             utils.system(
