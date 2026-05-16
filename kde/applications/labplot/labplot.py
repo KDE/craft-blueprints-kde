@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2025 Stefan Gerlach <stefan.gerlach@uni.kn>
 
+import glob
 import os
 import subprocess
 
@@ -151,6 +152,29 @@ class Package(CMakePackageBase):
             return super().make()
 
     def install(self):
+        if CraftCore.compiler.isMacOS:
+            # debugging
+            pysideLocations = glob.glob(os.path.join(self.imageDir(), "Applications/LabPlot.app/Contents/Resources/lib/python*/site-packages/PySide6"))
+            print("install(), PySide6 image locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(self.imageDir(), "Applications/KDE/LabPlot.app/Contents/Resources/lib/python*/site-packages/PySide6"))
+            print("install(), PySide6 image kde locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(self.imageDir(), "lib/python*/site-packages/PySide6"))
+            print("install(), PySide6 image lib locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(self.imageDir(), "Applications/LabPlot.app/Contents/Frameworks/python*/site-packages/PySide6"))
+            print("install(), PySide6 image frameworks locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(self.imageDir(), "Applications/KDE/LabPlot.app/Contents/Frameworks/python*/site-packages/PySide6"))
+            print("install(), PySide6 image kde frameworks locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(self.buildDir(), "Applications/LabPlot.app/Contents/Resources/lib/python*/site-packages/PySide6"))
+            print("install(), PySide6 build locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(self.buildDir(), "Applications/KDE/LabPlot.app/Contents/Resources/lib/python*/site-packages/PySide6"))
+            print("install(), PySide6 build kde locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(self.buildDir(), "lib/python*/site-packages/PySide6"))
+            print("install(), PySide6 build lib locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(self.buildDir(), "Applications/LabPlot.app/Contents/Frameworks/python*/site-packages/PySide6"))
+            print("install(), PySide6 build frameworks locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(self.buildDir(), "Applications/KDE/LabPlot.app/Contents/Frameworks/python*/site-packages/PySide6"))
+            print("install(), PySide6 build kde frameworks locations:", pysideLocations)
+
         with utils.ScopedEnv(self._getEnv()):
             return super().install()
 
@@ -241,11 +265,13 @@ class Package(CMakePackageBase):
 
     def preArchive(self):
         archiveDir = self.archiveDir()
+        print("preArchive(), archive dir:", archiveDir)
 
         if CraftCore.compiler.isMacOS and not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             # Move cantor_pythonserver to the package
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
+            print("preArchive(), app path:", appPath)
             if not utils.copyFile(
                 archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
                 appPath / "Contents/MacOS",
@@ -254,20 +280,42 @@ class Package(CMakePackageBase):
                 return False
 
             # Move dylibs from forbidden python3.11 directory
-            dylibs = [
-                "libpyside6.abi.3.6.10.dylib",
-                "libpyside6qml.abi.3.6.10.dylib",
-                "libshiboken6.abi.3.6.10.dylib"
-            ]
+            # dylibs = [
+            #    "libpyside6.abi.3.6.10.dylib",
+            #    "libpyside6qml.abi.3.6.10.dylib",
+            #    "libshiboken6.abi.3.6.10.dylib"
+            # ]
 
-            pythonSitePackages = os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python3.11/site-packages/PySide6")
-            for dylib in dylibs:
-                if not utils.copyFile(
-                    os.path.join(pythonSitePackages, dylib),
-                    appPath / "Contents/Frameworks",
-                    linkOnly=False
-                ):
-                    return False
+            # debugging
+            pysideLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages/PySide6"))
+            print("preArchive(), PySide6 crafRoot lib locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(archiveDir, "lib/python*/site-packages/PySide6"))
+            print("preArchive(), PySide6 archiveDir lib locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "build/kde/applications/labplot/archive/Applications/LabPlot.app/Contents/Resources/lib/python*/site-packages/PySide6"))
+            print("preArchive(), PySide6 crafRoot build locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(archiveDir, "Applications/LabPlot.app/Contents/Resources/lib/python*/site-packages/PySide6"))
+            print("preArchive(), PySide6 archiveDir app locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "Applications/LabPlot.app/Contents/Resources/lib/python*/site-packages/PySide6"))
+            print("preArchive(), PySide6 crafRoot app locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "Applications/KDE/LabPlot.app/Contents/Resources/lib/python*/site-packages/PySide6"))
+            print("preArchive(), PySide6 crafRoot app kde locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(archiveDir, "Applications/KDE/LabPlot.app/Contents/Resources/lib/python*/site-packages/PySide6"))
+            print("preArchive(), PySide6 archiveDir app kde locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "build/kde/applications/labplot/archive/Applications/KDE/LabPlot.app/Contents/Frameworks/python*/site-packages/PySide6"))
+            print("preArchive(), PySide6 crafRoot build kde frameworks locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "Applications/KDE/LabPlot.app/Contents/Frameworks/python*/site-packages/PySide6"))
+            print("preArchive(), PySide6 crafRoot app kde frameworks locations:", pysideLocations)
+            pysideLocations = glob.glob(os.path.join(archiveDir, "Applications/KDE/LabPlot.app/Contents/Frameworks/python*/site-packages/PySide6"))
+            print("preArchive(), PySide6 archiveDir app kde frameworks locations:", pysideLocations)
+
+            # pythonSitePackages = os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python3.11/site-packages/PySide6")
+            # for dylib in dylibs:
+            #    if not utils.copyFile(
+            #        os.path.join(pythonSitePackages, dylib),
+            #        appPath / "Contents/Frameworks",
+            #        linkOnly=False
+            #    ):
+            #        return False
 
             # fix falsely picked up system Python lib
             # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
