@@ -261,9 +261,9 @@ class Package(CMakePackageBase):
             print("preArchive(), PySide/shiboken crafRoot lib locations:", pysideLocations, shibokenLocations)
 
             # copy dylibs from forbidden python3.11 directory
-            utils.copyFile(os.path.join(pysideLocations[0], "libpyside6.abi.3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks"), linkOnly=False)
-            utils.copyFile(os.path.join(pysideLocations[0], "libpyside6qml.abi.3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks"), linkOnly=False)
-            utils.copyFile(os.path.join(shibokenLocations[0], "libshiboken6.abi.3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks"), linkOnly=False)
+            utils.copyFile(os.path.join(pysideLocations[0], "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks"), linkOnly=False)
+            utils.copyFile(os.path.join(pysideLocations[0], "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks"), linkOnly=False)
+            utils.copyFile(os.path.join(shibokenLocations[0], "libshiboken6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks"), linkOnly=False)
 
             # fix falsely picked up system Python lib
             # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
