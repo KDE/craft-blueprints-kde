@@ -1,0 +1,32 @@
+commit 756b0e0daa5da7ae56801c5f64dc27e88214efec
+Author: Volker Krause <vkrause@kde.org>
+Date:   Mon May 18 16:59:03 2026 +0200
+
+    Don't handle back key twice
+    
+    The back key is also handled by a shortcut handler a few lines down,
+    together with the forward key.
+    
+    This fixes a double page pop when pressing the back key (or using the
+    back gesture) on Android.
+    
+    This went unnoticed as one of those didn't actually work, but Qt 6.11
+    apparently fixed this, breaking applications with a page stack depth > 1.
+
+diff --git a/src/controls/PageRow.qml b/src/controls/PageRow.qml
+index 538d55b0..7805c34e 100644
+--- a/src/controls/PageRow.qml
++++ b/src/controls/PageRow.qml
+@@ -637,12 +637,6 @@ QT.Control {
+         }
+     }
+ 
+-    Keys.onReleased: event => {
+-        if (event.key === Qt.Key_Back) {
+-            this.goBack(event)
+-        }
+-    }
+-
+     onInitialPageChanged: {
+         if (initialPage) {
+             clear();
