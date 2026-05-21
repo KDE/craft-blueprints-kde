@@ -51,7 +51,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ladspa-cmt"] = None
         self.runtimeDependencies["libs/ladspa-rnnoise"] = None
         self.runtimeDependencies["libs/ladspa-tap"] = None
-        self.runtimeDependencies["libs/_autotools/rnnoise"] = None
+        self.runtimeDependencies["libs/rnnoise"] = None
         if not CraftCore.compiler.isWindows:
             # TODO: fix ladspa-swh build on Windows
             self.runtimeDependencies["libs/ladspa-swh"] = None
