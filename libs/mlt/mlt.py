@@ -18,14 +18,13 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = "mlt-" + ver
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
-        self.patchLevel["953b09a"] = 1
 
-        self.svnTargets["953b09a"] = "https://github.com/mltframework/mlt.git||953b09a1bd625bb6c4053e15f116b7031151ca99"
-        self.defaultTarget = "953b09a"
+        self.svnTargets["ad973b4"] = "https://github.com/mltframework/mlt.git||ad973b478ce43541407d2be109ec45dc5a362b75"
+        self.defaultTarget = "ad973b4"
 
-        self.patchToApply["953b09a"] = []
+        self.patchToApply["ad973b4"] = []
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["953b09a"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["ad973b4"] += [("revert-mingw-mysy2.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
@@ -52,6 +51,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ladspa-cmt"] = None
         self.runtimeDependencies["libs/ladspa-rnnoise"] = None
         self.runtimeDependencies["libs/ladspa-tap"] = None
+        self.runtimeDependencies["libs/_autotools/rnnoise"] = None
         if not CraftCore.compiler.isWindows:
             # TODO: fix ladspa-swh build on Windows
             self.runtimeDependencies["libs/ladspa-swh"] = None
@@ -110,6 +110,7 @@ class Package(CMakePackageBase):
             "-DMOD_PLUSGPL=ON",
             "-DMOD_QT=OFF",
             "-DMOD_QT6=ON",
+            "-DMOD_RNNOISE=ON",
             f"-DMOD_RESAMPLE={self.subinfo.options.isActive('libs/libsamplerate').asOnOff}",
             f"-DMOD_RTAUDIO={CraftCore.compiler.isAndroid.inverted.asOnOff}",
             f"-DMOD_RUBBERBAND={self.subinfo.options.isActive('libs/rubberband').asOnOff}",
