@@ -6,12 +6,6 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        # MSVC is not well supported by frei0r-plugins, and it currently does not compile there so skip building it
-        # This is not a major deal as the main user is Kdenlive and it has other dependencies that are MingW only
-        if CraftCore.compiler.isMSVC():
-            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler
-
     def setTargets(self):
         self.description = "Minimalistic plugin API for video effects, plugins collection"
         self.webpage = "http://frei0r.dyne.org/"
@@ -21,30 +15,27 @@ class subinfo(info.infoclass):
         self.targetDigests["2.5.0"] = (["c511aeb51faeb0de2afe47327c30026d5b76ccc910a0b93d286029f07d29c656"], CraftHash.HashAlgorithm.SHA256)
 
         self.svnTargets["master"] = "https://github.com/dyne/frei0r.git"
-        self.svnTargets["74edaeb"] = "https://github.com/dyne/frei0r.git||74edaeb1b69081017f0c80dd4cebac15cf375e62"
-        self.defaultTarget = "74edaeb"
+        self.svnTargets["32e9140"] = "https://github.com/dyne/frei0r.git||32e91405d2ec5e222f75175b36dc4cc7bc0667ef"
+        self.patchLevel["32e9140"] = 1
+        self.defaultTarget = "32e9140"
 
     def setDependencies(self):
-        # TODO MSVC: it looks as if cairo and gavl are not detected
-
         self.runtimeDependencies["virtual/base"] = None
-        if not CraftCore.compiler.isMSVC():
-            # TODO check why build fails with OpenCV, shouldn't be too hard to fix
-            self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/cairo"] = None
-        # if not CraftCore.compiler.isMacOS:
         self.runtimeDependencies["libs/gavl"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # if CraftCore.compiler.isMacOS:
-        #    self.subinfo.options.configure.args += ["-DWITHOUT_GAVL=1"]
 
-        # TODO check why build fails with OpenCV, shouldn't be too hard to fix
-        if CraftCore.compiler.isMSVC():
-            self.subinfo.options.configure.args += ["-DWITHOUT_OPENCV=1"]
+        # Disable OpenCV as it can cause protobuf conflicts and is only
+        # used in facebl0r / facedetect which do not work in Kdenlive
+        self.subinfo.options.configure.args += [
+            f"-DWITHOUT_GAVL={self.subinfo.options.isActive('libs/gavl').inverted.asOnOff}",
+            "-DWITHOUT_OPENCV=ON",
+            f"-DWITHOUT_CAIRO={self.subinfo.options.isActive('libs/cairo').inverted.asOnOff}",
+        ]
 
     def install(self):
         if not super().install():

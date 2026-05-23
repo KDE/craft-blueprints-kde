@@ -25,6 +25,7 @@
 import os
 
 import info
+import utils
 from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
@@ -56,6 +57,7 @@ class subinfo(info.infoclass):
 class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        root = str(CraftCore.standardDirs.craftRoot())
         self.subinfo.options.configure.args += ["--with-guis=qt6"]
 
         # For appImage builds the --enable-local-install is needed so that
@@ -65,6 +67,12 @@ class Package(AutoToolsPackageBase):
 
         if CraftCore.compiler.isLinux:
             self.subinfo.options.configure.args += ["--enable-binreloc"]
+
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.cflags += " -Wno-implicit-function-declaration"
+            self.subinfo.options.configure.cxxflags += " -Wno-implicit-function-declaration"
+            self.subinfo.options.configure.ldflags += f" -L{root}/lib -liconv"
+            self.subinfo.options.configure.args += ["--without-x", f"MOC={root}/libexec/moc", f"UIC={root}/libexec/uic"]
 
         # Disable autoreconf. Otherwise following errors prevent configuring:
         # configure.ac:618: warning: macro 'AM_PATH_LIBGCRYPT' not found in library
@@ -87,4 +95,10 @@ class Package(AutoToolsPackageBase):
             coredir = self.shell.toNativePath(os.path.join(includedir, "QtCore"))
 
             self.subinfo.options.configure.cxxflags += f"-I{widgetsdir} -I{guidir} -I{coredir} -I{includedir} "
+
+        if CraftCore.compiler.isMacOS:
+            self.subinfo.options.configure.ldflags += " -Wl,-headerpad_max_install_names"
+            with utils.ScopedEnv({"PATH": f"{CraftCore.standardDirs.craftRoot() / 'libexec'}:{os.environ.get('PATH')}"}):
+                return super().configure()
+
         return super().configure()

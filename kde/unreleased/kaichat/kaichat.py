@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.displayName = "KAIChat"
         self.description = "Chat with AI"
 
-        for ver in ["0.4.0", "0.5.0", "0.5.1", "0.6.0"]:
+        for ver in ["0.4.0", "0.5.0", "0.5.1", "0.6.0", "0.7.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/kaichat/kaichat-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kaichat/kaichat-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"kaichat-{ver}"
@@ -33,6 +33,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["libs/kdsingleapplication"] = None
         if not CraftCore.compiler.isMacOS:

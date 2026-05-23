@@ -13,6 +13,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "2.3.0"
 
     def setDependencies(self):
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
 
 

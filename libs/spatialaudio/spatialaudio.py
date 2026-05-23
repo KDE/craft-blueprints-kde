@@ -3,7 +3,8 @@
 
 
 import info
-from Package.CMakePackageBase import CMakePackageBase
+from Package.MesonPackageBase import MesonPackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -11,20 +12,14 @@ class subinfo(info.infoclass):
         self.description = "Ambisonic encoding / decoding and binauralization library in C++ "
         self.webpage = "https://github.com/videolabs/libspatialaudio"
 
-        self.svnTargets["master"] = "https://github.com/videolabs/libspatialaudio.git"
-        self.patchLevel["master"] = 20240907
-        self.svnTargets["0b6b25e"] = "https://github.com/videolabs/libspatialaudio.git||0b6b25eba39fe1d2f4a981867957b9dcf62016db"
-        self.defaultTarget = "0b6b25e"
+        for ver in ["0.4.0"]:
+            self.targets[ver] = f"https://github.com/videolan/libspatialaudio/releases/download/{ver}/libspatialaudio-{ver}.tar.xz"
+            self.targetInstSrc[ver] = "libspatialaudio-" + ver
+        self.targetDigests["0.4.0"] = (["79f00d6f2695844764604897f704f4520440e1c9e63ccb2aff482717f66b6187"], CraftHash.HashAlgorithm.SHA256)
+
+        self.defaultTarget = "0.4.0"
 
 
-class Package(CMakePackageBase):
+class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-        self.subinfo.options.configure.args += [
-            "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
-            f"-DBUILD_STATIC_LIBS={self.subinfo.options.buildStatic.asOnOff}",
-            # TODO: exporting all symbols is no ideal, it should be fixed
-            # upstream by using cmake's GenerateExportHeader etc.
-            "-DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON",
-        ]

@@ -10,6 +10,11 @@ class subinfo(info.infoclass):
         self.displayName = "Drawy"
         self.description = "Your handy, infinite, brainstorming tool!"
 
+        for ver in ["1.0.0"]:
+            self.targets[ver] = f"https://download.kde.org/stable/drawy/{ver}/drawy-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/drawy/{ver}/drawy-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = f"drawy-{ver}"
+
         self.svnTargets["master"] = "https://invent.kde.org/graphics/drawy.git"
 
     def setDependencies(self):
@@ -23,6 +28,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
@@ -33,4 +41,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["shortcuts"] = [{"name": "Drawy", "target": "bin/drawy.exe", "description": self.subinfo.description, "appId": "drawy"}]
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.defines["alias"] = "drawy"
+        self.defines["icon"] = self.blueprintDir() / "drawy.ico"
+        self.defines["icon_png"] = self.blueprintDir() / "150-apps-drawy.png"
+        self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-drawy.png"
         return super().createPackage()

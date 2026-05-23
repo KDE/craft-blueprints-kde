@@ -33,6 +33,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/plasma/breeze"] = None
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
+        if CraftCore.compiler.isLinux or CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["kde/libs/kunifiedpush"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

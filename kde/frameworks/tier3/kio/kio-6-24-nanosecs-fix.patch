@@ -1,0 +1,102 @@
+commit d59a5dcf5663e61ac674479c2a454301f3145137
+Author: Méven Car <meven@kde.org>
+Date:   Mon Mar 16 13:05:51 2026 +0100
+
+    core/udsentry: don't reduce nanosecond precision to millisecond
+    
+    Also add support for nano sec time for *BSD.
+    
+    Add a test for Linux/statx.
+    
+    Amends: 431453b7c809e1a71a3367102a674030e521b181
+
+diff --git a/autotests/jobtest.cpp b/autotests/jobtest.cpp
+index 83f091034..35bbe00c7 100644
+--- a/autotests/jobtest.cpp
++++ b/autotests/jobtest.cpp
+@@ -6,6 +6,7 @@
+ */
+ 
+ #include "jobtest.h"
++#include "../src/core/config-stat-unix.h"
+ #include "mockcoredelegateextensions.h"
+ 
+ #include "kio/job.h"
+@@ -3117,6 +3118,8 @@ void JobTest::statWithNanosecondTimeOffset()
+     QVERIFY(entry.contains(KIO::UDSEntry::UDS_MODIFICATION_TIME_NS_OFFSET));
+     QVERIFY(entry.contains(KIO::UDSEntry::UDS_ACCESS_TIME));
+     QVERIFY(entry.contains(KIO::UDSEntry::UDS_ACCESS_TIME_NS_OFFSET));
++    QVERIFY(entry.contains(KIO::UDSEntry::UDS_CREATION_TIME));
++    QVERIFY(entry.contains(KIO::UDSEntry::UDS_CREATION_TIME_NS_OFFSET));
+ 
+     const auto modificationTimeInSec = entry.numberValue(KIO::UDSEntry::UDS_MODIFICATION_TIME);
+     auto modificationDateTime = QDateTime::fromSecsSinceEpoch(modificationTimeInSec);
+@@ -3129,6 +3132,18 @@ void JobTest::statWithNanosecondTimeOffset()
+     const auto fileInfo = QFileInfo(testFilePath.toLocalFile());
+     QCOMPARE(modificationDateTime, fileInfo.lastModified());
+     QCOMPARE(accessDateTime, fileInfo.lastRead());
++
++#if HAVE_STATX
++    struct statx buff;
++    auto result = statx(AT_FDCWD, QFile::encodeName(testFilePath.toLocalFile()).data(), AT_SYMLINK_NOFOLLOW, STATX_ATIME | STATX_MTIME | STATX_BTIME, &buff);
++    QVERIFY(result == 0);
++    QCOMPARE(buff.stx_mtime.tv_sec, entry.numberValue(KIO::UDSEntry::UDS_MODIFICATION_TIME));
++    QCOMPARE(buff.stx_mtime.tv_nsec, entry.numberValue(KIO::UDSEntry::UDS_MODIFICATION_TIME_NS_OFFSET));
++    QCOMPARE(buff.stx_atime.tv_sec, entry.numberValue(KIO::UDSEntry::UDS_ACCESS_TIME));
++    QCOMPARE(buff.stx_atime.tv_nsec, entry.numberValue(KIO::UDSEntry::UDS_ACCESS_TIME_NS_OFFSET));
++    QCOMPARE(buff.stx_btime.tv_sec, entry.numberValue(KIO::UDSEntry::UDS_CREATION_TIME));
++    QCOMPARE(buff.stx_btime.tv_nsec, entry.numberValue(KIO::UDSEntry::UDS_CREATION_TIME_NS_OFFSET));
++#endif
+ }
+ 
+ #include "moc_jobtest.cpp"
+diff --git a/src/core/udsentry.cpp b/src/core/udsentry.cpp
+index 7712d54ca..cc766e700 100644
+--- a/src/core/udsentry.cpp
++++ b/src/core/udsentry.cpp
+@@ -366,8 +366,8 @@ UDSEntry::UDSEntry(const QT_STATBUF &buff, const QString &name)
+     d->insert(UDS_MODIFICATION_TIME, buff.st_mtime);
+     d->insert(UDS_ACCESS_TIME, buff.st_atime);
+ #ifndef Q_OS_WIN
+-    d->insert(UDS_MODIFICATION_TIME_NS_OFFSET, buff.st_mtim.tv_nsec / 1000000);
+-    d->insert(UDS_ACCESS_TIME_NS_OFFSET, buff.st_atim.tv_nsec / 1000000);
++    d->insert(UDS_MODIFICATION_TIME_NS_OFFSET, buff.st_mtim.tv_nsec);
++    d->insert(UDS_ACCESS_TIME_NS_OFFSET, buff.st_atim.tv_nsec);
+     d->insert(UDS_LOCAL_USER_ID, buff.st_uid);
+     d->insert(UDS_LOCAL_GROUP_ID, buff.st_gid);
+ #endif
+diff --git a/src/kioworkers/file/file_unix.cpp b/src/kioworkers/file/file_unix.cpp
+index b2b13b604..554210b25 100644
+--- a/src/kioworkers/file/file_unix.cpp
++++ b/src/kioworkers/file/file_unix.cpp
+@@ -273,19 +273,29 @@ static bool createUDSEntry(const QString &filename, const QByteArray &path, UDSE
+          * it if it is greater than 0. */
+         if (buff.st_birthtime > 0) {
+             entry.fastInsert(KIO::UDSEntry::UDS_CREATION_TIME, buff.st_birthtime);
++
++            if ((details & KIO::StatTimeNsOffset) == KIO::StatTimeNsOffset) {
++                entry.fastInsert(KIO::UDSEntry::UDS_CREATION_TIME_NS_OFFSET, buff.st_birthtimespec.tv_nsec);
++            }
+         }
++
+ #elif defined __st_birthtime
+         /* As above, but OpenBSD calls it slightly differently. */
+         if (buff.__st_birthtime > 0) {
+             entry.fastInsert(KIO::UDSEntry::UDS_CREATION_TIME, buff.__st_birthtime);
++
++            if ((details & KIO::StatTimeNsOffset) == KIO::StatTimeNsOffset) {
++                entry.fastInsert(KIO::UDSEntry::UDS_CREATION_TIME_NS_OFFSET, buff.__st_birthtimensec);
++            }
+         }
++
+ #elif HAVE_STATX
+         /* And linux version using statx syscall */
+         if (buff.stx_mask & STATX_BTIME) {
+             entry.fastInsert(KIO::UDSEntry::UDS_CREATION_TIME, buff.stx_btime.tv_sec);
+ 
+             if ((details & KIO::StatTimeNsOffset) == KIO::StatTimeNsOffset) {
+-                entry.fastInsert(KIO::UDSEntry::UDS_CREATION_TIME_NS_OFFSET, buff.stx_btime.tv_nsec / 1000000);
++                entry.fastInsert(KIO::UDSEntry::UDS_CREATION_TIME_NS_OFFSET, buff.stx_btime.tv_nsec);
+             }
+         }
+ #endif

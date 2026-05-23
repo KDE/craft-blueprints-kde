@@ -13,21 +13,19 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Open source multimedia framework"
         self.webpage = "https://www.mltframework.org"
-        for ver in ["7.14.0"]:
+        for ver in ["7.38.0"]:
             self.targets[ver] = f"https://github.com/mltframework/mlt/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = "mlt-" + ver
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
-        self.patchLevel["master"] = 20260108
+        self.patchLevel["953b09a"] = 1
 
-        self.svnTargets["aadad0a"] = "https://github.com/mltframework/mlt.git||aadad0a7037ebc7a6eca32c6fd30de6a03c336e3"
-        self.defaultTarget = "aadad0a"
+        self.svnTargets["953b09a"] = "https://github.com/mltframework/mlt.git||953b09a1bd625bb6c4053e15f116b7031151ca99"
+        self.defaultTarget = "953b09a"
 
-        self.patchToApply["aadad0a"] = []
-        self.patchToApply["aadad0a"] += [("qtblend-filter.diff", 1)]
+        self.patchToApply["953b09a"] = []
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["aadad0a"] += [("pi_patch.diff", 1)]
-            self.patchToApply["aadad0a"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["953b09a"] += [("revert-mingw-mysy2.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
@@ -36,7 +34,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libxml2"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/libsamplerate"] = None
 
@@ -77,7 +74,7 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
 
         # enable submodule checkout to get glaximate
-        if not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.isAndroid:
             self.subinfo.options.fetch.checkoutSubmodules = True
 
         # General CMake switches
@@ -92,16 +89,8 @@ class Package(CMakePackageBase):
 
         # CMake switches for MLT modules
 
-        # TODO OpenCV has an issue with its installation on MSVC and is hence not detected
-        useOpenCV = CraftBool(self.subinfo.options.isActive("libs/opencv/opencv") and not CraftCore.compiler.isMSVC())
         useMovit = CraftBool(self.subinfo.options.isActive("libs/movit") and CraftCore.compiler.isLinux)
         useSox = CraftBool(self.subinfo.options.isActive("libs/sox") and not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS)
-        # TODO Fix and enable RtAudio with MSVC
-        useRtAudio = CraftBool(not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMSVC())
-        # TODO: enable Glaxnimate on MSVC after the submodule in MLT has been updated
-        useGlaxnimate = CraftBool(self.subinfo.options.isActive("libs/libarchive") and not CraftCore.compiler.isMSVC())
-        # TODO: fix spatialaudio tries to link against m on MSVC
-        useSpatialaudio = CraftBool(self.subinfo.options.isActive("libs/spatialaudio").asOnOff and not CraftCore.compiler.isMSVC())
 
         self.subinfo.options.configure.args += [
             f"-DMOD_AVFORMAT={self.subinfo.options.isActive('libs/ffmpeg').asOnOff}",
@@ -110,28 +99,27 @@ class Package(CMakePackageBase):
             f"-DMOD_FREI0R={self.subinfo.options.isActive('libs/frei0r-plugins').asOnOff}",
             # don't pull in gtk
             "-DMOD_GDK=OFF",
-            f"-DMOD_GLAXNIMATE_QT6={useGlaxnimate.asOnOff}",
-            # TODO Fix jackrack module with MSVC
-            f"-DMOD_JACKRACK={CraftCore.compiler.isMSVC().inverted.asOnOff}",  # default: ON
+            f"-DMOD_GLAXNIMATE_QT6={self.subinfo.options.isActive('libs/libarchive').asOnOff}",
+            "-DMOD_JACKRACK=ON",
             f"-DUSE_LV2={self.subinfo.options.isActive('libs/lilv').asOnOff}",
+            "-DUSE_VST2=OFF",
             f"-DMOD_MOVIT={useMovit.asOnOff}",
-            f"-DMOD_OPENCV={useOpenCV.asOnOff}",
-            # TODO Fix plus module with MSVC, it needs sys/cdefs.h in ebur128
+            f"-DMOD_OPENCV={self.subinfo.options.isActive('libs/opencv/opencv').asOnOff}",
+            "-DMOD_OPENFX=ON",
             "-DMOD_PLUS=ON",
-            # TODO Fix plusgpl module with MSVC
-            f"-DMOD_PLUSGPL={CraftCore.compiler.isMSVC().inverted.asOnOff}",
+            "-DMOD_PLUSGPL=ON",
             "-DMOD_QT=OFF",
             "-DMOD_QT6=ON",
             f"-DMOD_RESAMPLE={self.subinfo.options.isActive('libs/libsamplerate').asOnOff}",
-            f"-DMOD_RTAUDIO={useRtAudio.asOnOff}",
+            f"-DMOD_RTAUDIO={CraftCore.compiler.isAndroid.inverted.asOnOff}",
             f"-DMOD_RUBBERBAND={self.subinfo.options.isActive('libs/rubberband').asOnOff}",
             # We don't support SDL 1 anymore, we have SDL 2
             "-DMOD_SDL1=OFF",
             f"-DMOD_SDL2={self.subinfo.options.isActive('libs/libsdl2').asOnOff}",
             f"-DMOD_SOX={useSox.asOnOff}",
-            f"-DMOD_SPATIALAUDIO={useSpatialaudio.asOnOff}",
+            f"-DMOD_SPATIALAUDIO={self.subinfo.options.isActive('libs/spatialaudio').asOnOff}",
             f"-DMOD_VIDSTAB={self.subinfo.options.isActive('libs/vidstab').asOnOff}",
-            # TODO Fix plusgpl module with MSVC
+            # TODO Fix xine module with MSVC
             f"-DMOD_XINE={CraftCore.compiler.isMSVC().inverted.asOnOff}",
             f"-DMOD_XML={self.subinfo.options.isActive('libs/libxml2').asOnOff}",
         ]

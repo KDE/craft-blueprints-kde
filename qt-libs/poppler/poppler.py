@@ -35,10 +35,10 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "git://git.freedesktop.org/git/poppler/poppler"
 
         # always try to use latest libpoppler with all security fixes
-        ver = "26.01.0"
+        ver = "26.03.0"
         self.targets[ver] = f"https://invent.kde.org/mirrors/poppler/-/archive/poppler-{ver}/poppler-poppler-{ver}.tar.bz2"
         self.targetInstSrc[ver] = f"poppler-poppler-{ver}"
-        self.targetDigests[ver] = (["6f89c1909374286f5fe916dad4d5f30a05182b25d1740c6bbca525fb497ef8f7"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests[ver] = (["b22d3ce9628e900bf6f0bf817cc9e17bf58396faa5ffd427693f520dac4dfc0d"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = ver
 
     def setDependencies(self):
@@ -101,10 +101,6 @@ class Package(CMakePackageBase):
 
         if not self.subinfo.options.isActive("libs/libjpeg-turbo"):
             self.subinfo.options.configure.args += ["-DENABLE_DCTDECODER=unmaintained"]
-        if self.subinfo.options.isActive("libs/openjpeg"):
-            self.subinfo.options.configure.args += ["-DENABLE_LIBOPENJPEG=openjpeg2"]
-        else:
-            self.subinfo.options.configure.args += ["-DENABLE_LIBOPENJPEG=unmaintained"]
 
         self.subinfo.options.configure.args += [
             f"-DENABLE_LIBCURL={self.subinfo.options.isActive('libs/libcurl').asOnOff}",

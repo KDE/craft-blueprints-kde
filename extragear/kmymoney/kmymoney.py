@@ -46,8 +46,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcompletion"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
-        if self.buildTarget != "master":
-            self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/plasma/plasma-activities"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
@@ -70,15 +68,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/sqlcipher"] = None
         self.runtimeDependencies["libs/pulseaudio"] = None
         if not CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["libs/qt6/qttools"] = None
             self.runtimeDependencies["libs/aqbanking"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["extragear/alkimia"] = None
         self.runtimeDependencies["extragear/kdiagram"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.buildDependencies["libs/gettext"] = None
-        if self.buildTarget != "master":
-            self.runtimeDependencies["libs/qt/qtwebengine"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
+
         if CraftCore.compiler.isWindows:
             self.runtimeDependencies["kdesupport/kdewin"] = None
 

@@ -10,6 +10,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/libraries/kpublictransport.git")
         self.description = "Library for accessing public transport data"
 
+        self.patchToApply["26.04.1"] = [("6ace248b71ea3fe6211a67b3fa0d3452ba59dd4a.diff", 1)]
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None

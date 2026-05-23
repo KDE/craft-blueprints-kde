@@ -3,7 +3,7 @@
 # common app stuff
 share/apps/ark/.*
 share/apps/kgpg/.*
-share/kf5/kdoctools/.*
+share/kf[0-9]*/kdoctools/.*
 
 # Build only depency
 .*/gettext.*/*

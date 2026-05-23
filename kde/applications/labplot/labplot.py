@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2025 Stefan Gerlach <stefan.gerlach@uni.kn>
 
+import glob
 import os
 import subprocess
 
@@ -20,7 +21,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "A FREE, open-source and cross-platform Data Visualization and Analysis software accessible to everyone"
-        self.webpage = "https://labplot.kde.org/"
+        self.webpage = "https://labplot.org/"
         self.displayName = "LabPlot"
 
         for ver in ["2.9.0"]:
@@ -86,7 +87,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/matio"] = None
         self.runtimeDependencies["libs/discount"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/qt6/qtwebsockets"] = None
         # required on macOS currently
         self.runtimeDependencies["libs/readstat"] = None
@@ -99,8 +100,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ixion"] = None
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
             self.buildDependencies["python-modules/build"] = None
-        if not CraftCore.compiler.isWindows and not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/python"] = None
             self.runtimeDependencies["python-modules/pyside6"] = None
 
@@ -162,9 +164,11 @@ class Package(CMakePackageBase):
         # Some plugin files break codesigning on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
-        self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess|python3)).*")
+            self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess)).*")
+        else:
+            self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess|python3)).*")
 
-        self.defines["website"] = "https://labplot.kde.org/"
+        self.defines["website"] = "https://labplot.org/"
         self.defines["executable"] = "bin\\labplot.exe"
         self.defines["shortcuts"] = [{"name": "LabPlot", "target": "bin/labplot.exe", "description": self.subinfo.description, "icon": "$INSTDIR\\labplot.ico"}]
         self.defines["icon"] = self.blueprintDir() / "labplot.ico"
@@ -238,17 +242,37 @@ class Package(CMakePackageBase):
 
     def preArchive(self):
         archiveDir = self.archiveDir()
+        print("preArchive(), archive dir:", archiveDir)
 
         if CraftCore.compiler.isMacOS and not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             # Move cantor_pythonserver to the package
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
+            print("preArchive(), app path:", appPath)
             if not utils.copyFile(
                 archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
                 appPath / "Contents/MacOS",
-                linkOnly=False,
+                linkOnly=False
             ):
                 return False
+
+            pysideLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages/PySide6"))
+            shibokenLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages/shiboken6"))
+            print("preArchive(), PySide/shiboken crafRoot lib locations:", pysideLocations, shibokenLocations)
+
+            # copy dylibs from forbidden python3.11 directory
+            utils.copyFile(os.path.join(pysideLocations[0], "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.10.dylib"), linkOnly=False)
+            utils.copyFile(os.path.join(pysideLocations[0], "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.10.dylib"), linkOnly=False)
+            utils.copyFile(os.path.join(shibokenLocations[0], "libshiboken6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.10.dylib"), linkOnly=False)
+
+            # also copy site-packages
+            sitePackageDirs = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
+            sitePackageDest = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
+            print("preArchive(), site-packages locations:", sitePackageDirs)
+            print("preArchive(), site-packages destinations:", sitePackageDest)
+            utils.createDir(sitePackageDest)
+            for pkg in ["PySide6", "shiboken6"]:
+                utils.copyDir(sitePackageDirs[0], sitePackageDest)
 
             # fix falsely picked up system Python lib
             # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
@@ -258,7 +282,7 @@ class Package(CMakePackageBase):
                     "-change",
                     "/Library/Frameworks/Python.framework/Versions/3.12/Python",
                     "@executable_path/../Frameworks/Python.framework/Versions/3.11/Python",
-                    os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver"),
+                    os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")
                 ]
             )
 

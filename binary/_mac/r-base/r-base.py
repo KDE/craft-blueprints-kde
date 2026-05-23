@@ -17,14 +17,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
 
     def setTargets(self):
-        for version in ["4.2.3", "4.2.0"]:
-            self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "base/R-" + version + ".pkg"
-        for version in ["4.3.3"]:
+        for version in ["4.3.3", "4.5.3"]:
             if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
                 self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "big-sur-arm64/base/R-" + version + "-arm64.pkg"
             else:
                 self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "big-sur-x86_64/base/R-" + version + "-x86_64.pkg"
-        self.defaultTarget = "4.3.3"
+        self.defaultTarget = "4.5.3"
 
 
 # Apologies: This is a terrible HACK, but the alternatives are not any good, either.

@@ -2,12 +2,15 @@ import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 from Packager.AppImagePackager import AppImagePackager
+from Packager.NullsoftInstallerPackager import NullsoftInstallerPackager
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
         self.description = "Libre Video Editor, by KDE community"
+        self.webpage = "https://kdenlive.org/"
+        self.displayName = "Kdenlive"
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -109,4 +112,17 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["file_types"] = [".kdenlive"]
         # Appimage
         # self.defines["appimage_extra_plugins"] = ["checkrt"]
+
+        # Code borrowed from LabPlot
+        # see NullsoftInstaller.nsi and NullsoftInstallerPackager.py
+        if isinstance(self, NullsoftInstallerPackager):
+            # register application and .kdenlive file type
+            self.defines["registry_hook"] = (
+                """WriteRegStr SHCTX "Software\\Classes\\.kdenlive" "" "Kdenlive"\n"""
+                """WriteRegStr SHCTX "Software\\Classes\\Kdenlive" "" "Kdenlive project"\n"""
+                """WriteRegStr SHCTX "Software\\Classes\\Kdenlive\\DefaultIcon" "" "$INSTDIR\\kdenlive.ico"\n"""
+                """WriteRegStr SHCTX "Software\\Classes\\Kdenlive\\shell" "" "open"\n"""
+                """WriteRegStr SHCTX "Software\\Classes\\Kdenlive\\shell\\open\\command" "" '"$INSTDIR\\bin\\kdenlive.exe" "%1"'\n"""
+            )
+
         return super().createPackage()

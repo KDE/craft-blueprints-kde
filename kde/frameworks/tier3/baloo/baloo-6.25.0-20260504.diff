@@ -1,0 +1,96 @@
+diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user -x .idea -x .clang-format baloo-6.25.0.orig/src/file/priority.cpp baloo-6.25.0/src/file/priority.cpp
+--- baloo-6.25.0.orig/src/file/priority.cpp	2026-04-03 17:06:54.000000000 +0000
++++ baloo-6.25.0/src/file/priority.cpp	2026-05-04 12:35:44.534004057 +0000
+@@ -18,8 +18,92 @@
+ #include <unistd.h>
+ 
+ #ifdef SYS_ioprio_set
++
++#if !__has_include(<linux/ioprio.h>)
++namespace {
++    #ifndef IOPRIO_CLASS_IDLE
++    enum {
++        IOPRIO_CLASS_NONE = 0,
++        IOPRIO_CLASS_RT   = 1,
++        IOPRIO_CLASS_BE   = 2,
++        IOPRIO_CLASS_IDLE = 3,
++
++        /* Special class to indicate an invalid ioprio value */
++        IOPRIO_CLASS_INVALID = 7,
++    };
++    #endif
++
++    #ifndef IOPRIO_WHO_PROCESS
++    enum {
++        IOPRIO_WHO_PROCESS = 1,
++        IOPRIO_WHO_PGRP,
++        IOPRIO_WHO_USER,
++    };
++    #endif
++
++    #ifndef IOPRIO_CLASS_SHIFT
++    const int IOPRIO_CLASS_SHIFT = 13;
++    #endif
++
++    #ifndef IOPRIO_NR_CLASSES
++    const int IOPRIO_NR_CLASSES = 8;
++    #endif
++
++    #ifndef IOPRIO_LEVEL_NR_BITS
++    const int IOPRIO_LEVEL_NR_BITS = 3;
++    #endif
++
++    #ifndef IOPRIO_NR_LEVELS
++    #define IOPRIO_NR_LEVELS (1 << IOPRIO_LEVEL_NR_BITS)
++    #endif
++
++    #ifndef IOPRIO_HINT_SHIFT
++    #define IOPRIO_HINT_SHIFT IOPRIO_LEVEL_NR_BITS
++    #endif
++
++    #ifndef IOPRIO_HINT_NR_BITS
++    const int IOPRIO_HINT_NR_BITS = 10;
++    #endif
++    #ifndef IOPRIO_NR_HINTS
++    #define IOPRIO_NR_HINTS (1 << IOPRIO_HINT_NR_BITS)
++    #endif
++
++    #ifndef IOPRIO_HINT_NONE
++    enum {
++        /* No hint */
++        IOPRIO_HINT_NONE = 0,
++
++        IOPRIO_HINT_DEV_DURATION_LIMIT_1 = 1,
++        IOPRIO_HINT_DEV_DURATION_LIMIT_2 = 2,
++        IOPRIO_HINT_DEV_DURATION_LIMIT_3 = 3,
++        IOPRIO_HINT_DEV_DURATION_LIMIT_4 = 4,
++        IOPRIO_HINT_DEV_DURATION_LIMIT_5 = 5,
++        IOPRIO_HINT_DEV_DURATION_LIMIT_6 = 6,
++        IOPRIO_HINT_DEV_DURATION_LIMIT_7 = 7,
++    };
++
++    #ifndef IOPRIO_BAD_VALUE
++    #define IOPRIO_BAD_VALUE(val, max) ((val) < 0 || (val) >= (max))
++    #endif
++
++    static __always_inline uint16_t ioprio_value(int prioclass, int priolevel,
++                                              int priohint)
++    {
++        if (IOPRIO_BAD_VALUE(prioclass, IOPRIO_NR_CLASSES) ||
++            IOPRIO_BAD_VALUE(priolevel, IOPRIO_NR_LEVELS) ||
++            IOPRIO_BAD_VALUE(priohint, IOPRIO_NR_HINTS))
++            return IOPRIO_CLASS_INVALID << IOPRIO_CLASS_SHIFT;
++
++        return (prioclass << IOPRIO_CLASS_SHIFT) |
++        (priohint << IOPRIO_HINT_SHIFT) | priolevel;
++    }
++}
++#endif
++
++#else
+ #include <linux/ioprio.h>
+ #endif
++#endif
+ 
+ bool lowerIOPriority()
+ {
