@@ -268,8 +268,8 @@ class Package(CMakePackageBase):
             # also needed Qt libs
             qtLibs = glob.glob(os.path.join(pysideLocations[0], "*.so"))
             for lib in qtLibs:
-                utils.copyFile(lib, os.path.join(appPath, "Contents", "Frameworks"))
-            utils.copyFile(os.path.join(shibokenLocations[0], "Shiboken.abi3.so"), os.path.join(appPath, "Contents", "Frameworks"))
+                utils.copyFile(lib, os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/PySide6"))
+            utils.copyFile(os.path.join(shibokenLocations[0], "Shiboken.abi3.so"), os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/shiboken6"))
 
             # copy complete site-packages (fails signing)
             # sitePackageDirs = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
