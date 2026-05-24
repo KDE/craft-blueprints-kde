@@ -9,6 +9,9 @@ class subinfo(info.infoclass):
         self.description = "html5lib is a pure-python library for parsing HTML. It is designed to conform to the WHATWG HTML specification, as is implemented by all major web browsers"
         self.defaultTarget = "master"
 
+    def setDependencies(self):
+        self.buildDependencies["python-modules/setuptools"] = None
+
 
 class Package(PipPackageBase):
     def __init__(self, **kwargs):
