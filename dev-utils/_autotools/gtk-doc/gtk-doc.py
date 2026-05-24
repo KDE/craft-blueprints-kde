@@ -25,9 +25,10 @@ class subinfo(info.infoclass):
         self.description = "GTK-Doc is used to document C code. It is typically used to document the public API of libraries, such as the GTK+ and GNOME libraries, but it can also be used to document application code."
         self.svnTargets["master"] = "https://gitlab.gnome.org/GNOME/gtk-doc.git"
         for ver in ["1.33.2"]:
-            self.targets[ver] = f"https://gitlab.gnome.org/GNOME/gtk-doc/-/archive/{ver}/gtk-doc-{ver}.tar.gz"
+            majorMinorStr = ".".join(ver.split(".")[0:2])
+            self.targets[ver] = f"https://download.gnome.org/sources/gtk-doc/{majorMinorStr}/gtk-doc-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"gtk-doc-{ver}"
-        self.targetDigests["1.33.2"] = (["2d1b0cbd26edfcb54694b2339106a02a81d630a7dedc357461aeb186874cc7c0"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.33.2"] = (["cc1b709a20eb030a278a1f9842a362e00402b7f834ae1df4c1998a723152bf43"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "1.33.2"
 
 
