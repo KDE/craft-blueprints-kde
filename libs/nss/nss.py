@@ -85,16 +85,8 @@ class Package(MakeFilePackageBase):
                     return False
                 msvcPath = newPath
 
-            msvcVersionPath = msvcPath
-            while not Path(msvcVersionPath).name.isnumeric():
-                newPath = Path(msvcVersionPath).parent
-                if newPath == msvcVersionPath:
-                    print("Could not figure out which is your MSVC version number")
-                    return False
-                msvcVersionPath = newPath
-
             self._shell.environment["GYP_MSVS_OVERRIDE_PATH"] = str(msvcPath)
-            self._shell.environment["GYP_MSVS_VERSION"] = Path(msvcVersionPath).name
+            self._shell.environment["GYP_MSVS_VERSION"] = str(CraftCore.compiler.getMsvcYear())
 
         if CraftCore.compiler.isAndroid:
             # Otherwise gyp isn't found
