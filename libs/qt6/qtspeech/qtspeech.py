@@ -1,5 +1,7 @@
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from Blueprints.CraftVersion import CraftVersion
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -15,3 +17,8 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("libs/qt6").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        if CraftCore.compiler.isMSVC2026() and CraftVersion(self.buildTarget) < CraftVersion("6.12.0"):
+            self.subinfo.options.configure.args += [
+                '-DCMAKE_CXX_FLAGS="-D_SILENCE_EXPERIMENTAL_COROUTINE_DEPRECATION_WARNINGS',
+            ]
