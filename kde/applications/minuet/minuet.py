@@ -29,6 +29,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
+            if CraftCore.compiler.isMacOS:
+                self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
+                self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
@@ -39,7 +42,7 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_macos.txt")
-            self.addExecutableFilter(r"(bin|libexec)/(?!(minuet|minuet-bin)).*")
+            self.addExecutableFilter(r"(bin|libexec)/(?!minuet).*")
 
         return super().createPackage()
 
@@ -52,27 +55,5 @@ class Package(CraftPackageObject.get("kde").pattern):
                     return False
                 if not utils.moveFile(fluidsynthFramework, archiveDir / "lib"):
                     return False
-
-            for launcher in (
-                archiveDir / "bin/minuet",
-                archiveDir / "Applications/KDE/minuet.app/Contents/MacOS/minuet",
-            ):
-                realExecutable = launcher.with_name("minuet-bin")
-                if launcher.exists() and not realExecutable.exists():
-                    if not utils.moveFile(launcher, realExecutable):
-                        return False
-                if realExecutable.exists():
-                    launcher.write_text(
-                        """#!/bin/sh
-unset QT_PLUGIN_PATH
-unset QML_IMPORT_PATH
-unset QML2_IMPORT_PATH
-
-SELF_DIR=$(CDPATH= cd "$(dirname "$0")" && pwd)
-exec "$SELF_DIR/minuet-bin" "$@"
-""",
-                        encoding="UTF-8",
-                    )
-                    launcher.chmod(0o755)
 
         return super().preArchive()
