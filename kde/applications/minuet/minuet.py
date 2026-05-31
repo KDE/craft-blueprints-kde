@@ -33,6 +33,10 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.defines["shortcuts"] = [
-            {"name": "Minuet", "target": "bin/minuet.exe", "description": self.subinfo.description}
-        ]
+        self.defines["shortcuts"] = [{"name": "Minuet", "target": "bin/minuet.exe", "description": self.subinfo.description}]
+
+    def createPackage(self):
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_macos.txt")
+
+        return super().createPackage()
