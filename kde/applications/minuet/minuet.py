@@ -37,12 +37,17 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        icon = self.sourceDir() / "src/app/icons/minuet.ico"
+        self.defines["icon"] = icon
+        self.defines["nsis_include"] = f'!define MUI_UNICON "{icon}"'
         self.defines["shortcuts"] = [{"name": "Minuet", "target": "bin/minuet.exe", "description": self.subinfo.description}]
 
     def createPackage(self):
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_macos.txt")
             self.addExecutableFilter(r"(bin|libexec)/(?!minuet).*")
+        elif CraftCore.compiler.isWindows:
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_windows.txt")
 
         return super().createPackage()
 
