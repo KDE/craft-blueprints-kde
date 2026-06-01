@@ -41,6 +41,8 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon"] = icon
         self.defines["nsis_include"] = f'!define MUI_UNICON "{icon}"'
         self.defines["shortcuts"] = [{"name": "Minuet", "target": "bin/minuet.exe", "description": self.subinfo.description}]
+        self.defines["icon_png"] = self.sourceDir() / "src/app/icons/150-apps-minuet.png"
+        self.defines["icon_png_44"] = self.sourceDir() / "src/app/icons/44-apps-minuet.png"
 
     def createPackage(self):
         if CraftCore.compiler.isMacOS:
