@@ -1,3 +1,5 @@
+import plistlib
+
 import info
 import utils
 from Blueprints.CraftPackageObject import CraftPackageObject
@@ -53,9 +55,58 @@ class Package(CraftPackageObject.get("kde").pattern):
 
         return super().createPackage()
 
+    @staticmethod
+    def _macosLocaleName(locale):
+        if locale == "ca@valencia":
+            return "ca-ES-valencia"
+
+        normalized = locale.replace("_", "-")
+        if "@" in normalized:
+            language, modifier = normalized.split("@", 1)
+            normalized = f"{language}-{modifier}"
+        return normalized
+
+    def _minuetLocalizations(self, localeDir):
+        if not localeDir.exists():
+            return []
+
+        localizations = set()
+        for catalog in localeDir.glob("*/LC_MESSAGES/minuet.mo"):
+            locale = catalog.parents[1].name
+            localizations.add(self._macosLocaleName(locale))
+        return sorted(localizations)
+
+    def _updateMacOSLocalizations(self, archiveDir):
+        localizations = self._minuetLocalizations(archiveDir / "share/locale")
+        if not localizations:
+            CraftCore.log.warning("No Minuet translations found; macOS app language selection will only expose the development region.")
+            return True
+
+        plistPath = archiveDir / "Applications/KDE/minuet.app/Contents/Info.plist"
+        if not plistPath.exists():
+            CraftCore.log.error(f"Unable to update macOS localizations; Info.plist does not exist: {plistPath}")
+            return False
+
+        with plistPath.open("rb") as plistFile:
+            plist = plistlib.load(plistFile)
+
+        plist["CFBundleIdentifier"] = "org.kde.minuet"
+        plist["CFBundleName"] = "Minuet"
+        plist["CFBundleDevelopmentRegion"] = "en"
+        plist["CFBundleLocalizations"] = localizations
+
+        with plistPath.open("wb") as plistFile:
+            plistlib.dump(plist, plistFile)
+
+        CraftCore.log.info(f"Advertised {len(localizations)} Minuet localizations in the macOS bundle.")
+        return True
+
     def preArchive(self):
         if CraftCore.compiler.isMacOS:
             archiveDir = self.archiveDir()
+            if not self._updateMacOSLocalizations(archiveDir):
+                return False
+
             fluidsynthFramework = archiveDir / "Library/Frameworks/FluidSynth.framework"
             if fluidsynthFramework.exists():
                 if not utils.createDir(archiveDir / "lib"):
