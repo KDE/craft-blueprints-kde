@@ -18,7 +18,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/taglib"] = None
-        self.runtimeDependencies["libs/gstreamer"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
@@ -28,6 +27,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/threadweaver"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/gstreamer"] = None
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
