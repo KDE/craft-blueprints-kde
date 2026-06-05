@@ -12,10 +12,10 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for ver in ["4.2", "4.5"]:
-            self.targets[ver] = f"https://www.docbook.org/xml/{ver}/docbook-xml-{ver}.zip"
+            self.targets[ver] = f"https://archive.docbook.org/xml/{ver}/docbook-xml-{ver}.zip"
             self.targetInstallPath[ver] = f"share/xml/docbook/schema/dtd/{ver}"
         for ver in ["5.0"]:
-            self.targets[ver] = f"https://www.docbook.org/xml/{ver}/docbook-{ver}.zip"
+            self.targets[ver] = f"https://archive.docbook.org/xml/{ver}/docbook-{ver}.zip"
             self.targetInstallPath[ver] = f"share/xml/docbook/schema/dtd/{ver}"
         self.targetDigests["4.2"] = "5e3a35663cd028c5c5fbb959c3858fec2d7f8b9e"
         self.targetDigests["4.5"] = "b9124233b50668fb508773aa2b3ebc631d7c1620"
