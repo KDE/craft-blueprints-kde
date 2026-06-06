@@ -266,9 +266,9 @@ class Package(CMakePackageBase):
             print("preArchive(), PySide/shiboken crafRoot lib locations:", pysideLocations, shibokenLocations)
 
             # move dylibs from forbidden python3.11 directory
-            utils.moveFile(os.path.join(pysideLocations[0], "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.10.dylib"), linkOnly=False)
-            utils.moveFile(os.path.join(pysideLocations[0], "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.10.dylib"), linkOnly=False)
-            utils.moveFile(os.path.join(shibokenLocations[0], "libshiboken6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.10.dylib"), linkOnly=False)
+            utils.moveFile(os.path.join(pysideLocations[0], "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.10.dylib"))
+            utils.moveFile(os.path.join(pysideLocations[0], "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.10.dylib"))
+            utils.moveFile(os.path.join(shibokenLocations[0], "libshiboken6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.10.dylib"))
 
             # also needed Qt libs
             qtLibs = glob.glob(os.path.join(pysideLocations[0], "*.so"))
