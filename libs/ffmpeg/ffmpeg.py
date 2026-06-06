@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
 
     def setTargets(self):
-        for ver in ["6.1.1", "7.0.1", "7.1", "8.0.1"]:
+        for ver in ["6.1.1", "7.0.1", "7.1", "8.0.1", "8.1.1"]:
             self.targets[ver] = f"https://ffmpeg.org/releases/ffmpeg-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"ffmpeg-{ver}"
             self.patchToApply[ver] = []
@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
         self.targetDigests["7.0.1"] = (["5e77e84b6434d656106fafe3bceccc77176449014f3eba24d33db3fbd0939dc9"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["7.1"] = (["fd59e6160476095082e94150ada5a6032d7dcc282fe38ce682a00c18e7820528"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["8.0.1"] = (["65ff433fab5727fb2dc41f1d508dc60e6192fea44cab2e0301194feee4bcf1d7"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["8.1.1"] = (["b08594a47ca475ddda21c7990d8e9e3ceb5cd74f9709b4b5995b24d11cafa467"], CraftHash.HashAlgorithm.SHA256)
 
         if CraftCore.compiler.isMSVC():
             for ver in self.targets:
@@ -38,10 +39,11 @@ class subinfo(info.infoclass):
         self.patchLevel["6.1.1"] = 2
         self.patchLevel["7.1"] = 5
         self.patchLevel["8.0"] = 1
+        self.patchLevel["8.1.1"] = 1
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
-        self.defaultTarget = "8.0.1"
+        self.defaultTarget = "8.1.1"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
