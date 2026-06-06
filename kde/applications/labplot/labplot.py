@@ -265,25 +265,25 @@ class Package(CMakePackageBase):
             shibokenLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages/shiboken6"))
             print("preArchive(), PySide/shiboken crafRoot lib locations:", pysideLocations, shibokenLocations)
 
-            # copy dylibs from forbidden python3.11 directory
-            utils.copyFile(os.path.join(pysideLocations[0], "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.10.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(pysideLocations[0], "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.10.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(shibokenLocations[0], "libshiboken6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.10.dylib"), linkOnly=False)
+            # move dylibs from forbidden python3.11 directory
+            utils.moveFile(os.path.join(pysideLocations[0], "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.10.dylib"), linkOnly=False)
+            utils.moveFile(os.path.join(pysideLocations[0], "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.10.dylib"), linkOnly=False)
+            utils.moveFile(os.path.join(shibokenLocations[0], "libshiboken6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.10.dylib"), linkOnly=False)
 
             # also needed Qt libs
-            # qtLibs = glob.glob(os.path.join(pysideLocations[0], "*.so"))
-            # for lib in qtLibs:
-            #    utils.copyFile(lib, os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/PySide6"))
-            # utils.copyFile(os.path.join(shibokenLocations[0], "Shiboken.abi3.so"), os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/shiboken6"))
+            qtLibs = glob.glob(os.path.join(pysideLocations[0], "*.so"))
+            for lib in qtLibs:
+                utils.moveFile(lib, os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/PySide6"))
+            utils.moveFile(os.path.join(shibokenLocations[0], "Shiboken.abi3.so"), os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/shiboken6"))
 
             # copy complete site-packages (fails signing)
-            sitePackageDirs = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
-            sitePackageDest = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
-            print("preArchive(), site-packages locations:", sitePackageDirs)
-            print("preArchive(), site-packages destinations:", sitePackageDest)
-            utils.createDir(sitePackageDest)
-            for pkg in ["PySide6", "shiboken6"]:
-                utils.copyDir(sitePackageDirs[0], sitePackageDest)
+            # sitePackageDirs = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
+            # sitePackageDest = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
+            # print("preArchive(), site-packages locations:", sitePackageDirs)
+            # print("preArchive(), site-packages destinations:", sitePackageDest)
+            # utils.createDir(sitePackageDest)
+            # for pkg in ["PySide6", "shiboken6"]:
+            #    utils.copyDir(sitePackageDirs[0], sitePackageDest)
 
             # fix falsely picked up system Python lib
             # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
