@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
 
         self.svnTargets["f7b0adb"] = "https://github.com/dyne/frei0r.git||f7b0adb31765a8b7f900db1f690cecf91921c2f5"
         # https://github.com/dyne/frei0r/pull/280, https://github.com/dyne/frei0r/pull/281
-        self.patchToApply["f7b0adb"] = [("280.patch", 1), ("280.patch", 1)]
+        self.patchToApply["f7b0adb"] = [("280.patch", 1), ("281.patch", 1)]
         self.patchLevel["f7b0adb"] = 1
 
         self.defaultTarget = "f7b0adb"
