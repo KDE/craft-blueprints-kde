@@ -43,7 +43,7 @@ class subinfo(info.infoclass):
         self.patchLevel["6.1.1"] = 2
         self.patchLevel["7.1"] = 5
         self.patchLevel["8.0"] = 1
-        self.patchLevel["8.1.1"] = 1
+        self.patchLevel["8.1.1"] = 2
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
@@ -63,7 +63,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/aom"] = None
         self.runtimeDependencies["libs/dav1d"] = None
         self.runtimeDependencies["libs/onevpl"] = None
-        self.runtimeDependencies["libs/webp"] = None
         if CraftCore.compiler.isGCCLike():
             if not CraftCore.compiler.isAndroid:
                 self.runtimeDependencies["libs/libvpx"] = None
@@ -71,6 +70,7 @@ class subinfo(info.infoclass):
                 self.runtimeDependencies["libs/x264"] = None
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/libass"] = None
+            self.runtimeDependencies["libs/webp"] = None
         if not CraftCore.compiler.isMacOS:
             self.buildDependencies["libs/amf"] = None
             self.buildDependencies["libs/nvidia-codecs"] = None
