@@ -28,4 +28,4 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
 
         if CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ["-DCMAKE_POSITION_INDEPENDENT_CODE=ON"]
+            self.subinfo.options.configure.cflags += "-fPIC"
