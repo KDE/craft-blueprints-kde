@@ -1,0 +1,103 @@
+# Keep the Windows package to Minuet runtime files. Do not remove translations:
+# bin/data/locale, bin/translations, share/locale, and translations are kept.
+
+# Build, deployment, diagnostic, and command-line tools not needed at runtime.
+bin/(?!minuet\.exe)[^/]+\.exe
+bin/(androiddeployqt|androiddeployqt6|androidtestrunner|assistant|brotli|bunzip2|bzip2|bzip2recover|checkXML6|cjpeg|cmake_automoc_parser|derb|designer|djpeg|envsubst|escapesrc|ffmpeg|ffplay|ffprobe|flac|fluidsynth|gdbus|gen.*|gettext|gi-.*|gio|gio-querymodules|glib-.*|gobject-query|gresource|gsettings|gspawn-.*|icuinfo|icupkg|jpegtran|lconvert|linguist|lrelease|lupdate|makeconv|metaflac|msg.*|ngettext|openssl|parsetrigrams6|pcre2grep|pkgdata|pngfix|png-fix-itxt|qmake6|qml.*|qsb|qt-.*|qtpaths6|rdjpgcom|recode-sr-latin|sndfile-.*|sqlite3|svgtoqml|SvtAv1EncApp|syncqt|tjbench|update-mime-database|windeployqt6|win_iconv|wrjpgcom|xgettext|xmlcatalog|xmllint|xmlwf|xsltproc|zstd)\.(exe|bat|py|sh)?
+bin/(moc|rcc|uic)\.exe
+
+# Development metadata, documentation, and bundled sample content.
+bin/data/(doc|kdevappwizard|qlogging-categories6|gettext-0\.22\.3)/.*
+lib/cmake/.*
+lib/pkgconfig/.*
+share/doc/.*
+share/ffmpeg/.*
+share/kdevappwizard/.*
+share/man/.*
+share/qlogging-categories6/.*
+share/qt6/wayland/.*
+share/vpl/.*
+
+# Unused multimedia/codec stack pulled in by Qt Multimedia/FFmpeg dependencies.
+bin/(avcodec|avdevice|avfilter|avformat|avutil|swresample|swscale)-.*\.dll
+bin/(SvtAv1Enc|aom|dav1d|libx265|libmp3lame|SDL2|samplerate|lame_enc)\.dll
+bin/libvpl\.dll
+bin/Qt6Multimedia.*\.dll
+bin/Qt6QuickControls2(FluentWinUI3|Fusion|Imagine|Universal)\.dll
+bin/Qt6QuickControls2Material.*\.dll
+bin/Qt6QuickDialogs2.*\.dll
+bin/Qt6Labs(?!QmlModels).*\.dll
+bin/Qt6ShaderTools\.dll
+bin/Qt6SpatialAudio\.dll
+bin/QtMultimedia/.*
+bin/multimedia/.*
+plugins/multimedia/.*
+
+# Duplicate unversioned ICU aliases; Qt links against the versioned DLL names.
+bin/icudt\.dll
+bin/icuin\.dll
+bin/icuuc\.dll
+
+# Development, test, and optional helper libraries not used by Minuet at runtime.
+bin/(asprintf-0|brotlienc|cairo-2|cairo-gobject-2|cairo-script-interpreter-2|concrt140|dbus-1-3|ffi-8|FLAC\+\+|gettextlib-0-22-3|gettextpo-0|gettextsrc-0-22-3|gio-2\.0-0|girepository-2\.0-0|gmodule-2\.0-0|gobject-2\.0-0|gthread-2\.0-0|harfbuzz-cairo|harfbuzz-icu|harfbuzz-subset|icuio|icuio78|icutest|icutest78|icutu|icutu78|KF6Codecs|KF6ConfigWidgets|KF6DocTools|KF6ItemViews|KF6SonnetUi|KirigamiAddonsStatefulApp|KirigamiApp|libexpat|libexslt|libgcc_s_seh-1|libgomp-1|libsqlite|libssl-3-x64|libstdc\+\+-6|libwinpthread-1|libxml2|libxslt|msvcp140_atomic_wait|msvcp140_codecvt_ids|pcre2-32|pcre2-posix|pixman-1-0|Qt6Concurrent|Qt6DBus|Qt6OpenGLWidgets|Qt6PrintSupport|Qt6QmlCompiler|Qt6QuickEffects|Qt6QuickParticles|Qt6QuickTest|Qt6QuickVectorImage|Qt6QuickVectorImageGenerator|Qt6QuickVectorImageHelpers|Qt6QuickWidgets|Qt6Sql|Qt6SvgWidgets|Qt6Test|Qt6Xml|turbojpeg|unistring-5|vcamp140|vccorlib140|vcruntime140_threads|vorbisfile)\.dll
+bin/Qt6Qml(LocalStorage|Network)\.dll
+lib/GNU\.Gettext\.dll
+lib/ossl-modules/.*
+
+# Unused Qt/KF plugins for this app.
+bin/generic/.*
+bin/kf6/sonnet/.*
+bin/kiconthemes6/.*
+bin/networkinformation/.*
+bin/sqldrivers/.*
+bin/tls/.*
+bin/org/kde/config/.*
+bin/platforms/(qdirect2d|qminimal|qoffscreen|qwebgl)\.dll
+plugins/generic/.*
+plugins/kf6/sonnet/.*
+plugins/kiconthemes6/.*
+plugins/networkinformation/.*
+plugins/sqldrivers/.*
+plugins/tls/.*
+plugins/org/kde/config/.*
+plugins/platforms/(qdirect2d|qminimal|qoffscreen|qwebgl)\.dll
+
+# Unused QML modules and alternate Qt Quick Controls styles.
+bin/QmlTime/.*
+bin/Qt/labs/(?!qmlmodels/).*
+bin/QtNetwork/.*
+bin/QtTest/.*
+bin/QtQuick/Controls/(designer|FluentWinUI3|Fusion|Imagine|Universal)/.*
+bin/QtQuick/Controls/Material/.*
+bin/QtQuick/Controls/FluentWinUI3/.*
+bin/QtQuick/Controls/Fusion/.*
+bin/QtQuick/Controls/Imagine/.*
+bin/QtQuick/Controls/Universal/.*
+bin/QtQuick/Dialogs/.*
+bin/QtQuick/Effects/.*
+bin/QtQuick/LocalStorage/.*
+bin/QtQuick/Particles/.*
+bin/QtQuick/VectorImage/.*
+bin/QtQuick/tooling/.*
+bin/qmlls/.*
+bin/org/kde/kirigamiaddons/(labs|settings|sounds|statefulapp|tableview|treeview)/.*
+qml/QmlTime/.*
+qml/Qt/labs/(?!qmlmodels/).*
+qml/QtMultimedia/.*
+qml/QtNetwork/.*
+qml/QtTest/.*
+qml/QtQuick/Controls/(designer|FluentWinUI3|Fusion|Imagine|Universal)/.*
+qml/QtQuick/Controls/Material/.*
+qml/QtQuick/Controls/FluentWinUI3/.*
+qml/QtQuick/Controls/Fusion/.*
+qml/QtQuick/Controls/Imagine/.*
+qml/QtQuick/Controls/Universal/.*
+qml/QtQuick/Dialogs/.*
+qml/QtQuick/Effects/.*
+qml/QtQuick/LocalStorage/.*
+qml/QtQuick/Particles/.*
+qml/QtQuick/VectorImage/.*
+qml/QtQuick/tooling/.*
+qml/qmlls/.*
+plugins/qmlls/.*
+qml/org/kde/kirigamiaddons/(labs|settings|sounds|statefulapp|tableview|treeview)/.*

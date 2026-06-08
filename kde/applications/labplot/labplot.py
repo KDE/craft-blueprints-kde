@@ -46,27 +46,29 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/gsl"] = None
-        self.runtimeDependencies["libs/cfitsio"] = None
-        self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/libzip"] = None
-        self.runtimeDependencies["libs/hdf5"] = None
-        # netcdf installation is broken for MSVC atm
-        if not CraftCore.compiler.isMSVC():
-            self.runtimeDependencies["libs/netcdf"] = None
         self.runtimeDependencies["libs/liblz4"] = None
-        self.runtimeDependencies["libs/orcus"] = None
+        # netcdf installation is broken for MSVC atm
+        if not CraftCore.compiler.isMSVC() and not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/netcdf"] = None
+        if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/hdf5"] = None
+            self.runtimeDependencies["libs/orcus"] = None
+            self.runtimeDependencies["libs/cfitsio"] = None
+            self.runtimeDependencies["libs/libfftw"] = None
 
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
 
         # cross compiling Cantor fails on macOS x86_64 (CD job)
-        if not CraftCore.compiler.isMacOS or not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+        if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt6/qtserialport"] = None
-        self.runtimeDependencies["libs/qt6/qtmqtt"] = None
+        if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["libs/qt6/qtserialport"] = None
+            self.runtimeDependencies["libs/qt6/qtmqtt"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -84,10 +86,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
-        self.runtimeDependencies["qt-libs/poppler"] = None
-        self.runtimeDependencies["libs/matio"] = None
-        self.runtimeDependencies["libs/discount"] = None
-        if CraftCore.compiler.isWindows or CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.isMacOS:
+            self.runtimeDependencies["qt-libs/poppler"] = None
+            self.runtimeDependencies["libs/matio"] = None
+            self.runtimeDependencies["libs/discount"] = None
+        if CraftCore.compiler.isWindows:
             self.runtimeDependencies["libs/qt6/qtwebsockets"] = None
         # required on macOS currently
         self.runtimeDependencies["libs/readstat"] = None
@@ -102,8 +105,10 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libpng"] = None
             self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
             self.buildDependencies["python-modules/build"] = None
-        if not CraftCore.compiler.isWindows:
+            self.buildDependencies["libs/python"] = None
+        if CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/python"] = None
+        if not CraftCore.compiler.isWindows:
             self.runtimeDependencies["python-modules/pyside6"] = None
 
 
@@ -249,41 +254,47 @@ class Package(CMakePackageBase):
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
             print("preArchive(), app path:", appPath)
-            if not utils.copyFile(
-                archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
-                appPath / "Contents/MacOS",
-                linkOnly=False
-            ):
-                return False
+            # if not utils.copyFile(
+            #    archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
+            #    appPath / "Contents/MacOS",
+            #    linkOnly=False
+            # ):
+            #    return False
 
             pysideLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages/PySide6"))
             shibokenLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages/shiboken6"))
             print("preArchive(), PySide/shiboken crafRoot lib locations:", pysideLocations, shibokenLocations)
 
-            # copy dylibs from forbidden python3.11 directory
-            utils.copyFile(os.path.join(pysideLocations[0], "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.10.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(pysideLocations[0], "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.10.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(shibokenLocations[0], "libshiboken6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.10.dylib"), linkOnly=False)
+            # move dylibs from forbidden python3.11 directory
+            utils.moveFile(os.path.join(pysideLocations[0], "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.10.dylib"))
+            utils.moveFile(os.path.join(pysideLocations[0], "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.10.dylib"))
+            utils.moveFile(os.path.join(shibokenLocations[0], "libshiboken6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.10.dylib"))
 
-            # also copy site-packages
-            sitePackageDirs = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
-            sitePackageDest = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
-            print("preArchive(), site-packages locations:", sitePackageDirs)
-            print("preArchive(), site-packages destinations:", sitePackageDest)
-            utils.createDir(sitePackageDest)
-            for pkg in ["PySide6", "shiboken6"]:
-                utils.copyDir(sitePackageDirs[0], sitePackageDest)
+            # also needed Qt libs
+            qtLibs = glob.glob(os.path.join(pysideLocations[0], "*.so"))
+            for lib in qtLibs:
+                utils.moveFile(lib, os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/PySide6"))
+            utils.moveFile(os.path.join(shibokenLocations[0], "Shiboken.abi3.so"), os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/shiboken6"))
+
+            # copy complete site-packages (fails signing)
+            # sitePackageDirs = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
+            # sitePackageDest = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
+            # print("preArchive(), site-packages locations:", sitePackageDirs)
+            # print("preArchive(), site-packages destinations:", sitePackageDest)
+            # utils.createDir(sitePackageDest)
+            # for pkg in ["PySide6", "shiboken6"]:
+            #    utils.copyDir(sitePackageDirs[0], sitePackageDest)
 
             # fix falsely picked up system Python lib
             # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
-            utils.system(
-                [
-                    "install_name_tool",
-                    "-change",
-                    "/Library/Frameworks/Python.framework/Versions/3.12/Python",
-                    "@executable_path/../Frameworks/Python.framework/Versions/3.11/Python",
-                    os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")
-                ]
-            )
+            # utils.system(
+            #    [
+            #        "install_name_tool",
+            #        "-change",
+            #        "/Library/Frameworks/Python.framework/Versions/3.12/Python",
+            #        "@executable_path/../Frameworks/Python.framework/Versions/3.11/Python",
+            #        os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")
+            #    ]
+            # )
 
         return True

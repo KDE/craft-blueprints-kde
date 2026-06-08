@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/pim/kmime"] = None
+        self.runtimeDependencies["kde/libs/md4qt"] = None
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None

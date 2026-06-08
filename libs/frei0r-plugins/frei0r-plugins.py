@@ -15,9 +15,13 @@ class subinfo(info.infoclass):
         self.targetDigests["2.5.0"] = (["c511aeb51faeb0de2afe47327c30026d5b76ccc910a0b93d286029f07d29c656"], CraftHash.HashAlgorithm.SHA256)
 
         self.svnTargets["master"] = "https://github.com/dyne/frei0r.git"
-        self.svnTargets["32e9140"] = "https://github.com/dyne/frei0r.git||32e91405d2ec5e222f75175b36dc4cc7bc0667ef"
-        self.patchLevel["32e9140"] = 1
-        self.defaultTarget = "32e9140"
+
+        self.svnTargets["f7b0adb"] = "https://github.com/dyne/frei0r.git||f7b0adb31765a8b7f900db1f690cecf91921c2f5"
+        # https://github.com/dyne/frei0r/pull/280, https://github.com/dyne/frei0r/pull/281
+        self.patchToApply["f7b0adb"] = [("280.patch", 1), ("281.patch", 1)]
+        self.patchLevel["f7b0adb"] = 1
+
+        self.defaultTarget = "f7b0adb"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
