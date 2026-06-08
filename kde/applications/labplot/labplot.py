@@ -161,6 +161,7 @@ class Package(CMakePackageBase):
             return super().install()
 
     def createPackage(self):
+        print("createPackage()")
         self.defines["appname"] = "LabPlot"
         # org.kde.labplot.desktop for AppImage
         self.defines["desktopFile"] = "labplot"
@@ -243,9 +244,11 @@ class Package(CMakePackageBase):
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
+        print("createPackage() DONE")
         return super().createPackage()
 
     def preArchive(self):
+        print("preArchive()")
         archiveDir = self.archiveDir()
         print("preArchive(), archive dir:", archiveDir)
 
@@ -261,9 +264,16 @@ class Package(CMakePackageBase):
             # ):
             #    return False
 
+            print("task.log:")
+            with open(os.path.join(archiveDir, "Applications", "KDE", "task.log"), "r") as f:
+                print(f.read())
+            print("task-debug.log:")
+            with open(os.path.join(archiveDir, "Applications", "KDE", "task-debug.log"), "r") as f:
+                print(f.read())
+
             pysideLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages/PySide6"))
             shibokenLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages/shiboken6"))
-            print("preArchive(), PySide/shiboken crafRoot lib locations:", pysideLocations, shibokenLocations)
+            print("preArchive(), PySide/shiboken craftRoot lib locations:", pysideLocations, shibokenLocations)
 
             # copy dylibs from forbidden python3.11 directory
             utils.copyFile(os.path.join(pysideLocations[0], "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.10.dylib"), linkOnly=False)
@@ -273,17 +283,17 @@ class Package(CMakePackageBase):
             # also needed Qt libs
             # qtLibs = glob.glob(os.path.join(pysideLocations[0], "*.so"))
             # for lib in qtLibs:
-            #    utils.copyFile(lib, os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/PySide6"))
-            # utils.copyFile(os.path.join(shibokenLocations[0], "Shiboken.abi3.so"), os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/shiboken6"))
+            #    utils.copyFile(lib, os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/PySide6", linkOnly=False))
+            # utils.copyFile(os.path.join(shibokenLocations[0], "Shiboken.abi3.so"), os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/shiboken6", linkOnly=False))
 
             # copy complete site-packages (fails signing)
-            sitePackageDirs = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
-            sitePackageDest = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
-            print("preArchive(), site-packages locations:", sitePackageDirs)
-            print("preArchive(), site-packages destinations:", sitePackageDest)
-            utils.createDir(sitePackageDest)
-            for pkg in ["PySide6", "shiboken6"]:
-                utils.copyDir(sitePackageDirs[0], sitePackageDest)
+            # sitePackageDirs = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
+            # sitePackageDest = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
+            # print("preArchive(), site-packages locations:", sitePackageDirs)
+            # print("preArchive(), site-packages destinations:", sitePackageDest)
+            # utils.createDir(sitePackageDest)
+            # for pkg in ["PySide6", "shiboken6"]:
+            #    utils.copyDir(sitePackageDirs[0], sitePackageDest)
 
             # fix falsely picked up system Python lib
             # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
@@ -297,4 +307,5 @@ class Package(CMakePackageBase):
             #    ]
             # )
 
+        print("preArchive() DONE")
         return True
