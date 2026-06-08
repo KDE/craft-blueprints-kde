@@ -1,0 +1,12 @@
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user -x .idea -x .clang-format ffmpeg-8.1.1.orig/configure ffmpeg-8.1.1/configure
+--- ffmpeg-8.1.1.orig/configure	2026-03-16 18:13:04.000000000 +0000
++++ ffmpeg-8.1.1/configure	2026-06-08 19:40:11.580174900 +0000
+@@ -7322,7 +7322,7 @@
+ fi
+ 
+ enabled libmodplug        && require_pkg_config libmodplug libmodplug libmodplug/modplug.h ModPlug_Load
+-enabled libmp3lame        && require "libmp3lame >= 3.98.3" lame/lame.h lame_set_VBR_quality -lmp3lame $libm_extralibs
++enabled libmp3lame        && require "libmp3lame >= 3.98.3" lame/lame.h lame_set_VBR_quality -llibmp3lame $libm_extralibs
+ enabled libmpeghdec       && require_pkg_config libmpeghdec "mpeghdec >= 3.0.0" mpeghdec/mpeghdecoder.h mpeghdecoder_init
+ enabled libmysofa         && { check_pkg_config libmysofa libmysofa mysofa.h mysofa_neighborhood_init_withstepdefine ||
+                                require libmysofa mysofa.h mysofa_neighborhood_init_withstepdefine -lmysofa $zlib_extralibs; }
