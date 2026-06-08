@@ -32,6 +32,7 @@ class subinfo(info.infoclass):
             for ver in self.targets:
                 if CraftVersion(ver) < CraftVersion("8.1.0"):
                     self.patchToApply[ver] += [("ffmpeg-4.4-20210413.diff", 1)]
+                else:
                     self.patchToApply[ver] += [("ffmpeg-8.1.1-20260608.diff", 1)]
 
         # https://aur.archlinux.org/cgit/aur.git/tree/040-ffmpeg-add-av_stream_get_first_dts-for-chromium.patch?h=ffmpeg-git
@@ -89,7 +90,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.useShadowBuild = not CraftCore.compiler.isMSVC()
 
         if not CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ["--enable-libmp3lame"]
+            self.subinfo.options.configure.args += ["--enable-libmp3lame", "--enable-libass"]
         else:
             self.subinfo.options.configure.args += ["--disable-programs"]
         if "CC" in os.environ:
@@ -138,7 +139,6 @@ class Package(AutoToolsPackageBase):
                 "--enable-libopus",
                 "--enable-libvorbis",
                 "--enable-libvpx",
-                "--enable-libass",
                 "--enable-libaom",
                 "--enable-libdav1d",
                 "--enable-libzimg",
