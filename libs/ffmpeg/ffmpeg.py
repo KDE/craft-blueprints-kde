@@ -63,6 +63,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/aom"] = None
         self.runtimeDependencies["libs/dav1d"] = None
         self.runtimeDependencies["libs/onevpl"] = None
+        self.runtimeDependencies["libs/webp"] = None
         if CraftCore.compiler.isGCCLike():
             if not CraftCore.compiler.isAndroid:
                 self.runtimeDependencies["libs/libvpx"] = None
@@ -142,6 +143,7 @@ class Package(AutoToolsPackageBase):
                 "--enable-libaom",
                 "--enable-libdav1d",
                 "--enable-libzimg",
+                "--enable-libwebp",
             ]
 
         self.subinfo.options.configure.args += [
