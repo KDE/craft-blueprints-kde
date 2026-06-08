@@ -1,9 +1,13 @@
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildTools", not CraftCore.compiler.isAndroid)
+
     def setTargets(self):
         self.description = "a library to manipulate TIFF image files"
         self.webpage = "http://www.simplesystems.org/libtiff/"
@@ -25,3 +29,9 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        self.subinfo.options.configure.args += [
+            f"-Dtiff-tools={self.subinfo.options.dynamic.buildTools.asOnOff}",
+            f"-Dtiff-tests={self.subinfo.options.dynamic.buildTests.asOnOff}",
+            f"-Dtiff-contrib={CraftCore.compiler.isAndroid.inverted.asOnOff}",
+        ]
