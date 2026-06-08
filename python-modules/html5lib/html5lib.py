@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
         self.runtimeDependencies["python-modules/six"] = None
+        self.runtimeDependencies["python-modules/webencodings"] = None
 
 
 class Package(PipPackageBase):
