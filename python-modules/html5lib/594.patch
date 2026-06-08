@@ -55,9 +55,9 @@ diff --git a/requirements-test.txt b/requirements-test.txt
 index aca31f5e..27943155 100644
 --- a/requirements-test.txt
 +++ b/requirements-test.txt
-@@ -8,2 +8,5 @@ coverage>=5.1,<6
- pytest-expect>=1.1.0,<2
- mock>=3.0.5,<4 ; python_version < '3.3'
+@@ -9,2 +9,5 @@ coverage>=5.1,<6
+ mock>=3.0.5,<4 ; python_version < '3.6'
+ mock>=4.0.2,<5 ; python_version >= '3.6'
 +setuptools; python_version >= '3.12'
 +packaging
 +importlib-metadata; python_version < '3.8'
