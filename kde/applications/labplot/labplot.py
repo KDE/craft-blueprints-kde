@@ -275,20 +275,28 @@ class Package(CMakePackageBase):
                 with open(taskDebugLog, "r") as f:
                     print(f.read())
 
-            pysideLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages/PySide6"))
-            shibokenLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages/shiboken6"))
-            print("preArchive(), PySide/shiboken craftRoot lib locations:", pysideLocations, shibokenLocations)
+            pythonSitePackageLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
+            pythonPackages = os.listdir(pythonSitePackageLocations[0])
+            print("preArchive(), Python craftRoot site packages:", pythonPackages)
 
-            # copy dylibs from forbidden python3.11 directory
-            utils.copyFile(os.path.join(pysideLocations[0], "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.10.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(pysideLocations[0], "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.10.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(shibokenLocations[0], "libshiboken6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.10.dylib"), linkOnly=False)
+            pysideLocation = os.path.join(pythonSitePackageLocations[0], "PySide6")
+            shibokenLocation = os.path.join(pythonSitePackageLocations[0], "shiboken6")
+            print("preArchive(), PySide/shiboken craftRoot lib location:", pysideLocation, shibokenLocation)
 
-            # also needed Qt libs
-            # qtLibs = glob.glob(os.path.join(pysideLocations[0], "*.so"))
-            # for lib in qtLibs:
-            #    utils.copyFile(lib, os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/PySide6", linkOnly=False))
-            # utils.copyFile(os.path.join(shibokenLocations[0], "Shiboken.abi3.so"), os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/shiboken6", linkOnly=False))
+            # copy dylibs
+            utils.copyFile(os.path.join(pysideLocation, "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.10.dylib"), linkOnly=False)
+            utils.copyFile(os.path.join(pysideLocation, "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.10.dylib"), linkOnly=False)
+            utils.copyFile(os.path.join(shibokenLocation, "libshiboken6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.10.dylib"), linkOnly=False)
+
+            pythonFrameworksLocation = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
+            pythonFrameworksPackages = os.listdir(pythonFrameworksLocation)
+            print("Python framework site packages:", pythonFrameworksPackages)
+
+            # also needed libs
+            pysideLibs = glob.glob(os.path.join(pysideLocation, "*.so"))
+            for lib in pysideLibs:
+                utils.copyFile(lib, os.path.join(pythonFrameworksLocation, "PySide6", linkOnly=False))
+            utils.copyFile(os.path.join(shibokenLocation, "Shiboken.abi3.so"), os.path.join(pythonFrameworksLocation, "shiboken6", linkOnly=False))
 
             # copy complete site-packages (fails signing)
             # sitePackageDirs = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
