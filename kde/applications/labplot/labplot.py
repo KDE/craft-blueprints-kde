@@ -264,12 +264,16 @@ class Package(CMakePackageBase):
             # ):
             #    return False
 
-            print("task.log:")
-            with open(os.path.join(archiveDir, "Applications", "KDE", "task.log"), "r") as f:
-                print(f.read())
-            print("task-debug.log:")
-            with open(os.path.join(archiveDir, "Applications", "KDE", "task-debug.log"), "r") as f:
-                print(f.read())
+            taskLog = os.path.join(archiveDir, "Applications", "KDE", "task.log")
+            if os.path.exists(taskLog):
+                print("task.log:", taskLog)
+                with open(taskLog, "r") as f:
+                    print(f.read())
+            taskDebugLog = os.path.join(archiveDir, "Applications", "KDE", "task-debug.log")
+            if os.path.exists(taskDebugLog):
+                print("task-debug.log:", taskDebugLog)
+                with open(taskDebugLog, "r") as f:
+                    print(f.read())
 
             pysideLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages/PySide6"))
             shibokenLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages/shiboken6"))
@@ -308,4 +312,4 @@ class Package(CMakePackageBase):
             # )
 
         print("preArchive() DONE")
-        return True
+        return super().preArchive()
