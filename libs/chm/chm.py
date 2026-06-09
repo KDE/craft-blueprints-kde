@@ -1,5 +1,6 @@
 import info
 from Package.CMakePackageBase import CMakePackageBase
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -8,11 +9,11 @@ class subinfo(info.infoclass):
 
         for ver in ["0.40"]:
             # the server does not support https
-            self.targets[ver] = f"http://www.jedrea.com/chmlib/chmlib-{ver}.tar.bz2"
+            self.targets[ver] = f"https://files.kde.org/craft/sources/libs/chm/chmlib-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"chmlib-{ver}"
         self.patchToApply["0.40"] = ("chm-cmake.diff", 0)
         self.patchLevel["0.40"] = 1
-        self.targetDigests["0.40"] = "5231d7531e8808420d7f89fd1e4fdbac1ed7a167"
+        self.targetDigests["0.40"] = (["3449d64b0cf71578b2c7e3ddc048d4af3661f44a83941ea074a7813f3a59ffa3"], CraftHash.HashAlgorithm.SHA256)
 
         self.releaseManagerId = 17678
         self.webpage = "http://www.jedrea.com/chmlib/"
