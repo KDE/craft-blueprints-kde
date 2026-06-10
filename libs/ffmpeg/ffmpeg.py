@@ -40,10 +40,14 @@ class subinfo(info.infoclass):
         # This function is not upstreamed and hence requires patching, for more context see eg. https://bugs.gentoo.org/831487
         self.patchToApply["7.1"] += [("040-ffmpeg-add-av_stream_get_first_dts-for-chromium.patch", 1)]
 
+        # Fix rotation metadata lost on transcoding
+        # https://code.ffmpeg.org/FFmpeg/FFmpeg/issues/23383
+        self.patchToApply["8.1.1"] += [("ffmpeg-8.1.1-metadata.diff", 1)]
+
         self.patchLevel["6.1.1"] = 2
         self.patchLevel["7.1"] = 5
         self.patchLevel["8.0"] = 1
-        self.patchLevel["8.1.1"] = 2
+        self.patchLevel["8.1.1"] = 3
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
