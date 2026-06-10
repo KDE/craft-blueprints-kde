@@ -8,6 +8,9 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = ""
         self.description = "html5lib is a pure-python library for parsing HTML. It is designed to conform to the WHATWG HTML specification, as is implemented by all major web browsers"
         self.defaultTarget = "master"
+        self.patchToApply["master"] = [
+            ("594.patch", 1),
+        ]
 
 
 class Package(PipPackageBase):
