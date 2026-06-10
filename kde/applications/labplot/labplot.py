@@ -105,10 +105,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libpng"] = None
             self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
             self.buildDependencies["python-modules/build"] = None
-            self.buildDependencies["libs/python"] = None
-        if CraftCore.compiler.isLinux:
-            self.runtimeDependencies["libs/python"] = None
         if not CraftCore.compiler.isWindows:
+            self.runtimeDependencies["libs/python"] = None
             self.runtimeDependencies["python-modules/pyside6"] = None
 
 
@@ -294,10 +292,10 @@ class Package(CMakePackageBase):
 
             # also needed libs to frameworks site-packages
             pysideLibs = glob.glob(os.path.join(pysideLocation, "*.so"))
-            os.mkdir(pysidePath)
+            os.makedirs(pysidePath, exist_ok=True)
             for lib in pysideLibs:
                 utils.copyFile(lib, pysidePath, linkOnly=False)
-            os.mkdir(shibokenPath)
+            os.makedirs(shibokenPath, exist_ok=True)
             utils.copyFile(os.path.join(shibokenLocation, "Shiboken.abi3.so"), shibokenPath, linkOnly=False)
 
             # copy complete site-packages (fails signing)
