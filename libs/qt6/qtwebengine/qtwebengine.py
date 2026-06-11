@@ -47,8 +47,8 @@ class subinfo(info.infoclass):
         # https://bugreports.qt.io/browse/QTBUG-128907
         self.patchToApply["6.8.0"] = [("bfeea6231dfacb37de3ca5ee2e0167c71b540b90.patch", 1)]
         if CraftCore.compiler.isLinux:
-            self.patchToApply["6.10.1"] = [("qtwebengine-6.10.1-20251209.diff", 1)]
-            self.patchToApply["6.10.2"] = [("qtwebengine-6.10.1-20251209.diff", 1)]
+            for ver in ["6.10.1", "6.10.2", "6.11.1"]:
+                self.patchToApply[ver] = [("qtwebengine-6.10.1-20251209.diff", 1)]
 
         self.patchLevel["6.6.1"] = 1
         self.patchLevel["6.8.1"] = 1
