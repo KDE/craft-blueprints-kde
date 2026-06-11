@@ -1,0 +1,17 @@
+See https://qt-project.atlassian.net/browse/QTBUG-139235
+
+---
+
+diff --git a/src/3rdparty/chromium/build/config/linux/pkg_config.gni b/src/3rdparty/chromium/build/config/linux/pkg_config.gni
+index 591afd7d1dc..98677149640 100644
+--- a/src/3rdparty/chromium/build/config/linux/pkg_config.gni
++++ b/src/3rdparty/chromium/build/config/linux/pkg_config.gni
+@@ -184,7 +184,7 @@
+ 
+       # We want the system include paths to use -isystem instead of -I to
+       # suppress warnings in those headers.
+-      cflags += [ "-isystem$_path" ]
++      cflags += [ "-I$_path" ]
+     }
+ 
+     if (!defined(invoker.ignore_libs) || !invoker.ignore_libs) {

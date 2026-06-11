@@ -19,15 +19,20 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
+
+        for ver in self.targets.keys():
+            self.patchToApply[ver] = []
+
         self.patchLevel["6.4.0"] = 1
-        self.patchToApply["6.5.3"] = [(".6.5.3", 1)]
-        self.patchToApply["6.6.0"] = [(".6.5.3", 1)]
-        self.patchToApply["6.9.1"] = [(".6.9.1", 1)]
-        self.patchToApply["6.9.2"] = [(".6.9.2", 1)]
+        self.patchToApply["6.5.3"] += [(".6.5.3", 1)]
+        self.patchToApply["6.6.0"] += [(".6.5.3", 1)]
+        self.patchToApply["6.9.1"] += [(".6.9.1", 1)]
+        self.patchToApply["6.9.2"] += [(".6.9.2", 1)]
+        self.patchToApply["6.11.1"] += [(".6.11.1", 1)]
         self.patchLevel["6.7.0"] = 3
 
         for ver in ["6.6.1", "6.6.2"]:
-            self.patchToApply[ver] = [
+            self.patchToApply[ver] += [
                 # don't confuse gn
                 ("qtwebengine-6.6.1-20240105.diff", 1),
             ]
@@ -42,14 +47,14 @@ class subinfo(info.infoclass):
         ]
 
         # https://invent.kde.org/qt/qt/qtwebengine-chromium/-/commit/3aba63e62a86aeb157ad73df0fe0f44f01cf0e02
-        self.patchToApply["6.7.2"] = [("3aba63e62a86aeb157ad73df0fe0f44f01cf0e02.patch", 1)]
+        self.patchToApply["6.7.2"] += [("3aba63e62a86aeb157ad73df0fe0f44f01cf0e02.patch", 1)]
 
         # https://bugreports.qt.io/browse/QTBUG-128907
-        self.patchToApply["6.8.0"] = [("bfeea6231dfacb37de3ca5ee2e0167c71b540b90.patch", 1)]
+        self.patchToApply["6.8.0"] += [("bfeea6231dfacb37de3ca5ee2e0167c71b540b90.patch", 1)]
         if CraftCore.compiler.isLinux:
             for ver in ["6.10.1", "6.10.2", "6.11.1"]:
                 # https://qt-project.atlassian.net/browse/QTBUG-146971
-                self.patchToApply[ver] = [("qtwebengine-6.10.1-20251209.diff", 1)]
+                self.patchToApply[ver] += [("qtwebengine-6.10.1-20251209.diff", 1)]
 
         self.patchLevel["6.6.1"] = 1
         self.patchLevel["6.8.1"] = 1
