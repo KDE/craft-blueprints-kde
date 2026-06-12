@@ -19,7 +19,12 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://download.kde.org/unstable/qxmpp/qxmpp-{ver}.tar.xz"
             self.archiveNames[ver] = f"qxmpp-v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"qxmpp-{ver}"
+
         self.targetDigests["1.15.1"] = (["0747758a4f5b5ea4c60686c65b390766f1909d09e1a5a457c8e80ef272730c46"], CraftHash.HashAlgorithm.SHA256)
+
+        # https://invent.kde.org/libraries/qxmpp/-/merge_requests/778
+        self.patchToApply["1.15.1"] = [("778.patch", 1)]
+
         self.defaultTarget = "1.15.1"
 
 

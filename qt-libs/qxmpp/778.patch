@@ -1,0 +1,35 @@
+From 2a484156225c008503615d52c3efb186e5adbc63 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Julius=20K=C3=BCnzel?= <julius.kuenzel@kde.org>
+Date: Sat, 13 Jun 2026 01:41:16 +0200
+Subject: [PATCH] Fix interfering headers with Qt 6.12 on MSVC
+
+Qt heders after gstreamer header cause:
+
+C:\Craft\windows-msvc2022_64-cl\include\QtCore/qarraydata.h(92): error C2485: '__declspec(__restrict)' is not a recognized extended attribute
+---
+ src/client/GstWrapper.h | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/client/GstWrapper.h b/src/client/GstWrapper.h
+index 9ba02a21..c523453f 100644
+--- a/src/client/GstWrapper.h
++++ b/src/client/GstWrapper.h
+@@ -5,11 +5,13 @@
+ #ifndef GSTWRAPPER_H
+ #define GSTWRAPPER_H
+ 
++// Qt includes need to come before gst includes
++// otherwise they interfere and cause errors on MSVC
++#include <QLatin1String>
++
+ #include <gst/gst.h>
+ #include <memory>
+ 
+-#include <QLatin1String>
+-
+ namespace QXmpp::Private {
+ 
+ template<typename T, typename DeleterType, void(destruct)(DeleterType *)>
+-- 
+GitLab
+
