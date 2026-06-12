@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["libs/highway"] = None
+        self.runtimeDependencies["libs/libhwy"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
