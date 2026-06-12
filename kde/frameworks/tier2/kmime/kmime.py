@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2026 Volker Krause <vkrause@kde.org>
+
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 
