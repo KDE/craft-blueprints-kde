@@ -119,7 +119,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DQT_FEATURE_webengine_system_lcms2=ON",
             "-DQT_FEATURE_webengine_system_pulseaudio=OFF",
             "-DQT_FEATURE_webengine_system_ffmpeg=OFF",  # needs a patched ffmpeg  https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/qtwebengine-6.10.1.ebuild#n208
-            "QT_FEATURE_webengine_vaapi=OFF",
+            "-DQT_FEATURE_webengine_vaapi=OFF",
         ]
         # See https://bugs.kde.org/show_bug.cgi?id=486905 and https://github.com/Homebrew/homebrew-core/issues/104008 :
         # option not correctly supported on Windows and MacOS (as of Qt 6.7.0)
