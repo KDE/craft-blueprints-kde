@@ -10,11 +10,11 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://gitlab.freedesktop.org/gstreamer/gstreamer.git"
-        for ver in ["1.28.0"]:
+        for ver in ["1.28.4"]:
             self.targets[ver] = f"https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"gstreamer-{ver}"
-        self.targetDigests["1.28.0"] = (["6c8676bc39a2b41084fd4b21d2c37985c69ac979c03ce59575db945a3a623afd"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "1.28.0"
+        self.targetDigests["1.28.4"] = (["f5adc7e8f448c10260b3b25aa101c9d540674c8d9a54c2b77a86d04f2b3b50dd"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "1.28.4"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -28,7 +28,5 @@ class Package(MesonPackageBase):
         self.subinfo.options.configure.args += [
             "-Dexamples=disabled",
             f"-Dtests={self.subinfo.options.dynamic.buildTests.asEnabledDisabled}",
-            "-Dbuild-tools-source=system",
-            "-Dqt5=disabled",
         ]
         self.subinfo.options.configure.ldflags += " -lintl"
