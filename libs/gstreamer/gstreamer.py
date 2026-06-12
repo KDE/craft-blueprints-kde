@@ -27,6 +27,8 @@ class Package(MesonPackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += [
             "-Dexamples=disabled",
-            "-Dtests=disabled",
+            f"-Dtests={self.subinfo.options.dynamic.buildTests.asEnabledDisabled}",
+            "-Dbuild-tools-source=system",
+            "-Dqt5=disabled",
         ]
         self.subinfo.options.configure.ldflags += " -lintl"
