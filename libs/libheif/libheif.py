@@ -8,13 +8,13 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.21.2"]:
+        for ver in ["1.23.0"]:
             self.targets[ver] = f"https://github.com/strukturag/libheif/releases/download/v{ver}/libheif-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libheif-{ver}"
-        self.targetDigests["1.21.2"] = (["75f530b7154bc93e7ecf846edfc0416bf5f490612de8c45983c36385aa742b42"], CraftHash.HashAlgorithm.SHA256)
-        self.patchToApply["1.21.2"] = [("libheif-1.18.2-20250415.diff", 1)]
+        self.targetDigests["1.23.0"] = (["4c9182b18897617182eed12ab5eb9f9d855b3aa3a736d6bdb31abc034ec7d393"], CraftHash.HashAlgorithm.SHA256)
+        self.patchToApply["1.23.0"] = [("libheif-1.18.2-20250415.diff", 1)]
         self.description = "libheif is an HEIF and AVIF file format decoder and encoder"
-        self.defaultTarget = "1.21.2"
+        self.defaultTarget = "1.23.0"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/ffmpeg"] = None
