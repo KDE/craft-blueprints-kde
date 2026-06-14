@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 
 import info
+from Blueprints.CraftVersion import CraftVersion
 from Package.CMakePackageBase import CMakePackageBase
 
 
@@ -20,7 +21,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwidgetsaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None
+        if self.buildTarget == "master" or CraftVersion(self.buildTarget) > CraftVersion("26.04.3"):
+            self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
+        else:
+            self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/kmbox"] = None
         self.runtimeDependencies["kde/pim/libkleo"] = None
         self.runtimeDependencies["libs/gpgme/gpgme"] = None

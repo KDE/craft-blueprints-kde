@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
@@ -23,7 +24,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None
+        if self.buildTarget == "master" or CraftVersion(self.buildTarget) > CraftVersion("26.04.3"):
+            self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
+        else:
+            self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["libs/cyrus-sasl"] = None
 
 

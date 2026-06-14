@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 
@@ -36,7 +37,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libkdepim"] = None
         self.runtimeDependencies["kde/pim/mailcommon"] = None
         self.runtimeDependencies["kde/pim/kmailtransport"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None
+        if self.buildTarget == "master" or CraftVersion(self.buildTarget) > CraftVersion("26.04.3"):
+            self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
+        else:
+            self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/pimcommon"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None

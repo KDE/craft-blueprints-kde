@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftVersion import CraftVersion
 from Package.CMakePackageBase import CMakePackageBase
 
 
@@ -12,7 +13,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None
+        if self.buildTarget == "master" or CraftVersion(self.buildTarget) > CraftVersion("26.04.3"):
+            self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
+        else:
+            self.runtimeDependencies["kde/pim/kmime"] = None
 
 
 class Package(CMakePackageBase):

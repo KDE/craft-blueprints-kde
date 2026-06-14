@@ -3,6 +3,7 @@
 
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from Blueprints.CraftVersion import CraftVersion
 from CraftCore import CraftCore
 
 
@@ -28,7 +29,10 @@ class subinfo(info.infoclass):
 
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None
+        if self.buildTarget == "master" or CraftVersion(self.buildTarget) > CraftVersion("26.04.3"):
+            self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
+        else:
+            self.runtimeDependencies["kde/pim/kmime"] = None
 
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
