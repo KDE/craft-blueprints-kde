@@ -1,3 +1,13 @@
 # exclude Qt.labs.platform on Android
 # it's unused there (and only there) but pulls in QtWidgets as a dependency
 qml/Qt/labs/platform/.*
+
+# exclude EPS image format as that depends on Qt6PrintSupport, and that's
+# the sole reason for pulling in all of QtWidgets
+plugins/imageformats/.*_kimg_eps_.*\.so
+
+# unused assets pulled in via KIconThemes
+share/locale/.*/LC_MESSAGES/(kitemviews6|kwidgetsaddons6)_qt\.qm
+
+# unused Qt translation catalogs
+translations/(qtconnectivity|qtdeclarative|qtlocation|qtmultimedia|qtwebsockets)_.*\.qm
