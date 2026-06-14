@@ -31,10 +31,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcolorscheme"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
             self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
         if not CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
 
