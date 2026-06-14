@@ -111,7 +111,7 @@ build-package-linux:
   # the package to a new version. Set CRAFT_PACKAGE to the package you want to
   # test. This test uses the CI image that's also used for the AppImages.
   extends: .build-package-base
-  image: storage.kde.org/vm-images/craft-appimage
+  image: storage.kde.org/vm-images/craft-appimage-alma9
   tags:
     - VM
     - amd64
