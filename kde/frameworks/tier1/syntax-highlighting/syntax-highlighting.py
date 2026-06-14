@@ -11,10 +11,6 @@ class subinfo(info.infoclass):
         self.description = "Syntax highlighting engine for Kate syntax definitions."
         self.displayName = "KSyntaxHighlighting"
 
-        if CraftCore.compiler.isWindows:
-            self.patchToApply["6.22.0"] = [("0001-Do-not-resolve-symbolic-links-in-generate_jinja.patch", 1)]
-            self.patchLevel["6.22.0"] = 1
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/perl"] = None

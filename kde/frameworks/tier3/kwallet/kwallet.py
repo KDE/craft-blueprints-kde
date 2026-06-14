@@ -10,9 +10,6 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
 
-        for ver in ["6.22.0"]:
-            self.patchToApply[ver] = [("0001-On-Windows-use-gpgme_ssize_t-instead-of-ssize_t-for-.patch", 1)]
-
         self.description = "Credential Storage"
 
     def setDependencies(self):
