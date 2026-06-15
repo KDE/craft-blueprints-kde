@@ -9,6 +9,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.buildDependencies["libs/qt/qttools"] = None
+        self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/gstreamer"] = None
         self.runtimeDependencies["libs/libomemo-c"] = None
         self.runtimeDependencies["libs/openssl"] = None
