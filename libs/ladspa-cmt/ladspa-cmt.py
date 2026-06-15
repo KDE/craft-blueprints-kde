@@ -6,9 +6,6 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Platforms.All
-
     def setTargets(self):
         self.description = "The Computer Music Toolkit LADSPA plugin collection"
         self.webpage = "http://ladspa.org/"
@@ -27,7 +24,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DCMAKE_POLICY_VERSION_MINIMUM=3.5"]
 
     def install(self):
         if not super().install():
