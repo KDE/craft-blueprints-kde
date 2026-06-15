@@ -72,7 +72,6 @@ qml/QtQuick/Controls/macOS/.*
 qml/QtQuick/Controls/Material/.*
 qml/QtQuick/Controls/Universal/.*
 qml/QtQuick/Dialogs/.*
-qml/QtQuick/Effects/.*
 qml/QtQuick/LocalStorage/.*
 qml/QtQuick/NativeStyle/.*
 qml/QtQuick/Particles/.*
