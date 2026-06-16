@@ -159,7 +159,6 @@ class Package(CMakePackageBase):
             return super().install()
 
     def createPackage(self):
-        print("createPackage()")
         self.defines["appname"] = "LabPlot"
         # org.kde.labplot.desktop for AppImage
         self.defines["desktopFile"] = "labplot"
@@ -242,11 +241,9 @@ class Package(CMakePackageBase):
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
-        print("createPackage() DONE")
         return super().createPackage()
 
     def preArchive(self):
-        print("preArchive()")
         archiveDir = self.archiveDir()
         print("preArchive(), archive dir:", archiveDir)
 
@@ -281,6 +278,7 @@ class Package(CMakePackageBase):
             shibokenLocation = os.path.join(pythonSitePackageLocations[0], "shiboken6")
             print("preArchive(), PySide/shiboken craftRoot lib location:", pysideLocation, shibokenLocation)
 
+            # copy complete site-packages fails signing
             # copy dylibs
             utils.copyFile(os.path.join(pysideLocation, "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.10.dylib"), linkOnly=False)
             utils.copyFile(os.path.join(pysideLocation, "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.10.dylib"), linkOnly=False)
@@ -298,14 +296,8 @@ class Package(CMakePackageBase):
             os.makedirs(shibokenPath, exist_ok=True)
             utils.copyFile(os.path.join(shibokenLocation, "Shiboken.abi3.so"), shibokenPath, linkOnly=False)
 
-            # copy complete site-packages (fails signing)
-            # sitePackageDirs = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
-            # sitePackageDest = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
-            # print("preArchive(), site-packages locations:", sitePackageDirs)
-            # print("preArchive(), site-packages destinations:", sitePackageDest)
-            # utils.createDir(sitePackageDest)
-            # for pkg in ["PySide6", "shiboken6"]:
-            #    utils.copyDir(sitePackageDirs[0], sitePackageDest)
+            utils.copyFile(os.path.join(pysidePath, "__init__.py"), pysidePath, linkOnly=False)
+            utils.copyFile(os.path.join(shibokenLocation, "__init__.py"), shibokenPath, linkOnly=False)
 
             # fix falsely picked up system Python lib
             # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
