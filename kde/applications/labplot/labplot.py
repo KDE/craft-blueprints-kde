@@ -296,7 +296,7 @@ class Package(CMakePackageBase):
             os.makedirs(shibokenPath, exist_ok=True)
             utils.copyFile(os.path.join(shibokenLocation, "Shiboken.abi3.so"), shibokenPath, linkOnly=False)
 
-            utils.copyFile(os.path.join(pysidePath, "__init__.py"), pysidePath, linkOnly=False)
+            utils.copyFile(os.path.join(pysideLocation, "__init__.py"), pysidePath, linkOnly=False)
             utils.copyFile(os.path.join(shibokenLocation, "__init__.py"), shibokenPath, linkOnly=False)
 
             # fix falsely picked up system Python lib
