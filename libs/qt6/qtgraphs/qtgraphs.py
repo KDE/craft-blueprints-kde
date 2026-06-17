@@ -10,7 +10,6 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
-        self.runtimeDependencies["libs/qt6/qtshadertools"] = None
         self.runtimeDependencies["libs/qt6/qtquick3d"] = None
 
 
