@@ -11,6 +11,10 @@ class subinfo(info.infoclass):
         self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
+        self.description = "GLib is a general-purpose, portable utility library, which provides many useful data types, macros, type conversions, string utilities, file utilities, a mainloop abstraction, and so on."
+        self.webpage = "https://docs.gtk.org/glib/"
+        self.releaseManagerId = 10024
+
         for ver in ["2.86.0", "2.89.0"]:
             majorMinorStr = ".".join(ver.split(".")[0:2])
             self.targets[ver] = f"https://download.gnome.org/sources/glib/{majorMinorStr}/glib-{ver}.tar.xz"
