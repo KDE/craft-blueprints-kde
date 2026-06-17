@@ -11,6 +11,8 @@ class subinfo(info.infoclass):
         self.targetDigests["1.3.6"] = (["83e6704730683d004d20e21b8f7f55dcb3383cdf84c0daedf30bde175f774638"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "reference implementation for the ogg audio file format"
+        self.releaseManagerId = 1694
+
         self.defaultTarget = "1.3.6"
 
     def setDependencies(self):
