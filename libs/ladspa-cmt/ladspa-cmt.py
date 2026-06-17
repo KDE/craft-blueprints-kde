@@ -13,8 +13,12 @@ class subinfo(info.infoclass):
             # self.targets[ver] = f"http://www.ladspa.org/download/cmt_{ver}.tgz"
             self.targets[ver] = f"https://files.kde.org/craft/sources/libs/ladspa-cmt/cmt_{ver}.tgz"
             self.targetInstSrc[ver] = f"cmt_{ver}/src"
-            self.patchToApply[ver] = ("ladspa-cmt-cmake.patch", 0)
+            self.patchToApply[ver] = [("ladspa-cmt-cmake.patch", 1)]
+
         self.targetDigests["1.18"] = (["a82f8636de1f4ada386a199a017a9cd775a49b49e716b11e8dd3f723c93df6ca"], CraftHash.HashAlgorithm.SHA256)
+
+        self.patchLevel["1.18"] = 2
+
         self.defaultTarget = "1.18"
 
     def setDependencies(self):

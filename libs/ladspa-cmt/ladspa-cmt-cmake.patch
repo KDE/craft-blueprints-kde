@@ -1,28 +1,36 @@
---- /dev/null	2019-02-16 23:29:29.000000000 +0100
-+++ cmake/modules/FindLadspa.cmake	2019-02-16 23:27:56.058000000 +0100
-@@ -0,0 +1,19 @@
-+# - Try to find LADSPA header
-+# This will define
-+#
-+#  LADSPA_FOUND
-+#  LADSPA_INCLUDE_DIR
+diff --git a/cmake/modules/FindLadspa.cmake b/cmake/modules/FindLadspa.cmake
+new file mode 100644
+index 0000000..365e740
+--- /dev/null
++++ b/cmake/modules/FindLadspa.cmake
+@@ -0,0 +1,24 @@
++include(FindPackageHandleStandardArgs)
 +
-+IF (LADSPA_INCLUDE_DIR)
-+    SET(LADSPA_FIND_QUIETLY TRUE)
-+ENDIF (LADSPA_INCLUDE_DIR)
++if(Ladspa_INCLUDE_DIR)
++    set(Ladspa_FIND_QUIETLY TRUE)
++endif()
 +
-+FIND_PATH (LADSPA_INCLUDE_DIR ladspa.h)
++find_path(Ladspa_INCLUDE_DIR
++    NAMES
++      ladspa.h
++)
 +
-+MARK_AS_ADVANCED(LADSPA_INCLUDE_DIR)
-+IF (LADSPA_INCLUDE_DIR)
-+   set(LADSPA_FOUND TRUE)
-+ENDIF (LADSPA_INCLUDE_DIR)
++find_package_handle_standard_args(Ladspa
++  REQUIRED_VARS
++    Ladspa_INCLUDE_DIR
++)
 +
-+INCLUDE(FindPackageHandleStandardArgs)
-+FIND_PACKAGE_HANDLE_STANDARD_ARGS(LADSPA DEFAULT_MSG LADSPA_INCLUDE_DIR)
++if(LADSPA_FOUND AND NOT TARGET Ladspa::ladspa)
++    add_library(Ladspa::ladspa INTERFACE IMPORTED)
++    set_target_properties(Ladspa::ladspa PROPERTIES
++        INTERFACE_INCLUDE_DIRECTORIES "${Ladspa_INCLUDE_DIR}"
++    )
++endif()
++
++mark_as_advanced(Ladspa_INCLUDE_DIR)
 --- /dev/null	2019-02-16 23:14:09.000000000 +0100
-+++ CMakeLists.txt	2019-02-16 23:13:55.881000100 +0100
-@@ -0,0 +1,21 @@
++++ b/CMakeLists.txt	2019-02-16 23:13:55.881000100 +0100
+@@ -0,0 +1,24 @@
 +cmake_minimum_required (VERSION 3.20)
 +
 +project (ladspa-cmt VERSION 1.18)
@@ -31,9 +39,7 @@
 +
 +set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 +find_package(Ladspa REQUIRED)
-+include_directories(${LADSPA_INCLUDE_DIR})
 +
-+add_definitions(-D_USE_MATH_DEFINES)
 +file (GLOB cmt_cpp *.cpp)
 +set (cmt_cpp ${cmt_cpp}
 +       freeverb/Components/allpass.cpp
@@ -41,6 +47,11 @@
 +       freeverb/Components/revmodel.cpp
 +       freeverb/freeverb.cpp)
 +add_library (cmt MODULE ${cmt_cpp})
++target_link_libraries(cmt Ladspa::ladspa)
++target_compile_definitions(cmt PRIVATE _USE_MATH_DEFINES)
++if(MSVC)
++    target_link_options(cmt PRIVATE "/EXPORT:ladspa_descriptor")
++endif()
 +
 +set(INSTALL_PLUGINS_DIR "${CMAKE_INSTALL_LIBDIR}/ladspa")
-+install (TARGETS cmt LIBRARY DESTINATION lib/ladspa)
++install (TARGETS cmt LIBRARY DESTINATION ${INSTALL_PLUGINS_DIR})
