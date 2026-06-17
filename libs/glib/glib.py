@@ -50,7 +50,7 @@ class Package(MesonPackageBase):
             )
         self.subinfo.options.configure.args += ["--wrap-mode=nodownload", "-Ddocumentation=false", "-Dinstalled_tests=false", "-Dman-pages=disabled"]
         if CraftCore.compiler.isUnix:
-            self.subinfo.options.configure.ldflags += " -lintl -liconv"
+            self.subinfo.options.configure.ldflags += " -liconv"
         if CraftCore.compiler.isFreeBSD:
             self.subinfo.options.configure.args += ["-Dxattr=false", "-Dlibmount=disabled", "-Dselinux=disabled", "-Db_lundef=false"]
 
