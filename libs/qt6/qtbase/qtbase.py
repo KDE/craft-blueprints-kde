@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("withPCRE2", self.options.isActive("libs/pcre2"))
         self.options.dynamic.registerOption("withEgl", True)
         self.options.dynamic.registerOption("withCUPS", CraftCore.compiler.isMacOS or self.options.isActive("libs/cups"))
+        self.options.dynamic.registerOption("withAccessibility", not CraftCore.compiler.isAndroid)
 
         # We need to treat MacOS explicitly because of https://bugreports.qt.io/browse/QTBUG-116083
         self.options.dynamic.registerOption("withFontConfig", self.options.isActive("libs/fontconfig") and not CraftCore.compiler.isMacOS)
@@ -54,6 +55,7 @@ class subinfo(info.infoclass):
         self.patchLevel["6.6.1"] = 3
         self.patchLevel["6.8.0"] = 2
         self.patchLevel["6.8.1"] = 2
+        self.patchLevel["6.11.1"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -116,6 +118,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DFEATURE_dbus_linked=OFF",
             f"-DFEATURE_glib={self.subinfo.options.dynamic.withGlib.asOnOff}",
             f"-DFEATURE_fontconfig={self.subinfo.options.dynamic.withFontConfig.asOnOff}",
+            f"-DQT_FEATURE_accessibility={self.subinfo.options.dynamic.withAccessibility.asOnOff}",
             f"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION={self.subinfo.options.dynamic.useLtcg.asOnOff}",
         ]
         if CraftCore.compiler.isLinux:
@@ -123,6 +126,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
                 f"-DFEATURE_cups={self.subinfo.options.dynamic.withCUPS.asOnOff}",
                 "-DFEATURE_xcb=ON",
                 f"-DQT_FEATURE_egl={self.subinfo.options.dynamic.withEgl.asOnOff}",
+                f"-DQT_FEATURE_accessibility_atspi_bridge={self.subinfo.options.dynamic.withAccessibility.asOnOff}",
             ]
 
         if CraftCore.compiler.isAndroid:
