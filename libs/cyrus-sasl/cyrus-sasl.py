@@ -15,6 +15,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.description = "Cyrus SASL implementation"
+        self.releaseManagerId = 13280
 
         for ver in ["2.1.28"]:
             self.targets[ver] = f"https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-{ver}/cyrus-sasl-{ver}.tar.gz"
