@@ -30,7 +30,11 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["3.7.2", "3.7.4", "3.8.0", "3.8.4"]:
+        self.description = "A library which provides a secure layer over a reliable transport layer"
+        self.webpage = "https://www.gnutls.org/"
+        self.releaseManagerId = 1221
+
+        for ver in ["3.7.2", "3.7.4", "3.8.0", "3.8.4", "3.8.13"]:
             self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/gnutls/v{ver[:3]}/gnutls-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"gnutls-{ver}"
 
@@ -38,10 +42,11 @@ class subinfo(info.infoclass):
         self.targetDigests["3.7.4"] = (["e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["3.8.0"] = (["0ea0d11a1660a1e63f960f157b197abe6d0c8cb3255be24e1fb3815930b9bdc5"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["3.8.4"] = (["2bea4e154794f3f00180fa2a5c51fe8b005ac7a31cd58bd44cdfa7f36ebc3a9b"], CraftHash.HashAlgorithm.SHA256)
-        self.description = "A library which provides a secure layer over a reliable transport layer"
-        self.webpage = "https://www.gnutls.org/"
-        self.defaultTarget = "3.8.4"
+        self.targetDigests["3.8.13"] = (["ffed8ec1bf09c2426d4f14aae377de4753b53e537d685e604e99a8b16ca9c97e"], CraftHash.HashAlgorithm.SHA256)
+
         self.patchLevel["3.8.0"] = 2
+
+        self.defaultTarget = "3.8.13"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gtk-doc"] = None
