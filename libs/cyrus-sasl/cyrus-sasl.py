@@ -52,6 +52,9 @@ if CraftCore.compiler.isGCCLike():
             if CraftCore.compiler.isMinGW():
                 self.subinfo.options.configure.args += ["--without-saslauthd"]
 
+            # Version 2.1.28: Fails with C23 because of some old-style K&R decls
+            self.subinfo.options.configure.cflags += " -std=gnu17"
+
         def configure(self):
             if CraftCore.compiler.isMinGW():
                 if not utils.copyFile(self.sourceDir() / "win32/include/md5global.h", self.sourceDir() / "include/md5global.h"):
