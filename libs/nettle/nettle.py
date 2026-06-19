@@ -31,16 +31,20 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["3.4", "3.7.3"]:
-            self.targets[ver] = "https://ftp.gnu.org/gnu/nettle/nettle-%s.tar.gz" % ver
-            self.targetInstSrc[ver] = "nettle-%s" % ver
+        self.description = "A low-level cryptographic library"
+        self.releaseManagerId = 2073
+
+        for ver in ["3.4", "3.7.3", "4.0"]:
+            self.targets[ver] = f"https://ftp.gnu.org/gnu/nettle/nettle-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"nettle-{ver}"
 
         self.targetDigests["3.4"] = (["ae7a42df026550b85daca8389b6a60ba6313b0567f374392e54918588a411e94"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["3.7.3"] = (["661f5eb03f048a3b924c3a8ad2515d4068e40f67e774e8a26827658007e3bcf0"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.0"] = (["3addbc00da01846b232fb3bc453538ea5468da43033f21bb345cb1e9073f5094"], CraftHash.HashAlgorithm.SHA256)
+
         self.patchLevel["3.7.3"] = 2
 
-        self.description = "A low-level cryptographic library"
-        self.defaultTarget = "3.7.3"
+        self.defaultTarget = "4.0"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/libgmp"] = None
@@ -55,11 +59,13 @@ class PackageAutoTools(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["--enable-public-key", "--enable-mini-gmp", "--disable-documentation"]
-        if CraftCore.compiler.isMacOS:
-            # for some reason the version of m4 built by craft will segfault
-            # /bin/sh: line 1: 39726 Abort trap: 6
-            #           /Users/alex/kde/dev-utils/bin/m4 /Users/alex/kde/build/libs/nettle/work/nettle-3.4/asm.m4 machine.m4 config.m4 aes-decrypt-internal.asm > aes-decrypt-internal.s
-            self.subinfo.options.configure.args += ["M4=/usr/bin/m4"]
+
+        # TODO: remove this workaround, if it works without
+        # if CraftCore.compiler.isMacOS:
+        #     # for some reason the version of m4 built by craft will segfault
+        #     # /bin/sh: line 1: 39726 Abort trap: 6
+        #     #           /Users/alex/kde/dev-utils/bin/m4 /Users/alex/kde/build/libs/nettle/work/nettle-3.4/asm.m4 machine.m4 config.m4 aes-decrypt-internal.asm > aes-decrypt-internal.s
+        #     self.subinfo.options.configure.args += ["M4=/usr/bin/m4"]
 
 
 if not CraftCore.compiler.isMSVC():
