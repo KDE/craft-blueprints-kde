@@ -25,6 +25,10 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/fontconfig"] = None
 
     def setTargets(self):
+        self.description = "PDF Conversion Tool and SDK"
+        self.webpage = "https://ghostscript.com/"
+        self.releaseManagerId = 1157
+
         self.svnTargets["master"] = "git://git.ghostscript.com/ghostpdl.git"
         for ver in ["10.07.1"]:
             ver2 = ver.replace(".", "")
