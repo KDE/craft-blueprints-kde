@@ -20,6 +20,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtimageformats"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtnetworkauth"] = None
+        if CraftCore.compiler.isLinux:
+            self.runtimeDependencies["libs/dbus"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -71,7 +73,10 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DUSE_DBUS=OFF", f"-DFETCH_OTIO={CraftCore.compiler.isMacOS.asOnOff}"]
+        self.subinfo.options.configure.args += [
+            f"-DFETCH_OTIO={CraftCore.compiler.isMacOS.asOnOff}",
+            f"-DUSE_DBUS={CraftCore.compiler.isLinux.asOnOff}"
+        ]
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += ["-DRELEASE_BUILD=OFF"]
 
