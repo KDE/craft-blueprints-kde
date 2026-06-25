@@ -110,6 +110,7 @@ class Package(CMakePackageBase):
             "-DMOD_QT=OFF",
             "-DMOD_QT6=ON",
             f"-DMOD_RESAMPLE={self.subinfo.options.isActive('libs/libsamplerate').asOnOff}",
+            "-DMOD_RNNOISE=OFF",
             f"-DMOD_RTAUDIO={CraftCore.compiler.isAndroid.inverted.asOnOff}",
             f"-DMOD_RUBBERBAND={self.subinfo.options.isActive('libs/rubberband').asOnOff}",
             # We don't support SDL 1 anymore, we have SDL 2
