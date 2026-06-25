@@ -10,7 +10,7 @@ class subinfo(info.infoclass):
         self.displayName = "Drawy"
         self.description = "Your handy, infinite, brainstorming tool!"
 
-        for ver in ["1.0.0"]:
+        for ver in ["1.0.0", "1.0.1", "1.0.2"]:
             self.targets[ver] = f"https://download.kde.org/stable/drawy/{ver}/drawy-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/drawy/{ver}/drawy-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"drawy-{ver}"
