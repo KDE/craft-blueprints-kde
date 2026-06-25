@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("withPCRE2", self.options.isActive("libs/pcre2"))
         self.options.dynamic.registerOption("withEgl", True)
         self.options.dynamic.registerOption("withCUPS", CraftCore.compiler.isMacOS or self.options.isActive("libs/cups"))
-        self.options.dynamic.registerOption("withAccessibility", not CraftCore.compiler.isAndroid)
+        self.options.dynamic.registerOption("withAccessibility", True)
 
         # We need to treat MacOS explicitly because of https://bugreports.qt.io/browse/QTBUG-116083
         self.options.dynamic.registerOption("withFontConfig", self.options.isActive("libs/fontconfig") and not CraftCore.compiler.isMacOS)
@@ -55,7 +55,7 @@ class subinfo(info.infoclass):
         self.patchLevel["6.6.1"] = 3
         self.patchLevel["6.8.0"] = 2
         self.patchLevel["6.8.1"] = 2
-        self.patchLevel["6.11.1"] = 1
+        self.patchLevel["6.11.1"] = 2
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
