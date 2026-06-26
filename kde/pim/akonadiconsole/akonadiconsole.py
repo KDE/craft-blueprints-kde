@@ -24,11 +24,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/libkdepim"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None
+        self.runtimeDependencies["kde/pim/kmime"] = None  # remove after 26.04
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
         if not CraftCore.compiler.isWindows:

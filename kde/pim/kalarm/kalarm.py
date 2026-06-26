@@ -31,8 +31,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/ktextwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kauth"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
 
-        self.runtimeDependencies["kde/pim/kmime"] = None
+        self.runtimeDependencies["kde/pim/kmime"] = None  # remove after 26.04
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None

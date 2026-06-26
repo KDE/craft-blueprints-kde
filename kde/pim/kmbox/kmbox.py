@@ -12,7 +12,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
+        self.runtimeDependencies["kde/pim/kmime"] = None  # remove after 26.04
 
 
 class Package(CMakePackageBase):
