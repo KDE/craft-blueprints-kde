@@ -76,7 +76,7 @@ index dbef25fa..dae766cb 100644
 -  endif()
  endif()
  
- if(CPU_MMX)
+ if(USE_AVDEVICE AND AVDEVICE_FOUND)
 diff --git a/src/modules/sdl2/CMakeLists.txt b/src/modules/sdl2/CMakeLists.txt
 index e46abb04..844686d2 100644
 --- a/src/modules/sdl2/CMakeLists.txt
