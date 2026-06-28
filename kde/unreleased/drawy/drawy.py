@@ -1,8 +1,9 @@
-# SPDX-FileCopyrightText: 2025 by Laurent Montel <montel@kde.org>
+# SPDX-FileCopyrightText: 2025-2026 by Laurent Montel <montel@kde.org>
 # SPDX-License-Identifier: BSD-2-Clause
 
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -41,6 +42,8 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         self.defines["shortcuts"] = [{"name": "Drawy", "target": "bin/drawy.exe", "description": self.subinfo.description, "appId": "drawy"}]
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.defines["alias"] = "drawy"
         self.defines["icon"] = self.blueprintDir() / "drawy.ico"
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-drawy.png"

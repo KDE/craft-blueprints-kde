@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 by Laurent Montel <montel@kde.org>
+# SPDX-FileCopyrightText: 2025-2026 by Laurent Montel <montel@kde.org>
 # SPDX-License-Identifier: BSD-2-Clause
 
 import info
@@ -49,6 +49,8 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         self.defines["shortcuts"] = [{"name": "KAIChat", "target": "bin/kaichat.exe", "description": self.subinfo.description, "appId": "kaichat"}]
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.defines["alias"] = "kaichat"
         self.defines["icon"] = self.blueprintDir() / "kaichat.ico"
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-kaichat.png"
