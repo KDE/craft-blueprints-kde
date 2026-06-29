@@ -5,7 +5,7 @@ from Package.CMakePackageBase import CMakePackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-
+        self.defaultTarget = "master"
         self.description = "Kleopatra"
 
     def setDependencies(self):
@@ -23,10 +23,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
+        self.runtimeDependencies["libs/kdsingleapplication"] = None
 
         self.runtimeDependencies["kde/pim/libkleo"] = None
         self.runtimeDependencies["kde/pim/mimetreeparser"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None  # remove after 26.04
         self.buildDependencies["libs/assuan2"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
 

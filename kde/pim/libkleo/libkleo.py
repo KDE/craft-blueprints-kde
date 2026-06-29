@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-
+        self.defaultTarget = "master"
         self.description = "Crypto library"
 
     def setDependencies(self):

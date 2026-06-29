@@ -5,7 +5,7 @@ from Package.CMakePackageBase import CMakePackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-
+        self.defaultTarget = "master"
         self.description = "mbox library"
 
     def setDependencies(self):
