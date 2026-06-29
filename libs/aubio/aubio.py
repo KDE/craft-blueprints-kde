@@ -32,9 +32,10 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/waf"] = None
         self.runtimeDependencies["virtual/base"] = None
-        self.runtimeDependencies["libs/libfftwf"] = None
-        self.runtimeDependencies["libs/libsamplerate"] = None
-        self.runtimeDependencies["libs/libsndfile"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/libfftwf"] = None
+            self.runtimeDependencies["libs/libsamplerate"] = None
+            self.runtimeDependencies["libs/libsndfile"] = None
 
 
 class WafBuildSystem(BuildSystemBase):
@@ -61,14 +62,23 @@ class WafBuildSystem(BuildSystemBase):
             f"--prefix={prefix}",
             f"--libdir={prefix / 'lib'}",
             "--build-type=release",
-            "--enable-fftw3f",
-            "--enable-sndfile",
-            "--enable-samplerate",
             "--disable-jack",
             "--disable-avcodec",
             "--disable-docs",
             "--disable-tests",
         ]
+        if CraftCore.compiler.isAndroid:
+            args += [
+                "--disable-fftw3f",
+                "--disable-sndfile",
+                "--disable-samplerate",
+            ]
+        else:
+            args += [
+                "--enable-fftw3f",
+                "--enable-sndfile",
+                "--enable-samplerate",
+            ]
         if CraftCore.compiler.isMacOS:
             args += ["--disable-fat"]
         if CraftCore.compiler.isAndroid:
