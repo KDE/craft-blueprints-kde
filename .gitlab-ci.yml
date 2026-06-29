@@ -13,6 +13,11 @@ include:
   - project: sysadmin/ci-utilities
     file:
       - /gitlab-templates/blocks/workflow.yml
+  - project: sysadmin/craft-ci
+    file:
+      - /gitlab-templates/blocks/android-base.yml
+      - /gitlab-templates/blocks/linux-base.yml
+      - /gitlab-templates/blocks/windows-base.yml
 
 .tox_base:
   image: python:3.11
@@ -110,11 +115,9 @@ build-package-linux:
   # This job can be used to test the build of a package, e.g. when you update
   # the package to a new version. Set CRAFT_PACKAGE to the package you want to
   # test. This test uses the CI image that's also used for the AppImages.
-  extends: .build-package-base
-  image: storage.kde.org/vm-images/craft-appimage-alma9
-  tags:
-    - VM
-    - amd64
+  extends:
+    - .build-package-base
+    - .craft_appimage_vm
   variables:
     KDECI_CRAFT_PLATFORM: linux-64-gcc
     GIT_STRATEGY: none
@@ -156,11 +159,9 @@ build-package-linux:
   # This job can be used to test the build of a package, e.g. when you update
   # the package to a new version. Set CRAFT_PACKAGE to the package you want to
   # test. This test uses the CI image that's used for the craft_windows_qt6_x86_64 job.
-  extends: .build-package-base
-  image: storage.kde.org/vm-images/windows-msvc2022-qt611
-  tags:
-    - VM
-    - amd64
+  extends:
+    - .build-package-base
+    - .windows_qt6_vm
   variables:
     PYTHONUTF8: 1
     KDECI_CRAFT_CACHE: C:/Craft/download/
@@ -285,10 +286,9 @@ build-package-macos_qt6_x86_64:
       - "kde-ci-logs/"
 
 .build-package-android_qt6:
-  extends: .build-package-base
-  image: invent-registry.kde.org/sysadmin/ci-images/android-qt611:latest
-  tags:
-    - Linux
+  extends:
+    - .build-package-base
+    - .android_qt6_vm
   variables:
     GIT_STRATEGY: none
   before_script:
