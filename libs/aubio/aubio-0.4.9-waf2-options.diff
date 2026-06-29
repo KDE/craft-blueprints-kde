@@ -1,0 +1,142 @@
+diff --git a/wscript b/wscript
+index 21741b0..75310f4 100644
+--- a/wscript
++++ b/wscript
+@@ -109,7 +109,7 @@ def options(ctx):
+     add_option_enable_disable(ctx, 'examples', default = True,
+             help_str = 'build examples (true)',
+             help_disable_str = 'do not build examples')
+ 
+-    ctx.add_option('--with-target-platform', type='string',
++    ctx.add_option('--with-target-platform', type=str,
+             help='set target platform for cross-compilation',
+             dest='target_platform')
+ 
+diff --git a/src/spectral/fft.c b/src/spectral/fft.c
+index d721456..4cbf4ab 100644
+--- a/src/spectral/fft.c
++++ b/src/spectral/fft.c
+@@ -28,7 +28,19 @@
+ /* note that <complex.h> is not included here but only in aubio_priv.h, so that
+  * c++ projects can still use their own complex definition. */
+ #include <fftw3.h>
+-#include <pthread.h>
++#ifdef _WIN32
++#include <windows.h>
++#define AUBIO_FFTW_MUTEX_T SRWLOCK
++#define AUBIO_FFTW_MUTEX_INITIALIZER SRWLOCK_INIT
++#define AUBIO_FFTW_LOCK(mutex) AcquireSRWLockExclusive(mutex)
++#define AUBIO_FFTW_UNLOCK(mutex) ReleaseSRWLockExclusive(mutex)
++#else
++#include <pthread.h>
++#define AUBIO_FFTW_MUTEX_T pthread_mutex_t
++#define AUBIO_FFTW_MUTEX_INITIALIZER PTHREAD_MUTEX_INITIALIZER
++#define AUBIO_FFTW_LOCK(mutex) pthread_mutex_lock(mutex)
++#define AUBIO_FFTW_UNLOCK(mutex) pthread_mutex_unlock(mutex)
++#endif
+ 
+ #ifdef HAVE_COMPLEX_H
+ #ifdef HAVE_FFTW3F
+@@ -75,7 +87,7 @@ typedef FFTW_TYPE fft_data_t;
+ #endif /* HAVE_FFTW3F */
+ 
+ // a global mutex for FFTW thread safety
+-pthread_mutex_t aubio_fftw_mutex = PTHREAD_MUTEX_INITIALIZER;
++AUBIO_FFTW_MUTEX_T aubio_fftw_mutex = AUBIO_FFTW_MUTEX_INITIALIZER;
+ 
+ #elif defined HAVE_ACCELERATE        // using ACCELERATE
+ // using ACCELERATE
+@@ -190,7 +202,7 @@ new_aubio_fft (uint_t winsize) {
+   s->in    = AUBIO_ARRAY(real_t, s->winsize);
+   s->out   = AUBIO_ARRAY(real_t, s->winsize);
+   s->compspec = new_fvec(winsize);
+   /* create plans */
+-  pthread_mutex_lock(&aubio_fftw_mutex);
++  AUBIO_FFTW_LOCK(&aubio_fftw_mutex);
+ #ifdef HAVE_COMPLEX_H
+   s->fft_size = winsize/2 + 1;
+   s->specdata = (fft_data_t*)fftw_malloc(sizeof(fft_data_t)*s->fft_size);
+@@ -201,7 +213,7 @@ new_aubio_fft (uint_t winsize) {
+   s->pfw = fftw_plan_r2r_1d(winsize, s->in,  s->specdata, FFTW_R2HC, FFTW_ESTIMATE);
+   s->pbw = fftw_plan_r2r_1d(winsize, s->specdata, s->out, FFTW_HC2R, FFTW_ESTIMATE);
+ #endif
+-  pthread_mutex_unlock(&aubio_fftw_mutex);
++  AUBIO_FFTW_UNLOCK(&aubio_fftw_mutex);
+   for (i = 0; i < s->winsize; i++) {
+     s->in[i] = 0.;
+     s->out[i] = 0.;
+@@ -303,11 +315,11 @@ beach:
+ void del_aubio_fft(aubio_fft_t * s) {
+   /* destroy data */
+ #ifdef HAVE_FFTW3             // using FFTW3
+-  pthread_mutex_lock(&aubio_fftw_mutex);
++  AUBIO_FFTW_LOCK(&aubio_fftw_mutex);
+   fftw_destroy_plan(s->pfw);
+   fftw_destroy_plan(s->pbw);
+   fftw_free(s->specdata);
+-  pthread_mutex_unlock(&aubio_fftw_mutex);
++  AUBIO_FFTW_UNLOCK(&aubio_fftw_mutex);
+ 
+ #elif defined HAVE_ACCELERATE // using ACCELERATE
+diff --git a/src/spectral/dct_fftw.c b/src/spectral/dct_fftw.c
+index 5b7b3ac..45c56d1 100644
+--- a/src/spectral/dct_fftw.c
++++ b/src/spectral/dct_fftw.c
+@@ -25,7 +25,17 @@
+ #ifdef HAVE_FFTW3
+ 
+ #include <fftw3.h>
+-#include <pthread.h>
++#ifdef _WIN32
++#include <windows.h>
++#define AUBIO_FFTW_MUTEX_T SRWLOCK
++#define AUBIO_FFTW_LOCK(mutex) AcquireSRWLockExclusive(mutex)
++#define AUBIO_FFTW_UNLOCK(mutex) ReleaseSRWLockExclusive(mutex)
++#else
++#include <pthread.h>
++#define AUBIO_FFTW_MUTEX_T pthread_mutex_t
++#define AUBIO_FFTW_LOCK(mutex) pthread_mutex_lock(mutex)
++#define AUBIO_FFTW_UNLOCK(mutex) pthread_mutex_unlock(mutex)
++#endif
+ 
+ #ifdef HAVE_FFTW3F
+ #if HAVE_AUBIO_DOUBLE
+@@ -49,7 +59,7 @@
+ #endif
+ 
+ // defined in src/spectral/fft.c
+-extern pthread_mutex_t aubio_fftw_mutex;
++extern AUBIO_FFTW_MUTEX_T aubio_fftw_mutex;
+ 
+ typedef struct _aubio_dct_fftw_t aubio_dct_fftw_t;
+ 
+@@ -71,13 +81,13 @@ aubio_dct_fftw_t * new_aubio_dct_fftw (uint_t size) {
+   s->size = size;
+   s->in = new_fvec(size);
+   s->out = new_fvec(size);
+-  pthread_mutex_lock(&aubio_fftw_mutex);
++  AUBIO_FFTW_LOCK(&aubio_fftw_mutex);
+   s->data = (smpl_t *)fftw_malloc(sizeof(smpl_t) * size);
+   s->pfw = fftw_plan_r2r_1d(size, s->in->data,  s->data, FFTW_REDFT10,
+       FFTW_ESTIMATE);
+   s->pbw = fftw_plan_r2r_1d(size, s->data, s->out->data, FFTW_REDFT01,
+       FFTW_ESTIMATE);
+-  pthread_mutex_unlock(&aubio_fftw_mutex);
++  AUBIO_FFTW_UNLOCK(&aubio_fftw_mutex);
+   s->scalers[0] = SQRT(1./(4.*s->size));
+   s->scalers[1] = SQRT(1./(2.*s->size));
+   s->scalers[2] = 1. / s->scalers[0];
+@@ -90,12 +100,12 @@ beach:
+ }
+ 
+ void del_aubio_dct_fftw(aubio_dct_fftw_t *s) {
+-  pthread_mutex_lock(&aubio_fftw_mutex);
++  AUBIO_FFTW_LOCK(&aubio_fftw_mutex);
+   fftw_destroy_plan(s->pfw);
+   fftw_destroy_plan(s->pbw);
+   fftw_free(s->data);
+-  pthread_mutex_unlock(&aubio_fftw_mutex);
++  AUBIO_FFTW_UNLOCK(&aubio_fftw_mutex);
+   del_fvec(s->in);
+   del_fvec(s->out);
+   AUBIO_FREE(s);

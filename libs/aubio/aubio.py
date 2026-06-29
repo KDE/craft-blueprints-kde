@@ -19,6 +19,8 @@ class subinfo(info.infoclass):
         for ver in ["0.4.9"]:
             self.targets[ver] = f"https://aubio.org/pub/aubio-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"aubio-{ver}"
+            self.patchToApply[ver] = [("aubio-0.4.9-waf2-options.diff", 1), ("aubio-0.4.9-windows-fftw-mutex.diff", 1)]
+            self.patchLevel[ver] = 1
         self.targetDigests["0.4.9"] = (
             [
                 "0cb81bb4b15051db3f3f4d160d500af56fdfb237e0a74e3f366f53c2870030aa0a7cee8469a611a9694c36b8866d3d42ffb48241c999de08f3fee43e6d903130"
@@ -132,6 +134,13 @@ class Package(PackageBase, MultiSource, WafBuildSystem, TypePackager):
             ]
         )
         env = {"PKG_CONFIG_PATH": pkgConfigPath}
+        if CraftCore.compiler.isWindows:
+            cc = CraftCore.cache.findApplication(os.environ["CC"])
+            cxx = CraftCore.cache.findApplication(os.environ["CXX"])
+            if cc:
+                env["CC"] = str(cc)
+            if cxx:
+                env["CXX"] = str(cxx)
         if CraftCore.compiler.isUnix:
             env["LD_LIBRARY_PATH"] = str(root / "lib")
         return env
