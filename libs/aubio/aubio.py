@@ -69,6 +69,10 @@ class WafBuildSystem(BuildSystemBase):
             "--disable-docs",
             "--disable-tests",
         ]
+        if CraftCore.compiler.isMinGW():
+            args += ["--check-c-compiler=gcc"]
+        elif CraftCore.compiler.isMSVC():
+            args += ["--check-c-compiler=msvc"]
         if CraftCore.compiler.isAndroid:
             args += [
                 "--disable-fftw3f",
