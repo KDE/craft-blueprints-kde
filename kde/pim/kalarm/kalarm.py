@@ -34,18 +34,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
 
         self.runtimeDependencies["kde/pim/kmime"] = None  # remove after 26.04
-        self.runtimeDependencies["kde/pim/akonadi"] = None
-        self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
-        self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kholidays"] = None
         self.runtimeDependencies["kde/pim/kidentitymanagement"] = None
-        self.runtimeDependencies["kde/pim/kimap"] = None
-        self.runtimeDependencies["kde/pim/mailcommon"] = None
-        self.runtimeDependencies["kde/pim/kmailtransport"] = None
-        self.runtimeDependencies["kde/pim/kdepim-runtime"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
-        self.runtimeDependencies["kde/pim/kcalutils"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["binary/vlc"] = None
@@ -54,7 +46,7 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]
+        self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON", "-DENABLE_AKONADI_PLUGIN=OFF"]
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
