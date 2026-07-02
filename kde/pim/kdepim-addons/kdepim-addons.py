@@ -44,12 +44,17 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-import-wizard"] = None
         self.runtimeDependencies["kde/pim/mailimporter"] = None
         self.runtimeDependencies["kde/pim/kpkpass"] = None
-        self.runtimeDependencies["kde/pim/kitinerary"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
         self.runtimeDependencies["kde/pim/kaddressbook"] = None
         self.runtimeDependencies["kde/frameworks/tier1/prison"] = None
         self.runtimeDependencies["kde/pim/ktnef"] = None
+
+        # Only provide kitinerary where the integration is available / functional
+        # On Windows we don't have the ability to interface with KDE Connect and KItinerary is not available for Windows so it is pointless there
+        # Plus it often fails to build there...
+        if not CraftCore.compiler.isMSVC():
+            self.runtimeDependencies["kde/pim/kitinerary"] = None
 
 
 class Package(CMakePackageBase):
