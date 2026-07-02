@@ -19,12 +19,13 @@ class subinfo(info.infoclass):
         for ver in ["0.4.9"]:
             self.targets[ver] = f"https://aubio.org/pub/aubio-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"aubio-{ver}"
-            self.patchToApply[ver] = [("aubio-0.4.9-waf2-options.diff", 1), ("aubio-0.4.9-windows-fftw-mutex.diff", 1)]
-            self.patchLevel[ver] = 1
+            self.patchToApply[ver] = [
+                ("aubio-0.4.9-waf2-options.diff", 1),
+                ("aubio-0.4.9-windows-strerror.diff", 1),
+            ]
+            self.patchLevel[ver] = 2
         self.targetDigests["0.4.9"] = (
-            [
-                "0cb81bb4b15051db3f3f4d160d500af56fdfb237e0a74e3f366f53c2870030aa0a7cee8469a611a9694c36b8866d3d42ffb48241c999de08f3fee43e6d903130"
-            ],
+            ["0cb81bb4b15051db3f3f4d160d500af56fdfb237e0a74e3f366f53c2870030aa0a7cee8469a611a9694c36b8866d3d42ffb48241c999de08f3fee43e6d903130"],
             CraftHash.HashAlgorithm.SHA512,
         )
         self.description = "A tool for extracting annotations from audio signals"
@@ -35,6 +36,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/waf"] = None
         self.runtimeDependencies["virtual/base"] = None
         if not CraftCore.compiler.isAndroid:
+            self.buildDependencies["dev-utils/pkgconf"] = None
             self.runtimeDependencies["libs/libfftwf"] = None
             self.runtimeDependencies["libs/libsamplerate"] = None
             self.runtimeDependencies["libs/libsndfile"] = None
@@ -147,4 +149,8 @@ class Package(PackageBase, MultiSource, WafBuildSystem, TypePackager):
                 env["CXX"] = str(cxx)
         if CraftCore.compiler.isUnix:
             env["LD_LIBRARY_PATH"] = str(root / "lib")
+        if CraftCore.compiler.isMacOS and not CraftCore.compiler.isNative():
+            archFlag = f"-arch {CraftCore.compiler.architecture.name.lower()}"
+            for name in ["CFLAGS", "CXXFLAGS", "LINKFLAGS", "LDFLAGS"]:
+                env[name] = f"{os.environ.get(name, '')} {archFlag}".strip()
         return env

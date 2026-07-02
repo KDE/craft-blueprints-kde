@@ -46,7 +46,7 @@ index d721456..4cbf4ab 100644
  
  #elif defined HAVE_ACCELERATE        // using ACCELERATE
  // using ACCELERATE
-@@ -190,7 +202,7 @@ new_aubio_fft (uint_t winsize) {
+@@ -189,8 +201,8 @@ new_aubio_fft (uint_t winsize) {
    s->in    = AUBIO_ARRAY(real_t, s->winsize);
    s->out   = AUBIO_ARRAY(real_t, s->winsize);
    s->compspec = new_fvec(winsize);
@@ -56,7 +56,7 @@ index d721456..4cbf4ab 100644
  #ifdef HAVE_COMPLEX_H
    s->fft_size = winsize/2 + 1;
    s->specdata = (fft_data_t*)fftw_malloc(sizeof(fft_data_t)*s->fft_size);
-@@ -201,7 +213,7 @@ new_aubio_fft (uint_t winsize) {
+@@ -202,7 +214,7 @@ new_aubio_fft (uint_t winsize) {
    s->pfw = fftw_plan_r2r_1d(winsize, s->in,  s->specdata, FFTW_R2HC, FFTW_ESTIMATE);
    s->pbw = fftw_plan_r2r_1d(winsize, s->specdata, s->out, FFTW_HC2R, FFTW_ESTIMATE);
  #endif
@@ -65,7 +65,7 @@ index d721456..4cbf4ab 100644
    for (i = 0; i < s->winsize; i++) {
      s->in[i] = 0.;
      s->out[i] = 0.;
-@@ -303,11 +315,11 @@ beach:
+@@ -302,10 +314,10 @@ beach:
  void del_aubio_fft(aubio_fft_t * s) {
    /* destroy data */
  #ifdef HAVE_FFTW3             // using FFTW3
@@ -126,7 +126,7 @@ index 5b7b3ac..45c56d1 100644
    s->scalers[0] = SQRT(1./(4.*s->size));
    s->scalers[1] = SQRT(1./(2.*s->size));
    s->scalers[2] = 1. / s->scalers[0];
-@@ -90,12 +100,12 @@ beach:
+@@ -90,11 +100,11 @@ beach:
  }
  
  void del_aubio_dct_fftw(aubio_dct_fftw_t *s) {
