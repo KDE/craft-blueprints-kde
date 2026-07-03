@@ -5,6 +5,9 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+
     def setTargets(self):
         for v in ["3.6.2", "3.5.1", "3.7.9", "3.8.1"]:
             self.targets[v] = f"https://github.com/libarchive/libarchive/archive/v{v}.tar.gz"
