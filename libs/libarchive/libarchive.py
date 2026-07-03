@@ -18,6 +18,10 @@ class subinfo(info.infoclass):
         self.webpage = "https://github.com/libarchive/libarchive"
         self.defaultTarget = "3.8.1"
 
+    def registerOptions(self):
+        if CraftCore.compiler.isAndroid:
+            self.options.dynamic.setDefault("ignored", True)
+
     def setDependencies(self):
         self.runtimeDependencies["libs/liblzma"] = None
         self.runtimeDependencies["libs/libb2"] = None

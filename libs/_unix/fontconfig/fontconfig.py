@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import info
+from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
 
@@ -14,6 +15,10 @@ class subinfo(info.infoclass):
         self.description = "Fontconfig is a library for configuring and customizing font access. "
         self.webpage = "https://www.freedesktop.org/wiki/Software/fontconfig/"
         self.defaultTarget = "2.15.0"
+
+    def registerOptions(self):
+        if CraftCore.compiler.isAndroid:
+            self.options.dynamic.setDefault("ignored", True)
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
