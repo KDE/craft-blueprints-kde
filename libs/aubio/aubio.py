@@ -22,8 +22,9 @@ class subinfo(info.infoclass):
             self.patchToApply[ver] = [
                 ("aubio-0.4.9-waf2-options.diff", 1),
                 ("aubio-0.4.9-windows-strerror.diff", 1),
+                ("aubio-0.4.9-android-unversioned-shlib.diff", 1),
             ]
-            self.patchLevel[ver] = 2
+            self.patchLevel[ver] = 3
         self.targetDigests["0.4.9"] = (
             ["0cb81bb4b15051db3f3f4d160d500af56fdfb237e0a74e3f366f53c2870030aa0a7cee8469a611a9694c36b8866d3d42ffb48241c999de08f3fee43e6d903130"],
             CraftHash.HashAlgorithm.SHA512,
