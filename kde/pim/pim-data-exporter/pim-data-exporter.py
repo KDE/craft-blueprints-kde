@@ -37,7 +37,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/mailcommon"] = None
         self.runtimeDependencies["kde/pim/kmailtransport"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None  # remove after 26.04
         self.runtimeDependencies["kde/pim/pimcommon"] = None
         self.runtimeDependencies["kde/pim/kpimtextedit"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None

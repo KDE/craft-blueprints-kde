@@ -29,7 +29,6 @@ class subinfo(info.infoclass):
 
         self.runtimeDependencies["kde/pim/libkleo"] = None
         self.runtimeDependencies["kde/pim/mimetreeparser"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None  # remove after 26.04
         self.buildDependencies["libs/assuan2"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
 
