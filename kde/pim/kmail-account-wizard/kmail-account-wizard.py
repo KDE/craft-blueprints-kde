@@ -37,6 +37,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/kimap"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
+        self.runtimeDependencies["kde/pim/kmime"] = None  # remove after 26.04
 
 
 class Package(CMakePackageBase):
