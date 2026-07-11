@@ -6,6 +6,10 @@ from Package.CMakePackageBase import CMakePackageBase
 
 
 class subinfo(info.infoclass):
+
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildType", "Release")
+
     def setTargets(self):
         self.displayName = "Rolisteam"
         self.description = "Rolisteam is a virtual tableTop for role playing games."
