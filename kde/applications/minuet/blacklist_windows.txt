@@ -18,11 +18,12 @@ share/qlogging-categories6/.*
 share/qt6/wayland/.*
 share/vpl/.*
 
-# Unused multimedia/codec stack pulled in by Qt Multimedia/FFmpeg dependencies.
+# Unused FFmpeg codec stack pulled in by Qt Multimedia. Keep Qt6Multimedia.dll
+# and the native Windows multimedia plugin for microphone input detection.
 bin/(avcodec|avdevice|avfilter|avformat|avutil|swresample|swscale)-.*\.dll
 bin/(SvtAv1Enc|aom|dav1d|libx265|libmp3lame|SDL2|samplerate|lame_enc)\.dll
 bin/libvpl\.dll
-bin/Qt6Multimedia.*\.dll
+bin/Qt6Multimedia(Quick|Widgets).*\.dll
 bin/Qt6QuickControls2(FluentWinUI3|Fusion|Imagine|Universal)\.dll
 bin/Qt6QuickControls2Material.*\.dll
 bin/Qt6QuickDialogs2.*\.dll
@@ -30,8 +31,8 @@ bin/Qt6Labs(?!QmlModels).*\.dll
 bin/Qt6ShaderTools\.dll
 bin/Qt6SpatialAudio\.dll
 bin/QtMultimedia/.*
-bin/multimedia/.*
-plugins/multimedia/.*
+bin/multimedia/(?!windowsmediaplugin\.dll).*
+plugins/multimedia/(?!windowsmediaplugin\.dll).*
 
 # Duplicate unversioned ICU aliases; Qt links against the versioned DLL names.
 bin/icudt\.dll

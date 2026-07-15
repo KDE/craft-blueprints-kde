@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
+        self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/aubio"] = None
         self.runtimeDependencies["libs/fluidsynth"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
