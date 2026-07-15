@@ -42,7 +42,6 @@ plugins/generic/.*
 plugins/kf6/kauth/.*
 plugins/kf6/sonnet/.*
 plugins/kiconthemes6/.*
-plugins/multimedia/.*
 plugins/networkinformation/.*
 plugins/platforms/libqminimal.dylib
 plugins/platforms/libqoffscreen.dylib
