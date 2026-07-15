@@ -106,8 +106,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
             self.buildDependencies["python-modules/build"] = None
         if not CraftCore.compiler.isWindows:
-            self.runtimeDependencies["libs/python"] = None
             self.runtimeDependencies["python-modules/pyside6"] = None
+        #    self.runtimeDependencies["libs/python"] = None
 
 
 class Package(CMakePackageBase):
