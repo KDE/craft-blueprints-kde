@@ -18,6 +18,8 @@ class subinfo(info.infoclass):
         self.targetDigests["2.79.0"] = (["d7ebde5505f5c4741a04ffe32f6927bd165b13caaabe18e962ddc58c811f84c9"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["2.81.0"] = (["1665188ed9cc941c0a189dc6295e6859872523d1bfc84a5a84732a7ae87b02e4"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["2.86.0"] = (["b5739972d737cfb0d6fd1e7f163dfe650e2e03740bb3b8d408e4d1faea580d6d"], CraftHash.HashAlgorithm.SHA256)
+
+        self.patchLevel["2.86.0"] = 1
         self.defaultTarget = "2.86.0"
 
     def setDependencies(self):
@@ -33,6 +35,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/dbus"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/pcre2"] = None
+        self.runtimeDependencies["libs/libmount"] = None
 
 
 class Package(MesonPackageBase):
