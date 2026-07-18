@@ -8,28 +8,30 @@ import shutil
 import info
 import utils
 from CraftCore import CraftCore
-from Package.AutoToolsPackageBase import AutoToolsPackageBase
+from Package.MesonPackageBase import MesonPackageBase
 from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["4.18.0"]:
+        for ver in ["4.20.1"]:
             self.targets[ver] = f"https://salsa.debian.org/iso-codes-team/iso-codes/-/archive/v{ver}/iso-codes-v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"iso-codes-v{ver}"
 
-        self.targetDigests["4.18.0"] = (["511f67bf4b51aa77f17c45adbff533242b50f1e370fe49a5706b6341902fac87"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.20.1"] = (["2d7d9f6084ab9ce6c534ce71a3dd5144b6e474f3c97616459a88f73f44a64bff"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "Localized data for various ISO standards (e.g. country, language, language scripts, and currency names)"
-        self.defaultTarget = "4.18.0"
+        self.defaultTarget = "4.20.1"
+        self.releaseManagerId = 1408
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["python-modules/meson"] = None
         if not CraftCore.compiler.isAndroid:
             self.buildDependencies["libs/gettext"] = None
 
 
-class Package(AutoToolsPackageBase):
+class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
