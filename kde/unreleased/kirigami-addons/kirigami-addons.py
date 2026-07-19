@@ -10,14 +10,14 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/kirigami-addons.git"
 
         # stable
-        for ver in ["1.11.0", "1.12.1"]:
+        for ver in ["1.12.1", "1.13.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = "kirigami-addons-" + ver
 
         self.patchToApply["1.12.1"] = [("476b855c8d4606e75548b8f774a9c4ffe7897e32.patch", 1)]
 
-        self.defaultTarget = "1.12.1"
+        self.defaultTarget = "1.13.1"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
