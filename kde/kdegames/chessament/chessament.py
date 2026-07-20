@@ -62,7 +62,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-chessament.png"
         self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-chessament.png"
 
-        self.defines["mimetypes"] = ["application/vdn.kde.chessament"]
+        self.defines["mimetypes"] = ["application/vnd.kde.chessament"]
         self.defines["file_types"] = [".chessament"]
 
         self.addExecutableFilter(
