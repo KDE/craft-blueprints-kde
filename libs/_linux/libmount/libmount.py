@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2026 Hannah von Reth <vonreth@kde.org>
 import info
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
