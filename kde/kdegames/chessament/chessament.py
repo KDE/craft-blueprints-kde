@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "Chessament"
         self.description = "Chess tournament manager"
+        self.webpage = "https://apps.kde.org/chessament/"
 
         self.versionInfo.setDefaultValues(
             gitUrl="https://invent.kde.org/games/chessament.git"
@@ -53,10 +54,16 @@ class Package(CraftPackageObject.get("kde").pattern):
                 "name": "Chessament",
                 "target": "bin/chessament.exe",
                 "appId": "chessament",
-                "icon": self.buildDir() / "src/CHESSAMENT_ICON.ico",
+                "description": self.subinfo.description,
             }
         ]
-        self.defines["icon"] = self.buildDir() / "src/CHESSAMENT_ICON.ico"
+
+        self.defines["icon"] = self.buildDir() / "src/chessament.ico"
+        self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-chessament.png"
+        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-chessament.png"
+
+        self.defines["mimetypes"] = ["application/vdn.kde.chessament"]
+        self.defines["file_types"] = [".chessament"]
 
         self.addExecutableFilter(
             r"(bin|libexec)/(?!(chessament|bbpPairings|update-mime-database|snoretoast)).*"
