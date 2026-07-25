@@ -173,6 +173,7 @@ build-package-linux:
     - git pull
     - cd C:\Craft\craft-ci
     - git pull
+    - python -u ci-utilities/gitlab-ci-clone.py $CI_PROJECT_DIR/blueprints/craft-blueprints-kde
     - cd C:\Craft
     # Define a short cut for the lengthy CraftMaster command line
     - |
