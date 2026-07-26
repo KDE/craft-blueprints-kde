@@ -299,6 +299,25 @@ class Package(CMakePackageBase):
             utils.copyFile(os.path.join(pysideLocation, "__init__.py"), pysidePath, linkOnly=False)
             utils.copyFile(os.path.join(shibokenLocation, "__init__.py"), shibokenPath, linkOnly=False)
 
+            # Copy entitlements file and re-sign to allow loading Python packages with different signatures
+            entitlementsSource = self.sourceDir() / "labplot.entitlements"
+            if entitlementsSource.exists():
+                entitlementsDest = appPath / "Contents/Resources/labplot.entitlements"
+                utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
+                print(f"Copied entitlements file to {entitlementsDest}")
+
+                # Re-sign with entitlements (ad-hoc signature for now, Craft will re-sign later if needed)
+                import subprocess
+                result = subprocess.run([
+                    "codesign", "--force", "--deep", "--sign", "-",
+                    "--entitlements", str(entitlementsDest),
+                    str(appPath)
+                ], capture_output=True, text=True)
+                if result.returncode == 0:
+                    print(f"Re-signed app with entitlements")
+                else:
+                    print(f"Warning: Failed to re-sign with entitlements: {result.stderr}")
+
             # fix falsely picked up system Python lib
             # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
             # utils.system(
