@@ -314,7 +314,7 @@ class Package(CMakePackageBase):
                     str(appPath)
                 ], capture_output=True, text=True)
                 if result.returncode == 0:
-                    print(f"Re-signed app with entitlements")
+                    print("Re-signed app with entitlements")
                 else:
                     print(f"Warning: Failed to re-sign with entitlements: {result.stderr}")
 
