@@ -34,7 +34,7 @@ class Package(PipPackageBase):
         sourceDir = self.sourceDir()
         imageDir = self.imageDir()
         # see https://doc.qt.io/qtforpython-6/building_from_source/index.html
-        # options: --build-type=pyside6 (only pysde6), --macos-use-libc++, --macos-sysroot=, --shiboken-extra-include-paths=,  --standalone, --verbose
+        # options: --build-type=pyside6 (only pyside6), --macos-use-libc++, --macos-sysroot=, --shiboken-extra-include-paths=,  --standalone, --verbose
         # macOS: SDKROOT required to find type_traits and skip failing WebEngineCore and dependencies
         if CraftCore.compiler.isMacOS:
             return utils.system(
