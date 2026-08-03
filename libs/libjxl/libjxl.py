@@ -36,8 +36,6 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += [
             "-DJPEGXL_ENABLE_FUZZERS=OFF",
             "-DJPEGXL_ENABLE_TOOLS=OFF",
-            "-DJPEGXL_ENABLE_JPEGLI=OFF",
-            "-DJPEGXL_ENABLE_JPEGLI_LIBJPEG=OFF",
             "-DJPEGXL_ENABLE_DOXYGEN=OFF",
             "-DJPEGXL_ENABLE_MANPAGES=OFF",
             "-DJPEGXL_ENABLE_BENCHMARK=OFF",
