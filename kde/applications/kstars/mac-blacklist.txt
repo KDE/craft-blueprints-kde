@@ -41,7 +41,6 @@ share/apps/cmake/.*
 
 # unrelated
 dev-utils/.*
-share/dbus-1/services/.*
 share/pkgconfig/.*
 
 # cleanup breeze stuff
@@ -76,7 +75,6 @@ bin/lrelease.*
 bin/lupdate.*
 bin/pixeltool.*
 bin/qcollectiongenerator.*
-bin/qdbus.*
 bin/qdbuscpp2xml.*
 bin/qdbusviewer.*
 bin/qdbusxml2cpp.*
