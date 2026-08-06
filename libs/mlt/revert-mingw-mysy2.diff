@@ -28,15 +28,6 @@ diff --git a/src/framework/mlt_types.h b/src/framework/mlt_types.h
 index 23f0c188..999b4368 100644
 --- a/src/framework/mlt_types.h
 +++ b/src/framework/mlt_types.h
-@@ -2,7 +2,7 @@
-  * \file mlt_types.h
-  * \brief Provides forward definitions of all public types
-  *
-- * Copyright (C) 2003-2025 Meltytech, LLC
-+ * Copyright (C) 2003-2023 Meltytech, LLC
-  *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
 @@ -22,6 +22,10 @@
  #ifndef MLT_TYPES_H
  #define MLT_TYPES_H
