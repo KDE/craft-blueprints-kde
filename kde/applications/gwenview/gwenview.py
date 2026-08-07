@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
+        self.runtimeDependencies["libs/qt/qtmultimedia"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kguiaddons"] = None
@@ -29,7 +30,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["kde/libs/libkdcraw"] = None
         self.runtimeDependencies["qt-libs/kimageannotator"] = None
-        self.runtimeDependencies["qt-libs/phonon"] = None
         self.runtimeDependencies["libs/cfitsio"] = None
         self.runtimeDependencies["libs/exiv2"] = None
         self.runtimeDependencies["libs/lcms2"] = None
