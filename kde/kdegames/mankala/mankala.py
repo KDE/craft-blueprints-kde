@@ -1,6 +1,5 @@
+# SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2026 Sayandeep Dutta <duttasayandeep9@gmail.com>
-#
-# SPDX-License-Identifier: GPL-3.0-or-later
 
 import info
 from Package.CMakePackageBase import CMakePackageBase
