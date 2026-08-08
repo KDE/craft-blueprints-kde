@@ -1,0 +1,63 @@
+commit faedf5b67f4a151305df080acab3a3c8c6734bf9
+Author: Volker Krause <vkrause@kde.org>
+Date:   Fri Mar 8 22:05:07 2024 +0100
+
+    Port away from QTextCodec
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c00760fc..a28d3e28 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -128,7 +128,6 @@ foreach(version ${VERSIONS})
+     endif()
+ 
+     if(QT_MAJOR_VERSION STREQUAL "6")
+-        find_package(Qt6Core5Compat REQUIRED)
+         # Qt6Designer links to OpenGLWidgets but doesnt find it
+         find_package(Qt6OpenGLWidgets ${REQUIRED_QT_VERSION})
+         # https://bugreports.qt.io/browse/QTBUG-114706
+diff --git a/phonon/CMakeLists.txt b/phonon/CMakeLists.txt
+index cad42c1a..40634912 100644
+--- a/phonon/CMakeLists.txt
++++ b/phonon/CMakeLists.txt
+@@ -95,10 +95,6 @@ target_link_libraries(${PHONON_LIB_SONAME}
+         ${optional_link_libraries}
+ )
+ 
+-if (QT_MAJOR_VERSION STREQUAL "6")
+-    target_link_libraries(${PHONON_LIB_SONAME} PRIVATE Qt6::Core5Compat)
+-endif()
+-
+ set_target_properties(${PHONON_LIB_SONAME}
+     PROPERTIES
+         VERSION ${PHONON_VERSION}
+diff --git a/phonon/mediacontroller.cpp b/phonon/mediacontroller.cpp
+index 5154ea4a..d7448d3d 100644
+--- a/phonon/mediacontroller.cpp
++++ b/phonon/mediacontroller.cpp
+@@ -27,7 +27,11 @@
+ #include "addoninterface.h"
+ #include <QList>
+ #include <QVariant>
++#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+ #include <QTextCodec>
++#else
++#include <QStringDecoder>
++#endif
+ #include <QFont>
+ #include "frontendinterface_p.h"
+ 
+@@ -267,8 +271,13 @@ QString MediaController::subtitleEncoding() const
+ void MediaController::setSubtitleEncoding(const QString &encoding)
+ {
+     IFACE;
++#if QT_VERSION <= QT_VERSION_CHECK(6, 0, 0)
+     if (!QTextCodec::availableCodecs().contains(encoding.toLocal8Bit()))
+         return;
++#else
++    if (!QStringDecoder(encoding.toUtf8().constData()).isValid())
++        return;
++#endif
+     iface->interfaceCall(AddonInterface::SubtitleInterface,
+         AddonInterface::setSubtitleEncoding, QList<QVariant>() << QVariant(encoding));
+ }
