@@ -44,7 +44,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libgravatar"] = None
         self.runtimeDependencies["kde/pim/libkleo"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
-        self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
