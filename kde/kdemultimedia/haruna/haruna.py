@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/dbus"] = None
         self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
-        self.runtimeDependencies["kde/unreleased/mpvqt"] = None
+        self.runtimeDependencies["kde/libs/mpvqt"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
