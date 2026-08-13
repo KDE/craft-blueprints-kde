@@ -159,6 +159,14 @@ class Package(CMakePackageBase):
             return super().install()
 
     def createPackage(self):
+        # Copy entitlements file to package directory for signmacapp.py
+        if CraftCore.compiler.isMacOS:
+            entitlementsSource = self.sourceDir() / "labplot.entitlements"
+            packageDir = self.packageDestinationDir()
+            if entitlementsSource.exists() and packageDir:
+                entitlementsDest = packageDir / "labplot.entitlements"
+                utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
+
         self.defines["appname"] = "LabPlot"
         # org.kde.labplot.desktop for AppImage
         self.defines["desktopFile"] = "labplot"
@@ -298,13 +306,6 @@ class Package(CMakePackageBase):
 
             utils.copyFile(os.path.join(pysideLocation, "__init__.py"), pysidePath, linkOnly=False)
             utils.copyFile(os.path.join(shibokenLocation, "__init__.py"), shibokenPath, linkOnly=False)
-
-            # Copy entitlements file for code signing (applied by Craft or CI)
-            entitlementsSource = self.sourceDir() / "labplot.entitlements"
-            if entitlementsSource.exists():
-                entitlementsDest = appPath / "Contents/Resources/labplot.entitlements"
-                utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
-
             # fix falsely picked up system Python lib
             # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
             # utils.system(
