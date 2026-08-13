@@ -1,0 +1,12 @@
+diff --git a/src/meson.build b/src/meson.build
+index ea5d9b4c..f7c37e3e 100644
+--- a/src/meson.build
++++ b/src/meson.build
+@@ -248,7 +248,6 @@ lib = library('placebo', sources,
+   c_args: ['-DPL_EXPORT'],
+   install: true,
+   dependencies: build_deps + glad_dep,
+-  soversion: apiver,
+   include_directories: [ inc, inc_dirs ],
+   link_args: link_args,
+   link_depends: link_depends,

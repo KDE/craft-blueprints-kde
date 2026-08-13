@@ -17,6 +17,11 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://code.videolan.org/videolan/libplacebo"
         self.defaultTarget = "7.360.1"
 
+        if CraftCore.compiler.isAndroid:
+            for ver in ["7.360.1", "master"]:
+                self.patchToApply[ver] = [("disable-soversion.patch", 1)]
+                self.patchLevel[ver] = 2
+
     def setDependencies(self):
         self.buildDependencies["python-modules/meson"] = None
         self.runtimeDependencies["virtual/base"] = None
