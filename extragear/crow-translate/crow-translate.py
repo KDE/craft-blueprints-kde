@@ -32,6 +32,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["libs/tesseract"] = None
         self.runtimeDependencies["kde/plasma/kwayland"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         if not CraftCore.compiler.isLinux:
             self.runtimeDependencies["libs/onnxruntime"] = None
 
