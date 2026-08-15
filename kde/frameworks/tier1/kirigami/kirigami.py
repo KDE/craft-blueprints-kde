@@ -7,6 +7,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.patchToApply["6.26.0"] = [("565d1605c10d37663c772c93a6765ee30f2418f8.patch", 1), ("fix-double-page-pop.diff", 1)]
         self.patchLevel["6.26.0"] = 2
+        self.patchToApply["6.29.0"] = [("6ab05f892e620d4d086d677d40bce871ba05f36b.diff", 1)]
+        self.patchLevel["6.26.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
