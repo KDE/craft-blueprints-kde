@@ -33,8 +33,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/tesseract"] = None
         self.runtimeDependencies["kde/plasma/kwayland"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
-        if not CraftCore.compiler.isLinux:
-            self.runtimeDependencies["libs/onnxruntime"] = None
+        self.runtimeDependencies["libs/onnxruntime"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
