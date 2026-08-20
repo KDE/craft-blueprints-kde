@@ -14,8 +14,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
-        # remove after 26.04
-        self.runtimeDependencies["kde/pim/kmime"] = None
         self.runtimeDependencies["kde/pim/kpkpass"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None
