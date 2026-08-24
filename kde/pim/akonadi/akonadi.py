@@ -33,4 +33,5 @@ class Package(CraftPackageObject.get("kde").pattern):
             "-DDATABASE_BACKEND=SQLITE",
             "-DAKONADI_RUN_MYSQL_ISOLATED_TESTS=OFF",
             f"-DBUILD_DESIGNERPLUGIN={self.subinfo.options.dynamic.useDesignerPlugin.asOnOff}",
+            "-DBUILD_PYTHON_BINDING=OFF",
         ]
