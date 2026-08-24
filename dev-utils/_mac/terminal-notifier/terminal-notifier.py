@@ -7,12 +7,12 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.targets["2.0.0"] = ["https://github.com/julienXX/terminal-notifier/releases/download/2.0.0/terminal-notifier-2.0.0.zip"]
-        self.targetDigests["2.0.0"] = (["316e767d979d12adb12c3538931b245108f8b1064af44087414c096cb3376d0c"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstallPath["2.0.0"] = "dev-utils/bin"
+        self.targets["3.0.0"] = ["https://github.com/julienXX/terminal-notifier/releases/download/3.0.0/terminal-notifier-3.0.0.zip"]
+        self.targetDigests["3.0.0"] = (["e804fd4727db2e146cd88edc9deb9f207a605744212c9ee386456b54f7a28dde"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstallPath["3.0.0"] = "dev-utils/bin"
         self.description = "Send User Notifications on macOS from the command-line."
         self.webpage = "https://github.com/julienXX/terminal-notifier"
-        self.defaultTarget = "2.0.0"
+        self.defaultTarget = "3.0.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
