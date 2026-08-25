@@ -23,7 +23,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt/qtnetworkauth"] = None
 
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -39,7 +38,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
 
         self.runtimeDependencies["qt-libs/qcoro"] = None
-        self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
         self.runtimeDependencies["libs/bbppairings"] = None
 
