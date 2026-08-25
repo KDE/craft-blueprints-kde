@@ -1,4 +1,5 @@
 import info
+import utils
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 from Packager.AppImagePackager import AppImagePackager
@@ -105,6 +106,13 @@ class Package(CraftPackageObject.get("kde").pattern):
             self.blacklist_file.append(self.blueprintDir() / "exclude.list")
         else:
             self.blacklist_file.append(self.blueprintDir() / "exclude_macos.list")
+            # Copy entitlements file to package directory for signmacapp.py
+            entitlementsSource = self.sourceDir() / "kdenlive.entitlements"
+            packageDir = self.packageDestinationDir()
+            if entitlementsSource.exists() and packageDir:
+                entitlementsDest = packageDir / "kdenlive.entitlements"
+                utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
+
         self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioworker|melt|update-mime-database|snoretoast|drmingw|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm")
         self.ignoredPackages.append("data/hunspell-dictionaries")
