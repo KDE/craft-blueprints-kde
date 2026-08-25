@@ -1,0 +1,24 @@
+From c3ccb35f56d825b3526468d1e6a1a9e59fbe82fb Mon Sep 17 00:00:00 2001
+From: Heiko Becker <heirecka@exherbo.org>
+Date: Wed, 22 Jul 2026 17:23:10 +0200
+Subject: [PATCH] Install translations
+
+---
+ CMakeLists.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 56d2e56..5ee52e3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -80,5 +80,7 @@ install(FILES
+ install(EXPORT KirigamiAppComponentsTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+         FILE KirigamiAppComponentsTargets.cmake NAMESPACE KF6:: COMPONENT Devel)
+ 
++ki18n_install(po)
++
+ kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
+ 
+-- 
+GitLab
+
