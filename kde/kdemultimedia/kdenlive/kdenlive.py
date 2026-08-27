@@ -74,10 +74,7 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += [
-            f"-DFETCH_OTIO={CraftCore.compiler.isMacOS.asOnOff}",
-            f"-DUSE_DBUS={CraftCore.compiler.isLinux.asOnOff}"
-        ]
+        self.subinfo.options.configure.args += [f"-DFETCH_OTIO={CraftCore.compiler.isMacOS.asOnOff}", f"-DUSE_DBUS={CraftCore.compiler.isLinux.asOnOff}"]
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += ["-DRELEASE_BUILD=OFF"]
 
@@ -111,7 +108,12 @@ class Package(CraftPackageObject.get("kde").pattern):
             packageDir = self.packageDestinationDir()
             if entitlementsSource.exists() and packageDir:
                 entitlementsDest = packageDir / "kdenlive.entitlements"
-                utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
+                if not utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False):
+                    CraftCore.log.warning("Failed to copy entitlements file to packageDir")
+                else:
+                    CraftCore.log.info("Copied entitlements file to packageDir")
+            else:
+                CraftCore.log.warning("Missing entitlements file or packageDir")
 
         self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioworker|melt|update-mime-database|snoretoast|drmingw|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm")
