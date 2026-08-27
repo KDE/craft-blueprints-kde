@@ -256,6 +256,13 @@ class Package(CMakePackageBase):
         print("preArchive(), archive dir:", archiveDir)
 
         if CraftCore.compiler.isMacOS and not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+            # Copy entitlements to archive directory for signing service
+            entitlementsSource = self.sourceDir() / "labplot.entitlements"
+            if entitlementsSource.exists():
+                entitlementsDest = archiveDir / "labplot.entitlements"
+                utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
+                CraftCore.log.info(f"Copied entitlements for signing: {entitlementsDest}")
+
             # Move cantor_pythonserver to the package
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
