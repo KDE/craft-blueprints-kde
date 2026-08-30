@@ -30,12 +30,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
+        self.runtimeDependencies["libs/libssh"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DWITH_LIBSSH=OFF"]
 
     def createPackage(self):
         self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(konsole|update-mime-database|kioworker|kdeinit5)).*")
