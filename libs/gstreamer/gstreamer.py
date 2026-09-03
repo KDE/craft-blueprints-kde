@@ -38,13 +38,14 @@ class Package(MesonPackageBase):
             return False
         if CraftCore.compiler.isMacOS:
             # GStreamer installs its plugins to lib/gstreamer-1.0. When the app is bundled,
-            # craft moves the whole lib/ directory into the .app's Contents/Frameworks, where
-            # codesign --deep rejects the plain plugin directory ("bundle format unrecognized,
-            # invalid, or unsuitable"). Move the plugins to plugins/ so they end up in
-            # Contents/PlugIns/gstreamer-1.0 instead (like Qt's plugins, which sign fine).
+            # craft moves the whole lib/ directory into the .app's Contents/Frameworks, and
+            # codesign rejects the plugin directory ("bundle format unrecognized, invalid,
+            # or unsuitable"), because a directory whose name contains a dot is treated as a
+            # bundle. Move the plugins to plugins/gstreamer, so they end up in
+            # Contents/PlugIns/gstreamer, next to Qt's dot-free plugin directories.
             # Consumers must point GST_PLUGIN_SYSTEM_PATH at that directory at runtime.
             plugins = self.imageDir() / "lib/gstreamer-1.0"
             if plugins.is_dir():
-                if not utils.mergeTree(plugins, self.imageDir() / "plugins/gstreamer-1.0"):
+                if not utils.mergeTree(plugins, self.imageDir() / "plugins/gstreamer"):
                     return False
         return True

@@ -46,10 +46,10 @@ class Package(CMakePackageBase):
         self.subinfo.options.fetch.checkoutSubmodules = True
 
         if CraftCore.compiler.isMacOS:
-            # The GStreamer plugins are relocated into Contents/PlugIns/gstreamer-1.0 when
+            # The GStreamer plugins are relocated into Contents/PlugIns/gstreamer when
             # bundling (see libs/gstreamer). Tell Kaidan where to find them, relative to the
             # executable in Contents/MacOS.
-            self.subinfo.options.configure.args += ["-DTARGET_GSTREAMER_PLUGINS=../PlugIns/gstreamer-1.0"]
+            self.subinfo.options.configure.args += ["-DTARGET_GSTREAMER_PLUGINS=../PlugIns/gstreamer"]
 
     def createPackage(self):
         if CraftCore.compiler.isMacOS:
