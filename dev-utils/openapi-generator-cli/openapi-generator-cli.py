@@ -27,11 +27,16 @@ class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+    def make(self):
+        if not utils.moveFile(self.workDir() / self.subinfo.archiveName()[0], self.workDir() / "openapi-generator-cli.jar"):
+            return False
+        return super().make()
+
     def postInstall(self):
         return utils.createShim(
             self.installDir() / "openapi-generator-cli",
             CraftPackageObject.get("dev-utils/jdk").instance.JAVA_HOME / "bin/java",
-            ["-jar", self.installDir() / self.subinfo.archiveName()[0]],
+            ["-jar", self.installDir() / "openapi-generator-cli.jar"],
             useAbsolutePath=True,
             env={"JAVA_HOME": CraftPackageObject.get("dev-utils/jdk").instance.JAVA_HOME},
         )

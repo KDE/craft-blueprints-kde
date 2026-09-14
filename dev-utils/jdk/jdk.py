@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2026 Hannah von Reth <vonreth@kde.org>
-import urllib
 from pathlib import Path
+from urllib import parse
 
 import info
 from CraftCore import CraftCore
@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for ver in ["25.0.4.1+1"]:
-            urlVer = urllib.parse.quote(ver)
+            urlVer = parse.quote(ver)
             tarVer = ver.replace("+", "_")
             self.targetInstSrc[ver] = f"jdk-{ver}"
             if CraftCore.compiler.isWindows:
