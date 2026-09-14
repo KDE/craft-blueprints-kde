@@ -2,7 +2,6 @@
 # SPDX-FileCopyrightText: 2026 Hannah von Reth <vonreth@kde.org>
 import urllib
 from pathlib import Path
-from urllib import parse
 
 import info
 from CraftCore import CraftCore
@@ -14,7 +13,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
 
-    def setDependencies( self ):
+    def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
 
     def setTargets(self):
@@ -23,24 +22,45 @@ class subinfo(info.infoclass):
             tarVer = ver.replace("+", "_")
             self.targetInstSrc[ver] = f"jdk-{ver}"
             if CraftCore.compiler.isWindows:
-                self.targets[ver] = f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_x64_windows_hotspot_{tarVer}.zip"
-                self.targetDigestUrls[ver] = ([f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_x64_windows_hotspot_{tarVer}.zip.sha256.txt"], CraftHash.HashAlgorithm.SHA256)
+                self.targets[
+                    ver
+                ] = f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_x64_windows_hotspot_{tarVer}.zip"
+                self.targetDigestUrls[ver] = (
+                    [
+                        f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_x64_windows_hotspot_{tarVer}.zip.sha256.txt"
+                    ],
+                    CraftHash.HashAlgorithm.SHA256,
+                )
             elif CraftCore.compiler.isMacOS:
-                self.targets[ver] = f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{CraftCore.compiler.appImageArchitecture}_mac_hotspot_{tarVer}.tar.gz"
-                self.targetDigestUrls[ver] = ([f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{CraftCore.compiler.appImageArchitecture}_mac_hotspot_{tarVer}.tar.gz.sha256.txt"], CraftHash.HashAlgorithm.SHA256)
+                self.targets[
+                    ver
+                ] = f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{CraftCore.compiler.appImageArchitecture}_mac_hotspot_{tarVer}.tar.gz"
+                self.targetDigestUrls[ver] = (
+                    [
+                        f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{CraftCore.compiler.appImageArchitecture}_mac_hotspot_{tarVer}.tar.gz.sha256.txt"
+                    ],
+                    CraftHash.HashAlgorithm.SHA256,
+                )
             elif CraftCore.compiler.isLinux:
-                self.targets[ver] = f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{CraftCore.compiler.appImageArchitecture}_linux_hotspot_{tarVer}.tar.gz"
-                self.targetDigestUrls[ver] = ([f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{CraftCore.compiler.appImageArchitecture}_linux_hotspot_{tarVer}.tar.gz.sha256.txt"], CraftHash.HashAlgorithm.SHA256)
+                self.targets[
+                    ver
+                ] = f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{CraftCore.compiler.appImageArchitecture}_linux_hotspot_{tarVer}.tar.gz"
+                self.targetDigestUrls[ver] = (
+                    [
+                        f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{CraftCore.compiler.appImageArchitecture}_linux_hotspot_{tarVer}.tar.gz.sha256.txt"
+                    ],
+                    CraftHash.HashAlgorithm.SHA256,
+                )
             else:
                 raise NotImplementedError()
             self.targetInstallPath[ver] = "dev-utils/jdk"
             self.defaultTarget = "25.0.4.1+1"
         self.description = "Java Runtime Environment"
 
+
 class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
 
     @property
     def JAVA_HOME(self) -> Path:

@@ -15,10 +15,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["dev-utils/openapi-generator-cli"] = None
         self.runtimeDependencies["dev-utils/maven"] = None
 
+
 class Package(CraftPackageObject.get("libs/qt6").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
 
     def configure(self):
         with utils.ScopedEnv({"JAVA_HOME": CraftPackageObject.get("dev-utils/jdk").instance.JAVA_HOME}):
