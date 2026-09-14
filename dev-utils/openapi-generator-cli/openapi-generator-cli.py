@@ -35,7 +35,7 @@ class Package(BinaryPackageBase):
     def postInstall(self):
         return utils.createShim(
             self.installDir() / "openapi-generator-cli",
-            CraftPackageObject.get("dev-utils/jdk").instance.JAVA_HOME / "bin/java",
+            CraftPackageObject.get("dev-utils/jdk").instance.JAVA_HOME / f"bin/java{CraftCore.compiler.executableSuffix}",
             ["-jar", self.installDir() / "openapi-generator-cli.jar"],
             useAbsolutePath=True,
             env={"JAVA_HOME": CraftPackageObject.get("dev-utils/jdk").instance.JAVA_HOME},
