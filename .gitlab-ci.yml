@@ -169,7 +169,6 @@ build-package-linux:
     PYTHONUTF8: 1
     KDECI_CRAFT_CACHE: C:/Craft/download/
   before_script:
-    - if (-not $env:CRAFT_PACKAGE) { Write-Error "Error - Set CRAFT_PACKAGE environment variable to the package you want to test."; exit 1 }
     - cd C:\Craft\craftmaster
     - git pull
     - cd C:\Craft\ci-utilities
@@ -177,6 +176,9 @@ build-package-linux:
     - cd C:\Craft\craft-ci
     - git pull
     - cd C:\Craft
+    - if (-not $env:CRAFT_PACKAGE) { $env:CRAFT_PACKAGE = python craftmaster/CraftMaster.py --determine-package }
+    - echo "CRAFT_PACKAGE is '$env:CRAFT_PACKAGE'"
+    - if (-not $env:CRAFT_PACKAGE) { Write-Error "Error - Set CRAFT_PACKAGE environment variable to the package you want to test."; exit 1 }
     # Define a short cut for the lengthy CraftMaster command line
     - |
       function Run-CraftMaster {
