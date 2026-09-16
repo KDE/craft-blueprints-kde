@@ -47,7 +47,7 @@ class subinfo(info.infoclass):
         self.patchLevel["6.1.1"] = 2
         self.patchLevel["7.1"] = 5
         self.patchLevel["8.0"] = 1
-        self.patchLevel["8.1.1"] = 4
+        self.patchLevel["8.1.1"] = 5
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
@@ -69,10 +69,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/onevpl"] = None
         if CraftCore.compiler.isGCCLike():
             if not CraftCore.compiler.isAndroid:
-                self.runtimeDependencies["libs/libvpx"] = None
                 self.runtimeDependencies["libs/zimg"] = None
         if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/libass"] = None
+            self.runtimeDependencies["libs/libvpx"] = None
             self.runtimeDependencies["libs/webp"] = None
             self.runtimeDependencies["libs/x264"] = None
         if not CraftCore.compiler.isMacOS:
@@ -95,7 +95,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.useShadowBuild = not CraftCore.compiler.isMSVC()
 
         if not CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.args += ["--enable-libmp3lame", "--enable-libass"]
+            self.subinfo.options.configure.args += ["--enable-libmp3lame", "--enable-libass", "--enable-libvpx"]
         else:
             self.subinfo.options.configure.args += ["--disable-programs"]
         if "CC" in os.environ:
@@ -143,7 +143,6 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.args += [
                 "--enable-libopus",
                 "--enable-libvorbis",
-                "--enable-libvpx",
                 "--enable-libaom",
                 "--enable-libdav1d",
                 "--enable-libzimg",
