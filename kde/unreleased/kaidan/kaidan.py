@@ -43,8 +43,6 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.subinfo.options.fetch.checkoutSubmodules = True
-
         if CraftCore.compiler.isMacOS:
             # The GStreamer plugins are relocated into Contents/PlugIns/gstreamer when
             # bundling (see libs/gstreamer). Tell Kaidan where to find them, relative to the
