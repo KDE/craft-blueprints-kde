@@ -33,13 +33,13 @@ if not CraftCore.compiler.isMSVC():
 
     class subinfo(info.infoclass):
         def setTargets(self):
-            for ver in ["2.0.1"]:
+            for ver in ["2.2.0"]:
                 self.targets[ver] = f"https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-{ver}.tar.bz2"
                 self.targetInstSrc[ver] = f"gpgme-{ver}"
 
-            self.targetDigests["2.0.1"] = (["821ab0695c842eab51752a81980c92b0410c7eadd04103f791d5d2a526784966"], CraftHash.HashAlgorithm.SHA256)
+            self.targetDigests["2.2.0"] = (["7160e80e84dafd00d956c84891c533bb7ab16a6a54fbe1574b2f3acf0496977b"], CraftHash.HashAlgorithm.SHA256)
 
-            self.defaultTarget = "2.0.1"
+            self.defaultTarget = "2.2.0"
 
         def setDependencies(self):
             self.buildDependencies["dev-utils/msys"] = None
