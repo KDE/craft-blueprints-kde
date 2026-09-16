@@ -42,12 +42,18 @@ class subinfo(info.infoclass):
                     CraftHash.HashAlgorithm.SHA256,
                 )
             elif CraftCore.compiler.isLinux:
+                if CraftCore.compiler.architecture == CraftCore.compiler.Architecture.x86_64:
+                    arch = "x64"
+                elif CraftCore.compiler.architecture == CraftCore.compiler.Architecture.arm64:
+                    arch = "aarch64"
+                else:
+                    raise NotImplementedError()
                 self.targets[
                     ver
-                ] = f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{CraftCore.compiler.appImageArchitecture}_linux_hotspot_{tarVer}.tar.gz"
+                ] = f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{arch}_linux_hotspot_{tarVer}.tar.gz"
                 self.targetDigestUrls[ver] = (
                     [
-                        f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{CraftCore.compiler.appImageArchitecture}_linux_hotspot_{tarVer}.tar.gz.sha256.txt"
+                        f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{arch}_linux_hotspot_{tarVer}.tar.gz.sha256.txt"
                     ],
                     CraftHash.HashAlgorithm.SHA256,
                 )
