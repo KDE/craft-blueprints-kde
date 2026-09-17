@@ -12,20 +12,21 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
-        self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt6/qtsvg"] = None
-        self.runtimeDependencies["libs/qt6/qtwebengine"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
         self.runtimeDependencies["libs/sqlcipher"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
+            self.runtimeDependencies["libs/qt6/qtsvg"] = None
+            self.runtimeDependencies["libs/qt6/qtwebengine"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
+            self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
 
 
 class Package(CMakePackageBase):
