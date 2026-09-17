@@ -1,6 +1,7 @@
 import info
+from Blueprints.CraftPackageObject
+import CraftPackageObject
 from CraftCore import CraftCore
-from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
@@ -29,7 +30,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # self.subinfo.options.configure.args = "-DSKG_WEBENGINE=ON"
