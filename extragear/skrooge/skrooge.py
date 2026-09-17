@@ -1,6 +1,6 @@
 import info
 from Package.CMakePackageBase import CMakePackageBase
-
+from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets(self):
