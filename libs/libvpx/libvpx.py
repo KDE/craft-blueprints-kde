@@ -1,7 +1,6 @@
 import os
 
 import info
-import utils
 from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
@@ -26,7 +25,11 @@ class subinfo(info.infoclass):
             # https://github.com/microsoft/vcpkg/blob/b1a9ffcf749df96638bfebc8640e9c807cf45c0b/ports/libvpx/
             ("0006-gen-vcxproj-ignore-unknown-flags.patch", 1),
             ("0007-msvc-use-Fo-in-toolchain-probe.patch", 1),
+            # Install the lib to lib/vpx.lib instead of lib/x64/vpxmd.lib
+            ("adjust-msvc-lib-install-path.diff", 1),
         ]
+
+        self.patchLevel["1.16.0"] = 1
 
         self.defaultTarget = "1.16.0"
 
@@ -59,12 +62,3 @@ class Package(AutoToolsPackageBase):
             "--disable-docs",
             "--disable-tools",
         ]
-
-    def postInstall(self):
-        if not super().postInstall():
-            return False
-        if CraftCore.compiler.isMSVC():
-            return utils.moveFile(self.installDir() / "lib/x64/vpxmd.lib", self.installDir() / "lib/vpx.lib") and utils.moveFile(
-                self.symbolsImageDir() / "lib/x64/vpxmd.pdb", self.symbolsImageDir() / "lib/vpx.pdb"
-            )
-        return True

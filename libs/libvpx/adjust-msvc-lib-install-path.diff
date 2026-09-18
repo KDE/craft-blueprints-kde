@@ -1,0 +1,49 @@
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user -x .idea -x .clang-format libvpx-1.16.0.orig/build/make/gen_msvs_vcxproj.sh libvpx-1.16.0/build/make/gen_msvs_vcxproj.sh
+--- libvpx-1.16.0.orig/build/make/gen_msvs_vcxproj.sh	2026-09-18 21:53:13.460227600 +0000
++++ libvpx-1.16.0/build/make/gen_msvs_vcxproj.sh	2026-09-18 17:49:24.481002700 +0000
+@@ -400,7 +400,7 @@
+               else
+                 config_suffix=""
+               fi
+-              tag_content TargetName "${name}${lib_sfx}${config_suffix}"
++              tag_content TargetName "${name}"
+             fi
+             close_tag PropertyGroup
+         done
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user -x .idea -x .clang-format libvpx-1.16.0.orig/libs.mk libvpx-1.16.0/libs.mk
+--- libvpx-1.16.0.orig/libs.mk	2026-01-08 16:01:40.000000000 +0000
++++ libvpx-1.16.0/libs.mk	2026-09-18 21:50:56.006237500 +0000
+@@ -137,9 +137,10 @@
+ endif
+ 
+ ifeq ($(CONFIG_MSVS),yes)
+-CODEC_LIB=$(if $(CONFIG_STATIC_MSVCRT),vpxmt,vpxmd)
+-GTEST_LIB=$(if $(CONFIG_STATIC_MSVCRT),gtestmt,gtestmd)
+-RC_RTC_LIB=$(if $(CONFIG_STATIC_MSVCRT),vpxrcmt,vpxrcmd)
++CODEC_LIB=vpx
++# CODEC_LIB=$(if $(CONFIG_STATIC_MSVCRT),vpxmt,vpx)
++GTEST_LIB=$(if $(CONFIG_STATIC_MSVCRT),gtestmt,gtestmd,gtest)
++RC_RTC_LIB=$(if $(CONFIG_STATIC_MSVCRT),vpxrcmt,vpxrcmd,vpxrc)
+ # This variable uses deferred expansion intentionally, since the results of
+ # $(wildcard) may change during the course of the Make.
+ VS_PLATFORMS = $(foreach d,$(wildcard */Release/$(CODEC_LIB).lib),$(word 1,$(subst /, ,$(d))))
+@@ -152,8 +153,8 @@
+ INSTALL_MAPS += $(LIBSUBDIR)/%     %
+ INSTALL_MAPS += src/%     $(SRC_PATH_BARE)/%
+ ifeq ($(CONFIG_MSVS),yes)
+-INSTALL_MAPS += $(foreach p,$(VS_PLATFORMS),$(LIBSUBDIR)/$(p)/%  $(p)/Release/%)
+-INSTALL_MAPS += $(foreach p,$(VS_PLATFORMS),$(LIBSUBDIR)/$(p)/%  $(p)/Debug/%)
++INSTALL_MAPS += $(foreach p,$(VS_PLATFORMS),$(LIBSUBDIR)/%  $(p)/Release/%)
++INSTALL_MAPS += $(foreach p,$(VS_PLATFORMS),$(LIBSUBDIR)/%  $(p)/Debug/%)
+ endif
+ 
+ CODEC_SRCS-yes += build/make/version.sh
+@@ -181,7 +182,7 @@
+ INSTALL-LIBS-$(CONFIG_ENCODERS) += include/vpx/vpx_tpl.h
+ ifeq ($(CONFIG_EXTERNAL_BUILD),yes)
+ ifeq ($(CONFIG_MSVS),yes)
+-INSTALL-LIBS-yes                  += $(foreach p,$(VS_PLATFORMS),$(LIBSUBDIR)/$(p)/$(CODEC_LIB).lib)
++INSTALL-LIBS-yes                  += $(foreach p,$(VS_PLATFORMS),$(LIBSUBDIR)/$(CODEC_LIB).lib)
+ ifeq ($(CONFIG_STATIC),yes)
+ INSTALL-LIBS-$(CONFIG_DEBUG_LIBS) += $(foreach p,$(VS_PLATFORMS),$(LIBSUBDIR)/$(p)/$(CODEC_LIB)d.lib)
+ endif
