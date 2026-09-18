@@ -13,10 +13,9 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
-        self.runtimeDependencies["libs/sqlcipher"] = None
-        self.runtimeDependencies["libs/openssl"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/sqlcipher"] = None
             self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
             self.runtimeDependencies["libs/qt6/qtsvg"] = None
             self.runtimeDependencies["libs/qt6/qtwebengine"] = None
