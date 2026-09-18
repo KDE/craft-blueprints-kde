@@ -24,6 +24,7 @@
 
 import os
 import re
+import shutil
 
 import info
 import utils
@@ -52,7 +53,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/openssl"] = None
-        self.runtimeDependencies["libs/tcl"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/tcl"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/sqlite"] = None
         if CraftCore.compiler.isMinGW():
@@ -69,6 +71,14 @@ class PackageAutotools(AutoToolsPackageBase):
             self.subinfo.options.configure.args += ["CFLAGS='-DSQLITE_HAS_CODEC'"]
         else:
             self.subinfo.options.configure.args += ["CFLAGS=-DSQLITE_HAS_CODEC"]
+        if CraftCore.compiler.isAndroid:
+            tclsh = shutil.which("tclsh8.6", path=os.defpath) or shutil.which("tclsh", path=os.defpath)
+            self.subinfo.options.configure.args += [
+                "--disable-tcl",
+                f"TCLSH_CMD={tclsh}",
+                f"CPPFLAGS=-I{CraftCore.standardDirs.craftRoot() / 'include'}",
+                f"LDFLAGS=-L{CraftCore.standardDirs.craftRoot() / 'lib'}",
+            ]
 
     def configure(self):
         isConfigured = super().configure()
