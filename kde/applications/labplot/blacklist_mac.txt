@@ -11,3 +11,4 @@ lib/systemd/user/plasma-kglobalaccel.service
 .*/libear/.*
 .*/include/module.modulemap
 lib/python3.11/.*
+.*/cpp-qt6-client-openapi-generator.jar
