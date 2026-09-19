@@ -296,10 +296,10 @@ class Package(CMakePackageBase):
             print("preArchive(), PySide/shiboken craftRoot lib location:", pysideLocation, shibokenLocation)
 
             # copy complete site-packages fails signing
-            # copy dylibs
-            utils.copyFile(os.path.join(pysideLocation, "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.10.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(pysideLocation, "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.10.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(shibokenLocation, "libshiboken6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.10.dylib"), linkOnly=False)
+            # copy dylibs only
+            utils.copyFile(os.path.join(pysideLocation, "libpyside6.abi3.6.11.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.11.dylib"), linkOnly=False)
+            utils.copyFile(os.path.join(pysideLocation, "libpyside6qml.abi3.6.11.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.11.dylib"), linkOnly=False)
+            utils.copyFile(os.path.join(shibokenLocation, "libshiboken6.abi3.6.11.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.11.dylib"), linkOnly=False)
 
             pythonFrameworksPackages = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
             pysidePath = os.path.join(pythonFrameworksPackages, "PySide6")
