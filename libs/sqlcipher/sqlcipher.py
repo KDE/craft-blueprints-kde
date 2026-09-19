@@ -53,7 +53,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/openssl"] = None
-        self.buildDependencies["libs/tcl"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/tcl"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/sqlite"] = None
         if CraftCore.compiler.isMinGW():
@@ -71,14 +72,16 @@ class PackageAutotools(AutoToolsPackageBase):
         else:
             self.subinfo.options.configure.args += ["CFLAGS=-DSQLITE_HAS_CODEC"]
         if CraftCore.compiler.isAndroid:
-            craftBin = CraftCore.standardDirs.craftRoot() / "bin"
-            candidates = [
-                shutil.which("tclsh8.6"),
-                shutil.which("tclsh"),
-                shutil.which("tclsh8.6", path=str(craftBin)),
-                shutil.which("tclsh", path=str(craftBin)),
-            ]
-            tclsh = next((p for p in candidates if p), None)
+            # SQLCipher still runs Tcl helper tools at build time even when the
+            # Tcl extension itself is disabled, so we must use a host-side Tcl
+            # interpreter from the system default search path rather than a
+            # cross-target Craft binary.
+            tclsh = (
+                shutil.which("tclsh8.6", path=os.defpath)
+                or shutil.which("tclsh", path=os.defpath)
+                or shutil.which("tclsh8.6")
+                or shutil.which("tclsh")
+            )
             args = [
                 "--disable-tcl",
                 f"CPPFLAGS=-I{CraftCore.standardDirs.craftRoot() / 'include'}",
