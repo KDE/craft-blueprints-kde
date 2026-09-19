@@ -36,6 +36,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["libs/kdsingleapplication"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
