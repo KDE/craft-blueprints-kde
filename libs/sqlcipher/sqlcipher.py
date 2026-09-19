@@ -73,12 +73,14 @@ class PackageAutotools(AutoToolsPackageBase):
             self.subinfo.options.configure.args += ["CFLAGS=-DSQLITE_HAS_CODEC"]
         if CraftCore.compiler.isAndroid:
             tclsh = shutil.which("tclsh8.6", path=os.defpath) or shutil.which("tclsh", path=os.defpath)
-            self.subinfo.options.configure.args += [
+            args = [
                 "--disable-tcl",
-                f"TCLSH_CMD={tclsh}",
                 f"CPPFLAGS=-I{CraftCore.standardDirs.craftRoot() / 'include'}",
                 f"LDFLAGS=-L{CraftCore.standardDirs.craftRoot() / 'lib'}",
             ]
+            if tclsh:
+                args.append(f"TCLSH_CMD={tclsh}")
+            self.subinfo.options.configure.args += args
 
     def configure(self):
         isConfigured = super().configure()
