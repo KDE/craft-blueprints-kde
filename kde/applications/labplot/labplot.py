@@ -159,16 +159,6 @@ class Package(CMakePackageBase):
             return super().install()
 
     def createPackage(self):
-        # Copy entitlements file to package directory for signmacapp.py
-        if CraftCore.compiler.isMacOS:
-            entitlementsSource = self.sourceDir() / "labplot.entitlements"
-            packageDir = self.packageDestinationDir()
-            CraftCore.log.info(f"createPackage: entitlementsSource.exists()={entitlementsSource.exists()}, packageDir={packageDir}")
-            if entitlementsSource.exists() and packageDir:
-                entitlementsDest = packageDir / "labplot.entitlements"
-                utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
-                CraftCore.log.info(f"Copied entitlements to package dir: {entitlementsDest}")
-
         self.defines["appname"] = "LabPlot"
         # org.kde.labplot.desktop for AppImage
         self.defines["desktopFile"] = "labplot"
@@ -265,10 +255,14 @@ class Package(CMakePackageBase):
 
             # Copy entitlements next to .app for signing
             entitlementsSource = self.sourceDir() / "labplot.entitlements"
+            CraftCore.log.info(f"preArchive: sourceDir={self.sourceDir()}, entitlementsSource.exists()={entitlementsSource.exists()}")
+
             if entitlementsSource.exists():
                 entitlementsDest = appPath.parent / "labplot.entitlements"
                 utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
                 CraftCore.log.info(f"Copied entitlements next to .app: {entitlementsDest}")
+            else:
+                CraftCore.log.warning(f"Entitlements source not found at: {entitlementsSource}")
             # if not utils.copyFile(
             #    archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
             #    appPath / "Contents/MacOS",
