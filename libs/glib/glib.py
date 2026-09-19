@@ -46,8 +46,9 @@ class Package(MesonPackageBase):
                 f"-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot() / 'include/dbus-1.0')}"
                 f" -I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot() / 'lib/dbus-1.0/include')}"
             )
-        self.subinfo.options.configure.args += ["--wrap-mode=nodownload", "-Dgtk_doc=false", "-Dinstalled_tests=false", "-Dman=false"]
-        if CraftCore.compiler.isUnix:
+        wrapMode = "default" if CraftCore.compiler.isAndroid else "nodownload"
+        self.subinfo.options.configure.args += [f"--wrap-mode={wrapMode}", "-Dgtk_doc=false", "-Dinstalled_tests=false", "-Dman=false"]
+        if CraftCore.compiler.isUnix and not CraftCore.compiler.isAndroid:
             self.subinfo.options.configure.ldflags += " -lintl -liconv"
         if CraftCore.compiler.isFreeBSD:
             self.subinfo.options.configure.args += ["-Dxattr=false", "-Dlibmount=disabled", "-Dselinux=disabled", "-Db_lundef=false"]

@@ -53,7 +53,9 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/openssl"] = None
-        if not CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.isAndroid:
+            self.buildDependencies["libs/tcl"] = None
+        else:
             self.runtimeDependencies["libs/tcl"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/sqlite"] = None
@@ -74,14 +76,26 @@ class PackageAutotools(AutoToolsPackageBase):
         if CraftCore.compiler.isAndroid:
             # SQLCipher still runs Tcl helper tools at build time even when the
             # Tcl extension itself is disabled, so we must use a host-side Tcl
-            # interpreter from the system default search path rather than a
-            # cross-target Craft binary.
-            tclsh = (
-                shutil.which("tclsh8.6", path=os.defpath)
-                or shutil.which("tclsh", path=os.defpath)
-                or shutil.which("tclsh8.6")
-                or shutil.which("tclsh")
-            )
+            # interpreter. Never accept a Craft-root Tcl binary here, because that
+            # is target-architecture output and will fail with Exec format error.
+            craftRoot = str(CraftCore.standardDirs.craftRoot())
+            candidates = [
+                shutil.which("tclsh8.6", path=os.defpath),
+                shutil.which("tclsh", path=os.defpath),
+                "/usr/bin/tclsh8.6",
+                "/bin/tclsh8.6",
+                "/usr/bin/tclsh",
+                "/bin/tclsh",
+            ]
+            tclsh = None
+            for candidate in candidates:
+                if not candidate:
+                    continue
+                if candidate.startswith(craftRoot):
+                    continue
+                if os.path.exists(candidate) and os.access(candidate, os.X_OK):
+                    tclsh = candidate
+                    break
             args = [
                 "--disable-tcl",
                 f"CPPFLAGS=-I{CraftCore.standardDirs.craftRoot() / 'include'}",
