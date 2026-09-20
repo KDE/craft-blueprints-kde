@@ -53,9 +53,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/openssl"] = None
-        if CraftCore.compiler.isAndroid:
-            self.buildDependencies["libs/tcl"] = None
-        else:
+        if not CraftCore.compiler.isAndroid:
             self.runtimeDependencies["libs/tcl"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/sqlite"] = None
