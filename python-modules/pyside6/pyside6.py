@@ -16,13 +16,14 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-{ver}-src/pyside-setup-everywhere-src-{ver}.zip"
             self.targetInstSrc[ver] = "pyside-setup-everywhere-src-%s" % ver
 
+        self.patchToApply["6.11.2"] = [("shiboken-include-pep384impl.patch", 1)]
+
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
         self.buildDependencies["python-modules/packaging"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         # required by shiboken6
-        if CraftCore.compiler.isMacOS:
-            self.buildDependencies["libs/llvm"] = None
+        self.buildDependencies["libs/llvm"] = None
 
 
 class Package(PipPackageBase):
@@ -43,6 +44,6 @@ class Package(PipPackageBase):
             )
         else:
             return utils.system(
-                ["python", "setup.py", "install", f"--prefix={imageDir}", "--verbose-build", "--disable-pyi", "--skip-mypy-test"],
+                ["python", "setup.py", "install", f"--prefix={imageDir}", "--verbose-build", "--disable-pyi", "--skip-mypy-test", "--skip-modules=Positioning,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,Quick,Qml,UiTools"],
                 cwd=sourceDir
             )
