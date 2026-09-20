@@ -157,6 +157,29 @@ class Package(CMakePackageBase):
             return super().install()
 
     def createPackage(self):
+        # Copy entitlements file next to .app for signmacapp.py (runs before packaging/signing)
+        if CraftCore.compiler.isMacOS:
+            try:
+                # Get the archive directory where the .app is located
+                defines = self.setDefaults(self.defines)
+                appPath = self.getMacAppPath(defines)
+                CraftCore.log.info(f"createPackage: appPath={appPath}")
+
+                if appPath and appPath.exists():
+                    entitlementsSource = self.sourceDir() / "labplot.entitlements"
+                    entitlementsDest = appPath.parent / "labplot.entitlements"
+                    CraftCore.log.info(f"createPackage: sourceDir={self.sourceDir()}, entitlementsSource.exists()={entitlementsSource.exists()}")
+
+                    if entitlementsSource.exists():
+                        utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
+                        CraftCore.log.info(f"Copied entitlements next to .app: {entitlementsDest}")
+                    else:
+                        CraftCore.log.warning(f"Entitlements source not found at: {entitlementsSource}")
+                else:
+                    CraftCore.log.warning(f"App path not found or doesn't exist: {appPath}")
+            except Exception as e:
+                CraftCore.log.warning(f"Failed to copy entitlements in createPackage: {e}")
+
         self.defines["appname"] = "LabPlot"
         # org.kde.labplot.desktop for AppImage
         self.defines["desktopFile"] = "labplot"
@@ -251,16 +274,6 @@ class Package(CMakePackageBase):
             appPath = self.getMacAppPath(defines)
             print("preArchive(), app path:", appPath)
 
-            # Copy entitlements next to .app for signing
-            entitlementsSource = self.sourceDir() / "labplot.entitlements"
-            CraftCore.log.info(f"preArchive: sourceDir={self.sourceDir()}, entitlementsSource.exists()={entitlementsSource.exists()}")
-
-            if entitlementsSource.exists():
-                entitlementsDest = appPath.parent / "labplot.entitlements"
-                utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
-                CraftCore.log.info(f"Copied entitlements next to .app: {entitlementsDest}")
-            else:
-                CraftCore.log.warning(f"Entitlements source not found at: {entitlementsSource}")
             # if not utils.copyFile(
             #    archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
             #    appPath / "Contents/MacOS",
