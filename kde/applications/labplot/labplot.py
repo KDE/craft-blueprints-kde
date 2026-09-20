@@ -251,15 +251,12 @@ class Package(CMakePackageBase):
             appPath = self.getMacAppPath(defines)
             print("preArchive(), app path:", appPath)
 
-            # Copy entitlements to archive root so it's available during signing
+            # Copy entitlements next to .app for signing
             entitlementsSource = self.sourceDir() / "labplot.entitlements"
             if entitlementsSource.exists():
-                # Copy to both locations: next to .app and at archive root
-                entitlementsDest1 = appPath.parent / "labplot.entitlements"
-                entitlementsDest2 = archiveDir / "labplot.entitlements"
-                utils.copyFile(entitlementsSource, entitlementsDest1, linkOnly=False)
-                utils.copyFile(entitlementsSource, entitlementsDest2, linkOnly=False)
-                CraftCore.log.info(f"Copied entitlements to: {entitlementsDest1} and {entitlementsDest2}")
+                entitlementsDest = appPath.parent / "labplot.entitlements"
+                utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
+                CraftCore.log.info(f"Copied entitlements next to .app: {entitlementsDest}")
             else:
                 CraftCore.log.warning(f"Entitlements source not found at: {entitlementsSource}")
 
