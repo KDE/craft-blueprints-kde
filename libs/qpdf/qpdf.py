@@ -8,12 +8,12 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["11.9.1"]:
+        for ver in ["12.4.1"]:
             self.targets[ver] = f"https://github.com/qpdf/qpdf/archive/refs/tags/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"qpdf-{ver}"
-        self.targetDigests["11.9.1"] = (["98d509e29def377d90ff4a34e48e8e20865600342006bff53e489f689bbbb15d"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["12.4.1"] = (["f045aa277be2356ff53a89a8622945958291177d2483afc20ede7c8a8cd3873c"], CraftHash.HashAlgorithm.SHA256)
         self.description = "C++ library that performs content-preserving transformations on PDF files"
-        self.defaultTarget = "11.9.1"
+        self.defaultTarget = "12.4.1"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
