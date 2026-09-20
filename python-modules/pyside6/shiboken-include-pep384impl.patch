@@ -1,0 +1,5 @@
+diff --git a/sources/shiboken6/libshiboken/shiboken.h b/sources/shiboken6/libshiboken/shiboken.h
+--- a/sources/shiboken6/libshiboken/shiboken.h
++++ b/sources/shiboken6/libshiboken/shiboken.h
+@@ -15,0 +16 @@
++#include "pep384impl.h"
