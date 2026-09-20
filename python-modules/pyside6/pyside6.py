@@ -17,6 +17,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = "pyside-setup-everywhere-src-%s" % ver
 
         self.patchToApply["6.11.2"] = [("shiboken-include-pep384impl.patch", 1)]
+        self.patchLevel["6.11.2"] = 1
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
