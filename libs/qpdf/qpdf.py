@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         for ver in ["12.4.1"]:
             self.targets[ver] = f"https://github.com/qpdf/qpdf/archive/refs/tags/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"qpdf-{ver}"
-        self.targetDigests["12.4.1"] = (["f045aa277be2356ff53a89a8622945958291177d2483afc20ede7c8a8cd3873c"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["12.4.1"] = (["ebab3840fa8f370a1d4a1b4b7b08fad5baebeb5b5fa3cbbda88cd81e4fccecc9"], CraftHash.HashAlgorithm.SHA256)
         self.description = "C++ library that performs content-preserving transformations on PDF files"
         self.defaultTarget = "12.4.1"
 
