@@ -17,6 +17,7 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/gnutls"] = None
 
 
 class Package(CMakePackageBase):
