@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["python-modules/setuptools"] = None
         self.buildDependencies["python-modules/packaging"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
+        self.runtimeDependencies["libs/qt6/qtremoteobjects"] = None
         # required by shiboken6
         self.buildDependencies["libs/llvm"] = None
 
