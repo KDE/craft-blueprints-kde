@@ -15,9 +15,9 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
-        self.runtimeDependencies["dev-utils/jdk"] = None
-        self.runtimeDependencies["dev-utils/openapi-generator-cli"] = None
-        self.runtimeDependencies["dev-utils/maven"] = None
+        self.buildDependencies["dev-utils/jdk"] = None
+        self.buildDependencies["dev-utils/openapi-generator-cli"] = None
+        self.buildDependencies["dev-utils/maven"] = None
 
 
 class Package(CraftPackageObject.get("libs/qt6").pattern):
