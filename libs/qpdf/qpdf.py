@@ -17,6 +17,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/libzstd"] = None
+        self.runtimeDependencies["libs/openjpeg"] = None
         self.runtimeDependencies["libs/gnutls"] = None
 
 
