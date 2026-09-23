@@ -46,6 +46,6 @@ class Package(PipPackageBase):
             )
         else:
             return utils.system(
-                ["python", "setup.py", "install", f"--prefix={imageDir}", "--verbose-build", "--disable-pyi", "--skip-mypy-test", "--skip-modules=Positioning,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,Quick,Qml,UiTools"],
+                ["python", "setup.py", "install", f"--prefix={imageDir}", "--verbose-build", "--disable-pyi", "--skip-mypy-test", "--skip-modules=Positioning,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,Quick,QuickControls2,QuickTest,QuickWidgets,Qml,UiTools"],
                 cwd=sourceDir
             )
