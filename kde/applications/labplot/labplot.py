@@ -94,7 +94,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/readstat"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
+            # optional dep, but needs more ressources
+            # self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         # needed by packager
         self.runtimeDependencies["libs/brotli"] = None
         self.runtimeDependencies["libs/boost"] = None
