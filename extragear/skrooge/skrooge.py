@@ -1,7 +1,7 @@
 import info
+import utils
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
-import utils
 
 
 class subinfo(info.infoclass):
@@ -53,7 +53,6 @@ class Package(CraftPackageObject.get("kde").pattern):
                 ksecretd_path = CraftCore.standardDirs.craftRoot() / "bin" / "ksecretd"
 
             if ksecretd_path.exists():
-                # On remplace le chemin obsolète du CI sysadmin par un @rpath générique
                 old_path = "/Users/gitlab/builds/GZwHuM5xu/0/sysadmin/craft-ci/macos-64-clang/lib/qca-qt6.framework/Versions/2/qca-qt6"
                 new_path = "@rpath/qca-qt6.framework/Versions/2/qca-qt6"
                 utils.system(["install_name_tool", "-change", old_path, new_path, str(ksecretd_path)], ignoreSuccess=True)
