@@ -1,6 +1,6 @@
+import info
 import subprocess
 
-import info
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 
@@ -60,22 +60,25 @@ class Package(CraftPackageObject.get("kde").pattern):
             ".csv",
         ]
         self.defines["website"] = "https://skrooge.org/"
+        # self.defines["icon"] = self.blueprintDir() / "skrooge.ico"
 
         if CraftCore.compiler.isMacOS:
             old_path = "/Users/gitlab/builds/GZwHuM5xu/0/sysadmin/craft-ci/macos-64-clang/lib/qca-qt6.framework/Versions/2/qca-qt6"
             new_path = "@rpath/qca-qt6.framework/Versions/2/qca-qt6"
 
-            candidate_paths = [
-                self.imageDir() / "bin" / "ksecretd",
-                CraftCore.standardDirs.craftRoot() / "bin" / "ksecretd",
-                self.archiveDir() / "Applications/KDE/skrooge.app/Contents/MacOS/ksecretd",
+            search_dirs = [
+                self.buildDir(),
+                self.imageDir(),
+                CraftCore.standardDirs.craftRoot(),
             ]
 
-            for ksecretd_path in candidate_paths:
-                if ksecretd_path.exists():
-                    subprocess.run(
-                        ["install_name_tool", "-change", old_path, new_path, str(ksecretd_path)],
-                        check=False,
-                    )
+            for search_dir in search_dirs:
+                if search_dir.exists():
+                    for ksecretd_path in search_dir.rglob("ksecretd"):
+                        if ksecretd_path.is_file():
+                            subprocess.run(
+                                ["install_name_tool", "-change", old_path, new_path, str(ksecretd_path)],
+                                check=False,
+                            )
 
         return super().createPackage()
