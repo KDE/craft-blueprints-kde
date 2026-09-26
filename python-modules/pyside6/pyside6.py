@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2025 Stefan Gerlach <stefan.gerlach@uni.kn>
 
+import glob
+import shutil
+
 import info
 import utils
 from CraftCore import CraftCore
@@ -49,7 +52,7 @@ class Package(PipPackageBase):
         with utils.ScopedEnv(env):
             if CraftCore.compiler.isMacOS:
                 return utils.system(
-                    f"SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py build --verbose-build --macos-use-libc++ --disable-pyi --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
+                    "SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py build --verbose-build --macos-use-libc++ --disable-pyi --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
                     cwd=sourceDir
                 )
             else:
@@ -65,8 +68,6 @@ class Package(PipPackageBase):
 
     def install(self):
         """Install PySide6 without rebuilding."""
-        import shutil
-        import glob
         sourceDir = self.sourceDir()
         imageDir = self.imageDir()
         env = {}
