@@ -1,0 +1,29 @@
+--- Comment: Skip building PySide6 plugins (Designer/UiTools)
+--- Why: Designer plugin requires python311.lib but only python3.lib exists in limited API builds
+---      Linking fails because Python headers hardcode #pragma comment(lib, "python311")
+---      This is a Windows-specific issue with no clean workaround
+--- Effect: Designer/UiTools plugins won't be available in the PySide6 installation
+diff -ruN a/sources/pyside6/CMakeLists.txt b/sources/pyside6/CMakeLists.txt
+--- a/sources/pyside6/CMakeLists.txt	2026-09-25 00:00:00
++++ b/sources/pyside6/CMakeLists.txt	2026-09-25 00:00:00
+@@ -44,12 +44,12 @@
+             FILE PySide6Targets.cmake)
+ endif()
+
+-if(Qt${QT_MAJOR_VERSION}UiTools_FOUND)
+-    add_subdirectory(plugins/uitools)
+-    find_package(Qt6 COMPONENTS Designer)
+-    # PYSIDE-535: Enable when PyPy supports embedding
+-    if (Qt${QT_MAJOR_VERSION}Designer_FOUND AND NOT PYPY_VERSION)
+-        add_subdirectory(plugins/designer)
+-    endif()
+-endif()
++#if(Qt${QT_MAJOR_VERSION}UiTools_FOUND)
++#    add_subdirectory(plugins/uitools)
++#    find_package(Qt6 COMPONENTS Designer)
++#    # PYSIDE-535: Enable when PyPy supports embedding
++#    if (Qt${QT_MAJOR_VERSION}Designer_FOUND AND NOT PYPY_VERSION)
++#        add_subdirectory(plugins/designer)
++#    endif()
++#endif()
+

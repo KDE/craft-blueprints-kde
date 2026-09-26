@@ -1,0 +1,28 @@
+--- Comment: Skip copying Designer plugin if it wasn't built
+--- Why: Plugin build is disabled by skip-plugins.patch but installer unconditionally tries to copy
+---      Without this check, install fails with "directory not found" error
+--- Effect: Designer plugin copy step is skipped when directory doesn't exist
+diff -ruN a/build_scripts/platforms/windows_desktop.py b/build_scripts/platforms/windows_desktop.py
+--- a/build_scripts/platforms/windows_desktop.py	2026-09-26 00:00:00
++++ b/build_scripts/platforms/windows_desktop.py	2026-09-26 00:00:00
+@@ -385,10 +385,14 @@
+                 file_filter_function=plugin_dll_filter,
+                 _vars=_vars)
+         if not is_pypy:
+-            copydir("{install_dir}/plugins/designer",
+-                    f"{plugins_target}/designer",
+-                    _filter=["*.dll"],
+-                    recursive=False,
+-                    _vars=_vars)
++            designer_plugin_dir = Path(_vars["install_dir"]) / "plugins" / "designer"
++            if designer_plugin_dir.exists():
++                copydir("{install_dir}/plugins/designer",
++                        f"{plugins_target}/designer",
++                        _filter=["*.dll"],
++                        recursive=False,
++                        _vars=_vars)
++            else:
++                log.info("Skipping designer plugin copy (not built)")
+
+     if copy_translations:
+

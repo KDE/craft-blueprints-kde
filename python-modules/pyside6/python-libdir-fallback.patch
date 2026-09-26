@@ -1,0 +1,88 @@
+diff -ruN a/build_scripts/build_info_collector.py b/build_scripts/build_info_collector.py
+--- a/build_scripts/build_info_collector.py	2026-09-24 23:22:41
++++ b/build_scripts/build_info_collector.py	2026-09-24 23:22:41
+@@ -51,6 +51,19 @@
+         # Since INCLUDEPY contains a path to the system location, we use the
+         # same base directory to define the py_libdir variable.
+         py_libdir = Path(py_include_dir).parent / "libs"
++        if not py_libdir.is_dir():
++            py_include_path = Path(py_include_dir)
++            for candidate in [
++                Path(py_prefix) / "libs",
++                Path(py_prefix) / "lib",
++                py_include_path.parent / "lib",
++                py_include_path.parent.parent / "libs",
++                py_include_path.parent.parent / "lib",
++            ]:
++                if candidate.is_dir():
++                    py_libdir = candidate
++                    break
++
+         if not py_libdir.is_dir():
+             raise SetupError("Failed to locate the 'libs' directory")
+     dbg_postfix = "_d" if build_type == "Debug" else ""
+@@ -64,8 +77,30 @@
+         static_lib_name = f"libpython{py_version.replace('.', '')}{dbg_postfix}.a"
+         return Path(py_libdir) / static_lib_name
+     v = py_version.replace(".", "")
+     python_lib_name = f"python{v}{dbg_postfix}.lib"
+-    return Path(py_libdir) / python_lib_name
++    python_library = Path(py_libdir) / python_lib_name
++    limited_api_library = Path(py_libdir) / f"python{sys.version_info[0]}{dbg_postfix}.lib"
++    if not python_library.is_file() and limited_api_library.is_file():
++        return limited_api_library
++    if not python_library.is_file():
++        py_include_path = Path(py_include_dir)
++        for candidate_libdir in [
++            Path(py_prefix) / "libs",
++            Path(py_prefix) / "lib",
++            Path(py_prefix).parent / "libs",
++            Path(py_prefix).parent / "lib",
++            py_include_path.parent / "lib",
++            py_include_path.parent.parent / "libs",
++            py_include_path.parent.parent / "lib",
++        ]:
++            for candidate_name in [
++                python_lib_name,
++                f"python{sys.version_info[0]}{dbg_postfix}.lib",
++            ]:
++                candidate = candidate_libdir / candidate_name
++                if candidate.is_file():
++                    return candidate
++    return python_library
+ 
+ 
+ def _get_py_library_unix(build_type, py_version, py_prefix, py_libdir,
+@@ -149,7 +186,9 @@
+             if not py_prefix or not Path(py_prefix).exists():
+                 py_prefix = sys.prefix
+-            self.py_prefix = py_prefix
+             py_prefix = Path(py_prefix)
++            if sys.platform == "win32" and py_prefix.name.lower() == "bin":
++                py_prefix = py_prefix.parent
++            self.py_prefix = py_prefix
+             if sys.platform == "win32":
+                 py_scripts_dir = py_prefix / "Scripts"
+             else:
+diff -ruN a/build_scripts/main.py b/build_scripts/main.py
+--- a/build_scripts/main.py	2026-09-25 00:00:00
++++ b/build_scripts/main.py	2026-09-25 00:00:00
+@@ -630,9 +630,19 @@
+             cmake_cmd.append(f"-DQFP_PYTHON_HOST_PATH={sys.executable}")
+         else:
+             cmake_cmd.append(f"-DPython_EXECUTABLE={self.py_executable}")
+             cmake_cmd.append(f"-DPython_INCLUDE_DIR={self.py_include_dir}")
+             cmake_cmd.append(f"-DPython_LIBRARY={self.py_library}")
++            cmake_cmd.append(f"-DPython_ROOT_DIR={self.py_prefix}")
++            cmake_cmd.append("-DPython_FIND_STRATEGY=LOCATION")
++            cmake_cmd.append("-DPython_FIND_REGISTRY=NEVER")
++            cmake_cmd.append(f"-DPython_EXECUTABLE:FILEPATH={self.py_executable}")
++            cmake_cmd.append(f"-DPython_INCLUDE_DIR:PATH={self.py_include_dir}")
++            cmake_cmd.append(f"-DPython_LIBRARY:FILEPATH={self.py_library}")
++            cmake_cmd.append(f"-DPython_LIBRARIES:FILEPATH={self.py_library}")
++            cmake_cmd.append(f"-DPython3_EXECUTABLE:FILEPATH={self.py_executable}")
++            cmake_cmd.append(f"-DPython3_INCLUDE_DIR:PATH={self.py_include_dir}")
++            cmake_cmd.append(f"-DPython3_LIBRARY:FILEPATH={self.py_library}")
+ 
+         # If a custom shiboken cmake config directory path was provided, pass it to CMake.
+         if OPTION["SHIBOKEN_CONFIG_DIR"] and config.is_internal_pyside_build():
