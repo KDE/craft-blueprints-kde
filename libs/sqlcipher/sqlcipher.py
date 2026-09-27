@@ -224,9 +224,15 @@ class PackageMSVC(MSBuildPackageBase):
             f"-I{includeDir}"
         )
 
+        extraSrc = (
+            f"{self.sourceDir()}/src/sqlcipher.c "
+            f"{self.sourceDir()}/src/crypto_openssl.c"
+        )
+
         macros = " ".join(
             [
                 f'OPTS="{opts}"',
+                f'EXTRA_SRC="{extraSrc}"',
                 "CODEC_TYPE=CODEC_TYPE_SQLCIPHER",
                 "USE_CRT_DLL=1",
                 "DYNAMIC_SHELL=1",
@@ -283,7 +289,6 @@ class PackageMSVC(MSBuildPackageBase):
             utils.copyFile(self.installDir() / "lib/libsqlcipher.lib", self.installDir() / "lib/sqlcipher.lib")
 
         return isInstalled
-
 
 if CraftCore.compiler.isGCCLike():
 
