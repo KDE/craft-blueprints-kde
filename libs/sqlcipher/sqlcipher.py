@@ -77,6 +77,7 @@ class PackageAutotools(AutoToolsPackageBase):
             ldFlags = f"-L{craftRoot}/lib -lcrypto -lm -lpthread -ldl"
 
         self.subinfo.options.configure.supportsTargetOption = False
+        self.subinfo.options.configure.supportsAutotoolsType = False
 
         self.subinfo.options.configure.noCacheFile = True
         self.subinfo.options.configure.noDataRootDir = True
