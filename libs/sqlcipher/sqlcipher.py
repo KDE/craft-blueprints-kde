@@ -56,6 +56,7 @@ class subinfo(info.infoclass):
         if CraftCore.compiler.isMinGW():
             self.buildDependencies["dev-utils/msys"] = None
 
+
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
