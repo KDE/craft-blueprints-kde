@@ -290,6 +290,7 @@ class PackageMSVC(MSBuildPackageBase):
 
         return isInstalled
 
+
 if CraftCore.compiler.isGCCLike():
 
     class Package(PackageAutotools):
