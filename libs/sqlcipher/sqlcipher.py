@@ -190,8 +190,13 @@ class PackageMSVC(MSBuildPackageBase):
         with open(fileName, "rt") as f:
             content = f.read()
 
+        content = content.replace("/NODEFAULTLIB:msvcrt", "")
+
         libDir = CraftCore.standardDirs.craftRoot() / "lib"
-        includeLibs = f"LTLIBPATHS = $(LTLIBPATHS) /LIBPATH:{libDir}\n" "LTLIBS = $(LTLIBS) libssl.lib libcrypto.lib tcl86.lib\n"
+        includeLibs = (
+            f"LTLIBPATHS = $(LTLIBPATHS) /LIBPATH:{libDir}\n"
+            "LTLIBS = $(LTLIBS) libssl.lib libcrypto.lib tcl86.lib\n"
+        )
         index = content.find("# If ICU support is enabled, add the linker options for it.")
         content = content[:index] + includeLibs + content[index:]
 
