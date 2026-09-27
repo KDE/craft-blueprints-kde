@@ -216,10 +216,14 @@ class PackageMSVC(MSBuildPackageBase):
         includeDir = CraftCore.standardDirs.craftRoot() / "include"
         libDir = CraftCore.standardDirs.craftRoot() / "lib"
         opts = "-DSQLITE_HAS_CODEC -DSQLITE_TEMP_STORE=2 -DSQLITE_EXTRA_INIT=sqlcipher_extra_init -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown " f"-I{includeDir}"
+
+        extraSrc = str(self.sourceDir() / "src" / "sqlcipher.c").replace("\\", "/")
+
         macros = " ".join(
             [
                 f'OPTS="{opts}"',
-                "USE_CRT_DLL=1",  # stops segfaulting each time in qsqlcipher-test in KMyMoney with this, but is still unstable with core application
+                f'EXTRA_SRC="{extraSrc}"',  # <-- LIGNE À AJOUTER
+                "USE_CRT_DLL=1",
                 "DYNAMIC_SHELL=1",
                 "USE_ICU=1",
                 f'ICUINCDIR="{includeDir}"',
