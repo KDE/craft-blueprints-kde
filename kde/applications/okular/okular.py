@@ -50,6 +50,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
             self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
+            self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
