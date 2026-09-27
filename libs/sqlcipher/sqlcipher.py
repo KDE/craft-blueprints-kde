@@ -208,6 +208,11 @@ class PackageMSVC(MSBuildPackageBase):
         index = content.find("# If ICU support is enabled, add the linker options for it.")
         content = content[:index] + includeLibs + content[index:]
 
+        content = content.replace(
+            "$(TCLSH_CMD) .\\tool\\mksqlite3c.tcl",
+            "$(TCLSH_CMD) .\\tool\\mksqlite3c.tcl .\\src\\sqlcipher.c"
+        )
+
         with open(fileName, "wt") as f:
             f.write(content)
         return super().configure()
