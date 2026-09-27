@@ -60,21 +60,35 @@ class subinfo(info.infoclass):
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        cFlags = "-DSQLITE_HAS_CODEC -DSQLITE_EXTRA_INIT=sqlcipher_extra_init -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown"
+        craftRoot = CraftCore.standardDirs.craftRoot()
+
+        cFlags = (
+            f"-DSQLITE_HAS_CODEC "
+            f"-DSQLITE_EXTRA_INIT=sqlcipher_extra_init "
+            f"-DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown "
+            f"-I{craftRoot}/include"
+        )
+
+        if CraftCore.compiler.isAndroid:
+            ldFlags = f"-L{craftRoot}/lib -lcrypto -lm -llog"
+        else:
+            ldFlags = f"-L{craftRoot}/lib -lcrypto -lm -lpthread -ldl"
+
         self.subinfo.options.configure.noCacheFile = True
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.configure.args += [
             "--with-tempstore=yes",
             "--dll-basename=libsqlcipher",
-            "LDFLAGS=-lcrypto",
+            f"LDFLAGS={ldFlags}",
         ]
+
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.make.supportsMultijob = False
             self.subinfo.options.configure.args += [f"CFLAGS='{cFlags}'"]
         else:
             self.subinfo.options.configure.args += [f"CFLAGS={cFlags}"]
+
         if CraftCore.compiler.isAndroid:
-            craftRoot = str(CraftCore.standardDirs.craftRoot())
             candidates = [
                 shutil.which("tclsh8.6", path=os.defpath),
                 shutil.which("tclsh", path=os.defpath),
@@ -87,15 +101,15 @@ class PackageAutotools(AutoToolsPackageBase):
             for candidate in candidates:
                 if not candidate:
                     continue
-                if candidate.startswith(craftRoot):
+                if candidate.startswith(str(craftRoot)):
                     continue
                 if os.path.exists(candidate) and os.access(candidate, os.X_OK):
                     tclsh = candidate
                     break
+
             args = [
                 "--disable-tcl",
-                f"CPPFLAGS=-I{CraftCore.standardDirs.craftRoot() / 'include'}",
-                f"LDFLAGS=-L{CraftCore.standardDirs.craftRoot() / 'lib'} -lcrypto -llog",
+                f"CPPFLAGS=-I{craftRoot / 'include'}",
             ]
             if tclsh:
                 args.append(f"TCLSH_CMD={tclsh}")
