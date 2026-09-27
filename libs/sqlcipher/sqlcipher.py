@@ -60,7 +60,7 @@ class subinfo(info.infoclass):
 class PackageAutotools(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        craftRoot = CraftCore.standardDirs.craftRoot()
+        craftRoot = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
 
         cFlags = (
             f"-DSQLITE_HAS_CODEC "
@@ -69,7 +69,9 @@ class PackageAutotools(AutoToolsPackageBase):
             f"-I{craftRoot}/include"
         )
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.isMinGW():
+            ldFlags = f"-L{craftRoot}/lib -lcrypto -lm"
+        elif CraftCore.compiler.isAndroid:
             ldFlags = f"-L{craftRoot}/lib -lcrypto -lm -llog"
         else:
             ldFlags = f"-L{craftRoot}/lib -lcrypto -lm -lpthread -ldl"
@@ -79,14 +81,12 @@ class PackageAutotools(AutoToolsPackageBase):
         self.subinfo.options.configure.args += [
             "--with-tempstore=yes",
             "--dll-basename=libsqlcipher",
+            f"CFLAGS={cFlags}",
             f"LDFLAGS={ldFlags}",
         ]
 
         if CraftCore.compiler.isMinGW():
             self.subinfo.options.make.supportsMultijob = False
-            self.subinfo.options.configure.args += [f"CFLAGS='{cFlags}'"]
-        else:
-            self.subinfo.options.configure.args += [f"CFLAGS={cFlags}"]
 
         if CraftCore.compiler.isAndroid:
             candidates = [
@@ -109,7 +109,7 @@ class PackageAutotools(AutoToolsPackageBase):
 
             args = [
                 "--disable-tcl",
-                f"CPPFLAGS=-I{craftRoot / 'include'}",
+                f"CPPFLAGS=-I{craftRoot}/include",
             ]
             if tclsh:
                 args.append(f"TCLSH_CMD={tclsh}")
