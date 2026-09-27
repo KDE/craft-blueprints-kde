@@ -224,12 +224,9 @@ class PackageMSVC(MSBuildPackageBase):
             f"-I{includeDir}"
         )
 
-        extraSrc = ".\\src\\sqlcipher.c .\\src\\crypto_openssl.c"
-
         macros = " ".join(
             [
                 f'OPTS="{opts}"',
-                f'EXTRA_SRC="{extraSrc}"',
                 "CODEC_TYPE=CODEC_TYPE_SQLCIPHER",
                 "USE_CRT_DLL=1",
                 "DYNAMIC_SHELL=1",
