@@ -208,11 +208,6 @@ class PackageMSVC(MSBuildPackageBase):
         index = content.find("# If ICU support is enabled, add the linker options for it.")
         content = content[:index] + includeLibs + content[index:]
 
-        content = content.replace(
-            "$(TCLSH_CMD) .\\tool\\mksqlite3c.tcl",
-            "$(TCLSH_CMD) .\\tool\\mksqlite3c.tcl .\\src\\sqlcipher.c"
-        )
-
         with open(fileName, "wt") as f:
             f.write(content)
         return super().configure()
@@ -225,12 +220,17 @@ class PackageMSVC(MSBuildPackageBase):
             "-DSQLITE_TEMP_STORE=2 "
             "-DSQLITE_EXTRA_INIT=sqlcipher_extra_init "
             "-DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown "
+            "-DSQLCIPHER_CRYPTO_OPENSSL "
             f"-I{includeDir}"
         )
+
+        extraSrc = ".\\src\\sqlcipher.c .\\src\\crypto_openssl.c"
 
         macros = " ".join(
             [
                 f'OPTS="{opts}"',
+                f'EXTRA_SRC="{extraSrc}"',
+                "CODEC_TYPE=CODEC_TYPE_SQLCIPHER",
                 "USE_CRT_DLL=1",
                 "DYNAMIC_SHELL=1",
                 "USE_ICU=1",
@@ -256,13 +256,13 @@ class PackageMSVC(MSBuildPackageBase):
                     utils.rmtree(self.installDir() / dst)
                     utils.moveFile(srcPath, self.installDir() / dst)
 
-            # move sqlcipher headers to sqlcipher directory to not conflit with sqlite3
+            # Move sqlcipher headers to sqlcipher directory to avoid conflicts with sqlite3
             includeDir = self.installDir() / "include"
             utils.moveFile(includeDir, self.installDir() / "sqlcipher")
             utils.createDir(includeDir)
             utils.moveFile(self.installDir() / "sqlcipher", includeDir / "sqlcipher")
 
-            # allow finding sqlcipher library by pkgconfig module
+            # Allow finding sqlcipher library via pkgconfig
             pkgConfigDir = self.installDir() / "lib/pkgconfig"
             pkgConfigFile = pkgConfigDir / "sqlcipher.pc"
             utils.createDir(pkgConfigDir)
@@ -281,7 +281,7 @@ class PackageMSVC(MSBuildPackageBase):
             with open(pkgConfigFile, "wt") as f:
                 f.write(content)
 
-            # remove a dummy library and replace it with the real one
+            # Replace dummy library with actual library
             utils.rmtree(self.installDir() / "lib/sqlcipher.lib")
             utils.copyFile(self.installDir() / "lib/libsqlcipher.lib", self.installDir() / "lib/sqlcipher.lib")
 
