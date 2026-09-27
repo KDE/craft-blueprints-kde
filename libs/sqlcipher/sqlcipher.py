@@ -118,6 +118,11 @@ class PackageAutotools(AutoToolsPackageBase):
                 args.append(f"TCLSH_CMD={tclsh}")
             self.subinfo.options.configure.args += args
 
+    @property
+    def supportsTargetOption(self):
+        """Force Craft to never pass --target to configure (SQLCipher's autosetup rejects it)."""
+        return False
+
     def configure(self):
         isConfigured = super().configure()
         if isConfigured and CraftCore.compiler.isMinGW():
