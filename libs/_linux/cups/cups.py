@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2023 Hannah von Reth <vonreth@kde.org>
 import info
 import utils
+from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Utils import CraftHash
 
@@ -41,6 +42,14 @@ class Package(AutoToolsPackageBase):
             "--with-log-file-perm=0640",
         ]
         self.subinfo.options.install.args = ["install-headers", "install-libs"]
+
+    def make(self, dummyBuildType=None):
+        env = {}
+        if CraftCore.compiler.isUnix:
+            # make it find iconv
+            env["LIBRARY_PATH"] = CraftCore.standardDirs.craftRoot() / "lib"
+        with utils.ScopedEnv(env):
+            return super().make()
 
     def install(self):
         if not super().install():
