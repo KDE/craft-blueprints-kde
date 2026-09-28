@@ -1,5 +1,4 @@
 import info
-import utils
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 from Packager.AppImagePackager import AppImagePackager
