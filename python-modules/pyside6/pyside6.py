@@ -20,13 +20,14 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-{ver}-src/pyside-setup-everywhere-src-{ver}.zip"
             self.targetInstSrc[ver] = "pyside-setup-everywhere-src-%s" % ver
 
-        self.patchToApply["6.11.2"] = [
-            ("shiboken-include-pep384impl.patch", 1),
-            ("python-libdir-fallback.patch", 1),
-            ("skip-plugins.patch", 1),
-            ("skip-designer-copy.patch", 1)
-        ]
-        self.patchLevel["6.11.2"] = 2
+        if CraftCore.compiler.isWindows:
+            self.patchToApply["6.11.2"] = [
+                ("shiboken-include-pep384impl.patch", 1),
+                ("python-libdir-fallback.patch", 1),
+                ("skip-plugins.patch", 1),
+                ("skip-designer-copy.patch", 1)
+            ]
+            self.patchLevel["6.11.2"] = 2
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
@@ -62,7 +63,7 @@ class Package(PipPackageBase):
                     ["python", "setup.py", "build",
                      "--limited-api=yes",
                      "--disable-pyi",
-                     "--skip-modules=Designer,Positioning,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,Quick,Qml,QuickControls2,QuickTest,QuickWidgets,UiTools"],
+                     "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"],
                     cwd=sourceDir
                 )
 
@@ -96,7 +97,6 @@ class Package(PipPackageBase):
                     ["python", "setup.py", "install",
                      f"--prefix={imageDir}",
                      "--skip-build",
-                     "--skip-mypy-test",
-                     "--skip-modules=Designer,Positioning,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,Quick,Qml,QuickControls2,QuickTest,QuickWidgets,UiTools"],
+                     "--skip-mypy-test"],
                     cwd=sourceDir
                 )
