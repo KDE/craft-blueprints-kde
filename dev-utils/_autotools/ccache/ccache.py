@@ -14,16 +14,18 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/ccache/ccache.git"
         self.targetInstallPath["master"] = "dev-utils"
 
-        for ver in ["4.6", "4.9", "4.12.1"]:
+        for ver in ["4.6", "4.9", "4.12.1", "4.14", "4.14.1"]:
             self.targets[ver] = f"https://github.com/ccache/ccache/releases/download/v{ver}/ccache-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"ccache-{ver}"
             self.targetInstallPath[ver] = "dev-utils"
         self.targetDigests["4.6"] = (["73a1767ac6b7c0404a1a55f761a746d338e702883c7137fbf587023062258625"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["4.9"] = (["866b2223d59333640f0e7a003cbb85b32d9ca3c9445bd9e3cf142942e69dd3ec"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["4.12.1"] = (["a3da50ab0fb0d42f60c17d1450312e6ace9b681f6221cb77c8a09a845f9d760c"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.14"] = (["fca63f36a83fb2f4b3cc4c01b2c7a1cd6e3629e7f7bd1e01a2eb8810f947c5ab"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["4.14.1"] = (["dfd2b9e446b2cf68e83e21b25317d8f868de6f1b246c7e99e04d07f4e1b0b97e"], CraftHash.HashAlgorithm.SHA256)
 
         self.webpage = "https://ccache.dev/"
-        self.defaultTarget = "4.12.1"
+        self.defaultTarget = "4.14.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
