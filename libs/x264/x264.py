@@ -9,12 +9,16 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "x264 video coding library"
         self.svnTargets["eaa68fa"] = "https://github.com/mirror/x264.git||eaa68fad9e5d201d42fde51665f2d137ae96baf0"
+        self.svnTargets["b35605a"] = "https://code.videolan.org/videolan/x264.git||b35605ace3ddf7c1a5d67a2eb553f034aef41d55"
+
         self.patchToApply["eaa68fa"] = [("shebang-fix.diff", 1)]
+        self.patchToApply["b35605a"] = [("shebang-fix.diff", 1)]
         if CraftCore.compiler.isWindows:
             # copy make file instead of creating a symlink
-            self.patchToApply["eaa68fa"] = [("fix-paths-and-symlinks-win.diff", 1)]
+            self.patchToApply["eaa68fa"] += [("eaa68fa-fix-paths-and-symlinks-win.diff", 1)]
+            self.patchToApply["b35605a"] += [("b35605a-fix-paths-and-symlinks-win.diff", 1)]
 
-        self.defaultTarget = "eaa68fa"
+        self.defaultTarget = "b35605a"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/nasm"] = None
@@ -37,6 +41,9 @@ class Package(AutoToolsPackageBase):
             CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64 or CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32
         ):
             self.subinfo.options.configure.args += ["--disable-asm"]
+
+        if CraftCore.compiler.isMSVC():
+            self.subinfo.options.make.supportsMultijob = False
 
     def configure(self):
         if self.package.isInstalled:  # this is causing rebuild every time

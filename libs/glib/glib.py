@@ -25,6 +25,7 @@ class subinfo(info.infoclass):
 
         self.defaultTarget = "2.89.0"
 
+
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["libs/python"] = None
@@ -38,6 +39,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/dbus"] = None
         self.runtimeDependencies["libs/gettext"] = None
         self.runtimeDependencies["libs/pcre2"] = None
+        self.runtimeDependencies["libs/libmount"] = None
 
 
 class Package(MesonPackageBase):

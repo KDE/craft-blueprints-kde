@@ -24,6 +24,7 @@
 
 import os
 import re
+import shutil
 
 import info
 import utils
@@ -52,7 +53,8 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/openssl"] = None
-        self.runtimeDependencies["libs/tcl"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/tcl"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/sqlite"] = None
         if CraftCore.compiler.isMinGW():
@@ -69,6 +71,37 @@ class PackageAutotools(AutoToolsPackageBase):
             self.subinfo.options.configure.args += ["CFLAGS='-DSQLITE_HAS_CODEC'"]
         else:
             self.subinfo.options.configure.args += ["CFLAGS=-DSQLITE_HAS_CODEC"]
+        if CraftCore.compiler.isAndroid:
+            # SQLCipher still runs Tcl helper tools at build time even when the
+            # Tcl extension itself is disabled, so we must use a host-side Tcl
+            # interpreter. Never accept a Craft-root Tcl binary here, because that
+            # is target-architecture output and will fail with Exec format error.
+            craftRoot = str(CraftCore.standardDirs.craftRoot())
+            candidates = [
+                shutil.which("tclsh8.6", path=os.defpath),
+                shutil.which("tclsh", path=os.defpath),
+                "/usr/bin/tclsh8.6",
+                "/bin/tclsh8.6",
+                "/usr/bin/tclsh",
+                "/bin/tclsh",
+            ]
+            tclsh = None
+            for candidate in candidates:
+                if not candidate:
+                    continue
+                if candidate.startswith(craftRoot):
+                    continue
+                if os.path.exists(candidate) and os.access(candidate, os.X_OK):
+                    tclsh = candidate
+                    break
+            args = [
+                "--disable-tcl",
+                f"CPPFLAGS=-I{CraftCore.standardDirs.craftRoot() / 'include'}",
+                f"LDFLAGS=-L{CraftCore.standardDirs.craftRoot() / 'lib'}",
+            ]
+            if tclsh:
+                args.append(f"TCLSH_CMD={tclsh}")
+            self.subinfo.options.configure.args += args
 
     def configure(self):
         isConfigured = super().configure()

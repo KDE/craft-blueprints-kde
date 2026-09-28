@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"ladspa_sdk_{ver}/src"
             self.patchToApply[ver] = [("ladspa-sdk-cmake.diff", 2), ("ladspa-sdk-1.17-msvc.diff", 2)]
         self.targetDigests["1.17"] = (["27d24f279e4b81bd17ecbdcc38e4c42991bb388826c0b200067ce0eb59d3da5b"], CraftHash.HashAlgorithm.SHA256)
-        self.patchLevel["1.17"] = 2
+        self.patchLevel["1.17"] = 3
         self.defaultTarget = "1.17"
 
     def setDependencies(self):
@@ -30,3 +30,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += ["-DBUILD_PROGRAMS=OFF"]

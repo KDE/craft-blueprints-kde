@@ -33,8 +33,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
-
-        self.runtimeDependencies["kde/pim/kmime"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/akonadi-contacts"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
@@ -45,7 +44,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/libgravatar"] = None
         self.runtimeDependencies["kde/pim/libkleo"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
-        self.runtimeDependencies["kdesupport/qca"] = None
         self.runtimeDependencies["libs/libxslt"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None

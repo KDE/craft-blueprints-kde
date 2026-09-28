@@ -1,0 +1,25 @@
+--- a/src/wscript_build
++++ b/src/wscript_build
+@@ -39,12 +39,21 @@
+ from waflib.Tools.c import cstlib
+ cstlib.inst_to = '${LIBDIR}'
+ 
++def libaubio_kwargs(target):
++    kwargs = {}
++    if ctx.env['DEST_OS'] == 'android':
++        if target == 'cshlib':
++            kwargs['linkflags'] = ['-Wl,-soname,libaubio.so']
++    else:
++        kwargs['vnum'] = ctx.env['LIB_VERSION']
++    return kwargs
++
+ for target in build_features:
+     ctx(features = 'c ' + target,
+             use = uselib + ['lib_objects'],
+             target = 'aubio',
+             export_symbols_regex=r'(?:.*aubio|fvec|lvec|cvec|fmat|new|del)_.*',
+-            vnum = ctx.env['LIB_VERSION'])
++            **libaubio_kwargs(target))
+ 
+ # install headers, except _priv.h ones
+ ctx.install_files('${INCLUDEDIR}/aubio/',

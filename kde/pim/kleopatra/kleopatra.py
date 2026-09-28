@@ -1,4 +1,5 @@
 import info
+from Blueprints.CraftVersion import CraftVersion
 from Package.CMakePackageBase import CMakePackageBase
 
 
@@ -22,10 +23,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
+        if self.buildTarget == "master" or CraftVersion(self.buildTarget) > CraftVersion("26.04.9"):
+            self.runtimeDependencies["libs/kdsingleapplication"] = None
 
         self.runtimeDependencies["kde/pim/libkleo"] = None
         self.runtimeDependencies["kde/pim/mimetreeparser"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None
         self.buildDependencies["libs/assuan2"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
 

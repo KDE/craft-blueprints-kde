@@ -1,0 +1,25 @@
+commit 6ab05f892e620d4d086d677d40bce871ba05f36b
+Author: Volker Krause <vkrause@kde.org>
+Date:   Thu Aug 13 18:59:01 2026 +0200
+
+    Add another safety check before automatically popping hidden pages
+    
+    trailingVisibleItem doesn't seem to be reliable during the transition away
+    from a dialog layer in mobile mode, so also check whether the page in
+    question is beyond the current index.
+    
+    This fixes the editor page in Itinerary getting popped when selecting
+    an element in a Kirigami Addons FormComboBoxDelegate in mobile mode.
+
+diff --git a/src/controls/PageRow.qml b/src/controls/PageRow.qml
+index ce13ac542..b8353415c 100644
+--- a/src/controls/PageRow.qml
++++ b/src/controls/PageRow.qml
+@@ -1141,6 +1141,7 @@ QT.Control {
+ 
+                         // pop every page that isn't visible and at the top of the stack
+                         while (lastItem && columnView.trailingVisibleItem &&
++                            columnView.currentIndex !== columnView.contentChildren.length - 1 &&
+                             lastItem !== columnView.trailingVisibleItem && columnView.containsItem(lastItem)) {
+                             root.pop();
+                         }

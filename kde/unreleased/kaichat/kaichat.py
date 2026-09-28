@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 by Laurent Montel <montel@kde.org>
+# SPDX-FileCopyrightText: 2025-2026 by Laurent Montel <montel@kde.org>
 # SPDX-License-Identifier: BSD-2-Clause
 
 import info
@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.displayName = "KAIChat"
         self.description = "Chat with AI"
 
-        for ver in ["0.4.0", "0.5.0", "0.5.1", "0.6.0", "0.7.0"]:
+        for ver in ["0.4.0", "0.5.0", "0.5.1", "0.6.0", "0.7.0", "0.8.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/kaichat/kaichat-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kaichat/kaichat-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"kaichat-{ver}"
@@ -36,6 +36,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kcmutils"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["libs/kdsingleapplication"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
@@ -49,6 +50,8 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         self.defines["shortcuts"] = [{"name": "KAIChat", "target": "bin/kaichat.exe", "description": self.subinfo.description, "appId": "kaichat"}]
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.defines["alias"] = "kaichat"
         self.defines["icon"] = self.blueprintDir() / "kaichat.ico"
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-kaichat.png"

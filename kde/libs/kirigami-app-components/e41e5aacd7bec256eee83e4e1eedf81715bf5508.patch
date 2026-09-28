@@ -1,0 +1,31 @@
+From e41e5aacd7bec256eee83e4e1eedf81715bf5508 Mon Sep 17 00:00:00 2001
+From: Manuel Alcaraz Zambrano <manuel@alcarazzam.dev>
+Date: Mon, 24 Aug 2026 14:42:42 +0200
+Subject: [PATCH] Return a QKeySequence if we have it
+
+Converting the QVariant to a string returns a localized version of the
+shortcut, which can't be converted back to a QKeySequence under most
+locales.
+
+(cherry picked from commit 59e1dd39a6cf43ef9b320fa22d9b91d0219092e6)
+---
+ src/actioncollection/actiondata.cpp | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/actioncollection/actiondata.cpp b/src/actioncollection/actiondata.cpp
+index 8592ec9..c9b11e5 100644
+--- a/src/actioncollection/actiondata.cpp
++++ b/src/actioncollection/actiondata.cpp
+@@ -21,6 +21,9 @@ static QKeySequence variantToKeySequence(const QVariant &var)
+     if (var.metaType().id() == QMetaType::Int) {
+         return QKeySequence(static_cast<QKeySequence::StandardKey>(var.toInt()));
+     }
++    if (var.metaType().id() == QMetaType::QKeySequence) {
++        return var.value<QKeySequence>();
++    }
+     return QKeySequence::fromString(var.toString());
+ }
+ 
+-- 
+GitLab
+

@@ -1,7 +1,50 @@
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user ladspa_sdk_1.17/src.orig/CMakeLists.txt ladspa_sdk_1.17/src/CMakeLists.txt
---- ladspa_sdk_1.17/src.orig/CMakeLists.txt	1970-01-01 00:00:00.000000000 +0000
-+++ ladspa_sdk_1.17/src/CMakeLists.txt	2024-10-12 20:38:30.987160070 +0000
-@@ -0,0 +1,50 @@
+diff --git a/src/cmake/modules/FindSndFile.cmake b/src/cmake/modules/FindSndFile.cmake
+new file mode 100644
+index 0000000..be68dd3
+--- /dev/null
++++ b/src/cmake/modules/FindSndFile.cmake
+@@ -0,0 +1,35 @@
++include(FindPackageHandleStandardArgs)
++
++find_path(SndFile_INCLUDE_DIR
++    NAMES
++      sndfile.h
++    PATH_SUFFIXES
++      include
++)
++
++find_library(SndFile_LIBRARY
++    NAMES
++      sndfile sndfile-1
++    PATH_SUFFIXES
++      lib64 lib
++)
++
++find_package_handle_standard_args(SndFile
++  REQUIRED_VARS
++    SndFile_LIBRARY
++    SndFile_INCLUDE_DIR
++)
++
++set(SndFile_LIBRARIES
++    ${SndFile_LIBRARY}
++)
++
++if(SndFile_FOUND AND NOT TARGET SndFile::SndFile)
++    add_library(SndFile::SndFile UNKNOWN IMPORTED)
++    set_target_properties(SndFile::SndFile PROPERTIES
++        IMPORTED_LOCATION "${SndFile_LIBRARY}"
++        INTERFACE_INCLUDE_DIRECTORIES "${SndFile_INCLUDE_DIR}"
++    )
++endif()
++
++mark_as_advanced(SndFile_INCLUDE_DIR SndFile_LIBRARY SndFile_LIBRARIES)
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+new file mode 100644
+index 0000000..e9545af
+--- /dev/null
++++ b/src/CMakeLists.txt
+@@ -0,0 +1,88 @@
 +cmake_minimum_required(VERSION 3.16)
 +
 +project(ladspa-sdk VERSION 1.17)
@@ -9,124 +52,84 @@ diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.
 +set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 +include(GNUInstallDirs)
 +
-+option(BUILD_PROGRAMS "Build the analyseplugin, applyplugin and listplugins executables" OFF)
-+
-+# Dl
-+find_package(Dl REQUIRED)
-+include_directories(${DL_INCLUDE_DIR})
-+link_libraries(${DL_LIBRARY})
++option(BUILD_PROGRAMS "Build the analyseplugin, applyplugin and listplugins executables" ON)
 +
 +if(BUILD_PROGRAMS)
-+    # SndFile
 +    find_package(SndFile REQUIRED)
-+    include_directories(${SNDFILE_INCLUDE_DIRS})
 +endif()
 +
-+if(NOT MSVC)
-+# m
-+link_libraries(m)
-+endif()
++set(INSTALL_PLUGINS_DIR "${CMAKE_INSTALL_LIBDIR}/ladspa")
 +
-+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
++add_compile_definitions(DEFAULT_LADSPA_PATH="/usr/lib/ladspa/")
 +
-+add_library(amp MODULE plugins/amp.c)
-+add_library(delay MODULE plugins/delay.c)
-+add_library(filter MODULE plugins/filter.c)
-+add_library(noise MODULE plugins/noise.c)
-+add_library(sine MODULE plugins/sine.cpp)
++add_library(ladspa INTERFACE)
++target_sources(ladspa PUBLIC
++  FILE_SET HEADERS
++    FILES ladspa.h
++)
++
++install(TARGETS ladspa EXPORT LadspaTargets
++  FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
++install(EXPORT LadspaTargets NAMESPACE Ladspa::
++  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ladspa
++)
++
++function(add_ladspa_plugin ARG_TARGET)
++    set(multiValueArgs SOURCES)
++    cmake_parse_arguments(ARG "" "" "${multiValueArgs}" ${ARGN})
++
++    add_library(${ARG_TARGET} MODULE ${ARG_SOURCES})
++    target_link_libraries(${ARG_TARGET} ladspa)
++    set_target_properties(${ARG_TARGET} PROPERTIES
++      C_VISIBILITY_PRESET hidden
++      CXX_VISIBILITY_PRESET hidden
++      VISIBILITY_INLINES_HIDDEN ON
++    )
++
++    if(MSVC)
++      target_link_options(${ARG_TARGET} PRIVATE
++          "/EXPORT:ladspa_descriptor"
++      )
++    elseif(NOT APPLE)
++      target_link_options(${ARG_TARGET} PRIVATE
++          "-Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/gcc_exports.map"
++      )
++    endif()
++    if(NOT MSVC)
++      target_link_libraries(${ARG_TARGET} m)
++    endif()
++
++    install(TARGETS ${ARG_TARGET} LIBRARY DESTINATION "${INSTALL_PLUGINS_DIR}")
++endfunction()
++
++function(add_ladspa_tool ARG_TARGET)
++    set(multiValueArgs SOURCES LINK_LIBRARIES)
++    cmake_parse_arguments(ARG "" "" "${multiValueArgs}" ${ARGN})
++
++    add_executable(${ARG_TARGET} ${ARG_SOURCES})
++
++    target_link_libraries(${ARG_TARGET} ladspa ${CMAKE_DL_LIBS} ${ARG_LINK_LIBRARIES})
++    if(NOT MSVC)
++      target_link_libraries(${ARG_TARGET} m)
++    endif()
++
++    set_target_properties(${ARG_TARGET} PROPERTIES
++        C_VISIBILITY_PRESET hidden
++        CXX_VISIBILITY_PRESET hidden
++        VISIBILITY_INLINES_HIDDEN ON
++    )
++
++    install(TARGETS ${ARG_TARGET} DESTINATION "${CMAKE_INSTALL_BINDIR}")
++endfunction()
++
++add_ladspa_plugin(amp SOURCES plugins/amp.c)
++add_ladspa_plugin(delay SOURCES plugins/delay.c)
++add_ladspa_plugin(filter SOURCES plugins/filter.c)
++add_ladspa_plugin(noise SOURCES plugins/noise.c)
++add_ladspa_plugin(sine SOURCES plugins/sine.cpp)
++
 +if(BUILD_PROGRAMS)
-+    add_executable (analyseplugin analyseplugin.c load.c default.c)
-+    add_executable (applyplugin applyplugin.c load.c default.c)
-+    link_libraries(applyplugin)
-+    add_executable (listplugins listplugins.c search.c)
++    add_ladspa_tool(analyseplugin SOURCES analyseplugin.c load.c default.c)
++    add_ladspa_tool(applyplugin SOURCES applyplugin.c load.c default.c LINK_LIBRARIES SndFile::SndFile)
++    add_ladspa_tool(listplugins SOURCES listplugins.c search.c)
 +endif()
-+
-+install(TARGETS amp LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/ladspa")
-+install(TARGETS delay LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/ladspa")
-+install(TARGETS filter LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/ladspa")
-+install(TARGETS noise LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/ladspa")
-+install(TARGETS sine LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/ladspa")
-+if(BUILD_PROGRAMS)
-+    install(TARGETS analyseplugin DESTINATION "${CMAKE_INSTALL_BINDIR}")
-+    install(TARGETS applyplugin DESTINATION "${CMAKE_INSTALL_BINDIR}")
-+    install(TARGETS listplugins DESTINATION "${CMAKE_INSTALL_BINDIR}")
-+endif()
-+install(FILES ladspa.h DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user ladspa_sdk_1.17/src.orig/cmake/modules/FindDl.cmake ladspa_sdk_1.17/src/cmake/modules/FindDl.cmake
---- ladspa_sdk_1.17/src.orig/cmake/modules/FindDl.cmake	1970-01-01 00:00:00.000000000 +0000
-+++ ladspa_sdk_1.17/src/cmake/modules/FindDl.cmake	2024-10-12 20:41:41.145998191 +0000
-@@ -0,0 +1,28 @@
-+# - Try to find the dl functions
-+# This will define
-+#
-+#  DL_FOUND
-+#  DL_INCLUDE_DIR
-+#  DL_LIBRARY
-+
-+
-+IF (DL_INCLUDE_DIR)
-+    SET(DL_FIND_QUIETLY TRUE)
-+ENDIF (DL_INCLUDE_DIR)
-+
-+find_path(DL_INCLUDE_DIR dlfcn.h)
-+
-+find_library(DL_LIBRARY NAMES dl)
-+
-+mark_as_advanced(DL_INCLUDE_DIR DL_LIBRARY)
-+
-+
-+if (DL_LIBRARY)
-+   set(DL_FOUND TRUE)
-+endif (DL_LIBRARY)
-+
-+   set(_CMAKE_REQUIRED_LIBRARIES_TMP ${CMAKE_REQUIRED_LIBRARIES})
-+   set(CMAKE_REQUIRED_LIBRARIES ${CMAKE_REQUIRED_LIBRARIES} ${DL_LIBRARY})
-+
-+include(FindPackageHandleStandardArgs)
-+find_package_handle_standard_args(Dl REQUIRED_VARS DL_LIBRARY DL_INCLUDE_DIR)
-diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user ladspa_sdk_1.17/src.orig/cmake/modules/FindSndFile.cmake ladspa_sdk_1.17/src/cmake/modules/FindSndFile.cmake
---- ladspa_sdk_1.17/src.orig/cmake/modules/FindSndFile.cmake	1970-01-01 00:00:00.000000000 +0000
-+++ ladspa_sdk_1.17/src/cmake/modules/FindSndFile.cmake	2024-10-12 20:40:49.850174083 +0000
-@@ -0,0 +1,42 @@
-+# - Try to find SndFile
-+# Once done this will define
-+#
-+#  SNDFILE_FOUND - system has SndFile
-+#  SNDFILE_INCLUDE_DIRS - the SndFile include directory
-+#  SNDFILE_LIBRARIES - Link these to use SndFile
-+#
-+#  SPDX-FileCopyrightText: 2006 Wengo
-+#  SPDX-FileCopyrightText: 2009 Guillaume Martres
-+#  SPDX-FileCopyrightText: 2024 Julius Künzel
-+#
-+# SPDX-License-Identifier: BSD-3-Clause
-+#
-+
-+find_path(SNDFILE_INCLUDE_DIR
-+    NAMES
-+      sndfile.h
-+    PATH_SUFFIXES
-+      include
-+)
-+
-+find_library(SNDFILE_LIBRARY
-+    NAMES
-+      sndfile sndfile-1
-+    PATH_SUFFIXES
-+      lib64 lib
-+)
-+
-+set(SNDFILE_INCLUDE_DIRS
-+    ${SNDFILE_INCLUDE_DIR}
-+)
-+set(SNDFILE_LIBRARIES
-+    ${SNDFILE_LIBRARY}
-+)
-+
-+# handle the QUIETLY and REQUIRED arguments and set SNDFILE_FOUND to TRUE if
-+# all listed variables are TRUE
-+include(FindPackageHandleStandardArgs)
-+find_package_handle_standard_args(SndFile DEFAULT_MSG SNDFILE_LIBRARY SNDFILE_INCLUDE_DIR)
-+
-+# show the SNDFILE_INCLUDE_DIRS and SNDFILE_LIBRARIES variables only in the advanced view
-+mark_as_advanced(SNDFILE_INCLUDE_DIRS SNDFILE_LIBRARIES)

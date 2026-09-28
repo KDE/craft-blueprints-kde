@@ -1,8 +1,9 @@
-# SPDX-FileCopyrightText: 2025 by Laurent Montel <montel@kde.org>
+# SPDX-FileCopyrightText: 2025-2026 by Laurent Montel <montel@kde.org>
 # SPDX-License-Identifier: BSD-2-Clause
 
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -10,7 +11,7 @@ class subinfo(info.infoclass):
         self.displayName = "Drawy"
         self.description = "Your handy, infinite, brainstorming tool!"
 
-        for ver in ["1.0.0"]:
+        for ver in ["1.0.0", "1.0.1", "1.0.2"]:
             self.targets[ver] = f"https://download.kde.org/stable/drawy/{ver}/drawy-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/drawy/{ver}/drawy-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"drawy-{ver}"
@@ -31,6 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
@@ -40,6 +42,8 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         self.defines["shortcuts"] = [{"name": "Drawy", "target": "bin/drawy.exe", "description": self.subinfo.description, "appId": "drawy"}]
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        if CraftCore.compiler.isMacOS:
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.defines["alias"] = "drawy"
         self.defines["icon"] = self.blueprintDir() / "drawy.ico"
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-drawy.png"

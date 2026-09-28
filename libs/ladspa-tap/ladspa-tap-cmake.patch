@@ -1,75 +1,94 @@
---- /dev/null	2024-01-12 16:00:00.000000000 +0100
-+++ CMakeLists.txt	2024-01-12 16:00:00.000000000 +0100
-@@ -0,0 +1,76 @@
+diff --git a/cmake/modules/FindLadspa.cmake b/cmake/modules/FindLadspa.cmake
+new file mode 100644
+index 0000000..365e740
+--- /dev/null
++++ b/cmake/modules/FindLadspa.cmake
+@@ -0,0 +1,24 @@
++include(FindPackageHandleStandardArgs)
++
++if(Ladspa_INCLUDE_DIR)
++    set(Ladspa_FIND_QUIETLY TRUE)
++endif()
++
++find_path(Ladspa_INCLUDE_DIR
++    NAMES
++      ladspa.h
++)
++
++find_package_handle_standard_args(Ladspa
++  REQUIRED_VARS
++    Ladspa_INCLUDE_DIR
++)
++
++if(LADSPA_FOUND AND NOT TARGET Ladspa::ladspa)
++    add_library(Ladspa::ladspa INTERFACE IMPORTED)
++    set_target_properties(Ladspa::ladspa PROPERTIES
++        INTERFACE_INCLUDE_DIRECTORIES "${Ladspa_INCLUDE_DIR}"
++    )
++endif()
++
++mark_as_advanced(Ladspa_INCLUDE_DIR)
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+new file mode 100644
+index 0000000..94e4053
+--- /dev/null
++++ b/CMakeLists.txt
+@@ -0,0 +1,62 @@
 +cmake_minimum_required(VERSION 3.16)
 +
 +project(ladspa-tap VERSION 1.0.1)
 +
 +include(GNUInstallDirs)
 +
-+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
++set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
++
++find_package(Ladspa REQUIRED)
++
 +add_compile_options(-Wall -fomit-frame-pointer -funroll-loops -ffast-math)
-+
-+if(NOT MSVC)
-+    # m
-+    link_libraries(m)
-+endif()
-+
-+if(NOT APPLE AND NOT WIN32)
-+    link_libraries(rt)
-+endif()
-+
-+#include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-+
-+add_library(tap_reverb MODULE tap_reverb.c tap_reverb.h tap_reverb_presets.h tap_utils.h)
-+add_library(tap_dynamics_m MODULE tap_dynamics_m.c tap_dynamics_presets.h tap_utils.h)
-+add_library(tap_dynamics_st MODULE tap_dynamics_st.c tap_dynamics_presets.h tap_utils.h)
-+
-+add_library(tap_autopan MODULE tap_autopan.c tap_utils.h)
-+add_library(tap_deesser MODULE tap_deesser.c tap_utils.h)
-+add_library(tap_echo MODULE tap_echo.c tap_utils.h)
-+add_library(tap_eq MODULE tap_eq.c tap_utils.h)
-+add_library(tap_pinknoise MODULE tap_pinknoise.c tap_utils.h)
-+add_library(tap_reflector MODULE tap_reflector.c tap_utils.h)
-+add_library(tap_rotspeak MODULE tap_rotspeak.c tap_utils.h)
-+add_library(tap_tremolo MODULE tap_tremolo.c tap_utils.h)
-+add_library(tap_vibrato MODULE tap_vibrato.c tap_utils.h)
-+add_library(tap_chorusflanger MODULE tap_chorusflanger.c tap_utils.h)
-+add_library(tap_doubler MODULE tap_doubler.c tap_utils.h)
-+add_library(tap_eqbw MODULE tap_eqbw.c tap_utils.h)
-+add_library(tap_limiter MODULE tap_limiter.c tap_utils.h)
-+add_library(tap_pitch MODULE tap_pitch.c tap_utils.h)
-+add_library(tap_sigmoid MODULE tap_sigmoid.c tap_utils.h)
-+add_library(tap_tubewarmth MODULE tap_tubewarmth.c tap_utils.h)
-+
 +
 +set(INSTALL_PLUGINS_DIR "${CMAKE_INSTALL_LIBDIR}/ladspa")
 +set(INSTALL_LRDF_DIR "${CMAKE_INSTALL_DATAROOTDIR}/ladspa/rdf")
 +
-+install(
-+    TARGETS
-+        tap_autopan
-+        tap_deesser
-+        tap_dynamics_m
-+        tap_echo
-+        tap_eq
-+        tap_pinknoise
-+        tap_reflector
-+        tap_rotspeak
-+        tap_tremolo
-+        tap_vibrato
-+        tap_chorusflanger
-+        tap_doubler
-+        tap_dynamics_st
-+        tap_eqbw
-+        tap_limiter
-+        tap_pitch
-+        tap_reverb
-+        tap_sigmoid
-+        tap_tubewarmth
-+    LIBRARY
-+    DESTINATION "${INSTALL_PLUGINS_DIR}"
-+)
++function(add_ladspa_tap_plugin ARG_TARGET)
++  # set(oneValueArgs TEST_NAME NAME_PREFIX TEST_NAME_VAR WORKING_DIRECTORY)
++  set(multiValueArgs EXTRA_HEADERS)
++  cmake_parse_arguments(ARG "" "" "${multiValueArgs}" ${ARGN})
++
++  add_library(${ARG_TARGET} MODULE ${ARG_TARGET}.c tap_utils.h ${ARG_EXTRA_HEADERS})
++  target_link_libraries(${ARG_TARGET} Ladspa::ladspa)
++
++  if(MSVC)
++    target_link_options(${ARG_TARGET} PRIVATE "/EXPORT:ladspa_descriptor")
++  else()
++    target_link_libraries(${ARG_TARGET} m)
++  endif()
++
++  if(NOT APPLE AND NOT WIN32)
++    target_link_libraries(${ARG_TARGET} rt)
++  endif()
++
++  install(TARGETS ${ARG_TARGET} LIBRARY DESTINATION "${INSTALL_PLUGINS_DIR}")
++endfunction()
++
++add_ladspa_tap_plugin(tap_reverb EXTRA_HEADERS tap_reverb.h tap_reverb_presets.h)
++add_ladspa_tap_plugin(tap_dynamics_m EXTRA_HEADERS tap_dynamics_presets.h)
++add_ladspa_tap_plugin(tap_dynamics_st EXTRA_HEADERS tap_dynamics_presets.h)
++add_ladspa_tap_plugin(tap_autopan)
++add_ladspa_tap_plugin(tap_deesser)
++add_ladspa_tap_plugin(tap_echo)
++add_ladspa_tap_plugin(tap_eq MODULE)
++add_ladspa_tap_plugin(tap_pinknoise)
++add_ladspa_tap_plugin(tap_reflector)
++add_ladspa_tap_plugin(tap_rotspeak)
++add_ladspa_tap_plugin(tap_tremolo)
++add_ladspa_tap_plugin(tap_vibrato)
++add_ladspa_tap_plugin(tap_chorusflanger)
++add_ladspa_tap_plugin(tap_doubler)
++add_ladspa_tap_plugin(tap_eqbw)
++add_ladspa_tap_plugin(tap_limiter)
++add_ladspa_tap_plugin(tap_pitch)
++add_ladspa_tap_plugin(tap_sigmoid)
++add_ladspa_tap_plugin(tap_tubewarmth)
 +
 +install(
 +    FILES
@@ -77,4 +96,3 @@
 +        tap_reverb.rdf
 +    DESTINATION "${INSTALL_LRDF_DIR}"
 +)
-

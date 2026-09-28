@@ -1,4 +1,5 @@
 import info
+import utils
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 from Packager.AppImagePackager import AppImagePackager
@@ -20,6 +21,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtimageformats"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtnetworkauth"] = None
+        if CraftCore.compiler.isLinux:
+            self.runtimeDependencies["libs/dbus"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -71,7 +74,7 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DUSE_DBUS=OFF", f"-DFETCH_OTIO={CraftCore.compiler.isMacOS.asOnOff}"]
+        self.subinfo.options.configure.args += [f"-DFETCH_OTIO={CraftCore.compiler.isMacOS.asOnOff}", f"-DUSE_DBUS={CraftCore.compiler.isLinux.asOnOff}"]
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += ["-DRELEASE_BUILD=OFF"]
 
@@ -95,11 +98,27 @@ class Package(CraftPackageObject.get("kde").pattern):
             ]
         return defines
 
+    def preArchive(self):
+        if CraftCore.compiler.isMacOS:
+            # Copy entitlements file to package directory for signmacapp.py
+            entitlementsSource = self.sourceDir() / "kdenlive.entitlements"
+            if entitlementsSource.exists():
+                defines = self.setDefaults(self.defines)
+                appPath = self.getMacAppPath(defines)
+                entitlementsDest = appPath.parent / "kdenlive.entitlements"
+                utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
+                CraftCore.log.info(f"Copied entitlements next to .app: {entitlementsDest}")
+            else:
+                CraftCore.log.warning(f"Entitlements source not found at: {entitlementsSource}")
+
+        return super().preArchive()
+
     def createPackage(self):
         if not CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "exclude.list")
         else:
             self.blacklist_file.append(self.blueprintDir() / "exclude_macos.list")
+
         self.addExecutableFilter(r"bin/(?!(ff|kdenlive|kioworker|melt|update-mime-database|snoretoast|drmingw|data/kdenlive)).*")
         self.ignoredPackages.append("libs/llvm")
         self.ignoredPackages.append("data/hunspell-dictionaries")

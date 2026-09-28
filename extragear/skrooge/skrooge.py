@@ -1,5 +1,8 @@
+import subprocess
+
 import info
-from Package.CMakePackageBase import CMakePackageBase
+from Blueprints.CraftPackageObject import CraftPackageObject
+from CraftCore import CraftCore
 
 
 class subinfo(info.infoclass):
@@ -12,24 +15,27 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
-        self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt6/qtsvg"] = None
-        self.runtimeDependencies["libs/qt6/qtwebengine"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
-        self.runtimeDependencies["kdesupport/qca"] = None
+        self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["libs/sqlcipher"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
+        if not CraftCore.compiler.isAndroid:
+            self.runtimeDependencies["libs/qt6/qtwebengine"] = None
+            self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
+            self.runtimeDependencies["libs/qt6/qtsvg"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kconfigwidgets"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
+        else:
+            self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+            self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
 
 
-class Package(CMakePackageBase):
+class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # self.subinfo.options.configure.args = "-DSKG_WEBENGINE=ON"
@@ -37,8 +43,42 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["executable"] = "bin\\skrooge.exe"  # Windows-only, mac is handled implicitly
         self.defines["icon"] = self.blueprintDir() / "skrooge.ico"
-        self.defines["file_types"] = [".skg", ".kmy", ".mny", ".gnucash", ".gsb", ".xhb", ".mmb", ".afb120", ".mt940", ".iif", ".ofx", ".qfx", ".qif", ".csv"]
+        self.defines["file_types"] = [
+            ".skg",
+            ".kmy",
+            ".mny",
+            ".gnucash",
+            ".gsb",
+            ".xhb",
+            ".mmb",
+            ".afb120",
+            ".mt940",
+            ".iif",
+            ".ofx",
+            ".qfx",
+            ".qif",
+            ".csv",
+        ]
         self.defines["website"] = "https://skrooge.org/"
         # self.defines["icon"] = self.blueprintDir() / "skrooge.ico"
+
+        if CraftCore.compiler.isMacOS:
+            old_path = "/Users/gitlab/builds/GZwHuM5xu/0/sysadmin/craft-ci/macos-64-clang/lib/qca-qt6.framework/Versions/2/qca-qt6"
+            new_path = "@rpath/qca-qt6.framework/Versions/2/qca-qt6"
+
+            search_dirs = [
+                self.buildDir(),
+                self.imageDir(),
+                CraftCore.standardDirs.craftRoot(),
+            ]
+
+            for search_dir in search_dirs:
+                if search_dir.exists():
+                    for ksecretd_path in search_dir.rglob("ksecretd"):
+                        if ksecretd_path.is_file():
+                            subprocess.run(
+                                ["install_name_tool", "-change", old_path, new_path, str(ksecretd_path)],
+                                check=False,
+                            )
 
         return super().createPackage()

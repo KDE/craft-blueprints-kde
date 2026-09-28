@@ -15,14 +15,14 @@ class subinfo(info.infoclass):
         self.displayName = "Haruna"
         self.description = "Media player built with Qt/QML, KDE Frameworks and libmpv"
         self.svnTargets["master"] = "https://invent.kde.org/multimedia/haruna.git"
-        self.defaultTarget = "1.7.1"
+        self.defaultTarget = "1.8.1"
 
-        for ver in ["1.7.1"]:
+        for ver in ["1.8.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/haruna/{ver}/haruna-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"haruna-{ver}"
             self.archiveNames[ver] = f"haruna-{ver}.tar.gz"
 
-        self.targetDigests["1.7.1"] = (["b29a717151b9d65f5abd736a3a774282d3014e281c8b89f2b79cc021042406e2"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.8.1"] = (["01f154e3161292da606899c3017f863362e00bb2402a2796be5e8d6849fc4b4b"], CraftHash.HashAlgorithm.SHA256)
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/dbus"] = None
         self.runtimeDependencies["libs/qt6/qt5compat"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
-        self.runtimeDependencies["kde/unreleased/mpvqt"] = None
+        self.runtimeDependencies["kde/libs/mpvqt"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
@@ -61,5 +61,9 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["file_types"] = [".mkv", ".mp4", ".ogm", ".avi"]
 
         self.ignoredPackages.append("binary/mysql")
+        self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
+        self.addExecutableFilter(r"(bin)/(?!(haruna)\.exe$).*")
+        if not CraftCore.compiler.isLinux:
+            self.ignoredPackages.append("libs/dbus")
 
         return super().createPackage()

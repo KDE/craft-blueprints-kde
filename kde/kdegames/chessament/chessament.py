@@ -10,6 +10,7 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "Chessament"
         self.description = "Chess tournament manager"
+        self.webpage = "https://apps.kde.org/chessament/"
 
         self.versionInfo.setDefaultValues(
             gitUrl="https://invent.kde.org/games/chessament.git"
@@ -22,7 +23,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
-        self.runtimeDependencies["libs/qt/qtnetworkauth"] = None
 
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
@@ -34,11 +34,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
+        self.runtimeDependencies["kde/libs/kirigami-app-components"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
 
         self.runtimeDependencies["qt-libs/qcoro"] = None
-        self.runtimeDependencies["qt-libs/qtkeychain"] = None
 
         self.runtimeDependencies["libs/bbppairings"] = None
 
@@ -47,16 +47,23 @@ class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        self.subinfo.options.configure.args += ["-DBUILD_DOCS=OFF"]
+
     def createPackage(self):
         self.defines["shortcuts"] = [
             {
                 "name": "Chessament",
                 "target": "bin/chessament.exe",
                 "appId": "chessament",
-                "icon": self.buildDir() / "src/CHESSAMENT_ICON.ico",
+                "description": self.subinfo.description,
             }
         ]
-        self.defines["icon"] = self.buildDir() / "src/CHESSAMENT_ICON.ico"
+
+        self.defines["icon"] = self.buildDir() / "src/chessament.ico"
+        self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-chessament.png"
+        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-chessament.png"
+
+        self.defines["file_types"] = [".chessament"]
 
         self.addExecutableFilter(
             r"(bin|libexec)/(?!(chessament|bbpPairings|update-mime-database|snoretoast)).*"

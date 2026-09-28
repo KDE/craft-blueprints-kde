@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2025 Hannah von Reth <vonreth@kde.org>
 
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
 
@@ -32,7 +33,7 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += [
-            "-DBUILD_PROGRAMS=ON",
+            f"-DBUILD_PROGRAMS={CraftCore.compiler.isAndroid.inverted.asOnOff}",
             "-DBUILD_EXAMPLES=OFF",
             "-DBUILD_TESTING=OFF",
             "-DBUILD_DOCS=OFF",

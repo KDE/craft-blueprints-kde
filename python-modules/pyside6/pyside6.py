@@ -10,19 +10,22 @@ from Package.PipPackageBase import PipPackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Python Qt bindings project"
-        self.defaultTarget = "6.10.3"
+        self.defaultTarget = "6.11.2"
 
-        for ver in ["6.10.1", "6.10.3", "6.11.0"]:
+        for ver in ["6.10.1", "6.10.3", "6.11.0", "6.11.2"]:
             self.targets[ver] = f"https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-{ver}-src/pyside-setup-everywhere-src-{ver}.zip"
             self.targetInstSrc[ver] = "pyside-setup-everywhere-src-%s" % ver
+
+        self.patchToApply["6.11.2"] = [("shiboken-include-pep384impl.patch", 1)]
+        self.patchLevel["6.11.2"] = 1
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
         self.buildDependencies["python-modules/packaging"] = None
-        self.runtimeDependencies["libs/qt6"] = None
+        self.runtimeDependencies["libs/qt6/qtbase"] = None
+        self.runtimeDependencies["libs/qt6/qtremoteobjects"] = None
         # required by shiboken6
-        if CraftCore.compiler.isMacOS:
-            self.buildDependencies["libs/llvm"] = None
+        self.buildDependencies["libs/llvm"] = None
 
 
 class Package(PipPackageBase):
@@ -34,7 +37,7 @@ class Package(PipPackageBase):
         sourceDir = self.sourceDir()
         imageDir = self.imageDir()
         # see https://doc.qt.io/qtforpython-6/building_from_source/index.html
-        # options: --build-type=pyside6 (only pysde6), --macos-use-libc++, --macos-sysroot=, --shiboken-extra-include-paths=,  --standalone, --verbose
+        # options: --build-type=pyside6 (only pyside6), --macos-use-libc++, --macos-sysroot=, --shiboken-extra-include-paths=,  --standalone, --verbose
         # macOS: SDKROOT required to find type_traits and skip failing WebEngineCore and dependencies
         if CraftCore.compiler.isMacOS:
             return utils.system(
@@ -43,6 +46,6 @@ class Package(PipPackageBase):
             )
         else:
             return utils.system(
-                ["python", "setup.py", "install", f"--prefix={imageDir}", "--verbose-build", "--disable-pyi", "--skip-mypy-test"],
+                ["python", "setup.py", "install", f"--prefix={imageDir}", "--verbose-build", "--disable-pyi", "--skip-mypy-test", "--skip-modules=Positioning,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,Quick,QuickControls2,QuickTest,QuickWidgets,Qml,UiTools"],
                 cwd=sourceDir
             )

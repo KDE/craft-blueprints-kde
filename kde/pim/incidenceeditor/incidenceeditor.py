@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcodecs"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
         self.runtimeDependencies["kde/pim/kldap"] = None

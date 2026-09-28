@@ -73,7 +73,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
-        self.runtimeDependencies["kde/frameworks/tier1/sonnet"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
@@ -83,7 +82,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if not CraftCore.compiler.isMacOS:
@@ -96,7 +94,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/readstat"] = None
         if self.buildTarget == "master" or self.buildTarget > CraftVersion("2.10.1"):
             self.runtimeDependencies["libs/eigen3"] = None
-            self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
+            # optional dep, but needs more ressources
+            # self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         # needed by packager
         self.runtimeDependencies["libs/brotli"] = None
         self.runtimeDependencies["libs/boost"] = None
@@ -106,8 +105,8 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
             self.buildDependencies["python-modules/build"] = None
         if not CraftCore.compiler.isWindows:
-            self.runtimeDependencies["libs/python"] = None
             self.runtimeDependencies["python-modules/pyside6"] = None
+        #    self.runtimeDependencies["libs/python"] = None
 
 
 class Package(CMakePackageBase):
@@ -159,7 +158,6 @@ class Package(CMakePackageBase):
             return super().install()
 
     def createPackage(self):
-        print("createPackage()")
         self.defines["appname"] = "LabPlot"
         # org.kde.labplot.desktop for AppImage
         self.defines["desktopFile"] = "labplot"
@@ -242,11 +240,9 @@ class Package(CMakePackageBase):
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
-        print("createPackage() DONE")
         return super().createPackage()
 
     def preArchive(self):
-        print("preArchive()")
         archiveDir = self.archiveDir()
         print("preArchive(), archive dir:", archiveDir)
 
@@ -255,6 +251,16 @@ class Package(CMakePackageBase):
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
             print("preArchive(), app path:", appPath)
+
+            # Copy entitlements next to .app for signing
+            entitlementsSource = self.sourceDir() / "labplot.entitlements"
+            if entitlementsSource.exists():
+                entitlementsDest = appPath.parent / "labplot.entitlements"
+                utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
+                CraftCore.log.info(f"Copied entitlements next to .app: {entitlementsDest}")
+            else:
+                CraftCore.log.warning(f"Entitlements source not found at: {entitlementsSource}")
+
             # if not utils.copyFile(
             #    archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
             #    appPath / "Contents/MacOS",
@@ -281,10 +287,11 @@ class Package(CMakePackageBase):
             shibokenLocation = os.path.join(pythonSitePackageLocations[0], "shiboken6")
             print("preArchive(), PySide/shiboken craftRoot lib location:", pysideLocation, shibokenLocation)
 
-            # copy dylibs
-            utils.copyFile(os.path.join(pysideLocation, "libpyside6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.10.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(pysideLocation, "libpyside6qml.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.10.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(shibokenLocation, "libshiboken6.abi3.6.10.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.10.dylib"), linkOnly=False)
+            # copy complete site-packages fails signing
+            # copy dylibs only
+            utils.copyFile(os.path.join(pysideLocation, "libpyside6.abi3.6.11.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.11.dylib"), linkOnly=False)
+            utils.copyFile(os.path.join(pysideLocation, "libpyside6qml.abi3.6.11.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.11.dylib"), linkOnly=False)
+            utils.copyFile(os.path.join(shibokenLocation, "libshiboken6.abi3.6.11.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.11.dylib"), linkOnly=False)
 
             pythonFrameworksPackages = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
             pysidePath = os.path.join(pythonFrameworksPackages, "PySide6")
@@ -298,15 +305,8 @@ class Package(CMakePackageBase):
             os.makedirs(shibokenPath, exist_ok=True)
             utils.copyFile(os.path.join(shibokenLocation, "Shiboken.abi3.so"), shibokenPath, linkOnly=False)
 
-            # copy complete site-packages (fails signing)
-            # sitePackageDirs = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
-            # sitePackageDest = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
-            # print("preArchive(), site-packages locations:", sitePackageDirs)
-            # print("preArchive(), site-packages destinations:", sitePackageDest)
-            # utils.createDir(sitePackageDest)
-            # for pkg in ["PySide6", "shiboken6"]:
-            #    utils.copyDir(sitePackageDirs[0], sitePackageDest)
-
+            utils.copyFile(os.path.join(pysideLocation, "__init__.py"), pysidePath, linkOnly=False)
+            utils.copyFile(os.path.join(shibokenLocation, "__init__.py"), shibokenPath, linkOnly=False)
             # fix falsely picked up system Python lib
             # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
             # utils.system(

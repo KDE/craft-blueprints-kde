@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["kde/frameworks/tier1/karchive"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
         self.runtimeDependencies["kde/pim/kpkpass"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kcalendarcore"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcontacts"] = None

@@ -12,16 +12,16 @@ from CraftCore import CraftCore
 class subinfo(info.infoclass):
     def setTargets(self):
         self.versionInfo.setDefaultValues()
-        self.patchToApply["6.23.0"] = [("breeze-icons-6.23.0-symlink-fix.diff", 1)]
-        self.patchLevel["6.23.0"] = 1
-        self.patchToApply["6.24.0"] = [("breeze-icons-6.23.0-symlink-fix.diff", 1)]
-        self.patchLevel["6.24.0"] = 1
-        self.patchToApply["6.25.0"] = [("breeze-icons-6.23.0-symlink-fix.diff", 1)]
-        self.patchLevel["6.25.0"] = 1
         self.patchToApply["6.26.0"] = [("breeze-icons-6.23.0-symlink-fix.diff", 1)]
         self.patchLevel["6.26.0"] = 1
         self.patchToApply["6.27.0"] = [("breeze-icons-6.23.0-symlink-fix.diff", 1)]
         self.patchLevel["6.27.0"] = 1
+        self.patchToApply["6.28.0"] = [("breeze-icons-6.23.0-symlink-fix.diff", 1)]
+        self.patchLevel["6.28.0"] = 1
+        self.patchToApply["6.29.0"] = [("breeze-icons-6.23.0-symlink-fix.diff", 1)]
+        self.patchLevel["6.29.0"] = 1
+        self.patchToApply["6.30.0"] = [("breeze-icons-6.23.0-symlink-fix.diff", 1)]
+        self.patchLevel["6.30.0"] = 1
 
         self.description = "Breeze icon theme."
 

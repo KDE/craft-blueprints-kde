@@ -20,8 +20,8 @@ class subinfo(info.infoclass):
         # The git.hq.sig7.se seems to have blocked requests from Hetzner servers (which KDE uses) on a provider level for some reason.
         # Hence we use the mirror maintained by LMMS
         self.svnTargets["8564022"] = "https://github.com/LMMS/tap-plugins.git||85640223047d49a305e90ba1b92303eb066ba474"
-        self.patchToApply["8564022"] = ("ladspa-tap-cmake.patch", 0)
-        self.patchLevel["8564022"] = 2
+        self.patchToApply["8564022"] = [("ladspa-tap-cmake.patch", 1)]
+        self.patchLevel["8564022"] = 3
 
         self.defaultTarget = "8564022"
 

@@ -28,8 +28,7 @@ class subinfo(info.infoclass):
 
         self.runtimeDependencies["kde/pim/akonadi"] = None
         self.runtimeDependencies["kde/pim/akonadi-mime"] = None
-        self.runtimeDependencies["kde/pim/kmime"] = None
-
+        self.runtimeDependencies["kde/frameworks/tier2/kmime"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
 
         self.runtimeDependencies["libs/xapian-core"] = None

@@ -1,0 +1,220 @@
+From 3fd07f91098a5f02010dce8f7905a42fab4f1a2c Mon Sep 17 00:00:00 2001
+From: Jean-Baptiste Mardelle <jb@kdenlive.org>
+Date: Tue, 25 Aug 2026 15:20:53 +0200
+Subject: [PATCH 1/3] Always check that we don't pass a nullptr to CFRelease
+ CCBUG: #521270
+
+---
+ .../devices/backends/iokit/iokitdevice.cpp    | 21 +++++++++++++------
+ .../devices/backends/iokit/iokitmanager.cpp   |  8 +++++--
+ .../backends/iokit/iokitopticaldrive.cpp      |  8 +++++--
+ .../backends/iokit/iokitstorageaccess.cpp     |  4 +++-
+ 4 files changed, 30 insertions(+), 11 deletions(-)
+
+diff --git a/src/solid/devices/backends/iokit/iokitdevice.cpp b/src/solid/devices/backends/iokit/iokitdevice.cpp
+index fd14478b..eac860ee 100644
+--- a/src/solid/devices/backends/iokit/iokitdevice.cpp
++++ b/src/solid/devices/backends/iokit/iokitdevice.cpp
+@@ -91,8 +91,9 @@ static QMap<QString, QVariant> getProperties(const io_registry_entry_t &entry)
+     }
+ 
+     QMap<QString, QVariant> result = q_toVariantMap(propertyDict);
+-
+-    CFRelease(propertyDict);
++    if (propertyDict) {
++      CFRelease(propertyDict);
++    }
+ 
+     io_name_t className;
+     IOObjectGetClass(entry, className);
+@@ -113,7 +114,9 @@ static QString getParentDeviceUdi(const io_registry_entry_t &entry)
+ 
+     CFStringRef path = IORegistryEntryCopyPath(parent, kIOServicePlane);
+     QString result = QString::fromCFString(path);
+-    CFRelease(path);
++    if (path) {
++      CFRelease(path);
++    }
+ 
+     // now we can release the parent
+     IOObjectRelease(parent);
+@@ -197,7 +200,9 @@ IOKitDevice::IOKitDevice(const QString &udi)
+ 
+     CFStringRef path = udi.toCFString();
+     io_registry_entry_t entry = IORegistryEntryCopyFromPath(kIOMasterPortDefault, path);
+-    CFRelease(path);
++    if (path) {
++      CFRelease(path);
++    }
+ 
+     if (entry == MACH_PORT_NULL) {
+         qWarning() << Q_FUNC_INFO << "Tried to create Device from invalid UDI" << udi;
+@@ -217,7 +222,9 @@ IOKitDevice::IOKitDevice(const IOKitDevice &device)
+ 
+     CFStringRef path = device.udi().toCFString();
+     io_registry_entry_t entry = IORegistryEntryCopyFromPath(kIOMasterPortDefault, path);
+-    CFRelease(path);
++    if (path) {
++      CFRelease(path);
++    }
+ 
+     if (entry == MACH_PORT_NULL) {
+         qWarning() << Q_FUNC_INFO << "Tried to create Device from invalid UDI" << device.udi();
+@@ -238,7 +245,9 @@ bool IOKitDevice::conformsToIOKitClass(const QString &className) const
+     if (!className.isEmpty()) {
+         CFStringRef path = udi().toCFString();
+         io_registry_entry_t entry = IORegistryEntryCopyFromPath(kIOMasterPortDefault, path);
+-        CFRelease(path);
++        if (path) {
++          CFRelease(path);
++        }
+         if (entry != MACH_PORT_NULL) {
+             conforms = IOObjectConformsTo(entry, className.toLocal8Bit().constData());
+             IOObjectRelease(entry);
+diff --git a/src/solid/devices/backends/iokit/iokitmanager.cpp b/src/solid/devices/backends/iokit/iokitmanager.cpp
+index 51253ca5..c0a84fdb 100644
+--- a/src/solid/devices/backends/iokit/iokitmanager.cpp
++++ b/src/solid/devices/backends/iokit/iokitmanager.cpp
+@@ -47,7 +47,9 @@ QStringList IOKitManagerPrivate::devicesFromRegistry(io_iterator_t it)
+     while ((obj = IOIteratorNext(it))) {
+         CFStringRef pathRef = IORegistryEntryCopyPath(obj, kIOServicePlane);
+         const QString path = QString::fromCFString(pathRef);
+-        CFRelease(pathRef);
++        if (pathRef) {
++          CFRelease(pathRef);
++        }
+ 
+         if (path.isEmpty()) {
+             qWarning() << Q_FUNC_INFO << "IORegistryEntryCopyPath failed";
+@@ -207,7 +209,9 @@ std::unique_ptr<QObject> IOKitManager::createDevice(const QString &udi)
+ {
+     CFStringRef path = udi.toCFString();
+     io_registry_entry_t entry = IORegistryEntryCopyFromPath(kIOMasterPortDefault, path);
+-    CFRelease(path);
++    if (path) {
++      CFRelease(path);
++    }
+ 
+     // we have to do IOObjectConformsTo - comparing the class names is not good enough
+     // if (IOObjectConformsTo(entry, kIOEthernetInterfaceClass)) {
+diff --git a/src/solid/devices/backends/iokit/iokitopticaldrive.cpp b/src/solid/devices/backends/iokit/iokitopticaldrive.cpp
+index bf2a814c..a630190f 100644
+--- a/src/solid/devices/backends/iokit/iokitopticaldrive.cpp
++++ b/src/solid/devices/backends/iokit/iokitopticaldrive.cpp
+@@ -76,7 +76,9 @@ public:
+             CFStringRef status = DADissenterGetStatusString(dissenter);
+             if (status) {
+                 qWarning() << "Warning while ejecting" << daContext->device->property("BSD Name").toString() << ":" << QString::fromCFString(status);
+-                CFRelease(status);
++                if (status) {
++                  CFRelease(status);
++                }
+             }
+         }
+ 
+@@ -144,7 +146,9 @@ public:
+             CFRunLoopRemoveSource(daContext.runloop, daContext.cancel_signal, kCFRunLoopDefaultMode);
+             DASessionSetDispatchQueue(daContext.session, 0);
+             DASessionUnscheduleFromRunLoop(daContext.session, daContext.runloop, kCFRunLoopDefaultMode);
+-            CFRelease(description);
++            if (description) {
++              CFRelease(description);
++            }
+         } else {
+             qWarning() << Q_FUNC_INFO << "failed to fetch DiskArbitration description for" << devName;
+         }
+diff --git a/src/solid/devices/backends/iokit/iokitstorageaccess.cpp b/src/solid/devices/backends/iokit/iokitstorageaccess.cpp
+index d2e573be..e0b007da 100644
+--- a/src/solid/devices/backends/iokit/iokitstorageaccess.cpp
++++ b/src/solid/devices/backends/iokit/iokitstorageaccess.cpp
+@@ -44,7 +44,9 @@ QString IOKitStorageAccess::filePath() const
+     if (const CFURLRef urlRef = daDict->cfUrLRefForKey(kDADiskDescriptionVolumePathKey)) {
+         const CFStringRef mpRef = CFURLCopyFileSystemPath(urlRef, kCFURLPOSIXPathStyle);
+         mountPoint = QString::fromCFString(mpRef);
+-        CFRelease(mpRef);
++        if (mpRef) {
++          CFRelease(mpRef);
++        }
+         m_device->setProperty("mountPoint", QVariant(mountPoint));
+         bool isMounted = !mountPoint.isEmpty();
+         const QString isMountedKey = QStringLiteral("isMounted");
+-- 
+GitLab
+
+
+From a586ea8e7c11a12c86af1a7f3f0e568194230462 Mon Sep 17 00:00:00 2001
+From: Jean-Baptiste Mardelle <jb@kdenlive.org>
+Date: Tue, 25 Aug 2026 17:29:29 +0200
+Subject: [PATCH 2/3] Remove useless checks
+
+---
+ src/solid/devices/backends/iokit/iokitopticaldrive.cpp | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/src/solid/devices/backends/iokit/iokitopticaldrive.cpp b/src/solid/devices/backends/iokit/iokitopticaldrive.cpp
+index a630190f..bf2a814c 100644
+--- a/src/solid/devices/backends/iokit/iokitopticaldrive.cpp
++++ b/src/solid/devices/backends/iokit/iokitopticaldrive.cpp
+@@ -76,9 +76,7 @@ public:
+             CFStringRef status = DADissenterGetStatusString(dissenter);
+             if (status) {
+                 qWarning() << "Warning while ejecting" << daContext->device->property("BSD Name").toString() << ":" << QString::fromCFString(status);
+-                if (status) {
+-                  CFRelease(status);
+-                }
++                CFRelease(status);
+             }
+         }
+ 
+@@ -146,9 +144,7 @@ public:
+             CFRunLoopRemoveSource(daContext.runloop, daContext.cancel_signal, kCFRunLoopDefaultMode);
+             DASessionSetDispatchQueue(daContext.session, 0);
+             DASessionUnscheduleFromRunLoop(daContext.session, daContext.runloop, kCFRunLoopDefaultMode);
+-            if (description) {
+-              CFRelease(description);
+-            }
++            CFRelease(description);
+         } else {
+             qWarning() << Q_FUNC_INFO << "failed to fetch DiskArbitration description for" << devName;
+         }
+-- 
+GitLab
+
+
+From 4523c1eb22c1b32896c24a2a75c54a5aa74e5c92 Mon Sep 17 00:00:00 2001
+From: Jean-Baptiste Mardelle <jb@kdenlive.org>
+Date: Wed, 26 Aug 2026 05:37:12 +0200
+Subject: [PATCH 3/3] Simplify logic
+
+---
+ src/solid/devices/backends/iokit/iokitdevice.cpp | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/src/solid/devices/backends/iokit/iokitdevice.cpp b/src/solid/devices/backends/iokit/iokitdevice.cpp
+index eac860ee..2c8ed1f0 100644
+--- a/src/solid/devices/backends/iokit/iokitdevice.cpp
++++ b/src/solid/devices/backends/iokit/iokitdevice.cpp
+@@ -86,14 +86,15 @@ static QMap<QString, QVariant> getProperties(const io_registry_entry_t &entry)
+ {
+     CFMutableDictionaryRef propertyDict = 0;
+ 
+-    if (IORegistryEntryCreateCFProperties(entry, &propertyDict, kCFAllocatorDefault, kNilOptions) != KERN_SUCCESS) {
+-        return QMap<QString, QVariant>();
++    if (IORegistryEntryCreateCFProperties(entry, &propertyDict,
++                                          kCFAllocatorDefault,
++                                          kNilOptions) != KERN_SUCCESS ||
++        propertyDict == nullptr) {
++      return QMap<QString, QVariant>();
+     }
+ 
+     QMap<QString, QVariant> result = q_toVariantMap(propertyDict);
+-    if (propertyDict) {
+-      CFRelease(propertyDict);
+-    }
++    CFRelease(propertyDict);
+ 
+     io_name_t className;
+     IOObjectGetClass(entry, className);
+-- 
+GitLab
+

@@ -6,9 +6,6 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMSVC() else CraftCore.compiler.Platforms.All
-
     def setTargets(self):
         self.description = "The Computer Music Toolkit LADSPA plugin collection"
         self.webpage = "http://ladspa.org/"
@@ -16,8 +13,12 @@ class subinfo(info.infoclass):
             # self.targets[ver] = f"http://www.ladspa.org/download/cmt_{ver}.tgz"
             self.targets[ver] = f"https://files.kde.org/craft/sources/libs/ladspa-cmt/cmt_{ver}.tgz"
             self.targetInstSrc[ver] = f"cmt_{ver}/src"
-            self.patchToApply[ver] = ("ladspa-cmt-cmake.patch", 0)
+            self.patchToApply[ver] = [("ladspa-cmt-cmake.patch", 1)]
+
         self.targetDigests["1.18"] = (["a82f8636de1f4ada386a199a017a9cd775a49b49e716b11e8dd3f723c93df6ca"], CraftHash.HashAlgorithm.SHA256)
+
+        self.patchLevel["1.18"] = 2
+
         self.defaultTarget = "1.18"
 
     def setDependencies(self):
@@ -27,7 +28,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DCMAKE_POLICY_VERSION_MINIMUM=3.5"]
 
     def install(self):
         if not super().install():

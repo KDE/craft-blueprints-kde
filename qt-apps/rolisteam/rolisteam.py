@@ -1,11 +1,17 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: 2025 Renaud Guezennec <renaud@rolisteam.org>
 import info
+import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
+from Utils.Arguments import Arguments
 
 
 class subinfo(info.infoclass):
+
+    def registerOptions(self):
+        self.options.dynamic.setDefault("buildType", "Release")
+
     def setTargets(self):
         self.displayName = "Rolisteam"
         self.description = "Rolisteam is a virtual tableTop for role playing games."
@@ -33,6 +39,15 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.fetch.checkoutSubmodules = True
+
+    def make(self):
+        self.enterBuildDir()
+        command = Arguments.formatCommand(
+            [self.makeProgram, "BuildTranslations"], []
+        )
+        utils.system(command)
+        super().configure()
+        return super().make()
 
     def createPackage(self):
         self.defines["appname"] = "rolisteam"

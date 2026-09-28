@@ -18,14 +18,13 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = "mlt-" + ver
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
-        self.patchLevel["953b09a"] = 1
 
-        self.svnTargets["953b09a"] = "https://github.com/mltframework/mlt.git||953b09a1bd625bb6c4053e15f116b7031151ca99"
-        self.defaultTarget = "953b09a"
+        self.svnTargets["0f8244a"] = "https://github.com/mltframework/mlt.git||0f8244a125872544fb34b88125ee18a88b4d0b85"
+        self.defaultTarget = "0f8244a"
 
-        self.patchToApply["953b09a"] = []
+        self.patchToApply["0f8244a"] = []
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["953b09a"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["0f8244a"] += [("revert-mingw-mysy2.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
@@ -111,6 +110,7 @@ class Package(CMakePackageBase):
             "-DMOD_QT=OFF",
             "-DMOD_QT6=ON",
             f"-DMOD_RESAMPLE={self.subinfo.options.isActive('libs/libsamplerate').asOnOff}",
+            "-DMOD_RNNOISE=OFF",
             f"-DMOD_RTAUDIO={CraftCore.compiler.isAndroid.inverted.asOnOff}",
             f"-DMOD_RUBBERBAND={self.subinfo.options.isActive('libs/rubberband').asOnOff}",
             # We don't support SDL 1 anymore, we have SDL 2

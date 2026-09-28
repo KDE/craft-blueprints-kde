@@ -9,7 +9,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
-        self.buildDependencies["libs/qt6/qt5compat"] = None
 
     def setTargets(self):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/phonon.git"
@@ -19,6 +18,9 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"phonon-{ver}"
         self.description = "a Qt based multimedia framework"
         self.defaultTarget = "4.12.0"
+
+        self.patchToApply["4.12.0"] = [("qt5compat-port.diff", 1)]
+        self.patchLevel["4.12.0"] = 1
 
 
 class Package(CMakePackageBase):

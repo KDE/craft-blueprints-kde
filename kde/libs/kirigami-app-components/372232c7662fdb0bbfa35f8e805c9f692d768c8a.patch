@@ -1,0 +1,180 @@
+From 372232c7662fdb0bbfa35f8e805c9f692d768c8a Mon Sep 17 00:00:00 2001
+From: Marco Martin <notmart@gmail.com>
+Date: Tue, 25 Aug 2026 12:07:25 +0200
+Subject: [PATCH] Use "kirigami-app-components" for translation domains
+
+the translation was kirigami-app-components, using
+kirigami-actioncollection was completely non working
+---
+ .../qml/ActionCollectionManager.qml              |  8 ++++----
+ src/actioncollection/qml/KeySequenceItem.qml     | 16 ++++++++--------
+ src/actioncollection/qml/ShortcutsEditor.qml     | 14 +++++++-------
+ 3 files changed, 19 insertions(+), 19 deletions(-)
+
+diff --git a/src/actioncollection/qml/ActionCollectionManager.qml b/src/actioncollection/qml/ActionCollectionManager.qml
+index f6a3760..0d86b9d 100644
+--- a/src/actioncollection/qml/ActionCollectionManager.qml
++++ b/src/actioncollection/qml/ActionCollectionManager.qml
+@@ -40,7 +40,7 @@ Item {
+ 
+     KI18nContext {
+         id: _tr
+-        translationDomain: "kirigami-actioncollection"
++        translationDomain: "kirigami-app-components"
+     }
+ 
+     AC.ActionCollection {
+@@ -49,7 +49,7 @@ Item {
+         text: CoreAddons.AboutData.displayName
+         AC.StandardActionData {
+             standardAction: AC.StandardActionData.Preferences
+-            text: _tr.i18ndc("kirigami-actioncollection", "Configure application menu entry", "Configure %1…", CoreAddons.AboutData.displayName)
++            text: _tr.i18nc("Configure application menu entry", "Configure %1…", CoreAddons.AboutData.displayName)
+         }
+         AC.StandardActionData {
+             standardAction: AC.StandardActionData.KeyBindings
+@@ -98,7 +98,7 @@ Item {
+                 }, {
+                     width: Kirigami.Units.gridUnit * 30,
+                     height: Kirigami.Units.gridUnit * 30,
+-                    title: _tr.i18ndc("kirigami-actioncollection", "@title:window", "About %1", CoreAddons.AboutData.displayName),
++                    title: _tr.i18nc("@title:window", "About %1", CoreAddons.AboutData.displayName),
+                 });
+                 openDialogWindow.Keys.escapePressed.connect(function() {
+                     openDialogWindow.closeDialog();
+@@ -118,7 +118,7 @@ Item {
+                 }, {
+                     width: Kirigami.Units.gridUnit * 30,
+                     height: Kirigami.Units.gridUnit * 30,
+-                    title: _tr.i18ndc("kirigami-actioncollection", "@title:window", "About KDE"),
++                    title: _tr.i18nc("@title:window", "About KDE"),
+                 });
+                 openDialogWindow.Keys.escapePressed.connect(function() {
+                     openDialogWindow.closeDialog();
+diff --git a/src/actioncollection/qml/KeySequenceItem.qml b/src/actioncollection/qml/KeySequenceItem.qml
+index 5e1c8c7..beb9c31 100644
+--- a/src/actioncollection/qml/KeySequenceItem.qml
++++ b/src/actioncollection/qml/KeySequenceItem.qml
+@@ -68,7 +68,7 @@ QQC.Control {
+ 
+     KI18nContext {
+         id: _tr
+-        translationDomain: "kirigami-actioncollection"
++        translationDomain: "kirigami-app-components"
+     }
+ 
+     Timer {
+@@ -112,8 +112,8 @@ QQC.Control {
+                 }
+             }
+             text: helper.keySequenceIsEmpty(root.defaultKeySequence)
+-                ? _tr.i18ndc("kirigami-actioncollection", "Default shortcut label when there is no shortcut", "Default: None")
+-                : _tr.i18ndc("kirigami-actioncollection", "Default shortcut label", "Default: %1", root.defaultKeySequence)
++                ? _tr.i18nc("Default shortcut label when there is no shortcut", "Default: None")
++                : _tr.i18nc("Default shortcut label", "Default: %1", root.defaultKeySequence)
+         }
+         QQC.RadioDelegate {
+             id: customDelegate
+@@ -168,8 +168,8 @@ QQC.Control {
+                         const keySequence = helper.currentKeySequence;
+                         const text = helper.keySequenceIsEmpty(keySequence)
+                             ? (helper.isRecording
+-                                ? _tr.i18ndc("kirigami-actioncollection", "What the user inputs now will be taken as the new shortcut", "Input")
+-                                : _tr.i18ndc("kirigami-actioncollection", "No shortcut defined", "None"))
++                                ? _tr.i18nc("What the user inputs now will be taken as the new shortcut", "Input")
++                                : _tr.i18nc("No shortcut defined", "None"))
+                             // Single ampersand gets interpreted by the button as a mnemonic
+                             // and removed; replace it with a double ampersand so that it
+                             // will be displayed by the button as a single ampersand, or
+@@ -180,7 +180,7 @@ QQC.Control {
+                         return " " + text + (helper.isRecording ? " ... " : " ");
+                     }
+ 
+-                    Accessible.description: _tr.i18nd("kirigami-actioncollection", "Click on the button, then enter the shortcut like you would in the program.\nExample for Ctrl+A: hold the Ctrl key and press A.")
++                    Accessible.description: _tr.i18nd("kirigami-app-components", "Click on the button, then enter the shortcut like you would in the program.\nExample for Ctrl+A: hold the Ctrl key and press A.")
+ 
+                     QQC.ToolTip.visible: hovered
+                     QQC.ToolTip.text: Accessible.description
+@@ -221,7 +221,7 @@ QQC.Control {
+                     icon.name: Application.layoutDirection === Qt.LeftToRight ? "edit-clear-locationbar-rtl" : "edit-clear-locationbar-ltr"
+ 
+                     display: QQC.Button.IconOnly
+-                    text: _tr.i18ndc("kirigami-actioncollection", "@info:tooltip", "Clear Key Sequence")
++                    text: _tr.i18nc("@info:tooltip", "Clear Key Sequence")
+ 
+                     QQC.ToolTip.visible: hovered
+                     QQC.ToolTip.text: text
+@@ -237,7 +237,7 @@ QQC.Control {
+                     icon.name: "dialog-cancel"
+ 
+                     display: QQC.Button.IconOnly
+-                    text: _tr.i18ndc("kirigami-actioncollection", "@info:tooltip", "Cancel Key Sequence Recording")
++                    text: _tr.i18nc("@info:tooltip", "Cancel Key Sequence Recording")
+ 
+                     QQC.ToolTip.visible: hovered
+                     QQC.ToolTip.text: Accessible.name
+diff --git a/src/actioncollection/qml/ShortcutsEditor.qml b/src/actioncollection/qml/ShortcutsEditor.qml
+index 229fa4a..84c3d1b 100644
+--- a/src/actioncollection/qml/ShortcutsEditor.qml
++++ b/src/actioncollection/qml/ShortcutsEditor.qml
+@@ -16,18 +16,18 @@ Kirigami.ScrollablePage {
+ 
+     property alias model: actionModel
+ 
+-    title: _tr.i18ndc("kirigami-actioncollection", "@title:window", "Shortcuts")
++    title: _tr.i18nc("@title:window", "Shortcuts")
+ 
+     actions: Kirigami.Action {
+         displayComponent: Kirigami.SearchField {
+-            placeholderText: _tr.i18ndc("kirigami-actioncollection", "@label:textbox", "Filter…")
++            placeholderText: _tr.i18nc("@label:textbox", "Filter…")
+             onTextChanged: searchFilterProxyModel.setFilterFixedString(text);
+         }
+     }
+ 
+     KI18nContext {
+         id: _tr
+-        translationDomain: "kirigami-actioncollection"
++        translationDomain: "kirigami-app-components"
+     }
+ 
+     ListView {
+@@ -103,7 +103,7 @@ Kirigami.ScrollablePage {
+             }
+ 
+             onClicked: {
+-                shortcutDialog.title = _tr.i18ndc("kirigami-actioncollection", "@title:window", "Shortcut: %1",  shortcutDelegate.text);
++                shortcutDialog.title = _tr.i18nc("@title:window", "Shortcut: %1",  shortcutDelegate.text);
+                 shortcutDialog.actionDescription = model.actionDescription;
+                 shortcutDialog.keySequence = model.shortcut;
+                 shortcutDialog.alternateKeySequence = model.alternateShortcut;
+@@ -137,7 +137,7 @@ Kirigami.ScrollablePage {
+ 
+                     defaultKeySequence: shortcutDialog.actionDescription?.defaultShortcut ?? ""
+ 
+-                    label: _tr.i18ndc("kirigami-actioncollection", "@label", "Shortcut:")
++                    label: _tr.i18nc("@label", "Shortcut:")
+                     onKeySequenceModified: {
+                         print("SETTING", keySequence)
+                         shortcutDialog.shortcutDelegate.model.shortcut = keySequence;
+@@ -163,7 +163,7 @@ Kirigami.ScrollablePage {
+ 
+                     defaultKeySequence: shortcutDialog.actionDescription?.defaultAlternateShortcut ?? ""
+ 
+-                    label: _tr.i18ndc("kirigami-actioncollection", "@label", "Alternative:")
++                    label: _tr.i18nc("@label", "Alternative:")
+ 
+                     onKeySequenceModified: {
+                         shortcutDialog.shortcutDelegate.model.alternateShortcut = keySequence;
+@@ -230,7 +230,7 @@ Kirigami.ScrollablePage {
+         Kirigami.PlaceholderMessage {
+             width: parent.width - Kirigami.Units.gridUnit * 4
+             anchors.centerIn: parent
+-            text: _tr.i18ndc("kirigami-actioncollection", "Placeholder message", "No shortcuts found")
++            text: _tr.i18nc("Placeholder message", "No shortcuts found")
+             visible: listView.count === 0
+         }
+     }
+-- 
+GitLab
+
