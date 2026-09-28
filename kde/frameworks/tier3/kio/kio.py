@@ -37,6 +37,9 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isAndroid and not CraftCore.compiler.isWindows and not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
 
+        self.patchToApply["6.30.0"] = [("c13ace9a9d0f2b0a2d5776f083cfdec62b6df756.patch", 1)]
+        self.patchLevel["6.30.0"] = 1
+
 
 class Package(CraftPackageObject.get("kde/frameworks").pattern):
     def __init__(self, **kwargs):
