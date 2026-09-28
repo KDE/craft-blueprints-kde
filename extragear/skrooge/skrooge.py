@@ -1,5 +1,6 @@
+import subprocess
+
 import info
-import utils
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 
@@ -42,19 +43,42 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         self.defines["executable"] = "bin\\skrooge.exe"  # Windows-only, mac is handled implicitly
         self.defines["icon"] = self.blueprintDir() / "skrooge.ico"
-        self.defines["file_types"] = [".skg", ".kmy", ".mny", ".gnucash", ".gsb", ".xhb", ".mmb", ".afb120", ".mt940", ".iif", ".ofx", ".qfx", ".qif", ".csv"]
+        self.defines["file_types"] = [
+            ".skg",
+            ".kmy",
+            ".mny",
+            ".gnucash",
+            ".gsb",
+            ".xhb",
+            ".mmb",
+            ".afb120",
+            ".mt940",
+            ".iif",
+            ".ofx",
+            ".qfx",
+            ".qif",
+            ".csv",
+        ]
         self.defines["website"] = "https://skrooge.org/"
         # self.defines["icon"] = self.blueprintDir() / "skrooge.ico"
 
-        # Correctif macOS : Réparation du chemin durci de qca-qt6 issu des binaires pré-compilés du CI
         if CraftCore.compiler.isMacOS:
-            ksecretd_path = self.imageDir() / "bin" / "ksecretd"
-            if not ksecretd_path.exists():
-                ksecretd_path = CraftCore.standardDirs.craftRoot() / "bin" / "ksecretd"
+            old_path = "/Users/gitlab/builds/GZwHuM5xu/0/sysadmin/craft-ci/macos-64-clang/lib/qca-qt6.framework/Versions/2/qca-qt6"
+            new_path = "@rpath/qca-qt6.framework/Versions/2/qca-qt6"
 
-            if ksecretd_path.exists():
-                old_path = "/Users/gitlab/builds/GZwHuM5xu/0/sysadmin/craft-ci/macos-64-clang/lib/qca-qt6.framework/Versions/2/qca-qt6"
-                new_path = "@rpath/qca-qt6.framework/Versions/2/qca-qt6"
-                utils.system(["install_name_tool", "-change", old_path, new_path, str(ksecretd_path)], ignoreMaxExitCode=True)
+            search_dirs = [
+                self.buildDir(),
+                self.imageDir(),
+                CraftCore.standardDirs.craftRoot(),
+            ]
+
+            for search_dir in search_dirs:
+                if search_dir.exists():
+                    for ksecretd_path in search_dir.rglob("ksecretd"):
+                        if ksecretd_path.is_file():
+                            subprocess.run(
+                                ["install_name_tool", "-change", old_path, new_path, str(ksecretd_path)],
+                                check=False,
+                            )
 
         return super().createPackage()
