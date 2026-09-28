@@ -91,12 +91,12 @@ class Package(PipPackageBase):
                     cwd=sourceDir
                 )
             else:
-                # --skip-build: prevents setup.py from rebuilding (which would recreate qml dir)
+                # disabled (prevents installation of header,typesystem, etc.): --skip-build: prevents setup.py from rebuilding (which would recreate qml dir)
                 # --skip-modules: must match make() to prevent module mismatch errors
                 return utils.system(
                     ["python", "setup.py", "install",
                      f"--prefix={imageDir}",
-                     "--skip-build",
-                     "--skip-mypy-test"],
+                     "--skip-mypy-test",
+                     "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"],
                     cwd=sourceDir
                 )
