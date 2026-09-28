@@ -98,21 +98,6 @@ class Package(CraftPackageObject.get("kde").pattern):
             ]
         return defines
 
-    def preArchive(self):
-        if CraftCore.compiler.isMacOS:
-            # Copy entitlements file to package directory for signmacapp.py
-            entitlementsSource = self.sourceDir() / "kdenlive.entitlements"
-            if entitlementsSource.exists():
-                defines = self.setDefaults(self.defines)
-                appPath = self.getMacAppPath(defines)
-                entitlementsDest = appPath.parent / "kdenlive.entitlements"
-                utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
-                CraftCore.log.info(f"Copied entitlements next to .app: {entitlementsDest}")
-            else:
-                CraftCore.log.warning(f"Entitlements source not found at: {entitlementsSource}")
-
-        return super().preArchive()
-
     def createPackage(self):
         if not CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "exclude.list")
