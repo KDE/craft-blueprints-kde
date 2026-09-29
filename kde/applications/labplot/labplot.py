@@ -100,13 +100,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/brotli"] = None
         self.runtimeDependencies["libs/boost"] = None
         self.runtimeDependencies["libs/ixion"] = None
+        self.runtimeDependencies["python-modules/pyside6"] = None
         if CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
             self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
             self.buildDependencies["python-modules/build"] = None
-        if not CraftCore.compiler.isWindows:
-            self.runtimeDependencies["python-modules/pyside6"] = None
-        #    self.runtimeDependencies["libs/python"] = None
 
 
 class Package(CMakePackageBase):
