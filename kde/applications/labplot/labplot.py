@@ -7,7 +7,6 @@ import subprocess
 
 import info
 import utils
-import shiboken6_generator
 from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
@@ -149,6 +148,7 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isWindows:
             # Find shiboken6 via Python site-packages, don't depend of a fixed and unknown path.
             try:
+                import shiboken6_generator
                 shiboken_dir = os.path.dirname(shiboken6_generator.__file__)
                 shiboken_exe = os.path.join(shiboken_dir, "shiboken6.exe")
                 CraftCore.log.info(f"Found shiboken6 at: {shiboken_exe}")
