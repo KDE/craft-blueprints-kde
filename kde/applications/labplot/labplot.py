@@ -7,6 +7,7 @@ import subprocess
 
 import info
 import utils
+import shiboken6_generator
 from Blueprints.CraftVersion import CraftVersion
 from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
@@ -146,17 +147,14 @@ class Package(CMakePackageBase):
     def configure(self):
         # Diagnostic: Check if shiboken6 is working before configure
         if CraftCore.compiler.isWindows:
-            import sys
             # Find shiboken6 via Python site-packages, don't depend of a fixed and unknown path.
             try:
-                import shiboken6_generator
                 shiboken_dir = os.path.dirname(shiboken6_generator.__file__)
                 shiboken_exe = os.path.join(shiboken_dir, "shiboken6.exe")
                 CraftCore.log.info(f"Found shiboken6 at: {shiboken_exe}")
 
                 # Test if it can run
-                result = subprocess.run([shiboken_exe, "--version"],
-                                      capture_output=True, text=True, timeout=5)
+                result = subprocess.run([shiboken_exe, "--version"], capture_output=True, text=True, timeout=5)
                 CraftCore.log.info(f"shiboken6 exit code: {result.returncode}")
                 if result.stdout:
                     CraftCore.log.info(f"shiboken6 stdout: {result.stdout}")
