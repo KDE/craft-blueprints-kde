@@ -22,7 +22,11 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
+import os
+import plistlib
+
 import info
+import utils
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Packager.AppImagePackager import AppImagePackager
@@ -33,7 +37,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.description = "A personal finance manager for KDE"
         self.displayName = "KMyMoney"
-        self.defaultTarget = "5.2"
+        self.defaultTarget = "master"
 
     def setDependencies(self):
         if CraftCore.compiler.isWindows:
@@ -97,6 +101,46 @@ class Package(CMakePackageBase):
         if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
             with open(self.installDir() / "bin/gpgconf.ctl", "wt") as f:
                 f.write("rootdir=${APPDIR}/usr")
+
+        if CraftCore.compiler.isMacOS:
+            imageDir = self.imageDir()
+            craftRoot = CraftCore.standardDirs.craftRoot()
+            appContents = imageDir / "Applications/KDE/kmymoney.app/Contents"
+
+            if appContents.exists():
+                # Bridges and data collection for functional macOS bundle
+                for folder, target in [("lib", "Frameworks"), ("share", "Resources")]:
+                    link = appContents / folder
+                    if link.exists() or link.is_symlink():
+                        utils.deleteFile(link)
+                    os.symlink(target, link)
+
+                resDir = appContents / "Resources"
+                utils.createDir(resDir)
+                for data in ["gwenhywfar", "aqbanking"]:
+                    dest = resDir / data
+                    if dest.exists():
+                        utils.rmtree(dest)
+                    utils.copyDir(craftRoot / "share" / data, dest)
+
+                infoPlistPath = appContents / "Info.plist"
+                if infoPlistPath.exists():
+                    with open(infoPlistPath, "rb") as f:
+                        plistData = plistlib.load(f)
+
+                    plistData["LSEnvironment"] = {
+                        "GWEN_PLUGIN_DIR": "@executable_path/../Frameworks/gwenhywfar",
+                        "AQBANKING_PLUGIN_DIR": "@executable_path/../Frameworks/aqbanking",
+                        "GWEN_DATA_HOME": "@executable_path/../Resources"
+                    }
+
+                    with open(infoPlistPath, "wb") as f:
+                        plistlib.dump(plistData, f)
+
+            craftLib = imageDir / "lib"
+            utils.copyDir(craftRoot / "lib/gwenhywfar", craftLib / "gwenhywfar")
+            utils.copyDir(craftRoot / "lib/aqbanking", craftLib / "aqbanking")
+
         return True
 
     def createPackage(self):
@@ -118,6 +162,10 @@ class Package(CMakePackageBase):
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(kmymoney|update-mime-database|kioworker|kdeinit5|QtWebEngineProcess)).*")
+
+        if CraftCore.compiler.isMacOS:
+            self.addExecutableFilter(r"(bin|libexec)/(?!(.*/)*(ksecretd|kbanking)).*")
+
         self.ignoredPackages.append("binary/mysql")
 
         return super().createPackage()
