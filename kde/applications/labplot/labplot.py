@@ -144,6 +144,22 @@ class Package(CMakePackageBase):
         return env
 
     def configure(self):
+        # Diagnostic: Check if shiboken6 is working before configure
+        if CraftCore.compiler.isWindows:
+            shiboken_exe = CraftCore.standardDirs.craftRoot() / "lib/site-packages/shiboken6_generator/shiboken6.exe"
+            CraftCore.log.info(f"Testing shiboken6 at: {shiboken_exe}")
+            if shiboken_exe.exists():
+                try:
+                    result = utils.system([str(shiboken_exe), "--version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    if result:
+                        CraftCore.log.info("shiboken6 --version succeeded")
+                    else:
+                        CraftCore.log.warning("shiboken6 --version failed")
+                except Exception as e:
+                    CraftCore.log.error(f"shiboken6 test failed: {e}")
+            else:
+                CraftCore.log.error(f"shiboken6.exe not found at {shiboken_exe}")
+
         with utils.ScopedEnv(self._getEnv()):
             return super().configure()
 
