@@ -155,11 +155,18 @@ class Package(CMakePackageBase):
 
                 # Test if it can run
                 result = subprocess.run([shiboken_exe, "--version"], capture_output=True, text=True, timeout=5)
-                CraftCore.log.info(f"shiboken6 exit code: {result.returncode}")
+                CraftCore.log.info(f"shiboken6 exit code: {result.returncode} (0x{result.returncode & 0xFFFFFFFF:08X})")
                 if result.stdout:
                     CraftCore.log.info(f"shiboken6 stdout: {result.stdout}")
                 if result.stderr:
                     CraftCore.log.info(f"shiboken6 stderr: {result.stderr}")
+
+                if result.returncode != 0:
+                    # 0xC0000135: a dependent DLL is missing, 0xC0000139: found but an imported symbol is not exported
+                    for dll in ("libclang.dll", "Qt6Core.dll"):
+                        bundled = os.path.exists(os.path.join(shiboken_dir, dll))
+                        inPath = subprocess.run(["where", dll], capture_output=True, text=True, shell=True).stdout.strip()
+                        CraftCore.log.error(f"{dll}: next to shiboken6={bundled}, in PATH={inPath or 'not found'}")
             except ImportError:
                 CraftCore.log.error("shiboken6_generator module not found in Python")
             except subprocess.TimeoutExpired:

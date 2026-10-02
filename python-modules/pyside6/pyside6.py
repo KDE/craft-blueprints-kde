@@ -27,15 +27,15 @@ class subinfo(info.infoclass):
                 ("skip-plugins.patch", 1),
                 ("skip-designer-copy.patch", 1)
             ]
-            self.patchLevel["6.11.2"] = 2
+            self.patchLevel["6.11.2"] = 3
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
         self.buildDependencies["python-modules/packaging"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtremoteobjects"] = None
-        # required by shiboken6
-        self.buildDependencies["libs/llvm"] = None
+        # shiboken6 loads libclang on every generator run, not only while building pyside6
+        self.runtimeDependencies["libs/llvm"] = None
 
 
 class Package(PipPackageBase):
