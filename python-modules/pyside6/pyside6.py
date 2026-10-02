@@ -27,15 +27,15 @@ class subinfo(info.infoclass):
                 ("skip-plugins.patch", 1),
                 ("skip-designer-copy.patch", 1)
             ]
-            self.patchLevel["6.11.2"] = 3
+            self.patchLevel["6.11.2"] = 4
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
         self.buildDependencies["python-modules/packaging"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtremoteobjects"] = None
-        # shiboken6 loads libclang on every generator run, not only while building pyside6
-        self.runtimeDependencies["libs/llvm"] = None
+        # required by shiboken6, its libclang is bundled into the package by _bundleLibclang()
+        self.buildDependencies["libs/llvm"] = None
 
 
 class Package(PipPackageBase):
@@ -67,6 +67,17 @@ class Package(PipPackageBase):
                     cwd=sourceDir
                 )
 
+    # dev-utils/bin/libclang.dll precedes bin/ in PATH, so ship the libclang shiboken6 was linked against next to it
+    def _bundleLibclang(self):
+        if not CraftCore.compiler.isWindows:
+            return True
+        libclang = CraftStandardDirs.craftRoot() / "bin/libclang.dll"
+        target = self.imageDir() / "lib/site-packages/shiboken6_generator"
+        if not libclang.exists() or not target.is_dir():
+            CraftCore.log.error(f"cannot bundle libclang: {libclang} exists={libclang.exists()}, {target} exists={target.is_dir()}")
+            return False
+        return utils.copyFile(libclang, target / "libclang.dll", linkOnly=False)
+
     def install(self):
         """Install PySide6 without rebuilding."""
         sourceDir = self.sourceDir()
@@ -93,10 +104,12 @@ class Package(PipPackageBase):
             else:
                 # disabled (prevents installation of header,typesystem, etc.): --skip-build: prevents setup.py from rebuilding (which would recreate qml dir)
                 # --skip-modules: must match make() to prevent module mismatch errors
-                return utils.system(
+                if not utils.system(
                     ["python", "setup.py", "install",
                      f"--prefix={imageDir}",
                      "--skip-mypy-test",
                      "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"],
                     cwd=sourceDir
-                )
+                ):
+                    return False
+                return self._bundleLibclang()
