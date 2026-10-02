@@ -143,41 +143,58 @@ class Package(CMakePackageBase):
         env["PYTHONPATH"] = CraftCore.standardDirs.craftRoot() / "lib/python3.11/site-packages"
         return env
 
+    # Craft only reports the raw exit code when shiboken6 fails to start, so resolve the loader error here
+    def _diagnoseShiboken(self):
+        craftRoot = CraftCore.standardDirs.craftRoot()
+        candidates = glob.glob(str(craftRoot / "lib/site-packages/shiboken6_generator/shiboken6.exe"))
+        if not candidates:
+            candidates = glob.glob(str(craftRoot / "**/shiboken6.exe"), recursive=True)
+        if not candidates:
+            CraftCore.log.error(f"shiboken6.exe not found below {craftRoot}")
+            return
+
+        shibokenExe = candidates[0]
+        shibokenDir = os.path.dirname(shibokenExe)
+        CraftCore.log.info(f"shiboken6: {shibokenExe}")
+        CraftCore.log.info(f"shiboken6 directory: {sorted(os.listdir(shibokenDir))}")
+        searchPath = [p for p in os.environ.get("PATH", "").split(os.pathsep) if any(k in p.lower() for k in ("clang", "llvm", "qt"))]
+        CraftCore.log.info(f"PATH entries providing Qt/clang: {searchPath}")
+
+        result = subprocess.run([shibokenExe, "--version"], capture_output=True, text=True, timeout=60)
+        CraftCore.log.info(f"shiboken6 --version exit code: {result.returncode} (0x{result.returncode & 0xFFFFFFFF:08X})")
+        if result.stdout.strip():
+            CraftCore.log.info(f"shiboken6 stdout: {result.stdout.strip()}")
+        if result.stderr.strip():
+            CraftCore.log.info(f"shiboken6 stderr: {result.stderr.strip()}")
+        if result.returncode == 0:
+            return
+
+        # 0xC0000135: a dependent DLL is missing, 0xC0000139: DLL found but an imported symbol is not exported
+        dependents = subprocess.run(["dumpbin", "/dependents", shibokenExe], capture_output=True, text=True, shell=True)
+        CraftCore.log.error(f"dumpbin /dependents:\n{dependents.stdout or dependents.stderr}")
+        for line in dependents.stdout.splitlines():
+            dll = line.strip()
+            if not dll.lower().endswith(".dll"):
+                continue
+            beside = os.path.exists(os.path.join(shibokenDir, dll))
+            inPath = subprocess.run(["where", dll], capture_output=True, text=True, shell=True).stdout.split()
+            CraftCore.log.error(f"{dll}: besideExe={beside}, inPath={inPath or 'not found'}")
+
+    def _checkShiboken(self):
+        if not CraftCore.compiler.isWindows:
+            return
+        try:
+            self._diagnoseShiboken()
+        except Exception as e:
+            CraftCore.log.error(f"shiboken6 diagnostic failed: {e}")
+
     def configure(self):
-        # Diagnostic: Check if shiboken6 is working before configure
-        if CraftCore.compiler.isWindows:
-            # Find shiboken6 via Python site-packages, don't depend of a fixed and unknown path.
-            try:
-                import shiboken6_generator
-                shiboken_dir = os.path.dirname(shiboken6_generator.__file__)
-                shiboken_exe = os.path.join(shiboken_dir, "shiboken6.exe")
-                CraftCore.log.info(f"Found shiboken6 at: {shiboken_exe}")
-
-                # Test if it can run
-                result = subprocess.run([shiboken_exe, "--version"], capture_output=True, text=True, timeout=5)
-                CraftCore.log.info(f"shiboken6 exit code: {result.returncode} (0x{result.returncode & 0xFFFFFFFF:08X})")
-                if result.stdout:
-                    CraftCore.log.info(f"shiboken6 stdout: {result.stdout}")
-                if result.stderr:
-                    CraftCore.log.info(f"shiboken6 stderr: {result.stderr}")
-
-                if result.returncode != 0:
-                    # 0xC0000135: a dependent DLL is missing, 0xC0000139: found but an imported symbol is not exported
-                    for dll in ("libclang.dll", "Qt6Core.dll"):
-                        bundled = os.path.exists(os.path.join(shiboken_dir, dll))
-                        inPath = subprocess.run(["where", dll], capture_output=True, text=True, shell=True).stdout.strip()
-                        CraftCore.log.error(f"{dll}: next to shiboken6={bundled}, in PATH={inPath or 'not found'}")
-            except ImportError:
-                CraftCore.log.error("shiboken6_generator module not found in Python")
-            except subprocess.TimeoutExpired:
-                CraftCore.log.error("shiboken6 --version timed out")
-            except Exception as e:
-                CraftCore.log.error(f"shiboken6 test failed: {e}")
-
+        self._checkShiboken()
         with utils.ScopedEnv(self._getEnv()):
             return super().configure()
 
     def make(self):
+        self._checkShiboken()
         with utils.ScopedEnv(self._getEnv()):
             return super().make()
 
