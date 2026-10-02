@@ -11,18 +11,12 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://invent.kde.org/libraries/kirigami-app-components.git"
 
-        for ver in ["1.0.2"]:
+        for ver in ["1.1.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/kirigami-app-components/kirigami-app-components-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kirigami-app-components/kirigami-app-components-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = "kirigami-app-components-" + ver
 
-        self.patchToApply["1.0.2"] = [
-            ("c3ccb35f56d825b3526468d1e6a1a9e59fbe82fb.patch", 1),  # Install translations
-            ("e41e5aacd7bec256eee83e4e1eedf81715bf5508.patch", 1),  # Shortcuts fix
-            ("372232c7662fdb0bbfa35f8e805c9f692d768c8a.patch", 1),  # Fix tranlations domain
-        ]
-
-        self.defaultTarget = "1.0.2"
+        self.defaultTarget = "1.1.0"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
