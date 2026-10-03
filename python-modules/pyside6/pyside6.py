@@ -52,20 +52,25 @@ class Package(PipPackageBase):
         if CraftCore.compiler.isWindows:
             lib_dir = CraftStandardDirs.craftRoot() / "lib"
             python3_lib = lib_dir / "python3.lib"
+            CraftCore.log.info(f"Checking for {python3_lib}, exists={python3_lib.exists()}")
             if python3_lib.exists():
                 # Query Craft's Python for its version (not sys.version_info which is Craft's runner)
                 python_exe = CraftStandardDirs.craftRoot() / "bin" / "python.exe"
+                CraftCore.log.info(f"Checking for {python_exe}, exists={python_exe.exists()}")
                 try:
                     result = subprocess.run(
                         [str(python_exe), "-c", "import sys; print(f'{sys.version_info.major}{sys.version_info.minor}')"],
                         capture_output=True, text=True, timeout=10
                     )
+                    CraftCore.log.info(f"Python version query: returncode={result.returncode}, stdout={result.stdout.strip()}, stderr={result.stderr.strip()}")
                     if result.returncode == 0:
                         version = result.stdout.strip()
                         pythonXY_lib = lib_dir / f"python{version}.lib"
                         if not pythonXY_lib.exists():
                             CraftCore.log.info(f"Creating {pythonXY_lib} from {python3_lib} for #pragma compatibility")
                             shutil.copy2(python3_lib, pythonXY_lib)
+                        else:
+                            CraftCore.log.info(f"{pythonXY_lib} already exists")
                 except Exception as e:
                     CraftCore.log.warning(f"Could not determine Python version: {e}")
 
