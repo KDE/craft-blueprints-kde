@@ -44,18 +44,26 @@ class Package(PipPackageBase):
 
     def make(self):
         """Build PySide6 from source."""
-        # Windows: Python headers contain #pragma comment(lib, "python311.lib") which
-        # forces the linker to require python311.lib even when CMake links python3.lib.
-        # Craft builds Python with stable ABI (python3.lib only), so create python311.lib
-        # as a copy to satisfy the #pragma directive.
+        # Windows: Python headers contain #pragma comment(lib, "python3XX.lib") which
+        # forces the linker to require the versioned lib even when CMake links python3.lib.
+        # Craft builds Python with stable ABI (python3.lib only), so create python3XX.lib
+        # as a copy to satisfy the #pragma directive. We detect the version from the
+        # Python DLL in Craft's environment rather than using sys.version_info (which
+        # reflects the Python running Craft, not the target environment).
         if CraftCore.compiler.isWindows:
-            import sys
             lib_dir = CraftStandardDirs.craftRoot() / "lib"
             python3_lib = lib_dir / "python3.lib"
-            pythonXY_lib = lib_dir / f"python{sys.version_info.major}{sys.version_info.minor}.lib"
-            if python3_lib.exists() and not pythonXY_lib.exists():
-                CraftCore.log.info(f"Creating {pythonXY_lib} from {python3_lib} for #pragma compatibility")
-                shutil.copy2(python3_lib, pythonXY_lib)
+            if python3_lib.exists():
+                # Find pythonXY.dll to determine the target Python version
+                bin_dir = CraftStandardDirs.craftRoot() / "bin"
+                python_dlls = list(bin_dir.glob("python3[0-9][0-9].dll"))
+                if python_dlls:
+                    # Extract version from DLL name (e.g., python311.dll -> 311)
+                    version = python_dlls[0].stem.replace("python", "")
+                    pythonXY_lib = lib_dir / f"python{version}.lib"
+                    if not pythonXY_lib.exists():
+                        CraftCore.log.info(f"Creating {pythonXY_lib} from {python3_lib} for #pragma compatibility")
+                        shutil.copy2(python3_lib, pythonXY_lib)
 
         sourceDir = self.sourceDir()
         env = {}
