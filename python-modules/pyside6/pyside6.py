@@ -3,6 +3,7 @@
 
 import glob
 import shutil
+import subprocess
 
 import info
 import utils
@@ -47,23 +48,26 @@ class Package(PipPackageBase):
         # Windows: Python headers contain #pragma comment(lib, "python3XX.lib") which
         # forces the linker to require the versioned lib even when CMake links python3.lib.
         # Craft builds Python with stable ABI (python3.lib only), so create python3XX.lib
-        # as a copy to satisfy the #pragma directive. We detect the version from the
-        # Python DLL in Craft's environment rather than using sys.version_info (which
-        # reflects the Python running Craft, not the target environment).
+        # as a copy to satisfy the #pragma directive.
         if CraftCore.compiler.isWindows:
             lib_dir = CraftStandardDirs.craftRoot() / "lib"
             python3_lib = lib_dir / "python3.lib"
             if python3_lib.exists():
-                # Find pythonXY.dll to determine the target Python version
-                bin_dir = CraftStandardDirs.craftRoot() / "bin"
-                python_dlls = list(bin_dir.glob("python3[0-9][0-9].dll"))
-                if python_dlls:
-                    # Extract version from DLL name (e.g., python311.dll -> 311)
-                    version = python_dlls[0].stem.replace("python", "")
-                    pythonXY_lib = lib_dir / f"python{version}.lib"
-                    if not pythonXY_lib.exists():
-                        CraftCore.log.info(f"Creating {pythonXY_lib} from {python3_lib} for #pragma compatibility")
-                        shutil.copy2(python3_lib, pythonXY_lib)
+                # Query Craft's Python for its version (not sys.version_info which is Craft's runner)
+                python_exe = CraftStandardDirs.craftRoot() / "bin" / "python.exe"
+                try:
+                    result = subprocess.run(
+                        [str(python_exe), "-c", "import sys; print(f'{sys.version_info.major}{sys.version_info.minor}')"],
+                        capture_output=True, text=True, timeout=10
+                    )
+                    if result.returncode == 0:
+                        version = result.stdout.strip()
+                        pythonXY_lib = lib_dir / f"python{version}.lib"
+                        if not pythonXY_lib.exists():
+                            CraftCore.log.info(f"Creating {pythonXY_lib} from {python3_lib} for #pragma compatibility")
+                            shutil.copy2(python3_lib, pythonXY_lib)
+                except Exception as e:
+                    CraftCore.log.warning(f"Could not determine Python version: {e}")
 
         sourceDir = self.sourceDir()
         env = {}
