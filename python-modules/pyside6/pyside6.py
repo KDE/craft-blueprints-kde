@@ -52,25 +52,20 @@ class Package(PipPackageBase):
         if CraftCore.compiler.isWindows:
             lib_dir = CraftStandardDirs.craftRoot() / "lib"
             python3_lib = lib_dir / "python3.lib"
-            CraftCore.log.info(f"Checking for {python3_lib}, exists={python3_lib.exists()}")
             if python3_lib.exists():
                 # Query Craft's Python for its version (not sys.version_info which is Craft's runner)
                 python_exe = CraftStandardDirs.craftRoot() / "bin" / "python.exe"
-                CraftCore.log.info(f"Checking for {python_exe}, exists={python_exe.exists()}")
                 try:
                     result = subprocess.run(
                         [str(python_exe), "-c", "import sys; print(f'{sys.version_info.major}{sys.version_info.minor}')"],
                         capture_output=True, text=True, timeout=10
                     )
-                    CraftCore.log.info(f"Python version query: returncode={result.returncode}, stdout={result.stdout.strip()}, stderr={result.stderr.strip()}")
                     if result.returncode == 0:
                         version = result.stdout.strip()
                         pythonXY_lib = lib_dir / f"python{version}.lib"
                         if not pythonXY_lib.exists():
                             CraftCore.log.info(f"Creating {pythonXY_lib} from {python3_lib} for #pragma compatibility")
                             shutil.copy2(python3_lib, pythonXY_lib)
-                        else:
-                            CraftCore.log.info(f"{pythonXY_lib} already exists")
                 except Exception as e:
                     CraftCore.log.warning(f"Could not determine Python version: {e}")
 
@@ -89,8 +84,11 @@ class Package(PipPackageBase):
             else:
                 # Skip QML/Designer modules: QML directory copy fails with escaping errors on Windows
                 # Skip WebEngine modules: require Chromium dependencies not available in Craft
+                # Use --qtpaths to force PySide6 to build against Craft's Qt, not its bundled Qt
+                qtpaths = CraftStandardDirs.craftRoot() / "bin" / "qtpaths6.exe"
                 return utils.system(
                     ["python", "setup.py", "build",
+                     f"--qtpaths={qtpaths}",
                      "--limited-api=yes",
                      "--disable-pyi",
                      "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"],
@@ -134,8 +132,11 @@ class Package(PipPackageBase):
             else:
                 # disabled (prevents installation of header,typesystem, etc.): --skip-build: prevents setup.py from rebuilding (which would recreate qml dir)
                 # --skip-modules: must match make() to prevent module mismatch errors
+                # Use --qtpaths to force PySide6 to build against Craft's Qt, not its bundled Qt
+                qtpaths = CraftStandardDirs.craftRoot() / "bin" / "qtpaths6.exe"
                 if not utils.system(
                     ["python", "setup.py", "install",
+                     f"--qtpaths={qtpaths}",
                      f"--prefix={imageDir}",
                      "--skip-mypy-test",
                      "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"],
