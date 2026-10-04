@@ -84,11 +84,8 @@ class Package(PipPackageBase):
             else:
                 # Skip QML/Designer modules: QML directory copy fails with escaping errors on Windows
                 # Skip WebEngine modules: require Chromium dependencies not available in Craft
-                # Use --qtpaths to force PySide6 to build against Craft's Qt, not its bundled Qt
-                qtpaths = CraftStandardDirs.craftRoot() / "bin" / "qtpaths6.exe"
                 return utils.system(
                     ["python", "setup.py", "build",
-                     f"--qtpaths={qtpaths}",
                      "--limited-api=yes",
                      "--disable-pyi",
                      "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"],
@@ -132,11 +129,8 @@ class Package(PipPackageBase):
             else:
                 # disabled (prevents installation of header,typesystem, etc.): --skip-build: prevents setup.py from rebuilding (which would recreate qml dir)
                 # --skip-modules: must match make() to prevent module mismatch errors
-                # Use --qtpaths to force PySide6 to build against Craft's Qt, not its bundled Qt
-                qtpaths = CraftStandardDirs.craftRoot() / "bin" / "qtpaths6.exe"
                 if not utils.system(
                     ["python", "setup.py", "install",
-                     f"--qtpaths={qtpaths}",
                      f"--prefix={imageDir}",
                      "--skip-mypy-test",
                      "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"],
