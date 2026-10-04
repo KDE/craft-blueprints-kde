@@ -225,6 +225,18 @@ class PackageAutotools(AutoToolsPackageBase):
             utils.rmtree(installDir / "lib/libsqlcipher.a")
             utils.moveFile(staticLib, installDir / "lib/libsqlcipher.a")
 
+        if CraftCore.compiler.isMinGW():
+            libDir = installDir / "lib"
+            dllImportLib = libDir / "libsqlcipher.dll.a"
+            staticLibSqlCipher = libDir / "libsqlcipher.a"
+
+            oldDllImport = libDir / "libsqlite3.dll.a"
+            if oldDllImport.exists():
+                utils.moveFile(oldDllImport, dllImportLib)
+
+            if dllImportLib.exists() and not staticLibSqlCipher.exists():
+                utils.copyFile(dllImportLib, staticLibSqlCipher)
+
         includeDir = installDir / "include"
         if (includeDir / "sqlite3.h").exists():
             utils.createDir(includeDir / "sqlcipher")
