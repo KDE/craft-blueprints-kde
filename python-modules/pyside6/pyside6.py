@@ -84,13 +84,19 @@ class Package(PipPackageBase):
             else:
                 # Skip QML/Designer modules: QML directory copy fails with escaping errors on Windows
                 # Skip WebEngine modules: require Chromium dependencies not available in Craft
-                return utils.system(
-                    ["python", "setup.py", "build",
-                     "--limited-api=yes",
-                     "--disable-pyi",
-                     "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"],
-                    cwd=sourceDir
-                )
+                cmd = ["python", "setup.py", "build",
+                       "--limited-api=yes",
+                       "--disable-pyi",
+                       "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"]
+
+                # Force PySide6 to build against Craft's Qt instead of bundling its own Qt to avoid
+                # Qt ABI mismatch on Windows if PySide6 bundles Qt and other applications using it link Craft's Qt
+                if CraftCore.compiler.isWindows:
+                    qtpaths = CraftStandardDirs.craftRoot() / "bin" / "qtpaths.exe"
+                    if qtpaths.exists():
+                        cmd.append(f"--qtpaths={qtpaths}")
+
+                return utils.system(cmd, cwd=sourceDir)
 
     # dev-utils/bin/libclang.dll precedes bin/ in PATH, so ship the libclang shiboken6 was linked against next to it
     def _bundleLibclang(self):
