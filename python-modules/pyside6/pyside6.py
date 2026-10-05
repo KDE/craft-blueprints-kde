@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
                 ("skip-plugins.patch", 1),
                 ("skip-designer-copy.patch", 1)
             ]
-            self.patchLevel["6.11.2"] = 6
+            self.patchLevel["6.11.2"] = 7
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
@@ -147,4 +147,18 @@ class Package(PipPackageBase):
                     cwd=sourceDir
                 ):
                     return False
+
+                # HACK:
+                # Windows: Remove bundled Qt DLLs from PySide6 package after install to avoid Qt ABI mismatch.
+                # PySide6 should use Craft's Qt from bin/ instead of bundling its own copy.
+                # We keep only the PySide6-specific .pyd files and remove all Qt*.dll files.
+                if CraftCore.compiler.isWindows:
+                    pyside_dir = imageDir / "lib" / "site-packages" / "PySide6"
+                    if pyside_dir.is_dir():
+                        qt_dlls = list(pyside_dir.glob("Qt*.dll"))
+                        CraftCore.log.info(f"Removing {len(qt_dlls)} bundled Qt DLLs from PySide6 package")
+                        for dll in qt_dlls:
+                            CraftCore.log.info(f"  Removing {dll.name}")
+                            dll.unlink()
+
                 return self._bundleLibclang()
