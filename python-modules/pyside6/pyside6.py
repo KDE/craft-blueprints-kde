@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
                 ("skip-plugins.patch", 1),
                 ("skip-designer-copy.patch", 1)
             ]
-            self.patchLevel["6.11.2"] = 4
+            self.patchLevel["6.11.2"] = 5
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
