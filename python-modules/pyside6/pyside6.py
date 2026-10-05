@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
                 ("skip-plugins.patch", 1),
                 ("skip-designer-copy.patch", 1)
             ]
-            self.patchLevel["6.11.2"] = 5
+            self.patchLevel["6.11.2"] = 6
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
@@ -93,8 +93,12 @@ class Package(PipPackageBase):
                 # Qt ABI mismatch on Windows if PySide6 bundles Qt and other applications using it link Craft's Qt
                 if CraftCore.compiler.isWindows:
                     qtpaths = CraftStandardDirs.craftRoot() / "bin" / "qtpaths.exe"
+                    CraftCore.log.info(f"Checking for qtpaths at: {qtpaths}, exists: {qtpaths.exists()}")
                     if qtpaths.exists():
                         cmd.append(f"--qtpaths={qtpaths}")
+                        CraftCore.log.info(f"Added --qtpaths={qtpaths} to PySide6 build")
+                    else:
+                        CraftCore.log.warning(f"qtpaths.exe not found at {qtpaths}, PySide6 will bundle its own Qt")
 
                 return utils.system(cmd, cwd=sourceDir)
 
