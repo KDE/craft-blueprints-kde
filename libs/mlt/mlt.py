@@ -19,12 +19,12 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/mltframework/mlt.git"
 
-        self.svnTargets["0f8244a"] = "https://github.com/mltframework/mlt.git||0f8244a125872544fb34b88125ee18a88b4d0b85"
-        self.defaultTarget = "0f8244a"
+        self.svnTargets["77ae5f8"] = "https://github.com/mltframework/mlt.git||77ae5f8f8cb4e2f502c5dc868d6c7cf7b45bfc54"
+        self.defaultTarget = "77ae5f8"
 
-        self.patchToApply["0f8244a"] = []
+        self.patchToApply["77ae5f8"] = []
         if CraftCore.compiler.isMinGW():
-            self.patchToApply["0f8244a"] += [("revert-mingw-mysy2.diff", 1)]
+            self.patchToApply["77ae5f8"] += [("revert-mingw-mysy2.diff", 1)]
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
