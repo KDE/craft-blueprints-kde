@@ -200,7 +200,56 @@ class Package(CMakePackageBase):
 
     def install(self):
         with utils.ScopedEnv(self._getEnv()):
-            return super().install()
+            if not super().install():
+                return False
+
+        # Windows: Copy PySide6/Shiboken DLLs needed for Python scripting into bin/
+        # These are required at runtime for the embedded Python interpreter
+        if CraftCore.compiler.isWindows:
+            sitePackages = CraftCore.standardDirs.craftRoot() / "lib" / "site-packages"
+            pysideDir = sitePackages / "PySide6"
+            shibokenDir = sitePackages / "shiboken6"
+            destBin = self.imageDir() / "bin"
+
+            # Copy PySide6 and Shiboken ABI3 DLLs
+            for dll in ["pyside6.abi3.dll"]:
+                src = pysideDir / dll
+                if src.exists():
+                    utils.copyFile(src, destBin / dll, linkOnly=False)
+                    CraftCore.log.info(f"Copied {dll} to bin/")
+
+            for dll in ["shiboken6.abi3.dll"]:
+                src = shibokenDir / dll
+                if src.exists():
+                    utils.copyFile(src, destBin / dll, linkOnly=False)
+                    CraftCore.log.info(f"Copied {dll} to bin/")
+
+            # Copy PySide6 and shiboken6 Python packages to lib/site-packages/
+            destSitePackages = self.imageDir() / "lib" / "site-packages"
+            os.makedirs(destSitePackages, exist_ok=True)
+
+            # Copy PySide6 package (excluding Qt DLLs which come from Craft's Qt)
+            destPyside = destSitePackages / "PySide6"
+            if pysideDir.exists():
+                os.makedirs(destPyside, exist_ok=True)
+                for item in pysideDir.iterdir():
+                    # Skip Qt DLLs - we use Craft's Qt from bin/
+                    if item.name.startswith("Qt") and item.suffix == ".dll":
+                        continue
+                    if item.is_file():
+                        utils.copyFile(item, destPyside / item.name, linkOnly=False)
+                CraftCore.log.info("Copied PySide6 package to lib/site-packages/")
+
+            # Copy shiboken6 package
+            destShiboken = destSitePackages / "shiboken6"
+            if shibokenDir.exists():
+                os.makedirs(destShiboken, exist_ok=True)
+                for item in shibokenDir.iterdir():
+                    if item.is_file():
+                        utils.copyFile(item, destShiboken / item.name, linkOnly=False)
+                CraftCore.log.info("Copied shiboken6 package to lib/site-packages/")
+
+        return True
 
     def createPackage(self):
         self.defines["appname"] = "LabPlot"
@@ -366,3 +415,4 @@ class Package(CMakePackageBase):
 
         print("preArchive() DONE")
         return super().preArchive()
+
