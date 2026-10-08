@@ -33,6 +33,7 @@ class subinfo(info.infoclass):
         else:
             self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
             self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
+            self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
