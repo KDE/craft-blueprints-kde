@@ -3,6 +3,7 @@
 
 import glob
 import os
+import shutil
 import subprocess
 
 import info
@@ -203,51 +204,60 @@ class Package(CMakePackageBase):
             if not super().install():
                 return False
 
-        # Windows: Copy PySide6/Shiboken DLLs needed for Python scripting into bin/
-        # These are required at runtime for the embedded Python interpreter
+        # Windows: Bundle Python stdlib and packages for Python scripting
+        # Keep everything in bin/ to match cantor_pythonserver.exe expectations
+        # Structure: bin/python3.exe, bin/python311.dll, bin/Lib/, bin/DLLs/
         if CraftCore.compiler.isWindows:
-            sitePackages = CraftCore.standardDirs.craftRoot() / "lib" / "site-packages"
-            pysideDir = sitePackages / "PySide6"
-            shibokenDir = sitePackages / "shiboken6"
+            craftRoot = CraftCore.standardDirs.craftRoot()
             destBin = self.imageDir() / "bin"
 
-            # Copy PySide6 and Shiboken ABI3 DLLs
+            # Copy Python stdlib to bin/Lib/
+            srcLib = craftRoot / "bin" / "Lib"
+            destLib = destBin / "Lib"
+            if srcLib.exists():
+                shutil.copytree(srcLib, destLib, dirs_exist_ok=True)
+                CraftCore.log.info("Copied Python stdlib to bin/Lib/")
+
+            # Copy Python extension modules to bin/DLLs/
+            srcDLLs = craftRoot / "bin" / "DLLs"
+            destDLLs = destBin / "DLLs"
+            if srcDLLs.exists():
+                shutil.copytree(srcDLLs, destDLLs, dirs_exist_ok=True)
+                CraftCore.log.info("Copied Python DLLs to bin/DLLs/")
+
+            # Copy PySide6 and shiboken6 packages to bin/Lib/site-packages/
+            sitePackages = craftRoot / "lib" / "site-packages"
+            pysideDir = sitePackages / "PySide6"
+            shibokenDir = sitePackages / "shiboken6"
+            destSitePackages = destLib / "site-packages"
+
+            # Copy PySide6 package recursively, excluding bundled Qt DLLs
+            destPyside = destSitePackages / "PySide6"
+            if pysideDir.exists():
+                def ignore_qt_dlls(dir, files):
+                    # Skip Qt*.dll files - we use Craft's Qt from bin/
+                    return [f for f in files if f.startswith("Qt") and f.endswith(".dll")]
+                shutil.copytree(pysideDir, destPyside, ignore=ignore_qt_dlls, dirs_exist_ok=True)
+                CraftCore.log.info("Copied PySide6 package to bin/Lib/site-packages/")
+
+            # Copy shiboken6 package recursively
+            destShiboken = destSitePackages / "shiboken6"
+            if shibokenDir.exists():
+                shutil.copytree(shibokenDir, destShiboken, dirs_exist_ok=True)
+                CraftCore.log.info("Copied shiboken6 package to bin/Lib/site-packages/")
+
+            # Copy PySide6 and Shiboken ABI3 DLLs to bin/ for DLL loading at runtime
             for dll in ["pyside6.abi3.dll"]:
                 src = pysideDir / dll
                 if src.exists():
-                    utils.copyFile(src, destBin / dll, linkOnly=False)
+                    shutil.copy2(src, destBin / dll)
                     CraftCore.log.info(f"Copied {dll} to bin/")
 
             for dll in ["shiboken6.abi3.dll"]:
                 src = shibokenDir / dll
                 if src.exists():
-                    utils.copyFile(src, destBin / dll, linkOnly=False)
+                    shutil.copy2(src, destBin / dll)
                     CraftCore.log.info(f"Copied {dll} to bin/")
-
-            # Copy PySide6 and shiboken6 Python packages to lib/site-packages/
-            destSitePackages = self.imageDir() / "lib" / "site-packages"
-            os.makedirs(destSitePackages, exist_ok=True)
-
-            # Copy PySide6 package (excluding Qt DLLs which come from Craft's Qt)
-            destPyside = destSitePackages / "PySide6"
-            if pysideDir.exists():
-                os.makedirs(destPyside, exist_ok=True)
-                for item in pysideDir.iterdir():
-                    # Skip Qt DLLs - we use Craft's Qt from bin/
-                    if item.name.startswith("Qt") and item.suffix == ".dll":
-                        continue
-                    if item.is_file():
-                        utils.copyFile(item, destPyside / item.name, linkOnly=False)
-                CraftCore.log.info("Copied PySide6 package to lib/site-packages/")
-
-            # Copy shiboken6 package
-            destShiboken = destSitePackages / "shiboken6"
-            if shibokenDir.exists():
-                os.makedirs(destShiboken, exist_ok=True)
-                for item in shibokenDir.iterdir():
-                    if item.is_file():
-                        utils.copyFile(item, destShiboken / item.name, linkOnly=False)
-                CraftCore.log.info("Copied shiboken6 package to lib/site-packages/")
 
         return True
 
