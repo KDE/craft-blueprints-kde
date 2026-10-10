@@ -66,7 +66,6 @@ class subinfo(info.infoclass):
         # cross compiling Cantor fails on macOS x86_64 (CD job)
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["kde/applications/cantor"] = None
-        self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/qt6/qtserialport"] = None
             self.runtimeDependencies["libs/qt6/qtmqtt"] = None
@@ -78,11 +77,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         if not CraftCore.compiler.isMacOS:
@@ -167,12 +162,21 @@ class Package(CMakePackageBase):
             craftRoot = CraftCore.standardDirs.craftRoot()
             destBin = self.imageDir() / "bin"
 
+            # Exclude large unnecessary stdlib directories
+            def _excludeStdlib(d, files):
+                excludes = {"test", "tests", "idlelib", "tkinter", "turtledemo",
+                            "lib2to3", "ensurepip", "distutils", "site-packages",
+                            "__pycache__", "unittest", "pydoc_data", "curses", "venv",
+                            "lib-dynload"}  # DLLs/ has Windows extensions separately
+                return [f for f in files if f in excludes]
+
             # Copy Python stdlib to bin/Lib/
             srcLib = craftRoot / "bin" / "Lib"
             destLib = destBin / "Lib"
             if srcLib.exists():
-                shutil.copytree(srcLib, destLib, dirs_exist_ok=True)
+                shutil.copytree(srcLib, destLib, dirs_exist_ok=True, ignore=_excludeStdlib)
                 CraftCore.log.info("Copied Python stdlib to bin/Lib/")
+
 
             # Copy Python extension modules to bin/DLLs/
             srcDLLs = craftRoot / "bin" / "DLLs"
