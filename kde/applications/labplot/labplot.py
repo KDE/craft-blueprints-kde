@@ -177,7 +177,6 @@ class Package(CMakePackageBase):
                 shutil.copytree(srcLib, destLib, dirs_exist_ok=True, ignore=_excludeStdlib)
                 CraftCore.log.info("Copied Python stdlib to bin/Lib/")
 
-
             # Copy Python extension modules to bin/DLLs/
             srcDLLs = craftRoot / "bin" / "DLLs"
             destDLLs = destBin / "DLLs"
