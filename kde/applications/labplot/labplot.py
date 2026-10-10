@@ -319,8 +319,6 @@ class Package(CMakePackageBase):
         return super().createPackage()
 
     def preArchive(self):
-        archiveDir = self.archiveDir()
-
         if CraftCore.compiler.isMacOS and not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
