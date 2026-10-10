@@ -222,7 +222,7 @@ class Package(CMakePackageBase):
                 if destShiboken.exists():
                     shutil.rmtree(destShiboken)
                 shutil.copytree(shibokenDir, destShiboken,
-                    ignore=shutil.ignore_patterns("include", "lib", "*.dylib"))
+                                ignore=shutil.ignore_patterns("include", "lib", "*.dylib"))
                 CraftCore.log.info("Copied shiboken6 package to bin/Lib/site-packages/")
 
             # Copy PySide6 and Shiboken ABI3 DLLs to bin/ for DLL loading at runtime
