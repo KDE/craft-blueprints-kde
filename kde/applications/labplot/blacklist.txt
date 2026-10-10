@@ -8,6 +8,13 @@ RELEASE.txt
 USING_HDF5_CMake.txt
 USING_HDF5_VS.txt
 
+# Python: we copy minimal PySide6 to bin/Lib/site-packages/, exclude full package from lib/
+lib/site-packages/.*
+
+# Not needed at runtime
+bin/qmlls/.*
+bin/multimedia/.*
+
 # unused libs and exe
 bin/icuin\.dll
 bin/icuuc\.dll

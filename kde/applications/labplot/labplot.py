@@ -215,10 +215,14 @@ class Package(CMakePackageBase):
 
                 CraftCore.log.info("Copied PySide6 (minimal) to bin/Lib/site-packages/")
 
-            # Copy shiboken6 package (small, ~500KB)
+            # Copy shiboken6 package - must include __init__.py for Python import
             destShiboken = destSitePackages / "shiboken6"
             if shibokenDir.exists():
-                shutil.copytree(shibokenDir, destShiboken, dirs_exist_ok=True)
+                # Use copytree but ensure we get all files including __init__.py
+                if destShiboken.exists():
+                    shutil.rmtree(destShiboken)
+                shutil.copytree(shibokenDir, destShiboken,
+                    ignore=shutil.ignore_patterns("include", "lib", "*.dylib"))
                 CraftCore.log.info("Copied shiboken6 package to bin/Lib/site-packages/")
 
             # Copy PySide6 and Shiboken ABI3 DLLs to bin/ for DLL loading at runtime
@@ -305,14 +309,13 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("binary/r-base")
         self.ignoredPackages.append("libs/sdl2")
-        # AppImage requires several libs
+        # AppImage requires several libs; video codecs and LLVM not needed elsewhere
         if not CraftCore.compiler.isLinux or not isinstance(self, AppImagePackager):
             self.ignoredPackages.append("libs/aom")
             self.ignoredPackages.append("libs/dav1d")
             self.ignoredPackages.append("libs/ffmpeg")
             self.ignoredPackages.append("libs/svtav1")
             self.ignoredPackages.append("libs/x265")
-            self.ignoredPackages.append("libs/qt6/qtwebengine")
             self.ignoredPackages.append("libs/qt6/qtshadertools")
             self.ignoredPackages.append("libs/llvm")
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
