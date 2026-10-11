@@ -18,6 +18,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtwebengine"] = None
+        self.runtimeDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["libs/python"] = None
         # using included discount
