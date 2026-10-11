@@ -151,108 +151,7 @@ class Package(CMakePackageBase):
 
     def install(self):
         with utils.ScopedEnv(self._getEnv()):
-            if not super().install():
-                return False
-
-        # Windows: Bundle Python stdlib and packages for Python scripting
-        # Keep everything in bin/ to match cantor_pythonserver.exe expectations
-        # Structure: bin/python3.exe, bin/python311.dll, bin/Lib/, bin/DLLs/
-        if CraftCore.compiler.isWindows:
-            craftRoot = CraftCore.standardDirs.craftRoot()
-            destBin = self.imageDir() / "bin"
-
-            # Exclude large unnecessary stdlib directories
-            def _excludeStdlib(d, files):
-                excludes = {"test", "tests", "idlelib", "tkinter", "turtledemo",
-                            "lib2to3", "ensurepip", "distutils", "site-packages",
-                            "__pycache__", "unittest", "pydoc_data", "curses", "venv",
-                            "lib-dynload"}  # DLLs/ has Windows extensions separately
-                return [f for f in files if f in excludes]
-
-            # Copy Python stdlib to bin/Lib/
-            srcLib = craftRoot / "bin" / "Lib"
-            destLib = destBin / "Lib"
-            CraftCore.log.info(f"Python stdlib: srcLib={srcLib}, exists={srcLib.exists()}")
-            if srcLib.exists():
-                # Check if .py files exist in source
-                encInit = srcLib / "encodings" / "__init__.py"
-                CraftCore.log.info(f"Python stdlib: encodings/__init__.py exists={encInit.exists()}")
-                shutil.copytree(srcLib, destLib, dirs_exist_ok=True, ignore=_excludeStdlib)
-                CraftCore.log.info("Copied Python stdlib to bin/Lib/")
-                # Verify copy worked
-                destEncInit = destLib / "encodings" / "__init__.py"
-                CraftCore.log.info(f"Python stdlib: dest encodings/__init__.py exists={destEncInit.exists()}")
-
-            # Copy Python extension modules to bin/DLLs/
-            srcDLLs = craftRoot / "bin" / "DLLs"
-            destDLLs = destBin / "DLLs"
-            if srcDLLs.exists():
-                shutil.copytree(srcDLLs, destDLLs, dirs_exist_ok=True)
-                CraftCore.log.info("Copied Python DLLs to bin/DLLs/")
-
-            # Copy PySide6 and shiboken6 packages to bin/Lib/site-packages/
-            sitePackages = craftRoot / "lib" / "site-packages"
-            pysideDir = sitePackages / "PySide6"
-            shibokenDir = sitePackages / "shiboken6"
-            destSitePackages = destLib / "site-packages"
-
-            # Copy only required PySide6 files - not the entire package
-            destPyside = destSitePackages / "PySide6"
-            if pysideDir.exists():
-                os.makedirs(destPyside, exist_ok=True)
-
-                # Required Python files
-                for pyfile in self.PYSIDE6_REQUIRED_PYFILES:
-                    src = pysideDir / pyfile
-                    if src.exists():
-                        shutil.copy2(src, destPyside / pyfile)
-
-                # Required .pyd modules (Qt bindings) - only what pylabplot needs
-                for mod in self.PYSIDE6_REQUIRED_MODULES:
-                    for ext in [".pyd", ".pyi"]:
-                        src = pysideDir / f"{mod}{ext}"
-                        if src.exists():
-                            shutil.copy2(src, destPyside / f"{mod}{ext}")
-
-                # The main PySide6 runtime DLL
-                src = pysideDir / "pyside6.abi3.dll"
-                if src.exists():
-                    shutil.copy2(src, destPyside / "pyside6.abi3.dll")
-
-                CraftCore.log.info("Copied PySide6 (minimal) to bin/Lib/site-packages/")
-
-            # Copy shiboken6 package - must include __init__.py for Python import
-            destShiboken = destSitePackages / "shiboken6"
-            CraftCore.log.info(f"shiboken6: shibokenDir={shibokenDir}, exists={shibokenDir.exists()}")
-            if shibokenDir.exists():
-                shibokenInit = shibokenDir / "__init__.py"
-                CraftCore.log.info(f"shiboken6: __init__.py exists={shibokenInit.exists()}")
-                # List what's in shibokenDir
-                CraftCore.log.info(f"shiboken6: contents={list(shibokenDir.iterdir())}")
-                # Use copytree but ensure we get all files including __init__.py
-                if destShiboken.exists():
-                    shutil.rmtree(destShiboken)
-                shutil.copytree(shibokenDir, destShiboken,
-                                ignore=shutil.ignore_patterns("include", "lib", "*.dylib"))
-                CraftCore.log.info("Copied shiboken6 package to bin/Lib/site-packages/")
-                # Verify
-                destShibokenInit = destShiboken / "__init__.py"
-                CraftCore.log.info(f"shiboken6: dest __init__.py exists={destShibokenInit.exists()}")
-
-            # Copy PySide6 and Shiboken ABI3 DLLs to bin/ for DLL loading at runtime
-            for dll in ["pyside6.abi3.dll"]:
-                src = pysideDir / dll
-                if src.exists():
-                    shutil.copy2(src, destBin / dll)
-                    CraftCore.log.info(f"Copied {dll} to bin/")
-
-            for dll in ["shiboken6.abi3.dll"]:
-                src = shibokenDir / dll
-                if src.exists():
-                    shutil.copy2(src, destBin / dll)
-                    CraftCore.log.info(f"Copied {dll} to bin/")
-
-        return True
+            return super().install()
 
     def createPackage(self):
         self.defines["appname"] = "LabPlot"
@@ -339,6 +238,93 @@ class Package(CMakePackageBase):
         return super().createPackage()
 
     def preArchive(self):
+        # Windows: Bundle Python stdlib and packages for Python scripting
+        # Done in preArchive() so files aren't filtered out during packaging
+        # Structure: bin/python3.exe, bin/python311.dll, bin/Lib/, bin/DLLs/
+        if CraftCore.compiler.isWindows:
+            craftRoot = CraftCore.standardDirs.craftRoot()
+            archiveDir = self.archiveDir()
+            destBin = archiveDir / "bin"
+
+            # Exclude large unnecessary stdlib directories
+            def _excludeStdlib(d, files):
+                excludes = {"test", "tests", "idlelib", "tkinter", "turtledemo",
+                            "lib2to3", "ensurepip", "distutils", "site-packages",
+                            "__pycache__", "unittest", "pydoc_data", "curses", "venv",
+                            "lib-dynload"}  # DLLs/ has Windows extensions separately
+                return [f for f in files if f in excludes]
+
+            # Copy Python stdlib to bin/Lib/
+            srcLib = craftRoot / "bin" / "Lib"
+            destLib = destBin / "Lib"
+            CraftCore.log.info(f"preArchive: Python stdlib srcLib={srcLib}, exists={srcLib.exists()}")
+            if srcLib.exists():
+                encInit = srcLib / "encodings" / "__init__.py"
+                CraftCore.log.info(f"preArchive: encodings/__init__.py exists={encInit.exists()}")
+                shutil.copytree(srcLib, destLib, dirs_exist_ok=True, ignore=_excludeStdlib)
+                CraftCore.log.info("preArchive: Copied Python stdlib to bin/Lib/")
+                destEncInit = destLib / "encodings" / "__init__.py"
+                CraftCore.log.info(f"preArchive: dest encodings/__init__.py exists={destEncInit.exists()}")
+
+            # Copy Python extension modules to bin/DLLs/
+            srcDLLs = craftRoot / "bin" / "DLLs"
+            destDLLs = destBin / "DLLs"
+            if srcDLLs.exists():
+                shutil.copytree(srcDLLs, destDLLs, dirs_exist_ok=True)
+                CraftCore.log.info("preArchive: Copied Python DLLs to bin/DLLs/")
+
+            # Copy PySide6 and shiboken6 packages to bin/Lib/site-packages/
+            sitePackages = craftRoot / "lib" / "site-packages"
+            pysideDir = sitePackages / "PySide6"
+            shibokenDir = sitePackages / "shiboken6"
+            destSitePackages = destLib / "site-packages"
+
+            # Copy only required PySide6 files - not the entire package
+            destPyside = destSitePackages / "PySide6"
+            if pysideDir.exists():
+                os.makedirs(destPyside, exist_ok=True)
+
+                # Required Python files
+                for pyfile in self.PYSIDE6_REQUIRED_PYFILES:
+                    src = pysideDir / pyfile
+                    if src.exists():
+                        shutil.copy2(src, destPyside / pyfile)
+
+                # Required .pyd modules (Qt bindings) - only what pylabplot needs
+                for mod in self.PYSIDE6_REQUIRED_MODULES:
+                    for ext in [".pyd", ".pyi"]:
+                        src = pysideDir / f"{mod}{ext}"
+                        if src.exists():
+                            shutil.copy2(src, destPyside / f"{mod}{ext}")
+
+                # The main PySide6 runtime DLL
+                src = pysideDir / "pyside6.abi3.dll"
+                if src.exists():
+                    shutil.copy2(src, destPyside / "pyside6.abi3.dll")
+
+                CraftCore.log.info("preArchive: Copied PySide6 (minimal) to bin/Lib/site-packages/")
+
+            # Copy shiboken6 package - must include __init__.py for Python import
+            destShiboken = destSitePackages / "shiboken6"
+            CraftCore.log.info(f"preArchive: shibokenDir={shibokenDir}, exists={shibokenDir.exists()}")
+            if shibokenDir.exists():
+                shibokenInit = shibokenDir / "__init__.py"
+                CraftCore.log.info(f"preArchive: shiboken6 __init__.py exists={shibokenInit.exists()}")
+                if destShiboken.exists():
+                    shutil.rmtree(destShiboken)
+                shutil.copytree(shibokenDir, destShiboken,
+                                ignore=shutil.ignore_patterns("include", "lib", "*.dylib"))
+                CraftCore.log.info("preArchive: Copied shiboken6 to bin/Lib/site-packages/")
+                destShibokenInit = destShiboken / "__init__.py"
+                CraftCore.log.info(f"preArchive: dest shiboken6 __init__.py exists={destShibokenInit.exists()}")
+
+            # Copy PySide6 and Shiboken ABI3 DLLs to bin/ for DLL loading at runtime
+            for dll in ["pyside6.abi3.dll", "shiboken6.abi3.dll"]:
+                src = (pysideDir if "pyside" in dll else shibokenDir) / dll
+                if src.exists():
+                    shutil.copy2(src, destBin / dll)
+                    CraftCore.log.info(f"preArchive: Copied {dll} to bin/")
+
         if CraftCore.compiler.isMacOS and not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
