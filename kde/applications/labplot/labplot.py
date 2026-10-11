@@ -173,9 +173,16 @@ class Package(CMakePackageBase):
             # Copy Python stdlib to bin/Lib/
             srcLib = craftRoot / "bin" / "Lib"
             destLib = destBin / "Lib"
+            CraftCore.log.info(f"Python stdlib: srcLib={srcLib}, exists={srcLib.exists()}")
             if srcLib.exists():
+                # Check if .py files exist in source
+                encInit = srcLib / "encodings" / "__init__.py"
+                CraftCore.log.info(f"Python stdlib: encodings/__init__.py exists={encInit.exists()}")
                 shutil.copytree(srcLib, destLib, dirs_exist_ok=True, ignore=_excludeStdlib)
                 CraftCore.log.info("Copied Python stdlib to bin/Lib/")
+                # Verify copy worked
+                destEncInit = destLib / "encodings" / "__init__.py"
+                CraftCore.log.info(f"Python stdlib: dest encodings/__init__.py exists={destEncInit.exists()}")
 
             # Copy Python extension modules to bin/DLLs/
             srcDLLs = craftRoot / "bin" / "DLLs"
@@ -217,13 +224,21 @@ class Package(CMakePackageBase):
 
             # Copy shiboken6 package - must include __init__.py for Python import
             destShiboken = destSitePackages / "shiboken6"
+            CraftCore.log.info(f"shiboken6: shibokenDir={shibokenDir}, exists={shibokenDir.exists()}")
             if shibokenDir.exists():
+                shibokenInit = shibokenDir / "__init__.py"
+                CraftCore.log.info(f"shiboken6: __init__.py exists={shibokenInit.exists()}")
+                # List what's in shibokenDir
+                CraftCore.log.info(f"shiboken6: contents={list(shibokenDir.iterdir())}")
                 # Use copytree but ensure we get all files including __init__.py
                 if destShiboken.exists():
                     shutil.rmtree(destShiboken)
                 shutil.copytree(shibokenDir, destShiboken,
                                 ignore=shutil.ignore_patterns("include", "lib", "*.dylib"))
                 CraftCore.log.info("Copied shiboken6 package to bin/Lib/site-packages/")
+                # Verify
+                destShibokenInit = destShiboken / "__init__.py"
+                CraftCore.log.info(f"shiboken6: dest __init__.py exists={destShibokenInit.exists()}")
 
             # Copy PySide6 and Shiboken ABI3 DLLs to bin/ for DLL loading at runtime
             for dll in ["pyside6.abi3.dll"]:

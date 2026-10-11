@@ -14,6 +14,10 @@ lib/site-packages/.*
 # Not needed at runtime
 bin/qmlls/.*
 bin/multimedia/.*
+bin/qtwebengine_devtools_resources\.pak
+bin/harfbuzz-subset\.dll
+bin/Qt6QmlCompiler\.dll
+bin/QtQuick/Controls/designer/.*
 
 # unused libs and exe
 bin/icuin\.dll
