@@ -98,7 +98,8 @@ bin/data/knotifications5/.*
 bin/data/libgpg-error/.*
 # needed for translations
 #bin/data/locale/.*
-translations/qtwebengine_locales/.*
+# Keep only en-US locale for WebEngine, exclude others
+translations/qtwebengine_locales/(?!en-US).*
 html/.*
 # share/applications/*.desktop needed for AppImage (also share/ required on macOS?)
 #share/.*
