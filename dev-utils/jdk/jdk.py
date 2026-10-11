@@ -58,6 +58,8 @@ class subinfo(info.infoclass):
                     ],
                     CraftHash.HashAlgorithm.SHA256,
                 )
+            elif CraftCore.compiler.isAndroid:
+                pass
             else:
                 raise NotImplementedError()
             self.targetInstallPath[ver] = "dev-utils/jdk"
@@ -73,4 +75,6 @@ class Package(BinaryPackageBase):
     def JAVA_HOME(self) -> Path:
         if CraftCore.compiler.isMacOS:
             return self.installPrefix() / "Contents/Home"
+        elif CraftCore.compiler.isAndroid:
+            return "/usr/lib/jvm/java-17-openjdk-amd64"
         return self.installPrefix()
