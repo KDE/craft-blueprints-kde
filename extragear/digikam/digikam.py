@@ -58,7 +58,7 @@ class subinfo(info.infoclass):
         if not CraftCore.compiler.isAndroid:
             # digiKam mediaPlayer is not yet fully ported to FFMPEG 5 API
 
-            self.runtimeDependencies["libs/ffmpeg"] = "4.4"
+            self.runtimeDependencies["libs/ffmpeg"] = None
 
         self.runtimeDependencies["libs/opencv/opencv"] = None
         self.runtimeDependencies["libs/sqlite"] = None

@@ -14,6 +14,9 @@ repos:
         args: ["--profile", "black", "--filter-files"]
 
   - repo: https://github.com/pycqa/flake8
-    rev: 6.1.0
+    rev: 7.4.1
     hooks:
       - id: flake8
+        additional_dependencies: [
+            git+https://invent.kde.org/sdk/flake8-kde-craft-blueprints.git
+        ]
