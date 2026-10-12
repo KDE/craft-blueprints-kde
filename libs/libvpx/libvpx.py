@@ -45,11 +45,11 @@ class Package(AutoToolsPackageBase):
         self.platform = ""
         if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
             self.platform = [
-                f"--target={CraftCore.compiler.architecture.key.name.lower()}-darwin{os.uname().release.split('.')[0]}-gcc",
+                f"--target={CraftCore.compiler.architecture.type.name.lower()}-darwin{os.uname().release.split('.')[0]}-gcc",
             ]
         if CraftCore.compiler.compiler.isMSVC:
             self.platform = [
-                f"--target={CraftCore.compiler.architecture.key.name.lower()}-win64-vs{CraftCore.compiler.getInternalVersion()}",
+                f"--target={CraftCore.compiler.architecture.type.name.lower()}-win64-vs{CraftCore.compiler.getInternalVersion()}",
             ]
             self.subinfo.options.configure.args += ["--enable-external-build", "--as=nasm"]
         if CraftCore.compiler.platform.isWindows:

@@ -101,15 +101,15 @@ class Package(AutoToolsPackageBase):
         if "CC" in os.environ:
             cc = os.environ["CC"]
             if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
-                cc = f"{cc} -arch {CraftCore.compiler.architecture.key.name.lower()}"
+                cc = f"{cc} -arch {CraftCore.compiler.architecture.type.name.lower()}"
             self.subinfo.options.configure.args += [f"--cc={cc}"]
         if "CXX" in os.environ:
             cxx = os.environ["CXX"]
             if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
-                cxx = f"{cxx} -arch {CraftCore.compiler.architecture.key.name.lower()}"
+                cxx = f"{cxx} -arch {CraftCore.compiler.architecture.type.name.lower()}"
             self.subinfo.options.configure.args += [f"--cxx={cxx}"]
 
-        architecture = CraftCore.compiler.architecture.key.name.lower()
+        architecture = CraftCore.compiler.architecture.type.name.lower()
         if CraftCore.compiler.platform.isAndroid:
             if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
                 architecture = "aarch64"
