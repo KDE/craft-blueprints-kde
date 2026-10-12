@@ -43,16 +43,16 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.configure.noCacheFile = True
         self.platform = ""
-        if CraftCore.compiler.isMacOS and not CraftCore.compiler.isNative():
+        if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
             self.platform = [
-                f"--target={CraftCore.compiler.architecture.name.lower()}-darwin{os.uname().release.split('.')[0]}-gcc",
+                f"--target={CraftCore.compiler.architecture.key.name.lower()}-darwin{os.uname().release.split('.')[0]}-gcc",
             ]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.platform = [
-                f"--target={CraftCore.compiler.architecture.name.lower()}-win64-vs{CraftCore.compiler.getInternalVersion()}",
+                f"--target={CraftCore.compiler.architecture.key.name.lower()}-win64-vs{CraftCore.compiler.getInternalVersion()}",
             ]
             self.subinfo.options.configure.args += ["--enable-external-build", "--as=nasm"]
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.subinfo.options.configure.staticArgs = Arguments()
         self.subinfo.options.configure.args += [
             "--disable-examples",

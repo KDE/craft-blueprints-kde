@@ -32,12 +32,12 @@ class Package(CraftPackageObject.get("kde").pattern):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             manifest = self.sourceDir() / "res/isoimagewriter.manifest"
             app = self.installDir() / "bin/isoimagewriter.exe"
             self.addExecutableFilter(r"bin/(?!(isoimagewriter|update-mime-database|kioworker)).*")
             return utils.embedManifest(app, manifest)
-        if CraftCore.compiler.isLinux and isinstance(self, AppImagePackager):
+        if CraftCore.compiler.platform.isLinux and isinstance(self, AppImagePackager):
             utils.copyFile(
                 CraftCore.standardDirs.craftRoot() / "share/icons/breeze/devices/64/drive-removable-media.svg",
                 self.installDir() / "share/breeze/apps/64/drive-removable-media.svg",

@@ -73,7 +73,7 @@ class Package(BinaryPackageBase):
             self.installDir() / "lib",
             ignore=shutil.ignore_patterns("*.map", "debug*", f"lib{libname}.dll", f"lib{libname}.dll", f"{libname}*"),
         )
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             utils.createImportLibs(f"lib{libname}d", self.installDir())
             utils.createImportLibs(f"lib{libname}", self.installDir())
         shutil.copytree(self.sourceDir() / "include", self.installDir() / "include", ignore=shutil.ignore_patterns("*.def"))

@@ -10,7 +10,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+        self.parent.package.categoryInfo.platforms = ~CraftCore.compiler.Platforms.Android
 
     def setDependencies(self):
         self.runtimeDependencies["dev-utils/jdk"] = None
@@ -33,5 +33,5 @@ class Package(BinaryPackageBase):
             return False
         env = {"JAVA_HOME": CraftPackageObject.get("dev-utils/jdk").instance.JAVA_HOME}
         return utils.createShim(
-            self.imageDir() / "dev-utils/bin/mvn", self.installDir() / f"bin/mvn{'.cmd' if CraftCore.compiler.isWindows else ''}", env=env
-        ) and utils.createShim(self.imageDir() / "dev-utils/bin/mvn", self.installDir() / f"bin/mvn{'.cmd' if CraftCore.compiler.isWindows else ''}", env=env)
+            self.imageDir() / "dev-utils/bin/mvn", self.installDir() / f"bin/mvn{'.cmd' if CraftCore.compiler.platform.isWindows else ''}", env=env
+        ) and utils.createShim(self.imageDir() / "dev-utils/bin/mvn", self.installDir() / f"bin/mvn{'.cmd' if CraftCore.compiler.platform.isWindows else ''}", env=env)

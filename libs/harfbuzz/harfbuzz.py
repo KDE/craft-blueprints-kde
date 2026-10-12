@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         for ver in ["11.2.0"]:
             self.targets[ver] = f"https://github.com/harfbuzz/harfbuzz/archive/{ver}.tar.gz"
             self.targetInstSrc[ver] = f"harfbuzz-{ver}"
-            if CraftCore.compiler.isAndroid:
+            if CraftCore.compiler.platform.isAndroid:
                 self.patchToApply[ver] = [("no-so-version.patch", 1)]
             self.patchLevel[ver] = 2
         self.targetDigests["11.2.0"] = (["16c0204704f3ebeed057aba100fe7db18d71035505cb10e595ea33d346457fc8"], CraftHash.HashAlgorithm.SHA256)
@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["python-modules/meson"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/freetype"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/cairo"] = None
 
 
@@ -36,5 +36,5 @@ class Package(MesonPackageBase):
             "-Dgobject=disabled",
             "-Dfreetype=enabled",
             f"-Dicu={self.subinfo.options.isActive('libs/icu').asEnabledDisabled}",
-            f"-Dcairo={CraftCore.compiler.isAndroid.inverted.asEnabledDisabled}",
+            f"-Dcairo={CraftCore.compiler.platform.isAndroid.inverted.asEnabledDisabled}",
         ]

@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
 
         self.patchToApply["eaa68fa"] = [("shebang-fix.diff", 1)]
         self.patchToApply["b35605a"] = [("shebang-fix.diff", 1)]
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             # copy make file instead of creating a symlink
             self.patchToApply["eaa68fa"] += [("eaa68fa-fix-paths-and-symlinks-win.diff", 1)]
             self.patchToApply["b35605a"] += [("b35605a-fix-paths-and-symlinks-win.diff", 1)]
@@ -37,12 +37,12 @@ class Package(AutoToolsPackageBase):
             "--disable-gpac",
             "--enable-pic",
         ]
-        if CraftCore.compiler.isAndroid and (
+        if CraftCore.compiler.platform.isAndroid and (
             CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64 or CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32
         ):
             self.subinfo.options.configure.args += ["--disable-asm"]
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.make.supportsMultijob = False
 
     def configure(self):

@@ -10,9 +10,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         # On MinGW it fails to compile because of issues with xapian, just disable it
         # because MSVC is used to build the PIM stack on Windows anyways
-        self.parent.package.categoryInfo.platforms = (
-            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
-        )
+        self.parent.package.categoryInfo.compiler &= ~CraftCore.compiler.Compiler.MinGW
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()

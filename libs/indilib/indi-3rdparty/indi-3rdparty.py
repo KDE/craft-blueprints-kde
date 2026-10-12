@@ -33,7 +33,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/librtlsdr"] = None
         self.runtimeDependencies["libs/limesuite"] = None
         self.runtimeDependencies["libs/opencv/opencv"] = None
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.buildDependencies["libs/iconv"] = None
 
         self.runtimeDependencies["libs/indilib/indi"] = None
@@ -51,7 +51,7 @@ class Package(CraftPackageObject.get("libs/indilib").pattern):
 
     def install(self):
         ret = super().install()
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.fixLibraryFolder(self.imageDir() / "bin")
             if self.subinfo.options.dynamic.buildLibraries:
                 self.fixLibraryFolder(self.imageDir() / "lib")

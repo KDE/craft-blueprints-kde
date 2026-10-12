@@ -12,7 +12,7 @@ from Utils.CraftBool import CraftBool
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.setDefault("buildType", "Release")
-        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
+        self.parent.package.categoryInfo.platforms &= ~CraftCore.compiler.Platforms.Android
 
     def setTargets(self):
         for ver in ["15.0.2", "15.0.7", "16.0.1", "17.0.6", "18.1.2", "18.1.8", "20.1.0", "20.1.7"]:
@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"llvm-project-{ver}.src"
             self.targetConfigurePath[ver] = "llvm"
             self.patchToApply[ver] = []
-            if CraftCore.compiler.isMSVC():
+            if CraftCore.compiler.compiler.isMSVC:
                 self.patchToApply[ver] += [("llvm-15.0.2-20221107.diff", 1)]
         self.patchToApply["16.0.1"] += [(".16.0.1", 1)]
         self.patchToApply["17.0.6"] += [(".17.0.6", 1)]
@@ -109,10 +109,10 @@ class Package(CMakePackageBase):
 
         # build static in general
         self.subinfo.options.dynamic.buildStatic = CraftBool(True)
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.configure.args += ["-DLLVM_EXPORT_SYMBOLS_FOR_PLUGINS=ON"]
             # CMake Error at CMakeLists.txt:555 (message): BUILD_SHARED_LIBS options is not supported on Windows
-        elif CraftCore.compiler.isMinGW():
+        elif CraftCore.compiler.compiler.isMinGW:
             # LLVM_BUILD_LLVM_DYLIB would result in "error: export ordinal too large: 72285"
             pass
         else:
@@ -133,7 +133,7 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             files = os.listdir(self.buildDir() / "lib")
             for f in files:
                 if f.endswith("dll.a"):
@@ -141,7 +141,7 @@ class Package(CMakePackageBase):
                     dest = self.installDir() / "lib" / f
                     if not os.path.exists(dest):
                         utils.copyFile(src, dest, False)
-        elif CraftCore.compiler.isMSVC():
+        elif CraftCore.compiler.compiler.isMSVC:
             utils.copyFile(
                 self.buildDir() / "lib/clang.lib",
                 self.installDir() / "lib/craft_clang_plugins.lib",
@@ -150,7 +150,7 @@ class Package(CMakePackageBase):
         return True
 
     def postInstall(self):
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             # wrapper for python scripts
             for command in ["git-clang-format", "run-clang-tidy"]:
                 if not utils.createShim(

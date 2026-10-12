@@ -15,7 +15,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.11.0"] = (["3736161e41e2693324deb38c26cfdc3efe6209d634ba4258db1cecff6a5ad461"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.11.1"] = (["d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["1.10.0"] = [("libssh2-1.10.0-20221026.diff", 1)]  # don't let pkg-config search for ws2_32
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply["1.11.0"] = [("libssh2-1.11.0-MSVC-libprefix.pc.diff", 1)]
             self.patchToApply["1.11.1"] = [("libssh2-1.11.1-20251027.diff", 1)]
         self.patchLevel["1.10.0"] = 1

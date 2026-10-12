@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
 
         # This commit breaks deploying the ladspa plugin on Windows, so stay at version 0.91 :
         # https://github.com/werman/noise-suppression-for-voice/commit/019673ed3bf0eedbd9b3f4d4f0a719d12fee5147
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.defaultTarget = "0.91"
             self.patchLevel["0.91"] = 1
         else:
@@ -52,6 +52,6 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             return utils.mergeTree(self.installDir() / "lib", self.installDir() / "plugins")
         return True

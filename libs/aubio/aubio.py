@@ -36,7 +36,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/waf"] = None
         self.runtimeDependencies["virtual/base"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.buildDependencies["dev-utils/pkgconf"] = None
             self.runtimeDependencies["libs/libfftwf"] = None
             self.runtimeDependencies["libs/libsamplerate"] = None
@@ -72,11 +72,11 @@ class WafBuildSystem(BuildSystemBase):
             "--disable-docs",
             "--disable-tests",
         ]
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             args += ["--check-c-compiler=gcc"]
-        elif CraftCore.compiler.isMSVC():
+        elif CraftCore.compiler.compiler.isMSVC:
             args += ["--check-c-compiler=msvc"]
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             args += [
                 "--disable-fftw3f",
                 "--disable-sndfile",
@@ -88,9 +88,9 @@ class WafBuildSystem(BuildSystemBase):
                 "--enable-sndfile",
                 "--enable-samplerate",
             ]
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             args += ["--disable-fat"]
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             args += ["--with-target-platform=android"]
         elif getattr(CraftCore.compiler, "isIOS", False):
             args += ["--with-target-platform=ios"]
@@ -141,17 +141,17 @@ class Package(PackageBase, MultiSource, WafBuildSystem, TypePackager):
             ]
         )
         env = {"PKG_CONFIG_PATH": pkgConfigPath}
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             cc = CraftCore.cache.findApplication(os.environ["CC"])
             cxx = CraftCore.cache.findApplication(os.environ["CXX"])
             if cc:
                 env["CC"] = str(cc)
             if cxx:
                 env["CXX"] = str(cxx)
-        if CraftCore.compiler.isUnix:
+        if CraftCore.compiler.platform.isUnix:
             env["LD_LIBRARY_PATH"] = str(root / "lib")
-        if CraftCore.compiler.isMacOS and not CraftCore.compiler.isNative():
-            archFlag = f"-arch {CraftCore.compiler.architecture.name.lower()}"
+        if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
+            archFlag = f"-arch {CraftCore.compiler.architecture.key.name.lower()}"
             for name in ["CFLAGS", "CXXFLAGS", "LINKFLAGS", "LDFLAGS"]:
                 env[name] = f"{os.environ.get(name, '')} {archFlag}".strip()
         return env

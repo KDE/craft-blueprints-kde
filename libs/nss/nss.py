@@ -20,7 +20,7 @@ nspr_ver = "4.36"
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = (
-            CraftCore.compiler.Platforms.Windows if CraftCore.compiler.isMSVC() else (CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.Android)
+            CraftCore.compiler.Platforms.Windows if CraftCore.compiler.compiler.isMSVC else (CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.Android)
         )
         self.options.dynamic.registerOption("installTools", False)
 
@@ -32,7 +32,7 @@ class subinfo(info.infoclass):
         self.targets[ver] = f"https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_109_RTM/src/nss-{ver}-with-nspr-{nspr_ver}.tar.gz"
         self.targetInstSrc[ver] = f"nss-{ver}"
         self.targetDigests[ver] = (["25be414ff9c207dd67355f19e9e71001db45957b6bb74adf5b094c92e05116b4"], CraftHash.HashAlgorithm.SHA256)
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply[ver] = [("install-instead-of-nsinstall.diff", 1), ("cygwin-is-windows.diff", 1)]
         self.defaultTarget = ver
         self.patchLevel[ver] = 2
@@ -50,7 +50,7 @@ class Package(MakeFilePackageBase):
 
     @property
     def makeProgram(self):
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             return "make"
         else:
             return super().makeProgram
@@ -63,7 +63,7 @@ class Package(MakeFilePackageBase):
 
         buildArgs = ["-v", "--disable-tests", "--opt", "--system-sqlite", "-Dsign_libs=0", "--enable-libpkix"]
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             # When you say --system-sqlite it just tries to find it in the path, that doesn't work for MSVC
             configgypi = self.sourceDir() / "nss/coreconf/config.gypi"
             with open(configgypi, "rt") as f:
@@ -88,7 +88,7 @@ class Package(MakeFilePackageBase):
             self._shell.environment["GYP_MSVS_OVERRIDE_PATH"] = str(msvcPath)
             self._shell.environment["GYP_MSVS_VERSION"] = str(CraftCore.compiler.getMsvcYear())
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             # Otherwise gyp isn't found
             self._shell.environment["PATH"] += ":~/.local/bin/"
             if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
@@ -214,7 +214,7 @@ class Package(MakeFilePackageBase):
         BuildSystemBase.patchInstallPrefix(
             self, [(self.installDir() / "lib/pkgconfig/nspr.pc")], [os.path.dirname(self.installDir()) + "/work/nss-" + nss_ver + "/dist/Release"]
         )
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             # The nspr libs are created as libnspr4.lib so we need to adapt the pc file
             nsprpc = self.installDir() / "lib/pkgconfig/nspr.pc"
             with open(nsprpc, "rt") as f:

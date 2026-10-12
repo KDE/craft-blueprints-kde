@@ -46,7 +46,7 @@ class Package(CMakePackageBase):
             r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|update-mime-database|kioworker|SnoreToast).*)"
         )
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.defines["appname"] = "KDE Connect"
         else:
             self.defines["appname"] = "kdeconnect-indicator"
@@ -116,7 +116,7 @@ class Package(CMakePackageBase):
             self.defines["shortcuts"] = [
                 {
                     "name": self.subinfo.displayName,
-                    "target": f"bin/kdeconnect-app{CraftCore.compiler.executableSuffix}",
+                    "target": f"bin/kdeconnect-app{CraftCore.compiler.platform.executableSuffix}",
                     "description": self.subinfo.description,
                 }
             ]

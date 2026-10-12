@@ -25,7 +25,6 @@ class subinfo(info.infoclass):
 
         self.defaultTarget = "2.89.0"
 
-
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
         self.buildDependencies["libs/python"] = None
@@ -51,9 +50,9 @@ class Package(MesonPackageBase):
                 f" -I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot() / 'lib/dbus-1.0/include')}"
             )
         self.subinfo.options.configure.args += ["--wrap-mode=nodownload", "-Ddocumentation=false", "-Dinstalled_tests=false", "-Dman-pages=disabled"]
-        if CraftCore.compiler.isUnix:
+        if CraftCore.compiler.platform.isUnix:
             self.subinfo.options.configure.ldflags += " -liconv"
-        if CraftCore.compiler.isFreeBSD:
+        if CraftCore.compiler.platform.isFreeBSD:
             self.subinfo.options.configure.args += ["-Dxattr=false", "-Dlibmount=disabled", "-Dselinux=disabled", "-Db_lundef=false"]
 
         self.subinfo.options.configure.args += [f'-Dtests={"true" if self.subinfo.options.dynamic.buildTests else "false"}']

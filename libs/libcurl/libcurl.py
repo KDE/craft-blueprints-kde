@@ -9,8 +9,8 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # depends on libpsl which is not deployable on Android at this point
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
-        if CraftCore.compiler.isAndroid:
+        self.parent.package.categoryInfo.platforms = ~CraftCore.compiler.Platforms.Android
+        if CraftCore.compiler.platform.isAndroid:
             self.options.dynamic.setDefault("buildTools", False)
 
     def setTargets(self):
@@ -49,7 +49,7 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isLinux and self.buildType() == "Debug":
+        if CraftCore.compiler.platform.isLinux and self.buildType() == "Debug":
             if not utils.createSymlink(self.installDir() / "lib/libcurl-d.so", self.installDir() / "lib/libcurl.so"):
                 return False
         return True

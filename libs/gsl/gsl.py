@@ -6,7 +6,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.isMSVC())
+        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.compiler.isMSVC)
 
     def setTargets(self):
         self.svnTargets["master"] = "[git]https://github.com/ampl/gsl.git"

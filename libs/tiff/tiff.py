@@ -6,7 +6,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.options.dynamic.setDefault("buildTools", not CraftCore.compiler.isAndroid)
+        self.options.dynamic.setDefault("buildTools", not CraftCore.compiler.platform.isAndroid)
 
     def setTargets(self):
         self.description = "a library to manipulate TIFF image files"
@@ -33,5 +33,5 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += [
             f"-Dtiff-tools={self.subinfo.options.dynamic.buildTools.asOnOff}",
             f"-Dtiff-tests={self.subinfo.options.dynamic.buildTests.asOnOff}",
-            f"-Dtiff-contrib={CraftCore.compiler.isAndroid.inverted.asOnOff}",
+            f"-Dtiff-contrib={CraftCore.compiler.platform.isAndroid.inverted.asOnOff}",
         ]

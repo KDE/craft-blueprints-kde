@@ -23,7 +23,7 @@ class Package(SourceOnlyPackageBase):
         super().__init__(**kwargs)
 
     def install(self):
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             destDir = self.installDir() / "bin/data/color-schemes"
         else:
             destDir = self.installDir() / "share/color-schemes"

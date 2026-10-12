@@ -70,7 +70,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         )
         self.ignoredPackages.append("binary/mysql")
 
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
         return super().createPackage()

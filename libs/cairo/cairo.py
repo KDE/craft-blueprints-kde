@@ -32,6 +32,6 @@ class Package(MesonPackageBase):
         self.subinfo.options.configure.args += [
             "-Dtests=disabled",
             "-Dfreetype=enabled",
-            f"-Dxcb={CraftCore.compiler.isLinux.asEnabledDisabled}",
+            f"-Dxcb={CraftCore.compiler.platform.isLinux.asEnabledDisabled}",
             "-Dquartz=disabled",
         ]

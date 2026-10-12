@@ -5,13 +5,13 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             # KMailTransport is a required dependency, but disabled on MinGW so we can't build this either
             # It is probably not a big deal because MSVC is used to build the PIM stack on Windows
             self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler
         else:
             # Fails to build, because not maintained on macOS. Needs someone to fix it
-            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+            self.parent.package.categoryInfo.platforms = ~CraftCore.compiler.Platforms.MacOS
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()

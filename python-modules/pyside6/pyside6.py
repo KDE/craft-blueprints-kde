@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
             self.targets[ver] = f"https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-{ver}-src/pyside-setup-everywhere-src-{ver}.zip"
             self.targetInstSrc[ver] = "pyside-setup-everywhere-src-%s" % ver
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.patchToApply["6.11.2"] = [
                 ("shiboken-include-pep384impl.patch", 1),
                 ("python-libdir-fallback.patch", 1),
@@ -46,12 +46,12 @@ class Package(PipPackageBase):
         """Build PySide6 from source."""
         sourceDir = self.sourceDir()
         env = {}
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             env["LLVM_INSTALL_DIR"] = str(CraftStandardDirs.craftRoot())
             env["CLANG_INSTALL_DIR"] = str(CraftStandardDirs.craftRoot())
 
         with utils.ScopedEnv(env):
-            if CraftCore.compiler.isMacOS:
+            if CraftCore.compiler.platform.isMacOS:
                 return utils.system(
                     "SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py build --verbose-build --macos-use-libc++ --disable-pyi --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
                     cwd=sourceDir
@@ -72,7 +72,7 @@ class Package(PipPackageBase):
         sourceDir = self.sourceDir()
         imageDir = self.imageDir()
         env = {}
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             env["LLVM_INSTALL_DIR"] = str(CraftStandardDirs.craftRoot())
             env["CLANG_INSTALL_DIR"] = str(CraftStandardDirs.craftRoot())
 
@@ -85,7 +85,7 @@ class Package(PipPackageBase):
         # See https://doc.qt.io/qtforpython-6/building_from_source/index.html
         # macOS: SDKROOT required to find type_traits and skip failing WebEngineCore and dependencies
         with utils.ScopedEnv(env):
-            if CraftCore.compiler.isMacOS:
+            if CraftCore.compiler.platform.isMacOS:
                 return utils.system(
                     f"SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py install --prefix={imageDir} --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
                     cwd=sourceDir

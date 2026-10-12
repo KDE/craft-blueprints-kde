@@ -63,7 +63,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.ignoredPackages.append("binary/mysql")
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.addExecutableFilter(r"(bin)/(?!(haruna)\.exe$).*")
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
         return super().createPackage()

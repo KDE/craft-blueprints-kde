@@ -9,9 +9,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # cyrus-sasl on MinGW does not work out of the box. It needs someone who cares
-        self.parent.package.categoryInfo.platforms = (
-            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
-        )
+        self.parent.package.categoryInfo.compiler &= ~CraftCore.compiler.Compiler.MinGW
 
     def setTargets(self):
         self.description = "Cyrus SASL implementation"
@@ -36,7 +34,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/lmdb"] = None
 
 
-if CraftCore.compiler.isGCCLike():
+if CraftCore.compiler.compiler.isGCCLike:
 
     class Package(AutoToolsPackageBase):
         def __init__(self, **kwargs):
@@ -50,14 +48,14 @@ if CraftCore.compiler.isGCCLike():
                 "--without-authdaemond",
                 "--with-dblib=lmdb",
             ]
-            if CraftCore.compiler.isMinGW():
+            if CraftCore.compiler.compiler.isMinGW:
                 self.subinfo.options.configure.args += ["--without-saslauthd"]
 
             # Version 2.1.28: Fails with C23 because of some old-style K&R decls
             self.subinfo.options.configure.cflags += " -std=gnu17"
 
         def configure(self):
-            if CraftCore.compiler.isMinGW():
+            if CraftCore.compiler.compiler.isMinGW:
                 if not utils.copyFile(self.sourceDir() / "win32/include/md5global.h", self.sourceDir() / "include/md5global.h"):
                     return False
             return super().configure()

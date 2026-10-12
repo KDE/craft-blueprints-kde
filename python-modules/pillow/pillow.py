@@ -36,11 +36,11 @@ class subinfo(info.infoclass):
 class Package(PipPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args = f"--config-settings=--global-option=--{CraftCore.compiler.isLinux.asEnableDisable}-xcb"
+        self.subinfo.options.configure.args = f"--config-settings=--global-option=--{CraftCore.compiler.platform.isLinux.asEnableDisable}-xcb"
 
     def install(self):
         env = {}
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             env.update(
                 {
                     "INCLUDE": f"{os.environ['INCLUDE']};{CraftStandardDirs.craftRoot() / 'include/python3.11'}",

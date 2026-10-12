@@ -21,6 +21,6 @@ class Package(PipPackageBase):
     def postInstall(self):
         # workaround for lottie installing a file that is only needed at build time
         # and breaks signing on macOS, better would be to fix it upstream
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             utils.deleteFile(self.installDir() / "lib/Python.framework/Versions/Current/.version_full")
         return True

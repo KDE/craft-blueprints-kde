@@ -6,7 +6,7 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotWindows
+        self.parent.package.categoryInfo.platforms = ~CraftCore.compiler.Platforms.Windows
         self.options.dynamic.setDefault("buildType", "Release")
 
     def setDependencies(self):
@@ -30,6 +30,6 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.supportsClang = False
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             clangLib = CraftCore.standardDirs.craftRoot() / "lib/craft_clang_plugins.lib"
             self.subinfo.options.configure.args = f"-DCLANG_LIBRARY_IMPORT='{clangLib}'"

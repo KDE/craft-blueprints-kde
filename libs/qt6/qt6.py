@@ -9,9 +9,9 @@ class Pattern(CMakePackageBase):
         # Qt has a silent config step for unknown reasons
         self.subinfo.options.configure.args += ["--log-level=STATUS"]
         # Updating this always needs a corresponding change to the host tools in the CI image!
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.subinfo.defaultTarget = "6.11.0"
-        elif CraftCore.compiler.isWindows:
+        elif CraftCore.compiler.platform.isWindows:
             self.subinfo.options.configure.args += ["-DQT_GENERATE_SBOM=OFF"]
 
     def workDir(self):

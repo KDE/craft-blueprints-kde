@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "5.4.1"
 
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+        self.parent.package.categoryInfo.platforms = ~CraftCore.compiler.Platforms.MacOS
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

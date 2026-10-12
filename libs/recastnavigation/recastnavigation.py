@@ -9,7 +9,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.isAndroid)
+        self.options.dynamic.setDefault("buildStatic", CraftCore.compiler.platform.isAndroid)
 
     def setTargets(self):
         self.description = "Recast Navigation"

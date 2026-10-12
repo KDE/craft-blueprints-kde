@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/pkgconf"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/glib"] = None
             self.runtimeDependencies["libs/libsndfile"] = None
         else:
@@ -40,7 +40,7 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         # dbus support needs a small patch on Windows but I have no idea why you would want dbus here
         self.subinfo.options.configure.args += ["-DLIB_SUFFIX=''", "-Denable-dbus=OFF"]
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += [
                 "-Dosal=cpp11",
                 "-Denable-opensles=ON",
@@ -66,7 +66,7 @@ class Package(CMakePackageBase):
         if not super().install():
             return False
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             imageRoot = self.installDir()
             configFiles = sorted(imageRoot.glob("**/lib/cmake/fluidsynth/FluidSynthConfig.cmake"))
             if not configFiles:
@@ -74,7 +74,7 @@ class Package(CMakePackageBase):
                 return False
 
             configFile = configFiles[0]
-            oboeLib = CraftCore.standardDirs.craftRoot() / "lib" / f"liboboe_{CraftCore.compiler.androidAbi}.so"
+            oboeLib = CraftCore.standardDirs.craftRoot() / "lib" / f"liboboe_{CraftCore.compiler.architecture.androidAbi}.so"
             oboeIncludeDir = CraftCore.standardDirs.craftRoot() / "include"
 
             with open(configFile, "a", encoding="utf-8") as config:

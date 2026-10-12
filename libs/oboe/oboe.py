@@ -27,8 +27,8 @@ class Package(CMakePackageBase):
             return False
 
         imageRoot = self.installDir()
-        if CraftCore.compiler.isAndroid:
-            installedLibs = sorted(imageRoot.glob(f"**/lib/{CraftCore.compiler.androidAbi}/liboboe*.so"))
+        if CraftCore.compiler.platform.isAndroid:
+            installedLibs = sorted(imageRoot.glob(f"**/lib/{CraftCore.compiler.architecture.androidAbi}/liboboe*.so"))
             if not installedLibs:
                 installedLibs = sorted(imageRoot.glob("**/liboboe*.so"))
             if not installedLibs:
@@ -51,7 +51,7 @@ class Package(CMakePackageBase):
             return False
 
         prefix = prefixDir
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             prefix = CraftCore.standardDirs.craftRoot()
 
         with open(pkgConfigDir / "oboe-1.0.pc", "wt", encoding="utf-8") as pcFile:

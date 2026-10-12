@@ -23,7 +23,7 @@ class Package(CraftPackageObject.get("kde/frameworks").pattern):
         super().__init__(**kwargs)
 
     def make(self):
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             # this does build a host tool, which fails if we force the compiler to the one of the target
             # not setting CC/CXX OTOH is fine, it'll find everything it needs for the target in the CMake toolchain file
             env = {}

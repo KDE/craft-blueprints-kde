@@ -50,23 +50,23 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libzip"] = None
         self.runtimeDependencies["libs/liblz4"] = None
         # netcdf installation is broken for MSVC atm
-        if not CraftCore.compiler.isMSVC() and not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.compiler.isMSVC and not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/netcdf"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/hdf5"] = None
             self.runtimeDependencies["libs/orcus"] = None
             self.runtimeDependencies["libs/cfitsio"] = None
             self.runtimeDependencies["libs/libfftw"] = None
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
 
         # cross compiling Cantor fails on macOS x86_64 (CD job)
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["kde/applications/cantor"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/qt6/qtserialport"] = None
             self.runtimeDependencies["libs/qt6/qtmqtt"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
@@ -84,11 +84,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["qt-libs/poppler"] = None
             self.runtimeDependencies["libs/matio"] = None
             self.runtimeDependencies["libs/discount"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["libs/qt6/qtwebsockets"] = None
         # required on macOS currently
         self.runtimeDependencies["libs/readstat"] = None
@@ -100,11 +100,11 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/brotli"] = None
         self.runtimeDependencies["libs/boost"] = None
         self.runtimeDependencies["libs/ixion"] = None
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
             self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
             self.buildDependencies["python-modules/build"] = None
-        if not CraftCore.compiler.isWindows:
+        if not CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["python-modules/pyside6"] = None
         #    self.runtimeDependencies["libs/python"] = None
 
@@ -114,7 +114,7 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DLOCAL_DBC_PARSER=ON", "-DLOCAL_VECTOR_BLF=ON"]
         self.subinfo.options.configure.args += [f"-DPython3_ROOT_DIR={CraftCore.standardDirs.craftRoot()}"]
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # readstat fails with ninja
             self.supportsNinja = False
             # cerf.h is not found when using libcerf from ports
@@ -131,13 +131,13 @@ class Package(CMakePackageBase):
             f"-DIxion_INCLUDE_DIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/ixion-0.20",
             f"-DOrcus_INCLUDE_DIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/orcus-0.20",
         ]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.configure.args += f'-DCMAKE_CXX_FLAGS="-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/boost-1_86 -EHsc"'
 
     # required on macOS to find type_traits
     def _getEnv(self):
         env = {}
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             return env
         sdk = subprocess.check_output(["xcrun", "--show-sdk-path"], text=True).strip()
         print("SDKROOT =", sdk)
@@ -164,7 +164,7 @@ class Package(CMakePackageBase):
 
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         # Some plugin files break codesigning on macOS, which is picky about file names
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
             self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess)).*")
         else:
@@ -227,7 +227,7 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/r-base")
         self.ignoredPackages.append("libs/sdl2")
         # AppImage requires several libs
-        if not CraftCore.compiler.isLinux or not isinstance(self, AppImagePackager):
+        if not CraftCore.compiler.platform.isLinux or not isinstance(self, AppImagePackager):
             self.ignoredPackages.append("libs/aom")
             self.ignoredPackages.append("libs/dav1d")
             self.ignoredPackages.append("libs/ffmpeg")
@@ -237,7 +237,7 @@ class Package(CMakePackageBase):
             self.ignoredPackages.append("libs/qt6/qtshadertools")
             self.ignoredPackages.append("libs/llvm")
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
         return super().createPackage()
@@ -246,7 +246,7 @@ class Package(CMakePackageBase):
         archiveDir = self.archiveDir()
         print("preArchive(), archive dir:", archiveDir)
 
-        if CraftCore.compiler.isMacOS and not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+        if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
             # Move cantor_pythonserver to the package
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)

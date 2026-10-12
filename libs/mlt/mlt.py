@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "0f8244a"
 
         self.patchToApply["0f8244a"] = []
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.patchToApply["0f8244a"] += [("revert-mingw-mysy2.diff", 1)]
 
     def setDependencies(self):
@@ -36,12 +36,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libfftw"] = None
         self.runtimeDependencies["libs/libsamplerate"] = None
 
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["libs/libasound2"] = None
             self.runtimeDependencies["libs/movit"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["libs/dlfcn-win32"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             # self.runtimeDependencies["libs/jack2"] = None
             self.runtimeDependencies["libs/sox"] = None
         self.runtimeDependencies["libs/rubberband"] = None
@@ -51,7 +51,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/ladspa-cmt"] = None
         self.runtimeDependencies["libs/ladspa-rnnoise"] = None
         self.runtimeDependencies["libs/ladspa-tap"] = None
-        if not CraftCore.compiler.isWindows:
+        if not CraftCore.compiler.platform.isWindows:
             # TODO: fix ladspa-swh build on Windows
             self.runtimeDependencies["libs/ladspa-swh"] = None
         self.runtimeDependencies["libs/spatialaudio"] = None
@@ -64,7 +64,7 @@ class subinfo(info.infoclass):
         # dependencies for glaxnimate module
         self.runtimeDependencies["libs/libarchive"] = None
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.runtimeDependencies["libs/pthreads"] = None
 
 
@@ -73,7 +73,7 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
 
         # enable submodule checkout to get glaximate
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.fetch.checkoutSubmodules = True
 
         # General CMake switches
@@ -83,18 +83,18 @@ class Package(CMakePackageBase):
             "-DBUILD_TESTS_WITH_QT6=ON",
         ]
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.args += ["-DCMAKE_C_FLAGS=-Wno-incompatible-pointer-types"]
 
         # CMake switches for MLT modules
 
-        useMovit = CraftBool(self.subinfo.options.isActive("libs/movit") and CraftCore.compiler.isLinux)
-        useSox = CraftBool(self.subinfo.options.isActive("libs/sox") and not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS)
+        useMovit = CraftBool(self.subinfo.options.isActive("libs/movit") and CraftCore.compiler.platform.isLinux)
+        useSox = CraftBool(self.subinfo.options.isActive("libs/sox") and not CraftCore.compiler.platform.isAndroid and not CraftCore.compiler.platform.isMacOS)
 
         self.subinfo.options.configure.args += [
             f"-DMOD_AVFORMAT={self.subinfo.options.isActive('libs/ffmpeg').asOnOff}",
             # TODO Fix decklink module with MSVC
-            f"-DMOD_DECKLINK={CraftCore.compiler.isMSVC().inverted.asOnOff}",
+            f"-DMOD_DECKLINK={CraftCore.compiler.compiler.isMSVC.inverted.asOnOff}",
             f"-DMOD_FREI0R={self.subinfo.options.isActive('libs/frei0r-plugins').asOnOff}",
             # don't pull in gtk
             "-DMOD_GDK=OFF",
@@ -111,7 +111,7 @@ class Package(CMakePackageBase):
             "-DMOD_QT6=ON",
             f"-DMOD_RESAMPLE={self.subinfo.options.isActive('libs/libsamplerate').asOnOff}",
             "-DMOD_RNNOISE=OFF",
-            f"-DMOD_RTAUDIO={CraftCore.compiler.isAndroid.inverted.asOnOff}",
+            f"-DMOD_RTAUDIO={CraftCore.compiler.platform.isAndroid.inverted.asOnOff}",
             f"-DMOD_RUBBERBAND={self.subinfo.options.isActive('libs/rubberband').asOnOff}",
             # We don't support SDL 1 anymore, we have SDL 2
             "-DMOD_SDL1=OFF",
@@ -120,7 +120,7 @@ class Package(CMakePackageBase):
             f"-DMOD_SPATIALAUDIO={self.subinfo.options.isActive('libs/spatialaudio').asOnOff}",
             f"-DMOD_VIDSTAB={self.subinfo.options.isActive('libs/vidstab').asOnOff}",
             # TODO Fix xine module with MSVC
-            f"-DMOD_XINE={CraftCore.compiler.isMSVC().inverted.asOnOff}",
+            f"-DMOD_XINE={CraftCore.compiler.compiler.isMSVC.inverted.asOnOff}",
             f"-DMOD_XML={self.subinfo.options.isActive('libs/libxml2').asOnOff}",
         ]
 
@@ -129,6 +129,6 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             return utils.mergeTree(self.installDir() / "lib/mlt", self.installDir() / "plugins/mlt")
         return True

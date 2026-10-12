@@ -9,9 +9,9 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.options.dynamic.setDefault("buildStatic", True)
-        self.options.dynamic.setDefault("buildTests", not CraftCore.compiler.isWindows)
+        self.options.dynamic.setDefault("buildTests", not CraftCore.compiler.platform.isWindows)
 
     def setTargets(self):
         self.patchToApply["4.1.1"] = [("qrencode-fix-install-lib-4.1.1-20250903.patch", 1)]

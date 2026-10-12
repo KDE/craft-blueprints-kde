@@ -54,7 +54,7 @@ class Package(CMakePackageBase):
         self.defines["icon"] = self.sourceDir() / "resources/rolisteam/logo/rolisteam.ico"
         self.defines["shortcuts"] = [{"name" : self.subinfo.displayName, "target": "bin/rolisteam.exe"}, {"name" : "rcse", "target" : "bin/rcse.exe"}, {"name" : "dice", "target" : "bin/dice.exe"}]
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
 
         return super().createPackage()

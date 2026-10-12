@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         self.targetDigests["5.2.4"] = (["b9e2e4aad6789b3b63a056d442f7b39f0ecfca3ae0f1fc0ae4e9614401b69f4b"], CraftHash.HashAlgorithm.SHA256)
 
         self.patchToApply["5.2.4"] = [("0002-generate-pc-file.patch", 1)]
-        if CraftCore.compiler.isUnix:
+        if CraftCore.compiler.platform.isUnix:
             self.patchToApply["5.2.4"] += [("0001-build-shared-library.patch", 1)]
         self.patchLevel["5.2.4"] = 3
 
@@ -33,10 +33,10 @@ class Package(MakeFilePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.useShadowBuild = False
-        self.subinfo.options.make.supportsMultijob = not CraftCore.compiler.isWindows
-        if CraftCore.compiler.isUnix:
+        self.subinfo.options.make.supportsMultijob = not CraftCore.compiler.platform.isWindows
+        if CraftCore.compiler.platform.isUnix:
             self.subinfo.options.make.args += ["generic"]
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.subinfo.options.make.args += ["mingw"]
         self.subinfo.options.make.args += ["lua5.2.pc"]
 
@@ -44,7 +44,7 @@ class Package(MakeFilePackageBase):
         self.enterSourceDir()
 
         includeDir = self.installDir() / "include/lua/lua5.2"
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             includeDir = self.installDir() / "include"
 
         files = [
@@ -73,7 +73,7 @@ class Package(MakeFilePackageBase):
                 if not utils.copyFile(source, dest):
                     return False
 
-        if CraftCore.compiler.isUnix:
+        if CraftCore.compiler.platform.isUnix:
             liblua = self.installDir() / "lib/liblua.so.5.2.4"
             if os.path.exists(liblua):
                 if (

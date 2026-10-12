@@ -45,6 +45,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["appname"] = "CrowTranslate"
         self.defines["executable"] = r"bin\crow.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(crow|update-mime-database)).*")
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

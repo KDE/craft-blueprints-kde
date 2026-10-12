@@ -10,14 +10,14 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/hunspell/hunspell.git"
         for ver in ["1.7.2"]:
-            if CraftCore.compiler.isMSVC():
+            if CraftCore.compiler.compiler.isMSVC:
                 self.targets[ver] = f"https://github.com/hunspell/hunspell/archive/v{ver}.tar.gz"
             else:
                 self.targets[ver] = f"https://github.com/hunspell/hunspell/releases/download/v{ver}/hunspell-{ver}.tar.gz"
 
             self.targetInstSrc[ver] = f"hunspell-{ver}"
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.targetDigests["1.7.2"] = (["69fa312d3586c988789266eaf7ffc9861d9f6396c31fc930a014d551b59bbd6e"], CraftHash.HashAlgorithm.SHA256)
         else:
             self.targetDigests["1.7.2"] = (["11ddfa39afe28c28539fe65fc4f1592d410c1e9b6dd7d8a91ca25d85e9ec65b8"], CraftHash.HashAlgorithm.SHA256)
@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "1.7.2"
 
     def setDependencies(self):
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/gettext"] = None
@@ -60,11 +60,11 @@ class PackageGNU(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.bootstrap = True
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.autoreconf = False
 
 
-if CraftCore.compiler.isGCCLike():
+if CraftCore.compiler.compiler.isGCCLike:
 
     class Package(PackageGNU):
         pass

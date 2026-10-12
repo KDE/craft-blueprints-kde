@@ -33,6 +33,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["shortcuts"] = [{"name": "KMCpClientInspector", "target": "bin/kmcpclientinspector.exe", "description": self.subinfo.description, "appId": "kmcpclientinspector"}]
         self.defines["alias"] = "kmcpclientinspector"
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

@@ -36,7 +36,7 @@ class Package(MesonPackageBase):
     def postInstall(self):
         if not super().postInstall():
             return False
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # GStreamer installs its plugins to lib/gstreamer-1.0. When the app is bundled,
             # craft moves the whole lib/ directory into the .app's Contents/Frameworks, and
             # codesign rejects the plugin directory ("bundle format unrecognized, invalid,

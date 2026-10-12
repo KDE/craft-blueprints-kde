@@ -13,7 +13,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # this blueprint is currently not maintained for Android
-        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
+        self.parent.package.categoryInfo.platforms &= ~CraftCore.compiler.Platforms.Android
 
     def setTargets(self):
         for ver in ["6.1.1", "7.0.1", "7.1", "8.0.1", "8.1.1"]:
@@ -28,7 +28,7 @@ class subinfo(info.infoclass):
         self.targetDigests["8.0.1"] = (["65ff433fab5727fb2dc41f1d508dc60e6192fea44cab2e0301194feee4bcf1d7"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["8.1.1"] = (["b08594a47ca475ddda21c7990d8e9e3ceb5cd74f9709b4b5995b24d11cafa467"], CraftHash.HashAlgorithm.SHA256)
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             for ver in self.targets:
                 if CraftVersion(ver) < CraftVersion("8.1.0"):
                     self.patchToApply[ver] += [("ffmpeg-4.4-20210413.diff", 1)]
@@ -67,19 +67,19 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/aom"] = None
         self.runtimeDependencies["libs/dav1d"] = None
         self.runtimeDependencies["libs/onevpl"] = None
-        if CraftCore.compiler.isGCCLike():
-            if not CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.compiler.isGCCLike:
+            if not CraftCore.compiler.platform.isAndroid:
                 self.runtimeDependencies["libs/zimg"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/libass"] = None
             self.runtimeDependencies["libs/libvpx"] = None
             self.runtimeDependencies["libs/webp"] = None
             self.runtimeDependencies["libs/x264"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.buildDependencies["libs/amf"] = None
             self.buildDependencies["libs/nvidia-codecs"] = None
             self.runtimeDependencies["libs/svtav1"] = None
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["libs/libva"] = None
             self.runtimeDependencies["libs/libvdpau"] = None
 
@@ -92,25 +92,25 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.noCacheFile = True
         self.subinfo.options.configure.autoreconf = False
         # with msvc it does not support shadowbuilds
-        self.subinfo.options.useShadowBuild = not CraftCore.compiler.isMSVC()
+        self.subinfo.options.useShadowBuild = not CraftCore.compiler.compiler.isMSVC
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += ["--enable-libmp3lame", "--enable-libass", "--enable-libvpx"]
         else:
             self.subinfo.options.configure.args += ["--disable-programs"]
         if "CC" in os.environ:
             cc = os.environ["CC"]
-            if CraftCore.compiler.isMacOS and not CraftCore.compiler.isNative():
-                cc = f"{cc} -arch {CraftCore.compiler.architecture.name.lower()}"
+            if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
+                cc = f"{cc} -arch {CraftCore.compiler.architecture.key.name.lower()}"
             self.subinfo.options.configure.args += [f"--cc={cc}"]
         if "CXX" in os.environ:
             cxx = os.environ["CXX"]
-            if CraftCore.compiler.isMacOS and not CraftCore.compiler.isNative():
-                cxx = f"{cxx} -arch {CraftCore.compiler.architecture.name.lower()}"
+            if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
+                cxx = f"{cxx} -arch {CraftCore.compiler.architecture.key.name.lower()}"
             self.subinfo.options.configure.args += [f"--cxx={cxx}"]
 
-        architecture = CraftCore.compiler.architecture.name.lower()
-        if CraftCore.compiler.isAndroid:
+        architecture = CraftCore.compiler.architecture.key.name.lower()
+        if CraftCore.compiler.platform.isAndroid:
             if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
                 architecture = "aarch64"
                 compiler = "aarch64-linux-android"
@@ -132,13 +132,13 @@ class Package(AutoToolsPackageBase):
             # needed with NDK r25, otherwise build fails due to not finding vulkan_beta.h
             self.subinfo.options.configure.args += ["--extra-cflags=-DVK_ENABLE_BETA_EXTENSIONS=0"]
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.subinfo.options.configure.args += ["--enable-dxva2"]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.configure.cflags += "-FS"
             self.subinfo.options.configure.cxxflags += "-FS"
             self.subinfo.options.configure.args += ["--toolchain=msvc"]
-        elif not CraftCore.compiler.isAndroid:
+        elif not CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += [
                 "--enable-libzimg",
             ]
@@ -152,10 +152,10 @@ class Package(AutoToolsPackageBase):
             "--enable-nonfree",
             "--enable-openssl",
             "--disable-xlib",
-            f"--{CraftCore.compiler.isLinux.asEnableDisable}-libxcb",
+            f"--{CraftCore.compiler.platform.isLinux.asEnableDisable}-libxcb",
         ]
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             # This disables H.264/H.265 **encoding** and not decoding (that is handled by avcodec)
             # No one is encoding videos on Android (yet?) and ffmpeg doesn't pick these up properly on Android yet anyway.
             if self.subinfo.options.isActive("libs/x264"):
@@ -172,14 +172,14 @@ class Package(AutoToolsPackageBase):
                 "--enable-libwebp",
             ]
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             # Work around https://github.com/android/ndk/issues/1974 in ndk26.
             # But also Vulkan video decode isn't well supported on Android anyway.
             self.subinfo.options.configure.args += ["--disable-vulkan"]
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["--enable-rpath", "--install-name-dir=@rpath"]
-        elif not CraftCore.compiler.isAndroid:
+        elif not CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += [
                 "--enable-ffnvcodec",
                 "--enable-nvdec",
@@ -191,7 +191,7 @@ class Package(AutoToolsPackageBase):
             if self.subinfo.options.isActive("libs/onevpl"):
                 self.subinfo.options.configure.args += ["--enable-libvpl"]
 
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += ["--enable-vaapi", "--enable-vdpau"]
 
     def configure(self):
@@ -206,7 +206,7 @@ class Package(AutoToolsPackageBase):
         if not super().install():
             return False
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             files = ["avcodec", "avdevice", "avfilter", "avformat", "avutil", "postproc", "swresample", "swscale"]
             for file in files:
                 file += ".lib"
@@ -217,7 +217,7 @@ class Package(AutoToolsPackageBase):
         return True
 
     def _ffmpegEnv(self):
-        if not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.compiler.isMSVC:
             return {}
         return {
             "LIB": f"{os.environ['LIB']};{CraftStandardDirs.craftRoot() / 'lib'}",

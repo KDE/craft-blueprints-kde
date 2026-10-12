@@ -10,9 +10,9 @@ class subinfo(info.infoclass):
         for ver in ["1-alpha-20250213-1"]:
             self.targets[
                 ver
-            ] = f"https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/{ver}/linuxdeploy-plugin-appimage-{CraftCore.compiler.appImageArchitecture}.AppImage"
+            ] = f"https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/{ver}/linuxdeploy-plugin-appimage-{CraftCore.compiler.architecture.appImageArchitecture}.AppImage"
             # add version to file name to allow downloading multiple versions
-            self.archiveNames[ver] = f"linuxdeploy-plugin-appimage-{ver}-{CraftCore.compiler.appImageArchitecture}.AppImage"
+            self.archiveNames[ver] = f"linuxdeploy-plugin-appimage-{ver}-{CraftCore.compiler.architecture.appImageArchitecture}.AppImage"
             self.targetInstallPath[ver] = "dev-utils/bin"
         self.targetDigests["1-alpha-20250213-1"] = (["992d502a248e14ab185448ddf6f6e7d25558cb84d4623c354c3af350c25fccb3"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "1-alpha-20250213-1"

@@ -31,7 +31,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["qt-libs/qxmpp"] = None
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
@@ -43,14 +43,14 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # The GStreamer plugins are relocated into Contents/PlugIns/gstreamer when
             # bundling (see libs/gstreamer). Tell Kaidan where to find them, relative to the
             # executable in Contents/MacOS.
             self.subinfo.options.configure.args += ["-DTARGET_GSTREAMER_PLUGINS=../PlugIns/gstreamer"]
 
     def createPackage(self):
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "excludelist_mac.txt")
             self.addExecutableFilter(r"(bin|libexec)/(?!(kaidan|update-mime-database|kioworker)).*")
 

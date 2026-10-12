@@ -23,7 +23,7 @@ class subinfo(info.infoclass):
             ("no-openssl-version-check.diff", 1),
             ("autotools_is_awesome.diff", 1)
         ]
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.patchToApply["2.4.45"] += [
                 ("openldap-2.4.45-20170628.diff", 1),
                 ("openldap-2.4.45-20250809.diff", 1),  # Force usage of compat getopt
@@ -43,13 +43,13 @@ class subinfo(info.infoclass):
 
         self.patchLevel["2.4.45"] = 1
         self.patchLevel["2.6.10"] = 1
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.defaultTarget = "2.4.45"
         else:
             self.defaultTarget = "2.6.10"
 
     def setDependencies(self):
-        if not CraftCore.compiler.isWindows:
+        if not CraftCore.compiler.platform.isWindows:
             self.buildDependencies["libs/groff"] = None
         else:
             self.runtimeDependencies["libs/pcre2"] = None
@@ -58,7 +58,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/openssl"] = None
 
 
-if CraftCore.compiler.isWindows:
+if CraftCore.compiler.platform.isWindows:
 
     class Package(CMakePackageBase):
         def __init__(self, **kwargs):

@@ -53,13 +53,13 @@ class Package(CMakePackageBase):
         #   which would point at heaptrack_gui
         self.defines["runenv"] = ['PATH="$this_dir/usr/bin:$PATH"; "$this_dir/usr/bin/heaptrack" "$@"; exit;']
 
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
         return super().createPackage()
 
     def preArchive(self):
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             # --- Manage files under AppImage bundle
 
             packageDir = self.blueprintDir()

@@ -45,7 +45,7 @@ class Package(AutoToolsPackageBase):
 
     def make(self, dummyBuildType=None):
         env = {}
-        if CraftCore.compiler.isUnix:
+        if CraftCore.compiler.platform.isUnix:
             # make it find iconv
             env["LIBRARY_PATH"] = CraftCore.standardDirs.craftRoot() / "lib"
         with utils.ScopedEnv(env):
