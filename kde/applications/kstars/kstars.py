@@ -12,16 +12,16 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
 
         self.description = "a desktop planetarium"
-        self.svnTargets["3.8.4"] = "https://invent.kde.org/education/kstars.git|stable-3.8.4"
+        self.svnTargets["3.8.5"] = "https://invent.kde.org/education/kstars.git|stable-3.8.5"
         self.svnTargets["master"] = "https://github.com/KDE/kstars.git"
-        self.defaultTarget = "3.8.4"
+        self.defaultTarget = "3.8.5"
         self.displayName = "KStars Desktop Planetarium"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt/qtbase"] = None
         self.runtimeDependencies["libs/qt/qtdeclarative"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
-        self.runtimeDependencies["libs/qt6/qtdatavis3d"] = None
+        self.runtimeDependencies["libs/qt6/qtgraphs"] = None
         self.runtimeDependencies["libs/qt/qtwebsockets"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kconfig"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None

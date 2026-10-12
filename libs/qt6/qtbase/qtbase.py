@@ -51,9 +51,19 @@ class subinfo(info.infoclass):
             self.patchLevel["6.8.1"] = 1
 
         # https://qt-project.atlassian.net/browse/QTBUG-147449 (fixed in 6.11.3)
+        # https://qt-project.atlassian.net/browse/QTBUG-150017
+        # https://codereview.qt-project.org/c/qt/qtbase/+/775577
         self.patchToApply["6.11.0"] += [(".6.11.1", 1)]
         self.patchToApply["6.11.1"] += [(".6.11.1", 1)]
         self.patchToApply["6.11.2"] += [(".6.11.1", 1)]
+
+        # https://qt-project.atlassian.net/browse/QTBUG-150017
+        self.patchToApply["6.11.3"] += [(".6.11.1/774ebf5.diff", 1)]
+        self.patchToApply["6.12.0"] += [(".6.11.1/774ebf5.diff", 1)]
+
+        # https://codereview.qt-project.org/c/qt/qtbase/+/775577
+        self.patchToApply["6.11.3"] += [(".6.11.1/qtbase-hsts-expired-policy.diff", 1)]
+        self.patchToApply["6.12.0"] += [(".6.11.1/qtbase-hsts-expired-policy.diff", 1)]
 
         self.patchLevel["6.4.3"] = 4
         self.patchLevel["6.6.0"] = 4
@@ -61,7 +71,8 @@ class subinfo(info.infoclass):
         self.patchLevel["6.8.0"] = 2
         self.patchLevel["6.8.1"] = 2
         self.patchLevel["6.11.0"] = 1
-        self.patchLevel["6.11.1"] = 3
+        self.patchLevel["6.11.1"] = 4
+        self.patchLevel["6.11.2"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

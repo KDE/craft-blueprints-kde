@@ -1,0 +1,15 @@
+diff --git a/src/plugins/styles/mac/qmacstyle_mac.mm b/src/plugins/styles/mac/qmacstyle_mac.mm
+index 814a312..4d4d6ff 100644
+--- a/src/plugins/styles/mac/qmacstyle_mac.mm
++++ b/src/plugins/styles/mac/qmacstyle_mac.mm
+@@ -3503,8 +3503,8 @@
+             return cs == QStyleHelper::SizeSmall ? 0.5 : 0.0;
+         } ();
+         d->drawNSViewInRect(tb, opt->rect, p, ^(CGContextRef ctx, const CGRect &rect) {
+-            CGContextTranslateCTM(ctx, 0, vOffset);
+-            [tb.cell drawInteriorWithFrame:rect inView:tb];
++            CGContextTranslateCTM(ctx, rect.origin.x, rect.origin.y + vOffset);
++            [tb.cell drawInteriorWithFrame:tb.bounds inView:tb];
+         });
+         break; }
+     case PE_FrameFocusRect:

@@ -1,0 +1,19 @@
+diff --git a/src/network/access/qhsts.cpp b/src/network/access/qhsts.cpp
+index 5158b7be..b732db7b 100644
+--- a/src/network/access/qhsts.cpp
++++ b/src/network/access/qhsts.cpp
+@@ -165,13 +165,13 @@ bool QHstsCache::isKnownHost(const QUrl &url) const
+         auto const pos = knownHosts.find(nameToTest);
+         if (pos != knownHosts.end()) {
+             if (pos->second.isExpired()) {
+-                knownHosts.erase(pos);
+ #if QT_CONFIG(settings)
+                 if (hstsStore) {
+                     // Inform our store that this policy has expired.
+                     hstsStore->addToObserved(pos->second);
+                 }
+ #endif // QT_CONFIG(settings)
++                knownHosts.erase(pos);
+             } else if (!superDomainMatch || pos->second.includesSubDomains()) {
+                 return true;
+             }

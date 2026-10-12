@@ -3,6 +3,7 @@
 
 import glob
 import shutil
+import subprocess
 
 import info
 import utils
@@ -27,14 +28,14 @@ class subinfo(info.infoclass):
                 ("skip-plugins.patch", 1),
                 ("skip-designer-copy.patch", 1)
             ]
-            self.patchLevel["6.11.2"] = 2
+            self.patchLevel["6.11.2"] = 7
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
         self.buildDependencies["python-modules/packaging"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtremoteobjects"] = None
-        # required by shiboken6
+        # required by shiboken6, its libclang is bundled into the package by _bundleLibclang()
         self.buildDependencies["libs/llvm"] = None
 
 
@@ -44,6 +45,30 @@ class Package(PipPackageBase):
 
     def make(self):
         """Build PySide6 from source."""
+        # Windows: Python headers contain #pragma comment(lib, "python3XX.lib") which
+        # forces the linker to require the versioned lib even when CMake links python3.lib.
+        # Craft builds Python with stable ABI (python3.lib only), so create python3XX.lib
+        # as a copy to satisfy the #pragma directive.
+        if CraftCore.compiler.platform.isWindows:
+            lib_dir = CraftStandardDirs.craftRoot() / "lib"
+            python3_lib = lib_dir / "python3.lib"
+            if python3_lib.exists():
+                # Query Craft's Python for its version (not sys.version_info which is Craft's runner)
+                python_exe = CraftStandardDirs.craftRoot() / "bin" / "python.exe"
+                try:
+                    result = subprocess.run(
+                        [str(python_exe), "-c", "import sys; print(f'{sys.version_info.major}{sys.version_info.minor}')"],
+                        capture_output=True, text=True, timeout=10
+                    )
+                    if result.returncode == 0:
+                        version = result.stdout.strip()
+                        pythonXY_lib = lib_dir / f"python{version}.lib"
+                        if not pythonXY_lib.exists():
+                            CraftCore.log.info(f"Creating {pythonXY_lib} from {python3_lib} for #pragma compatibility")
+                            shutil.copy2(python3_lib, pythonXY_lib)
+                except Exception as e:
+                    CraftCore.log.warning(f"Could not determine Python version: {e}")
+
         sourceDir = self.sourceDir()
         env = {}
         if CraftCore.compiler.platform.isWindows:
@@ -59,13 +84,34 @@ class Package(PipPackageBase):
             else:
                 # Skip QML/Designer modules: QML directory copy fails with escaping errors on Windows
                 # Skip WebEngine modules: require Chromium dependencies not available in Craft
-                return utils.system(
-                    ["python", "setup.py", "build",
-                     "--limited-api=yes",
-                     "--disable-pyi",
-                     "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"],
-                    cwd=sourceDir
-                )
+                cmd = ["python", "setup.py", "build",
+                       "--limited-api=yes",
+                       "--disable-pyi",
+                       "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"]
+
+                # Force PySide6 to build against Craft's Qt instead of bundling its own Qt to avoid
+                # Qt ABI mismatch on Windows if PySide6 bundles Qt and other applications using it link Craft's Qt
+                if CraftCore.compiler.platform.isWindows:
+                    qtpaths = CraftStandardDirs.craftRoot() / "bin" / "qtpaths.exe"
+                    CraftCore.log.info(f"Checking for qtpaths at: {qtpaths}, exists: {qtpaths.exists()}")
+                    if qtpaths.exists():
+                        cmd.append(f"--qtpaths={qtpaths}")
+                        CraftCore.log.info(f"Added --qtpaths={qtpaths} to PySide6 build")
+                    else:
+                        CraftCore.log.warning(f"qtpaths.exe not found at {qtpaths}, PySide6 will bundle its own Qt")
+
+                return utils.system(cmd, cwd=sourceDir)
+
+    # dev-utils/bin/libclang.dll precedes bin/ in PATH, so ship the libclang shiboken6 was linked against next to it
+    def _bundleLibclang(self):
+        if not CraftCore.compiler.platform.isWindows:
+            return True
+        libclang = CraftStandardDirs.craftRoot() / "bin/libclang.dll"
+        target = self.imageDir() / "lib/site-packages/shiboken6_generator"
+        if not libclang.exists() or not target.is_dir():
+            CraftCore.log.error(f"cannot bundle libclang: {libclang} exists={libclang.exists()}, {target} exists={target.is_dir()}")
+            return False
+        return utils.copyFile(libclang, target / "libclang.dll", linkOnly=False)
 
     def install(self):
         """Install PySide6 without rebuilding."""
@@ -91,12 +137,28 @@ class Package(PipPackageBase):
                     cwd=sourceDir
                 )
             else:
-                # --skip-build: prevents setup.py from rebuilding (which would recreate qml dir)
+                # disabled (prevents installation of header,typesystem, etc.): --skip-build: prevents setup.py from rebuilding (which would recreate qml dir)
                 # --skip-modules: must match make() to prevent module mismatch errors
-                return utils.system(
+                if not utils.system(
                     ["python", "setup.py", "install",
                      f"--prefix={imageDir}",
-                     "--skip-build",
-                     "--skip-mypy-test"],
+                     "--skip-mypy-test",
+                     "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"],
                     cwd=sourceDir
-                )
+                ):
+                    return False
+
+                # HACK:
+                # Windows: Remove bundled Qt DLLs from PySide6 package after install to avoid Qt ABI mismatch.
+                # PySide6 should use Craft's Qt from bin/ instead of bundling its own copy.
+                # We keep only the PySide6-specific .pyd files and remove all Qt*.dll files.
+                if CraftCore.compiler.platform.isWindows:
+                    pyside_dir = imageDir / "lib" / "site-packages" / "PySide6"
+                    if pyside_dir.is_dir():
+                        qt_dlls = list(pyside_dir.glob("Qt*.dll"))
+                        CraftCore.log.info(f"Removing {len(qt_dlls)} bundled Qt DLLs from PySide6 package")
+                        for dll in qt_dlls:
+                            CraftCore.log.info(f"  Removing {dll.name}")
+                            dll.unlink()
+
+                return self._bundleLibclang()

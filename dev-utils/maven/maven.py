@@ -9,9 +9,6 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = ~CraftCore.compiler.Platforms.Android
-
     def setDependencies(self):
         self.runtimeDependencies["dev-utils/jdk"] = None
 
@@ -21,6 +18,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "3.9.16"
         self.targetInstallPath["3.9.16"] = "dev-utils/maven"
         self.targetInstSrc["3.9.16"] = "apache-maven-3.9.16"
+        self.patchLevel["3.9.16"] = 1
         self.description = "Apache Maven is a software project management and comprehension tool."
 
 
@@ -28,9 +26,7 @@ class Package(BinaryPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def install(self):
-        if not super().install():
-            return False
+    def postInstall(self):
         env = {"JAVA_HOME": CraftPackageObject.get("dev-utils/jdk").instance.JAVA_HOME}
         return utils.createShim(
             self.imageDir() / "dev-utils/bin/mvn", self.installDir() / f"bin/mvn{'.cmd' if CraftCore.compiler.platform.isWindows else ''}", env=env

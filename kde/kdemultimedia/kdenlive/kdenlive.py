@@ -1,5 +1,4 @@
 import info
-import utils
 from Blueprints.CraftPackageObject import CraftPackageObject
 from CraftCore import CraftCore
 from Packager.AppImagePackager import AppImagePackager
@@ -97,21 +96,6 @@ class Package(CraftPackageObject.get("kde").pattern):
                 "LIBVA_DRIVERS_PATH=/usr/lib/dri:/usr/lib64/dri:/usr/lib/x86_64-linux-gnu/dri:/usr/lib/aarch64-linux-gnu/dri",
             ]
         return defines
-
-    def preArchive(self):
-        if CraftCore.compiler.platform.isMacOS:
-            # Copy entitlements file to package directory for signmacapp.py
-            entitlementsSource = self.sourceDir() / "kdenlive.entitlements"
-            if entitlementsSource.exists():
-                defines = self.setDefaults(self.defines)
-                appPath = self.getMacAppPath(defines)
-                entitlementsDest = appPath.parent / "kdenlive.entitlements"
-                utils.copyFile(entitlementsSource, entitlementsDest, linkOnly=False)
-                CraftCore.log.info(f"Copied entitlements next to .app: {entitlementsDest}")
-            else:
-                CraftCore.log.warning(f"Entitlements source not found at: {entitlementsSource}")
-
-        return super().preArchive()
 
     def createPackage(self):
         if not CraftCore.compiler.platform.isMacOS:

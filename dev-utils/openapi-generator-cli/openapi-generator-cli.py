@@ -9,9 +9,6 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = ~CraftCore.compiler.Platforms.Android
-
     def setDependencies(self):
         self.runtimeDependencies["dev-utils/jdk"] = None
 

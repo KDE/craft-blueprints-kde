@@ -16,8 +16,10 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qt5compat"] = None
+        self.runtimeDependencies["libs/qt/qtcharts"] = None
         self.runtimeDependencies["libs/sqlcipher"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
+        self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ktexttemplate"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
@@ -38,7 +40,9 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # self.subinfo.options.configure.args = "-DSKG_WEBENGINE=ON"
+        if CraftCore.compiler.platform.isWindows:
+            sqlcipher_lib = CraftCore.standardDirs.craftRoot() / "lib"
+            self.subinfo.options.configure.args += f" -DCMAKE_LIBRARY_PATH=\"{sqlcipher_lib}\""
 
     def createPackage(self):
         self.defines["executable"] = "bin\\skrooge.exe"  # Windows-only, mac is handled implicitly
