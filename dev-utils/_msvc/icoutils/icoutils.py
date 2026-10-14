@@ -7,7 +7,7 @@ from Package.BinaryPackageBase import BinaryPackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         self.addCachedBuild(
-            "https://files.kde.org/craft/prebuilt/packages/22.11",
+            "https://files.kde.org/craft/prebuilt/packages/26.10",
             packageName="dev-utils/_autotools/icoutils",
             targetInstallPath="dev-utils",
             architecture=CraftCompiler.Architecture.x86_64,
