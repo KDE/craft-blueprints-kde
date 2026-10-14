@@ -36,6 +36,8 @@ class subinfo(info.infoclass):
             self.archiveNames[ver] = "libjpeg-turbo-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "libjpeg-turbo-%s" % ver
 
+        self.patchLevel["3.2.0"] = 1
+
         self.targetDigests["2.1.2"] = (["e7fdc8a255c45bc8fbd9aa11c1a49c23092fcd7379296aeaeb14d3343a3d1bed"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["3.0.3"] = (["a649205a90e39a548863a3614a9576a3fb4465f8e8e66d54999f127957c25b21"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["3.2.0"] = (["980dd81f425082aa6d7c9e47fef27554ce7a9ffc8e2f6e863b97d263c5c50858"], CraftHash.HashAlgorithm.SHA256)
@@ -44,13 +46,17 @@ class subinfo(info.infoclass):
         self.defaultTarget = "3.2.0"
 
     def setDependencies(self):
-        self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["dev-utils/nasm"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/zlib"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.subinfo.options.configure.args += [
+            "-DWITH_SYSTEM_ZLIB=ON",
+        ]
         if self.subinfo.options.buildStatic:
             self.subinfo.options.configure.args += ["-DENABLE_SHARED=OFF", "-DENABLE_STATIC=ON"]
         else:
