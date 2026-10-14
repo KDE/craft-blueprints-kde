@@ -46,4 +46,8 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args = ["-DEXPORT_C_API=ON", "-DENABLE_SHARED=ON", "-DENABLE_ASSEMBLY=ON", "-DENABLE_CLI=OFF"]
+        self.subinfo.options.configure.args = ["-DEXPORT_C_API=ON", "-DENABLE_SHARED=ON", "-DENABLE_CLI=OFF"]
+        if CraftCore.compiler.compiler.isMSVC and CraftCore.compiler.architecture.isArm64:
+            self.subinfo.options.configure.args += ["-DENABLE_ASSEMBLY=OFF"]
+        else:
+            self.subinfo.options.configure.args += ["-DENABLE_ASSEMBLY=ON"]
