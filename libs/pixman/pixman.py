@@ -28,6 +28,16 @@ class subinfo(info.infoclass):
 class Package(MesonPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.platform.isMacOS:
-            # disable neon on arm64 https://gitlab.freedesktop.org/pixman/pixman/-/issues/59
-            self.subinfo.options.configure.args += ["-Da64-neon=disabled"]
+        if CraftCore.compiler.architecture.isArm:
+            if CraftCore.compiler.platform.isMacOS:
+                # disable neon on arm64 https://gitlab.freedesktop.org/pixman/pixman/-/issues/59
+                self.subinfo.options.configure.args += ["-Da64-neon=disabled"]
+            if CraftCore.compiler.platform.isWindows:
+                self.subinfo.options.configure.args += [
+                    "-Dneon=disabled",
+                    "-Darm-simd=disabled",
+                    "-Da64-neon=disabled",
+                    "-Dmmx=disabled",
+                    "-Dsse2=disabled",
+                    "-Dssse3=disabled",
+                ]
