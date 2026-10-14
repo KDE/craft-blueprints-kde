@@ -37,11 +37,11 @@ else:
             super().__init__(**kwargs)
             self.subinfo.options.useShadowBuild = False
             self.subinfo.options.make.supportsMultijob = False
-            self.subinfo.options.make.args += f"-f Makefile.MSVC dll comp=msvc GTK=NO CRAFT_ARCH=x{CraftCore.compiler.architecture.bits}"
+            self.subinfo.options.make.args += ["-f", "Makefile.MSVC", "dll", "comp=msvc", "GTK=NO"]
             if CraftCore.compiler.architecture.isX86_64:
-                self.subinfo.options.make.args += " MSVCVER=Win64 ASM=NO"
-            else:
-                self.subinfo.options.make.args += " ASM=YES"
+                self.subinfo.options.make.args += ["MSVCVER=Win64", "ASM=NO", "CRAFT_ARCH=x64"]
+            elif CraftCore.compiler.architecture.isArm64:
+                self.subinfo.options.make.args += ["MSVCVER=ARM64", "ASM=NO", "CRAFT_ARCH=arm64"]
 
         def configure(self, dummyDefines=""):
             return utils.copyFile(self.sourceDir() / "configMS.h", self.sourceDir() / "config.h", linkOnly=False)
