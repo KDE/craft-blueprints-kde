@@ -31,16 +31,17 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/libjpeg-turbo/libjpeg-turbo.git"
 
-        for ver in ["2.1.2", "2.1.5.1", "3.0.3"]:
+        for ver in ["2.1.2", "2.1.5.1", "3.0.3", "3.2.0"]:
             self.targets[ver] = "https://github.com/libjpeg-turbo/libjpeg-turbo/archive/%s.tar.gz" % ver
             self.archiveNames[ver] = "libjpeg-turbo-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "libjpeg-turbo-%s" % ver
 
         self.targetDigests["2.1.2"] = (["e7fdc8a255c45bc8fbd9aa11c1a49c23092fcd7379296aeaeb14d3343a3d1bed"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["3.03"] = (["a649205a90e39a548863a3614a9576a3fb4465f8e8e66d54999f127957c25b21"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.0.3"] = (["a649205a90e39a548863a3614a9576a3fb4465f8e8e66d54999f127957c25b21"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.2.0"] = (["980dd81f425082aa6d7c9e47fef27554ce7a9ffc8e2f6e863b97d263c5c50858"], CraftHash.HashAlgorithm.SHA256)
         self.description = "libjpeg-turbo is a JPEG image codec that uses SIMD instructions (MMX, SSE2, NEON, AltiVec) to accelerate baseline JPEG compression and decompression on x86, x86-64, ARM, and PowerPC systems"
         self.webpage = "http://libjpeg-turbo.virtualgl.org/"
-        self.defaultTarget = "3.0.3"
+        self.defaultTarget = "3.2.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
