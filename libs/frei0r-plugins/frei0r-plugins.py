@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.svnTargets["cfce4bc"] = "https://github.com/dyne/frei0r.git||cfce4bcc2ed0a38b7f01483008700aeb94558428"
         # https://github.com/dyne/frei0r/pull/285
         self.patchToApply["cfce4bc"] = [("285.patch", 1)]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC():
             self.patchToApply["cfce4bc"] += [("fix-msvc.diff", 1)]
 
         self.defaultTarget = "cfce4bc"
