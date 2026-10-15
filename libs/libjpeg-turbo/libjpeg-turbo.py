@@ -36,7 +36,9 @@ class subinfo(info.infoclass):
             self.archiveNames[ver] = "libjpeg-turbo-%s.tar.gz" % ver
             self.targetInstSrc[ver] = "libjpeg-turbo-%s" % ver
 
-        self.patchLevel["3.2.0"] = 1
+        self.patchLevel["3.2.0"] = 2
+        # https://github.com/microsoft/vcpkg/blob/20ceb8adbf0504d4b0d5e4058a32f9d4fc896391/ports/libjpeg-turbo/system-dependency-fixes-pr-901.patch#L1
+        self.patchToApply["3.2.0"] = [("system-dependency-fixes-pr-901.patch", 1)]
 
         self.targetDigests["2.1.2"] = (["e7fdc8a255c45bc8fbd9aa11c1a49c23092fcd7379296aeaeb14d3343a3d1bed"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["3.0.3"] = (["a649205a90e39a548863a3614a9576a3fb4465f8e8e66d54999f127957c25b21"], CraftHash.HashAlgorithm.SHA256)
@@ -48,6 +50,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/nasm"] = None
         self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/libspng"] = None
         self.runtimeDependencies["libs/zlib"] = None
 
 
@@ -56,6 +59,7 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += [
             "-DWITH_SYSTEM_ZLIB=ON",
+            "-DWITH_SYSTEM_SPNG=ON",
         ]
         if self.subinfo.options.buildStatic:
             self.subinfo.options.configure.args += ["-DENABLE_SHARED=OFF", "-DENABLE_STATIC=ON"]
