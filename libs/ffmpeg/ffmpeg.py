@@ -3,7 +3,6 @@ import os
 import info
 import utils
 from Blueprints.CraftVersion import CraftVersion
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from CraftStandardDirs import CraftStandardDirs
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
@@ -56,6 +55,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
         self.buildDependencies["dev-utils/nasm"] = None
+        self.buildDependencies["dev-utils/gas-preprocessor"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/liblame"] = None
@@ -101,23 +101,23 @@ class Package(AutoToolsPackageBase):
         if "CC" in os.environ:
             cc = os.environ["CC"]
             if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
-                cc = f"{cc} -arch {CraftCore.compiler.architecture.type.name.lower()}"
+                cc = f"{cc} -arch {CraftCore.compiler.architecture.key.name.lower()}"
             self.subinfo.options.configure.args += [f"--cc={cc}"]
         if "CXX" in os.environ:
             cxx = os.environ["CXX"]
             if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
-                cxx = f"{cxx} -arch {CraftCore.compiler.architecture.type.name.lower()}"
+                cxx = f"{cxx} -arch {CraftCore.compiler.architecture.key.name.lower()}"
             self.subinfo.options.configure.args += [f"--cxx={cxx}"]
 
-        architecture = CraftCore.compiler.architecture.type.name.lower()
+        architecture = CraftCore.compiler.architecture.key.name.lower()
         if CraftCore.compiler.platform.isAndroid:
-            if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
+            if CraftCore.compiler.architecture.isArm64:
                 architecture = "aarch64"
                 compiler = "aarch64-linux-android"
-            elif CraftCore.compiler.architecture == CraftCompiler.Architecture.arm32:
+            elif CraftCore.compiler.architecture.isArm32:
                 architecture = "arm"
                 compiler = "armv7a-linux-androideabi"
-            elif CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32:
+            elif CraftCore.compiler.architecture.isX86_32:
                 architecture = "x86"
                 compiler = "i686-linux-android"
                 self.subinfo.options.configure.args += ["--disable-asm", "--enable-pic"]
@@ -179,7 +179,7 @@ class Package(AutoToolsPackageBase):
 
         if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["--enable-rpath", "--install-name-dir=@rpath"]
-        elif not CraftCore.compiler.platform.isAndroid:
+        elif not CraftCore.compiler.platform.isAndroid and not (CraftCore.compiler.platform.isWindows and CraftCore.compiler.architecture.isArm64):
             self.subinfo.options.configure.args += [
                 "--enable-ffnvcodec",
                 "--enable-nvdec",

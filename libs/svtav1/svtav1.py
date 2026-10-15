@@ -27,3 +27,5 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        if CraftCore.compiler.platform.isWindows and CraftCore.compiler.architecture.isArm64:
+            self.subinfo.options.configure.args += ["-DCOMPILE_C_ONLY=ON", "-DBUILD_TESTING=OFF"]

@@ -1,5 +1,4 @@
 import info
-from CraftCore import CraftCore
 from Package.MesonPackageBase import MesonPackageBase
 from Utils import CraftHash
 
@@ -21,6 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["python-modules/meson"] = None
         self.buildDependencies["dev-utils/nasm"] = None
+        self.buildDependencies["dev-utils/gas-preprocessor"] = None
 
 
 class Package(MesonPackageBase):
@@ -30,7 +30,3 @@ class Package(MesonPackageBase):
             "-Denable_tests=false",
             "-Denable_tools=false",
         ]
-        if CraftCore.compiler.compiler.isMSVC and CraftCore.compiler.architecture.isArm64:
-            self.subinfo.options.configure.args += [
-                "-Denable_asm=false",
-            ]
