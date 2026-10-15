@@ -131,7 +131,7 @@ class Package(CMakePackageBase):
                     plistData["LSEnvironment"] = {
                         "GWEN_PLUGIN_DIR": "@executable_path/../Frameworks/gwenhywfar",
                         "AQBANKING_PLUGIN_DIR": "@executable_path/../Frameworks/aqbanking",
-                        "GWEN_DATA_HOME": "@executable_path/../Resources"
+                        "GWEN_DATA_HOME": "@executable_path/../Resources",
                     }
 
                     with open(infoPlistPath, "wb") as f:

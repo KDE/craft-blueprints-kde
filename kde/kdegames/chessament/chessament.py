@@ -12,9 +12,7 @@ class subinfo(info.infoclass):
         self.description = "Chess tournament manager"
         self.webpage = "https://apps.kde.org/chessament/"
 
-        self.versionInfo.setDefaultValues(
-            gitUrl="https://invent.kde.org/games/chessament.git"
-        )
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/games/chessament.git")
         self.defaultTarget = "master"
 
     def setDependencies(self):
@@ -65,9 +63,7 @@ class Package(CraftPackageObject.get("kde").pattern):
 
         self.defines["file_types"] = [".chessament"]
 
-        self.addExecutableFilter(
-            r"(bin|libexec)/(?!(chessament|bbpPairings|update-mime-database|snoretoast)).*"
-        )
+        self.addExecutableFilter(r"(bin|libexec)/(?!(chessament|bbpPairings|update-mime-database|snoretoast)).*")
         self.ignoredPackages.append("binary/mysql")
 
         if not CraftCore.compiler.platform.isLinux:

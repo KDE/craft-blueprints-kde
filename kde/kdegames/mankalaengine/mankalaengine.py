@@ -27,5 +27,5 @@ class Package(CraftPackageObject.get("kde").pattern):
 
         self.subinfo.options.configure.args += [
             f"-DBUILD_EXAMPLES={self.subinfo.options.dynamic.buildExamples.asOnOff}",
-            f"-DBUILD_DOC={self.subinfo.options.dynamic.buildDocumentation.asOnOff}"
+            f"-DBUILD_DOC={self.subinfo.options.dynamic.buildDocumentation.asOnOff}",
         ]

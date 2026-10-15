@@ -139,7 +139,11 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             ]
 
         if (
-            (CraftCore.compiler.platform.isMacOS and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2") and CraftVersion(self.buildTarget) < CraftVersion("6.6.2"))
+            (
+                CraftCore.compiler.platform.isMacOS
+                and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2")
+                and CraftVersion(self.buildTarget) < CraftVersion("6.6.2")
+            )
             # macOS is fixed with 6.6.2, Windows still not :-(
             or CraftCore.compiler.platform.isWindows
         ):

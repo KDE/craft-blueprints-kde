@@ -42,9 +42,7 @@ class Package(CMakePackageBase):
 
     def make(self):
         self.enterBuildDir()
-        command = Arguments.formatCommand(
-            [self.makeProgram, "BuildTranslations"], []
-        )
+        command = Arguments.formatCommand([self.makeProgram, "BuildTranslations"], [])
         utils.system(command)
         super().configure()
         return super().make()
@@ -52,7 +50,11 @@ class Package(CMakePackageBase):
     def createPackage(self):
         self.defines["appname"] = "rolisteam"
         self.defines["icon"] = self.sourceDir() / "resources/rolisteam/logo/rolisteam.ico"
-        self.defines["shortcuts"] = [{"name" : self.subinfo.displayName, "target": "bin/rolisteam.exe"}, {"name" : "rcse", "target" : "bin/rcse.exe"}, {"name" : "dice", "target" : "bin/dice.exe"}]
+        self.defines["shortcuts"] = [
+            {"name": self.subinfo.displayName, "target": "bin/rolisteam.exe"},
+            {"name": "rcse", "target": "bin/rcse.exe"},
+            {"name": "dice", "target": "bin/dice.exe"},
+        ]
 
         if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")

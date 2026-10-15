@@ -30,9 +30,9 @@ class subinfo(info.infoclass):
             tarVer = ver.replace("+", "_")
             self.targetInstSrc[ver] = f"jdk-{ver}"
             if CraftCore.compiler.platform.isWindows:
-                self.targets[
-                    ver
-                ] = f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{arch}_windows_hotspot_{tarVer}.zip"
+                self.targets[ver] = (
+                    f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{arch}_windows_hotspot_{tarVer}.zip"
+                )
                 self.targetDigestUrls[ver] = (
                     [
                         f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{arch}_windows_hotspot_{tarVer}.zip.sha256.txt"
@@ -40,9 +40,9 @@ class subinfo(info.infoclass):
                     CraftHash.HashAlgorithm.SHA256,
                 )
             elif CraftCore.compiler.platform.isMacOS:
-                self.targets[
-                    ver
-                ] = f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{arch}_mac_hotspot_{tarVer}.tar.gz"
+                self.targets[ver] = (
+                    f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{arch}_mac_hotspot_{tarVer}.tar.gz"
+                )
                 self.targetDigestUrls[ver] = (
                     [
                         f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{arch}_mac_hotspot_{tarVer}.tar.gz.sha256.txt"
@@ -50,9 +50,9 @@ class subinfo(info.infoclass):
                     CraftHash.HashAlgorithm.SHA256,
                 )
             elif CraftCore.compiler.platform.isLinux:
-                self.targets[
-                    ver
-                ] = f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{arch}_linux_hotspot_{tarVer}.tar.gz"
+                self.targets[ver] = (
+                    f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{arch}_linux_hotspot_{tarVer}.tar.gz"
+                )
                 self.targetDigestUrls[ver] = (
                     [
                         f"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-{urlVer}/OpenJDK25U-jdk_{arch}_linux_hotspot_{tarVer}.tar.gz.sha256.txt"

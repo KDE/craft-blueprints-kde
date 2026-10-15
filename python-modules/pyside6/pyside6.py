@@ -26,7 +26,7 @@ class subinfo(info.infoclass):
                 ("shiboken-include-pep384impl.patch", 1),
                 ("python-libdir-fallback.patch", 1),
                 ("skip-plugins.patch", 1),
-                ("skip-designer-copy.patch", 1)
+                ("skip-designer-copy.patch", 1),
             ]
             self.patchLevel["6.11.2"] = 7
 
@@ -58,7 +58,9 @@ class Package(PipPackageBase):
                 try:
                     result = subprocess.run(
                         [str(python_exe), "-c", "import sys; print(f'{sys.version_info.major}{sys.version_info.minor}')"],
-                        capture_output=True, text=True, timeout=10
+                        capture_output=True,
+                        text=True,
+                        timeout=10,
                     )
                     if result.returncode == 0:
                         version = result.stdout.strip()
@@ -79,15 +81,19 @@ class Package(PipPackageBase):
             if CraftCore.compiler.platform.isMacOS:
                 return utils.system(
                     "SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py build --verbose-build --macos-use-libc++ --disable-pyi --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
-                    cwd=sourceDir
+                    cwd=sourceDir,
                 )
             else:
                 # Skip QML/Designer modules: QML directory copy fails with escaping errors on Windows
                 # Skip WebEngine modules: require Chromium dependencies not available in Craft
-                cmd = ["python", "setup.py", "build",
-                       "--limited-api=yes",
-                       "--disable-pyi",
-                       "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"]
+                cmd = [
+                    "python",
+                    "setup.py",
+                    "build",
+                    "--limited-api=yes",
+                    "--disable-pyi",
+                    "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets",
+                ]
 
                 # Force PySide6 to build against Craft's Qt instead of bundling its own Qt to avoid
                 # Qt ABI mismatch on Windows if PySide6 bundles Qt and other applications using it link Craft's Qt
@@ -134,17 +140,21 @@ class Package(PipPackageBase):
             if CraftCore.compiler.platform.isMacOS:
                 return utils.system(
                     f"SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py install --prefix={imageDir} --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
-                    cwd=sourceDir
+                    cwd=sourceDir,
                 )
             else:
                 # disabled (prevents installation of header,typesystem, etc.): --skip-build: prevents setup.py from rebuilding (which would recreate qml dir)
                 # --skip-modules: must match make() to prevent module mismatch errors
                 if not utils.system(
-                    ["python", "setup.py", "install",
-                     f"--prefix={imageDir}",
-                     "--skip-mypy-test",
-                     "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"],
-                    cwd=sourceDir
+                    [
+                        "python",
+                        "setup.py",
+                        "install",
+                        f"--prefix={imageDir}",
+                        "--skip-mypy-test",
+                        "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets",
+                    ],
+                    cwd=sourceDir,
                 ):
                     return False
 

@@ -42,7 +42,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         super().__init__(**kwargs)
         if CraftCore.compiler.platform.isWindows:
             sqlcipher_lib = CraftCore.standardDirs.craftRoot() / "lib"
-            self.subinfo.options.configure.args += f" -DCMAKE_LIBRARY_PATH=\"{sqlcipher_lib}\""
+            self.subinfo.options.configure.args += f' -DCMAKE_LIBRARY_PATH="{sqlcipher_lib}"'
 
     def createPackage(self):
         self.defines["executable"] = "bin\\skrooge.exe"  # Windows-only, mac is handled implicitly

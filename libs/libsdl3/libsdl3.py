@@ -34,5 +34,5 @@ class Package(CMakePackageBase):
             f"-DSDL_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
             "-DSDL_EXAMPLES=OFF",
             "-DSDL_DISABLE_INSTALL_DOCS=ON",
-            "-DSDL_X11_XSCRNSAVER=OFF"
+            "-DSDL_X11_XSCRNSAVER=OFF",
         ]

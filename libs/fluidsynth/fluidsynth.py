@@ -78,8 +78,7 @@ class Package(CMakePackageBase):
             oboeIncludeDir = CraftCore.standardDirs.craftRoot() / "include"
 
             with open(configFile, "a", encoding="utf-8") as config:
-                config.write(
-                    f"""
+                config.write(f"""
 
 if(ANDROID)
     if(NOT TARGET Oboe::oboe)
@@ -95,7 +94,6 @@ if(ANDROID)
         endif()
     endforeach()
 endif()
-"""
-                )
+""")
 
         return True
