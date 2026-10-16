@@ -1,5 +1,4 @@
 import info
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
@@ -41,7 +40,7 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        disableSSE = CraftBool(CraftCore.compiler.platform.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64)
+        disableSSE = CraftBool(CraftCore.compiler.platform.isMacOS and CraftCore.compiler.architecture.isArm64)
 
         self.subinfo.options.configure.args = [
             "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
