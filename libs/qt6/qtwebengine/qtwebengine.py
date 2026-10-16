@@ -102,7 +102,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         self.subinfo.options.unpack.renameSourceDir = True
 
         if CraftCore.settings.ciMode:
-            self.subinfo.options.make.parallelMakeJobs = max(1, self.subinfo.options.make.parallelMakeJobs / 2)
+            self.subinfo.options.make.parallelMakeJobs = max(1, int(self.subinfo.options.make.parallelMakeJobs / 2))
 
         # use a short path for Windows
         if not self.subinfo.options.isActive("libs/python"):
