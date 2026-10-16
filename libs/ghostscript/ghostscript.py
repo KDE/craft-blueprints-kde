@@ -1,6 +1,5 @@
 import info
 import utils
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
 from Package.CMakePackageBase import CMakePackageBase
