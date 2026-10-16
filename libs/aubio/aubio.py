@@ -140,7 +140,12 @@ class Package(PackageBase, MultiSource, WafBuildSystem, TypePackager):
                 os.environ.get("PKG_CONFIG_PATH", ""),
             ]
         )
-        env = {"PKG_CONFIG_PATH": pkgConfigPath}
+
+        env = {
+            "PKG_CONFIG_PATH": pkgConfigPath,
+            "CFLAGS": f"-I{CraftStandardDirs.craftRoot() / 'include'} {os.environ['CFLAGS']}",
+            "CXXFLAGS": f"-I{CraftStandardDirs.craftRoot() / 'include'} {os.environ['CXXFLAGS']}",
+        }
         if CraftCore.compiler.platform.isWindows:
             cc = CraftCore.cache.findApplication(os.environ["CC"])
             cxx = CraftCore.cache.findApplication(os.environ["CXX"])
@@ -152,6 +157,8 @@ class Package(PackageBase, MultiSource, WafBuildSystem, TypePackager):
             env["LD_LIBRARY_PATH"] = str(root / "lib")
         if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
             archFlag = f"-arch {CraftCore.compiler.architecture.key.name.lower()}"
-            for name in ["CFLAGS", "CXXFLAGS", "LINKFLAGS", "LDFLAGS"]:
+            for name in ["LINKFLAGS", "LDFLAGS"]:
                 env[name] = f"{os.environ.get(name, '')} {archFlag}".strip()
+            for name in ["CFLAGS", "CXXFLAGS"]:
+                env[name] = f"{env[name]} {archFlag}".strip()
         return env
