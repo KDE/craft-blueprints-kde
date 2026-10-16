@@ -117,6 +117,8 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             f"-DQT_FEATURE_webengine_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
             "-DQT_FEATURE_webengine_system_libwebp=ON",
             "-DQT_FEATURE_webengine_system_libjpeg=ON",
+            "-DQT_FEATURE_webengine_system_libopenjpeg2=ON",
+            "-DQT_FEATURE_webengine_system_libtiff=ON",
             "-DQT_FEATURE_webengine_system_libxml=ON",
             "-DQT_FEATURE_webengine_system_freetype=ON",
             "-DQT_FEATURE_webengine_system_glib=ON",
