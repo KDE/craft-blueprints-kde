@@ -62,7 +62,7 @@ class WafBuildSystem(BuildSystemBase):
         return self._fixInstallPrefix(self.installPrefix())
 
     def configureOptions(self, defines=""):
-        prefix = CraftStandardDirs.craftRoot()
+        prefix = self.installPrefix()
         args = [
             f"--prefix={prefix}",
             f"--libdir={prefix / 'lib'}",
