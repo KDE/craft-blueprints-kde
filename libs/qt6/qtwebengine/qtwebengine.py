@@ -101,6 +101,9 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         # qtwebengine handles long paths very badly, rename the src dir to shorten it
         self.subinfo.options.unpack.renameSourceDir = True
 
+        if CraftCore.settings.ciMode:
+            self.subinfo.options.make.parallelMakeJobs = max(1, self.subinfo.options.make.parallelMakeJobs / 2)
+
         # use a short path for Windows
         if not self.subinfo.options.isActive("libs/python"):
             pythonRoot = CraftCore.standardDirs.craftRoot() / "dev-utils/"
@@ -158,9 +161,9 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
 
     def _getEnv(self):
         env = {}
-        if CraftCore.settings.ciMode:
-            # webengine requires enormous amounts of ram
-            env["NINJAFLAGS"] = f"-j{int(self.subinfo.options.make.parallelMakeJobs/2)}"
+        # webengine requires enormous amounts of ram
+        env["QTWEBENGINE_GN_THREADS"] = self.subinfo.options.make.parallelMakeJobs
+        env["NINJAFLAGS"] = f"-j{self.subinfo.options.make.parallelMakeJobs}"
         if CraftCore.compiler.platform.isWindows:
             env["PATH"] = os.pathsep.join(
                 str(x)
