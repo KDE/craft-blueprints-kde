@@ -2,7 +2,6 @@
 # SPDX-FileCopyrightText: 2024 Stefan Gerlach <stefan.gerlach@uni.kn>
 
 import info
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Packager.AppxPackager import AppxPackager
@@ -72,7 +71,7 @@ class Package(CMakePackageBase):
         #    ]
 
         # help thirdparty discount on macOS.x86_64
-        if CraftCore.compiler.platform.isMacOS and CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+        if CraftCore.compiler.platform.isMacOS and CraftCore.compiler.architecture.isX86_64:
             self.subinfo.options.configure.cflags += "-arch x86_64"
 
     def createPackage(self):

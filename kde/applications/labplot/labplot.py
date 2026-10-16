@@ -9,7 +9,6 @@ import subprocess
 import info
 import utils
 from Blueprints.CraftVersion import CraftVersion
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
 from Package.CMakePackageBase import CMakePackageBase
@@ -335,7 +334,7 @@ class Package(CMakePackageBase):
                     shutil.copy2(src, destBin / dll)
                     CraftCore.log.info(f"preArchive: Copied {dll} to bin/")
 
-        if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+        if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.architecture.isX86_64:
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
 

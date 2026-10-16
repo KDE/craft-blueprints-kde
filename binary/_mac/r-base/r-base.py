@@ -4,7 +4,6 @@ import os
 
 import info
 import utils
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from Package.BinaryPackageBase import BinaryPackageBase
 
@@ -18,7 +17,7 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for version in ["4.3.3", "4.5.3"]:
-            if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
+            if CraftCore.compiler.architecture.isArm64:
                 self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "big-sur-arm64/base/R-" + version + "-arm64.pkg"
             else:
                 self.targets[version] = PACKAGE_CRAN_MIRROR + PACKAGE_PATH + "big-sur-x86_64/base/R-" + version + "-x86_64.pkg"
