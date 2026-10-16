@@ -143,8 +143,8 @@ class Package(PackageBase, MultiSource, WafBuildSystem, TypePackager):
 
         env = {
             "PKG_CONFIG_PATH": pkgConfigPath,
-            "CFLAGS": f"-I{CraftStandardDirs.craftRoot() / 'include'} {os.environ['CFLAGS']}",
-            "CXXFLAGS": f"-I{CraftStandardDirs.craftRoot() / 'include'} {os.environ['CXXFLAGS']}",
+            "CFLAGS": f"-I{CraftStandardDirs.craftRoot() / 'include'} {os.environ.get('CFLAGS', '')}",
+            "CXXFLAGS": f"-I{CraftStandardDirs.craftRoot() / 'include'} {os.environ.get('CXXFLAGS', '')}",
         }
         if CraftCore.compiler.platform.isWindows:
             cc = CraftCore.cache.findApplication(os.environ["CC"])
