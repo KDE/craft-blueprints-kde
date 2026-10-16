@@ -1,4 +1,3 @@
-import multiprocessing
 import os
 
 import info
@@ -161,8 +160,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
         env = {}
         if CraftCore.settings.ciMode:
             # webengine requires enormous amounts of ram
-            jobs = int(CraftCore.settings.get("Compile", "Jobs", multiprocessing.cpu_count()))
-            env["NINJAFLAGS"] = f"-j{int(jobs/2)}"
+            env["NINJAFLAGS"] = f"-j{int(self.subinfo.options.make.parallelMakeJobs/2)}"
         if CraftCore.compiler.platform.isWindows:
             env["PATH"] = os.pathsep.join(
                 str(x)
