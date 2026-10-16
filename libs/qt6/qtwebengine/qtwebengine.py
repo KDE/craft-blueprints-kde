@@ -26,7 +26,6 @@ class subinfo(info.infoclass):
         self.patchToApply["6.9.1"] += [(".6.9.1", 1)]
         self.patchToApply["6.9.2"] += [(".6.9.2", 1)]
         self.patchToApply["6.11.1"] += [(".6.11.1", 1)]
-        self.patchToApply["6.11.2"] += [(".6.11.1", 1)]
         self.patchToApply["6.12.0-beta1"] += [(".6.11.1", 1)]
         self.patchLevel["6.7.0"] = 3
 
