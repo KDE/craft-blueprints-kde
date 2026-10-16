@@ -23,7 +23,7 @@ bin/QtQuick/Controls/designer/.*
 bin/icuin\.dll
 bin/icuuc\.dll
 bin/icudt\.dll
-bin/icudtl\.dat
+# bin/icudtl\.dat  # needed by WebEngine
 bin/poppler-cpp\.dll
 bin/AnalitzaPlot\.dll
 bin/AnalitzaWidgets\.dll
@@ -98,11 +98,19 @@ bin/data/knotifications5/.*
 bin/data/libgpg-error/.*
 # needed for translations
 #bin/data/locale/.*
-# Keep only en-US locale for WebEngine, exclude others
-translations/qtwebengine_locales/(?!en-US).*
+# WebEngine locales - keep only en-US, exclude others (~36MB savings)
+translations/qtwebengine_locales/(?!en-US\.pak).*
 html/.*
 # share/applications/*.desktop needed for AppImage (also share/ required on macOS?)
 #share/.*
+
+# Unnecessary top-level folders on Windows (~53MB savings)
+Scripts/.*
+share/locale/.*
+share/fonts/.*
+# share/poppler/.* # needed for PDF rendering
+lib/.*
+etc/xml/.*
 
 # we use a icontheme.rc on windows
 # only icons for cantor backends

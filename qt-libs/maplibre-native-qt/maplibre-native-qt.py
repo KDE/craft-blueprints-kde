@@ -29,6 +29,4 @@ class Package(CMakePackageBase):
 
         self.subinfo.options.fetch.checkoutSubmodules = True
 
-        self.subinfo.options.configure.args += [
-            "-DMLN_WITH_OPENGL=ON", "-DMLN_WITH_VULKAN=OFF", "-DMLN_QT_WITH_WIDGETS=OFF", "-DMLN_QT_WITH_LTO=ON"
-        ]
+        self.subinfo.options.configure.args += ["-DMLN_WITH_OPENGL=ON", "-DMLN_WITH_VULKAN=OFF", "-DMLN_QT_WITH_WIDGETS=OFF", "-DMLN_QT_WITH_LTO=ON"]

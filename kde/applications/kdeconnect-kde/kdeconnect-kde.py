@@ -55,9 +55,7 @@ class Package(CMakePackageBase):
             self.defines["AppUserModelID"] = "kdeconnect.daemon"
 
         if isinstance(self, NullsoftInstallerPackager):
-            self.defines[
-                "sections"
-            ] = r"""
+            self.defines["sections"] = r"""
                 Section "@{productname}"
                     SectionIn 1
                     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
@@ -69,9 +67,7 @@ class Package(CMakePackageBase):
                     !insertmacro MUI_STARTMENU_WRITE_END
                 SectionEnd
                 """
-            self.defines[
-                "un_sections"
-            ] = r"""
+            self.defines["un_sections"] = r"""
                 Section "Un.Remove Shortcuts"
                     Delete "$SMPROGRAMS\\@{productname}.lnk"
                     Delete "$SMPROGRAMS\\Startup\\@{productname}.lnk"
@@ -83,22 +79,16 @@ class Package(CMakePackageBase):
         elif isinstance(self, AppxPackager):
             self.defines["startup_task"] = r"bin/@{appname}.exe"
 
-            self.defines[
-                "additional_capabilities"
-            ] = r"""
+            self.defines["additional_capabilities"] = r"""
             <uap3:Capability Name="userNotificationListener" />
             <uap7:Capability Name="globalMediaControl" />
             """
-            self.defines[
-                "additional_xmlns"
-            ] = r"""
+            self.defines["additional_xmlns"] = r"""
             xmlns:uap7="http://schemas.microsoft.com/appx/manifest/uap/windows10/7"
             xmlns:desktop2="http://schemas.microsoft.com/appx/manifest/desktop/windows10/2"
             """
 
-            self.defines[
-                "desktop_extensions"
-            ] = r"""
+            self.defines["desktop_extensions"] = r"""
             <desktop2:Extension Category="windows.firewallRules">
             <desktop2:FirewallRules Executable="bin/kdeconnectd.exe">
                 <desktop2:Rule Direction="in" IPProtocol="TCP" LocalPortMax="1764" LocalPortMin="1714" Profile="all"/>

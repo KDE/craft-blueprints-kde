@@ -73,7 +73,10 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += [f"-DFETCH_OTIO={CraftCore.compiler.platform.isMacOS.asOnOff}", f"-DUSE_DBUS={CraftCore.compiler.platform.isLinux.asOnOff}"]
+        self.subinfo.options.configure.args += [
+            f"-DFETCH_OTIO={CraftCore.compiler.platform.isMacOS.asOnOff}",
+            f"-DUSE_DBUS={CraftCore.compiler.platform.isLinux.asOnOff}",
+        ]
         if self.buildTarget == "master":
             self.subinfo.options.configure.args += ["-DRELEASE_BUILD=OFF"]
 

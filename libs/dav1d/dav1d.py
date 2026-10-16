@@ -20,6 +20,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["virtual/base"] = None
         self.buildDependencies["python-modules/meson"] = None
         self.buildDependencies["dev-utils/nasm"] = None
+        self.buildDependencies["dev-utils/gas-preprocessor"] = None
 
 
 class Package(MesonPackageBase):

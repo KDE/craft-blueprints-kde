@@ -11,14 +11,10 @@ class subinfo(info.infoclass):
         self.displayName = "bbpPairings"
         self.description = "Swiss-system chess tournament pairing engine"
 
-        self.svnTargets["master"] = (
-            "https://github.com/BieremaBoyzProgramming/bbpPairings.git"
-        )
+        self.svnTargets["master"] = "https://github.com/BieremaBoyzProgramming/bbpPairings.git"
 
         for ver in ["6.0.0"]:
-            self.targets[ver] = (
-                f"https://github.com/BieremaBoyzProgramming/bbpPairings/archive/refs/tags/v{ver}.tar.gz"
-            )
+            self.targets[ver] = f"https://github.com/BieremaBoyzProgramming/bbpPairings/archive/refs/tags/v{ver}.tar.gz"
             self.archiveNames[ver] = f"bbppairings-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"bbpPairings-{ver}"
 

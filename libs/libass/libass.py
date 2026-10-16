@@ -30,6 +30,10 @@ if CraftCore.compiler.platform.isWindows:
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
             self.subinfo.options.configure.args += [f"-Dfontconfig={self.subinfo.options.isActive('libs/fontconfig').asEnabledDisabled}"]
+            if CraftCore.compiler.compiler.isMSVC and CraftCore.compiler.architecture.isArm64:
+                self.subinfo.options.configure.args += [
+                    "-Dasm=disabled",
+                ]
 
 else:
 

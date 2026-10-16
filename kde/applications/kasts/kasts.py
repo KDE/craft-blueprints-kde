@@ -5,9 +5,7 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.versionInfo.setDefaultValues(
-            gitUrl="https://invent.kde.org/multimedia/kasts.git"
-        )
+        self.versionInfo.setDefaultValues(gitUrl="https://invent.kde.org/multimedia/kasts.git")
         self.displayName = "Kasts"
         self.description = "Podcast player"
 

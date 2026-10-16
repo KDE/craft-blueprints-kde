@@ -30,4 +30,6 @@ class Package(BinaryPackageBase):
         env = {"JAVA_HOME": CraftPackageObject.get("dev-utils/jdk").instance.JAVA_HOME}
         return utils.createShim(
             self.imageDir() / "dev-utils/bin/mvn", self.installDir() / f"bin/mvn{'.cmd' if CraftCore.compiler.platform.isWindows else ''}", env=env
-        ) and utils.createShim(self.imageDir() / "dev-utils/bin/mvn", self.installDir() / f"bin/mvn{'.cmd' if CraftCore.compiler.platform.isWindows else ''}", env=env)
+        ) and utils.createShim(
+            self.imageDir() / "dev-utils/bin/mvn", self.installDir() / f"bin/mvn{'.cmd' if CraftCore.compiler.platform.isWindows else ''}", env=env
+        )

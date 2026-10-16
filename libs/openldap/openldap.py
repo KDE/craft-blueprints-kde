@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
             ("cyrus-sasl.diff", 1),
             ("openssl.patch", 1),
             ("no-openssl-version-check.diff", 1),
-            ("autotools_is_awesome.diff", 1)
+            ("autotools_is_awesome.diff", 1),
         ]
         if CraftCore.compiler.platform.isWindows:
             self.patchToApply["2.4.45"] += [

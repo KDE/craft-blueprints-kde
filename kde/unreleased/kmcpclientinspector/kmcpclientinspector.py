@@ -30,7 +30,9 @@ class Package(CraftPackageObject.get("kde").pattern):
         super().__init__(**kwargs)
 
     def createPackage(self):
-        self.defines["shortcuts"] = [{"name": "KMCpClientInspector", "target": "bin/kmcpclientinspector.exe", "description": self.subinfo.description, "appId": "kmcpclientinspector"}]
+        self.defines["shortcuts"] = [
+            {"name": "KMCpClientInspector", "target": "bin/kmcpclientinspector.exe", "description": self.subinfo.description, "appId": "kmcpclientinspector"}
+        ]
         self.defines["alias"] = "kmcpclientinspector"
 
         if CraftCore.compiler.platform.isMacOS:

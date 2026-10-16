@@ -20,7 +20,9 @@ nspr_ver = "4.36"
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = (
-            CraftCore.compiler.Platforms.Windows if CraftCore.compiler.compiler.isMSVC else (CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.Android)
+            CraftCore.compiler.Platforms.Windows
+            if CraftCore.compiler.compiler.isMSVC
+            else (CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.Android)
         )
         self.options.dynamic.registerOption("installTools", False)
 
@@ -212,7 +214,7 @@ class Package(MakeFilePackageBase):
 
     def postInstall(self):
         BuildSystemBase.patchInstallPrefix(
-            self, [(self.installDir() / "lib/pkgconfig/nspr.pc")], [os.path.dirname(self.installDir()) + "/work/nss-" + nss_ver + "/dist/Release"]
+            self, [self.installDir() / "lib/pkgconfig/nspr.pc"], [os.path.dirname(self.installDir()) + "/work/nss-" + nss_ver + "/dist/Release"]
         )
         if CraftCore.compiler.compiler.isMSVC:
             # The nspr libs are created as libnspr4.lib so we need to adapt the pc file

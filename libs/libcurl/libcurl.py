@@ -15,17 +15,18 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.svnTargets["master"] = "https://github.com/bagder/curl.git"
-        for ver in ["7.78.0", "7.84.0", "8.13.0", "8.14.1"]:
+        for ver in ["7.78.0", "7.84.0", "8.13.0", "8.14.1", "8.23.0"]:
             self.targets[ver] = f"https://curl.haxx.se/download/curl-{ver}.tar.bz2"
             self.targetInstSrc[ver] = "curl-" + ver
         self.targetDigests["7.78.0"] = (["98530b317dc95ccb324bbe4f834f07bb642fbc393b794ddf3434f246a71ea44a"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["7.84.0"] = (["702fb26e73190a3bd77071aa146f507b9817cc4dfce218d2ab87f00cd3bc059d"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["8.13.0"] = (["e0d20499260760f9865cb6308928223f4e5128910310c025112f592a168e1473"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["8.14.1"] = (["5760ed3c1a6aac68793fc502114f35c3e088e8cd5c084c2d044abdf646ee48fb"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["8.23.0"] = (["95b22eb32bf6d1fa6e3e9463bdb61cece3efc56d86576a9b3cbd428246a6d854"], CraftHash.HashAlgorithm.SHA256)
 
         self.description = "a free and easy-to-use client-side URL transfer library"
         self.patchLevel["7.84.0"] = 2
-        self.defaultTarget = "8.14.1"
+        self.defaultTarget = "8.23.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -33,6 +34,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/openssl"] = None
         self.runtimeDependencies["libs/libssh2"] = None
         self.runtimeDependencies["libs/libpsl"] = None
+        self.runtimeDependencies["libs/brotli"] = None
+        self.runtimeDependencies["libs/libzstd"] = None
 
 
 class Package(CMakePackageBase):
@@ -41,6 +44,11 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += [
             "-DCURL_DISABLE_LDAP=ON",
             "-DCURL_DISABLE_LDAPS=ON",
+            "-DCURL_USE_OPENSSL=ON",
+            "-DCURL_CA_FALLBACK=ON",
+            "-DCURL_BROTLI=ON",
+            "-DCURL_ZSTD=ON",
+            "-DCURL_USE_LIBSSH2=ON",
             f"-DBUILD_CURL_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
             f"-DBUILD_CURL_EXE={self.subinfo.options.dynamic.buildTools.asOnOff}",
             f"-DCURL_STATICLIB={self.subinfo.options.dynamic.buildStatic.asOnOff}",

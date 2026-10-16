@@ -64,10 +64,7 @@ class PackageAutotools(AutoToolsPackageBase):
         craftRoot = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
 
         cFlags = (
-            f"-DSQLITE_HAS_CODEC "
-            f"-DSQLITE_EXTRA_INIT=sqlcipher_extra_init "
-            f"-DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown "
-            f"-I{craftRoot}/include"
+            f"-DSQLITE_HAS_CODEC " f"-DSQLITE_EXTRA_INIT=sqlcipher_extra_init " f"-DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown " f"-I{craftRoot}/include"
         )
 
         if CraftCore.compiler.compiler.isMinGW:
@@ -165,6 +162,7 @@ class PackageAutotools(AutoToolsPackageBase):
             def custom_execute(*args, **kwargs):
                 cleaned_args = [clean_arg(a) for a in args]
                 return orig_execute(*cleaned_args, **kwargs)
+
             self.shell.execute = custom_execute
         else:
             orig_execute = None

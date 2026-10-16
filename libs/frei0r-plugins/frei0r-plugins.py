@@ -16,12 +16,13 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/dyne/frei0r.git"
 
-        self.svnTargets["8e0f97e"] = "https://github.com/dyne/frei0r.git||8e0f97ef2dd6100239c869b26188641c6b89c6e7"
+        self.svnTargets["cfce4bc"] = "https://github.com/dyne/frei0r.git||cfce4bcc2ed0a38b7f01483008700aeb94558428"
         # https://github.com/dyne/frei0r/pull/285
-        self.patchToApply["8e0f97e"] = [("285.patch", 1)]
-        self.patchLevel["8e0f97e"] = 1
+        self.patchToApply["cfce4bc"] = [("285.patch", 1)]
+        if CraftCore.compiler.compiler.isMSVC:
+            self.patchToApply["cfce4bc"] += [("fix-msvc.diff", 1)]
 
-        self.defaultTarget = "8e0f97e"
+        self.defaultTarget = "cfce4bc"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

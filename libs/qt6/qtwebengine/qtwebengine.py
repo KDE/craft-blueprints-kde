@@ -58,6 +58,9 @@ class subinfo(info.infoclass):
         self.patchLevel["6.6.1"] = 1
         self.patchLevel["6.8.1"] = 1
 
+        # qtwebengine hast a creative new release cycle, so the version is not always the same as qtbase
+        self.defaultTarget = "6.11.2"
+
     def setDependencies(self):
         self.buildDependencies["dev-utils/gperf"] = None
         self.buildDependencies["dev-utils/flexbison"] = None
@@ -136,7 +139,11 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             ]
 
         if (
-            (CraftCore.compiler.platform.isMacOS and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2") and CraftVersion(self.buildTarget) < CraftVersion("6.6.2"))
+            (
+                CraftCore.compiler.platform.isMacOS
+                and CraftVersion(self.buildTarget) >= CraftVersion("6.5.2")
+                and CraftVersion(self.buildTarget) < CraftVersion("6.6.2")
+            )
             # macOS is fixed with 6.6.2, Windows still not :-(
             or CraftCore.compiler.platform.isWindows
         ):

@@ -121,7 +121,11 @@ class Package(CMakePackageBase):
             # create missing Qt header paths for shiboken6
             for subpath in ["QtCore", "QtGui", "QtWidgets"]:
                 if not os.path.exists(CraftCore.standardDirs.craftRoot() / "include" / subpath):
-                    utils.createSymlink(CraftCore.standardDirs.craftRoot() / "lib" / f"{subpath}.framework" / "Versions/A/Headers", CraftCore.standardDirs.craftRoot() / "include" / subpath, targetIsDirectory=True)
+                    utils.createSymlink(
+                        CraftCore.standardDirs.craftRoot() / "lib" / f"{subpath}.framework" / "Versions/A/Headers",
+                        CraftCore.standardDirs.craftRoot() / "include" / subpath,
+                        targetIsDirectory=True,
+                    )
 
         # TODO: use available versions
         self.subinfo.options.configure.args += [
@@ -186,18 +190,14 @@ class Package(CMakePackageBase):
             )
 
             # remove old version if exists
-            self.defines[
-                "preInstallHook"
-            ] = r"""
+            self.defines["preInstallHook"] = r"""
                 Exec "$INSTDIR\unins000.exe"
                 """
 
             # add option for desktop shortcut (see kdeconnect-kde.py) and update file associations
             # SHChangeNotify(SHCNE_ASSOCCHANGED,SHCNF_FLUSH,0,0)
             # SHCNE_ASSOCCHANGED = 0x08000000, SHCNF_IDLIST = 0, SHCNF_FLUSH = 0x1000, SHCNF_FLUSHNOWAIT = 0x2000
-            self.defines[
-                "sections"
-            ] = r"""
+            self.defines["sections"] = r"""
                 Section "Desktop Shortcut"
                         CreateShortCut "$DESKTOP\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
                 SectionEnd
@@ -205,9 +205,7 @@ class Package(CMakePackageBase):
                         System::Call "shell32::SHChangeNotify(i,i,i,i) (0x08000000, 0x1000, 0, 0)"
                 SectionEnd
                 """
-            self.defines[
-                "un_sections"
-            ] = r"""
+            self.defines["un_sections"] = r"""
                 Section "Un.Remove Shortcuts"
                     Delete "$DESKTOP\\@{productname}.lnk"
                 SectionEnd
@@ -248,10 +246,23 @@ class Package(CMakePackageBase):
 
             # Exclude large unnecessary stdlib directories
             def _excludeStdlib(d, files):
-                excludes = {"test", "tests", "idlelib", "tkinter", "turtledemo",
-                            "lib2to3", "ensurepip", "distutils", "site-packages",
-                            "__pycache__", "unittest", "pydoc_data", "curses", "venv",
-                            "lib-dynload"}  # DLLs/ has Windows extensions separately
+                excludes = {
+                    "test",
+                    "tests",
+                    "idlelib",
+                    "tkinter",
+                    "turtledemo",
+                    "lib2to3",
+                    "ensurepip",
+                    "distutils",
+                    "site-packages",
+                    "__pycache__",
+                    "unittest",
+                    "pydoc_data",
+                    "curses",
+                    "venv",
+                    "lib-dynload",
+                }  # DLLs/ has Windows extensions separately
                 return [f for f in files if f in excludes]
 
             # Copy Python stdlib to bin/Lib/
@@ -312,8 +323,7 @@ class Package(CMakePackageBase):
                 CraftCore.log.info(f"preArchive: shiboken6 __init__.py exists={shibokenInit.exists()}")
                 if destShiboken.exists():
                     shutil.rmtree(destShiboken)
-                shutil.copytree(shibokenDir, destShiboken,
-                                ignore=shutil.ignore_patterns("include", "lib", "*.dylib"))
+                shutil.copytree(shibokenDir, destShiboken, ignore=shutil.ignore_patterns("include", "lib", "*.dylib"))
                 CraftCore.log.info("preArchive: Copied shiboken6 to bin/Lib/site-packages/")
                 destShibokenInit = destShiboken / "__init__.py"
                 CraftCore.log.info(f"preArchive: dest shiboken6 __init__.py exists={destShibokenInit.exists()}")
@@ -343,9 +353,21 @@ class Package(CMakePackageBase):
             shibokenLocation = os.path.join(pythonSitePackageLocations[0], "shiboken6")
 
             # Copy dylibs to Frameworks
-            utils.copyFile(os.path.join(pysideLocation, "libpyside6.abi3.6.11.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.11.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(pysideLocation, "libpyside6qml.abi3.6.11.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.11.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(shibokenLocation, "libshiboken6.abi3.6.11.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.11.dylib"), linkOnly=False)
+            utils.copyFile(
+                os.path.join(pysideLocation, "libpyside6.abi3.6.11.dylib"),
+                os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.11.dylib"),
+                linkOnly=False,
+            )
+            utils.copyFile(
+                os.path.join(pysideLocation, "libpyside6qml.abi3.6.11.dylib"),
+                os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.11.dylib"),
+                linkOnly=False,
+            )
+            utils.copyFile(
+                os.path.join(shibokenLocation, "libshiboken6.abi3.6.11.dylib"),
+                os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.11.dylib"),
+                linkOnly=False,
+            )
 
             pythonFrameworksPackages = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
             pysidePath = os.path.join(pythonFrameworksPackages, "PySide6")
