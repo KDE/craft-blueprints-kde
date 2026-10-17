@@ -10,8 +10,7 @@ class subinfo(info.infoclass):
             # It is probably not a big deal because MSVC is used to build the PIM stack on Windows
             self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler
         else:
-            # Fails to build, because not maintained on macOS. Needs someone to fix it
-            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.All
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()

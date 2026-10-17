@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
             self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler
         else:
             # Fails to build, because not maintained on macOS. Needs someone to fix it
-            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotMacOS
+            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.All
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
