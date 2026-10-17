@@ -162,9 +162,10 @@ class Package(CMakePackageBase):
         # Some plugin files break codesigning on macOS, which is picky about file names
         if CraftCore.compiler.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
-            self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess)).*")
-        else:
-            self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess|python3)).*")
+        if CraftCore.compiler.isWindows:
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_win.txt")
+        # Bundle python3 for all packaged distributions (Windows, macOS, AppImage, Flatpak)
+        self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess|python3)).*")
 
         self.defines["website"] = "https://labplot.org/"
         self.defines["executable"] = "bin\\labplot.exe"
