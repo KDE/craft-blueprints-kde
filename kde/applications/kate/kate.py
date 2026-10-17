@@ -49,7 +49,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["shortcuts"] = [{"name": "Kate", "target": "bin/kate.exe", "description": self.subinfo.description}]
 
         # kate icons
-        self.defines["icon"] = self.buildDir() / "apps/kate/ICONS_SOURCES.ico"
+        self.defines["icon"] = self.buildDir() / "apps/kate/CMakeFiles/kate-bin.dir/ICONS_SOURCES.ico"
 
         # use special windows icons
         self.defines["icon_png"] = self.sourceDir() / "apps/kate/icons/windows/150-apps-kate.png"
