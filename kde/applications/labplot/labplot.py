@@ -376,4 +376,13 @@ class Package(CMakePackageBase):
             else:
                 CraftCore.log.warning(f"preArchive: cantor_pythonserver not found at {cantorServerSrc}")
 
+            # Copy hicolor icons for Cantor backends (pythonbackend, etc.)
+            hicolorSrc = CraftCore.standardDirs.craftRoot() / "share" / "icons" / "hicolor"
+            hicolorDest = appPath / "Contents" / "Resources" / "icons" / "hicolor"
+            if hicolorSrc.exists():
+                shutil.copytree(hicolorSrc, hicolorDest, dirs_exist_ok=True)
+                CraftCore.log.info(f"preArchive: Copied hicolor icons to {hicolorDest}")
+            else:
+                CraftCore.log.warning(f"preArchive: hicolor icons not found at {hicolorSrc}")
+
         return super().preArchive()
