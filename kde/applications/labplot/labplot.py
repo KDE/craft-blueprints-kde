@@ -63,9 +63,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
 
-        # cross compiling Cantor fails on macOS x86_64 (CD job)
-        if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["kde/applications/cantor"] = None
+        self.runtimeDependencies["kde/applications/cantor"] = None
         if not CraftCore.compiler.isMacOS:
             self.runtimeDependencies["libs/qt6/qtserialport"] = None
             self.runtimeDependencies["libs/qt6/qtmqtt"] = None
