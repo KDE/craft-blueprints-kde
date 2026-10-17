@@ -12,3 +12,6 @@ lib/systemd/user/plasma-kglobalaccel.service
 .*/include/module.modulemap
 lib/python3.11/.*
 .*/cpp-qt6-client-openapi-generator.jar
+
+# Duplicate QML Models plugin conflicts with QtQmlModels.framework
+.*/qml/QtQml/Models/.*
