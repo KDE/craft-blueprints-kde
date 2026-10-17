@@ -14,7 +14,7 @@ lib/python3.11/.*
 .*/cpp-qt6-client-openapi-generator.jar
 
 # Duplicate QML Models plugin conflicts with QtQmlModels.framework
-.*/qml/QtQml/Models/.*
+.*QtQml/Models/.*
 
 # Not needed at runtime
 .*QtDesigner.*
