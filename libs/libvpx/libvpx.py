@@ -41,7 +41,7 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.configure.noCacheFile = True
         self.platform = ""
-        if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
+        if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.architecture.isNative:
             self.platform = [
                 f"--target={CraftCore.compiler.architecture.key.name.lower()}-darwin{os.uname().release.split('.')[0]}-gcc",
             ]

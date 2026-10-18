@@ -155,7 +155,7 @@ class Package(PackageBase, MultiSource, WafBuildSystem, TypePackager):
                 env["CXX"] = str(cxx)
         if CraftCore.compiler.platform.isUnix:
             env["LD_LIBRARY_PATH"] = str(root / "lib")
-        if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
+        if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.architecture.isNative:
             archFlag = f"-arch {CraftCore.compiler.architecture.key.name.lower()}"
             for name in ["LINKFLAGS", "LDFLAGS"]:
                 env[name] = f"{os.environ.get(name, '')} {archFlag}".strip()

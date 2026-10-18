@@ -107,12 +107,12 @@ class Package(AutoToolsPackageBase):
             self.subinfo.options.configure.args += ["--disable-programs"]
         if "CC" in os.environ:
             cc = os.environ["CC"]
-            if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
+            if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.architecture.isNative:
                 cc = f"{cc} -arch {CraftCore.compiler.architecture.key.name.lower()}"
             self.subinfo.options.configure.args += [f"--cc={cc}"]
         if "CXX" in os.environ:
             cxx = os.environ["CXX"]
-            if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isNative:
+            if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.architecture.isNative:
                 cxx = f"{cxx} -arch {CraftCore.compiler.architecture.key.name.lower()}"
             self.subinfo.options.configure.args += [f"--cxx={cxx}"]
 
