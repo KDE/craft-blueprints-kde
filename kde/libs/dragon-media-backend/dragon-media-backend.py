@@ -23,6 +23,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["libs/libsdl3"] = None
         self.runtimeDependencies["libs/ffmpeg"] = None
+        self.runtimeDependencies["libs/kissfft"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

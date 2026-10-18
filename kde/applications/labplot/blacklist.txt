@@ -104,12 +104,12 @@ html/.*
 # share/applications/*.desktop needed for AppImage (also share/ required on macOS?)
 #share/.*
 
-# Unnecessary top-level folders on Windows (~53MB savings)
+# Unnecessary top-level folders
 Scripts/.*
 share/locale/.*
 share/fonts/.*
 # share/poppler/.* # needed for PDF rendering
-lib/.*
+# lib/.* # Windows-only, see blacklist_win.txt
 etc/xml/.*
 
 # we use a icontheme.rc on windows

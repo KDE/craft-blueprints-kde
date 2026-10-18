@@ -62,9 +62,7 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
 
-        # cross compiling Cantor fails on macOS x86_64 (CD job)
-        if not CraftCore.compiler.platform.isMacOS:
-            self.runtimeDependencies["kde/applications/cantor"] = None
+        self.runtimeDependencies["kde/applications/cantor"] = None
         if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/qt6/qtserialport"] = None
             self.runtimeDependencies["libs/qt6/qtmqtt"] = None
@@ -165,9 +163,10 @@ class Package(CMakePackageBase):
         # Some plugin files break codesigning on macOS, which is picky about file names
         if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
-            self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess)).*")
-        else:
-            self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess|python3)).*")
+        if CraftCore.compiler.platform.isWindows:
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_win.txt")
+        # Bundle python3 for all packaged distributions (Windows, macOS, AppImage, Flatpak)
+        self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess|python3)).*")
 
         self.defines["website"] = "https://labplot.org/"
         self.defines["executable"] = "bin\\labplot.exe"
@@ -388,5 +387,25 @@ class Package(CMakePackageBase):
                 if os.path.exists(src):
                     utils.copyFile(src, pysidePath, linkOnly=False)
             utils.copyFile(os.path.join(shibokenLocation, "__init__.py"), shibokenPath, linkOnly=False)
+
+            # Copy cantor_pythonserver executable for Python notebook support
+            cantorServerSrc = (
+                CraftCore.standardDirs.craftRoot() / "Applications" / "KDE" / "cantor_pythonserver.app" / "Contents" / "MacOS" / "cantor_pythonserver"
+            )
+            cantorServerDest = appPath / "Contents" / "MacOS" / "cantor_pythonserver"
+            if cantorServerSrc.exists():
+                shutil.copy2(cantorServerSrc, cantorServerDest)
+                CraftCore.log.info(f"preArchive: Copied cantor_pythonserver to {cantorServerDest}")
+            else:
+                CraftCore.log.warning(f"preArchive: cantor_pythonserver not found at {cantorServerSrc}")
+
+            # Copy hicolor icons for Cantor backends (pythonbackend, etc.)
+            hicolorSrc = CraftCore.standardDirs.craftRoot() / "share" / "icons" / "hicolor"
+            hicolorDest = appPath / "Contents" / "Resources" / "icons" / "hicolor"
+            if hicolorSrc.exists():
+                shutil.copytree(hicolorSrc, hicolorDest, dirs_exist_ok=True)
+                CraftCore.log.info(f"preArchive: Copied hicolor icons to {hicolorDest}")
+            else:
+                CraftCore.log.warning(f"preArchive: hicolor icons not found at {hicolorSrc}")
 
         return super().preArchive()
