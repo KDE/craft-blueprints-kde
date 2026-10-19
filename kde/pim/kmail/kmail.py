@@ -5,10 +5,11 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        if CraftCore.compiler.compiler.isMinGW:
-            # Several required dependencies are disabled on MinGW so we can't build this either
-            # It is probably not a big deal because MSVC is used to build the PIM stack on Windows
-            self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler
+        # Several required dependencies are disabled on MinGW so we can't build this either
+        # It is probably not a big deal because MSVC is used to build the PIM stack on Windows
+        self.parent.package.categoryInfo.compiler &= ~CraftCore.compiler.MinGW
+        # Fails to build, because not maintained on macOS. Needs someone to fix it
+        self.parent.package.categoryInfo.platforms &= ~CraftCore.compiler.Platforms.MacOS
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
