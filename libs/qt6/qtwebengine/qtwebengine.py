@@ -54,6 +54,8 @@ class subinfo(info.infoclass):
                 # https://qt-project.atlassian.net/browse/QTBUG-146971
                 self.patchToApply[ver] += [("qtwebengine-6.10.1-20251209.diff", 1)]
 
+        self.patchToApply["6.11.2"] += [("qtwebengine-6.11.2-20261019.diff", 1)]
+
         self.patchLevel["6.6.1"] = 1
         self.patchLevel["6.8.1"] = 1
 
@@ -116,9 +118,7 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             # Package harfbuzz-subset was not found
             f"-DQT_FEATURE_webengine_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
             "-DQT_FEATURE_webengine_system_libwebp=ON",
-            # 6.11.2 does not set the include path for libjpeg on linux...
-            # ./../../../../src/src/3rdparty/chromium/third_party/libyuv/source/mjpeg_decoder.cc:35:10: fatal error: jpeglib.h:
-            f"-DQT_FEATURE_webengine_system_libjpeg={CraftCore.compiler.platform.isLinux.inverted.asOnOff}",
+            "-DQT_FEATURE_webengine_system_libjpeg=ON",
             "-DQT_FEATURE_webengine_system_libopenjpeg2=ON",
             "-DQT_FEATURE_webengine_system_libtiff=ON",
             "-DQT_FEATURE_webengine_system_libxml=ON",
