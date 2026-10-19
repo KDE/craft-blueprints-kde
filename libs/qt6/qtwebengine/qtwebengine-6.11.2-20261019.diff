@@ -1,13 +1,23 @@
 diff -Nrub -x '*~' -x '*\.rej' -x '*\.orig' -x '*\.o' -x '*\.pyc' -x CMakeLists.txt.user -x .idea -x .clang-format src.orig/src/3rdparty/chromium/build/config/linux/pkg_config.gni src/src/3rdparty/chromium/build/config/linux/pkg_config.gni
 --- src.orig/src/3rdparty/chromium/build/config/linux/pkg_config.gni	2026-08-11 14:42:19.000000000 +0200
-+++ src/src/3rdparty/chromium/build/config/linux/pkg_config.gni	2026-10-19 15:21:58.219663646 +0200
-@@ -176,6 +176,9 @@
++++ src/src/3rdparty/chromium/build/config/linux/pkg_config.gni	2026-10-19 16:50:57.593421883 +0200
+@@ -176,6 +176,10 @@
        }
      }
      cflags = pkgresult[1]
 +    # defined by craft
 +    kde_root = getenv("KDEROOT")
 +    cflags += ["-I$kde_root/include"]
++    lib_dirs = "-L$kde_root/lib "
  
      foreach(_path, pkgresult[0]) {
        if (_pkg_config_requires_abs_path && (use_sysroot || use_remoteexec)) {
+@@ -193,7 +197,7 @@
+ 
+     if (!defined(invoker.ignore_libs) || !invoker.ignore_libs) {
+       libs = pkgresult[2]
+-      lib_dirs = pkgresult[3]
++      lib_dirs += pkgresult[3]
+     }
+ 
+     forward_variables_from(invoker,
