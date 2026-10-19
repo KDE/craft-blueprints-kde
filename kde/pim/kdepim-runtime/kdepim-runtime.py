@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.platforms &= ~CraftCore.compiler.Platforms.MacOS
         # KMailTransport is a required dependency, but disabled on MinGW so we can't build this either
         # It is probably not a big deal because MSVC is used to build the PIM stack on Windows
-        self.parent.package.categoryInfo.compiler &= ~CraftCore.compiler.MinGW
+        self.parent.package.categoryInfo.compiler &= ~CraftCore.compiler.compiler.MinGW
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
