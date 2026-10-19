@@ -116,7 +116,9 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             # Package harfbuzz-subset was not found
             f"-DQT_FEATURE_webengine_system_harfbuzz={self.subinfo.options.dynamic.withHarfBuzz.asOnOff}",
             "-DQT_FEATURE_webengine_system_libwebp=ON",
-            "-DQT_FEATURE_webengine_system_libjpeg=ON",
+            # 6.11.2 does not set the include path for libjpeg on linux...
+            # ./../../../../src/src/3rdparty/chromium/third_party/libyuv/source/mjpeg_decoder.cc:35:10: fatal error: jpeglib.h:
+            f"-DQT_FEATURE_webengine_system_libjpeg={CraftCore.compiler.platform.isLinux.inverted.asOnOff}",
             "-DQT_FEATURE_webengine_system_libopenjpeg2=ON",
             "-DQT_FEATURE_webengine_system_libtiff=ON",
             "-DQT_FEATURE_webengine_system_libxml=ON",
@@ -126,8 +128,6 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DQT_FEATURE_webengine_system_pulseaudio=OFF",
             "-DQT_FEATURE_webengine_system_ffmpeg=OFF",  # needs a patched ffmpeg  https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/qtwebengine-6.10.1.ebuild#n208
             "-DQT_FEATURE_webengine_vaapi=OFF",
-            f"-DCMAKE_C_FLAGS=-I{CraftCore.standardDirs.craftRoot().as_posix()}/include",
-            f"-DCMAKE_CXX_FLAGS=-I{CraftCore.standardDirs.craftRoot().as_posix()}/include",
         ]
         # See https://bugs.kde.org/show_bug.cgi?id=486905 and https://github.com/Homebrew/homebrew-core/issues/104008 :
         # option not correctly supported on Windows and MacOS (as of Qt 6.7.0)
