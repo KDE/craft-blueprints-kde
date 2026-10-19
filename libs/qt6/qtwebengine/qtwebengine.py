@@ -126,6 +126,8 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             "-DQT_FEATURE_webengine_system_pulseaudio=OFF",
             "-DQT_FEATURE_webengine_system_ffmpeg=OFF",  # needs a patched ffmpeg  https://gitweb.gentoo.org/repo/gentoo.git/tree/dev-qt/qtwebengine/qtwebengine-6.10.1.ebuild#n208
             "-DQT_FEATURE_webengine_vaapi=OFF",
+            f"-DCMAKE_C_FLAGS=-I{CraftCore.standardDirs.craftRoot().as_posix()}/include",
+            f"-DCMAKE_CXX_FLAGS=-I{CraftCore.standardDirs.craftRoot().as_posix()}/include",
         ]
         # See https://bugs.kde.org/show_bug.cgi?id=486905 and https://github.com/Homebrew/homebrew-core/issues/104008 :
         # option not correctly supported on Windows and MacOS (as of Qt 6.7.0)
