@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.targetDigests["6.4"] = (["3714c129e37fe4b58fa3dc2f30b6b8c867de683a5cfe74e74e6a9f7c0e9a8e77"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["7.0.2"] = (["a9c646bc4f6bb31843f129f8408a3a627334575faf7b22ebc416be5cb1570553"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["7.3"] = (["4fc30d71e00416f0b4884994f1db9db2901f03603f8e69d92dd46fa018d998d7"], CraftHash.HashAlgorithm.SHA256)
+        self.patchLevel["7.3"] = 1
         self.defaultTarget = "7.3"
 
 
