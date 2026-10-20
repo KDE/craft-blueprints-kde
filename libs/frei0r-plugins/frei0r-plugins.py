@@ -17,8 +17,12 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://github.com/dyne/frei0r.git"
 
         self.svnTargets["cfce4bc"] = "https://github.com/dyne/frei0r.git||cfce4bcc2ed0a38b7f01483008700aeb94558428"
-        # https://github.com/dyne/frei0r/pull/285
-        self.patchToApply["cfce4bc"] = [("285.patch", 1)]
+        self.patchToApply["cfce4bc"] = [
+            # https://github.com/dyne/frei0r/pull/285
+            ("285.patch", 1),
+            ("scale0tilt-without-gavl.patch", 1),
+        ]
+
         if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply["cfce4bc"] += [("fix-msvc.diff", 1)]
 
@@ -27,17 +31,22 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/cairo"] = None
-        self.runtimeDependencies["libs/gavl"] = None
+        # Disable gavl. See note below on self.subinfo.options.configure.args for details.
+        # self.runtimeDependencies["libs/gavl"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # Disable OpenCV as it can cause protobuf conflicts and is only
-        # used in facebl0r / facedetect which do not work in Kdenlive
         self.subinfo.options.configure.args += [
-            f"-DWITHOUT_GAVL={self.subinfo.options.isActive('libs/gavl').inverted.asOnOff}",
+            # Disable gavl because it is annoying to deal with and it is only required for
+            # scal0tilt, rgbparade and vectorscope. However for scale0tilt we have a patch above.
+            # The other two are not that important given Kdenlive as buildin rgbpade and vectorscope.
+            # f"-DWITHOUT_GAVL={self.subinfo.options.isActive('libs/gavl').inverted.asOnOff}",
+            "-DWITHOUT_GAVL=OFF",
+            # Disable OpenCV as it can cause protobuf conflicts and is only
+            # used in facebl0r / facedetect which do not work in Kdenlive
             "-DWITHOUT_OPENCV=ON",
             f"-DWITHOUT_CAIRO={self.subinfo.options.isActive('libs/cairo').inverted.asOnOff}",
         ]
