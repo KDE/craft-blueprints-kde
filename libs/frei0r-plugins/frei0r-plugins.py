@@ -42,7 +42,7 @@ class Package(CMakePackageBase):
             # scal0tilt, rgbparade and vectorscope. However for scale0tilt we have a patch above.
             # The other two are not that important given Kdenlive as buildin rgbpade and vectorscope.
             # f"-DWITHOUT_GAVL={self.subinfo.options.isActive('libs/gavl').inverted.asOnOff}",
-            "-DWITHOUT_GAVL=OFF",
+            "-DWITHOUT_GAVL=ON",
             # Disable OpenCV as it can cause protobuf conflicts and is only
             # used in facebl0r / facedetect which do not work in Kdenlive
             "-DWITHOUT_OPENCV=ON",
