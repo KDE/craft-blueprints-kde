@@ -95,7 +95,7 @@ class Package(MakeFilePackageBase):
             if CraftCore.compiler.architecture.isX86_64:
                 buildArgs += ["--target=x64", "-DOS=android"]
             else:
-                buildArgs += ["--target=" + CraftCore.compiler.androidArchitecture, "-DOS=android"]
+                buildArgs += ["--target=" + CraftCore.compiler.architecture.androidArchitecture, "-DOS=android"]
 
             # Inspired by craft's own AutoToolsBuildSystem.py
             if CraftCore.compiler.architecture.isArm32:
@@ -105,7 +105,7 @@ class Package(MakeFilePackageBase):
             elif CraftCore.compiler.architecture.isX86_32:
                 androidtarget = "i686-linux-android"
             else:
-                androidtarget = f"{CraftCore.compiler.androidArchitecture}-linux-android"
+                androidtarget = f"{CraftCore.compiler.architecture.androidArchitecture}-linux-android"
 
             ndkDir = os.environ.get("ANDROID_NDK")
             toolchainDir = ndkDir + "/toolchains/llvm/prebuilt/" + os.environ.get("ANDROID_NDK_HOST")

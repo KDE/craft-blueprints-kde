@@ -129,8 +129,8 @@ class Package(AutoToolsPackageBase):
                 compiler = "i686-linux-android"
                 self.subinfo.options.configure.args += ["--disable-asm", "--enable-pic"]
             else:
-                architecture = CraftCore.compiler.androidArchitecture
-                compiler = f"{CraftCore.compiler.androidArchitecture}-linux-android"
+                architecture = CraftCore.compiler.architecture.androidArchitecture
+                compiler = f"{CraftCore.compiler.architecture.androidArchitecture}-linux-android"
             self.subinfo.options.configure.args += [f"--cc={self._ndkToolchainPath}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang"]
             self.subinfo.options.configure.args += [f"--cxx={self._ndkToolchainPath}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang++"]
             self.subinfo.options.configure.args += ["--enable-cross-compile", "--target-os=android", "--cross-prefix=llvm-"]
