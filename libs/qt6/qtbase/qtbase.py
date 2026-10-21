@@ -71,7 +71,7 @@ class subinfo(info.infoclass):
         self.patchLevel["6.8.0"] = 2
         self.patchLevel["6.8.1"] = 2
         self.patchLevel["6.11.0"] = 1
-        self.patchLevel["6.11.1"] = 4
+        self.patchLevel["6.11.1"] = 5
         self.patchLevel["6.11.2"] = 1
 
     def setDependencies(self):
