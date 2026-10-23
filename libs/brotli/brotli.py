@@ -12,11 +12,12 @@ class subinfo(info.infoclass):
         self.targetDigests["1.0.9"] = (["f9e8d81d0405ba66d181529af42a3354f838c939095ff99930da6aa9cdf6fe46"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.1.0"] = (["e720a6ca29428b803f4ad165371771f5398faba397edf6778837a18599ea13ff"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.2.0"] = (["816c96e8e8f193b40151dad7e8ff37b1221d019dbcb9c35cd3fadbfe6477dfec"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.2.1"] = (["98d35d11a78dc453aebb7d10c3748f3f73ff78c8267c0dc697b8631f67bf7e8f"], CraftHash.HashAlgorithm.SHA256)
         self.patchToApply["1.0.9"] = [("brotli-1.0.9-20230707.diff", 1)]
         self.patchLevel["1.0.9"] = 2
         self.description = "Brotli compression format"
         self.webpage = "https://github.com/google/brotli"
-        self.defaultTarget = "1.2.0"
+        self.defaultTarget = "1.2.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
