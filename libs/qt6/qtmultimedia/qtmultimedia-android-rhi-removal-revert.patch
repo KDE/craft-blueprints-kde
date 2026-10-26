@@ -1,0 +1,246 @@
+diff --git c/src/multimedia/qthreadlocalrhi.cpp w/src/multimedia/qthreadlocalrhi.cpp
+index f3b52e695..a7094729b 100644
+--- c/src/multimedia/qthreadlocalrhi.cpp
++++ w/src/multimedia/qthreadlocalrhi.cpp
+@@ -36,36 +36,42 @@ class ThreadLocalRhiHolder
+ public:
+     ~ThreadLocalRhiHolder() { resetRhi(); }
+ 
+-    QRhi *ensureRhi([[maybe_unused]] QRhi::Implementation backend)
++    QRhi *ensureRhi(QRhi *referenceRhi)
+     {
+         if (m_rhi || m_cpuOnly)
+             return m_rhi.get();
+ 
++        [[maybe_unused]] QRhi::Implementation referenceBackend =
++                referenceRhi ? referenceRhi->backend() : QRhi::Null;
+         const QPlatformIntegration *qpa = QGuiApplicationPrivate::platformIntegration();
+ 
+         if (qpa && qpa->hasCapability(QPlatformIntegration::RhiBasedRendering)) {
+ 
+ #if QT_CONFIG(metal)
+-            if (canUseRhiImpl(QRhi::Metal, backend)) {
++            if (canUseRhiImpl(QRhi::Metal, referenceBackend)) {
+                 QRhiMetalInitParams params;
+                 m_rhi.reset(QRhi::create(QRhi::Metal, &params));
+             }
+ #endif
+ 
+ #if defined(Q_OS_WIN)
+-            if (!m_rhi && canUseRhiImpl(QRhi::D3D11, backend)) {
++            if (!m_rhi && canUseRhiImpl(QRhi::D3D11, referenceBackend)) {
+                 QRhiD3D11InitParams params;
+                 m_rhi.reset(QRhi::create(QRhi::D3D11, &params));
+             }
+ #endif
+ 
+ #if QT_CONFIG(opengl)
+-            if (!m_rhi && canUseRhiImpl(QRhi::OpenGLES2, backend)) {
++            if (!m_rhi && canUseRhiImpl(QRhi::OpenGLES2, referenceBackend)) {
+                 if (openGLCapsSupported(*qpa)) {
+ 
+                     m_fallbackSurface.reset(QRhiGles2InitParams::newFallbackSurface());
+                     QRhiGles2InitParams params;
+                     params.fallbackSurface = m_fallbackSurface.get();
++                    if (referenceBackend == QRhi::OpenGLES2)
++                        params.shareContext = static_cast<const QRhiGles2NativeHandles *>(
++                                                      referenceRhi->nativeHandles())
++                                                      ->context;
+                     m_rhi.reset(QRhi::create(QRhi::OpenGLES2, &params));
+ 
+ #  if defined(Q_OS_ANDROID)
+@@ -140,9 +146,9 @@ QThreadStorage<ThreadLocalRhiHolder> g_threadLocalRhiHolder;
+ 
+ }
+ 
+-QRhi *qEnsureThreadLocalRhi(QRhi::Implementation backend)
++QRhi *qEnsureThreadLocalRhi(QRhi *referenceRhi)
+ {
+-    return g_threadLocalRhiHolder.localData().ensureRhi(backend);
++    return g_threadLocalRhiHolder.localData().ensureRhi(referenceRhi);
+ }
+ 
+ void qSetPreferredThreadLocalRhiBackend(QRhi::Implementation backend)
+diff --git c/src/multimedia/qthreadlocalrhi_p.h w/src/multimedia/qthreadlocalrhi_p.h
+index 0e0514cfd..d8a6a5bf8 100644
+--- c/src/multimedia/qthreadlocalrhi_p.h
++++ w/src/multimedia/qthreadlocalrhi_p.h
+@@ -21,11 +21,7 @@
+ 
+ QT_BEGIN_NAMESPACE
+ 
+-// backends priority (from top):
+-// - the parameter-specified backend
+-// - the test-only preferred backend (see qSetPreferredThreadLocalRhiBackend)
+-// - the default backend according to the platfrom
+-Q_MULTIMEDIA_EXPORT QRhi *qEnsureThreadLocalRhi(QRhi::Implementation backend = QRhi::Implementation::Null);
++Q_MULTIMEDIA_EXPORT QRhi *qEnsureThreadLocalRhi(QRhi *referenceRhi = nullptr);
+ 
+ // Used only for testing
+ Q_MULTIMEDIA_EXPORT void qSetPreferredThreadLocalRhiBackend(QRhi::Implementation backend);
+diff --git c/src/multimedia/video/qhwvideobuffer.cpp w/src/multimedia/video/qhwvideobuffer.cpp
+index 8934f8c97..61817049e 100644
+--- c/src/multimedia/video/qhwvideobuffer.cpp
++++ w/src/multimedia/video/qhwvideobuffer.cpp
+@@ -9,7 +9,9 @@ QVideoFrameTextures::~QVideoFrameTextures() = default;
+ 
+ QVideoFrameTexturesHandles::~QVideoFrameTexturesHandles() = default;
+ 
+-QHwVideoBuffer::QHwVideoBuffer(QVideoFrame::HandleType type) : m_type(type) { }
++QHwVideoBuffer::QHwVideoBuffer(QVideoFrame::HandleType type, QRhi *rhi) : m_type(type), m_rhi(rhi)
++{
++}
+ 
+ // must be out-of-line to ensure correct working of dynamic_cast when QHwVideoBuffer is created in tests
+ QHwVideoBuffer::~QHwVideoBuffer() = default;
+diff --git c/src/multimedia/video/qhwvideobuffer_p.h w/src/multimedia/video/qhwvideobuffer_p.h
+index 6b943484f..dc9c96165 100644
+--- c/src/multimedia/video/qhwvideobuffer_p.h
++++ w/src/multimedia/video/qhwvideobuffer_p.h
+@@ -83,15 +83,12 @@ class Q_MULTIMEDIA_EXPORT QHwVideoBuffer : public QAbstractVideoBuffer,
+                                            public QVideoFrameTexturesHandles
+ {
+ public:
+-    explicit QHwVideoBuffer(QVideoFrame::HandleType type);
++    QHwVideoBuffer(QVideoFrame::HandleType type, QRhi *rhi = nullptr);
+ 
+     ~QHwVideoBuffer() override;
+ 
+     QVideoFrame::HandleType handleType() const { return m_type; }
+-
+-    // returns rhi in the current thread that has been associated with the frame
+-    // during texture mapping or texture converter initialization.
+-    virtual QRhi *associatedCurrentThreadRhi() const { return nullptr; }
++    virtual QRhi *rhi() const { return m_rhi; }
+ 
+     QVideoFrameFormat format() const override { return {}; }
+ 
+@@ -108,6 +105,7 @@ public:
+ 
+ protected:
+     QVideoFrame::HandleType m_type;
++    QRhi *m_rhi = nullptr;
+ };
+ 
+ QT_END_NAMESPACE
+diff --git c/src/multimedia/video/qvideoframeconverter.cpp w/src/multimedia/video/qvideoframeconverter.cpp
+index ff175632e..5dfeee3d1 100644
+--- c/src/multimedia/video/qvideoframeconverter.cpp
++++ w/src/multimedia/video/qvideoframeconverter.cpp
+@@ -274,21 +274,14 @@ QImage qImageFromVideoFrame(const QVideoFrame &frame, const VideoTransformation
+     QRhi *rhi = nullptr;
+ 
+     if (QHwVideoBuffer *buffer = QVideoFramePrivate::hwBuffer(frame))
+-        rhi = buffer->associatedCurrentThreadRhi();
++        rhi = buffer->rhi();
+ 
+-    if (!rhi) {
+-        // TODO: if a case with more the one available preferred backends appears,
+-        // e.g. vulkan vs opengl, then we should:
+-        //   1. Implement QHwVideoBuffer::preferredRhiBackend
+-        //   2. Implement a map backend=>rhi inside qEnsureThreadLocalRhi
+-        rhi = qEnsureThreadLocalRhi(/*buffer->preferredRhiBackend()*/);
+-    }
++    if (!rhi || !rhi->thread()->isCurrentThread())
++        rhi = qEnsureThreadLocalRhi(rhi);
+ 
+     if (!rhi || rhi->isRecordingFrame())
+         return convertCPU(frame, transformation);
+ 
+-    Q_ASSERT(rhi->thread()->isCurrentThread());
+-
+     // Do conversion using shaders
+ 
+     const QSize frameSize = qRotatedFrameSize(frame.size(), frame.surfaceFormat().rotation());
+diff --git c/src/plugins/multimedia/android/common/qandroidvideooutput.cpp w/src/plugins/multimedia/android/common/qandroidvideooutput.cpp
+index 95973dfc0..11651e649 100644
+--- c/src/plugins/multimedia/android/common/qandroidvideooutput.cpp
++++ w/src/plugins/multimedia/android/common/qandroidvideooutput.cpp
+@@ -39,11 +39,27 @@ private:
+     std::unique_ptr<QRhiTexture> m_tex;
+ };
+ 
+-class AndroidTextureVideoBuffer : public QHwVideoBuffer
++// QRhiWithThreadGuard keeps QRhi and QThread (that created it) alive to allow proper cleaning
++class QRhiWithThreadGuard : public QObject {
++    Q_OBJECT
++public:
++    QRhiWithThreadGuard(std::shared_ptr<QRhi> r, std::shared_ptr<AndroidTextureThread> t)
++        : m_guardRhi(std::move(r)), m_thread(std::move(t)) {}
++    ~QRhiWithThreadGuard();
++protected:
++    std::shared_ptr<QRhi> m_guardRhi;
++private:
++    std::shared_ptr<AndroidTextureThread> m_thread;
++};
++
++class AndroidTextureVideoBuffer : public QRhiWithThreadGuard, public QHwVideoBuffer
+ {
+ public:
+-    AndroidTextureVideoBuffer(std::unique_ptr<QRhiTexture> tex, const QSize &size)
+-        : QHwVideoBuffer(QVideoFrame::RhiTextureHandle),
++    AndroidTextureVideoBuffer(std::shared_ptr<QRhi> rhi,
++                              std::shared_ptr<AndroidTextureThread> thread,
++                              std::unique_ptr<QRhiTexture> tex, const QSize &size)
++        : QRhiWithThreadGuard(std::move(rhi), std::move(thread)),
++          QHwVideoBuffer(QVideoFrame::RhiTextureHandle, m_guardRhi.get()),
+           m_size(size),
+           m_tex(std::move(tex))
+     {}
+@@ -72,7 +88,7 @@ class ImageFromVideoFrameHelper : public QHwVideoBuffer
+ {
+ public:
+     ImageFromVideoFrameHelper(AndroidTextureVideoBuffer &atvb)
+-        : QHwVideoBuffer(QVideoFrame::RhiTextureHandle), m_atvb(atvb)
++        : QHwVideoBuffer(QVideoFrame::RhiTextureHandle, atvb.rhi()), m_atvb(atvb)
+     {}
+     QVideoFrameTexturesUPtr mapTextures(QRhi &rhi, QVideoFrameTexturesUPtr& oldTextures) override
+     {
+@@ -299,7 +315,7 @@ public slots:
+             m_surfaceTexture->updateTexImage();
+             auto matrix = extTransformMatrix(m_surfaceTexture.get());
+             auto tex = m_textureCopy->copyExternalGlTexture(m_size, matrix);
+-            auto *buffer = new AndroidTextureVideoBuffer(std::move(tex), m_size);
++            auto *buffer = new AndroidTextureVideoBuffer(m_rhi, m_videoOutput->getSurfaceThread(), std::move(tex), m_size);
+             QVideoFrame frame(buffer, QVideoFrameFormat(m_size, QVideoFrameFormat::Format_RGBA8888));
+             emit newFrame(frame);
+ #endif
+@@ -366,6 +382,12 @@ private:
+     QSize m_size;
+ };
+ 
++QRhiWithThreadGuard::~QRhiWithThreadGuard() {
++    // It may happen that reseting m_rhi shared_ptr will delete it (if it is the last reference)
++    // QRHI need to be deleted from the thread that created it.
++    QMetaObject::invokeMethod(m_thread.get(), [&]() {m_guardRhi.reset();}, Qt::BlockingQueuedConnection);
++}
++
+ QAndroidTextureVideoOutput::QAndroidTextureVideoOutput(QVideoSink *sink, QObject *parent)
+     : QAndroidVideoOutput(parent)
+     , m_sink(sink)
+diff --git c/src/plugins/multimedia/ffmpeg/qffmpegvideobuffer.cpp w/src/plugins/multimedia/ffmpeg/qffmpegvideobuffer.cpp
+index cd89c9b18..cf67bd9e4 100644
+--- c/src/plugins/multimedia/ffmpeg/qffmpegvideobuffer.cpp
++++ w/src/plugins/multimedia/ffmpeg/qffmpegvideobuffer.cpp
+@@ -109,7 +109,7 @@ QFFmpeg::TextureConverter &QFFmpegVideoBuffer::ensureTextureConverter(QRhi &rhi)
+     return *converter;
+ }
+ 
+-QRhi *QFFmpegVideoBuffer::associatedCurrentThreadRhi() const
++QRhi *QFFmpegVideoBuffer::rhi() const
+ {
+     if (!m_hwFrame)
+         return nullptr;
+diff --git c/src/plugins/multimedia/ffmpeg/qffmpegvideobuffer_p.h w/src/plugins/multimedia/ffmpeg/qffmpegvideobuffer_p.h
+index ae866e68c..c6cd41bc3 100644
+--- c/src/plugins/multimedia/ffmpeg/qffmpegvideobuffer_p.h
++++ w/src/plugins/multimedia/ffmpeg/qffmpegvideobuffer_p.h
+@@ -48,7 +48,7 @@ public:
+ 
+     void initTextureConverter(QRhi &rhi) override;
+ 
+-    QRhi *associatedCurrentThreadRhi() const override;
++    QRhi *rhi() const override;
+ 
+     QVideoFrameFormat::ColorSpace colorSpace() const;
+     QVideoFrameFormat::ColorTransfer colorTransfer() const;
