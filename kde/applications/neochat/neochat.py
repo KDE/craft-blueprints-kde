@@ -36,6 +36,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/libquotient"] = None
         self.runtimeDependencies["libs/cmark"] = None
         self.runtimeDependencies["kde/libs/kquickimageeditor"] = None
+        self.runtimeDependencies["kde/libs/kirigami-app-components"] = None
         self.runtimeDependencies["qt-libs/qcoro"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         if not CraftCore.compiler.platform.isAndroid:
