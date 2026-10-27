@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
         self.description = "libidn internationalized domain names library"
         self.webpage = "https://www.gnu.org/software/libidn"
         self.releaseManagerId = 5597
-        self.defaultTarget = "2.3.7"
+        self.defaultTarget = "2.3.8"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
