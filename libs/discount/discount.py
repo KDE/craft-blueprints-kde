@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
 
         self.targetDigests["2.2.7"] = (["72c1325ddfc40871d6810f1e272cf2d45b361f26357eb38f170fd04d737bb9f2"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["3.0.1.2"] = (["4ea6cc8782c6508b3051c469ed7a1b6ca20b023c2a0c26ccd9c83bc7e61dfc16"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "3.0.1.2"
+        self.defaultTarget = "3.0.2.0"
 
         self.releaseManagerId = 12139
         self.webpage = "https://www.pell.portland.or.us/~orc/Code/discount/"
