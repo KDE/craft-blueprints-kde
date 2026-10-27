@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
             self.archiveNames[ver] = f"KDDockWidgets-{ver}.tar.gz"
         self.targetDigests["2.4.1"] = (["5cd9495d9316cf6cc937bb328a7fd491c3248ef2469cfa42511f1039f6148aca"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "2.4.1"
+        self.patchLevel["2.4.1"] = 1
 
         self.description = "KDDockWidgets is a Qt dock widget library written by KDAB, suitable for replacing QDockWidget and implementing advanced functionalities missing in Qt."
         self.webpage = "https://www.kdab.com/introducing-kddockwidgets/"
@@ -25,4 +26,4 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DKDDockWidgets_QT6=ON", "-DKDDockWidgets_FRONTENDS=qtwidgets"]
+        self.subinfo.options.configure.args += ["-DKDDockWidgets_QT6=ON", "-DKDDockWidgets_FRONTENDS=qtwidgets", "-DKDDockWidgets_NO_SPDLOG=ON"]
