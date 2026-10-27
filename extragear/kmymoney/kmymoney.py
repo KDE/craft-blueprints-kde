@@ -143,6 +143,22 @@ class Package(CMakePackageBase):
 
         return True
 
+    def postInstall(self):
+        if CraftCore.compiler.compiler.isMSVC:
+            # the libsqlcipher.dll library needs
+            # to be found as sqlite3.dll
+            installDir = self.installDir()
+            libSrc = installDir / "bin/libsqlcipher.dll"
+            libDst = installDir / "bin/sqlite3.dll"
+            print(f"Try to move {libSrc} to {libDst}")
+            if libDst.exists():
+                utils.rmtree(libDst)
+                utils.moveFile(libSrc, libDst)
+            else:
+                print("Could not move libsqlcipher.dll")
+
+        return super().postInstall()
+
     def createPackage(self):
         self.defines["executable"] = "bin\\kmymoney.exe"  # Windows-only, mac is handled implicitly
         self.defines["icon"] = self.blueprintDir() / "kmymoney.ico"
