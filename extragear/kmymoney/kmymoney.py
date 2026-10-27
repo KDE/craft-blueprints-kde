@@ -151,7 +151,7 @@ class Package(CMakePackageBase):
             libSrc = installDir / "bin/libsqlcipher.dll"
             libDst = installDir / "bin/sqlite3.dll"
             print(f"Try to move {libSrc} to {libDst}")
-            if libDst.exists():
+            if libSrc.exists():
                 utils.rmtree(libDst)
                 utils.moveFile(libSrc, libDst)
             else:
