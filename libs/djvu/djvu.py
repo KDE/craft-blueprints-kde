@@ -19,7 +19,7 @@ class subinfo(info.infoclass):
         self.targetDigests["3.5.25.3"] = "ad35056aabb1950f385360ff59520a82a6f779ec"
         self.targetDigests["3.5.27"] = "99c4f2c621c063bf8c8a1626030539fe5a8675f9"
 
-        self.defaultTarget = "3.5.27"
+        self.defaultTarget = "3.5.30"
 
         self.releaseManagerId = 10159
         self.webpage = "http://djvu.sourceforge.net/"
