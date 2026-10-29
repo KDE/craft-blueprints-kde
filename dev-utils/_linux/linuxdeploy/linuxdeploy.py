@@ -18,7 +18,10 @@ class subinfo(info.infoclass):
             f"https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-{CraftCore.compiler.architecture.appImageArchitecture}.AppImage"
         )
         self.targetInstallPath["continous-static"] = "dev-utils/bin"
-        self.targetDigests["1-alpha-20250213-2"] = (["4648f278ab3ef31f819e67c30d50f462640e5365a77637d7e6f2ad9fd0b4522a"], CraftHash.HashAlgorithm.SHA256)
+        if CraftCore.compiler.architecture.isArm64:
+            self.targetDigests["1-alpha-20250213-2"] = (["06706ac8189797dccd36bd384105892cb5e6e71f784f4df526cc958adc223cd6"], CraftHash.HashAlgorithm.SHA256)
+        else:
+            self.targetDigests["1-alpha-20250213-2"] = (["4648f278ab3ef31f819e67c30d50f462640e5365a77637d7e6f2ad9fd0b4522a"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "1-alpha-20250213-2"
 
         self.description = "AppDir creation and maintenance tool. Featuring flexible plugin system."
@@ -37,10 +40,11 @@ class Package(BinaryPackageBase):
     def install(self):
         if not super().install():
             return False
+        dest = self.installDir() / f"linuxdeploy-{CraftCore.compiler.architecture.appImageArchitecture}.AppImage"
         if self.subinfo.buildTarget != "continous-static":
             # remove version from file name
-            return utils.moveFile(self.installDir() / self.subinfo.archiveNames[self.buildTarget], self.installDir() / "linuxdeploy-x86_64.AppImage")
+            return utils.moveFile(self.installDir() / self.subinfo.archiveNames[self.buildTarget], dest)
         else:
             # hack enforce redownload on update
             utils.deleteFile(self.localFilePath()[0])
-            return utils.moveFile(self.installDir() / self.localFileNames()[0], self.installDir() / "linuxdeploy-x86_64.AppImage")
+            return utils.moveFile(self.installDir() / self.localFileNames()[0], dest)
