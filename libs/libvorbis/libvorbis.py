@@ -13,7 +13,7 @@ class subinfo(info.infoclass):
             ("0003-def-mingw-compat.patch", 1),
             ("update-minimum-cmake-version-to-3.6.patch", 1),
         ]
-        self.patchLevel["1.3.7"] = 2
+        self.patchLevel["1.3.7"] = 3
 
         self.description = "reference implementation for the vorbis audio file format"
         self.defaultTarget = "1.3.7"
