@@ -1,0 +1,11 @@
+--- a/win32/ogg.def	2026-10-29 12:39:28.623814989 +0100
++++ b/win32/ogg.def	2026-10-29 12:39:12.526729961 +0100
+@@ -2,7 +2,7 @@
+ ; ogg.def
+ ; List of exported functions for Windows builds.
+ ;
+-LIBRARY ogg
++LIBRARY libogg
+ EXPORTS
+ ;
+ oggpack_writeinit
