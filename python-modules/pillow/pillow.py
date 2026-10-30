@@ -32,6 +32,12 @@ class subinfo(info.infoclass):
         # libjpeg-turbo: provides JPEG functionality
         self.runtimeDependencies["libs/libjpeg-turbo"] = None
 
+    def setDependencies(self):
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["python-modules/pip"] = None
+        self.runtimeDependencies["libs/python"] = None
+        self.buildDependencies["python-modules/setuptools"] = None
+
 
 class Package(PipPackageBase):
     def __init__(self, **kwargs):

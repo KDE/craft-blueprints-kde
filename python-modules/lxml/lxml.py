@@ -16,6 +16,9 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/libxml2"] = None
             self.runtimeDependencies["libs/libxslt"] = None
             self.runtimeDependencies["python-modules/cython"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["python-modules/pip"] = None
+        self.runtimeDependencies["libs/python"] = None
 
 
 class Package(PipPackageBase):

@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
-import os
-
 import info
-import utils
-from CraftCore import CraftCore
 from Package.PipPackageBase import PipPackageBase
 
 
 class subinfo(info.infoclass):
     def setDependencies(self):
-        self.buildDependencies["libs/python"] = None
-        self.buildDependencies["dev-utils/system-python3"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["python-modules/pip"] = None
+        self.runtimeDependencies["libs/python"] = None
+        self.buildDependencies["python-modules/setuptools"] = None
 
     def setTargets(self):
         self.svnTargets["master"] = ""
@@ -22,12 +20,3 @@ class subinfo(info.infoclass):
 class Package(PipPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
-    def install(self):
-        if CraftCore.compiler.platform.isWindows:
-            utils.createShim(
-                self.imageDir() / "bin/doxyqml.exe",
-                self.imageDir() / "dev-utils/bin/python3.exe",
-                args=[os.path.join(CraftCore.settings.get("Paths", "Python"), "Scripts", "doxyqml")],
-            )
-        return super().install()

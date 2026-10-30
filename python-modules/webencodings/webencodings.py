@@ -11,6 +11,12 @@ class subinfo(info.infoclass):
         self.webpage = "https://github.com/gsnedders/python-webencodings"
         self.defaultTarget = "master"
 
+    def setDependencies(self):
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["python-modules/pip"] = None
+        self.runtimeDependencies["libs/python"] = None
+        self.buildDependencies["python-modules/flit-core"] = None
+
 
 class Package(PipPackageBase):
     def __init__(self, **kwargs):

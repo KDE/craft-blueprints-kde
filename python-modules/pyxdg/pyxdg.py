@@ -10,6 +10,12 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = ""
         self.defaultTarget = "master"
 
+    def setDependencies(self):
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["python-modules/pip"] = None
+        self.runtimeDependencies["libs/python"] = None
+        self.buildDependencies["python-modules/setuptools"] = None
+
 
 class Package(PipPackageBase):
     def __init__(self, **kwargs):
