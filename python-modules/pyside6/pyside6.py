@@ -15,22 +15,25 @@ from Package.PipPackageBase import PipPackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Python Qt bindings project"
-        self.defaultTarget = "6.11.2"
+        self.defaultTarget = "6.12.0"
 
-        for ver in ["6.10.1", "6.10.3", "6.11.0", "6.11.2"]:
+        for ver in ["6.10.1", "6.10.3", "6.11.0", "6.11.2", "6.12.0"]:
             self.targets[ver] = f"https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-{ver}-src/pyside-setup-everywhere-src-{ver}.zip"
             self.targetInstSrc[ver] = "pyside-setup-everywhere-src-%s" % ver
 
         if CraftCore.compiler.platform.isWindows:
-            self.patchToApply["6.11.2"] = [
-                ("shiboken-include-pep384impl.patch", 1),
-                ("python-libdir-fallback.patch", 1),
-                ("skip-plugins.patch", 1),
-                ("skip-designer-copy.patch", 1),
-            ]
+            for ver in ["6.11.2", "6.12.0"]:
+                self.patchToApply[ver] = [
+                    ("shiboken-include-pep384impl.patch", 1),
+                    ("python-libdir-fallback.patch", 1),
+                    ("skip-plugins.patch", 1),
+                    ("skip-designer-copy.patch", 1),
+                ]
+            self.patchToApply["6.12.0"] += [("skip-qml-copy.patch", 1)]
             self.patchLevel["6.11.2"] = 7
 
     def setDependencies(self):
+        self.runtimeDependencies["libs/python"] = None
         self.buildDependencies["python-modules/setuptools"] = None
         self.buildDependencies["python-modules/packaging"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
@@ -92,7 +95,7 @@ class Package(PipPackageBase):
                     "build",
                     "--limited-api=yes",
                     "--disable-pyi",
-                    "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets",
+                    "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets,QmlFeatures",
                 ]
 
                 # Force PySide6 to build against Craft's Qt instead of bundling its own Qt to avoid
@@ -113,7 +116,7 @@ class Package(PipPackageBase):
         if not CraftCore.compiler.platform.isWindows:
             return True
         libclang = CraftStandardDirs.craftRoot() / "bin/libclang.dll"
-        target = self.imageDir() / "lib/site-packages/shiboken6_generator"
+        target = self.imageDir() / "bin/Lib/site-packages/shiboken6_generator"
         if not libclang.exists() or not target.is_dir():
             CraftCore.log.error(f"cannot bundle libclang: {libclang} exists={libclang.exists()}, {target} exists={target.is_dir()}")
             return False
@@ -150,9 +153,9 @@ class Package(PipPackageBase):
                         "python",
                         "setup.py",
                         "install",
-                        f"--prefix={imageDir}",
+                        f"--prefix={imageDir / 'bin' if CraftCore.compiler.platform.isWindows else imageDir}",
                         "--skip-mypy-test",
-                        "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets",
+                        "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets,QmlFeatures",
                     ],
                     cwd=sourceDir,
                 ):
@@ -163,7 +166,7 @@ class Package(PipPackageBase):
                 # PySide6 should use Craft's Qt from bin/ instead of bundling its own copy.
                 # We keep only the PySide6-specific .pyd files and remove all Qt*.dll files.
                 if CraftCore.compiler.platform.isWindows:
-                    pyside_dir = imageDir / "lib" / "site-packages" / "PySide6"
+                    pyside_dir = imageDir / "bin/Lib/site-packages/PySide6"
                     if pyside_dir.is_dir():
                         qt_dlls = list(pyside_dir.glob("Qt*.dll"))
                         CraftCore.log.info(f"Removing {len(qt_dlls)} bundled Qt DLLs from PySide6 package")
