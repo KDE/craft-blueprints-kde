@@ -7,7 +7,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1-alpha-20250213-2"]:
+        for ver in ["1-alpha-20250213-2", "1-alpha-20251107-1"]:
             self.targets[ver] = (
                 f"https://github.com/linuxdeploy/linuxdeploy/releases/download/{ver}/linuxdeploy-{CraftCore.compiler.architecture.appImageArchitecture}.AppImage"
             )
@@ -22,8 +22,11 @@ class subinfo(info.infoclass):
 
         if CraftCore.compiler.architecture.isArm64:
             self.targetDigests["1-alpha-20250213-2"] = (["06706ac8189797dccd36bd384105892cb5e6e71f784f4df526cc958adc223cd6"], CraftHash.HashAlgorithm.SHA256)
+            self.targetDigests["1-alpha-20251107-1"] = (["620095110d693282b8ebeb244a95b5e911cf8f65f76c88b4b47d16ae6346fcff"], CraftHash.HashAlgorithm.SHA256)
         else:
             self.targetDigests["1-alpha-20250213-2"] = (["4648f278ab3ef31f819e67c30d50f462640e5365a77637d7e6f2ad9fd0b4522a"], CraftHash.HashAlgorithm.SHA256)
+            self.targetDigests["1-alpha-20251107-1"] = (["c20cd71e3a4e3b80c3483cef793cda3f4e990aca14014d23c544ca3ce1270b4d"], CraftHash.HashAlgorithm.SHA256)
+
         self.defaultTarget = "1-alpha-20250213-2"
 
         self.description = "AppDir creation and maintenance tool. Featuring flexible plugin system."
