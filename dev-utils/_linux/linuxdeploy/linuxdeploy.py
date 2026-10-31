@@ -27,7 +27,7 @@ class subinfo(info.infoclass):
             self.targetDigests["1-alpha-20250213-2"] = (["4648f278ab3ef31f819e67c30d50f462640e5365a77637d7e6f2ad9fd0b4522a"], CraftHash.HashAlgorithm.SHA256)
             self.targetDigests["1-alpha-20251107-1"] = (["c20cd71e3a4e3b80c3483cef793cda3f4e990aca14014d23c544ca3ce1270b4d"], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "1-alpha-20250213-2"
+        self.defaultTarget = "1-alpha-20251107-1"
 
         self.description = "AppDir creation and maintenance tool. Featuring flexible plugin system."
         self.webpage = "https://github.com/linuxdeploy/linuxdeploy"
