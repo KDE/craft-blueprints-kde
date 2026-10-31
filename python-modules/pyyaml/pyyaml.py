@@ -5,9 +5,11 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = ""
+        for ver in ["6.0.3"]:
+            self.svnTargets[ver] = ""
         self.description = "PyYAML is a Python module that implements the next generation YAML parser and emitter."
-        self.defaultTarget = "master"
+        self.defaultTarget = "6.0.3"
+        self.releaseManagerId = 48867
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

@@ -5,9 +5,11 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = ""
+        for ver in ["1.0.2"]:
+            self.svnTargets[ver] = ""
         self.description = "Python 3 compatible Python 2 'random' Module"
-        self.defaultTarget = "master"
+        self.defaultTarget = "1.0.2"
+        self.releaseManagerId = 7793
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

@@ -6,8 +6,10 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["latest"] = ""
-        self.defaultTarget = "latest"
+        for ver in ["3.1.0"]:
+            self.svnTargets[ver] = ""
+        self.defaultTarget = "3.1.0"
+        self.releaseManagerId = 138380
         self.description = "Seamless operability between C++11 and Python"
 
     def setDependencies(self):

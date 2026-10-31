@@ -6,9 +6,11 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = ""
+        for ver in ["6.1.3"]:
+            self.svnTargets[ver] = ""
         self.description = "Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API."
-        self.defaultTarget = "master"
+        self.defaultTarget = "6.1.3"
+        self.releaseManagerId = 3914
 
     def setDependencies(self):
         if not CraftCore.compiler.compiler.isMSVC:

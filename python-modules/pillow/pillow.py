@@ -8,10 +8,11 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = ""
-        self.svnTargets["11.1.0"] = ""
+        for ver in ["11.1.0", "13.0.0"]:
+            self.svnTargets[ver] = ""
         self.description = "Pillow is the friendly PIL fork. The Python Imaging Library adds image processing capabilities to your Python interpreter."
-        self.defaultTarget = "master"
+        self.defaultTarget = "13.0.0"
+        self.releaseManagerId = 7974
 
         # webp: provides the WebP format.
         self.runtimeDependencies["libs/webp"] = None

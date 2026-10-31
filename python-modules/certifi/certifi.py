@@ -6,8 +6,10 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["latest"] = ""
-        self.defaultTarget = "latest"
+        for ver in ["2026.10.23"]:
+            self.svnTargets[ver] = ""
+        self.defaultTarget = "2026.10.23"
+        self.releaseManagerId = 7995
         self.description = "Python package for providing Mozilla's CA Bundle"
 
     def setDependencies(self):

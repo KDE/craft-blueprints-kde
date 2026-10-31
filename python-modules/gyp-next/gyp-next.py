@@ -13,7 +13,10 @@ class subinfo(info.infoclass):
         for ver in ["0.16.1"]:
             self.targets[ver] = f"https://github.com/nodejs/gyp-next/archive/refs/tags/v{ver}.zip"
             self.targetInstSrc[ver] = f"gyp-next-{ver}"
-        self.defaultTarget = "0.22.2"
+        for ver in ["0.22.4"]:
+            self.svnTargets[ver] = ""
+        self.defaultTarget = "0.22.4"
+        self.releaseManagerId = 85737
 
     def setDependencies(self):
         self.buildDependencies["python-modules/build"] = None

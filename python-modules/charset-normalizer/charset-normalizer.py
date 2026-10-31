@@ -6,8 +6,10 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["latest"] = ""
-        self.defaultTarget = "latest"
+        for ver in ["3.5.2"]:
+            self.svnTargets[ver] = ""
+        self.defaultTarget = "3.5.2"
+        self.releaseManagerId = 55366
         self.description = "The Real First Universal Charset Detector"
 
     def setDependencies(self):

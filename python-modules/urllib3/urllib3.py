@@ -6,8 +6,10 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["latest"] = ""
-        self.defaultTarget = "latest"
+        for ver in ["2.8.0"]:
+            self.svnTargets[ver] = ""
+        self.defaultTarget = "2.8.0"
+        self.releaseManagerId = 4078
         self.description = "HTTP library with thread-safe connection pooling, file post, and more"
 
     def setDependencies(self):

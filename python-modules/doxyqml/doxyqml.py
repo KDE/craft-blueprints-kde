@@ -11,10 +11,11 @@ class subinfo(info.infoclass):
         self.buildDependencies["python-modules/setuptools"] = None
 
     def setTargets(self):
-        self.svnTargets["master"] = ""
-        self.patchLevel["master"] = 1
+        for ver in ["0.6.0"]:
+            self.svnTargets[ver] = ""
         self.description = "Doxyqml is an input filter for Doxygen, a documentation system for C++ and a few other languages."
-        self.defaultTarget = "master"
+        self.defaultTarget = "0.6.0"
+        self.releaseManagerId = 321160
 
 
 class Package(PipPackageBase):

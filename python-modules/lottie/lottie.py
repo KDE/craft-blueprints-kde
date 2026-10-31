@@ -9,9 +9,11 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = ""
+        for ver in ["0.7.2"]:
+            self.svnTargets[ver] = ""
         self.description = "A Python framework to work with Lottie files and Telegram animated stickers."
-        self.defaultTarget = "master"
+        self.defaultTarget = "0.7.2"
+        self.releaseManagerId = 96130
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

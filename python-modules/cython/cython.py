@@ -5,9 +5,11 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = ""
+        for ver in ["3.3.0"]:
+            self.svnTargets[ver] = ""
         self.description = "The Cython compiler for writing C extensions in the Python language."
-        self.defaultTarget = "master"
+        self.defaultTarget = "3.3.0"
+        self.releaseManagerId = 36699
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None

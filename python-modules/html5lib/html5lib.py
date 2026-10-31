@@ -21,8 +21,8 @@ class subinfo(info.infoclass):
             ("594.patch", 1),
         ]
 
-        self.svnTargets["master"] = ""
         self.defaultTarget = "1.1"
+        self.releaseManagerId = 8053
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None

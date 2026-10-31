@@ -6,10 +6,12 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = ""
+        for ver in ["0.6.1"]:
+            self.svnTargets[ver] = ""
         self.description = "Character encoding for the web."
         self.webpage = "https://github.com/gsnedders/python-webencodings"
-        self.defaultTarget = "master"
+        self.defaultTarget = "0.6.1"
+        self.releaseManagerId = 231400
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

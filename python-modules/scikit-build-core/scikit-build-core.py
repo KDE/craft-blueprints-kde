@@ -6,8 +6,10 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["latest"] = ""
-        self.defaultTarget = "latest"
+        for ver in ["1.1.1"]:
+            self.svnTargets[ver] = ""
+        self.defaultTarget = "1.1.1"
+        self.releaseManagerId = 302380
         self.description = "Build backend for CMake based projects"
 
     def setDependencies(self):

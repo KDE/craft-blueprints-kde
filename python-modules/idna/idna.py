@@ -6,8 +6,10 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["latest"] = ""
-        self.defaultTarget = "latest"
+        for ver in ["3.20"]:
+            self.svnTargets[ver] = ""
+        self.defaultTarget = "3.20"
+        self.releaseManagerId = 5487
         self.description = "Internationalized Domain Names in Applications (IDNA)"
 
     def setDependencies(self):
