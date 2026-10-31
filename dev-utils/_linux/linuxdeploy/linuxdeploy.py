@@ -14,10 +14,12 @@ class subinfo(info.infoclass):
             # add version to file name to allow downloading multiple versions
             self.archiveNames[ver] = f"linuxdeploy-{ver}-{CraftCore.compiler.architecture.appImageArchitecture}.AppImage"
             self.targetInstallPath[ver] = "dev-utils/bin"
+
         self.targets["continous"] = (
             f"https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-{CraftCore.compiler.architecture.appImageArchitecture}.AppImage"
         )
-        self.targetInstallPath["continous-static"] = "dev-utils/bin"
+        self.targetInstallPath["continous"] = "dev-utils/bin"
+
         if CraftCore.compiler.architecture.isArm64:
             self.targetDigests["1-alpha-20250213-2"] = (["06706ac8189797dccd36bd384105892cb5e6e71f784f4df526cc958adc223cd6"], CraftHash.HashAlgorithm.SHA256)
         else:
@@ -41,7 +43,7 @@ class Package(BinaryPackageBase):
         if not super().install():
             return False
         dest = self.installDir() / f"linuxdeploy-{CraftCore.compiler.architecture.appImageArchitecture}.AppImage"
-        if self.subinfo.buildTarget != "continous-static":
+        if self.subinfo.buildTarget != "continous":
             # remove version from file name
             return utils.moveFile(self.installDir() / self.subinfo.archiveNames[self.buildTarget], dest)
         else:
