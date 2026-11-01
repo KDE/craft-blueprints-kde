@@ -61,6 +61,8 @@ class subinfo(info.infoclass):
         self.patchLevel["16.0.1"] = 2
         self.patchLevel["18.1.2"] = 2
         self.patchLevel["18.1.8"] = 1
+        self.patchLevel["18.1.8"] = 1
+        self.patchLevel["20.1.7"] = 1
 
         self.description = "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies. Despite its name, LLVM has little to do with traditional virtual machines."
         self.webpage = "http://llvm.org/"
@@ -123,6 +125,27 @@ class Package(CMakePackageBase):
         # disable this support until we have a swig package in Craft
         self.subinfo.options.configure.args += ["-DLLDB_DISABLE_PYTHON=ON"]
 
+        if CraftCore.compiler.isCrossCompiling:
+            # like vcpkg we let LLVM handle the cross build itself, but instead of building the
+            # tablegen tools in its NATIVE sub build with the target compiler, use the ones of the host Craft
+            # the host build installs them, see install
+            self.subinfo.options.configure.args += [f"-DLLVM_NATIVE_TOOL_DIR={(CraftCore.standardDirs.craftHostRoot() / 'bin').as_posix()}"]
+            # LLVM only detects the triple of the target compiler for MSVC, otherwise it uses config.guess on the build machine
+            if not CraftCore.compiler.compiler.isMSVC:
+                self.subinfo.options.configure.args += [f"-DLLVM_HOST_TRIPLE={self.__targetTriple()}"]
+
+    @staticmethod
+    def __targetTriple() -> str:
+        arch = CraftCore.compiler.architecture.autotoolsArchitecture
+        platform = CraftCore.compiler.platform
+        if platform.isWindows:
+            return f"{arch}-w64-windows-gnu"
+        if platform.isMacOS:
+            return f"{arch}-apple-darwin"
+        if platform.isFreeBSD:
+            return f"{arch}-unknown-freebsd"
+        return f"{arch}-unknown-linux-gnu"
+
     def configure(self):
         # remove Findzstd.cmake, as it is not compatible with the zstd package
         findzstd = self.sourceDir() / "llvm/cmake/modules/Findzstd.cmake"
@@ -147,6 +170,13 @@ class Package(CMakePackageBase):
                 self.installDir() / "lib/craft_clang_plugins.lib",
             )
 
+        if not CraftCore.compiler.isCrossCompiling:
+            # install the host tools LLVM_NATIVE_TOOL_DIR looks for that LLVM doesn't install itself,
+            # so cross builds can use them
+            for tool in ["llvm-min-tblgen", "clang-tidy-confusable-chars-gen"]:
+                src = self.buildDir() / f"bin/{tool}{CraftCore.compiler.platform.executableSuffix}"
+                if src.exists() and not utils.copyFile(src, self.installDir() / "bin" / src.name, linkOnly=False):
+                    return False
         return True
 
     def postInstall(self):

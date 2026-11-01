@@ -23,6 +23,7 @@
 # SUCH DAMAGE.
 
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
 
@@ -60,7 +61,10 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += [
             "-DWITH_SYSTEM_ZLIB=ON",
             "-DWITH_SYSTEM_SPNG=ON",
+            "-DWITH_SIMD=ON"
         ]
+        if CraftCore.compiler.architecture.isArm:
+            self.subinfo.options.configure.args += ["-DNEON_INTRINSICS=ON"]
         if self.subinfo.options.buildStatic:
             self.subinfo.options.configure.args += ["-DENABLE_SHARED=OFF", "-DENABLE_STATIC=ON"]
         else:

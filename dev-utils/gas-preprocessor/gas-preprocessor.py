@@ -7,9 +7,6 @@ from Package.BinaryPackageBase import BinaryPackageBase
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        self.parent.package.categoryInfo.architecture = CraftCore.compiler.Architecture.arm64
-
     def setTargets(self):
         self.description = "Perl script that implements a subset of the GNU as preprocessor that Apple's as doesn't."
         self.svnTargets["master"] = "https://github.com/FFmpeg/gas-preprocessor.git"
