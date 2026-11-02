@@ -10,12 +10,13 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.compiler = CraftCore.compiler.Compiler.GCCLike
 
     def setTargets(self):
-        for ver in ["1.1.1"]:
+        for ver in ["1.1.1", "1.1.2"]:
             self.targets[ver] = f"https://github.com/georgmartius/vid.stab/archive/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"vid.stab-{ver}"
         self.targetDigests["1.1.1"] = (["9001b6df73933555e56deac19a0f225aae152abbc0e97dc70034814a1943f3d4"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.1.2"] = (["96db34d48a9e3aa13736a48744b56dfb76731ac9bb5193c716de8534c9fd709d"], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "1.1.1"
+        self.defaultTarget = "1.1.2"
 
         self.releaseManagerId = 15959
         self.webpage = "http://public.hronopik.de/vid.stab/"
