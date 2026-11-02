@@ -6,7 +6,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["1.6.39", "1.6.40", "1.6.43", "1.6.45"]:
+        for ver in ["1.6.39", "1.6.40", "1.6.43", "1.6.45", "1.6.59"]:
             self.targets[ver] = "https://downloads.sourceforge.net/libpng/libpng-" + ver + ".tar.gz"
             self.targetInstSrc[ver] = "libpng-" + ver
 
@@ -27,6 +27,7 @@ class subinfo(info.infoclass):
         self.targetDigests["1.6.39"] = (["af4fb7f260f839919e5958e5ab01a275d4fe436d45442a36ee62f73e5beb75ba"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.6.40"] = (["8f720b363aa08683c9bf2a563236f45313af2c55d542b5481ae17dd8d183bb42"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["1.6.43"] = (["e804e465d4b109b5ad285a8fb71f0dd3f74f0068f91ce3cdfde618180c174925"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["1.6.59"] = (["86a3e4b501f7f50e392c4e456ea158893e9a595b1c63eb88c7bb9f6cf8772dad"], CraftHash.HashAlgorithm.SHA256)
 
         self.patchLevel["1.6.39"] = 1
         self.patchLevel["1.6.40"] = 2
@@ -35,7 +36,7 @@ class subinfo(info.infoclass):
         self.description = "A library to display png images"
         self.webpage = "http://www.libpng.org/pub/png/libpng.html"
         self.releaseManagerId = 1705
-        self.defaultTarget = "1.6.45"
+        self.defaultTarget = "1.6.59"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/zlib"] = None
