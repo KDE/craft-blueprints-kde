@@ -10,6 +10,28 @@
 - `dev`: ... unless it has chance of breaking everything and the kitchen sink then it goes here. Also, new caches go here. Only supports Qt6.
 - `qt5-lts`: branch to continue support for Qt5, no major updates are expected here
 
+# Dependency update merge requests
+
+Renovate uses [release-monitoring.org](https://release-monitoring.org/) for all
+Craft release lookups. To track a new package, find its matching Anitya project
+and add its ID:
+
+```python
+self.releaseManagerId = 15235
+self.defaultTarget = "1.2.1"
+```
+
+For shared version declarations, add the ID to the relevant `version.ini`:
+
+```ini
+[General]
+releaseManagerId = 311432
+defaulttarget = 6.31.0
+```
+
+These merge requests only bump the selected version and need to be manually
+adapted.
+
 # Test the build of a package / blueprint
 
 All MR pipelines have several `build-package-*` jobs which you can use to test the build of a package for the different platforms supported by Craft.

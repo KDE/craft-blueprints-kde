@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
         self.targetDigests["0.11.0"] = (["9942c5b4c533192f6c5954dc6d10178b3829075e6a621b67df73f0a4b74d8297"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["0.12.0"] = (["809afafab61593f994c005ca6e242300e1e3e7f4db8b5d41f8c642aab9450fbc"], CraftHash.HashAlgorithm.SHA256)
 
+        self.releaseManagerId = 236236
         self.defaultTarget = "0.12.0"
         self.description = "C++ Coroutines for Qt"
 
