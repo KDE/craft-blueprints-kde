@@ -37,6 +37,7 @@ class subinfo(info.infoclass):
 
         self.patchLevel["16.15.1"] = 1
 
+        self.releaseManagerId = 8251
         self.defaultTarget = "22.14.0"
 
 

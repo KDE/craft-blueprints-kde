@@ -12,6 +12,7 @@ class subinfo(info.infoclass):
             self.targetInstallPath[version] = "dev-utils/xsd"
         self.targetDigests["4.0.0"] = (["73c478ea76c9847bdd292f4db80900b93a9798334687999e54e5796971f11dc1"], CraftHash.HashAlgorithm.SHA256)
 
+        self.releaseManagerId = 13994
         self.defaultTarget = "4.0.0"
 
     def setDependencies(self):

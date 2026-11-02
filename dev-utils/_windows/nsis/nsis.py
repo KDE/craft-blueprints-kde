@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
         self.targetDigests["3.09"] = (["f5dc52eef1f3884230520199bac6f36b82d643d86b003ce51bd24b05c6ba7c91"], CraftHash.HashAlgorithm.SHA256)
 
         self.webpage = "http://nsis.sourceforge.net"
+        self.releaseManagerId = 1981
         self.defaultTarget = "3.09"
 
 

@@ -21,6 +21,7 @@ class subinfo(info.infoclass):
             self.targetDigests["1.9.1"] = (["ed4ce84f0d9caff66f50bcca6ff6f35aae54ce8135408b3fa33abfc3cb384eb0"], CraftHash.HashAlgorithm.SHA256)
         self.description = "Converts an AppDir into a self-mounting filesystem image"
         self.webpage = "https://github.com/AppImage/appimagetool"
+        self.releaseManagerId = 387973
         self.defaultTarget = "1.9.1"
 
     def setDependencies(self):
