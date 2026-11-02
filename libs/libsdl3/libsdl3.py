@@ -8,7 +8,7 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        ver = "3.4.16"
+        ver = "3.4.18"
         self.targets[ver] = f"https://github.com/libsdl-org/SDL/releases/download/release-{ver}/SDL3-{ver}.tar.gz"
         self.targetInstSrc[ver] = f"SDL3-{ver}"
         self.targetDigests[ver] = (
