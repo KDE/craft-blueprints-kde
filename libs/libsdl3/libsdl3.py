@@ -8,13 +8,13 @@ from Utils import CraftHash
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        ver = "3.4.18"
-        self.targets[ver] = f"https://github.com/libsdl-org/SDL/releases/download/release-{ver}/SDL3-{ver}.tar.gz"
-        self.targetInstSrc[ver] = f"SDL3-{ver}"
-        self.targetDigests[ver] = (
-            ["7322236cd12090c3eb40b9728be4d49c76f66ad17d04369584d4ecad5cf77c68"],
-            CraftHash.HashAlgorithm.SHA256,
-        )
+        for ver in ["3.4.16", "3.4.18"]:
+            self.targets[ver] = f"https://github.com/libsdl-org/SDL/releases/download/release-{ver}/SDL3-{ver}.tar.gz"
+            self.targetInstSrc[ver] = f"SDL3-{ver}"
+
+        self.targetDigests["3.4.16"] = (["7322236cd12090c3eb40b9728be4d49c76f66ad17d04369584d4ecad5cf77c68"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.4.18"] = (["9c75cf16330322c217dedd2e0609f1124f1b54b8633e763467b4684d0f4334a3"], CraftHash.HashAlgorithm.SHA256)
+
         self.description = "Simple DirectMedia Layer"
         self.webpage = "https://www.libsdl.org/"
         self.defaultTarget = ver
