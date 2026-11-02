@@ -6,7 +6,7 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["3.5.21", "3.5.23", "3.5.25.3", "3.5.27"]:
+        for ver in ["3.5.21", "3.5.23", "3.5.25.3", "3.5.27", "3.5.30"]:
             self.targets[ver] = f"https://downloads.sourceforge.net/djvu/djvulibre-{ver}.tar.gz"
             self.targetInstSrc[ver] = "djvulibre-" + ver
         self.targetInstSrc["3.5.25.3"] = "djvulibre-3.5.25"
@@ -18,8 +18,9 @@ class subinfo(info.infoclass):
         self.targetDigests["3.5.23"] = "b19f6b461515a52eb1048aec81e04dfd836d681f"
         self.targetDigests["3.5.25.3"] = "ad35056aabb1950f385360ff59520a82a6f779ec"
         self.targetDigests["3.5.27"] = "99c4f2c621c063bf8c8a1626030539fe5a8675f9"
+        self.targetDigests["3.5.30"] = (["ee5e457d4cfebe566f94b99e5e3d3cc7f5c79ddb741c2ac2ba2e456f00329644"], CraftHash.HashAlgorithm.SHA256)
 
-        self.defaultTarget = "3.5.27"
+        self.defaultTarget = "3.5.30"
 
         self.releaseManagerId = 10159
         self.webpage = "http://djvu.sourceforge.net/"
