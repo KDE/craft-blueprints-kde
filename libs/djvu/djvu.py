@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
             self.patchToApply["3.5.23"] = [("djvulibre-3.5.23-20101116.diff", 1)]
             self.patchToApply["3.5.25.3"] = [("djvulibre-3.5.25.3-20130906.diff", 1)]
             self.patchToApply["3.5.27"] = [("djvulibre-3.5.27-20151208.diff", 1), ("djvu-3.5.27-mingw.diff", 1)]
+            self.patchToApply["3.5.30"] = [("djvulibre-3.5.30-20261102.diff", 1)]
         self.targetDigests["3.5.23"] = (["608c07e629626cfe713168c942a07d2db3b0b19df4aae1f598473f4a2daf213d"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["3.5.25.3"] = (["898d7ed6dd2fa311a521baa95407a91b20a872d80c45e8245442d64f142cb1e0"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["3.5.27"] = (["e69668252565603875fb88500cde02bf93d12d48a3884e472696c896e81f505f"], CraftHash.HashAlgorithm.SHA256)
