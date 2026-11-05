@@ -8,12 +8,12 @@ from Package.CMakePackageBase import CMakePackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        for ver in ["0.2.15"]:
+        for ver in ["0.2.17"]:
             self.targets[ver] = f"https://gitea.nouspiro.space/nou/libXISF/archive/v{ver}.tar.gz"
             self.archiveNames[ver] = f"libxisf-{ver}.tar.gz"
             self.targetInstSrc[ver] = "libxisf"
         self.description = "A C++ library that can read and write XISF files produced by PixInsight."
-        self.defaultTarget = "0.2.15"
+        self.defaultTarget = "0.2.17"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/pkgconf"] = None
