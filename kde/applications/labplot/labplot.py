@@ -388,16 +388,13 @@ class Package(CMakePackageBase):
                     utils.copyFile(src, pysidePath, linkOnly=False)
             utils.copyFile(os.path.join(shibokenLocation, "__init__.py"), shibokenPath, linkOnly=False)
 
-            # Copy cantor_pythonserver executable for Python notebook support
-            cantorServerSrc = (
-                CraftCore.standardDirs.craftRoot() / "Applications" / "KDE" / "cantor_pythonserver.app" / "Contents" / "MacOS" / "cantor_pythonserver"
-            )
-            cantorServerDest = appPath / "Contents" / "MacOS" / "cantor_pythonserver"
-            if cantorServerSrc.exists():
-                shutil.copy2(cantorServerSrc, cantorServerDest)
-                CraftCore.log.info(f"preArchive: Copied cantor_pythonserver to {cantorServerDest}")
-            else:
-                CraftCore.log.warning(f"preArchive: cantor_pythonserver not found at {cantorServerSrc}")
+            # Copy Cantor server executables for notebook backends (Python, R)
+            for server in ["cantor_pythonserver", "cantor_rserver"]:
+                serverSrc = CraftCore.standardDirs.craftRoot() / "Applications" / "KDE" / f"{server}.app" / "Contents" / "MacOS" / server
+                serverDest = appPath / "Contents" / "MacOS" / server
+                if serverSrc.exists():
+                    shutil.copy2(serverSrc, serverDest)
+                    CraftCore.log.info(f"preArchive: Copied {server} to {serverDest}")
 
             # Copy hicolor icons for Cantor backends (pythonbackend, etc.)
             hicolorSrc = CraftCore.standardDirs.craftRoot() / "share" / "icons" / "hicolor"
