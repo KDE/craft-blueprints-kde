@@ -80,8 +80,6 @@ class Package(PipPackageBase):
         if CraftCore.compiler.platform.isWindows:
             env["LLVM_INSTALL_DIR"] = str(CraftStandardDirs.craftRoot())
             env["CLANG_INSTALL_DIR"] = str(CraftStandardDirs.craftRoot())
-            # PySide6 6.12+ uses C++20 features (designated initializers)
-            env["CMAKE_CXX_STANDARD"] = "20"
 
         with utils.ScopedEnv(env):
             if CraftCore.compiler.platform.isMacOS:
@@ -99,6 +97,8 @@ class Package(PipPackageBase):
                     "--limited-api=yes",
                     "--disable-pyi",
                     "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets,QmlFeatures",
+                    # PySide6 6.12+ uses C++20 features (designated initializers)
+                    "--cmake-args=-DCMAKE_CXX_STANDARD=20",
                 ]
 
                 # Force PySide6 to build against Craft's Qt instead of bundling its own Qt to avoid
@@ -133,8 +133,6 @@ class Package(PipPackageBase):
         if CraftCore.compiler.platform.isWindows:
             env["LLVM_INSTALL_DIR"] = str(CraftStandardDirs.craftRoot())
             env["CLANG_INSTALL_DIR"] = str(CraftStandardDirs.craftRoot())
-            # PySide6 6.12+ uses C++20 features (designated initializers)
-            env["CMAKE_CXX_STANDARD"] = "20"
 
         # Windows: Delete qml directory before install to prevent copy escaping error
         # The directory is empty (QML modules skipped) but copy still fails with backslash escaping bug
