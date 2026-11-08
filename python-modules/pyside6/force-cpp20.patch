@@ -1,0 +1,11 @@
+--- a/sources/shiboken6_generator/generator/CMakeLists.txt
++++ b/sources/shiboken6_generator/generator/CMakeLists.txt
+@@ -1,5 +1,8 @@
+ project(shiboken6_generator)
+
++# Force C++20 for designated initializers used in qtdocgenerator.cpp
++set(CMAKE_CXX_STANDARD 20)
++
+ set(shiboken6_SRC
+ shiboken/apiextractorresult.cpp
+ shiboken/main.cpp

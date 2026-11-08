@@ -29,9 +29,11 @@ class subinfo(info.infoclass):
                     ("python-libdir-fallback.patch", 1),
                     ("skip-plugins.patch", 1),
                     ("skip-designer-copy.patch", 1),
+                    ("force-cpp20.patch", 1),
                 ]
             self.patchToApply["6.12.0"] += [("skip-qml-copy.patch", 1)]
             self.patchLevel["6.11.2"] = 7
+            self.patchLevel["6.12.0"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["libs/python"] = None
@@ -97,8 +99,6 @@ class Package(PipPackageBase):
                     "--limited-api=yes",
                     "--disable-pyi",
                     "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets,QmlFeatures",
-                    # PySide6 6.12+ uses C++20 features (designated initializers)
-                    "--cmake-args=-DCMAKE_CXX_STANDARD=20",
                 ]
 
                 # Force PySide6 to build against Craft's Qt instead of bundling its own Qt to avoid
