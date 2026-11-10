@@ -37,7 +37,7 @@ class subinfo(info.infoclass):
         self.parent.package.categoryInfo.compiler &= ~CraftCore.compiler.Compiler.MinGW
 
     def setTargets(self):
-        self.targets["5.14.3] = "https://www.aquamaniac.de/rdm/attachments/download/662/gwenhywfar-5.14.3.tar.gz"
+        self.targets["5.14.3"] = "https://www.aquamaniac.de/rdm/attachments/download/662/gwenhywfar-5.14.3.tar.gz"
         self.targetDigests["5.14.3"] = (["be1371a668d4d42f113f9dbebd850a66c63437037a027d3c1148afff5503998b"], CraftHash.HashAlgorithm.SHA256)
         self.targetInstSrc["5.14.3"] = "gwenhywfar-5.14.3"
         self.patchLevel["5.14.3"] = 1
