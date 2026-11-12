@@ -58,8 +58,8 @@ class Package(CraftPackageObject.get("kde").pattern):
         ]
 
         self.defines["icon"] = self.buildDir() / "src/chessament.ico"
-        self.defines["icon_png"] = self.sourceDir() / "icons/150-apps-chessament.png"
-        self.defines["icon_png_44"] = self.sourceDir() / "icons/44-apps-chessament.png"
+        self.defines["icon_png"] = self.sourceDir() / "icons/Square150x150Logo.png"
+        self.defines["icon_png_44"] = self.sourceDir() / "icons/Square44x44Logo.png"
 
         self.defines["file_types"] = [".chessament"]
 
