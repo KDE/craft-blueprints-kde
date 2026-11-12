@@ -31,7 +31,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt/qttranslations"] = None
         self.buildDependencies["libs/qt/qttools"] = None
         self.runtimeDependencies["libs/tesseract"] = None
-        self.runtimeDependencies["kde/plasma/kwayland"] = None
+        if CraftCore.compiler.platform.isLinux:
+            self.runtimeDependencies["kde/frameworks/tier1/kwindowsystem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["libs/onnxruntime"] = None
 
@@ -40,6 +41,8 @@ class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.fetch.checkoutSubmodules = True
+        # only 4.1.0 knows this option, later versions use kwindowsystem
+        self.subinfo.options.configure.args += ["-DWITH_KWAYLAND=OFF"]
 
     def createPackage(self):
         self.defines["appname"] = "CrowTranslate"
