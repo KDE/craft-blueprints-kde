@@ -41,6 +41,10 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DWITH_PULSEAUDIO=OFF"]
 
     def createPackage(self):
+        # Newer versions run the daemon in the indicator process on Windows and macOS and do not install kdeconnectd
+        daemonInIndicator = not (self.imageDir() / "bin" / f"kdeconnectd{CraftCore.compiler.platform.executableSuffix}").exists()
+        daemonExecutable = "kdeconnect-indicator" if daemonInIndicator else "kdeconnectd"
+
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.addExecutableFilter(
             r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|update-mime-database|kioworker|SnoreToast).*)"
@@ -52,7 +56,7 @@ class Package(CMakePackageBase):
             self.defines["appname"] = "kdeconnect-indicator"
             self.defines["executable"] = "bin/kdeconnect-app.exe"
             self.defines["icon"] = self.blueprintDir() / "icon.ico"
-            self.defines["AppUserModelID"] = "kdeconnect.daemon"
+            self.defines["AppUserModelID"] = "kdeconnect-indicator" if daemonInIndicator else "kdeconnect.daemon"
 
         if isinstance(self, NullsoftInstallerPackager):
             self.defines["sections"] = r"""
@@ -88,9 +92,9 @@ class Package(CMakePackageBase):
             xmlns:desktop2="http://schemas.microsoft.com/appx/manifest/desktop/windows10/2"
             """
 
-            self.defines["desktop_extensions"] = r"""
+            self.defines["desktop_extensions"] = rf"""
             <desktop2:Extension Category="windows.firewallRules">
-            <desktop2:FirewallRules Executable="bin/kdeconnectd.exe">
+            <desktop2:FirewallRules Executable="bin/{daemonExecutable}.exe">
                 <desktop2:Rule Direction="in" IPProtocol="TCP" LocalPortMax="1764" LocalPortMin="1714" Profile="all"/>
                 <desktop2:Rule Direction="in" IPProtocol="UDP" LocalPortMax="1764" LocalPortMin="1714" Profile="all"/>
                 <desktop2:Rule Direction="out" IPProtocol="TCP" LocalPortMax="1764" LocalPortMin="1714" Profile="all"/>
