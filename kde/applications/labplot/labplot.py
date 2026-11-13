@@ -115,14 +115,6 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
-            # create missing Qt header paths for shiboken6
-            for subpath in ["QtCore", "QtGui", "QtWidgets"]:
-                if not os.path.exists(CraftCore.standardDirs.craftRoot() / "include" / subpath):
-                    utils.createSymlink(
-                        CraftCore.standardDirs.craftRoot() / "lib" / f"{subpath}.framework" / "Versions/A/Headers",
-                        CraftCore.standardDirs.craftRoot() / "include" / subpath,
-                        targetIsDirectory=True,
-                    )
 
         # TODO: use available versions
         self.subinfo.options.configure.args += [
@@ -143,6 +135,15 @@ class Package(CMakePackageBase):
         return env
 
     def configure(self):
+        # create missing Qt header paths for shiboken6 on macOS
+        if CraftCore.compiler.platform.isMacOS:
+            for subpath in ["QtCore", "QtGui", "QtWidgets"]:
+                if not os.path.exists(CraftCore.standardDirs.craftRoot() / "include" / subpath):
+                    utils.createSymlink(
+                        CraftCore.standardDirs.craftRoot() / "lib" / f"{subpath}.framework" / "Versions/A/Headers",
+                        CraftCore.standardDirs.craftRoot() / "include" / subpath,
+                        targetIsDirectory=True,
+                    )
         with utils.ScopedEnv(self._getEnv()):
             return super().configure()
 
