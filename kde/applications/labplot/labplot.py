@@ -284,7 +284,8 @@ class Package(CMakePackageBase):
                 CraftCore.log.info("preArchive: Copied Python DLLs to bin/DLLs/")
 
             # Copy PySide6 and shiboken6 packages to bin/Lib/site-packages/
-            sitePackages = craftRoot / "lib" / "site-packages"
+            # PySide6 6.12 installs to bin/Lib/site-packages on Windows
+            sitePackages = craftRoot / "bin" / "Lib" / "site-packages"
             pysideDir = sitePackages / "PySide6"
             shibokenDir = sitePackages / "shiboken6"
             destSitePackages = destLib / "site-packages"
