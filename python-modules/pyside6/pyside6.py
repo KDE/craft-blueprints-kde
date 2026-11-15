@@ -144,10 +144,8 @@ class Package(PipPackageBase):
         # macOS: SDKROOT required to find type_traits and skip failing WebEngineCore and dependencies
         with utils.ScopedEnv(env):
             if CraftCore.compiler.platform.isMacOS:
-                # macOS Python framework: install directly without --prefix to get proper site-packages location
-                # Using --prefix={imageDir} causes install to lib/pythonX.Y/site-packages which isn't in sys.path
                 if not utils.system(
-                    "SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py install --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
+                    f"SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py install --prefix={imageDir} --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
                     cwd=sourceDir,
                 ):
                     return False
