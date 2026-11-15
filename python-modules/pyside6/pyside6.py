@@ -153,6 +153,7 @@ class Package(PipPackageBase):
                 # Fix shiboken6 wrapper: setup.py creates .egg-info but Python 3.12's importlib.metadata can't find it
                 # Patch the wrapper to directly import the entry point instead of using metadata
                 # Must patch in imageDir (not craftRoot) since that's what gets merged
+                # Also add site-packages to sys.path since --prefix installs there
                 shiboken6_wrapper = imageDir / "bin" / "shiboken6"
                 if shiboken6_wrapper.exists():
                     with open(shiboken6_wrapper, "w") as f:
@@ -160,6 +161,13 @@ class Package(PipPackageBase):
                             "#!/usr/bin/env python3\n"
                             "# Patched to directly import entry point (works with .egg-info)\n"
                             "import sys\n"
+                            "import os\n"
+                            "# Add site-packages to path (--prefix installs there)\n"
+                            "script_dir = os.path.dirname(os.path.realpath(__file__))\n"
+                            "craft_root = os.path.dirname(script_dir)\n"
+                            "site_packages = os.path.join(craft_root, 'lib', 'python3.12', 'site-packages')\n"
+                            "if site_packages not in sys.path:\n"
+                            "    sys.path.insert(0, site_packages)\n"
                             "from shiboken6_generator.scripts.shiboken_tool import main\n"
                             "\n"
                             "if __name__ == '__main__':\n"
