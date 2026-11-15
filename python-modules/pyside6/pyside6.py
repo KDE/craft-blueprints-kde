@@ -144,10 +144,33 @@ class Package(PipPackageBase):
         # macOS: SDKROOT required to find type_traits and skip failing WebEngineCore and dependencies
         with utils.ScopedEnv(env):
             if CraftCore.compiler.platform.isMacOS:
-                return utils.system(
-                    f"SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py install --prefix={imageDir} --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
+                # macOS Python framework: install directly without --prefix to get proper site-packages location
+                # Using --prefix={imageDir} causes install to lib/pythonX.Y/site-packages which isn't in sys.path
+                if not utils.system(
+                    f"SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py install --record={imageDir}/install_manifest.txt --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
                     cwd=sourceDir,
-                )
+                ):
+                    return False
+
+                # Fix shiboken6 wrapper: setup.py creates .egg-info but Python 3.12's importlib.metadata can't find it
+                # Patch the wrapper to directly import the entry point instead of using metadata
+                shiboken6_wrapper = CraftStandardDirs.craftRoot() / "bin" / "shiboken6"
+                if shiboken6_wrapper.exists():
+                    with open(shiboken6_wrapper, "w") as f:
+                        f.write(
+                            "#!/usr/bin/env python3\n"
+                            "# Patched to directly import entry point (works with .egg-info)\n"
+                            "import sys\n"
+                            "from shiboken6_generator.scripts.shiboken_tool import main\n"
+                            "\n"
+                            "if __name__ == '__main__':\n"
+                            "    sys.exit(main())\n"
+                        )
+                    CraftCore.log.info(f"Patched shiboken6 wrapper at {shiboken6_wrapper}")
+
+                # Copy installed files list to imageDir for Craft tracking (fake qmerge)
+                # The actual files are already in CraftRoot from direct install
+                return True
             else:
                 # disabled (prevents installation of header,typesystem, etc.): --skip-build: prevents setup.py from rebuilding (which would recreate qml dir)
                 # --skip-modules: must match make() to prevent module mismatch errors
