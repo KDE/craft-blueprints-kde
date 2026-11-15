@@ -7,6 +7,8 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         self.patchToApply["6.29.0"] = [("6ab05f892e620d4d086d677d40bce871ba05f36b.diff", 1)]
         self.patchLevel["6.29.0"] = 1
+        self.patchToApply["6.32.0"] = [("android-no-material-fallback.patch", 1)]
+        self.patchLevel["6.32.0"] = 1
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
