@@ -155,6 +155,16 @@ class Package(CMakePackageBase):
             # the libsqlcipher.dll library needs
             # to be found as sqlite3.dll
             installDir = self.installDir()
+
+            # locate kmymoney.exe and libsqlcipher.dll anywhere under installDir
+            for name in ["kmymoney.exe", "libsqlcipher.dll"]:
+                matches = list(installDir.rglob(name))
+                if matches:
+                    for match in matches:
+                        print(f"Found {name} at {match}")
+                else:
+                    print(f"Could not locate {name} under {installDir}")
+
             libSrc = installDir / "bin/libsqlcipher.dll"
             libDst = installDir / "bin/sqlite3.dll"
 
