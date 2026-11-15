@@ -1,0 +1,28 @@
+commit 6552c0d5994c01a737dcd54c432dce87ddd9098d
+Author: Volker Krause <vkrause@kde.org>
+Date:   Sun Nov 15 14:00:35 2026 +0100
+
+    android: Don't add Material style into the style chain unconditionally
+    
+    This didn't hurt so far, but since 6.32 we have Material-specific controls
+    implementations here that are not in the Breeze style. This then makes
+    applications only packaging the Breeze style fail to start now.
+    
+    Other cases should not be affected by this:
+    * If Material is explicitly requested, style is already Material.
+    * If there's not explicit style requested, Qt gives us Material as the
+      default fallback.
+
+diff --git a/src/platform/styleselector.cpp b/src/platform/styleselector.cpp
+index 3938cfca8..13b5440e7 100644
+--- a/src/platform/styleselector.cpp
++++ b/src/platform/styleselector.cpp
+@@ -46,8 +46,6 @@ QStringList StyleSelector::styleChain()
+ #if !defined(Q_OS_ANDROID) && !defined(Q_OS_IOS)
+         u"org.kde.desktop.plasma"_s,
+         u"org.kde.desktop"_s,
+-#else
+-        u"Material"_s,
+ #endif
+     };
+ 
