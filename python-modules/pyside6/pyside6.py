@@ -147,7 +147,7 @@ class Package(PipPackageBase):
                 # macOS Python framework: install directly without --prefix to get proper site-packages location
                 # Using --prefix={imageDir} causes install to lib/pythonX.Y/site-packages which isn't in sys.path
                 if not utils.system(
-                    f"SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py install --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
+                    "SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py install --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
                     cwd=sourceDir,
                 ):
                     return False
