@@ -147,7 +147,7 @@ class Package(PipPackageBase):
                 # macOS Python framework: install directly without --prefix to get proper site-packages location
                 # Using --prefix={imageDir} causes install to lib/pythonX.Y/site-packages which isn't in sys.path
                 if not utils.system(
-                    f"SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py install --record={imageDir}/install_manifest.txt --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
+                    f"SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py install --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
                     cwd=sourceDir,
                 ):
                     return False
@@ -168,8 +168,6 @@ class Package(PipPackageBase):
                         )
                     CraftCore.log.info(f"Patched shiboken6 wrapper at {shiboken6_wrapper}")
 
-                # Copy installed files list to imageDir for Craft tracking (fake qmerge)
-                # The actual files are already in CraftRoot from direct install
                 return True
             else:
                 # disabled (prevents installation of header,typesystem, etc.): --skip-build: prevents setup.py from rebuilding (which would recreate qml dir)
