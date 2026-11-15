@@ -141,6 +141,13 @@ class Package(CMakePackageBase):
             utils.copyDir(craftRoot / "lib/gwenhywfar", craftLib / "gwenhywfar")
             utils.copyDir(craftRoot / "lib/aqbanking", craftLib / "aqbanking")
 
+        if CraftCore.compiler.compiler.isMSVC:
+            print(f"sourceDir: {self.sourceDir()}")
+            print(f"workDir: {self.workDir()}")
+            print(f"archiveDir: {self.archiveDir()}")
+            print(f"installDir: {self.installDir()}")
+            print(f"imageDir: {self.imageDir()}")
+
         return True
 
     def postInstall(self):
@@ -150,6 +157,13 @@ class Package(CMakePackageBase):
             installDir = self.installDir()
             libSrc = installDir / "bin/libsqlcipher.dll"
             libDst = installDir / "bin/sqlite3.dll"
+
+            print(f"sourceDir: {self.sourceDir()}")
+            print(f"workDir: {self.workDir()}")
+            print(f"archiveDir: {self.archiveDir()}")
+            print(f"installDir: {self.installDir()}")
+            print(f"imageDir: {self.imageDir()}")
+
             print(f"Try to move {libSrc} to {libDst}")
             if libSrc.exists():
                 utils.rmtree(libDst)
