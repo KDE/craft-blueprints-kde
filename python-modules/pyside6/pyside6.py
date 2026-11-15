@@ -152,7 +152,8 @@ class Package(PipPackageBase):
 
                 # Fix shiboken6 wrapper: setup.py creates .egg-info but Python 3.12's importlib.metadata can't find it
                 # Patch the wrapper to directly import the entry point instead of using metadata
-                shiboken6_wrapper = CraftStandardDirs.craftRoot() / "bin" / "shiboken6"
+                # Must patch in imageDir (not craftRoot) since that's what gets merged
+                shiboken6_wrapper = imageDir / "bin" / "shiboken6"
                 if shiboken6_wrapper.exists():
                     with open(shiboken6_wrapper, "w") as f:
                         f.write(
@@ -165,6 +166,8 @@ class Package(PipPackageBase):
                             "    sys.exit(main())\n"
                         )
                     CraftCore.log.info(f"Patched shiboken6 wrapper at {shiboken6_wrapper}")
+                else:
+                    CraftCore.log.warning(f"shiboken6 wrapper not found at {shiboken6_wrapper}")
 
                 return True
             else:
