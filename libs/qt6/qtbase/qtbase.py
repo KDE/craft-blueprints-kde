@@ -65,14 +65,20 @@ class subinfo(info.infoclass):
         self.patchToApply["6.11.3"] += [(".6.11.1/qtbase-hsts-expired-policy.diff", 1)]
         self.patchToApply["6.12.0"] += [(".6.11.1/qtbase-hsts-expired-policy.diff", 1)]
 
+        # https://qt-project.atlassian.net/browse/QTBUG-99779
+        self.patchToApply["6.11.3"] += [(".6.11.1/qtemporaryfile-msix-rename-fallback.diff", 1)]
+        self.patchToApply["6.12.0"] += [(".6.11.1/qtemporaryfile-msix-rename-fallback.diff", 1)]
+
         self.patchLevel["6.4.3"] = 4
         self.patchLevel["6.6.0"] = 4
         self.patchLevel["6.6.1"] = 3
         self.patchLevel["6.8.0"] = 2
         self.patchLevel["6.8.1"] = 2
-        self.patchLevel["6.11.0"] = 1
-        self.patchLevel["6.11.1"] = 5
-        self.patchLevel["6.11.2"] = 1
+        self.patchLevel["6.11.0"] = 2
+        self.patchLevel["6.11.1"] = 6
+        self.patchLevel["6.11.2"] = 2
+        self.patchLevel["6.11.3"] = 1
+        self.patchLevel["6.12.0"] = 1
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
