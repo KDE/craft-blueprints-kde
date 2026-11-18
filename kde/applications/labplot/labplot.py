@@ -339,6 +339,14 @@ class Package(CMakePackageBase):
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
 
+            # Remove python3.12 directory that MacDylibBundler wrongly copied to Frameworks
+            # (it copies lib/python3.12/site-packages as Frameworks/python3.12/site-packages,
+            # which rcodesign tries to treat as a bundle and fails because it lacks Info.plist)
+            wrongPythonDir = appPath / "Contents" / "Frameworks" / "python3.12"
+            if wrongPythonDir.exists():
+                shutil.rmtree(wrongPythonDir)
+                CraftCore.log.info(f"preArchive: Removed {wrongPythonDir} (wrong bundler artifact)")
+
             # Copy entitlements next to .app for signing
             entitlementsSource = self.sourceDir() / "labplot.entitlements"
             if entitlementsSource.exists():
