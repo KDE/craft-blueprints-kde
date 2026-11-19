@@ -3,6 +3,7 @@
 
 import info
 from Blueprints.CraftPackageObject import CraftPackageObject
+from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
@@ -10,7 +11,14 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/dragon-media-backend.git"
         self.description = "KDE audio library using SDL3, ffmpeg, kissfft, and C++23"
         self.webpage = "https://invent.kde.org/libraries/dragon-media-backend"
-        self.defaultTarget = "master"
+
+        for ver in ["0.90.1"]:
+            self.targets[ver] = f"https://download.kde.org/unstable/dragon-media-backend/dragon-media-backend-{ver}.tar.xz"
+            self.archiveNames[ver] = f"dragon-media-backend-{ver}.tar.xz"
+            self.targetInstSrc[ver] = f"dragon-media-backend-{ver}"
+
+        self.targetDigests["0.90.1"] = (["accec83b29d0a55cf4f70de1bc32b3d7d876fe76c033fda94a376e9181c2d9a3"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "0.90.1"
 
     def setDependencies(self):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
