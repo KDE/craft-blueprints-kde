@@ -11,6 +11,11 @@ class subinfo(info.infoclass):
         self.displayName = "KMCpClientInspector"
         self.description = "MCP client inspector"
 
+        for ver in ["0.3.0"]:
+            self.targets[ver] = f"https://download.kde.org/stable/kmcpclientinspector/kmcpclientinspector-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kmcpclientinspector/kmcpclientinspector-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = f"kmcpclientinspector-{ver}"
+
         self.svnTargets["master"] = "https://invent.kde.org/sdk/kmcpclientinspector.git"
 
     def setDependencies(self):
