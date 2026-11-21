@@ -22,7 +22,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
             self.runtimeDependencies["libs/protobuf"] = None
             self.runtimeDependencies["libs/qt/qtwebchannel"] = None

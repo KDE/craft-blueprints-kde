@@ -3,12 +3,12 @@
 
 import glob
 import os
+import shutil
 import subprocess
 
 import info
 import utils
 from Blueprints.CraftVersion import CraftVersion
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
 from Package.CMakePackageBase import CMakePackageBase
@@ -50,23 +50,20 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/libzip"] = None
         self.runtimeDependencies["libs/liblz4"] = None
         # netcdf installation is broken for MSVC atm
-        if not CraftCore.compiler.isMSVC() and not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.compiler.isMSVC and not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/netcdf"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/hdf5"] = None
             self.runtimeDependencies["libs/orcus"] = None
             self.runtimeDependencies["libs/cfitsio"] = None
             self.runtimeDependencies["libs/libfftw"] = None
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/expat"] = None
             self.runtimeDependencies["libs/webp"] = None
 
-        # cross compiling Cantor fails on macOS x86_64 (CD job)
-        if not CraftCore.compiler.isMacOS:
-            self.runtimeDependencies["kde/applications/cantor"] = None
-        self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
-        if not CraftCore.compiler.isMacOS:
+        self.runtimeDependencies["kde/applications/cantor"] = None
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/qt6/qtserialport"] = None
             self.runtimeDependencies["libs/qt6/qtmqtt"] = None
         self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
@@ -77,18 +74,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kuserfeedback"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
-        self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kdeclarative"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
-        self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["qt-libs/poppler"] = None
             self.runtimeDependencies["libs/matio"] = None
             self.runtimeDependencies["libs/discount"] = None
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["libs/qt6/qtwebsockets"] = None
         # required on macOS currently
         self.runtimeDependencies["libs/readstat"] = None
@@ -101,155 +93,67 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/boost"] = None
         self.runtimeDependencies["libs/ixion"] = None
         self.runtimeDependencies["python-modules/pyside6"] = None
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/libpng"] = None
             self.runtimeDependencies["kde/frameworks/tier3/ktexteditor"] = None
             self.buildDependencies["python-modules/build"] = None
 
 
 class Package(CMakePackageBase):
+    # Define the inimal PySide6 files needed for pylabplot runtime
+    PYSIDE6_REQUIRED_PYFILES = ["__init__.py", "_config.py", "_git_pyside_version.py"]
+    PYSIDE6_REQUIRED_MODULES = ["QtCore", "QtGui", "QtWidgets"]
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += ["-DLOCAL_DBC_PARSER=ON", "-DLOCAL_VECTOR_BLF=ON", "-DENABLE_TESTS=OFF"]
         self.subinfo.options.configure.args += [f"-DPython3_ROOT_DIR={CraftCore.standardDirs.craftRoot()}"]
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # readstat fails with ninja
             self.supportsNinja = False
             # cerf.h is not found when using libcerf from ports
             self.subinfo.options.configure.args += ["-DENABLE_LIBCERF=OFF"]
             # eigen/Sparse not found in gitlab builds
             self.subinfo.options.configure.args += ["-DENABLE_EIGEN3=OFF"]
-            # create missing Qt header paths for shiboken6
-            for subpath in ["QtCore", "QtGui", "QtWidgets"]:
-                if not os.path.exists(CraftCore.standardDirs.craftRoot() / "include" / subpath):
-                    utils.createSymlink(CraftCore.standardDirs.craftRoot() / "lib" / f"{subpath}.framework" / "Versions/A/Headers", CraftCore.standardDirs.craftRoot() / "include" / subpath, targetIsDirectory=True)
 
         # TODO: use available versions
         self.subinfo.options.configure.args += [
             f"-DIxion_INCLUDE_DIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/ixion-0.20",
             f"-DOrcus_INCLUDE_DIR={OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/orcus-0.20",
         ]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.configure.args += f'-DCMAKE_CXX_FLAGS="-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())}/include/boost-1_86 -EHsc"'
 
     # required on macOS to find type_traits
     def _getEnv(self):
         env = {}
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             return env
         sdk = subprocess.check_output(["xcrun", "--show-sdk-path"], text=True).strip()
-        print("SDKROOT =", sdk)
         env["SDKROOT"] = sdk
-        env["PYTHONPATH"] = CraftCore.standardDirs.craftRoot() / "lib/python3.11/site-packages"
+        env["PYTHONPATH"] = CraftCore.standardDirs.craftRoot() / "lib/python3.12/site-packages"
         return env
 
-    # Craft only reports the raw exit code when shiboken6 fails to start, so resolve the loader error here
-    def _diagnoseShiboken(self):
-        craftRoot = CraftCore.standardDirs.craftRoot()
-        candidates = glob.glob(str(craftRoot / "lib/site-packages/shiboken6_generator/shiboken6.exe"))
-        if not candidates:
-            candidates = glob.glob(str(craftRoot / "**/shiboken6.exe"), recursive=True)
-        if not candidates:
-            CraftCore.log.error(f"shiboken6.exe not found below {craftRoot}")
-            return
-
-        shibokenExe = candidates[0]
-        shibokenDir = os.path.dirname(shibokenExe)
-        CraftCore.log.info(f"shiboken6: {shibokenExe}")
-        CraftCore.log.info(f"shiboken6 directory: {sorted(os.listdir(shibokenDir))}")
-        searchPath = [p for p in os.environ.get("PATH", "").split(os.pathsep) if any(k in p.lower() for k in ("clang", "llvm", "qt"))]
-        CraftCore.log.info(f"PATH entries providing Qt/clang: {searchPath}")
-
-        result = subprocess.run([shibokenExe, "--version"], capture_output=True, text=True, timeout=60)
-        CraftCore.log.info(f"shiboken6 --version exit code: {result.returncode} (0x{result.returncode & 0xFFFFFFFF:08X})")
-        if result.stdout.strip():
-            CraftCore.log.info(f"shiboken6 stdout: {result.stdout.strip()}")
-        if result.stderr.strip():
-            CraftCore.log.info(f"shiboken6 stderr: {result.stderr.strip()}")
-        if result.returncode == 0:
-            return
-
-        # 0xC0000135: a dependent DLL is missing, 0xC0000139: DLL found but an imported symbol is not exported
-        dependents = subprocess.run(["dumpbin", "/dependents", shibokenExe], capture_output=True, text=True, shell=True)
-        CraftCore.log.error(f"dumpbin /dependents:\n{dependents.stdout or dependents.stderr}")
-        for line in dependents.stdout.splitlines():
-            dll = line.strip()
-            if not dll.lower().endswith(".dll"):
-                continue
-            beside = os.path.exists(os.path.join(shibokenDir, dll))
-            inPath = subprocess.run(["where", dll], capture_output=True, text=True, shell=True).stdout.split()
-            CraftCore.log.error(f"{dll}: besideExe={beside}, inPath={inPath or 'not found'}")
-
-    def _checkShiboken(self):
-        if not CraftCore.compiler.isWindows:
-            return
-        try:
-            self._diagnoseShiboken()
-        except Exception as e:
-            CraftCore.log.error(f"shiboken6 diagnostic failed: {e}")
-
     def configure(self):
-        self._checkShiboken()
+        # create missing Qt header paths for shiboken6 on macOS
+        if CraftCore.compiler.platform.isMacOS:
+            for subpath in ["QtCore", "QtGui", "QtWidgets"]:
+                if not os.path.exists(CraftCore.standardDirs.craftRoot() / "include" / subpath):
+                    utils.createSymlink(
+                        CraftCore.standardDirs.craftRoot() / "lib" / f"{subpath}.framework" / "Versions/A/Headers",
+                        CraftCore.standardDirs.craftRoot() / "include" / subpath,
+                        targetIsDirectory=True,
+                    )
         with utils.ScopedEnv(self._getEnv()):
             return super().configure()
 
     def make(self):
-        self._checkShiboken()
         with utils.ScopedEnv(self._getEnv()):
             return super().make()
 
     def install(self):
         with utils.ScopedEnv(self._getEnv()):
-            if not super().install():
-                return False
-
-        # Windows: Copy PySide6/Shiboken DLLs needed for Python scripting into bin/
-        # These are required at runtime for the embedded Python interpreter
-        if CraftCore.compiler.isWindows:
-            sitePackages = CraftCore.standardDirs.craftRoot() / "lib" / "site-packages"
-            pysideDir = sitePackages / "PySide6"
-            shibokenDir = sitePackages / "shiboken6"
-            destBin = self.imageDir() / "bin"
-
-            # Copy PySide6 and Shiboken ABI3 DLLs
-            for dll in ["pyside6.abi3.dll"]:
-                src = pysideDir / dll
-                if src.exists():
-                    utils.copyFile(src, destBin / dll, linkOnly=False)
-                    CraftCore.log.info(f"Copied {dll} to bin/")
-
-            for dll in ["shiboken6.abi3.dll"]:
-                src = shibokenDir / dll
-                if src.exists():
-                    utils.copyFile(src, destBin / dll, linkOnly=False)
-                    CraftCore.log.info(f"Copied {dll} to bin/")
-
-            # Copy PySide6 and shiboken6 Python packages to lib/site-packages/
-            destSitePackages = self.imageDir() / "lib" / "site-packages"
-            os.makedirs(destSitePackages, exist_ok=True)
-
-            # Copy PySide6 package (excluding Qt DLLs which come from Craft's Qt)
-            destPyside = destSitePackages / "PySide6"
-            if pysideDir.exists():
-                os.makedirs(destPyside, exist_ok=True)
-                for item in pysideDir.iterdir():
-                    # Skip Qt DLLs - we use Craft's Qt from bin/
-                    if item.name.startswith("Qt") and item.suffix == ".dll":
-                        continue
-                    if item.is_file():
-                        utils.copyFile(item, destPyside / item.name, linkOnly=False)
-                CraftCore.log.info("Copied PySide6 package to lib/site-packages/")
-
-            # Copy shiboken6 package
-            destShiboken = destSitePackages / "shiboken6"
-            if shibokenDir.exists():
-                os.makedirs(destShiboken, exist_ok=True)
-                for item in shibokenDir.iterdir():
-                    if item.is_file():
-                        utils.copyFile(item, destShiboken / item.name, linkOnly=False)
-                CraftCore.log.info("Copied shiboken6 package to lib/site-packages/")
-
-        return True
+            return super().install()
 
     def createPackage(self):
         self.defines["appname"] = "LabPlot"
@@ -258,11 +162,12 @@ class Package(CMakePackageBase):
 
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         # Some plugin files break codesigning on macOS, which is picky about file names
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
-            self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess)).*")
-        else:
-            self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess|python3)).*")
+        if CraftCore.compiler.platform.isWindows:
+            self.blacklist_file.append(self.blueprintDir() / "blacklist_win.txt")
+        # Bundle python3 for all packaged distributions (Windows, macOS, AppImage, Flatpak)
+        self.addExecutableFilter(r"(bin|libexec)/(?!(labplot|cantor_|QtWebEngineProcess|python3)).*")
 
         self.defines["website"] = "https://labplot.org/"
         self.defines["executable"] = "bin\\labplot.exe"
@@ -284,18 +189,14 @@ class Package(CMakePackageBase):
             )
 
             # remove old version if exists
-            self.defines[
-                "preInstallHook"
-            ] = r"""
+            self.defines["preInstallHook"] = r"""
                 Exec "$INSTDIR\unins000.exe"
                 """
 
             # add option for desktop shortcut (see kdeconnect-kde.py) and update file associations
             # SHChangeNotify(SHCNE_ASSOCCHANGED,SHCNF_FLUSH,0,0)
             # SHCNE_ASSOCCHANGED = 0x08000000, SHCNF_IDLIST = 0, SHCNF_FLUSH = 0x1000, SHCNF_FLUSHNOWAIT = 0x2000
-            self.defines[
-                "sections"
-            ] = r"""
+            self.defines["sections"] = r"""
                 Section "Desktop Shortcut"
                         CreateShortCut "$DESKTOP\\@{productname}.lnk" "$INSTDIR\\bin\\@{appname}.exe"
                 SectionEnd
@@ -303,9 +204,7 @@ class Package(CMakePackageBase):
                         System::Call "shell32::SHChangeNotify(i,i,i,i) (0x08000000, 0x1000, 0, 0)"
                 SectionEnd
                 """
-            self.defines[
-                "un_sections"
-            ] = r"""
+            self.defines["un_sections"] = r"""
                 Section "Un.Remove Shortcuts"
                     Delete "$DESKTOP\\@{productname}.lnk"
                 SectionEnd
@@ -320,31 +219,133 @@ class Package(CMakePackageBase):
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("binary/r-base")
         self.ignoredPackages.append("libs/sdl2")
-        # AppImage requires several libs
-        if not CraftCore.compiler.isLinux or not isinstance(self, AppImagePackager):
+        # AppImage requires several libs; video codecs and LLVM not needed elsewhere
+        if not CraftCore.compiler.platform.isLinux or not isinstance(self, AppImagePackager):
             self.ignoredPackages.append("libs/aom")
             self.ignoredPackages.append("libs/dav1d")
             self.ignoredPackages.append("libs/ffmpeg")
             self.ignoredPackages.append("libs/svtav1")
             self.ignoredPackages.append("libs/x265")
-            self.ignoredPackages.append("libs/qt6/qtwebengine")
             self.ignoredPackages.append("libs/qt6/qtshadertools")
             self.ignoredPackages.append("libs/llvm")
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
 
         return super().createPackage()
 
     def preArchive(self):
-        archiveDir = self.archiveDir()
-        print("preArchive(), archive dir:", archiveDir)
+        # Windows: Bundle Python stdlib and packages for Python scripting
+        # Done in preArchive() so files aren't filtered out during packaging
+        # Structure: bin/python3.exe, bin/python311.dll, bin/Lib/, bin/DLLs/
+        if CraftCore.compiler.platform.isWindows:
+            craftRoot = CraftCore.standardDirs.craftRoot()
+            archiveDir = self.archiveDir()
+            destBin = archiveDir / "bin"
 
-        if CraftCore.compiler.isMacOS and not CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
-            # Move cantor_pythonserver to the package
+            # Exclude large unnecessary stdlib directories
+            def _excludeStdlib(d, files):
+                excludes = {
+                    "test",
+                    "tests",
+                    "idlelib",
+                    "tkinter",
+                    "turtledemo",
+                    "lib2to3",
+                    "ensurepip",
+                    "distutils",
+                    "site-packages",
+                    "__pycache__",
+                    "unittest",
+                    "pydoc_data",
+                    "curses",
+                    "venv",
+                    "lib-dynload",
+                }  # DLLs/ has Windows extensions separately
+                return [f for f in files if f in excludes]
+
+            # Copy Python stdlib to bin/Lib/
+            srcLib = craftRoot / "bin" / "Lib"
+            destLib = destBin / "Lib"
+            CraftCore.log.info(f"preArchive: Python stdlib srcLib={srcLib}, exists={srcLib.exists()}")
+            if srcLib.exists():
+                encInit = srcLib / "encodings" / "__init__.py"
+                CraftCore.log.info(f"preArchive: encodings/__init__.py exists={encInit.exists()}")
+                shutil.copytree(srcLib, destLib, dirs_exist_ok=True, ignore=_excludeStdlib)
+                CraftCore.log.info("preArchive: Copied Python stdlib to bin/Lib/")
+                destEncInit = destLib / "encodings" / "__init__.py"
+                CraftCore.log.info(f"preArchive: dest encodings/__init__.py exists={destEncInit.exists()}")
+
+            # Copy Python extension modules to bin/DLLs/
+            srcDLLs = craftRoot / "bin" / "DLLs"
+            destDLLs = destBin / "DLLs"
+            if srcDLLs.exists():
+                shutil.copytree(srcDLLs, destDLLs, dirs_exist_ok=True)
+                CraftCore.log.info("preArchive: Copied Python DLLs to bin/DLLs/")
+
+            # Copy PySide6 and shiboken6 packages to bin/Lib/site-packages/
+            # PySide6 6.12 installs to bin/Lib/site-packages on Windows
+            sitePackages = craftRoot / "bin" / "Lib" / "site-packages"
+            pysideDir = sitePackages / "PySide6"
+            shibokenDir = sitePackages / "shiboken6"
+            destSitePackages = destLib / "site-packages"
+
+            # Copy only required PySide6 files - not the entire package
+            destPyside = destSitePackages / "PySide6"
+            if pysideDir.exists():
+                os.makedirs(destPyside, exist_ok=True)
+
+                # Required Python files
+                for pyfile in self.PYSIDE6_REQUIRED_PYFILES:
+                    src = pysideDir / pyfile
+                    if src.exists():
+                        shutil.copy2(src, destPyside / pyfile)
+
+                # Required .pyd modules (Qt bindings) - only what pylabplot needs
+                for mod in self.PYSIDE6_REQUIRED_MODULES:
+                    for ext in [".pyd", ".pyi"]:
+                        src = pysideDir / f"{mod}{ext}"
+                        if src.exists():
+                            shutil.copy2(src, destPyside / f"{mod}{ext}")
+
+                # The main PySide6 runtime DLL
+                src = pysideDir / "pyside6.abi3.dll"
+                if src.exists():
+                    shutil.copy2(src, destPyside / "pyside6.abi3.dll")
+
+                CraftCore.log.info("preArchive: Copied PySide6 (minimal) to bin/Lib/site-packages/")
+
+            # Copy shiboken6 package - must include __init__.py for Python import
+            destShiboken = destSitePackages / "shiboken6"
+            CraftCore.log.info(f"preArchive: shibokenDir={shibokenDir}, exists={shibokenDir.exists()}")
+            if shibokenDir.exists():
+                shibokenInit = shibokenDir / "__init__.py"
+                CraftCore.log.info(f"preArchive: shiboken6 __init__.py exists={shibokenInit.exists()}")
+                if destShiboken.exists():
+                    shutil.rmtree(destShiboken)
+                shutil.copytree(shibokenDir, destShiboken, ignore=shutil.ignore_patterns("include", "lib", "*.dylib"))
+                CraftCore.log.info("preArchive: Copied shiboken6 to bin/Lib/site-packages/")
+                destShibokenInit = destShiboken / "__init__.py"
+                CraftCore.log.info(f"preArchive: dest shiboken6 __init__.py exists={destShibokenInit.exists()}")
+
+            # Copy PySide6 and Shiboken ABI3 DLLs to bin/ for DLL loading at runtime
+            for dll in ["pyside6.abi3.dll", "shiboken6.abi3.dll"]:
+                src = (pysideDir if "pyside" in dll else shibokenDir) / dll
+                if src.exists():
+                    shutil.copy2(src, destBin / dll)
+                    CraftCore.log.info(f"preArchive: Copied {dll} to bin/")
+
+        if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.architecture.isX86_64:
             defines = self.setDefaults(self.defines)
             appPath = self.getMacAppPath(defines)
-            print("preArchive(), app path:", appPath)
+
+            # Remove python3.12 directory that MacDylibBundler wrongly copied to Frameworks
+            # (it copies lib/python3.12/site-packages as Frameworks/python3.12/site-packages,
+            # which rcodesign tries to treat as a bundle and fails because it lacks Info.plist)
+            wrongPythonDir = appPath / "Contents" / "Frameworks" / "python3.12"
+            if wrongPythonDir.exists():
+                shutil.rmtree(wrongPythonDir)
+                CraftCore.log.info(f"preArchive: Removed {wrongPythonDir} (wrong bundler artifact)")
 
             # Copy entitlements next to .app for signing
             entitlementsSource = self.sourceDir() / "labplot.entitlements"
@@ -355,63 +356,63 @@ class Package(CMakePackageBase):
             else:
                 CraftCore.log.warning(f"Entitlements source not found at: {entitlementsSource}")
 
-            # if not utils.copyFile(
-            #    archiveDir / "Applications/KDE/cantor_pythonserver.app/Contents/MacOS/cantor_pythonserver",
-            #    appPath / "Contents/MacOS",
-            #    linkOnly=False
-            # ):
-            #    return False
-
-            taskLog = os.path.join(archiveDir, "Applications", "KDE", "task.log")
-            if os.path.exists(taskLog):
-                print("task.log:", taskLog)
-                with open(taskLog, "r") as f:
-                    print(f.read())
-            taskDebugLog = os.path.join(archiveDir, "Applications", "KDE", "task-debug.log")
-            if os.path.exists(taskDebugLog):
-                print("task-debug.log:", taskDebugLog)
-                with open(taskDebugLog, "r") as f:
-                    print(f.read())
-
             pythonSitePackageLocations = glob.glob(os.path.join(CraftCore.standardDirs.craftRoot(), "lib/python*/site-packages"))
-            pythonPackages = os.listdir(pythonSitePackageLocations[0])
-            print("preArchive(), Python craftRoot site packages:", pythonPackages)
-
             pysideLocation = os.path.join(pythonSitePackageLocations[0], "PySide6")
             shibokenLocation = os.path.join(pythonSitePackageLocations[0], "shiboken6")
-            print("preArchive(), PySide/shiboken craftRoot lib location:", pysideLocation, shibokenLocation)
 
-            # copy complete site-packages fails signing
-            # copy dylibs only
-            utils.copyFile(os.path.join(pysideLocation, "libpyside6.abi3.6.11.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.11.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(pysideLocation, "libpyside6qml.abi3.6.11.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.11.dylib"), linkOnly=False)
-            utils.copyFile(os.path.join(shibokenLocation, "libshiboken6.abi3.6.11.dylib"), os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.11.dylib"), linkOnly=False)
+            # Copy dylibs to Frameworks
+            utils.copyFile(
+                os.path.join(pysideLocation, "libpyside6.abi3.6.12.dylib"),
+                os.path.join(appPath, "Contents", "Frameworks", "libpyside6.abi3.6.12.dylib"),
+                linkOnly=False,
+            )
+            utils.copyFile(
+                os.path.join(pysideLocation, "libpyside6qml.abi3.6.12.dylib"),
+                os.path.join(appPath, "Contents", "Frameworks", "libpyside6qml.abi3.6.12.dylib"),
+                linkOnly=False,
+            )
+            utils.copyFile(
+                os.path.join(shibokenLocation, "libshiboken6.abi3.6.12.dylib"),
+                os.path.join(appPath, "Contents", "Frameworks", "libshiboken6.abi3.6.12.dylib"),
+                linkOnly=False,
+            )
 
-            pythonFrameworksPackages = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages")
+            pythonFrameworksPackages = os.path.join(appPath, "Contents/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages")
             pysidePath = os.path.join(pythonFrameworksPackages, "PySide6")
             shibokenPath = os.path.join(pythonFrameworksPackages, "shiboken6")
 
-            # also needed libs to frameworks site-packages
-            pysideLibs = glob.glob(os.path.join(pysideLocation, "*.so"))
+            # Copy only required PySide6 modules (not all *.so which includes multimedia, 3D, etc.)
             os.makedirs(pysidePath, exist_ok=True)
-            for lib in pysideLibs:
-                utils.copyFile(lib, pysidePath, linkOnly=False)
+            for mod in self.PYSIDE6_REQUIRED_MODULES:
+                soFile = os.path.join(pysideLocation, f"{mod}.abi3.so")
+                if os.path.exists(soFile):
+                    utils.copyFile(soFile, pysidePath, linkOnly=False)
+
             os.makedirs(shibokenPath, exist_ok=True)
             utils.copyFile(os.path.join(shibokenLocation, "Shiboken.abi3.so"), shibokenPath, linkOnly=False)
 
-            utils.copyFile(os.path.join(pysideLocation, "__init__.py"), pysidePath, linkOnly=False)
+            # Copy required Python files
+            for pyfile in self.PYSIDE6_REQUIRED_PYFILES:
+                src = os.path.join(pysideLocation, pyfile)
+                if os.path.exists(src):
+                    utils.copyFile(src, pysidePath, linkOnly=False)
             utils.copyFile(os.path.join(shibokenLocation, "__init__.py"), shibokenPath, linkOnly=False)
-            # fix falsely picked up system Python lib
-            # utils.system(["install_name_tool", "-change", "/Library/Frameworks/Python.framework/Versions/3.12/Python", os.path.join(appPath, "Contents", "Frameworks", "Python.framework", "Versions", "3.11", "Python"), os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")])
-            # utils.system(
-            #    [
-            #        "install_name_tool",
-            #        "-change",
-            #        "/Library/Frameworks/Python.framework/Versions/3.12/Python",
-            #        "@executable_path/../Frameworks/Python.framework/Versions/3.11/Python",
-            #        os.path.join(appPath, "Contents", "MacOS", "cantor_pythonserver")
-            #    ]
-            # )
 
-        print("preArchive() DONE")
+            # Copy Cantor server executables for notebook backends (Python, R)
+            for server in ["cantor_pythonserver", "cantor_rserver"]:
+                serverSrc = CraftCore.standardDirs.craftRoot() / "Applications" / "KDE" / f"{server}.app" / "Contents" / "MacOS" / server
+                serverDest = appPath / "Contents" / "MacOS" / server
+                if serverSrc.exists():
+                    shutil.copy2(serverSrc, serverDest)
+                    CraftCore.log.info(f"preArchive: Copied {server} to {serverDest}")
+
+            # Copy hicolor icons for Cantor backends (pythonbackend, etc.)
+            hicolorSrc = CraftCore.standardDirs.craftRoot() / "share" / "icons" / "hicolor"
+            hicolorDest = appPath / "Contents" / "Resources" / "icons" / "hicolor"
+            if hicolorSrc.exists():
+                shutil.copytree(hicolorSrc, hicolorDest, dirs_exist_ok=True)
+                CraftCore.log.info(f"preArchive: Copied hicolor icons to {hicolorDest}")
+            else:
+                CraftCore.log.warning(f"preArchive: hicolor icons not found at {hicolorSrc}")
+
         return super().preArchive()

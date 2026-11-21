@@ -3,7 +3,6 @@ import os
 
 import info
 import utils
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from Package.BinaryPackageBase import BinaryPackageBase
 from Utils import CraftHash
@@ -12,7 +11,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def setTargets(self):
         arch = "i386"
-        if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+        if CraftCore.compiler.architecture.isX86_64:
             arch = "x86_64"
             self.targetDigests["2.17.1.1"] = (["bd5fb5c2ea78467ea6a6cffb043a98531a3b65f669aa16e8821d476fb67471be"], CraftHash.HashAlgorithm.SHA256)
         versions = ["2.17.1.1"]

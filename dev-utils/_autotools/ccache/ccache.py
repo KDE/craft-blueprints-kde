@@ -25,12 +25,13 @@ class subinfo(info.infoclass):
         self.targetDigests["4.14.1"] = (["dfd2b9e446b2cf68e83e21b25317d8f868de6f1b246c7e99e04d07f4e1b0b97e"], CraftHash.HashAlgorithm.SHA256)
 
         self.webpage = "https://ccache.dev/"
+        self.releaseManagerId = 257
         self.defaultTarget = "4.14.1"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/libzstd"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 
@@ -45,7 +46,7 @@ class Package(CMakePackageBase):
             return False
         for t in [Path(os.environ["CXX"]), Path(os.environ["CC"])]:
             if not utils.createShim(
-                self.installDir() / "ccache/bin" / t.name, self.installDir() / f"bin/ccache{CraftCore.compiler.executableSuffix}", args=[t]
+                self.installDir() / "ccache/bin" / t.name, self.installDir() / f"bin/ccache{CraftCore.compiler.platform.executableSuffix}", args=[t]
             ):
                 return False
         return True

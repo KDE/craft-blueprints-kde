@@ -29,12 +29,12 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         # FIXME: Dependency on libkleo disabled right now, too broken
         # Also see: https://invent.kde.org/pim/akonadi-contacts/-/commit/0d0ff2dedaf222879d346dd8159472526cf76d7d
-        if not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.compiler.isMSVC:
             self.runtimeDependencies["kde/pim/libkleo"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]

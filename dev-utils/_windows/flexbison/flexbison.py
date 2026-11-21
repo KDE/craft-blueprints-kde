@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = ver
 
     def setDependencies(self):
-        self.buildDependencies["dev-utils/wget"] = None
+        self.runtimeDependencies["virtual/base"] = None
 
 
 class Package(BinaryPackageBase):

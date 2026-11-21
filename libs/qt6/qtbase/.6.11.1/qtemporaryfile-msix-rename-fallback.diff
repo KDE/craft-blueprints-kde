@@ -1,0 +1,21 @@
+--- a/src/corelib/io/qtemporaryfile.cpp
++++ b/src/corelib/io/qtemporaryfile.cpp
+@@ -397,6 +397,18 @@
+         QFileSystemEntry newEntry(newName, QFileSystemEntry::FromInternalPath());
+         bool ok = d_func()->nativeRenameOverwrite(newEntry);
+         QFSFileEngine::close();
++        if (!ok) {
++            // The file system redirection of packaged (MSIX) applications can place the
++            // temporary file on a different volume than the one the target path resolves to,
++            // which makes the handle based rename fail. Retry with a path based move.
++            ok = ::MoveFileEx(reinterpret_cast<const wchar_t *>(d_func()->fileEntry.nativeFilePath().utf16()),
++                              reinterpret_cast<const wchar_t *>(newEntry.nativeFilePath().utf16()),
++                              MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED | MOVEFILE_WRITE_THROUGH) != 0;
++            if (ok)
++                setError(QFile::NoError, QString());
++            else
++                setError(QFile::RenameError, QSystemError::windowsString());
++        }
+         if (ok) {
+             // Match what QFSFileEngine::renameOverwrite() does
+             setFileEntry(std::move(newEntry));

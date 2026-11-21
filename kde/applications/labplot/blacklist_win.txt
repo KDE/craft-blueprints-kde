@@ -1,0 +1,5 @@
+# Windows-only blacklist
+
+# lib/ contains junk on Windows (duplicate DLLs, manifest files)
+# Linux needs lib/libintl.so for bundled Python
+lib/.*

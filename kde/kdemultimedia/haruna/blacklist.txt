@@ -120,7 +120,6 @@ bin/libtextstyle-0.dll
 bin/libtiff.dll
 bin/libtiffxx.dll
 bin/libunistring-5.dll
-bin/libxml2.dll
 bin/libxslt.dll
 bin/libzip.dll
 bin/lua52.dll

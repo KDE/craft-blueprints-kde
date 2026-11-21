@@ -27,13 +27,13 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["qt-libs/qtkeychain"] = None
         self.runtimeDependencies["qt-libs/qcoro"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/plasma/breeze"] = None
         else:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isLinux or CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/libs/kunifiedpush"] = None
 
 
@@ -46,6 +46,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["executable"] = r"bin\tokodon.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(tokodon|update-mime-database)).*")
         self.ignoredPackages.append("binary/mysql")
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

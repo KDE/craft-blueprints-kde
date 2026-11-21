@@ -24,6 +24,6 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             # make sure to use our sqlite header and not the apple one...
             self.subinfo.options.configure.args = f'-DCMAKE_CXX_FLAGS="-isystem {CraftCore.standardDirs.craftRoot()}/include"'

@@ -53,20 +53,20 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/indilib/indi-3rdparty"] = None
         self.runtimeDependencies["libs/indilib/indi-3rdparty-libs"] = None
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["libs/libcurl"] = None
 
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["libs/xplanet"] = None
 
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.buildDependencies["libs/libftdi"] = None
             self.runtimeDependencies["qt-libs/phonon-vlc"] = None
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
             self.runtimeDependencies["libs/iconv"] = None
             self.runtimeDependencies["libs/libftdi"] = None
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["qt-libs/phonon"] = None
 
 
@@ -75,20 +75,18 @@ class Package(CMakePackageBase):
         super().__init__(**kwargs)
         self.ignoredPackages.append("binary/mysql")
         self.ignoredPackages.append("libs/llvm")
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.blacklist_file.append(self.blueprintDir() / "win-blacklist.txt")
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "mac-blacklist.txt")
-            self.addExecutableFilter(
-                r"bin/(?!(dbus-daemon|dbus-send|dbus-daemon-launch-helper|gsc|xplanet|indi)).*"
-            )
+            self.addExecutableFilter(r"bin/(?!(dbus-daemon|dbus-send|dbus-daemon-launch-helper|gsc|xplanet|indi)).*")
         self.subinfo.options.configure.args += ["-DBUILD_DOC=OFF", "-DBUILD_TESTING=OFF", "-DBUILD_WITH_QT6=ON"]
 
     # Need to copy the indi drivers, driver files, and other resources for kstars to work on MacOS
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             dest = Path(self.imageDir()) / "Applications/KDE/kstars.app/Contents"
             src = Path(self.buildDir()) / "bin/KStars.app/Contents"
             files = ["Plugins", "Resources", "MacOS"]

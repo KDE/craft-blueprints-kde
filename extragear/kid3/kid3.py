@@ -54,7 +54,7 @@ class Package(CMakePackageBase):
             self.subinfo.options.configure.args += ["-DDOWNLOAD_POS=REMOVE"]
 
         docbookdir = CraftStandardDirs.craftRoot() / "bin/data/xml/docbook/xsl-stylesheets"
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             docbookdir = CraftStandardDirs.craftRoot() / "share/xml/docbook/xsl-stylesheets"
         self.subinfo.options.configure.args += [f"-DWITH_DOCBOOKDIR={docbookdir}"]
         self.subinfo.options.package.movePluginsToBin = False
@@ -67,7 +67,7 @@ class Package(CMakePackageBase):
 
     def install(self):
         result = super().install()
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             utils.copyFile(
                 self.installDir() / "share/applications/org.kde.kid3-qt.desktop",
                 self.installDir() / "share/applications/kid3.desktop",

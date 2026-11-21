@@ -3,7 +3,6 @@ import os
 import info
 import utils
 from Blueprints.CraftVersion import CraftVersion
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from CraftStandardDirs import CraftStandardDirs
 from Package.AutoToolsPackageBase import AutoToolsPackageBase
@@ -11,12 +10,8 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        # this blueprint is currently not maintained for Android
-        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
-
     def setTargets(self):
-        for ver in ["6.1.1", "7.0.1", "7.1", "8.0.1", "8.1.1"]:
+        for ver in ["6.1.1", "7.0.1", "7.1", "8.0.1", "8.1.1", "8.1.3"]:
             self.targets[ver] = f"https://ffmpeg.org/releases/ffmpeg-{ver}.tar.bz2"
             self.targetInstSrc[ver] = f"ffmpeg-{ver}"
             self.patchToApply[ver] = []
@@ -27,8 +22,9 @@ class subinfo(info.infoclass):
         self.targetDigests["7.1"] = (["fd59e6160476095082e94150ada5a6032d7dcc282fe38ce682a00c18e7820528"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["8.0.1"] = (["65ff433fab5727fb2dc41f1d508dc60e6192fea44cab2e0301194feee4bcf1d7"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["8.1.1"] = (["b08594a47ca475ddda21c7990d8e9e3ceb5cd74f9709b4b5995b24d11cafa467"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["8.1.3"] = (["f3dff3070372593fe579535a9f03b76ec3600c82b7170f8ff8f5aa6927e18fe2"], CraftHash.HashAlgorithm.SHA256)
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             for ver in self.targets:
                 if CraftVersion(ver) < CraftVersion("8.1.0"):
                     self.patchToApply[ver] += [("ffmpeg-4.4-20210413.diff", 1)]
@@ -42,7 +38,8 @@ class subinfo(info.infoclass):
 
         # Fix rotation metadata lost on transcoding
         # https://code.ffmpeg.org/FFmpeg/FFmpeg/issues/23383
-        self.patchToApply["8.1.1"] += [("ffmpeg-8.1.1-metadata.diff", 1)]
+        for ver in ["8.1.1", "8.1.3"]:
+            self.patchToApply[ver] += [("ffmpeg-8.1.1-metadata.diff", 1)]
 
         self.patchLevel["6.1.1"] = 2
         self.patchLevel["7.1"] = 5
@@ -51,35 +48,37 @@ class subinfo(info.infoclass):
 
         self.description = "A complete, cross-platform solution to record, convert and stream audio and video."
         self.webpage = "https://ffmpeg.org/"
-        self.defaultTarget = "8.1.1"
+        self.defaultTarget = "8.1.3"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
         self.buildDependencies["dev-utils/nasm"] = None
+        self.buildDependencies["dev-utils/gas-preprocessor"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/zlib"] = None
-        self.runtimeDependencies["libs/liblame"] = None
-        self.runtimeDependencies["libs/libopus"] = None
         self.runtimeDependencies["libs/openssl"] = None
-        self.runtimeDependencies["libs/x265"] = None
-        self.runtimeDependencies["libs/libvorbis"] = None
-        self.runtimeDependencies["libs/libsdl2"] = None
-        self.runtimeDependencies["libs/aom"] = None
-        self.runtimeDependencies["libs/dav1d"] = None
-        self.runtimeDependencies["libs/onevpl"] = None
-        if CraftCore.compiler.isGCCLike():
-            if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
+            self.runtimeDependencies["libs/liblame"] = None
+            self.runtimeDependencies["libs/libopus"] = None
+            self.runtimeDependencies["libs/x265"] = None
+            self.runtimeDependencies["libs/libvorbis"] = None
+            self.runtimeDependencies["libs/libsdl2"] = None
+            self.runtimeDependencies["libs/aom"] = None
+            self.runtimeDependencies["libs/dav1d"] = None
+            self.runtimeDependencies["libs/onevpl"] = None
+        if CraftCore.compiler.compiler.isGCCLike:
+            if not CraftCore.compiler.platform.isAndroid:
                 self.runtimeDependencies["libs/zimg"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/libass"] = None
             self.runtimeDependencies["libs/libvpx"] = None
             self.runtimeDependencies["libs/webp"] = None
             self.runtimeDependencies["libs/x264"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.platform.isAndroid:
             self.buildDependencies["libs/amf"] = None
             self.buildDependencies["libs/nvidia-codecs"] = None
             self.runtimeDependencies["libs/svtav1"] = None
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.runtimeDependencies["libs/libva"] = None
             self.runtimeDependencies["libs/libvdpau"] = None
 
@@ -88,57 +87,65 @@ class Package(AutoToolsPackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.platform = ""
+        self._ndkToolchainPath = (
+            os.path.join(
+                os.environ["ANDROID_NDK"],
+                "toolchains/llvm/prebuilt",
+                os.environ.get("ANDROID_NDK_HOST", "linux-x86_64"),
+                "bin",
+            )
+            if CraftCore.compiler.platform.isAndroid
+            else None
+        )
         self.subinfo.options.configure.noDataRootDir = True
         self.subinfo.options.configure.noCacheFile = True
         self.subinfo.options.configure.autoreconf = False
         # with msvc it does not support shadowbuilds
-        self.subinfo.options.useShadowBuild = not CraftCore.compiler.isMSVC()
+        self.subinfo.options.useShadowBuild = not CraftCore.compiler.compiler.isMSVC
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += ["--enable-libmp3lame", "--enable-libass", "--enable-libvpx"]
         else:
             self.subinfo.options.configure.args += ["--disable-programs"]
         if "CC" in os.environ:
             cc = os.environ["CC"]
-            if CraftCore.compiler.isMacOS and not CraftCore.compiler.isNative():
-                cc = f"{cc} -arch {CraftCore.compiler.architecture.name.lower()}"
+            if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.architecture.isNative:
+                cc = f"{cc} -arch {CraftCore.compiler.architecture.key.name.lower()}"
             self.subinfo.options.configure.args += [f"--cc={cc}"]
         if "CXX" in os.environ:
             cxx = os.environ["CXX"]
-            if CraftCore.compiler.isMacOS and not CraftCore.compiler.isNative():
-                cxx = f"{cxx} -arch {CraftCore.compiler.architecture.name.lower()}"
+            if CraftCore.compiler.platform.isMacOS and not CraftCore.compiler.architecture.isNative:
+                cxx = f"{cxx} -arch {CraftCore.compiler.architecture.key.name.lower()}"
             self.subinfo.options.configure.args += [f"--cxx={cxx}"]
 
-        architecture = CraftCore.compiler.architecture.name.lower()
-        if CraftCore.compiler.isAndroid:
-            if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
+        architecture = CraftCore.compiler.architecture.key.name.lower()
+        if CraftCore.compiler.platform.isAndroid:
+            if CraftCore.compiler.architecture.isArm64:
                 architecture = "aarch64"
                 compiler = "aarch64-linux-android"
-            elif CraftCore.compiler.architecture == CraftCompiler.Architecture.arm32:
+            elif CraftCore.compiler.architecture.isArm32:
                 architecture = "arm"
                 compiler = "armv7a-linux-androideabi"
-            elif CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32:
+            elif CraftCore.compiler.architecture.isX86_32:
                 architecture = "x86"
                 compiler = "i686-linux-android"
                 self.subinfo.options.configure.args += ["--disable-asm", "--enable-pic"]
             else:
-                architecture = CraftCore.compiler.androidArchitecture
-                compiler = f"{CraftCore.compiler.androidArchitecture}-linux-android"
-            toolchain_path = os.path.join(os.environ["ANDROID_NDK"], "toolchains/llvm/prebuilt", os.environ.get("ANDROID_NDK_HOST", "linux-x86_64"), "bin")
-
-            self.subinfo.options.configure.args += ["--cc=" + f"{toolchain_path}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang"]
-            self.subinfo.options.configure.args += ["--cxx=" + f"{toolchain_path}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang++"]
+                architecture = CraftCore.compiler.architecture.androidArchitecture
+                compiler = f"{CraftCore.compiler.architecture.androidArchitecture}-linux-android"
+            self.subinfo.options.configure.args += [f"--cc={self._ndkToolchainPath}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang"]
+            self.subinfo.options.configure.args += [f"--cxx={self._ndkToolchainPath}/{compiler}{CraftCore.compiler.androidApiLevel()}-clang++"]
             self.subinfo.options.configure.args += ["--enable-cross-compile", "--target-os=android", "--cross-prefix=llvm-"]
             # needed with NDK r25, otherwise build fails due to not finding vulkan_beta.h
             self.subinfo.options.configure.args += ["--extra-cflags=-DVK_ENABLE_BETA_EXTENSIONS=0"]
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.subinfo.options.configure.args += ["--enable-dxva2"]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.subinfo.options.configure.cflags += "-FS"
             self.subinfo.options.configure.cxxflags += "-FS"
             self.subinfo.options.configure.args += ["--toolchain=msvc"]
-        elif not CraftCore.compiler.isAndroid:
+        elif not CraftCore.compiler.platform.isAndroid:
             self.subinfo.options.configure.args += [
                 "--enable-libzimg",
             ]
@@ -152,10 +159,10 @@ class Package(AutoToolsPackageBase):
             "--enable-nonfree",
             "--enable-openssl",
             "--disable-xlib",
-            f"--{CraftCore.compiler.isLinux.asEnableDisable}-libxcb",
+            f"--{CraftCore.compiler.platform.isLinux.asEnableDisable}-libxcb",
         ]
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             # This disables H.264/H.265 **encoding** and not decoding (that is handled by avcodec)
             # No one is encoding videos on Android (yet?) and ffmpeg doesn't pick these up properly on Android yet anyway.
             if self.subinfo.options.isActive("libs/x264"):
@@ -172,14 +179,14 @@ class Package(AutoToolsPackageBase):
                 "--enable-libwebp",
             ]
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             # Work around https://github.com/android/ndk/issues/1974 in ndk26.
             # But also Vulkan video decode isn't well supported on Android anyway.
             self.subinfo.options.configure.args += ["--disable-vulkan"]
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.args += ["--enable-rpath", "--install-name-dir=@rpath"]
-        elif not CraftCore.compiler.isAndroid:
+        elif not CraftCore.compiler.platform.isAndroid and not (CraftCore.compiler.platform.isWindows and CraftCore.compiler.architecture.isArm64):
             self.subinfo.options.configure.args += [
                 "--enable-ffnvcodec",
                 "--enable-nvdec",
@@ -191,7 +198,7 @@ class Package(AutoToolsPackageBase):
             if self.subinfo.options.isActive("libs/onevpl"):
                 self.subinfo.options.configure.args += ["--enable-libvpl"]
 
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += ["--enable-vaapi", "--enable-vdpau"]
 
     def configure(self):
@@ -206,7 +213,7 @@ class Package(AutoToolsPackageBase):
         if not super().install():
             return False
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             files = ["avcodec", "avdevice", "avfilter", "avformat", "avutil", "postproc", "swresample", "swscale"]
             for file in files:
                 file += ".lib"
@@ -217,9 +224,11 @@ class Package(AutoToolsPackageBase):
         return True
 
     def _ffmpegEnv(self):
-        if not CraftCore.compiler.isMSVC():
-            return {}
-        return {
-            "LIB": f"{os.environ['LIB']};{CraftStandardDirs.craftRoot() / 'lib'}",
-            "INCLUDE": f"{os.environ['INCLUDE']};{CraftStandardDirs.craftRoot() / 'include'}",
-        }
+        if CraftCore.compiler.compiler.isMSVC:
+            return {
+                "LIB": f"{os.environ['LIB']};{CraftStandardDirs.craftRoot() / 'lib'}",
+                "INCLUDE": f"{os.environ['INCLUDE']};{CraftStandardDirs.craftRoot() / 'include'}",
+            }
+        if CraftCore.compiler.platform.isAndroid:
+            return {"PATH": os.pathsep.join([self._ndkToolchainPath, os.environ["PATH"]])}
+        return {}

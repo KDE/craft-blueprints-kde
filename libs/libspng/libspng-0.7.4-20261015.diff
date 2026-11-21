@@ -1,0 +1,29 @@
+diff -Nrub -x '*~' -x '*.rej' -x '*.orig' -x '*.o' -x '*.pyc' -x CMakeLists.txt.user -x .idea -x .clang-format libspng-0.7.4.orig/CMakeLists.txt libspng-0.7.4/CMakeLists.txt
+--- libspng-0.7.4.orig/CMakeLists.txt	2023-05-08 15:45:20.000000000 +0200
++++ libspng-0.7.4/CMakeLists.txt	2026-10-15 16:26:23.919440200 +0200
+@@ -93,16 +93,17 @@
+   DESTINATION ${config_install_dir}
+ )
+ 
+-if(NOT CMAKE_HOST_WIN32 OR CYGWIN OR MINGW)
+-    set(prefix      ${CMAKE_INSTALL_PREFIX})
+-    set(exec_prefix ${CMAKE_INSTALL_PREFIX})
+-    set(libdir      ${CMAKE_INSTALL_FULL_LIBDIR})
+-    set(includedir  ${CMAKE_INSTALL_FULL_INCLUDEDIR})
++set(prefix      ${CMAKE_INSTALL_PREFIX})
++set(exec_prefix ${CMAKE_INSTALL_PREFIX})
++set(libdir      ${CMAKE_INSTALL_FULL_LIBDIR})
++set(includedir  ${CMAKE_INSTALL_FULL_INCLUDEDIR})
++if (NOT WIN32)
+     set(LIBS        "-lm")
++endif()
+ 
+-    foreach(libname ${spng_TARGETS})
++foreach(libname ${spng_TARGETS})
+         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/libspng.pc.in ${CMAKE_CURRENT_BINARY_DIR}/cmake/lib${libname}.pc @ONLY)
+ 
+         install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cmake/lib${libname}.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+-    endforeach()
+-endif()
++endforeach()
++

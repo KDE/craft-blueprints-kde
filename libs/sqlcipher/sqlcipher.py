@@ -50,11 +50,11 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/openssl"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/tcl"] = None
         self.runtimeDependencies["libs/icu"] = None
         self.runtimeDependencies["libs/sqlite"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 
@@ -64,15 +64,12 @@ class PackageAutotools(AutoToolsPackageBase):
         craftRoot = OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot())
 
         cFlags = (
-            f"-DSQLITE_HAS_CODEC "
-            f"-DSQLITE_EXTRA_INIT=sqlcipher_extra_init "
-            f"-DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown "
-            f"-I{craftRoot}/include"
+            f"-DSQLITE_HAS_CODEC " f"-DSQLITE_EXTRA_INIT=sqlcipher_extra_init " f"-DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown " f"-I{craftRoot}/include"
         )
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             ldFlags = f"-L{craftRoot}/lib -lcrypto -lm"
-        elif CraftCore.compiler.isAndroid:
+        elif CraftCore.compiler.platform.isAndroid:
             ldFlags = f"-L{craftRoot}/lib -lcrypto -lm -llog"
         else:
             ldFlags = f"-L{craftRoot}/lib -lcrypto -lm -lpthread -ldl"
@@ -89,10 +86,10 @@ class PackageAutotools(AutoToolsPackageBase):
             f"LDFLAGS={ldFlags}",
         ]
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.make.supportsMultijob = False
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             candidates = [
                 shutil.which("tclsh8.6", path=os.defpath),
                 shutil.which("tclsh", path=os.defpath),
@@ -165,6 +162,7 @@ class PackageAutotools(AutoToolsPackageBase):
             def custom_execute(*args, **kwargs):
                 cleaned_args = [clean_arg(a) for a in args]
                 return orig_execute(*cleaned_args, **kwargs)
+
             self.shell.execute = custom_execute
         else:
             orig_execute = None
@@ -176,7 +174,7 @@ class PackageAutotools(AutoToolsPackageBase):
             if orig_execute:
                 self.shell.execute = orig_execute
 
-        if isConfigured and CraftCore.compiler.isMinGW():
+        if isConfigured and CraftCore.compiler.compiler.isMinGW:
             Makefile = self.buildDir() / "Makefile"
             main_mk = self.sourceDir() / "main.mk"
 
@@ -214,7 +212,7 @@ class PackageAutotools(AutoToolsPackageBase):
 
     def postInstall(self):
         installDir = self.installDir()
-        exeSuffix = ".exe" if CraftCore.compiler.isMinGW() else ""
+        exeSuffix = ".exe" if CraftCore.compiler.compiler.isMinGW else ""
         shellSrc = installDir / f"bin/sqlite3{exeSuffix}"
         if shellSrc.exists():
             utils.rmtree(installDir / f"bin/sqlcipher{exeSuffix}")
@@ -225,7 +223,7 @@ class PackageAutotools(AutoToolsPackageBase):
             utils.rmtree(installDir / "lib/libsqlcipher.a")
             utils.moveFile(staticLib, installDir / "lib/libsqlcipher.a")
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             libDir = installDir / "lib"
             dllImportLib = libDir / "libsqlcipher.dll.a"
             staticLibSqlCipher = libDir / "libsqlcipher.a"
@@ -357,7 +355,7 @@ class PackageMSVC(MakeFilePackageBase):
         return True
 
 
-if CraftCore.compiler.isGCCLike():
+if CraftCore.compiler.compiler.isGCCLike:
 
     class Package(PackageAutotools):
         def __init__(self, **kwargs):

@@ -41,23 +41,25 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += ["-DWITH_PULSEAUDIO=OFF"]
 
     def createPackage(self):
+        # Newer versions run the daemon in the indicator process on Windows and macOS and do not install kdeconnectd
+        daemonInIndicator = not (self.imageDir() / "bin" / f"kdeconnectd{CraftCore.compiler.platform.executableSuffix}").exists()
+        daemonExecutable = "kdeconnect-indicator" if daemonInIndicator else "kdeconnectd"
+
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
         self.addExecutableFilter(
             r"bin/(?!(kdeconnect-app|kdeconnect-indicator|kdeconnect-cli|kdeconnectd|kdeconnect-sms|kdeconnect-handler|dbus-daemon|update-mime-database|kioworker|SnoreToast).*)"
         )
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.defines["appname"] = "KDE Connect"
         else:
             self.defines["appname"] = "kdeconnect-indicator"
             self.defines["executable"] = "bin/kdeconnect-app.exe"
             self.defines["icon"] = self.blueprintDir() / "icon.ico"
-            self.defines["AppUserModelID"] = "kdeconnect.daemon"
+            self.defines["AppUserModelID"] = "kdeconnect-indicator" if daemonInIndicator else "kdeconnect.daemon"
 
         if isinstance(self, NullsoftInstallerPackager):
-            self.defines[
-                "sections"
-            ] = r"""
+            self.defines["sections"] = r"""
                 Section "@{productname}"
                     SectionIn 1
                     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
@@ -69,9 +71,7 @@ class Package(CMakePackageBase):
                     !insertmacro MUI_STARTMENU_WRITE_END
                 SectionEnd
                 """
-            self.defines[
-                "un_sections"
-            ] = r"""
+            self.defines["un_sections"] = r"""
                 Section "Un.Remove Shortcuts"
                     Delete "$SMPROGRAMS\\@{productname}.lnk"
                     Delete "$SMPROGRAMS\\Startup\\@{productname}.lnk"
@@ -83,24 +83,18 @@ class Package(CMakePackageBase):
         elif isinstance(self, AppxPackager):
             self.defines["startup_task"] = r"bin/@{appname}.exe"
 
-            self.defines[
-                "additional_capabilities"
-            ] = r"""
+            self.defines["additional_capabilities"] = r"""
             <uap3:Capability Name="userNotificationListener" />
             <uap7:Capability Name="globalMediaControl" />
             """
-            self.defines[
-                "additional_xmlns"
-            ] = r"""
+            self.defines["additional_xmlns"] = r"""
             xmlns:uap7="http://schemas.microsoft.com/appx/manifest/uap/windows10/7"
             xmlns:desktop2="http://schemas.microsoft.com/appx/manifest/desktop/windows10/2"
             """
 
-            self.defines[
-                "desktop_extensions"
-            ] = r"""
+            self.defines["desktop_extensions"] = rf"""
             <desktop2:Extension Category="windows.firewallRules">
-            <desktop2:FirewallRules Executable="bin/kdeconnectd.exe">
+            <desktop2:FirewallRules Executable="bin/{daemonExecutable}.exe">
                 <desktop2:Rule Direction="in" IPProtocol="TCP" LocalPortMax="1764" LocalPortMin="1714" Profile="all"/>
                 <desktop2:Rule Direction="in" IPProtocol="UDP" LocalPortMax="1764" LocalPortMin="1714" Profile="all"/>
                 <desktop2:Rule Direction="out" IPProtocol="TCP" LocalPortMax="1764" LocalPortMin="1714" Profile="all"/>
@@ -116,7 +110,7 @@ class Package(CMakePackageBase):
             self.defines["shortcuts"] = [
                 {
                     "name": self.subinfo.displayName,
-                    "target": f"bin/kdeconnect-app{CraftCore.compiler.executableSuffix}",
+                    "target": f"bin/kdeconnect-app{CraftCore.compiler.platform.executableSuffix}",
                     "description": self.subinfo.description,
                 }
             ]

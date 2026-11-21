@@ -8,11 +8,22 @@ RELEASE.txt
 USING_HDF5_CMake.txt
 USING_HDF5_VS.txt
 
+# Python: we copy minimal PySide6 to bin/Lib/site-packages/, exclude full package from lib/
+lib/site-packages/.*
+
+# Not needed at runtime
+bin/qmlls/.*
+bin/multimedia/.*
+bin/qtwebengine_devtools_resources\.pak
+bin/harfbuzz-subset\.dll
+bin/Qt6QmlCompiler\.dll
+bin/QtQuick/Controls/designer/.*
+
 # unused libs and exe
 bin/icuin\.dll
 bin/icuuc\.dll
 bin/icudt\.dll
-bin/icudtl\.dat
+# bin/icudtl\.dat  # needed by WebEngine
 bin/poppler-cpp\.dll
 bin/AnalitzaPlot\.dll
 bin/AnalitzaWidgets\.dll
@@ -87,10 +98,19 @@ bin/data/knotifications5/.*
 bin/data/libgpg-error/.*
 # needed for translations
 #bin/data/locale/.*
-translations/qtwebengine_locales/.*
+# WebEngine locales - keep only en-US, exclude others (~36MB savings)
+translations/qtwebengine_locales/(?!en-US\.pak).*
 html/.*
 # share/applications/*.desktop needed for AppImage (also share/ required on macOS?)
 #share/.*
+
+# Unnecessary top-level folders
+Scripts/.*
+share/locale/.*
+share/fonts/.*
+# share/poppler/.* # needed for PDF rendering
+# lib/.* # Windows-only, see blacklist_win.txt
+etc/xml/.*
 
 # we use a icontheme.rc on windows
 # only icons for cantor backends

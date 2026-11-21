@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
 
         self.targetDigests["0.9.6"] = (["67a286a36343b9b3a02e95d52985f8042aee70f8a12a7513b9f5cb68e1a85721"], CraftHash.HashAlgorithm.SHA256)
 
+        self.releaseManagerId = 89357
         self.defaultTarget = "0.9.6"
         self.description = "A Qt library to write cross-platform clients for Matrix"
 

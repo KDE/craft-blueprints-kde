@@ -11,19 +11,22 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def setTargets(self):
         for ver in ["1-alpha-20250213-1"]:
-            self.targets[
-                ver
-            ] = f"https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/{ver}/linuxdeploy-plugin-qt-{CraftCore.compiler.appImageArchitecture}.AppImage"
+            self.targets[ver] = (
+                f"https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/{ver}/linuxdeploy-plugin-qt-{CraftCore.compiler.architecture.appImageArchitecture}.AppImage"
+            )
             # add version to file name to allow downloading multiple versions
-            self.archiveNames[ver] = f"linuxdeploy-plugin-qt-{ver}-{CraftCore.compiler.appImageArchitecture}.AppImage"
+            self.archiveNames[ver] = f"linuxdeploy-plugin-qt-{ver}-{CraftCore.compiler.architecture.appImageArchitecture}.AppImage"
             self.targetInstallPath[ver] = "dev-utils/bin"
-        self.targets[
-            "continous"
-        ] = f"https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-{CraftCore.compiler.appImageArchitecture}.AppImage"
+        self.targets["continous"] = (
+            f"https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-{CraftCore.compiler.architecture.appImageArchitecture}.AppImage"
+        )
         self.targetInstallPath["continous"] = "dev-utils/bin"
         self.description = "AppDir creation and maintenance tool. Featuring flexible plugin system."
         self.webpage = "https://github.com/linuxdeploy/linuxdeploy"
-        self.targetDigests["1-alpha-20250213-1"] = (["15106be885c1c48a021198e7e1e9a48ce9d02a86dd0a1848f00bdbf3c1c92724"], CraftHash.HashAlgorithm.SHA256)
+        if CraftCore.compiler.architecture.isArm64:
+            self.targetDigests["1-alpha-20250213-1"] = (["bf1c24aff6d749b5cf423afad6f15abd4440f81dec1aab95706b25f6667cdcf1"], CraftHash.HashAlgorithm.SHA256)
+        else:
+            self.targetDigests["1-alpha-20250213-1"] = (["15106be885c1c48a021198e7e1e9a48ce9d02a86dd0a1848f00bdbf3c1c92724"], CraftHash.HashAlgorithm.SHA256)
         self.defaultTarget = "1-alpha-20250213-1"
 
     def setDependencies(self):

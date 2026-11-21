@@ -14,16 +14,23 @@ class subinfo(info.infoclass):
 
         self.targetDigests["1.1"] = (["66e9e24a53c10c27abb6be8a3cf2cf55824c6ea1cef8570a633cb223ec46e894"], CraftHash.HashAlgorithm.SHA256)
 
-        # https://github.com/html5lib/html5lib-python/pull/594
-        self.patchToApply["1.1"] = [("594.patch", 1)]
+        self.patchToApply["1.1"] = [
+            # https://github.com/html5lib/html5lib-python/pull/589
+            ("589.patch", 1),
+            # https://github.com/html5lib/html5lib-python/pull/594
+            ("594.patch", 1),
+        ]
 
-        self.svnTargets["master"] = ""
         self.defaultTarget = "1.1"
+        self.releaseManagerId = 8053
 
     def setDependencies(self):
         self.buildDependencies["python-modules/setuptools"] = None
         self.runtimeDependencies["python-modules/six"] = None
         self.runtimeDependencies["python-modules/webencodings"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["python-modules/pip"] = None
+        self.runtimeDependencies["libs/python"] = None
 
 
 class Package(PipPackageBase):

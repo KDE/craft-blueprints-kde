@@ -42,7 +42,7 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         self.defines["shortcuts"] = [{"name": "Drawy", "target": "bin/drawy.exe", "description": self.subinfo.description, "appId": "drawy"}]
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.defines["alias"] = "drawy"
         self.defines["icon"] = self.blueprintDir() / "drawy.ico"

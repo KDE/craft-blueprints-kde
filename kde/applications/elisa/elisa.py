@@ -18,10 +18,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["libs/qt/qtsvg"] = None
 
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.runtimeDependencies["binary/vlc"] = None
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
@@ -34,6 +34,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
+        self.runtimeDependencies["kde/libs/dragon-media-backend"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

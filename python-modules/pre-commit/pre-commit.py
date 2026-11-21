@@ -5,15 +5,23 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = ""
+        for ver in ["4.7.0"]:
+            self.svnTargets[ver] = ""
         self.description = "A framework for managing and maintaining multi-language pre-commit hooks."
         self.webpage = "https://pre-commit.com/"
-        self.defaultTarget = "master"
+        self.defaultTarget = "4.7.0"
+        self.releaseManagerId = 33032
 
     def setDependencies(self):
         self.buildDependencies["python-modules/pip"] = None
-        self.buildDependencies["python-modules/hatchling"] = None
-        self.buildDependencies["python-modules/virtualenv"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.runtimeDependencies["libs/python"] = None
+        self.buildDependencies["python-modules/setuptools"] = None
+        self.runtimeDependencies["python-modules/cfgv"] = None
+        self.runtimeDependencies["python-modules/identify"] = None
+        self.runtimeDependencies["python-modules/nodeenv"] = None
+        self.runtimeDependencies["python-modules/pyyaml"] = None
+        self.runtimeDependencies["python-modules/virtualenv"] = None
 
 
 class Package(PipPackageBase):

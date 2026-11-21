@@ -10,12 +10,14 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         self.description = "An open, royalty-free video coding format designed for video transmissions over the Internet"
-        for ver in ["3.12.1", "3.13.3"]:
+        for ver in ["3.12.1", "3.13.3", "3.14.1", "3.15.0"]:
             self.targets[ver] = f"https://storage.googleapis.com/aom-releases/libaom-{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libaom-{ver}"
         self.targetDigests["3.12.1"] = (["9e9775180dec7dfd61a79e00bda3809d43891aee6b2e331ff7f26986207ea22e"], CraftHash.HashAlgorithm.SHA256)
         self.targetDigests["3.13.3"] = (["446a4ae9741cb8f3eeb98c949d25f91b48cb2b8569cae975c4b737392e9024fc"], CraftHash.HashAlgorithm.SHA256)
-        self.defaultTarget = "3.13.3"
+        self.targetDigests["3.14.1"] = (["44bf90dbd23e734d50e70a8c41c285193922938bd0d3bc2ee56764d181d55ef5"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["3.15.0"] = (["ea08c38ecc078bc85bb1b691020e52b06250f1a81fe7ca5b624629225081af96"], CraftHash.HashAlgorithm.SHA256)
+        self.defaultTarget = "3.15.0"
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/cmake"] = None
@@ -28,15 +30,16 @@ class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.subinfo.options.configure.args += [
+            "-DENABLE_APPS=0",
             "-DENABLE_DOCS=OFF",
             "-DENABLE_NASM=ON",
             "-DCONFIG_PIC=1",
             "-DENABLE_EXAMPLES=OFF",
             f"-DENABLE_TESTS={self.subinfo.options.dynamic.buildTests.asOnOff}",
             f"-DENABLE_TOOLS={self.subinfo.options.dynamic.buildTools.asOnOff}",
-            f"-DAOM_TARGET_CPU={CraftCore.compiler.architecture.name.lower()}",
+            f"-DAOM_TARGET_CPU={CraftCore.compiler.architecture.key.name.lower()}",
         ]
-        if CraftCore.compiler.androidAbi == "armeabi-v7a":
+        if CraftCore.compiler.architecture.androidAbi == "armeabi-v7a":
             # building libwebm fails on Android ARM32; disable it
             self.subinfo.options.configure.args += [
                 "-DCONFIG_WEBM_IO=0",

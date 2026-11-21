@@ -7,7 +7,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # fails to build in combination with lto
-        self.options.dynamic.setDefault("buildTests", self.options.dynamic.buildTests and not CraftCore.compiler.isMinGW())
+        self.options.dynamic.setDefault("buildTests", self.options.dynamic.buildTests and not CraftCore.compiler.compiler.isMinGW)
 
     def setTargets(self):
         for ver in ["2.1.2", "3.1.2"]:
@@ -27,3 +27,5 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        if CraftCore.compiler.platform.isWindows and CraftCore.compiler.architecture.isArm64:
+            self.subinfo.options.configure.args += ["-DCOMPILE_C_ONLY=ON", "-DBUILD_TESTING=OFF"]

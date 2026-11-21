@@ -13,12 +13,12 @@ class subinfo(info.infoclass):
     def setTargets(self):
         self.displayName = "libplacebo"
         self.description = "Reusable library for GPU-accelerated image/video processing primitives and shaders, as well a batteries-included, extensible, high-quality rendering pipeline (similar to mpv's vo_gpu). Supports Vulkan, OpenGL, Metal (via MoltenVK) and Direct3D 11."
-        self.svnTargets["7.360.1"] = "https://code.videolan.org/videolan/libplacebo||v7.360.1"
+        self.svnTargets["7.387.0"] = "https://code.videolan.org/videolan/libplacebo||v7.387.0"
         self.svnTargets["master"] = "https://code.videolan.org/videolan/libplacebo"
-        self.defaultTarget = "7.360.1"
+        self.defaultTarget = "7.387.0"
 
-        if CraftCore.compiler.isAndroid:
-            for ver in ["7.360.1", "master"]:
+        if CraftCore.compiler.platform.isAndroid:
+            for ver in ["7.387.0", "master"]:
                 self.patchToApply[ver] = [("disable-soversion.patch", 1)]
                 self.patchLevel[ver] = 2
 
@@ -33,7 +33,7 @@ class Package(MesonPackageBase):
         self.subinfo.options.fetch.checkoutSubmodules = True
         self.subinfo.options.configure.args += ["-Ddemos=False"]
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             # Work around https://github.com/android/ndk/issues/1974 in ndk26.
             # But also Vulkan video decode isn't well supported on Android anyway.
             self.subinfo.options.configure.args += ["-Dvulkan=disabled"]

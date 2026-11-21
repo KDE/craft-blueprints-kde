@@ -6,16 +6,21 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = ""
+        for ver in ["6.1.3"]:
+            self.svnTargets[ver] = ""
         self.description = "Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API."
-        self.defaultTarget = "master"
+        self.defaultTarget = "6.1.3"
+        self.releaseManagerId = 3914
 
     def setDependencies(self):
-        if not CraftCore.compiler.isMSVC():
+        if not CraftCore.compiler.compiler.isMSVC:
             self.buildDependencies["python-modules/setuptools"] = None
             self.runtimeDependencies["libs/libxml2"] = None
             self.runtimeDependencies["libs/libxslt"] = None
             self.runtimeDependencies["python-modules/cython"] = None
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["python-modules/pip"] = None
+        self.runtimeDependencies["libs/python"] = None
 
 
 class Package(PipPackageBase):
@@ -27,7 +32,7 @@ class Package(PipPackageBase):
         # * Binary wheels use the library version libxml2 2.14.5.
         # * Windows binary wheels continue to use a security patched library version libxml2 2.11.9.
         # So we just use the binary wheels as we don't want to ship an old libxml2 just because of lxml
-        self.allowPrebuildBinaries = CraftCore.compiler.isMSVC()
+        self.allowPrebuildBinaries = CraftCore.compiler.compiler.isMSVC
 
         if not self.allowPrebuildBinaries:
             self.subinfo.options.configure.args += [

@@ -7,9 +7,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         # PIM CalendarSupport is a required dependency, but disabled on MinGW so we can't build this either
         # It is probably not a big deal because MSVC is used to build the PIM stack on Windows
-        self.parent.package.categoryInfo.platforms = (
-            CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Platforms.All
-        )
+        self.parent.package.categoryInfo.compiler &= ~CraftCore.compiler.Compiler.MinGW
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -35,4 +33,3 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args += ["-DUSE_UNITY_CMAKE_SUPPORT=ON"]

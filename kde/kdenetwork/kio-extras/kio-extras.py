@@ -8,7 +8,7 @@ class subinfo(info.infoclass):
         self.versionInfo.setDefaultValues()
         # HACK work around a case-sensitivity file collision in the kio-extras
         # tarball, making this unextractable on Windows
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             self.targets[self.defaultTarget] = None
             self.svnTargets[self.defaultTarget] = f"https://invent.kde.org/network/kio-extras.git||v{self.defaultTarget}"
             self.targetInstSrc[self.defaultTarget] = ""

@@ -7,7 +7,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # produces a versioned .so file that cannot be deployed on Android as-is
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+        self.parent.package.categoryInfo.platforms = ~CraftCore.compiler.Platforms.Android
 
     def setTargets(self):
         self.description = "C library for the Public Suffix List"

@@ -16,27 +16,32 @@ class subinfo(info.infoclass):
 
         self.svnTargets["master"] = "https://github.com/dyne/frei0r.git"
 
-        self.svnTargets["8e0f97e"] = "https://github.com/dyne/frei0r.git||8e0f97ef2dd6100239c869b26188641c6b89c6e7"
-        # https://github.com/dyne/frei0r/pull/285
-        self.patchToApply["8e0f97e"] = [("285.patch", 1)]
-        self.patchLevel["8e0f97e"] = 1
+        self.svnTargets["6156f2e"] = "https://github.com/dyne/frei0r.git||6156f2ed78d7b97ad9e8c7cc79b318795d4ea8c8"
+        self.patchToApply["6156f2e"] = [
+            ("scale0tilt-without-gavl.patch", 1),
+        ]
 
-        self.defaultTarget = "8e0f97e"
+        self.defaultTarget = "6156f2e"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/cairo"] = None
-        self.runtimeDependencies["libs/gavl"] = None
+        # Disable gavl. See note below on self.subinfo.options.configure.args for details.
+        # self.runtimeDependencies["libs/gavl"] = None
 
 
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # Disable OpenCV as it can cause protobuf conflicts and is only
-        # used in facebl0r / facedetect which do not work in Kdenlive
         self.subinfo.options.configure.args += [
-            f"-DWITHOUT_GAVL={self.subinfo.options.isActive('libs/gavl').inverted.asOnOff}",
+            # Disable gavl because it is annoying to deal with and it is only required for
+            # scal0tilt, rgbparade and vectorscope. However for scale0tilt we have a patch above.
+            # The other two are not that important given Kdenlive as buildin rgbpade and vectorscope.
+            # f"-DWITHOUT_GAVL={self.subinfo.options.isActive('libs/gavl').inverted.asOnOff}",
+            "-DWITHOUT_GAVL=ON",
+            # Disable OpenCV as it can cause protobuf conflicts and is only
+            # used in facebl0r / facedetect which do not work in Kdenlive
             "-DWITHOUT_OPENCV=ON",
             f"-DWITHOUT_CAIRO={self.subinfo.options.isActive('libs/cairo').inverted.asOnOff}",
         ]
@@ -44,6 +49,6 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             return utils.mergeTree(self.installDir() / "lib/frei0r-1", self.installDir() / "plugins/frei0r-1")
         return True

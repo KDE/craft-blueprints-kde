@@ -26,14 +26,14 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
         else:
             self.runtimeDependencies["libs/glib"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kcoreaddons"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kdoctools"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
-            if CraftCore.compiler.isMacOS:
+            if CraftCore.compiler.platform.isMacOS:
                 self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
                 self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
@@ -49,10 +49,10 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon_png_44"] = self.sourceDir() / "src/app/icons/44-apps-minuet.png"
 
     def createPackage(self):
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_macos.txt")
             self.addExecutableFilter(r"(bin|libexec)/(?!minuet).*")
-        elif CraftCore.compiler.isWindows:
+        elif CraftCore.compiler.platform.isWindows:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_windows.txt")
 
         return super().createPackage()
@@ -104,7 +104,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         return True
 
     def preArchive(self):
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             archiveDir = self.archiveDir()
             if not self._updateMacOSLocalizations(archiveDir):
                 return False

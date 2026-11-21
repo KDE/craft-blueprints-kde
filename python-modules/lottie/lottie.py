@@ -9,9 +9,17 @@ from Package.PipPackageBase import PipPackageBase
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        self.svnTargets["master"] = ""
+        for ver in ["0.7.2"]:
+            self.svnTargets[ver] = ""
         self.description = "A Python framework to work with Lottie files and Telegram animated stickers."
-        self.defaultTarget = "master"
+        self.defaultTarget = "0.7.2"
+        self.releaseManagerId = 96130
+
+    def setDependencies(self):
+        self.runtimeDependencies["virtual/base"] = None
+        self.buildDependencies["python-modules/pip"] = None
+        self.runtimeDependencies["libs/python"] = None
+        self.buildDependencies["python-modules/setuptools"] = None
 
 
 class Package(PipPackageBase):
@@ -21,6 +29,6 @@ class Package(PipPackageBase):
     def postInstall(self):
         # workaround for lottie installing a file that is only needed at build time
         # and breaks signing on macOS, better would be to fix it upstream
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             utils.deleteFile(self.installDir() / "lib/Python.framework/Versions/Current/.version_full")
         return True

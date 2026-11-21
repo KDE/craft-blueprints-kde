@@ -12,7 +12,7 @@ class subinfo(info.infoclass):
     def setDependencies(self):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
-        if not CraftCore.compiler.isAndroid and not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isAndroid and not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/qt6/qtwebengine"] = None
 
 

@@ -16,7 +16,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["dev-utils/pkgconf"] = None
         self.runtimeDependencies["libs/qt/qtbase"] = None
         # Qt WebEngine doesn't work with MinGW.
-        if not CraftCore.compiler.isMinGW():
+        if not CraftCore.compiler.compiler.isMinGW:
             self.runtimeDependencies["libs/qt/qtwebengine"] = None
         self.runtimeDependencies["libs/boost"] = None
         self.runtimeDependencies["libs/lcms2"] = None
@@ -53,7 +53,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["extragear/kdiagram"] = None
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.runtimeDependencies["libs/runtime"] = None  # mingw-based builds need this
 
 

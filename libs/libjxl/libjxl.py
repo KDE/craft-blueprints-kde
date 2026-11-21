@@ -15,12 +15,12 @@ class subinfo(info.infoclass):
         self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
-        for ver in ["0.11.2"]:
+        for ver in ["0.12.0"]:
             self.targets[ver] = f"https://github.com/libjxl/libjxl/archive/refs/tags/v{ver}.tar.gz"
             self.targetInstSrc[ver] = f"libjxl-{ver}"
-        self.targetDigests["0.11.2"] = (["ab38928f7f6248e2a98cc184956021acb927b16a0dee71b4d260dc040a4320ea"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["0.12.0"] = (["03e9be69a30be4011f559da75328b6d7cea8ad921fabfbd551ce10bf45cdc992"], CraftHash.HashAlgorithm.SHA256)
         self.description = "JPEG XL image format reference implementation"
-        self.defaultTarget = "0.11.2"
+        self.defaultTarget = "0.12.0"
 
     def setDependencies(self):
         self.runtimeDependencies["libs/brotli"] = None
@@ -36,8 +36,6 @@ class Package(CMakePackageBase):
         self.subinfo.options.configure.args += [
             "-DJPEGXL_ENABLE_FUZZERS=OFF",
             "-DJPEGXL_ENABLE_TOOLS=OFF",
-            "-DJPEGXL_ENABLE_JPEGLI=OFF",
-            "-DJPEGXL_ENABLE_JPEGLI_LIBJPEG=OFF",
             "-DJPEGXL_ENABLE_DOXYGEN=OFF",
             "-DJPEGXL_ENABLE_MANPAGES=OFF",
             "-DJPEGXL_ENABLE_BENCHMARK=OFF",
@@ -52,7 +50,7 @@ class Package(CMakePackageBase):
             "-DJPEGXL_FORCE_SYSTEM_HWY=ON",
         ]
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.args += [
                 # necessary to avoid crashes
                 "-DCMAKE_C_FLAGS=-DHWY_COMPILE_ONLY_SCALAR",
@@ -62,7 +60,7 @@ class Package(CMakePackageBase):
     def install(self):
         if not super().install():
             return False
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             for pc in utils.filterDirectoryContent(
                 self.installDir(),
                 whitelist=lambda x, root: Path(x).suffix.lower() in [".pc"],

@@ -14,7 +14,7 @@ class subinfo(info.infoclass):
         self.patchToApply["2.0.0"] = [
             ("qgpgme-2.0.0-0001-build-Fix-installation-of-camel-case-headers.patch", 1),
         ]
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply["2.0.0"] += [
                 ("msvc.patch", 1),
                 ("0001-Workaround-compile-errors-with-MSVC-2022.patch", 1),

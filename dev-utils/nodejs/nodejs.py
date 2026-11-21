@@ -2,7 +2,6 @@ import os
 
 import info
 import utils
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from Package.BinaryPackageBase import BinaryPackageBase
 from Utils import CraftHash
@@ -16,17 +15,17 @@ class subinfo(info.infoclass):
 
     def setTargets(self):
         for ver in ["16.15.1", "22.14.0"]:
-            if CraftCore.compiler.isWindows:
+            if CraftCore.compiler.platform.isWindows:
                 self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-win-x64.zip"
                 self.targetInstSrc[ver] = f"node-v{ver}-win-x64"
-            elif CraftCore.compiler.isMacOS:
-                if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
+            elif CraftCore.compiler.platform.isMacOS:
+                if CraftCore.compiler.architecture.isArm64:
                     self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-darwin-arm64.tar.gz"
                     self.targetInstSrc[ver] = f"node-v{ver}-darwin-arm64"
                 else:
                     self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-darwin-x64.tar.gz"
                     self.targetInstSrc[ver] = f"node-v{ver}-darwin-x64"
-            elif CraftCore.compiler.isLinux:
+            elif CraftCore.compiler.platform.isLinux:
                 self.targets[ver] = f"https://nodejs.org/dist/v{ver}/node-v{ver}-linux-x64.tar.xz"
                 self.targetInstSrc[ver] = f"node-v{ver}-linux-x64"
 
@@ -38,6 +37,7 @@ class subinfo(info.infoclass):
 
         self.patchLevel["16.15.1"] = 1
 
+        self.releaseManagerId = 8251
         self.defaultTarget = "22.14.0"
 
 
@@ -49,10 +49,10 @@ class Package(BinaryPackageBase):
         if not super().install():
             return False
         sourceBinary = self.installDir()
-        if not CraftCore.compiler.isWindows:
+        if not CraftCore.compiler.platform.isWindows:
             sourceBinary /= "bin"
-        sourceBinary /= f"node{CraftCore.compiler.executableSuffix}"
-        targetBinary = self.imageDir() / f"dev-utils/bin/node{CraftCore.compiler.executableSuffix}"
+        sourceBinary /= f"node{CraftCore.compiler.platform.executableSuffix}"
+        targetBinary = self.imageDir() / f"dev-utils/bin/node{CraftCore.compiler.platform.executableSuffix}"
 
         return utils.createShim(targetBinary, sourceBinary)
 

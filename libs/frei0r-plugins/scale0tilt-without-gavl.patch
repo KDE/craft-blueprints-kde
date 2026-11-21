@@ -1,0 +1,589 @@
+commit e471c125cf5af8ca7d2f3befd396d21505556e3d
+Author: Julius Künzel <julius.kuenzel@kde.org>
+Date:   Wed Oct 21 00:20:35 2026 +0200
+
+    Allow to build scele0tilt without gavl
+    
+    Tested, but unpolished patch: needs review and cleanup before it can be submited upstream.
+
+diff --git a/src/filter/CMakeLists.txt b/src/filter/CMakeLists.txt
+index f6ccd13..650ff94 100644
+--- a/src/filter/CMakeLists.txt
++++ b/src/filter/CMakeLists.txt
+@@ -1,9 +1,9 @@
+ if (${GAVL_FOUND})
+     add_subdirectory (rgbparade)
+-    add_subdirectory (scale0tilt)
+     add_subdirectory (vectorscope)
+ endif (${GAVL_FOUND})
+ 
++
+ if (${OpenCV_FOUND})
+     add_subdirectory (facebl0r)
+     add_subdirectory (facedetect)
+@@ -88,6 +88,7 @@ add_subdirectory (RGB)
+ add_subdirectory (rgbnoise)
+ add_subdirectory (rgbsplit0r)
+ add_subdirectory (saturat0r)
++add_subdirectory (scale0tilt)
+ add_subdirectory (scanline0r)
+ add_subdirectory (select0r)
+ add_subdirectory (sharpness)
+diff --git a/src/filter/scale0tilt/scale0tilt.c b/src/filter/scale0tilt/scale0tilt.c
+index 4412384..b4edbd8 100644
+--- a/src/filter/scale0tilt/scale0tilt.c
++++ b/src/filter/scale0tilt/scale0tilt.c
+@@ -19,7 +19,8 @@
+ 
+ #include <math.h>
+ #include "frei0r.h"
+-#include <gavl/gavl.h>
++#include "frei0r/math.h"
++#include <stdint.h>
+ #include <stdlib.h>
+ #include <string.h>
+ 
+@@ -29,102 +30,338 @@ typedef struct scale0tilt_instance {
+ 	double cl, ct, cr, cb;
+ 	double sx, sy;
+ 	double tx, ty;
++
+ 	int w, h;
+-	gavl_video_scaler_t* video_scaler;
+-	gavl_video_frame_t* frame_src;
+-	gavl_video_frame_t* frame_dst;
++
++	/*
++	 * Source rectangle, in input-image coordinates.
++	 */
++	double src_x;
++	double src_y;
++	double src_w;
++	double src_h;
++
++	/*
++	 * Destination rectangle, in output-image coordinates.
++	 */
++	double dst_x;
++	double dst_y;
++	double dst_w;
++	double dst_h;
++
++	int dst_x_i;
++	int dst_y_i;
++	int dst_w_i;
++	int dst_h_i;
++
+ 	int do_scale;
+-	gavl_video_format_t format_src;
+-	gavl_video_frame_t* padded;
+ } scale0tilt_instance_t;
+ 
+-static void update_scaler( scale0tilt_instance_t* inst )
++/*
++ * Bilinearly sample one RGBA pixel.
++ *
++ * The coordinates are in the source image's pixel coordinate system.
++ *
++ * RGBA8888 is four consecutive bytes:
++ *
++ *   byte 0 = R
++ *   byte 1 = G
++ *   byte 2 = B
++ *   byte 3 = A
++ *
++ * as specified by Frei0r.
++ */
++static uint32_t sample_bilinear(
++	const uint32_t *src,
++	int width,
++	int height,
++	double x,
++	double y)
+ {
+-	float dst_x, dst_y, dst_w, dst_h;
+-	float src_x, src_y, src_w, src_h;
+-        
+-	inst->do_scale = 1;
+-	src_x = inst->w * inst->cl;
+-	src_y = inst->h * inst->ct;
+-	src_w = inst->w * (1.0 - inst->cl - inst->cr );
+-	src_h = inst->h * (1.0 - inst->ct - inst->cb );
+-
+-	dst_x = inst->w * inst->cl * inst->sx + inst->tx * inst->w;
+-	dst_y = inst->h * inst->ct * inst->sy + inst->ty * inst->h;
+-	dst_w = inst->w * (1.0 - inst->cl - inst->cr) * inst->sx;
+-	dst_h = inst->h * (1.0 - inst->ct - inst->cb) * inst->sy;
+-
+-	if((dst_w < EPSILON) || (dst_h < EPSILON) || 
+-	   (src_w < EPSILON) || (src_h < EPSILON)) {
+-		inst->do_scale = 0;
+-		return;
+-	}
++	const uint8_t *p00;
++	const uint8_t *p10;
++	const uint8_t *p01;
++	const uint8_t *p11;
+ 
+-	if ( dst_x + dst_w > inst->w ) {
+-		src_w = src_w * ( (inst->w-dst_x) / dst_w );
+-		dst_w = inst->w - dst_x;
+-	}
+-	if ( dst_y + dst_h > inst->h ) {
+-		src_h = src_h * ( (inst->h-dst_y) / dst_h );
+-		dst_h = inst->h - dst_y;
+-	}
+-	if ( dst_x < 0 ) {
+-		src_x = src_x - dst_x * ( src_w / dst_w );
+-		src_w = src_w * ( (dst_w+dst_x) / dst_w );
+-		dst_w = dst_w + dst_x;
+-		dst_x = 0;
++	uint8_t *dummy;
++	uint8_t result[4];
++
++	int x0, x1;
++	int y0, y1;
++
++	double fx, fy;
++
++	(void)dummy;
++
++	// Clamp to the valid image area.
++	x = CLAMP(x, 0.0, (double)(width - 1));
++	y = CLAMP(y, 0.0, (double)(height - 1));
++
++	x0 = (int)floor(x);
++	y0 = (int)floor(y);
++
++	x1 = x0 + 1;
++	y1 = y0 + 1;
++
++	if (x1 >= width)
++		x1 = width - 1;
++
++	if (y1 >= height)
++		y1 = height - 1;
++
++	fx = x - (double)x0;
++	fy = y - (double)y0;
++
++	/*
++	 * Access the pixels as bytes rather than relying on the
++	 * host's uint32_t byte ordering.
++	 */
++	p00 = ((const uint8_t *)src) +
++	((size_t)y0 * (size_t)width + (size_t)x0) * 4;
++
++	p10 = ((const uint8_t *)src) +
++	((size_t)y0 * (size_t)width + (size_t)x1) * 4;
++
++	p01 = ((const uint8_t *)src) +
++	((size_t)y1 * (size_t)width + (size_t)x0) * 4;
++
++	p11 = ((const uint8_t *)src) +
++	((size_t)y1 * (size_t)width + (size_t)x1) * 4;
++
++	{
++		int c;
++
++		for (c = 0; c < 4; ++c) {
++			double top =
++			(double)p00[c] +
++			((double)p10[c] - (double)p00[c]) * fx;
++
++			double bottom =
++			(double)p01[c] +
++			((double)p11[c] - (double)p01[c]) * fx;
++
++			double value =
++			top + (bottom - top) * fy;
++
++			int ivalue = (int)floor(value + 0.5);
++
++			result[c] = (uint8_t)CLAMP(ivalue, 0, 255);
++		}
+ 	}
+-	if ( dst_y < 0 ) {
+-		src_y = src_y - dst_y * ( src_h / dst_h );
+-		src_h = src_h * ( (dst_h+dst_y) / dst_h );
+-		dst_h = dst_h + dst_y;
+-		dst_y = 0;
++
++	/*
++	 * Avoid depending on the host endian representation.
++	 */
++	{
++		uint32_t pixel;
++
++		memcpy(&pixel, result, sizeof(pixel));
++		return pixel;
+ 	}
++}
++
++
++/*
++ * Calculate the source and destination rectangles.
++ *
++ * This preserves the clipping behavior of the original gavl version.
++ */
++static void update_scaler(scale0tilt_instance_t *inst)
++{
++	double src_x, src_y, src_w, src_h;
++	double dst_x, dst_y, dst_w, dst_h;
++
++	inst->do_scale = 1;
++
++	src_x = (double)inst->w * inst->cl;
++	src_y = (double)inst->h * inst->ct;
++
++	src_w = (double)inst->w *
++	(1.0 - inst->cl - inst->cr);
++
++	src_h = (double)inst->h *
++	(1.0 - inst->ct - inst->cb);
++
++	dst_x = (double)inst->w * inst->cl * inst->sx +
++	inst->tx * (double)inst->w;
++
++	dst_y = (double)inst->h * inst->ct * inst->sy +
++	inst->ty * (double)inst->h;
++
++	dst_w = (double)inst->w *
++	(1.0 - inst->cl - inst->cr) *
++	inst->sx;
++
++	dst_h = (double)inst->h *
++	(1.0 - inst->ct - inst->cb) *
++	inst->sy;
++
++	/*
++	 * Nothing to render.
++	 */
++	if ((dst_w < EPSILON) || (dst_h < EPSILON) ||
++		(src_w < EPSILON) || (src_h < EPSILON)) {
+ 
+-	if((dst_w < EPSILON) || (dst_h < EPSILON) ||
+-	   (src_w < EPSILON) || (src_h < EPSILON)) {
+ 		inst->do_scale = 0;
++	return;
++		}
++
++		/*
++		 * Clip right edge.
++		 *
++		 * Keep the source and destination scaling ratio unchanged.
++		 */
++		if (dst_x + dst_w > (double)inst->w) {
++			src_w *=
++			((double)inst->w - dst_x) / dst_w;
++
++			dst_w =
++			(double)inst->w - dst_x;
++		}
++
++		/*
++		 * Clip bottom edge.
++		 */
++		if (dst_y + dst_h > (double)inst->h) {
++			src_h *=
++			((double)inst->h - dst_y) / dst_h;
++
++			dst_h =
++			(double)inst->h - dst_y;
++		}
++
++		/*
++		 * Clip left edge.
++		 */
++		if (dst_x < 0.0) {
++			src_x -=
++			dst_x * (src_w / dst_w);
++
++			src_w *=
++			(dst_w + dst_x) / dst_w;
++
++			dst_w += dst_x;
++			dst_x = 0.0;
++		}
++
++		/*
++		 * Clip top edge.
++		 */
++		if (dst_y < 0.0) {
++			src_y -=
++			dst_y * (src_h / dst_h);
++
++			src_h *=
++			(dst_h + dst_y) / dst_h;
++
++			dst_h += dst_y;
++			dst_y = 0.0;
++		}
++
++		/*
++		 * Check again after clipping.
++		 */
++		if ((dst_w < EPSILON) || (dst_h < EPSILON) ||
++			(src_w < EPSILON) || (src_h < EPSILON)) {
++
++			inst->do_scale = 0;
+ 		return;
+-	}
++			}
++
++			inst->src_x = src_x;
++			inst->src_y = src_y;
++			inst->src_w = src_w;
++			inst->src_h = src_h;
++
++			inst->dst_x = dst_x;
++			inst->dst_y = dst_y;
++			inst->dst_w = dst_w;
++			inst->dst_h = dst_h;
++
++			inst->dst_x_i = (int)lround((float)dst_x);
++			inst->dst_y_i = (int)lround((float)dst_y);
++			inst->dst_w_i = (int)lround((float)dst_w);
++			inst->dst_h_i = (int)lround((float)dst_h);
++
++}
++
++
++/*
++ * Render the transformed image.
++ *
++ * Each output pixel is mapped backwards into the source rectangle.
++ */
++static void render(
++	const scale0tilt_instance_t *inst,
++	const uint32_t *inframe,
++	uint32_t *outframe)
++{
++	int x, y;
++
++	const int width = inst->w;
++	const int height = inst->h;
++
++	/*
++	 * Only pixels inside the destination rectangle are rendered.
++	 * f0r_update() clears the rest of the frame.
++	 */
++	int x_begin = (int)ceil(inst->dst_x);
++	int x_end   = (int)ceil(inst->dst_x + inst->dst_w);
++
++	int y_begin = (int)ceil(inst->dst_y);
++	int y_end   = (int)ceil(inst->dst_y + inst->dst_h);
++
++	x_begin = CLAMP(x_begin, 0, width);
++	x_end   = CLAMP(x_end, 0, width);
++
++	y_begin = CLAMP(y_begin, 0, height);
++	y_end   = CLAMP(y_end, 0, height);
++
++	x_begin = CLAMP(inst->dst_x_i, 0, width);
++	x_end   = CLAMP(inst->dst_x_i + inst->dst_w_i, 0, width);
++
++	y_begin = CLAMP(inst->dst_y_i, 0, height);
++	y_end   = CLAMP(inst->dst_y_i + inst->dst_h_i, 0, height);
++
++	for (y = y_begin; y < y_end; ++y) {
++		for (x = x_begin; x < x_end; ++x) {
+ 
+-	gavl_video_options_t* options = gavl_video_scaler_get_options( inst->video_scaler );
+-
+-	gavl_video_format_t format_dst;
+-
+-	memset(&inst->format_src, 0, sizeof(inst->format_src));
+-	memset(&format_dst, 0, sizeof(format_dst));
+-
+-	format_dst.frame_width  = inst->w;
+-	format_dst.frame_height = inst->h;
+-	format_dst.image_width  = inst->w;
+-	format_dst.image_height = inst->h;
+-	format_dst.pixel_width = 1;
+-	format_dst.pixel_height = 1;
+-	format_dst.pixelformat = GAVL_RGBA_32;
+-	
+-	inst->format_src.frame_width  = inst->w;
+-	inst->format_src.frame_height = inst->h;
+-	inst->format_src.image_width  = inst->w;
+-	inst->format_src.image_height = inst->h;
+-	inst->format_src.pixel_width = 1;
+-	inst->format_src.pixel_height = 1;
+-	inst->format_src.pixelformat = GAVL_RGBA_32;
+-
+-	gavl_rectangle_f_t src_rect;
+-	gavl_rectangle_i_t dst_rect;
+-
+-	src_rect.x = src_x;
+-	src_rect.y = src_y;
+-	src_rect.w = src_w;
+-	src_rect.h = src_h;
+-
+-	dst_rect.x = lroundf(dst_x);
+-	dst_rect.y = lroundf(dst_y);
+-	dst_rect.w = lroundf(dst_w);
+-	dst_rect.h = lroundf(dst_h);
+-	
+-	gavl_video_options_set_rectangles( options, &src_rect, &dst_rect );
+-	gavl_video_scaler_init( inst->video_scaler, &inst->format_src, &format_dst );
++			/*
++			 * Map output coordinate back into the source rectangle.
++			 *
++			 * The +0.5 samples at the center of the output pixel.
++			 */
++			double dx = ((double)x + 0.5 - inst->dst_x) /
++			inst->dst_w;
++
++			double dy = ((double)y + 0.5 - inst->dst_y) /
++			inst->dst_h;
++
++			double sx =
++			inst->src_x +
++			dx * inst->src_w;
++
++			double sy =
++			inst->src_y +
++			dy * inst->src_h;
++
++			/*
++			 * Convert from pixel-center coordinates to the
++			 * coordinate convention used by sample_bilinear().
++			 */
++			sx -= 0.5;
++			sy -= 0.5;
++
++			outframe[(size_t)y * (size_t)width +
++			(size_t)x] =
++			sample_bilinear(
++				inframe,
++				width,
++				height,
++				sx,
++				sy);
++		}
++	}
+ }
+ 
+ int f0r_init()
+@@ -195,32 +432,53 @@ void f0r_get_param_info( f0r_param_info_t* info, int param_index )
+ 
+ f0r_instance_t f0r_construct(unsigned int width, unsigned int height)
+ {
+-	scale0tilt_instance_t* inst = (scale0tilt_instance_t*)calloc(1, sizeof(*inst));
+-	inst->w = width;
+-	inst->h = height;
++	scale0tilt_instance_t *inst;
++
++	inst = (scale0tilt_instance_t *)
++	calloc(1, sizeof(*inst));
++
++	if (!inst)
++		return NULL;
++
++	inst->w = (int)width;
++	inst->h = (int)height;
++
++	/*
++	 * Default values.
++	 *
++	 * The original plugin uses:
++	 *
++	 *   sx = 1
++	 *   sy = 1
++	 *
++	 * internally.
++	 */
+ 	inst->sx = 1.0;
+ 	inst->sy = 1.0;
+-	inst->video_scaler = gavl_video_scaler_create();
+-	inst->frame_src = gavl_video_frame_create( 0 );
+-	inst->frame_dst = gavl_video_frame_create( 0 );
+-	inst->frame_src->strides[0] = width * 4;
+-    inst->frame_dst->strides[0] = width * 4;
++
++	inst->cl = 0.0;
++	inst->cr = 0.0;
++	inst->ct = 0.0;
++	inst->cb = 0.0;
++
++	inst->tx = 0.0;
++	inst->ty = 0.0;
++
+ 	update_scaler(inst);
+-	if ( inst->frame_src->strides[0] % 16 )
+-		inst->padded = gavl_video_frame_create( &inst->format_src );
++
+ 	return (f0r_instance_t)inst;
+ }
++
++
+ void f0r_destruct(f0r_instance_t instance)
+ {
+-	scale0tilt_instance_t* inst = (scale0tilt_instance_t*)instance;
+-	gavl_video_scaler_destroy(inst->video_scaler);
+-	gavl_video_frame_null( inst->frame_src );
+-	gavl_video_frame_destroy( inst->frame_src );
+-	gavl_video_frame_null( inst->frame_dst );
+-	gavl_video_frame_destroy( inst->frame_dst );
+-	if ( inst->padded )
+-		gavl_video_frame_destroy( inst->padded );
+-	free(instance);
++	scale0tilt_instance_t *inst =
++	(scale0tilt_instance_t *)instance;
++
++	if (!inst)
++		return;
++
++	free(inst);
+ }
+ void f0r_set_param_value(f0r_instance_t instance, 
+                          f0r_param_t param, int param_index)
+@@ -251,6 +509,9 @@ void f0r_set_param_value(f0r_instance_t instance,
+ 		case 7:
+ 			inst->ty = *((double*)param) * 2.0 - 1.0;
+ 			break;
++
++		default:
++			return;
+ 	}
+ 	update_scaler( inst );
+ }
+@@ -289,19 +550,22 @@ void f0r_update(f0r_instance_t instance, double time,
+                 const uint32_t* inframe, uint32_t* outframe)
+ {
+ 	scale0tilt_instance_t* inst = (scale0tilt_instance_t*)instance;
+-	gavl_video_frame_t* frame_src = inst->frame_src;
+-	inst->frame_src->planes[0] = (uint8_t *)inframe;
+-	inst->frame_dst->planes[0] = (uint8_t *)outframe;
+-	int len = inst->w * inst->h;
+-	int i;
+-	for ( i = 0; i < len; i++ ) {
+-		outframe[i] = 0;
+-	}
+-	if ( inst->do_scale ) {
+-		if ( inst->padded ) {
+-			gavl_video_frame_copy( &inst->format_src, inst->padded, frame_src );
+-			frame_src = inst->padded;
+-		}
+-		gavl_video_scaler_scale( inst->video_scaler, frame_src, inst->frame_dst );
+-	}
++
++	(void)time;
++
++	/*
++	 * The output is transparent/black outside the transformed
++	 * destination rectangle, just like the original plugin.
++	 */
++	memset(
++		outframe,
++		0,
++		(size_t)inst->w *
++		(size_t)inst->h *
++		sizeof(uint32_t));
++
++	if (!inst->do_scale)
++		return;
++
++	render(inst, inframe, outframe);
+ }

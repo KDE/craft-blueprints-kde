@@ -39,6 +39,6 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         self.defines["executable"] = r"bin\ark.exe"
         # skip dbus for macOS and Windows, we don't use it there and it only leads to issues
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

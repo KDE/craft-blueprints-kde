@@ -3,11 +3,17 @@ from pathlib import Path
 
 import info
 import utils
+from CraftCore import CraftCore
 from Package.BinaryPackageBase import BinaryPackageBase
 from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
+    def registerOptions(self):
+        self.parent.package.categoryInfo.platforms = (
+            CraftCore.compiler.Platforms.Windows | CraftCore.compiler.Platforms.Unix
+        )
+
     def setTargets(self):
         for ver in ["2.1.9"]:
             self.targets[ver] = f"https://waf.io/waf-{ver}"

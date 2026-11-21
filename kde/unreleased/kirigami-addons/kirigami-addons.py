@@ -10,14 +10,12 @@ class subinfo(info.infoclass):
         self.svnTargets["master"] = "https://invent.kde.org/libraries/kirigami-addons.git"
 
         # stable
-        for ver in ["1.12.1", "1.13.1"]:
+        for ver in ["1.16.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kirigami-addons/kirigami-addons-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = "kirigami-addons-" + ver
 
-        self.patchToApply["1.12.1"] = [("476b855c8d4606e75548b8f774a9c4ffe7897e32.patch", 1)]
-
-        self.defaultTarget = "1.13.1"
+        self.defaultTarget = "1.16.1"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -32,10 +30,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcolorscheme"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
-        if CraftCore.compiler.isLinux or CraftCore.compiler.isFreeBSD:
+        self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
+        if CraftCore.compiler.platform.isLinux or CraftCore.compiler.platform.isFreeBSD:
             self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
-        if not CraftCore.compiler.isAndroid:
-            self.runtimeDependencies["kde/frameworks/tier3/kiconthemes"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):

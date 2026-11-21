@@ -21,7 +21,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/pim/kpeoplevcard"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
 
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/plasma/breeze"] = None
             self.runtimeDependencies["kde/frameworks/tier3/qqc2-desktop-style"] = None
             self.runtimeDependencies["kde/frameworks/tier1/breeze-icons"] = None
@@ -35,6 +35,6 @@ class Package(CMakePackageBase):
         self.defines["executable"] = r"bin\plasma-phonebook.exe"
         self.addExecutableFilter(r"(bin|libexec)/(?!(plasma-phonebook|update-mime-database|snoretoast)).*")
         self.ignoredPackages.append("binary/mysql")
-        if not CraftCore.compiler.isLinux:
+        if not CraftCore.compiler.platform.isLinux:
             self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

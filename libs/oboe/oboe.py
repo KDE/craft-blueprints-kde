@@ -27,8 +27,8 @@ class Package(CMakePackageBase):
             return False
 
         imageRoot = self.installDir()
-        if CraftCore.compiler.isAndroid:
-            installedLibs = sorted(imageRoot.glob(f"**/lib/{CraftCore.compiler.androidAbi}/liboboe*.so"))
+        if CraftCore.compiler.platform.isAndroid:
+            installedLibs = sorted(imageRoot.glob(f"**/lib/{CraftCore.compiler.architecture.androidAbi}/liboboe*.so"))
             if not installedLibs:
                 installedLibs = sorted(imageRoot.glob("**/liboboe*.so"))
             if not installedLibs:
@@ -51,12 +51,11 @@ class Package(CMakePackageBase):
             return False
 
         prefix = prefixDir
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             prefix = CraftCore.standardDirs.craftRoot()
 
         with open(pkgConfigDir / "oboe-1.0.pc", "wt", encoding="utf-8") as pcFile:
-            pcFile.write(
-                f"""prefix={prefix}
+            pcFile.write(f"""prefix={prefix}
 exec_prefix=${{prefix}}
 libdir=${{prefix}}/lib
 includedir=${{prefix}}/include
@@ -66,7 +65,6 @@ Description: Oboe is a C++ library for high-performance audio apps on Android.
 Version: {self.subinfo.buildTarget}
 Libs: -L${{libdir}} -loboe -landroid -llog -lOpenSLES
 Cflags: -I${{includedir}}
-"""
-            )
+""")
 
         return True

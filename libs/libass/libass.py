@@ -24,12 +24,16 @@ class subinfo(info.infoclass):
 
 # If you are packaging libass for distribution, Autotools is recommended; when packaging for Windows Meson should work equally well.
 # See https://github.com/libass/libass#building
-if CraftCore.compiler.isWindows:
+if CraftCore.compiler.platform.isWindows:
 
     class Package(MesonPackageBase):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
             self.subinfo.options.configure.args += [f"-Dfontconfig={self.subinfo.options.isActive('libs/fontconfig').asEnabledDisabled}"]
+            if CraftCore.compiler.compiler.isMSVC and CraftCore.compiler.architecture.isArm64:
+                self.subinfo.options.configure.args += [
+                    "-Dasm=disabled",
+                ]
 
 else:
 
@@ -37,5 +41,5 @@ else:
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
 
-            if CraftCore.compiler.isAndroid:
+            if CraftCore.compiler.platform.isAndroid:
                 self.subinfo.options.configure.args += ["--disable-require-system-font-provider"]

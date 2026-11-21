@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
             self.targetInstSrc[ver] = f"gpgmepp-{ver}"
 
         self.targetDigests["2.0.0"] = (["d4796049c06708a26f3096f748ef095347e1a3c1e570561701fe952c3f565382"], CraftHash.HashAlgorithm.SHA256)
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply["2.0.0"] = [
                 ("msvc.patch", 1),
                 ("gpgmepp-2.0.0.patch", 1),

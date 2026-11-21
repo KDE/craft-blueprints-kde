@@ -11,16 +11,19 @@ class subinfo(info.infoclass):
         self.options.dynamic.setDefault("buildTests", False)
 
     def setTargets(self):
-        for ver in ["2.79.0", "2.81.0", "2.86.0"]:
+        self.description = "GLib is a general-purpose, portable utility library, which provides many useful data types, macros, type conversions, string utilities, file utilities, a mainloop abstraction, and so on."
+        self.webpage = "https://docs.gtk.org/glib/"
+        self.releaseManagerId = 10024
+
+        for ver in ["2.86.0", "2.89.0"]:
             majorMinorStr = ".".join(ver.split(".")[0:2])
             self.targets[ver] = f"https://download.gnome.org/sources/glib/{majorMinorStr}/glib-{ver}.tar.xz"
             self.targetInstSrc[ver] = f"glib-{ver}"
-        self.targetDigests["2.79.0"] = (["d7ebde5505f5c4741a04ffe32f6927bd165b13caaabe18e962ddc58c811f84c9"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["2.81.0"] = (["1665188ed9cc941c0a189dc6295e6859872523d1bfc84a5a84732a7ae87b02e4"], CraftHash.HashAlgorithm.SHA256)
-        self.targetDigests["2.86.0"] = (["b5739972d737cfb0d6fd1e7f163dfe650e2e03740bb3b8d408e4d1faea580d6d"], CraftHash.HashAlgorithm.SHA256)
 
-        self.patchLevel["2.86.0"] = 1
-        self.defaultTarget = "2.86.0"
+        self.targetDigests["2.86.0"] = (["b5739972d737cfb0d6fd1e7f163dfe650e2e03740bb3b8d408e4d1faea580d6d"], CraftHash.HashAlgorithm.SHA256)
+        self.targetDigests["2.89.0"] = (["205bf5dab175de68f11e33be7bb36d4ad4c5a5097d8c0c88a8682b257b6293dc"], CraftHash.HashAlgorithm.SHA256)
+
+        self.defaultTarget = "2.89.0"
 
     def setDependencies(self):
         self.buildDependencies["virtual/base"] = None
@@ -46,12 +49,10 @@ class Package(MesonPackageBase):
                 f"-I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot() / 'include/dbus-1.0')}"
                 f" -I{OsUtils.toUnixPath(CraftCore.standardDirs.craftRoot() / 'lib/dbus-1.0/include')}"
             )
-        wrapMode = "default" if CraftCore.compiler.isAndroid else "nodownload"
-        self.subinfo.options.configure.args += [f"--wrap-mode={wrapMode}", "-Dgtk_doc=false", "-Dinstalled_tests=false", "-Dman=false"]
-        if CraftCore.compiler.isUnix and not CraftCore.compiler.isAndroid:
-            self.subinfo.options.configure.ldflags += " -lintl -liconv"
-        if CraftCore.compiler.isFreeBSD:
+        self.subinfo.options.configure.args += ["--wrap-mode=nodownload", "-Ddocumentation=false", "-Dinstalled_tests=false", "-Dman-pages=disabled"]
+        if CraftCore.compiler.platform.isUnix:
+            self.subinfo.options.configure.ldflags += " -liconv"
+        if CraftCore.compiler.platform.isFreeBSD:
             self.subinfo.options.configure.args += ["-Dxattr=false", "-Dlibmount=disabled", "-Dselinux=disabled", "-Db_lundef=false"]
 
-        if not self.subinfo.options.dynamic.buildTests:
-            self.subinfo.options.configure.args += ["-Dtests=false"]
+        self.subinfo.options.configure.args += [f'-Dtests={"true" if self.subinfo.options.dynamic.buildTests else "false"}']

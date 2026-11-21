@@ -37,7 +37,7 @@ class PackageBin(BinaryPackageBase):
         return True
 
 
-if CraftCore.compiler.isMSVC():
+if CraftCore.compiler.compiler.isMSVC:
 
     class Package(PackageBin):
         def __init__(self, **kwargs):

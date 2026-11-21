@@ -1,0 +1,16 @@
+--- Comment: Only copy the Qt qml directory if the Qml module is built
+--- Why: Qml modules are skipped, but the installer still copies the whole <qt>/qml tree
+---      which contains paths exceeding MAX_PATH and fails with WinError 3
+--- Effect: PySide6/qml is not created, Craft's Qt qml directory is used instead
+diff -ruN a/build_scripts/platforms/windows_desktop.py b/build_scripts/platforms/windows_desktop.py
+--- a/build_scripts/platforms/windows_desktop.py	2026-10-30 17:59:03.285775300 +0100
++++ b/build_scripts/platforms/windows_desktop.py	2026-10-30 17:59:03.327060700 +0100
+@@ -256,7 +256,7 @@
+ 
+     constrain_modules = None
+     copy_plugins = True
+-    copy_qml = True
++    copy_qml = "Qml" in built_modules
+     copy_translations = True
+     copy_qt_conf = True
+     copy_qt_permanent_artifacts = True

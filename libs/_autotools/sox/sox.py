@@ -18,7 +18,7 @@ class subinfo(info.infoclass):
         self.svnTargets["07de8a7"] = "https://git.code.sf.net/p/sox/code#commit=07de8a77a862e6800b95a8d3a61c6b4e41362755"
         self.patchToApply["07de8a7"] = [("0001-ucrt-no-rewind-pipe.patch", 1)]
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.defaultTarget = "07de8a7"
         else:
             self.defaultTarget = "14.4.2"

@@ -40,7 +40,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["extragear/kdiagram"] = None
 
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.runtimeDependencies["libs/runtime"] = None  # mingw-based builds need this
 
 

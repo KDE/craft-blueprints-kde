@@ -36,7 +36,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/libquotient"] = None
         self.runtimeDependencies["qt-libs/maplibre-native-qt"] = None
         self.runtimeDependencies["qt-libs/qcoro"] = None
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["kde/plasma/qqc2-breeze-style"] = None
 
 

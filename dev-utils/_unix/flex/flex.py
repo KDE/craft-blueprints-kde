@@ -9,7 +9,7 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         # We need this as a host tool. Craft at this point isn't set up to produce both
         # host and target binaries, so on Android we have host tools in the docker image.
-        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
+        self.parent.package.categoryInfo.platforms &= ~CraftCore.compiler.Platforms.Android
 
     def setDependencies(self):
         self.buildDependencies["dev-utils/msys"] = None
@@ -28,6 +28,7 @@ class subinfo(info.infoclass):
             ("0001-flex-disable-documentation.patch", 1),
             ("0002-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch", 1),
         ]  # https://git.busybox.net/buildroot/commit/?id=c128c5f3c79b31d89256ffbc5c650ba613d3d52b
+        self.releaseManagerId = 819
         self.defaultTarget = "2.6.4"
 
 

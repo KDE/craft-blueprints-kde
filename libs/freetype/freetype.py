@@ -44,7 +44,7 @@ class PackageMSys(AutoToolsPackageBase):
         self.subinfo.options.configure.args += ["--with-harfbuzz=no", "--with-brotli=on"]
 
 
-if CraftCore.compiler.isGCCLike() and not CraftCore.compiler.isAndroid:
+if CraftCore.compiler.compiler.isGCCLike and not CraftCore.compiler.platform.isAndroid:
 
     class Package(PackageMSys):
         pass

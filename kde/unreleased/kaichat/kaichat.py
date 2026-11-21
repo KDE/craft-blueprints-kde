@@ -11,7 +11,7 @@ class subinfo(info.infoclass):
         self.displayName = "KAIChat"
         self.description = "Chat with AI"
 
-        for ver in ["0.4.0", "0.5.0", "0.5.1", "0.6.0", "0.7.0", "0.8.0"]:
+        for ver in ["0.4.0", "0.5.0", "0.5.1", "0.6.0", "0.7.0", "0.8.0", "0.9.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/kaichat/kaichat-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kaichat/kaichat-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"kaichat-{ver}"
@@ -37,7 +37,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
         self.runtimeDependencies["libs/kdsingleapplication"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kglobalaccel"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         # self.runtimeDependencies["kde/unreleased/kaichat-addons"] = None
@@ -50,13 +50,13 @@ class Package(CraftPackageObject.get("kde").pattern):
     def createPackage(self):
         self.defines["shortcuts"] = [{"name": "KAIChat", "target": "bin/kaichat.exe", "description": self.subinfo.description, "appId": "kaichat"}]
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.defines["alias"] = "kaichat"
         self.defines["icon"] = self.blueprintDir() / "kaichat.ico"
         self.defines["icon_png"] = self.blueprintDir() / "150-apps-kaichat.png"
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-kaichat.png"
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

@@ -9,9 +9,6 @@ from Utils import CraftHash
 
 
 class subinfo(info.infoclass):
-    def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
-
     def setDependencies(self):
         self.runtimeDependencies["dev-utils/jdk"] = None
 
@@ -35,7 +32,7 @@ class Package(BinaryPackageBase):
     def postInstall(self):
         return utils.createShim(
             self.installDir() / "openapi-generator-cli",
-            CraftPackageObject.get("dev-utils/jdk").instance.JAVA_HOME / f"bin/java{CraftCore.compiler.executableSuffix}",
+            CraftPackageObject.get("dev-utils/jdk").instance.JAVA_HOME / f"bin/java{CraftCore.compiler.platform.executableSuffix}",
             ["-jar", self.installDir() / "openapi-generator-cli.jar"],
             useAbsolutePath=True,
             env={"JAVA_HOME": CraftPackageObject.get("dev-utils/jdk").instance.JAVA_HOME},

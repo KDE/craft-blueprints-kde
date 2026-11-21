@@ -11,6 +11,11 @@ class subinfo(info.infoclass):
         self.displayName = "KMCpClientInspector"
         self.description = "MCP client inspector"
 
+        for ver in ["0.3.0"]:
+            self.targets[ver] = f"https://download.kde.org/stable/kmcpclientinspector/kmcpclientinspector-{ver}.tar.xz"
+            self.targetDigestUrls[ver] = f"https://download.kde.org/stable/kmcpclientinspector/kmcpclientinspector-{ver}.tar.xz.sha256"
+            self.targetInstSrc[ver] = f"kmcpclientinspector-{ver}"
+
         self.svnTargets["master"] = "https://invent.kde.org/sdk/kmcpclientinspector.git"
 
     def setDependencies(self):
@@ -22,7 +27,10 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/syntax-highlighting"] = None
         self.runtimeDependencies["kde/libs/ktextaddons"] = None
+        self.runtimeDependencies["kde/frameworks/tier1/kitemviews"] = None
+        self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
 
 
 class Package(CraftPackageObject.get("kde").pattern):
@@ -30,9 +38,11 @@ class Package(CraftPackageObject.get("kde").pattern):
         super().__init__(**kwargs)
 
     def createPackage(self):
-        self.defines["shortcuts"] = [{"name": "KMCpClientInspector", "target": "bin/kmcpclientinspector.exe", "description": self.subinfo.description, "appId": "kmcpclientinspector"}]
+        self.defines["shortcuts"] = [
+            {"name": "KMCpClientInspector", "target": "bin/kmcpclientinspector.exe", "description": self.subinfo.description, "appId": "kmcpclientinspector"}
+        ]
         self.defines["alias"] = "kmcpclientinspector"
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

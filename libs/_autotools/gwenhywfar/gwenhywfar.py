@@ -34,22 +34,22 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # Disable on MinGW as it is broken, needs someone to care
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Compiler.NoCompiler if CraftCore.compiler.isMinGW() else CraftCore.compiler.Compiler.All
+        self.parent.package.categoryInfo.compiler &= ~CraftCore.compiler.Compiler.MinGW
 
     def setTargets(self):
-        self.targets["5.14.1"] = "https://www.aquamaniac.de/rdm/attachments/download/630/gwenhywfar-5.14.1.tar.gz"
-        self.targetDigests["5.14.1"] = (["8916feaa99cb954f963f2cba8dd2dffe57cacf7f284daf00eab071aad6fe2ab3"], CraftHash.HashAlgorithm.SHA256)
-        self.targetInstSrc["5.14.1"] = "gwenhywfar-5.14.1"
-        self.patchLevel["5.14.1"] = 1
+        self.targets["5.14.3"] = "https://www.aquamaniac.de/rdm/attachments/download/662/gwenhywfar-5.14.3.tar.gz"
+        self.targetDigests["5.14.3"] = (["be1371a668d4d42f113f9dbebd850a66c63437037a027d3c1148afff5503998b"], CraftHash.HashAlgorithm.SHA256)
+        self.targetInstSrc["5.14.3"] = "gwenhywfar-5.14.3"
+        self.patchLevel["5.14.3"] = 1
 
-        self.defaultTarget = "5.14.1"
+        self.defaultTarget = "5.14.3"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/gnutls"] = None
         self.runtimeDependencies["libs/gcrypt"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.buildDependencies["dev-utils/msys"] = None
 
 
@@ -62,13 +62,13 @@ class Package(AutoToolsPackageBase):
 
         # For appImage builds the --enable-local-install is needed so that
         # the appImage is searched for gwenhywfar plugins
-        if CraftCore.compiler.isMacOS or CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isMacOS or CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += ["--enable-local-install"]
 
-        if CraftCore.compiler.isLinux:
+        if CraftCore.compiler.platform.isLinux:
             self.subinfo.options.configure.args += ["--enable-binreloc"]
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.cflags += " -Wno-implicit-function-declaration"
             self.subinfo.options.configure.cxxflags += " -Wno-implicit-function-declaration"
             self.subinfo.options.configure.ldflags += f" -L{root}/lib -liconv"
@@ -80,14 +80,14 @@ class Package(AutoToolsPackageBase):
         self.subinfo.options.configure.autoreconf = False
 
         self.subinfo.options.configure.ldflags += " -lintl"
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             self.subinfo.options.configure.autoreconf = True
             # it tires to locate qt but used native windows paths for -l
             # those are not supported by libtool
             self.subinfo.options.configure.ldflags += " -lQt6Widgets -lQt6Gui -lQt6Core -lqtmain"
 
     def configure(self):
-        if CraftCore.compiler.isMinGW():
+        if CraftCore.compiler.compiler.isMinGW:
             _, includedir = CraftCore.cache.getCommandOutput("qmake", "-query QT_INSTALL_HEADERS")
             includedir = self.shell.toNativePath(includedir.strip())
             widgetsdir = self.shell.toNativePath(os.path.join(includedir, "QtWidgets"))
@@ -96,7 +96,7 @@ class Package(AutoToolsPackageBase):
 
             self.subinfo.options.configure.cxxflags += f"-I{widgetsdir} -I{guidir} -I{coredir} -I{includedir} "
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.subinfo.options.configure.ldflags += " -Wl,-headerpad_max_install_names"
             with utils.ScopedEnv({"PATH": f"{CraftCore.standardDirs.craftRoot() / 'libexec'}:{os.environ.get('PATH')}"}):
                 return super().configure()

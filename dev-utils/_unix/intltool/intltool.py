@@ -43,6 +43,7 @@ class subinfo(info.infoclass):
         self.patchToApply["0.51.0"] = [("0001-Perl-5-22-compatibility.patch", 1)]
         self.targetDigests["0.51.0"] = (["67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd"], CraftHash.HashAlgorithm.SHA256)
         self.patchLevel["0.51.0"] = 1
+        self.releaseManagerId = 1385
         self.defaultTarget = "0.51.0"
 
 

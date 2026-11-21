@@ -33,13 +33,13 @@ class subinfo(info.infoclass):
         self.description = "Rocket.Chat Client"
         self.webpage = "https://apps.kde.org/ruqola"
 
-        for ver in ["2.7.0", "2.7.1", "2.7.2", "2.7.3", "2.8.0", "2.8.1"]:
+        for ver in ["2.7.0", "2.7.1", "2.7.2", "2.7.3", "2.8.0", "2.8.1", "2.9.0", "2.9.1"]:
             self.targets[ver] = f"https://download.kde.org/stable/ruqola/ruqola-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/ruqola/ruqola-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"ruqola-{ver}"
 
         self.svnTargets["master"] = "https://invent.kde.org/network/ruqola.git"
-        self.defaultTarget = "2.8.1"
+        self.defaultTarget = "2.9.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None
@@ -59,7 +59,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knotifications"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knotifyconfig"] = None
-        if not CraftCore.compiler.isMacOS:
+        if not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
         self.runtimeDependencies["kde/plasma/breeze"] = None
         self.runtimeDependencies["kde/frameworks/tier1/prison"] = None
@@ -77,7 +77,7 @@ class Package(CraftPackageObject.get("kde").pattern):
 
     def createPackage(self):
         self.blacklist_file.append(self.blueprintDir() / "blacklist.txt")
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.blacklist_file.append(self.blueprintDir() / "blacklist_mac.txt")
         self.addExecutableFilter(r"bin/(?!(ruqola|update-mime-database|kio|dbus|snoretoast)).*")
         self.defines["shortcuts"] = [{"name": "Ruqola", "target": "bin/ruqola.exe", "description": self.subinfo.description, "appId": "ruqola"}]
@@ -88,6 +88,6 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["icon_png_44"] = self.blueprintDir() / "44-apps-ruqola.png"
         self.defines["alias"] = "ruqola"
         self.ignoredPackages.append("binary/mysql")
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             self.ignoredPackages.append("libs/dbus")
         return super().createPackage()

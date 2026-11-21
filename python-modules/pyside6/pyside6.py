@@ -15,22 +15,28 @@ from Package.PipPackageBase import PipPackageBase
 class subinfo(info.infoclass):
     def setTargets(self):
         self.description = "Python Qt bindings project"
-        self.defaultTarget = "6.11.2"
+        self.defaultTarget = "6.12.0"
+        self.releaseManagerId = 148812
 
-        for ver in ["6.10.1", "6.10.3", "6.11.0", "6.11.2"]:
+        for ver in ["6.10.1", "6.10.3", "6.11.0", "6.11.2", "6.12.0"]:
             self.targets[ver] = f"https://download.qt.io/official_releases/QtForPython/pyside6/PySide6-{ver}-src/pyside-setup-everywhere-src-{ver}.zip"
             self.targetInstSrc[ver] = "pyside-setup-everywhere-src-%s" % ver
 
-        if CraftCore.compiler.isWindows:
-            self.patchToApply["6.11.2"] = [
-                ("shiboken-include-pep384impl.patch", 1),
-                ("python-libdir-fallback.patch", 1),
-                ("skip-plugins.patch", 1),
-                ("skip-designer-copy.patch", 1)
-            ]
+        if CraftCore.compiler.platform.isWindows:
+            for ver in ["6.11.2", "6.12.0"]:
+                self.patchToApply[ver] = [
+                    ("shiboken-include-pep384impl.patch", 1),
+                    ("python-libdir-fallback.patch", 1),
+                    ("skip-plugins.patch", 1),
+                    ("skip-designer-copy.patch", 1),
+                    ("force-cpp20.patch", 1),
+                ]
+            self.patchToApply["6.12.0"] += [("skip-qml-copy.patch", 1)]
             self.patchLevel["6.11.2"] = 7
+            self.patchLevel["6.12.0"] = 1
 
     def setDependencies(self):
+        self.runtimeDependencies["libs/python"] = None
         self.buildDependencies["python-modules/setuptools"] = None
         self.buildDependencies["python-modules/packaging"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
@@ -49,7 +55,7 @@ class Package(PipPackageBase):
         # forces the linker to require the versioned lib even when CMake links python3.lib.
         # Craft builds Python with stable ABI (python3.lib only), so create python3XX.lib
         # as a copy to satisfy the #pragma directive.
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             lib_dir = CraftStandardDirs.craftRoot() / "lib"
             python3_lib = lib_dir / "python3.lib"
             if python3_lib.exists():
@@ -58,7 +64,9 @@ class Package(PipPackageBase):
                 try:
                     result = subprocess.run(
                         [str(python_exe), "-c", "import sys; print(f'{sys.version_info.major}{sys.version_info.minor}')"],
-                        capture_output=True, text=True, timeout=10
+                        capture_output=True,
+                        text=True,
+                        timeout=10,
                     )
                     if result.returncode == 0:
                         version = result.stdout.strip()
@@ -71,27 +79,31 @@ class Package(PipPackageBase):
 
         sourceDir = self.sourceDir()
         env = {}
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             env["LLVM_INSTALL_DIR"] = str(CraftStandardDirs.craftRoot())
             env["CLANG_INSTALL_DIR"] = str(CraftStandardDirs.craftRoot())
 
         with utils.ScopedEnv(env):
-            if CraftCore.compiler.isMacOS:
+            if CraftCore.compiler.platform.isMacOS:
                 return utils.system(
                     "SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py build --verbose-build --macos-use-libc++ --disable-pyi --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
-                    cwd=sourceDir
+                    cwd=sourceDir,
                 )
             else:
                 # Skip QML/Designer modules: QML directory copy fails with escaping errors on Windows
                 # Skip WebEngine modules: require Chromium dependencies not available in Craft
-                cmd = ["python", "setup.py", "build",
-                       "--limited-api=yes",
-                       "--disable-pyi",
-                       "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"]
+                cmd = [
+                    "python",
+                    "setup.py",
+                    "build",
+                    "--limited-api=yes",
+                    "--disable-pyi",
+                    "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets,QmlFeatures",
+                ]
 
                 # Force PySide6 to build against Craft's Qt instead of bundling its own Qt to avoid
                 # Qt ABI mismatch on Windows if PySide6 bundles Qt and other applications using it link Craft's Qt
-                if CraftCore.compiler.isWindows:
+                if CraftCore.compiler.platform.isWindows:
                     qtpaths = CraftStandardDirs.craftRoot() / "bin" / "qtpaths.exe"
                     CraftCore.log.info(f"Checking for qtpaths at: {qtpaths}, exists: {qtpaths.exists()}")
                     if qtpaths.exists():
@@ -104,10 +116,10 @@ class Package(PipPackageBase):
 
     # dev-utils/bin/libclang.dll precedes bin/ in PATH, so ship the libclang shiboken6 was linked against next to it
     def _bundleLibclang(self):
-        if not CraftCore.compiler.isWindows:
+        if not CraftCore.compiler.platform.isWindows:
             return True
         libclang = CraftStandardDirs.craftRoot() / "bin/libclang.dll"
-        target = self.imageDir() / "lib/site-packages/shiboken6_generator"
+        target = self.imageDir() / "bin/Lib/site-packages/shiboken6_generator"
         if not libclang.exists() or not target.is_dir():
             CraftCore.log.error(f"cannot bundle libclang: {libclang} exists={libclang.exists()}, {target} exists={target.is_dir()}")
             return False
@@ -118,7 +130,7 @@ class Package(PipPackageBase):
         sourceDir = self.sourceDir()
         imageDir = self.imageDir()
         env = {}
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             env["LLVM_INSTALL_DIR"] = str(CraftStandardDirs.craftRoot())
             env["CLANG_INSTALL_DIR"] = str(CraftStandardDirs.craftRoot())
 
@@ -131,20 +143,54 @@ class Package(PipPackageBase):
         # See https://doc.qt.io/qtforpython-6/building_from_source/index.html
         # macOS: SDKROOT required to find type_traits and skip failing WebEngineCore and dependencies
         with utils.ScopedEnv(env):
-            if CraftCore.compiler.isMacOS:
-                return utils.system(
+            if CraftCore.compiler.platform.isMacOS:
+                if not utils.system(
                     f"SDKROOT=$(xcrun --show-sdk-path) PYSIDE_DISABLE_UNITY=1 python setup.py install --prefix={imageDir} --verbose-build --macos-use-libc++ --disable-pyi --skip-mypy-test --skip-modules=WebEngineCore,WebEngineWidgets,WebEngineQuick",
-                    cwd=sourceDir
-                )
+                    cwd=sourceDir,
+                ):
+                    return False
+
+                # Fix shiboken6 wrapper: setup.py creates .egg-info but Python 3.12's importlib.metadata can't find it
+                # Patch the wrapper to directly import the entry point instead of using metadata
+                # Must patch in imageDir (not craftRoot) since that's what gets merged
+                # Also add site-packages to sys.path since --prefix installs there
+                shiboken6_wrapper = imageDir / "bin" / "shiboken6"
+                if shiboken6_wrapper.exists():
+                    with open(shiboken6_wrapper, "w") as f:
+                        f.write(
+                            "#!/usr/bin/env python3\n"
+                            "# Patched to directly import entry point (works with .egg-info)\n"
+                            "import sys\n"
+                            "import os\n"
+                            "# Add site-packages to path (--prefix installs there)\n"
+                            "script_dir = os.path.dirname(os.path.realpath(__file__))\n"
+                            "craft_root = os.path.dirname(script_dir)\n"
+                            "site_packages = os.path.join(craft_root, 'lib', 'python3.12', 'site-packages')\n"
+                            "if site_packages not in sys.path:\n"
+                            "    sys.path.insert(0, site_packages)\n"
+                            "from shiboken6_generator.scripts.shiboken_tool import main\n"
+                            "\n"
+                            "if __name__ == '__main__':\n"
+                            "    sys.exit(main())\n"
+                        )
+                    CraftCore.log.info(f"Patched shiboken6 wrapper at {shiboken6_wrapper}")
+                else:
+                    CraftCore.log.warning(f"shiboken6 wrapper not found at {shiboken6_wrapper}")
+
+                return True
             else:
                 # disabled (prevents installation of header,typesystem, etc.): --skip-build: prevents setup.py from rebuilding (which would recreate qml dir)
                 # --skip-modules: must match make() to prevent module mismatch errors
                 if not utils.system(
-                    ["python", "setup.py", "install",
-                     f"--prefix={imageDir}",
-                     "--skip-mypy-test",
-                     "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets"],
-                    cwd=sourceDir
+                    [
+                        "python",
+                        "setup.py",
+                        "install",
+                        f"--prefix={imageDir / 'bin' if CraftCore.compiler.platform.isWindows else imageDir}",
+                        "--skip-mypy-test",
+                        "--skip-modules=Designer,Positioning,Location,WebEngineCore,WebEngineWidgets,WebEngineQuick,WebChannel,WebView,Qml,Quick,Quick3D,QuickControls2,QuickTest,QuickWidgets,UiTools,Graphs,GraphsWidgets,QmlFeatures",
+                    ],
+                    cwd=sourceDir,
                 ):
                     return False
 
@@ -152,8 +198,8 @@ class Package(PipPackageBase):
                 # Windows: Remove bundled Qt DLLs from PySide6 package after install to avoid Qt ABI mismatch.
                 # PySide6 should use Craft's Qt from bin/ instead of bundling its own copy.
                 # We keep only the PySide6-specific .pyd files and remove all Qt*.dll files.
-                if CraftCore.compiler.isWindows:
-                    pyside_dir = imageDir / "lib" / "site-packages" / "PySide6"
+                if CraftCore.compiler.platform.isWindows:
+                    pyside_dir = imageDir / "bin/Lib/site-packages/PySide6"
                     if pyside_dir.is_dir():
                         qt_dlls = list(pyside_dir.glob("Qt*.dll"))
                         CraftCore.log.info(f"Removing {len(qt_dlls)} bundled Qt DLLs from PySide6 package")

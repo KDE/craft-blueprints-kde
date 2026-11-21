@@ -5,7 +5,6 @@ from pathlib import Path
 import info
 import utils
 from BuildSystem.BuildSystemBase import BuildSystemBase
-from CraftCompiler import CraftCompiler
 from CraftCore import CraftCore
 from CraftOS.osutils import OsUtils
 from Package.MakeFilePackageBase import MakeFilePackageBase
@@ -20,7 +19,9 @@ nspr_ver = "4.36"
 class subinfo(info.infoclass):
     def registerOptions(self):
         self.parent.package.categoryInfo.platforms = (
-            CraftCore.compiler.Platforms.Windows if CraftCore.compiler.isMSVC() else (CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.Android)
+            CraftCore.compiler.Platforms.Windows
+            if CraftCore.compiler.compiler.isMSVC
+            else (CraftCore.compiler.Platforms.Linux | CraftCore.compiler.Platforms.Android)
         )
         self.options.dynamic.registerOption("installTools", False)
 
@@ -32,7 +33,7 @@ class subinfo(info.infoclass):
         self.targets[ver] = f"https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_109_RTM/src/nss-{ver}-with-nspr-{nspr_ver}.tar.gz"
         self.targetInstSrc[ver] = f"nss-{ver}"
         self.targetDigests[ver] = (["25be414ff9c207dd67355f19e9e71001db45957b6bb74adf5b094c92e05116b4"], CraftHash.HashAlgorithm.SHA256)
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             self.patchToApply[ver] = [("install-instead-of-nsinstall.diff", 1), ("cygwin-is-windows.diff", 1)]
         self.defaultTarget = ver
         self.patchLevel[ver] = 2
@@ -50,7 +51,7 @@ class Package(MakeFilePackageBase):
 
     @property
     def makeProgram(self):
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             return "make"
         else:
             return super().makeProgram
@@ -63,7 +64,7 @@ class Package(MakeFilePackageBase):
 
         buildArgs = ["-v", "--disable-tests", "--opt", "--system-sqlite", "-Dsign_libs=0", "--enable-libpkix"]
 
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             # When you say --system-sqlite it just tries to find it in the path, that doesn't work for MSVC
             configgypi = self.sourceDir() / "nss/coreconf/config.gypi"
             with open(configgypi, "rt") as f:
@@ -88,23 +89,23 @@ class Package(MakeFilePackageBase):
             self._shell.environment["GYP_MSVS_OVERRIDE_PATH"] = str(msvcPath)
             self._shell.environment["GYP_MSVS_VERSION"] = str(CraftCore.compiler.getMsvcYear())
 
-        if CraftCore.compiler.isAndroid:
+        if CraftCore.compiler.platform.isAndroid:
             # Otherwise gyp isn't found
             self._shell.environment["PATH"] += ":~/.local/bin/"
-            if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+            if CraftCore.compiler.architecture.isX86_64:
                 buildArgs += ["--target=x64", "-DOS=android"]
             else:
-                buildArgs += ["--target=" + CraftCore.compiler.androidArchitecture, "-DOS=android"]
+                buildArgs += ["--target=" + CraftCore.compiler.architecture.androidArchitecture, "-DOS=android"]
 
             # Inspired by craft's own AutoToolsBuildSystem.py
-            if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm32:
+            if CraftCore.compiler.architecture.isArm32:
                 androidtarget = "arm-linux-androideabi"
-            elif CraftCore.compiler.architecture == CraftCompiler.Architecture.arm64:
+            elif CraftCore.compiler.architecture.isArm64:
                 androidtarget = "aarch64-linux-android"
-            elif CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_32:
+            elif CraftCore.compiler.architecture.isX86_32:
                 androidtarget = "i686-linux-android"
             else:
-                androidtarget = f"{CraftCore.compiler.androidArchitecture}-linux-android"
+                androidtarget = f"{CraftCore.compiler.architecture.androidArchitecture}-linux-android"
 
             ndkDir = os.environ.get("ANDROID_NDK")
             toolchainDir = ndkDir + "/toolchains/llvm/prebuilt/" + os.environ.get("ANDROID_NDK_HOST")
@@ -126,7 +127,7 @@ class Package(MakeFilePackageBase):
                 + toolchainDir
                 + "/sysroot"
             )
-            if CraftCore.compiler.architecture == CraftCompiler.Architecture.x86_64:
+            if CraftCore.compiler.architecture.isX86_64:
                 newParams += " --enable-64bit"
             content = content.replace('extra_params=(--prefix="$dist_dir"/$target)', f'extra_params=(--prefix="$dist_dir"/$target {newParams})')
             with open(nsprsh, "wt") as f:
@@ -138,7 +139,7 @@ class Package(MakeFilePackageBase):
             # Accept stuff like aarch64-unknown-linux-android, arm-unknown-linux-androideabi, etc.
             content = content.replace("-linux*-android*)", "-*linux*-android*)")
             content = content.replace("-linux*-android*|", "-*linux*-android*|")
-            if CraftCore.compiler.architecture == CraftCompiler.Architecture.arm32:
+            if CraftCore.compiler.architecture.isArm32:
                 # For some reason the armv7 compilers have a different name than stuff like ar or ranlib so we need to do a different replacement here ...
                 # Call the proper clang, gcc is no longer supported
                 content = content.replace(
@@ -212,9 +213,9 @@ class Package(MakeFilePackageBase):
 
     def postInstall(self):
         BuildSystemBase.patchInstallPrefix(
-            self, [(self.installDir() / "lib/pkgconfig/nspr.pc")], [os.path.dirname(self.installDir()) + "/work/nss-" + nss_ver + "/dist/Release"]
+            self, [self.installDir() / "lib/pkgconfig/nspr.pc"], [os.path.dirname(self.installDir()) + "/work/nss-" + nss_ver + "/dist/Release"]
         )
-        if CraftCore.compiler.isMSVC():
+        if CraftCore.compiler.compiler.isMSVC:
             # The nspr libs are created as libnspr4.lib so we need to adapt the pc file
             nsprpc = self.installDir() / "lib/pkgconfig/nspr.pc"
             with open(nsprpc, "rt") as f:

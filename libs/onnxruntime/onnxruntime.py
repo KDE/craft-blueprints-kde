@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2025 Mauritius Clemens <gitlab@janitor.chat>
 
 import info
+from CraftCore import CraftCore
 from Package.CMakePackageBase import CMakePackageBase
 from Utils import CraftHash
 
@@ -10,6 +11,10 @@ class subinfo(info.infoclass):
     def registerOptions(self):
         self.options.dynamic.setDefault("buildType", "Release")
         self.options.dynamic.setDefault("buildStatic", True)
+
+        # On MinGW it fails to compile out of the box, just disable it because
+        # it is only used by crow-translate, which uses MSVC on Windows anyways
+        self.parent.package.categoryInfo.compiler &= ~CraftCore.compiler.Compiler.MinGW
 
     def setTargets(self):
         self.displayName = "onnxruntime"

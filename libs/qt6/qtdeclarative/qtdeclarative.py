@@ -5,10 +5,10 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.options.dynamic.registerOption("fluentwinui3Style", not CraftCore.compiler.isAndroid)
-        self.options.dynamic.registerOption("fusionStyle", not CraftCore.compiler.isAndroid)
-        self.options.dynamic.registerOption("imagineStyle", not CraftCore.compiler.isAndroid)
-        self.options.dynamic.registerOption("universalStyle", not CraftCore.compiler.isAndroid)
+        self.options.dynamic.registerOption("fluentwinui3Style", not CraftCore.compiler.platform.isAndroid)
+        self.options.dynamic.registerOption("fusionStyle", not CraftCore.compiler.platform.isAndroid)
+        self.options.dynamic.registerOption("imagineStyle", not CraftCore.compiler.platform.isAndroid)
+        self.options.dynamic.registerOption("universalStyle", not CraftCore.compiler.platform.isAndroid)
 
     def setTargets(self):
         self.versionInfo.setDefaultValues()
@@ -29,7 +29,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtshadertools"] = None
         self.runtimeDependencies["libs/qt6/qtsvg"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/qt6/qtlanguageserver"] = None
 
 
@@ -42,6 +42,6 @@ class Package(CraftPackageObject.get("libs/qt6").pattern):
             f"-DFEATURE_quickcontrols2_imagine={self.subinfo.options.dynamic.imagineStyle.asOnOff}",
             f"-DFEATURE_quickcontrols2_universal={self.subinfo.options.dynamic.universalStyle.asOnOff}",
         ]
-        if CraftCore.compiler.isWindows and self.buildType() == "Debug":
+        if CraftCore.compiler.platform.isWindows and self.buildType() == "Debug":
             # we use a shim pointing to the debug exe, therefor the debug infix is missing here
             self.subinfo.options.configure.args += ["-D_Python_EXECUTABLE_DEBUG=python3"]

@@ -7,7 +7,7 @@ from Utils import CraftHash
 class subinfo(info.infoclass):
     def registerOptions(self):
         # does not build on Android out of the box
-        self.parent.package.categoryInfo.platforms &= CraftCore.compiler.Platforms.NotAndroid
+        self.parent.package.categoryInfo.platforms &= ~CraftCore.compiler.Platforms.Android
 
     def setTargets(self):
         for ver in ["3.4", "3.5"]:
@@ -46,4 +46,8 @@ class subinfo(info.infoclass):
 class Package(CMakePackageBase):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.subinfo.options.configure.args = ["-DEXPORT_C_API=ON", "-DENABLE_SHARED=ON", "-DENABLE_ASSEMBLY=ON", "-DENABLE_CLI=OFF"]
+        self.subinfo.options.configure.args = ["-DEXPORT_C_API=ON", "-DENABLE_SHARED=ON", "-DENABLE_CLI=OFF"]
+        if CraftCore.compiler.compiler.isMSVC and CraftCore.compiler.architecture.isArm64:
+            self.subinfo.options.configure.args += ["-DENABLE_ASSEMBLY=OFF"]
+        else:
+            self.subinfo.options.configure.args += ["-DENABLE_ASSEMBLY=ON"]

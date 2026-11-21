@@ -16,6 +16,7 @@ class subinfo(info.infoclass):
         self.buildDependencies["kde/frameworks/extra-cmake-modules"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qt5compat"] = None
+        self.runtimeDependencies["libs/qt/qtcharts"] = None
         self.runtimeDependencies["libs/sqlcipher"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kirigami"] = None
         self.runtimeDependencies["kde/unreleased/kirigami-addons"] = None
@@ -23,7 +24,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/kio"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        if not CraftCore.compiler.isAndroid:
+        if not CraftCore.compiler.platform.isAndroid:
             self.runtimeDependencies["libs/qt6/qtwebengine"] = None
             self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
             self.runtimeDependencies["libs/qt6/qtsvg"] = None
@@ -39,9 +40,9 @@ class subinfo(info.infoclass):
 class Package(CraftPackageObject.get("kde").pattern):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if CraftCore.compiler.isWindows:
+        if CraftCore.compiler.platform.isWindows:
             sqlcipher_lib = CraftCore.standardDirs.craftRoot() / "lib"
-            self.subinfo.options.configure.args += f" -DCMAKE_LIBRARY_PATH=\"{sqlcipher_lib}\""
+            self.subinfo.options.configure.args += f' -DCMAKE_LIBRARY_PATH="{sqlcipher_lib}"'
 
     def createPackage(self):
         self.defines["executable"] = "bin\\skrooge.exe"  # Windows-only, mac is handled implicitly
@@ -65,7 +66,7 @@ class Package(CraftPackageObject.get("kde").pattern):
         self.defines["website"] = "https://skrooge.org/"
         # self.defines["icon"] = self.blueprintDir() / "skrooge.ico"
 
-        if CraftCore.compiler.isMacOS:
+        if CraftCore.compiler.platform.isMacOS:
             old_path = "/Users/gitlab/builds/GZwHuM5xu/0/sysadmin/craft-ci/macos-64-clang/lib/qca-qt6.framework/Versions/2/qca-qt6"
             new_path = "@rpath/qca-qt6.framework/Versions/2/qca-qt6"
 

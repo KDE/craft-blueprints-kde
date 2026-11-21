@@ -8,19 +8,19 @@ from CraftCore import CraftCore
 
 class subinfo(info.infoclass):
     def registerOptions(self):
-        self.parent.package.categoryInfo.platforms = CraftCore.compiler.Platforms.NotAndroid
+        self.parent.package.categoryInfo.platforms = ~CraftCore.compiler.Platforms.Android
 
     def setTargets(self):
         self.description = "Text Addons (autocorrection, grammar checking, text to speak, translator support, AI support)"
 
-        for ver in ["2.0.0", "2.0.1", "2.0.2", "2.1.0", "2.1.1", "2.1.2", "2.2.0"]:
+        for ver in ["2.0.0", "2.0.1", "2.0.2", "2.1.0", "2.1.1", "2.1.2", "2.2.0", "2.3.0"]:
             self.targets[ver] = f"https://download.kde.org/stable/ktextaddons/ktextaddons-{ver}.tar.xz"
             self.targetDigestUrls[ver] = f"https://download.kde.org/stable/ktextaddons/ktextaddons-{ver}.tar.xz.sha256"
             self.targetInstSrc[ver] = f"ktextaddons-{ver}"
 
         self.svnTargets["master"] = "https://invent.kde.org/libraries/ktextaddons.git"
 
-        self.defaultTarget = "2.2.0"
+        self.defaultTarget = "2.3.0"
 
     def setDependencies(self):
         self.runtimeDependencies["virtual/base"] = None

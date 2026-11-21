@@ -10,5 +10,14 @@ lib/systemd/user/plasma-kglobalaccel.service
 .*/libscanbuild/.*
 .*/libear/.*
 .*/include/module.modulemap
-lib/python3.11/.*
+# Blacklist entire lib/python3.12 to prevent it from being copied to Frameworks
+# (labplot's preArchive() handles copying the required PySide6 files)
+lib/python3.12/.*
+lib/python3.12$
 .*/cpp-qt6-client-openapi-generator.jar
+
+# Duplicate QML Models plugin conflicts with QtQmlModels.framework
+.*QtQml/Models/.*
+
+# Not needed at runtime
+.*QtDesigner.*
