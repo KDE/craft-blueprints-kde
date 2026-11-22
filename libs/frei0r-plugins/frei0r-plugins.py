@@ -43,6 +43,7 @@ class Package(CMakePackageBase):
             # Disable OpenCV as it can cause protobuf conflicts and is only
             # used in facebl0r / facedetect which do not work in Kdenlive
             "-DWITHOUT_OPENCV=ON",
+            "-DBUILD_TESTING=OFF",
             f"-DWITHOUT_CAIRO={self.subinfo.options.isActive('libs/cairo').inverted.asOnOff}",
         ]
 
