@@ -37,12 +37,10 @@ class subinfo(info.infoclass):
             self.runtimeDependencies["libs/ghostscript"] = None
             self.runtimeDependencies["kde/applications/libkexiv2"] = None
             self.runtimeDependencies["kde/frameworks/tier1/kdbusaddons"] = None
-            self.runtimeDependencies["kde/plasma/plasma-activities"] = None
             self.runtimeDependencies["kde/frameworks/tier2/kpty"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kwallet"] = None
             self.runtimeDependencies["kde/frameworks/tier3/purpose"] = None
             self.runtimeDependencies["kde/frameworks/tier3/kparts"] = None
-            self.runtimeDependencies["kde/plasma/plasma-activities"] = None
 
             # try to use Breeze style as Windows style has severe issues for e.g. scaling
             self.runtimeDependencies["kde/plasma/breeze"] = None
