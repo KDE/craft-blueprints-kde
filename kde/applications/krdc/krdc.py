@@ -28,7 +28,6 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kcrash"] = None
         self.runtimeDependencies["kde/frameworks/tier2/kstatusnotifieritem"] = None
         self.runtimeDependencies["kde/frameworks/tier3/kxmlgui"] = None
-        self.runtimeDependencies["kde/plasma/plasma-activities"] = None
 
         self.runtimeDependencies["libs/libssh"] = None
         self.runtimeDependencies["libs/libvncserver"] = None
