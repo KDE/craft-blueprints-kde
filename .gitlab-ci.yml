@@ -126,13 +126,13 @@ build-package-linux:
     - git clone https://invent.kde.org/packaging/craftmaster.git --branch=master
     - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
     - git clone https://invent.kde.org/sysadmin/craft-ci.git --depth=1
-    - python3 -u ci-utilities/gitlab-ci-clone.py $CI_PROJECT_DIR/blueprints/craft-blueprints-kde
+    - python3.11 -u ci-utilities/gitlab-ci-clone.py $CI_PROJECT_DIR/blueprints/craft-blueprints-kde
     # Determine the package to build
-    - if [ -z "$CRAFT_PACKAGE" ]; then export CRAFT_PACKAGE=$(python3 craftmaster/CraftMaster.py --determine-package); fi
+    - if [ -z "$CRAFT_PACKAGE" ]; then export CRAFT_PACKAGE=$(python3.11 craftmaster/CraftMaster.py --determine-package); fi
     - echo "CRAFT_PACKAGE is '${CRAFT_PACKAGE}'"
     - if [ -z "$CRAFT_PACKAGE" ]; then echo "Error - Set CRAFT_PACKAGE environment variable to the package you want to test."; false; fi
     # Define a short cut for the lengthy CraftMaster command line
-    - function craftmaster { python3 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
+    - function craftmaster { python3.11 craftmaster/CraftMaster.py --config $KDECI_CRAFT_CONFIG --target $KDECI_CRAFT_PLATFORM $@; }
   script:
     # explicitly set PKG_CONFIG_PATH, so /opt/rh/gcc-toolset-14/enable will append it to its own path
     - export PKG_CONFIG_PATH=`/usr/bin/pkg-config --variable pc_path pkg-config`
