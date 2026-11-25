@@ -10,6 +10,8 @@ class subinfo(info.infoclass):
 
     def setDependencies(self):
         self.runtimeDependencies["libs/qt6/qtbase"] = None
+        self.runtimeDependencies["libs/qt6/qtdeclarative"] = None
+        self.runtimeDependencies["libs/qt6/qtshadertools"] = None
 
 
 class Package(CraftPackageObject.get("libs/qt6").pattern):

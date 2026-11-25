@@ -24,7 +24,6 @@ class subinfo(info.infoclass):
         self.patchLevel["6.8.1"] = 1
 
     def setDependencies(self):
-        self.buildDependencies["libs/qt6/qttools"] = None
         self.runtimeDependencies["virtual/base"] = None
         self.runtimeDependencies["libs/qt6/qtbase"] = None
         self.runtimeDependencies["libs/qt6/qtshadertools"] = None
