@@ -49,6 +49,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["libs/zlib"] = None
         self.runtimeDependencies["libs/libzip"] = None
         self.runtimeDependencies["libs/liblz4"] = None
+        self.runtimeDependencies["libs/arrow"] = None
         # netcdf installation is broken for MSVC atm
         if not CraftCore.compiler.compiler.isMSVC and not CraftCore.compiler.platform.isMacOS:
             self.runtimeDependencies["libs/netcdf"] = None
